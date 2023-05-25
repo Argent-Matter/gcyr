@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "id": "gcys",
+  "version": "${version}",
+
+  "name": "Gregicality Space",
+  "description": "",
+  "authors": [],
+  "contact": {},
+
+  "license": "GNU GPL 3.0",
+  "icon": "icon.png",
+
+  "environment": "*",
+  "entrypoints": {},
+  "mixins": [
+    "gcys.mixins.json",
+    "gcys-common.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.14.20",
+    "minecraft": ">=1.19.2"
+  }
+}

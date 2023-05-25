@@ -1,0 +1,84 @@
+package screret.gcys.common.entity.data;
+
+import com.gregtechceu.gtceu.common.item.armor.SpaceSuitArmorItem;
+import com.gregtechceu.gtceu.config.ConfigHolder;
+import com.gregtechceu.gtceu.data.recipe.CustomTags;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
+import net.minecraft.util.valueproviders.UniformInt;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.monster.Skeleton;
+
+import java.util.stream.StreamSupport;
+
+
+/**
+ * Proudly copied from <a href="https://github.com/terrarium-earth/Ad-Astra/blob/1.19/common/src/main/java/earth/terrarium/ad_astra/common/entity/system/EntityTemperatureSystem.java">Ad Astra</a>
+ */
+public class EntityTemperatureSystem {
+    public static final UniformInt TEMP_RANGE = UniformInt.of(-60, 70);
+
+
+    public static void temperatureTick(LivingEntity entity, ServerLevel level) {
+        if (!ConfigHolder.server.enableOxygen) {
+            return;
+        }
+        if (!entity.getType().equals(EntityType.SKELETON)) {
+            if (entity.isInvertedHealAndHarm()) {
+                return;
+            }
+
+            /*if (ModUtils.checkTag(entity, ModTags.LIVES_WITHOUT_OXYGEN)) {
+                return;
+            }*/
+        }
+
+        float temperature = ConfigHolder.server.spaceTemperature;
+
+        // Normal temperature when inside an oxygen bubble. This should probably be changed so that a separate machine is required to manage temperature.
+        if (EntityOxygenSystem.inDistributorBubble(level, entity.blockPosition())) {
+            temperature = 20.0f;
+        }
+
+        UniformInt temperatureResistance = TEMP_RANGE;
+        if (SpaceSuitArmorItem.hasFullSet(entity)) {
+            temperatureResistance = ((SpaceSuitArmorItem) entity.getArmorSlots().iterator().next().getItem()).getTemperatureThreshold();
+        }
+
+        if (temperature > temperatureResistance.getMaxValue() && !entity.fireImmune() && !entity.hasEffect(MobEffects.FIRE_RESISTANCE) && !EntityTemperatureSystem.armourIsHeatResistant(entity)) {
+            burnEntity(entity);
+        } else if (temperature < temperatureResistance.getMinValue() && !EntityTemperatureSystem.armourIsFreezeResistant(entity)) {
+            freezeEntity(entity, level);
+        }
+    }
+
+    private static void burnEntity(LivingEntity entity) {
+        entity.hurt(DamageSource.ON_FIRE, ConfigHolder.server.heatDamage);
+        entity.setSecondsOnFire(10);
+    }
+
+    private static void freezeEntity(LivingEntity entity, ServerLevel level) {
+        entity.hurt(DamageSource.FREEZE, ConfigHolder.server.freezeDamage);
+        entity.setTicksFrozen(Math.min(entity.getTicksRequiredToFreeze() + 20, entity.getTicksFrozen() + 5 * 10));
+        RandomSource random = entity.level.getRandom();
+        level.addParticle(ParticleTypes.SNOWFLAKE, entity.getX(), entity.getY() + 1, entity.getZ(), Mth.randomBetween(random, -1.0f, 1.0f) * 0.083333336f, 0.05, (double) Mth.randomBetween(random, -1.0f, 1.0f) * 0.083333336);
+
+        // Turn skeletons into strays
+        if (entity instanceof Skeleton skeleton) {
+            skeleton.convertTo(EntityType.STRAY, true);
+        }
+    }
+
+    public static boolean armourIsFreezeResistant(LivingEntity entity) {
+        return StreamSupport.stream(entity.getArmorSlots().spliterator(), false).allMatch(s -> s.is(CustomTags.FREEZE_RESISTANT));
+    }
+
+    public static boolean armourIsHeatResistant(LivingEntity entity) {
+        return StreamSupport.stream(entity.getArmorSlots().spliterator(), false).allMatch(s -> s.is(CustomTags.HEAT_RESISTANT));
+    }
+}
