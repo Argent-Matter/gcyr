@@ -1,9 +1,12 @@
 package argent_matter.gcys;
 
+import argent_matter.gcys.api.registries.GcysRegistries;
 import argent_matter.gcys.common.data.*;
+import argent_matter.gcys.data.GcysDatagen;
 import com.gregtechceu.gtceu.api.addon.GTAddon;
 import com.gregtechceu.gtceu.api.addon.IGTAddon;
 import com.gregtechceu.gtceu.api.addon.events.MaterialCasingCollectionEvent;
+import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import com.gregtechceu.gtceu.data.GregTechDatagen;
 import net.minecraft.data.recipes.FinishedRecipe;
 
@@ -18,8 +21,9 @@ public class GcysGTAddon implements IGTAddon {
         GcysItems.init();
         //GcysEntityTypes.init();
 
-        GregTechDatagen.init();
+        GcysDatagen.init();
 
+        GcysRegistries.REGISTRATE.registerRegistrate();
         GcysDimensionTypes.init();
         GcysBiomes.init();
     }

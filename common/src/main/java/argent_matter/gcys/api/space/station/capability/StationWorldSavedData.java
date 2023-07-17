@@ -1,5 +1,6 @@
 package argent_matter.gcys.api.space.station.capability;
 
+import argent_matter.gcys.GregicalitySpace;
 import argent_matter.gcys.api.capability.ISpaceStationHolder;
 import argent_matter.gcys.common.data.GcysDimensionTypes;
 import argent_matter.gcys.common.item.IdChipBehaviour;
@@ -20,7 +21,7 @@ public class StationWorldSavedData extends SavedData implements ISpaceStationHol
     @Nullable
     public static StationWorldSavedData getOrCreate(ServerLevel serverLevel) {
         if (serverLevel.dimension() != GcysDimensionTypes.SPACE_LEVEL) return null;
-        return serverLevel.getDataStorage().computeIfAbsent(tag -> new StationWorldSavedData(serverLevel, tag), () -> new StationWorldSavedData(serverLevel), GTCEu.MOD_ID + "_space_stations");
+        return serverLevel.getDataStorage().computeIfAbsent(tag -> new StationWorldSavedData(serverLevel, tag), () -> new StationWorldSavedData(serverLevel), GregicalitySpace.MOD_ID + "_space_stations");
     }
 
     private final Int2ObjectMap<Vec2> stations = new Int2ObjectLinkedOpenHashMap<>(1);

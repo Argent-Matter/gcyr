@@ -20,7 +20,7 @@ dependencyResolutionManagement {
         // Common
         def reiVersion = "9.1.619"
         def gtCeuVersion = "1.0.7"
-        def ldLibVersion = "1.0.12"
+        def ldLibVersion = "1.0.13"
         def kjsVersion = "1902.6.1-build.287"
 
         // Fabric
@@ -31,7 +31,7 @@ dependencyResolutionManagement {
         def configurationFabricFile = "4104224"
 
         // Forge
-        def forgeVersion = "43.2.3"
+        def forgeVersion = "43.2.19"
         def registrateForgeVersion = "MC1.19-1.1.5"
         def topForgeVersion = "1.19-6.2.0-6"
         def configurationForgeFile = "4519560"
@@ -84,7 +84,7 @@ dependencyResolutionManagement {
 
         forge {
             version("forgeShortVersion", forgeVersion)
-            def minecraftForge = version("minecratfForge", "${minecraftVersion}-${forgeVersion}")
+            def minecraftForge = version("minecraftForge", "${minecraftVersion}-${forgeVersion}")
             library("minecraftForge", "net.minecraftforge", "forge").versionRef(minecraftForge)
 
             def ldLib = version("ldlib", ldLibVersion)

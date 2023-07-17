@@ -1,5 +1,7 @@
 package argent_matter.gcys.common.data;
 
+import argent_matter.gcys.GregicalitySpace;
+import argent_matter.gcys.api.registries.GcysRegistries;
 import argent_matter.gcys.common.machine.electric.OxygenSpreaderMachine;
 import argent_matter.gcys.common.machine.multiblock.electric.SpaceShuttleMachine;
 import argent_matter.gcys.data.recipe.GcysTags;
@@ -18,6 +20,7 @@ import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import com.gregtechceu.gtceu.api.registry.registrate.MachineBuilder;
 import com.gregtechceu.gtceu.client.renderer.machine.TieredHullMachineRenderer;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
+import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 
 import java.util.function.BiFunction;
 
@@ -33,14 +36,14 @@ public class GcysMachines {
             (tier, builder) -> builder
                     .rotationState(RotationState.NON_Y_AXIS)
                     .hasTESR(true)
-                    .renderer(() -> new TieredHullMachineRenderer(tier, GTCEu.id("block/machine/oxygen_spreader_machine")))
+                    .renderer(() -> new TieredHullMachineRenderer(tier, GregicalitySpace.id("block/machine/oxygen_spreader_machine")))
                     .recipeType(GcysRecipeTypes.OXYGEN_SPREADER_RECIPES)
                     .tooltips(workableTiered(tier, GTValues.V[tier], GTValues.V[tier] * 64, GcysRecipeTypes.OXYGEN_SPREADER_RECIPES, OxygenSpreaderMachine.tankScalingFunction(tier), true))
                     .blockBuilder(block -> block.tag(GcysTags.PASSES_FLOOD_FILL))
                     .register(),
             HIGH_TIERS);
 
-    public static final MultiblockMachineDefinition SPACE_SHUTTLE = GTRegistries.REGISTRATE.multiblock("space_shuttle", SpaceShuttleMachine::new)
+    public static final MultiblockMachineDefinition SPACE_SHUTTLE = REGISTRATE.multiblock("space_shuttle", SpaceShuttleMachine::new)
             .rotationState(RotationState.NON_Y_AXIS)
             .appearanceBlock(CASING_TUNGSTENSTEEL_ROBUST)
             .recipeType(GcysRecipeTypes.SPACE_SHUTTLE_RECIPES)
@@ -67,9 +70,9 @@ public class GcysMachines {
                     GTCEu.id("block/multiblock/assembly_line"), false)
             .register();
 
-    public static final MultiblockMachineDefinition DRONE_HANGAR = GTRegistries.REGISTRATE.multiblock("drone_hangar", WorkableElectricMultiblockMachine::new)
+    public static final MultiblockMachineDefinition DRONE_HANGAR = REGISTRATE.multiblock("drone_hangar", WorkableElectricMultiblockMachine::new)
             .rotationState(RotationState.NON_Y_AXIS)
-            //.recipeType(GcysRecipeTypes.VACUUM_RECIPES)
+            .recipeType(GTRecipeTypes.VACUUM_RECIPES)
             .appearanceBlock(CASING_ALUMINIUM_FROSTPROOF)
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("XXX", "XXX", "XXX")

@@ -2,12 +2,10 @@ package argent_matter.gcys.common.data;
 
 import argent_matter.gcys.GregicalitySpace;
 import argent_matter.gcys.data.recipe.GcysTags;
-import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.block.RenderGlassBlock;
 import com.gregtechceu.gtceu.api.block.RendererBlock;
 import com.gregtechceu.gtceu.api.item.RendererBlockItem;
 import com.gregtechceu.gtceu.api.item.tool.GTToolType;
-import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import com.gregtechceu.gtceu.client.renderer.block.TextureOverrideRenderer;
 import com.lowdragmc.lowdraglib.Platform;
 import com.lowdragmc.lowdraglib.client.renderer.IRenderer;
@@ -36,13 +34,13 @@ public class GcysBlocks {
     public static final BlockEntry<Block> CASING_ROCKET_MOTOR = createCasingBlock("rocket_motor", GregicalitySpace.id("block/variant/rocket_motor"));
 
 
-    public static final BlockEntry<DoorBlock> AIRLOCK_DOOR = GTRegistries.REGISTRATE
+    public static final BlockEntry<DoorBlock> AIRLOCK_DOOR = REGISTRATE
             .block("airlock_door", DoorBlock::new)
             .initialProperties(() -> Blocks.IRON_BLOCK)
             .lang("Airlock Door")
             .properties(p -> p.strength(4.0F, 6.0F))
             .tag(GTToolType.WRENCH.harvestTag, BlockTags.MINEABLE_WITH_PICKAXE, GcysTags.BLOCKS_FLOOD_FILL)
-            .blockstate((ctx, prov) -> prov.doorBlock(ctx.getEntry(), GTCEu.id("block/airlock_door_bottom"), GTCEu.id("block/airlock_door_top")))
+            .blockstate((ctx, prov) -> prov.doorBlock(ctx.getEntry(), GregicalitySpace.id("block/airlock_door_bottom"), GregicalitySpace.id("block/airlock_door_top")))
             .item()
             .tag(ItemTags.DOORS)
             .defaultModel()

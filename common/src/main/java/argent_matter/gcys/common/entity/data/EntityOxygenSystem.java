@@ -1,6 +1,7 @@
 package argent_matter.gcys.common.entity.data;
 
 
+import argent_matter.gcys.GregicalitySpace;
 import argent_matter.gcys.common.data.GcysDimensionTypes;
 import argent_matter.gcys.common.item.armor.SpaceSuitArmorItem;
 import argent_matter.gcys.config.GcysConfig;
@@ -169,7 +170,7 @@ public class EntityOxygenSystem {
                 }
             }
         } catch (UnsupportedOperationException e) {
-            GTCEu.LOGGER.error("Error deoxygenizing blocks");
+            GregicalitySpace.LOGGER.error("Error deoxygenizing blocks");
             e.printStackTrace();
         }
     }

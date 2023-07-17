@@ -12,7 +12,17 @@
   "icon": "icon.png",
 
   "environment": "*",
-  "entrypoints": {},
+  "entrypoints": {
+    "main": [
+      "argent_matter.gcys.fabric.GregicalitySpaceFabric"
+    ],
+    "fabric-datagen": [
+      "argent_matter.gcys.data.fabric.GcysDatagen"
+    ],
+    "gtceu_addon": [
+      "argent_matter.gcys.GcysGTAddon"
+    ]
+  },
   "mixins": [
     "gcys.mixins.json",
     "gcys-common.mixins.json"

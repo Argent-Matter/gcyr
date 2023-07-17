@@ -9,5 +9,5 @@ import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;
 public class GcysRegistries {
     public static final GTRegistrate REGISTRATE = GTRegistrate.create(GregicalitySpace.MOD_ID);
 
-    public static final GTRegistry.RL<SatelliteType<?>> SATELLITES = new GTRegistry.RL<>(GTCEu.id("satellite"));
+    public static final GTRegistry.RL<SatelliteType<?>> SATELLITES = new GTRegistry.RL<>(GregicalitySpace.id("satellite"));
 }

@@ -42,6 +42,7 @@ loom {
 
     runConfigs.named("data").configure {
         programArg("--existing=" + common_project.file("src/main/resources").absolutePath)
+        programArgs("--client", "--server")
     }
 
     if (isJetBrainsRuntime()) {

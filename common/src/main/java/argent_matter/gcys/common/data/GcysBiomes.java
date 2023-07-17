@@ -1,5 +1,6 @@
 package argent_matter.gcys.common.data;
 
+import argent_matter.gcys.GregicalitySpace;
 import com.gregtechceu.gtceu.GTCEu;
 import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.minecraft.core.Registry;
@@ -11,7 +12,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class GcysBiomes {
 
-    public static final ResourceKey<Biome> SPACE = ResourceKey.create(Registry.BIOME_REGISTRY, GTCEu.id("space"));
+    public static final ResourceKey<Biome> SPACE = ResourceKey.create(Registry.BIOME_REGISTRY, GregicalitySpace.id("space"));
 
     @ExpectPlatform
     public static void init() {

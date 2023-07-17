@@ -22,7 +22,7 @@ public class ForgeCommonEventListener {
 
         if (event.getObject().getItem() instanceof SpaceSuitArmorItemImpl spaceSuitItem) {
             final ItemStack itemStack = event.getObject();
-            event.addCapability(GTCEu.id("fluid"), new ICapabilityProvider() {
+            event.addCapability(GregicalitySpace.id("fluid"), new ICapabilityProvider() {
                 @Override
                 public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> capability, @Nullable Direction arg) {
                     return spaceSuitItem.getCapability(itemStack, capability);

@@ -49,10 +49,10 @@ dependencies {
     modImplementation fabric.fabricLoader
     modCompileOnly fabric.fabricApi
 
+    modCompileOnly(fabric.gtceu.common) { transitive = false }
     modCompileOnly(fabric.ldlib.common) { transitive = false }
-    modImplementation(fabric.gtceu.common) { transitive = false }
 
-    modImplementation("com.tterrag.registrate_fabric:Registrate:${fabric.versions.registrate.get()}")
+    modCompileOnly("com.tterrag.registrate_fabric:Registrate:${fabric.versions.registrate.get()}")
 
     // REI
     modCompileOnly fabric.rei.plugin
