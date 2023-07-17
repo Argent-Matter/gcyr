@@ -3,10 +3,145 @@ pluginManagement {
         maven { url "https://maven.fabricmc.net/" }
         maven { url "https://maven.architectury.dev/" }
         maven { url "https://maven.minecraftforge.net/" }
+        maven { url "https://maven.quiltmc.org/repository/release" }
         gradlePluginPortal()
     }
 }
 
-include("common")
-include("fabric")
-include("forge")
+dependencyResolutionManagement {
+    repositories {
+        mavenCentral()
+    }
+    versionCatalogs {
+        // Minecraft Version
+        def minecraftVersion = "1.19.2"
+
+        // Mod Dependencies Versions
+        // Common
+        def reiVersion = "9.1.619"
+        def gtCeuVersion = "1.0.7"
+        def ldLibVersion = "1.0.12"
+        def kjsVersion = "1902.6.1-build.287"
+
+        // Fabric
+        def fabricLoaderVersion = "0.14.21" // https://fabricmc.net/develop/
+        def fabricApiVersion = "0.76.0" // https://fabricmc.net/develop/
+        def topFabricVersion = "1.19-6.0.0"
+        def registrateFabricVersion = "1.1.58-MC1.19.2"
+        def configurationFabricFile = "4104224"
+
+        // Forge
+        def forgeVersion = "43.2.3"
+        def registrateForgeVersion = "MC1.19-1.1.5"
+        def topForgeVersion = "1.19-6.2.0-6"
+        def configurationForgeFile = "4519560"
+
+        // Libs
+        def quiltMappingsVersion = "21"  // https://lambdaurora.dev/tools/import_quilt.html
+        def parchmentVersion = "2022.11.27" // https://parchmentmc.org/docs/getting-started
+        def shadowVersion = "7.1.2"
+        def architecturyPluginVersion = "3.4-SNAPSHOT"
+        def architecturyLoomVersion = "1.2.+"
+        def vineFlowerVersion = "1.+"
+        def macheteVersion = "1.+"
+
+        fabric {
+            def parchment = version("parchment", parchmentVersion)
+            library("parchment", "org.parchmentmc.data", "parchment-${minecraftVersion}").versionRef(parchment)
+
+            def fabricLoader = version("fabricLoader", fabricLoaderVersion)
+            library("fabricLoader", "net.fabricmc", "fabric-loader").versionRef(fabricLoader)
+
+            def fabricApi = version("fabricApi", "${fabricApiVersion}+${minecraftVersion}")
+            library("fabricApi", "net.fabricmc.fabric-api", "fabric-api").versionRef(fabricApi)
+
+            def ldLib = version("ldlib", ldLibVersion)
+            library("ldlib-common", "com.lowdragmc.ldlib", "ldlib-common-${minecraftVersion}").versionRef(ldLib)
+            library("ldlib-fabric", "com.lowdragmc.ldlib", "ldlib-fabric-${minecraftVersion}").versionRef(ldLib)
+
+            def registrate = version("registrate", registrateFabricVersion)
+            library("registrate", "com.tterrag.registrate_fabric", "Registrate").versionRef(registrate)
+
+            def rei = version("rei", reiVersion)
+            library("rei-plugin", "me.shedaniel", "RoughlyEnoughItems-default-plugin-fabric").versionRef(rei)
+            library("rei-api", "me.shedaniel", "RoughlyEnoughItems-api-fabric").versionRef(rei)
+            library("rei-fabric", "me.shedaniel", "RoughlyEnoughItems-fabric").versionRef(rei)
+
+            def theoneprobe = version("theoneprobe", topFabricVersion)
+            library("theoneprobe", "mcjty.theoneprobe", "theoneprobe-fabric").versionRef(theoneprobe)
+
+            def kubejs = version("kubejs", kjsVersion)
+            library("kubejs-common", "dev.latvian.mods", "kubejs").versionRef(kubejs)
+            library("kubejs-fabric", "dev.latvian.mods", "kubejs-fabric").versionRef(kubejs)
+
+            def gtceu = version("gtceu", gtCeuVersion)
+            library("gtceu-fabric", "com.gregtechceu.gtceu", "gtceu-fabric-${minecraftVersion}").versionRef(gtceu)
+            library("gtceu-common", "com.gregtechceu.gtceu", "gtceu-common-${minecraftVersion}").versionRef(gtceu)
+
+            def configuration = version("configuration", configurationFabricFile)
+            library("configuration", "curse.maven", "configuration-444699").versionRef(configuration)
+        }
+
+        forge {
+            version("forgeShortVersion", forgeVersion)
+            def minecraftForge = version("minecratfForge", "${minecraftVersion}-${forgeVersion}")
+            library("minecraftForge", "net.minecraftforge", "forge").versionRef(minecraftForge)
+
+            def ldLib = version("ldlib", ldLibVersion)
+            library("ldlib-forge", "com.lowdragmc.ldlib", "ldlib-forge-${minecraftVersion}").versionRef(ldLib)
+
+            def registrate = version("registrate", registrateForgeVersion)
+            library("registrate", "com.tterrag.registrate", "Registrate").versionRef(registrate)
+
+            def rei = version("rei", reiVersion)
+            library("rei-plugin", "me.shedaniel", "RoughlyEnoughItems-default-plugin-forge").versionRef(rei)
+            library("rei-api", "me.shedaniel", "RoughlyEnoughItems-api-forge").versionRef(rei)
+            library("rei-forge", "me.shedaniel", "RoughlyEnoughItems-forge").versionRef(rei)
+
+            def theoneprobe = version("theoneprobe", topForgeVersion)
+            library("theoneprobe", "mcjty.theoneprobe", "theoneprobe").versionRef(theoneprobe)
+
+            def kubejs = version("kubejs", kjsVersion)
+            library("kubejs-forge", "dev.latvian.mods", "kubejs-forge").versionRef(kubejs)
+
+            def gtceu = version("gtceu", gtCeuVersion)
+            library("gtceu-forge", "com.gregtechceu.gtceu", "gtceu-forge-${minecraftVersion}").versionRef(gtceu)
+
+            def configuration = version("configuration", configurationForgeFile)
+            library("configuration", "curse.maven", "configuration-444699").versionRef(configuration)
+        }
+
+        libs {
+            version("quiltMappings", quiltMappingsVersion)
+            version("parchment", parchmentVersion)
+
+            def minecraft = version("minecraft", minecraftVersion)
+            library("minecraft", "com.mojang", "minecraft").versionRef(minecraft)
+
+            def shadow = version("shadow", shadowVersion)
+            plugin("shadow", "com.github.johnrengelman.shadow").versionRef(shadow)
+
+            def architecturyPlugin = version("architectury", architecturyPluginVersion)
+            plugin("architectury", "architectury-plugin").versionRef(architecturyPlugin)
+
+            def architecturyLoom = version("architectury-loom", architecturyLoomVersion)
+            plugin("architectury-loom", "dev.architectury.loom").versionRef(architecturyLoom)
+
+            def vineFlower = version("vineFlower", vineFlowerVersion)
+            plugin("vineFlower", "io.github.juuxel.loom-vineflower").versionRef(vineFlower)
+
+            def machete = version("machete", macheteVersion)
+            plugin("machete", "io.github.p03w.machete").versionRef(machete)
+        }
+    }
+}
+
+include("${mod_id}-common")
+include("${mod_id}-fabric")
+include("${mod_id}-forge")
+
+project(":${mod_id}-common").setProjectDir(new File("common"))
+project(":${mod_id}-forge").setProjectDir(new File("forge"))
+project(":${mod_id}-fabric").setProjectDir(new File("fabric"))
+
+rootProject.name = "${mod_name}"

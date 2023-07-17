@@ -1,0 +1,8 @@
+{
+  "parent": "gtceu:block/cube_bottom_top",
+  "textures": {
+    "top": "gtceu:block/casings/rocket/machine_casing_rocket_motor_top",
+    "bottom": "gtceu:block/casings/rocket/machine_casing_rocket_motor_bottom",
+    "side": "gtceu:block/casings/rocket/machine_casing_rocket_motor_side"
+  }
+}

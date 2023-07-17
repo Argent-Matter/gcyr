@@ -1,7 +1,7 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "screret.gcys.mixin.fabric",
+  "package": "argent_matter.gcys.mixin.fabric",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
   ],

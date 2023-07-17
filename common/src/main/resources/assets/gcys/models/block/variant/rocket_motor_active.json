@@ -1,0 +1,11 @@
+{
+  "parent": "gtceu:block/cube_2_layer_bottom_top",
+  "textures": {
+    "bot_top": "gtceu:block/casings/rocket/machine_casing_rocket_motor_top",
+    "bot_bottom": "gtceu:block/casings/rocket/machine_casing_rocket_motor_bottom",
+    "bot_side": "gtceu:block/casings/rocket/machine_casing_rocket_motor_side",
+    "top_top": "gtceu:block/casings/rocket/machine_casing_rocket_motor_side_bloom",
+    "top_bottom": "gtceu:block/casings/rocket/machine_casing_rocket_motor_bottom_bloom",
+    "top_side": "gtceu:block/casings/rocket/machine_casing_rocket_motor_side_bloom"
+  }
+}

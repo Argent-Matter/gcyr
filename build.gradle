@@ -1,53 +1,57 @@
 plugins {
-    id "architectury-plugin" version "3.4-SNAPSHOT"
-    id "dev.architectury.loom" version "1.1-SNAPSHOT" apply false
+    alias libs.plugins.architectury
+    alias libs.plugins.architectury.loom apply false
+    alias libs.plugins.vineFlower apply false // VineFlower, a better decompiler
+    alias libs.plugins.machete // automatic jar compressing on build
 }
 
+
 architectury {
-    minecraft = rootProject.minecraft_version
+    minecraft = libs.versions.minecraft
 }
 
 subprojects {
     apply plugin: "dev.architectury.loom"
+    apply plugin: "io.github.juuxel.loom-vineflower"
 
     loom {
         silentMojangMappingsLicense()
     }
 
-    dependencies {
-        minecraft "com.mojang:minecraft:${rootProject.minecraft_version}"
-        // The following line declares the mojmap mappings, you may use other mappings as well
-        mappings loom.layered {
-            it.mappings("org.quiltmc:quilt-mappings:${rootProject.minecraft_version}+build.21:intermediary-v2")
-            it.parchment("org.parchmentmc.data:parchment-${rootProject.minecraft_version}:${"2022.11.27"}@zip")
-            it.officialMojangMappings { nameSyntheticMembers = false }
-        }
-    }
-}
-
-allprojects {
-    apply plugin: "java"
-    apply plugin: "architectury-plugin"
-    apply plugin: "maven-publish"
-
-    archivesBaseName = rootProject.archives_base_name
-    version = rootProject.mod_version
-    group = rootProject.maven_group
-
     repositories {
-        // Add repositories to retrieve artifacts from in here.
-        // You should only use this when depending on other mods because
-        // Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
-        // See https://docs.gradle.org/current/userguide/declaring_repositories.html
-        // for more information about repositories.
-        // mavens for Create Fabric and dependencies
         mavenLocal()
         mavenCentral()
         maven { url = "https://maven.shedaniel.me/" } // Cloth Config, REI
-        maven { url = "https://dvs1.progwml6.com/files/maven/" } // JEI
+        maven {
+            url "https://cursemaven.com"
+            content {
+                includeGroup "curse.maven"
+            }
+        } // Curse Forge File
+        maven {
+            name = "Jared's maven"
+            url = "https://maven.blamejared.com/"
+        } // JEI
+        maven {
+            // location of a maven mirror for JEI files, as a fallback
+            name = "ModMaven"
+            url = "https://modmaven.dev"
+        } // JEI mirror, AE2
         maven { url = "https://maven.parchmentmc.org" } // Parchment mappings
-        maven { url = "https://maven.quiltmc.org/repository/release" } // Quilt Mappings
+        maven { url = "https://maven.quiltmc.org/repository/release/" } // Quilt Mappings
         maven { url = "https://maven.firstdarkdev.xyz/snapshots" } // LDLib
+        /*
+        maven {
+            url = "https://maven.pkg.github.com/GregTechCEu/GregTechLib-1.19"
+            credentials(HttpHeaderCredentials.class) {
+                name = "Authorization"
+                value = "Bearer ghp_" + "HLWnQ1hbSwRNebZSZ8bsFWPrV41FfR4ErfOb"
+            }
+            authentication {
+                create("header", HttpHeaderAuthentication.class)
+            }
+        } // LDLib
+        */
         maven { // Flywheel
             url = "https://maven.tterrag.com/"
             content {
@@ -58,26 +62,41 @@ allprojects {
         maven { // TOP-Fabric
             url "https://maven.wispforest.io"
         }
-        maven { url = "https://api.modrinth.com/maven" } // LazyDFU, Jade
-        maven { url = "https://maven.terraformersmc.com/releases/" } // Mod Menu
-        maven { url = "https://mvn.devos.one/snapshots/" } // Create Fabric, Porting Lib, Forge Tags, Milk Lib, Registrate Fabric
-        maven { url = "https://cursemaven.com" } // Forge Config API Port
-        maven { url = "https://maven.cafeteria.dev/releases" } // Fake Player API
-        maven { url = "https://maven.jamieswhiteshirt.com/libs-release" } // Reach Entity Attributes
-        maven { url = "https://jitpack.io/" } // Mixin Extras, Fabric ASM
-        maven {
-            // saps.dev Maven (KubeJS and Rhino)
-            url = "https://maven.saps.dev/minecraft"
-            content {
-                includeGroup "dev.latvian.mods"
-            }
-        }
+
     }
 
     dependencies {
+        minecraft "com.mojang:minecraft:${libs.versions.minecraft.get()}"
+        // The following line declares the mojmap mappings, you may use other mappings as well
+        mappings loom.layered {
+            it.mappings("org.quiltmc:quilt-mappings:${libs.versions.minecraft.get()}+build.${libs.versions.quiltMappings.get()}:intermediary-v2")
+            it.parchment("org.parchmentmc.data:parchment-${libs.versions.minecraft.get()}:${libs.versions.parchment.get()}@zip")
+            it.officialMojangMappings { nameSyntheticMembers = false }
+        }
+
         // lombok
         compileOnly 'org.projectlombok:lombok:1.18.24'
         annotationProcessor 'org.projectlombok:lombok:1.18.24'
+
+        implementation 'com.google.code.findbugs:jsr305:3.0.2'
+    }
+}
+
+allprojects {
+    apply plugin: "java"
+    apply plugin: "architectury-plugin"
+    apply plugin: "maven-publish"
+
+    archivesBaseName = rootProject.mod_id
+    version = rootProject.mod_version
+    group = rootProject.maven_group
+
+    repositories {
+        // Add repositories to retrieve artifacts from in here.
+        // You should only use this when depending on other mods because
+        // Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
+        // See https://docs.gradle.org/current/userguide/declaring_repositories.html
+        // for more information about repositories.
     }
 
     tasks.withType(JavaCompile) {
