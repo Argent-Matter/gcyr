@@ -1,5 +1,6 @@
 package argent_matter.gcys.data.forge;
 
+import argent_matter.gcys.api.registries.GcysRegistries;
 import argent_matter.gcys.api.registries.registrate.GcysSoundEntryProvider;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.data.event.GatherDataEvent;

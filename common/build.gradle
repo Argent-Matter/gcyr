@@ -50,7 +50,7 @@ dependencies {
     modCompileOnly fabric.fabricApi
 
     modCompileOnly(fabric.gtceu.common) { transitive = false }
-    modCompileOnly(fabric.ldlib.common) { transitive = false }
+    modCompileOnly(fabric.ldlib.common) //{ transitive = false }
 
     modCompileOnly("com.tterrag.registrate_fabric:Registrate:${fabric.versions.registrate.get()}")
 

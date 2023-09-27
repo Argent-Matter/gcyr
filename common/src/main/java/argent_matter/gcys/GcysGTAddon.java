@@ -16,16 +16,12 @@ import java.util.function.Consumer;
 public class GcysGTAddon implements IGTAddon {
     @Override
     public void initializeAddon() {
-        GcysSatellites.init();
-        GcysBlocks.init();
-        GcysItems.init();
-        //GcysEntityTypes.init();
 
-        GcysDatagen.init();
+    }
 
-        GcysRegistries.REGISTRATE.registerRegistrate();
-        GcysDimensionTypes.init();
-        GcysBiomes.init();
+    @Override
+    public String addonModId() {
+        return GregicalitySpace.MOD_ID;
     }
 
     @Override

@@ -32,6 +32,7 @@ subprojects {
             name = "Jared's maven"
             url = "https://maven.blamejared.com/"
         } // JEI
+        maven { url 'https://jitpack.io' } // MixinExtras
         maven {
             // location of a maven mirror for JEI files, as a fallback
             name = "ModMaven"

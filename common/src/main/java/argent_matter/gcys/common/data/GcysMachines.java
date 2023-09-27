@@ -60,7 +60,7 @@ public class GcysMachines {
                     .where('S', Predicates.controller(blocks(definition.getBlock())))
                     .where(' ', Predicates.air())
                     .where('C', blocks(CASING_TUNGSTENSTEEL_ROBUST.get()).setMinGlobalLimited(110)
-                            .or(Predicates.autoAbilities(definition.getRecipeType())))
+                            .or(Predicates.autoAbilities(definition.getRecipeTypes())))
                     .where('X', blocks(MATERIAL_BLOCKS.get(TagPrefix.frameGt, GTMaterials.StainlessSteel).get()))
                     .where('T', blocks(CASING_ALUMINIUM_AEROSPACE.get()))
                     .where('A', blocks(CASING_ROCKET_MOTOR.get()))
@@ -80,7 +80,7 @@ public class GcysMachines {
                     .aisle("XXX", "XSX", "XXX")
                     .where('S', Predicates.controller(blocks(definition.getBlock())))
                     .where('X', blocks(CASING_ALUMINIUM_FROSTPROOF.get()).setMinGlobalLimited(14)
-                            .or(Predicates.autoAbilities(definition.getRecipeType())))
+                            .or(Predicates.autoAbilities(definition.getRecipeTypes())))
                     .where('#', Predicates.air())
                     .build())
             .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_frost_proof"),

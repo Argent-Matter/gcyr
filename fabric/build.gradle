@@ -64,7 +64,7 @@ dependencies {
 
     // LDLib
     modImplementation(fabric.gtceu.fabric) { transitive = false }
-    modImplementation(fabric.ldlib.fabric) { transitive = false }
+    modImplementation(fabric.ldlib.fabric) //{ transitive = false }
 
     // Registrate
     modImplementation("com.tterrag.registrate_fabric:Registrate:${fabric.versions.registrate.get()}")

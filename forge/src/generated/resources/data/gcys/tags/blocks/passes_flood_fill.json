@@ -1,0 +1,15 @@
+{
+  "values": [
+    {
+      "id": "#minecraft:fences",
+      "required": false
+    },
+    "minecraft:iron_bars",
+    "minecraft:tnt",
+    "gcys:iv_oxygen_spreader",
+    "gcys:luv_oxygen_spreader",
+    "gcys:zpm_oxygen_spreader",
+    "gcys:uv_oxygen_spreader",
+    "gcys:uhv_oxygen_spreader"
+  ]
+}

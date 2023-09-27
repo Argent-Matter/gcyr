@@ -2,12 +2,9 @@ package argent_matter.gcys.api.space.satellite;
 
 import argent_matter.gcys.api.registries.GcysRegistries;
 import argent_matter.gcys.api.space.satellite.data.SatelliteData;
-import com.gregtechceu.gtceu.api.data.worldgen.generator.DimensionFilter;
 import lombok.Getter;
-import net.minecraft.data.worldgen.DimensionTypes;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.dimension.BuiltinDimensionTypes;
 import net.minecraft.world.level.dimension.DimensionType;
 
