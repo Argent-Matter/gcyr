@@ -5,6 +5,7 @@ import com.gregtechceu.gtceu.api.data.tag.TagUtil;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.material.Fluid;
 
 public class GcysTags {
 
@@ -16,4 +17,6 @@ public class GcysTags {
     public static final TagKey<Block> INFINIBURN_SPACE = GcysTagUtil.createModBlockTag("infiniburn_space");
     public static final TagKey<Block> BLOCKS_FLOOD_FILL = GcysTagUtil.createModBlockTag("blocks_flood_fill");
     public static final TagKey<Block> PASSES_FLOOD_FILL = GcysTagUtil.createModBlockTag("passes_flood_fill");
+
+    public static final TagKey<Fluid> VEHICLE_FUELS = GcysTagUtil.createFluidTag("vehicle_fuels");
 }

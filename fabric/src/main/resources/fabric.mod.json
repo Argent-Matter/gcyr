@@ -16,6 +16,9 @@
     "main": [
       "argent_matter.gcys.fabric.GregicalitySpaceFabric"
     ],
+    "client": [
+      "argent_matter.gcys.fabric.GregicalitySpaceFabricClient"
+    ],
     "fabric-datagen": [
       "argent_matter.gcys.data.fabric.GcysDatagen"
     ],

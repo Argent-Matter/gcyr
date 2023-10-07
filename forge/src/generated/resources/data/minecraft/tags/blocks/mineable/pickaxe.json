@@ -2,6 +2,9 @@
   "values": [
     "gcys:aluminium_aerospace",
     "gcys:rocket_motor",
-    "gcys:airlock_door"
+    "gcys:airlock_door",
+    "gcys:launch_pad",
+    "gcys:fuel_tank",
+    "gcys:seat"
   ]
 }

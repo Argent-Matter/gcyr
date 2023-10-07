@@ -2,9 +2,9 @@ package argent_matter.gcys.forge;
 
 import argent_matter.gcys.GregicalitySpace;
 import argent_matter.gcys.common.item.armor.forge.SpaceSuitArmorItemImpl;
-import com.gregtechceu.gtceu.GTCEu;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
@@ -29,5 +29,10 @@ public class ForgeCommonEventListener {
                 }
             });
         }
+    }
+
+    @SubscribeEvent
+    public static void inputKey(InputEvent.Key event) {
+        GregicalitySpace.onKeyPressed(event.getKey(), event.getAction(), event.getModifiers());
     }
 }

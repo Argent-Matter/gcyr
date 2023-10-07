@@ -1,10 +1,12 @@
 package argent_matter.gcys;
 
+import argent_matter.gcys.api.gui.factory.EntityUIFactory;
 import argent_matter.gcys.api.registries.GcysRegistries;
 import argent_matter.gcys.common.data.*;
+import argent_matter.gcys.common.networking.c2s.PacketLaunchRocket;
 import argent_matter.gcys.config.GcysConfig;
 import argent_matter.gcys.data.GcysDatagen;
-import com.gregtechceu.gtceu.data.GregTechDatagen;
+import com.lowdragmc.lowdraglib.gui.factory.UIFactory;
 import net.minecraft.resources.ResourceLocation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,11 +19,14 @@ public class GregicalitySpace {
 
 	public static void init() {
 		GcysConfig.init();
+		GcysNetworking.init();
+		UIFactory.register(EntityUIFactory.INSTANCE);
 
 		GcysSatellites.init();
+		GcysEntityDataSerializers.init();
+		GcysEntities.init();
 		GcysBlocks.init();
 		GcysItems.init();
-		//GcysEntityTypes.init();
 
 		GcysDatagen.init();
 
@@ -32,5 +37,11 @@ public class GregicalitySpace {
 
 	public static ResourceLocation id(String path) {
 		return new ResourceLocation(MOD_ID, path);
+	}
+
+	public static void onKeyPressed(int key, int action, int modifiers) {
+		if (GcysKeyMappings.START_ROCKET.isDown()) {
+			GcysNetworking.NETWORK.sendToServer(new PacketLaunchRocket());
+		}
 	}
 }

@@ -2,8 +2,8 @@ package argent_matter.gcys.common.data;
 
 import argent_matter.gcys.GregicalitySpace;
 import argent_matter.gcys.data.recipe.GcysTags;
-import com.gregtechceu.gtceu.api.block.RendererGlassBlock;
 import com.gregtechceu.gtceu.api.block.RendererBlock;
+import com.gregtechceu.gtceu.api.block.RendererGlassBlock;
 import com.gregtechceu.gtceu.api.item.RendererBlockItem;
 import com.gregtechceu.gtceu.api.item.tool.GTToolType;
 import com.gregtechceu.gtceu.client.renderer.block.TextureOverrideRenderer;
@@ -29,6 +29,10 @@ import static argent_matter.gcys.api.registries.GcysRegistries.REGISTRATE;
 
 public class GcysBlocks {
 
+    static {
+        REGISTRATE.creativeModeTab(() -> GcysCreativeModeTabs.GCYS);
+    }
+
     public static final BlockEntry<Block> CASING_ALUMINIUM_AEROSPACE = createCasingBlock("aluminium_aerospace", GregicalitySpace.id("block/casings/solid/machine_casing_aerospace"));
 
     public static final BlockEntry<Block> CASING_ROCKET_MOTOR = createCasingBlock("rocket_motor", GregicalitySpace.id("block/variant/rocket_motor"));
@@ -45,6 +49,32 @@ public class GcysBlocks {
             .tag(ItemTags.DOORS)
             .defaultModel()
             .build()
+            .register();
+
+    public static final BlockEntry<Block> LAUNCH_PAD = REGISTRATE
+            .block("launch_pad", Block::new)
+            .initialProperties(() -> Blocks.IRON_BLOCK)
+            .lang("Launch Pad")
+            .blockstate((ctx, prov) -> prov.simpleBlock(ctx.getEntry()))
+            .tag(GTToolType.WRENCH.harvestTag, BlockTags.MINEABLE_WITH_PICKAXE)
+            .simpleItem()
+            .register();
+
+    public static final BlockEntry<Block> FUEL_TANK = REGISTRATE
+            .block("fuel_tank", Block::new)
+            .initialProperties(() -> Blocks.IRON_BLOCK)
+            .lang("Fuel Tank")
+            .blockstate((ctx, prov) -> prov.simpleBlock(ctx.getEntry()))
+            .tag(GTToolType.WRENCH.harvestTag, BlockTags.MINEABLE_WITH_PICKAXE)
+            .simpleItem()
+            .register();
+    public static final BlockEntry<Block> SEAT = REGISTRATE
+            .block("seat", Block::new)
+            .initialProperties(() -> Blocks.IRON_BLOCK)
+            .lang("Seat")
+            .blockstate((ctx, prov) -> prov.models().carpet("seat",new ResourceLocation("white_wool")))
+            .tag(GTToolType.WRENCH.harvestTag, BlockTags.MINEABLE_WITH_PICKAXE)
+            .simpleItem()
             .register();
 
     private static BlockEntry<Block> createCasingBlock(String name, ResourceLocation texture) {

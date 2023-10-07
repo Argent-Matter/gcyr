@@ -3,6 +3,7 @@ package argent_matter.gcys.common.data;
 import argent_matter.gcys.GregicalitySpace;
 import argent_matter.gcys.api.registries.GcysRegistries;
 import argent_matter.gcys.common.machine.electric.OxygenSpreaderMachine;
+import argent_matter.gcys.common.machine.electric.RocketScannerMachine;
 import argent_matter.gcys.common.machine.multiblock.electric.SpaceShuttleMachine;
 import argent_matter.gcys.data.recipe.GcysTags;
 import com.gregtechceu.gtceu.GTCEu;
@@ -42,6 +43,13 @@ public class GcysMachines {
                     .blockBuilder(block -> block.tag(GcysTags.PASSES_FLOOD_FILL))
                     .register(),
             HIGH_TIERS);
+
+    public static final MachineDefinition ROCKET_SCANNER = REGISTRATE.machine("rocket_scanner", RocketScannerMachine::new)
+            .langValue("Rocket Scanner")
+            .rotationState(RotationState.NON_Y_AXIS)
+            .overlayTieredHullRenderer("rocket_scanner")
+            .tier(GTValues.EV)
+            .register();
 
     public static final MultiblockMachineDefinition SPACE_SHUTTLE = REGISTRATE.multiblock("space_shuttle", SpaceShuttleMachine::new)
             .rotationState(RotationState.NON_Y_AXIS)

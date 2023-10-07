@@ -30,12 +30,12 @@ public abstract class LivingEntityMixin extends Entity implements IGpsTracked {
 
     @Inject(method = "addAdditionalSaveData", at = @At("TAIL"))
     public void gtceu$addAdditionalSaveData(CompoundTag tag, CallbackInfo ci) {
-        tag.putBoolean("GT.GpsTracked", gcys$gpsTracked);
+        tag.putBoolean("gcys:gps_tracked", gcys$gpsTracked);
     }
 
     @Inject(method = "readAdditionalSaveData", at = @At("TAIL"))
     public void gtceu$readAdditionalSaveData(CompoundTag tag, CallbackInfo ci) {
-        if (tag.contains("GT.GpsTracked")) gcys$gpsTracked = tag.getBoolean("GT.GpsTracked");
+        if (tag.contains("gcys:gps_tracked")) gcys$gpsTracked = tag.getBoolean("gcys:gps_tracked");
     }
 
     @Inject(method = "tick", at = @At("TAIL"))
