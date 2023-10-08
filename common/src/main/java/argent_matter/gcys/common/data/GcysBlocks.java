@@ -19,6 +19,7 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DoorBlock;
+import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 
 import java.util.Map;
@@ -35,8 +36,17 @@ public class GcysBlocks {
 
     public static final BlockEntry<Block> CASING_ALUMINIUM_AEROSPACE = createCasingBlock("aluminium_aerospace", GregicalitySpace.id("block/casings/solid/machine_casing_aerospace"));
 
-    public static final BlockEntry<Block> CASING_ROCKET_MOTOR = createCasingBlock("rocket_motor", GregicalitySpace.id("block/variant/rocket_motor"));
 
+    public static final BlockEntry<RotatedPillarBlock> ROCKET_MOTOR = REGISTRATE
+            .block("rocket_motor", RotatedPillarBlock::new)
+            .initialProperties(() -> Blocks.IRON_BLOCK)
+            .lang("Rocket Motor")
+            .blockstate((ctx, prov) -> prov.simpleBlock(ctx.getEntry(), prov.models().cubeBottomTop("rocket_motor",
+                    GregicalitySpace.id("block/casings/rocket/rocket_motor_side"), GregicalitySpace.id("block/casings/rocket/rocket_motor_bottom"), GregicalitySpace.id("block/casings/rocket/rocket_motor_top")
+            )))
+            .tag(GTToolType.WRENCH.harvestTag, BlockTags.MINEABLE_WITH_PICKAXE)
+            .simpleItem()
+            .register();
 
     public static final BlockEntry<DoorBlock> AIRLOCK_DOOR = REGISTRATE
             .block("airlock_door", DoorBlock::new)
@@ -60,11 +70,11 @@ public class GcysBlocks {
             .simpleItem()
             .register();
 
-    public static final BlockEntry<Block> FUEL_TANK = REGISTRATE
-            .block("fuel_tank", Block::new)
+    public static final BlockEntry<RotatedPillarBlock> FUEL_TANK = REGISTRATE
+            .block("fuel_tank", RotatedPillarBlock::new)
             .initialProperties(() -> Blocks.IRON_BLOCK)
             .lang("Fuel Tank")
-            .blockstate((ctx, prov) -> prov.simpleBlock(ctx.getEntry()))
+            .blockstate((ctx, prov) -> prov.axisBlock(ctx.getEntry()))
             .tag(GTToolType.WRENCH.harvestTag, BlockTags.MINEABLE_WITH_PICKAXE)
             .simpleItem()
             .register();
@@ -72,7 +82,7 @@ public class GcysBlocks {
             .block("seat", Block::new)
             .initialProperties(() -> Blocks.IRON_BLOCK)
             .lang("Seat")
-            .blockstate((ctx, prov) -> prov.models().carpet("seat",new ResourceLocation("white_wool")))
+            .blockstate((ctx, prov) -> prov.simpleBlock(ctx.getEntry(), prov.models().carpet("seat", new ResourceLocation("block/light_gray_wool"))))
             .tag(GTToolType.WRENCH.harvestTag, BlockTags.MINEABLE_WITH_PICKAXE)
             .simpleItem()
             .register();
@@ -89,6 +99,20 @@ public class GcysBlocks {
         return REGISTRATE.block(name, p -> (Block) blockSupplier.apply(p,
                         Platform.isClient() ? new TextureOverrideRenderer(new ResourceLocation("block/cube_all"),
                                 Map.of("all", texture)) : null))
+                .initialProperties(properties)
+                .addLayer(type)
+                .blockstate(NonNullBiConsumer.noop())
+                .tag(GTToolType.WRENCH.harvestTag, BlockTags.MINEABLE_WITH_PICKAXE)
+                .item(RendererBlockItem::new)
+                .model(NonNullBiConsumer.noop())
+                .build()
+                .register();
+    }
+
+    private static BlockEntry<Block> createBottomTopCasingBlock(String name, BiFunction<BlockBehaviour.Properties, IRenderer, ? extends RendererBlock> blockSupplier, ResourceLocation sideTexture, ResourceLocation topTexture, ResourceLocation bottomTexture, NonNullSupplier<? extends Block> properties, Supplier<Supplier<RenderType>> type) {
+        return REGISTRATE.block(name, p -> (Block) blockSupplier.apply(p,
+                        Platform.isClient() ? new TextureOverrideRenderer(new ResourceLocation("block/cube_bottom_top"),
+                                Map.of("side", sideTexture, "top", topTexture, "bottom", bottomTexture)) : null))
                 .initialProperties(properties)
                 .addLayer(type)
                 .blockstate(NonNullBiConsumer.noop())

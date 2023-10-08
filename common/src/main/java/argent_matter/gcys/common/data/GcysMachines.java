@@ -1,7 +1,6 @@
 package argent_matter.gcys.common.data;
 
 import argent_matter.gcys.GregicalitySpace;
-import argent_matter.gcys.api.registries.GcysRegistries;
 import argent_matter.gcys.common.machine.electric.OxygenSpreaderMachine;
 import argent_matter.gcys.common.machine.electric.RocketScannerMachine;
 import argent_matter.gcys.common.machine.multiblock.electric.SpaceShuttleMachine;
@@ -16,18 +15,22 @@ import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
+import com.gregtechceu.gtceu.api.pattern.MultiblockShapeInfo;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
-import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import com.gregtechceu.gtceu.api.registry.registrate.MachineBuilder;
 import com.gregtechceu.gtceu.client.renderer.machine.TieredHullMachineRenderer;
+import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.block.Blocks;
 
+import java.util.ArrayList;
 import java.util.function.BiFunction;
 
 import static argent_matter.gcys.api.registries.GcysRegistries.REGISTRATE;
 import static argent_matter.gcys.common.data.GcysBlocks.*;
-import static com.gregtechceu.gtceu.api.pattern.Predicates.blocks;
+import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 import static com.gregtechceu.gtceu.common.data.GTBlocks.*;
 import static com.gregtechceu.gtceu.common.data.GTMachines.*;
 
@@ -44,11 +47,46 @@ public class GcysMachines {
                     .register(),
             HIGH_TIERS);
 
-    public static final MachineDefinition ROCKET_SCANNER = REGISTRATE.machine("rocket_scanner", RocketScannerMachine::new)
+    public static final MachineDefinition ROCKET_SCANNER = REGISTRATE.multiblock("rocket_scanner", RocketScannerMachine::new)
             .langValue("Rocket Scanner")
             .rotationState(RotationState.NON_Y_AXIS)
-            .overlayTieredHullRenderer("rocket_scanner")
             .tier(GTValues.EV)
+            .pattern((definition) -> FactoryBlockPattern.start()
+                    .aisle("     ", "  K  ", "  K  ", "  K  ", "  K  ", "  K  ")
+                    .aisle(" BBB ", "     ", "     ", "     ", "     ", "     ")
+                    .aisle(" BBB ", "     ", "     ", "     ", "     ", "     ")
+                    .aisle(" BBB ", "     ", "     ", "     ", "     ", "     ")
+                    .aisle("     ", "  S  ", "     ", "     ", "     ", "     ")
+                    .where('S', controller(blocks(definition.getBlock())))
+                    .where('B', blocks(LAUNCH_PAD.get()))
+                    .where('K', blocks(GTBlocks.MATERIAL_BLOCKS.get(TagPrefix.frameGt, GTMaterials.StainlessSteel).get()))
+                    .where(' ', any())
+                    .build()
+            )
+            .shapeInfos(definition -> {
+                ArrayList<MultiblockShapeInfo> shapeInfo = new ArrayList<>();
+                MultiblockShapeInfo.ShapeInfoBuilder builder = MultiblockShapeInfo.builder()
+                        .aisle("     ", "  S  ", "     ", "     ", "     ", "     ")
+                        .aisle(" BBB ", "     ", "     ", "     ", "     ", "     ")
+                        .aisle(" BBB ", " EEE ", " TTT ", "  C  ", "     ", "     ")
+                        .aisle(" BBB ", "     ", "     ", "     ", "     ", "     ")
+                        .aisle("     ", "  K  ", "  K  ", "  K  ", "  K  ", "  K  ")
+                        .where('S', definition, Direction.NORTH)
+                        .where(' ', Blocks.AIR)
+                        .where('K', GTBlocks.MATERIAL_BLOCKS.get(TagPrefix.frameGt, GTMaterials.StainlessSteel).get())
+                        .where('B', LAUNCH_PAD);
+                shapeInfo.add(builder
+                        .where('E', Blocks.AIR)
+                        .where('T', Blocks.AIR)
+                        .where('C', Blocks.AIR).build());
+                shapeInfo.add(builder
+                        .where('E', ROCKET_MOTOR)
+                        .where('T', FUEL_TANK)
+                        .where('C', SEAT).build());
+                return shapeInfo;
+            })
+            .workableCasingRenderer(GTCEu.id("block/casings/voltage/ev"),
+                    GTCEu.id("block/multiblock/assembly_line"), false)
             .register();
 
     public static final MultiblockMachineDefinition SPACE_SHUTTLE = REGISTRATE.multiblock("space_shuttle", SpaceShuttleMachine::new)
@@ -71,7 +109,7 @@ public class GcysMachines {
                             .or(Predicates.autoAbilities(definition.getRecipeTypes())))
                     .where('X', blocks(MATERIAL_BLOCKS.get(TagPrefix.frameGt, GTMaterials.StainlessSteel).get()))
                     .where('T', blocks(CASING_ALUMINIUM_AEROSPACE.get()))
-                    .where('A', blocks(CASING_ROCKET_MOTOR.get()))
+                    .where('A', blocks(ROCKET_MOTOR.get()))
                     .where('B', blocks(MATERIAL_BLOCKS.get(TagPrefix.block, GcysMaterials.PolyOxydiphenylenePyromellitimide).get()))
                     .build())
             .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_robust_tungstensteel"),

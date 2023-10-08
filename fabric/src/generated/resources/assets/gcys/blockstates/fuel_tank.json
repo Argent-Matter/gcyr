@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "gcys:block/fuel_tank_horizontal",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "gcys:block/fuel_tank"
+    },
+    "axis=z": {
+      "model": "gcys:block/fuel_tank_horizontal",
+      "x": 90
+    }
+  }
+}

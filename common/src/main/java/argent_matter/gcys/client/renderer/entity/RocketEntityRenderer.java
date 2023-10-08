@@ -35,7 +35,6 @@ public class RocketEntityRenderer extends EntityRenderer<RocketEntity> {
     @Override
     public void render(RocketEntity entity, float entityYaw, float partialTick, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
         poseStack.pushPose();
-        poseStack.mulPose(Vector3f.YP.rotationDegrees(180.0F - entityYaw));
 
         // render blocks
         for (PosWithState state : entity.getBlocks()) {

@@ -14,8 +14,6 @@ import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.*;
 public class RecipeOverrides {
 
     public static void init(Consumer<FinishedRecipe> provider) {
-        GregicalitySpace.LOGGER.info("These overrides are done on purose to allow GcyS materials easier access");
-
         DISTILLATION_RECIPES.recipeBuilder("distill_coal_tar")
                 .inputFluids(CoalTar.getFluid(1000))
                 .outputItems(dustSmall, Coke)
