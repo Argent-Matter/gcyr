@@ -21,6 +21,8 @@ public class LangHandler extends com.gregtechceu.gtceu.data.lang.LangHandler {
         provider.add("metaitem.id_circuit.id", "Circuit ID: %d");
         provider.add("metaitem.id_circuit.position", "Station Position: [x=%d,z=%d]");
 
+        provider.add("metaitem.planet_id_circuit.id", "Currently Selected Planet: ");
+
         // materials
         replace(provider, GcysMaterials.PolyOxydiphenylenePyromellitimide.getUnlocalizedName(), "Poly(4,4'-Oxydiphenylene-Pyromellitimide)");
 

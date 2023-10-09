@@ -2,12 +2,15 @@ package argent_matter.gcys.forge;
 
 import argent_matter.gcys.GregicalitySpace;
 import argent_matter.gcys.common.item.armor.forge.SpaceSuitArmorItemImpl;
+import argent_matter.gcys.data.loader.PlanetResources;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.client.event.InputEvent;
+import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -34,5 +37,10 @@ public class ForgeCommonEventListener {
     @SubscribeEvent
     public static void inputKey(InputEvent.Key event) {
         GregicalitySpace.onKeyPressed(event.getKey(), event.getAction(), event.getModifiers());
+    }
+
+    @SubscribeEvent
+    public static void registerReloadListeners(RegisterClientReloadListenersEvent event) {
+        event.registerReloadListener(PlanetResources.INSTANCE);
     }
 }

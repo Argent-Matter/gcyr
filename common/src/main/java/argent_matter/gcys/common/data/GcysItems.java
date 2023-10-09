@@ -3,6 +3,7 @@ package argent_matter.gcys.common.data;
 import argent_matter.gcys.common.item.GpsTrackerBehaviour;
 import argent_matter.gcys.common.item.IdChipBehaviour;
 import argent_matter.gcys.common.item.KeyCardBehaviour;
+import argent_matter.gcys.common.item.PlanetIdChipBehaviour;
 import argent_matter.gcys.common.item.armor.SpaceSuitArmorItem;
 import argent_matter.gcys.data.recipe.GcysTags;
 import com.gregtechceu.gtceu.api.item.ComponentItem;
@@ -35,7 +36,7 @@ public class GcysItems {
     public static final ItemEntry<ComponentItem> ID_CHIP = REGISTRATE.item("id_chip", ComponentItem::create)
             .lang("Magnet-strip Identification Chip")
             .properties(p -> p.stacksTo(1))
-            .onRegister(attach(new IdChipBehaviour()))
+            .onRegister(attach(new PlanetIdChipBehaviour()))
             .defaultModel()
             .register();
 

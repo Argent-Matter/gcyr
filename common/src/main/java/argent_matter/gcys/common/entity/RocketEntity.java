@@ -2,20 +2,25 @@ package argent_matter.gcys.common.entity;
 
 import argent_matter.gcys.GregicalitySpace;
 import argent_matter.gcys.api.gui.factory.EntityUIFactory;
+import argent_matter.gcys.api.space.planet.Planet;
 import argent_matter.gcys.common.data.GcysBlocks;
 import argent_matter.gcys.common.data.GcysEntityDataSerializers;
+import argent_matter.gcys.common.data.GcysItems;
 import argent_matter.gcys.common.data.GcysSoundEntries;
 import argent_matter.gcys.common.entity.data.EntityTemperatureSystem;
+import argent_matter.gcys.common.item.PlanetIdChipBehaviour;
 import argent_matter.gcys.data.recipe.GcysTags;
 import argent_matter.gcys.util.PosWithState;
 import com.google.common.collect.Sets;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
+import com.gregtechceu.gtceu.api.item.ComponentItem;
 import com.lowdragmc.lowdraglib.gui.modular.IUIHolder;
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
 import com.lowdragmc.lowdraglib.gui.widget.ButtonWidget;
 import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.TankWidget;
 import com.lowdragmc.lowdraglib.misc.FluidStorage;
+import com.lowdragmc.lowdraglib.misc.ItemStackTransfer;
 import com.lowdragmc.lowdraglib.side.fluid.FluidHelper;
 import com.lowdragmc.lowdraglib.side.fluid.FluidStack;
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -42,6 +47,7 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.vehicle.DismountHelper;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Explosion;
@@ -57,17 +63,15 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicReference;
 
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
 public class RocketEntity extends Entity implements HasCustomInventoryScreen, IUIHolder {
-    public static final long DEFAULT_DISTANCE_TRAVELABLE = 13500000L;
-
     public static final EntityDataAccessor<Boolean> ROCKET_STARTED = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializers.BOOLEAN);
     public static final EntityDataAccessor<Long> FUEL = SynchedEntityData.defineId(RocketEntity.class, GcysEntityDataSerializers.LONG);
     public static final EntityDataAccessor<Long> FUEL_CAPACITY = SynchedEntityData.defineId(RocketEntity.class, GcysEntityDataSerializers.LONG);
     public static final EntityDataAccessor<Integer> THRUSTER_COUNT = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializers.INT);
-    public static final EntityDataAccessor<Long> MAX_DISTANCE_TRAVELABLE = SynchedEntityData.defineId(RocketEntity.class, GcysEntityDataSerializers.LONG);
     public static final EntityDataAccessor<Integer> START_TIMER = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<List<PosWithState>> POSITIONED_STATES = SynchedEntityData.defineId(RocketEntity.class, GcysEntityDataSerializers.POSITIONED_BLOCK_STATE_LIST);
     private static final EntityDataAccessor<BlockPos> SIZE = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializers.BLOCK_POS);
@@ -75,10 +79,13 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
 
 
     private final FluidStorage fuelTank;
+    private final ItemStackTransfer configSlot;
     private int weight;
 
     public RocketEntity(EntityType<?> entityType, Level level) {
         super(entityType, level);
+        this.configSlot = new ItemStackTransfer(1);
+        this.configSlot.setFilter(stack -> stack.is(GcysItems.ID_CHIP.get()));
         //noinspection deprecation
         this.fuelTank = new FluidStorage(0, fluid -> fluid.getFluid().is(GcysTags.VEHICLE_FUELS)) {
             @Override
@@ -113,6 +120,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
             this.spawnParticle();
             this.startTimerAndFlyMovement();
         }
+        this.move(MoverType.SELF, this.getDeltaMovement());
     }
 
     @Override
@@ -155,7 +163,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         return new ModularUI(176, 166, this, entityPlayer)
                 .widget(new TankWidget(this.fuelTank, 16, 16, 20, 58, true, true).setBackground(GuiTextures.FLUID_TANK_BACKGROUND))
                 .widget(new LabelWidget(5, 5, this.getDisplayName().getString()))
-                .widget(new ButtonWidget(64, 92, 36, 18, GuiTextures.BUTTON.copy().setColor(0xAA0000), (clickData) -> this.startRocket()))
+                .widget(new ButtonWidget(64, 92, 36, 18, GuiTextures.BUTTON.copy().setColor(0xFFAA0000), (clickData) -> this.startRocket()))
                 .background(GuiTextures.BACKGROUND);
     }
 
@@ -180,7 +188,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         if (this.hasPassenger(passenger)) {
             int passengerIndex = this.getPassengers().indexOf(passenger);
             BlockPos seatPos = this.getSeatPositions().get(passengerIndex);
-            passenger.setPos(this.getX() + seatPos.getX() + 0.5, this.getY() + seatPos.getY(), this.getZ() + seatPos.getZ() + 0.5);
+            passenger.setPos(this.getX() + seatPos.getX() + 0.5, this.getY() + seatPos.getY() - 0.5, this.getZ() + seatPos.getZ() + 0.5);
         }
     }
 
@@ -274,7 +282,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         if (player != null) {
             SynchedEntityData data = this.getEntityData();
 
-            if (data.get(RocketEntity.FUEL) == this.getFuelCapacity()) {
+            if (!this.configSlot.getStackInSlot(0).isEmpty() && data.get(RocketEntity.FUEL) == this.getFuelCapacity()) {
                 if (!data.get(RocketEntity.ROCKET_STARTED)) {
                     data.set(RocketEntity.ROCKET_STARTED, true);
                     GcysSoundEntries.ROCKET.play(this.level, null, this.getX(), this.getY(), this.getZ(), 1, 1);
@@ -292,10 +300,11 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         }
 
         if (this.getStartTimer() == 200) {
+            Vec3 delta = this.getDeltaMovement();
             if (this.getDeltaMovement().y < this.getRocketSpeed() - 0.1) {
-                this.setDeltaMovement(this.getDeltaMovement().x, this.getDeltaMovement().y + 0.1, this.getDeltaMovement().z);
+                this.setDeltaMovement(delta.x, delta.y + 0.1, delta.z);
             } else {
-                this.setDeltaMovement(this.getDeltaMovement().x, this.getRocketSpeed(), this.getDeltaMovement().z);
+                this.setDeltaMovement(delta.x, this.getRocketSpeed(), delta.z);
             }
         }
     }
@@ -363,6 +372,18 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
                     }
                 }
             }
+        }
+    }
+
+    public void goToDestination() {
+        if (this.getY() < 600 || this.isRemote()) return;
+
+        Item configItem = configSlot.getStackInSlot(0).getItem();
+        if (configItem == GcysItems.ID_CHIP.get()) {
+            Planet destination = PlanetIdChipBehaviour.getPlanetFromStack(configSlot.getStackInSlot(0));
+            Vec3 pos = this.position();
+            this.changeDimension(this.getServer().getLevel(destination.level()));
+            this.setPos(pos);
         }
     }
 
@@ -478,7 +499,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
     }
 
     public double getRocketSpeed() {
-        return this.getThrusterCount() * 2.5 - (10.0 / (weight + 1));
+        return this.getThrusterCount() * 2.5 - (10.0 * (weight + 1));
     }
 
     @Override
@@ -487,7 +508,6 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         this.entityData.define(FUEL, 0L);
         this.entityData.define(FUEL_CAPACITY, 0L);
         this.entityData.define(THRUSTER_COUNT, 0);
-        this.entityData.define(MAX_DISTANCE_TRAVELABLE, DEFAULT_DISTANCE_TRAVELABLE);
         this.entityData.define(START_TIMER, 0);
         this.entityData.define(POSITIONED_STATES, new ArrayList<>());
         this.entityData.define(SEAT_POSITIONS, new ArrayList<>());
@@ -508,6 +528,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         this.setFuelCapacity(compound.getLong("fuelCapacity"));
         this.fuelTank.setFluid(FluidStack.loadFromTag(compound.getCompound("fuel")));
         this.setFuel(fuelTank.getFluidAmount());
+        this.configSlot.deserializeNBT(compound.getCompound("config"));
         this.setThrusterCount(compound.getInt("thrusterCount"));
         this.setStartTimer(compound.getInt("startTimer"));
         this.weight = compound.getInt("weight");
@@ -533,6 +554,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         CompoundTag fuel = new CompoundTag();
         fuelTank.getFluid().saveToTag(fuel);
         compound.put("fuel", fuel);
+        compound.put("config", this.configSlot.serializeNBT());
         compound.putInt("thrusterCount", this.getThrusterCount());
         compound.putInt("startTimer", this.getStartTimer());
         compound.putInt("weight", this.weight);

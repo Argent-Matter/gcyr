@@ -5,6 +5,7 @@ import argent_matter.gcys.GregicalitySpace;
 import argent_matter.gcys.common.data.GcysDimensionTypes;
 import argent_matter.gcys.common.item.armor.SpaceSuitArmorItem;
 import argent_matter.gcys.config.GcysConfig;
+import argent_matter.gcys.data.loader.PlanetData;
 import argent_matter.gcys.data.recipe.GcysTags;
 import com.google.common.collect.Table;
 import com.google.common.collect.Tables;
@@ -38,7 +39,7 @@ public class EntityOxygenSystem {
      * Checks if a level has oxygen, regardless of position.
      */
     public static boolean levelHasOxygen(Level level) {
-        return level.dimension() != GcysDimensionTypes.SPACE_LEVEL;
+        return PlanetData.isOxygenated(level);
     }
 
     public static void setEntry(Level level, BlockPos source, Set<BlockPos> entries) {

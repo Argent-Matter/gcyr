@@ -2,7 +2,7 @@ package argent_matter.gcys.common.data;
 
 import argent_matter.gcys.GregicalitySpace;
 import argent_matter.gcys.common.machine.electric.OxygenSpreaderMachine;
-import argent_matter.gcys.common.machine.electric.RocketScannerMachine;
+import argent_matter.gcys.common.machine.multiblock.electric.RocketScannerMachine;
 import argent_matter.gcys.common.machine.multiblock.electric.SpaceShuttleMachine;
 import argent_matter.gcys.data.recipe.GcysTags;
 import com.gregtechceu.gtceu.GTCEu;

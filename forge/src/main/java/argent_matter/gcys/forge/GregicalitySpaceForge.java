@@ -1,6 +1,7 @@
 package argent_matter.gcys.forge;
 
 import argent_matter.gcys.GregicalitySpace;
+import argent_matter.gcys.GregicalitySpaceClient;
 import argent_matter.gcys.common.data.GcysKeyMappings;
 import argent_matter.gcys.common.data.forge.GcysBiomesImpl;
 import argent_matter.gcys.common.data.forge.GcysDimensionTypesImpl;
@@ -18,6 +19,6 @@ public class GregicalitySpaceForge {
         GcysBiomesImpl.register(bus);
         GcysDimensionTypesImpl.register(bus);
 
-        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> GcysKeyMappings::init);
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> GregicalitySpaceClient::init);
     }
 }
