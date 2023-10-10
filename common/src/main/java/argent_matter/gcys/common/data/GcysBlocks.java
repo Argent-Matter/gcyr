@@ -16,10 +16,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.DoorBlock;
-import net.minecraft.world.level.block.RotatedPillarBlock;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 
 import java.util.Map;
@@ -28,6 +25,7 @@ import java.util.function.Supplier;
 
 import static argent_matter.gcys.api.registries.GcysRegistries.REGISTRATE;
 
+@SuppressWarnings("unused")
 public class GcysBlocks {
 
     static {
@@ -36,6 +34,16 @@ public class GcysBlocks {
 
     public static final BlockEntry<Block> CASING_ALUMINIUM_AEROSPACE = createCasingBlock("aluminium_aerospace", GregicalitySpace.id("block/casings/solid/machine_casing_aerospace"));
 
+    public static final BlockEntry<Block> MOON_STONE = REGISTRATE
+            .block("moon_stone", Block::new)
+            .initialProperties(() -> Blocks.STONE)
+            .register();
+
+
+    public static final BlockEntry<FallingBlock> MOON_SAND = REGISTRATE
+            .block("moon_sand", FallingBlock::new)
+            .initialProperties(() -> Blocks.GRAVEL)
+            .register();
 
     public static final BlockEntry<RotatedPillarBlock> ROCKET_MOTOR = REGISTRATE
             .block("rocket_motor", RotatedPillarBlock::new)

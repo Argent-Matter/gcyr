@@ -12,7 +12,7 @@ public record Category(ResourceLocation id, Category parent) {
 
     public static final Category GALAXY_CATEGORY = new Category(GregicalitySpace.id("galaxy"), null);
     public static final Category MILKY_WAY_CATEGORY = new Category(GregicalitySpace.id("milky_way"), GALAXY_CATEGORY);
-    public static final Category SOLAR_SYSTEM_CATEGORY = new Category(GregicalitySpace.id("solar_system"), MILKY_WAY_CATEGORY);
+    public static final Category SOLAR_SYSTEM_CATEGORY = new Category(GregicalitySpace.id("solar_system.json"), MILKY_WAY_CATEGORY);
     public static final Category EARTH_CATEGORY = new Category(GregicalitySpace.id("earth"), SOLAR_SYSTEM_CATEGORY);
     public static final Category MARS_CATEGORY = new Category(GregicalitySpace.id("mars"), SOLAR_SYSTEM_CATEGORY);
     public static final Category VENUS_CATEGORY = new Category(GregicalitySpace.id("venus"), SOLAR_SYSTEM_CATEGORY);

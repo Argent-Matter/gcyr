@@ -2,7 +2,9 @@ package argent_matter.gcys.forge;
 
 import argent_matter.gcys.GregicalitySpace;
 import argent_matter.gcys.common.item.armor.forge.SpaceSuitArmorItemImpl;
+import argent_matter.gcys.data.loader.PlanetData;
 import argent_matter.gcys.data.loader.PlanetResources;
+import dev.architectury.registry.ReloadListenerRegistry;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.client.event.InputEvent;
@@ -40,7 +42,12 @@ public class ForgeCommonEventListener {
     }
 
     @SubscribeEvent
-    public static void registerReloadListeners(RegisterClientReloadListenersEvent event) {
+    public static void registerClientReloadListeners(RegisterClientReloadListenersEvent event) {
         event.registerReloadListener(PlanetResources.INSTANCE);
+    }
+
+    @SubscribeEvent
+    public static void registerServerReloadListeners(AddReloadListenerEvent event) {
+        event.addListener(new PlanetData());
     }
 }

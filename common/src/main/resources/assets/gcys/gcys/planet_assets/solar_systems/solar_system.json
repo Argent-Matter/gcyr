@@ -1,0 +1,13 @@
+{
+  "galaxy": "gcys:milky_way",
+  "solar_system": "gcys:solar_system",
+  "sun": "gcys:textures/sky/gui/sun.png",
+  "sun_scale": 15,
+  "button_color": 4284861158,
+  "ring_color": {
+    "r": 36,
+    "g": 50,
+    "b": 123,
+    "a": 200
+  }
+}

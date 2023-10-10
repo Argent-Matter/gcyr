@@ -9,6 +9,10 @@ import static argent_matter.gcys.api.registries.GcysRegistries.REGISTRATE;
 public class GcysMenus {
 
     public static final MenuEntry<PlanetSelectionMenu> PLANET_SELECTION = REGISTRATE
-            .menu((type, windowId, inv, buf) -> new PlanetSelectionMenu(windowId, inv.player, buf), () -> PlanetSelectionScreen::new)
+            .menu("planet_selection", (type, windowId, inv, buf) -> new PlanetSelectionMenu(windowId, inv.player, buf), () -> PlanetSelectionScreen::new)
             .register();
+
+    public static void init() {
+
+    }
 }

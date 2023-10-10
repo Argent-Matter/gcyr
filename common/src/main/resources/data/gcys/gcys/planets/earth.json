@@ -1,0 +1,14 @@
+{
+  "translation": "level.overworld",
+  "galaxy": "gcys:milky_way",
+  "solar_system": "gcys:solar_system",
+  "world": "minecraft:overworld",
+  "rocket_tier": 1,
+  "gravity": 9.806,
+  "has_atmosphere": true,
+  "days_in_year": 365,
+  "temperature": 293,
+  "solar_power": 13,
+  "has_oxygen": true,
+  "button_color": 4278229248
+}

@@ -1,0 +1,14 @@
+{
+  "translation": "level.gcys.moon",
+  "galaxy": "gcys:milky_way",
+  "solar_system": "gcys:solar_system",
+  "world": "gcys:luna",
+  "rocket_tier": 1,
+  "gravity": 1.625,
+  "has_atmosphere": false,
+  "days_in_year": 27,
+  "temperature": 113,
+  "solar_power": 15,
+  "has_oxygen": false,
+  "button_color": 4289243304
+}

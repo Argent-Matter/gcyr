@@ -27,6 +27,7 @@ public class GregicalitySpace {
 		GcysEntities.init();
 		GcysBlocks.init();
 		GcysItems.init();
+		GcysMenus.init();
 
 		GcysDatagen.init();
 

@@ -39,12 +39,12 @@ public class PlanetData extends SimpleJsonResourceReloadListener {
     public static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
 
     public PlanetData() {
-        super(GSON, "planet_data/planets");
+        super(GSON, "gcys/planets");
     }
 
     @Override
     protected void apply(Map<ResourceLocation, JsonElement> objects, ResourceManager resourceManager, ProfilerFiller profiler) {
-        profiler.push("Ad Astra Planet Deserialization");
+        profiler.push("Gregicality Space Planet Deserialization");
         List<Planet> planets = new ArrayList<>();
 
         for (Map.Entry<ResourceLocation, JsonElement> entry : objects.entrySet()) {
@@ -60,7 +60,7 @@ public class PlanetData extends SimpleJsonResourceReloadListener {
 
     public static void updatePlanets(Collection<Planet> planets) {
         clear();
-        for (Planet planet : new HashSet<>(planets)) {
+        for (Planet planet : planets) {
             PLANETS.add(planet);
             LEVEL_TO_PLANET.put(planet.level(), planet);
             PLANET_LEVELS.add(planet.level());

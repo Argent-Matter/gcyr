@@ -23,7 +23,7 @@ import java.util.List;
 public class PlanetResources implements ResourceManagerReloadListener {
     public static final PlanetResources INSTANCE = new PlanetResources();
 
-    public static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
+    public static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().setLenient().create();
 
     @Override
     public void onResourceManagerReload(ResourceManager manager) {
@@ -32,7 +32,7 @@ public class PlanetResources implements ResourceManagerReloadListener {
         List<Galaxy> galaxies = new ArrayList<>();
 
         // Solar Systems
-        for (ResourceLocation id : manager.listResources("planet_resources/solar_systems", path -> path.getPath().endsWith(".json")).keySet()) {
+        for (ResourceLocation id : manager.listResources("gcys/planet_assets/solar_systems", path -> path.getPath().endsWith(".json")).keySet()) {
             try {
                 for (Resource resource : manager.getResourceStack(id)) {
                     InputStreamReader reader = new InputStreamReader(resource.open());
@@ -43,12 +43,12 @@ public class PlanetResources implements ResourceManagerReloadListener {
                     }
                 }
             } catch (Exception e) {
-                GregicalitySpace.LOGGER.error("Failed to load Ad Astra solar system assets from: \"" + id.toString() + "\"", e);
+                GregicalitySpace.LOGGER.error("Failed to load Gregicality Space solar system assets from: \"" + id.toString() + "\"", e);
                 e.printStackTrace();
             }
         }
 
-        for (ResourceLocation id : manager.listResources("planet_resources/planet_rings", path -> path.getPath().endsWith(".json")).keySet()) {
+        for (ResourceLocation id : manager.listResources("gcys/planet_assets/planet_rings", path -> path.getPath().endsWith(".json")).keySet()) {
             try {
                 for (Resource resource : manager.getResourceStack(id)) {
                     InputStreamReader reader = new InputStreamReader(resource.open());
@@ -59,12 +59,13 @@ public class PlanetResources implements ResourceManagerReloadListener {
                     }
                 }
             } catch (Exception e) {
-                GregicalitySpace.LOGGER.error("Failed to load Ad Astra planet ring assets from: \"" + id.toString() + "\"", e);
+                GregicalitySpace.LOGGER.error("Failed to load Gregicality Space planet ring assets from: \"" + id.toString() + "\"", e);
                 e.printStackTrace();
             }
         }
 
-        for (ResourceLocation id : manager.listResources("planet_resources/galaxy", path -> path.getPath().endsWith(".json")).keySet()) {
+        // Galaxies
+        for (ResourceLocation id : manager.listResources("gcys/planet_assets/galaxies", path -> path.getPath().endsWith(".json")).keySet()) {
             try {
                 for (Resource resource : manager.getResourceStack(id)) {
                     InputStreamReader reader = new InputStreamReader(resource.open());
@@ -75,7 +76,7 @@ public class PlanetResources implements ResourceManagerReloadListener {
                     }
                 }
             } catch (Exception e) {
-                GregicalitySpace.LOGGER.error("Failed to load Ad Astra galaxy assets from: \"" + id.toString() + "\"", e);
+                GregicalitySpace.LOGGER.error("Failed to load Gregicality Space galaxy assets from: \"" + id.toString() + "\"", e);
                 e.printStackTrace();
             }
         }

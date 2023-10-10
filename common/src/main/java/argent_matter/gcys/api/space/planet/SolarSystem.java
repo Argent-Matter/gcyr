@@ -10,7 +10,7 @@ public record SolarSystem(
 
     public static final Codec<SolarSystem> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             ResourceLocation.CODEC.fieldOf("galaxy").forGetter(SolarSystem::galaxy),
-            ResourceLocation.CODEC.fieldOf("solar_system").forGetter(SolarSystem::solarSystem),
+            ResourceLocation.CODEC.fieldOf("solar_system.json").forGetter(SolarSystem::solarSystem),
             ResourceLocation.CODEC.fieldOf("sun").forGetter(SolarSystem::sun),
             Codec.INT.fieldOf("sun_scale").forGetter(SolarSystem::sunScale),
             Codec.INT.fieldOf("button_color").forGetter(SolarSystem::buttonColor),

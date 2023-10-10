@@ -1,12 +1,14 @@
 package argent_matter.gcys.common.item;
 
 import argent_matter.gcys.api.space.planet.Planet;
+import argent_matter.gcys.client.gui.screen.PlanetSelectionScreen;
 import argent_matter.gcys.common.data.GcysMenus;
 import argent_matter.gcys.data.loader.PlanetData;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.gregtechceu.gtceu.api.item.component.IAddInformation;
 import com.gregtechceu.gtceu.api.item.component.IInteractionItem;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.Registry;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
@@ -31,8 +33,9 @@ public class PlanetIdChipBehaviour implements IInteractionItem, IAddInformation 
         ItemStack heldItem = player.getItemInHand(usedHand);
         if (player instanceof ServerPlayer serverPlayer) {
             GcysMenus.PLANET_SELECTION.open(serverPlayer, Component.translatable("gui.gcys.planet_selector"), PlanetData::writePlanetData);
+            return InteractionResultHolder.consume(heldItem);
         }
-        return InteractionResultHolder.sidedSuccess(heldItem, level.isClientSide);
+        return InteractionResultHolder.pass(heldItem);
     }
 
     public String getPlanetName(Planet currentTarget) {

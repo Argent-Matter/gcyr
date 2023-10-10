@@ -1,0 +1,11 @@
+{
+  "type": "gcys:luna",
+  "generator": {
+    "type": "minecraft:noise",
+    "settings": "gcys:luna",
+    "biome_source": {
+      "type": "minecraft:fixed",
+      "biome": "gcys:moon"
+    }
+  }
+}

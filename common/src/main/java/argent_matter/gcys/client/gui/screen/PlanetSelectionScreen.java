@@ -11,6 +11,7 @@ import argent_matter.gcys.common.data.GcysNetworking;
 import argent_matter.gcys.common.gui.PlanetSelectionMenu;
 import argent_matter.gcys.common.networking.c2s.PacketSendSelectedDimension;
 import argent_matter.gcys.data.loader.PlanetData;
+import com.gregtechceu.gtceu.GTCEu;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import com.mojang.math.Vector3f;
@@ -40,7 +41,7 @@ public class PlanetSelectionScreen extends Screen implements MenuAccess<PlanetSe
 
     public static final ResourceLocation SMALL_MENU_LIST = GregicalitySpace.id("textures/gui/selection_menu.png");
     public static final ResourceLocation LARGE_MENU_TEXTURE = GregicalitySpace.id("textures/gui/selection_menu_large.png");
-    public static final ResourceLocation SCROLL_BAR = GregicalitySpace.id("textures/gui/scroll_bar.png");
+    public static final ResourceLocation SCROLL_BAR = GTCEu.id("textures/gui/widget/slider.png");
     private static final Component CATALOG_TEXT = Component.translatable("menu.gcys.catalog");
     private static final Component BACK_TEXT = Component.translatable("menu.gcys.back");
 
@@ -64,7 +65,6 @@ public class PlanetSelectionScreen extends Screen implements MenuAccess<PlanetSe
 
         if (GregicalitySpaceClient.galaxies.size() <= 1) {
             currentCategory = Category.MILKY_WAY_CATEGORY;
-
         }
 
         // Set the initial gui time to the level time. This creates a random start position for each rotating object.
@@ -186,24 +186,21 @@ public class PlanetSelectionScreen extends Screen implements MenuAccess<PlanetSe
         List<Planet> planets = new ArrayList<>(PlanetData.planets());
         planets.sort(Comparator.comparing(g -> g.translation().substring(Math.abs(g.translation().indexOf(".text")))));
         planets.forEach(planet -> {
+            Category galaxyCategory = new Category(planet.galaxy(), Category.GALAXY_CATEGORY);
+            Category solarSystemCategory = new Category(planet.solarSystem(), galaxyCategory);
+            Category planetCategory = new Category(planet.parentWorld() == null ? planet.level().location() : planet.parentWorld().location(), solarSystemCategory);
 
-            if (this.menu.getTier() >= planet.rocketTier()) {
-                Category galaxyCategory = new Category(planet.galaxy(), Category.GALAXY_CATEGORY);
-                Category solarSystemCategory = new Category(planet.solarSystem(), galaxyCategory);
-                Category planetCategory = new Category(planet.parentWorld() == null ? planet.level().location() : planet.parentWorld().location(), solarSystemCategory);
+            Component label = Component.translatable(planet.translation());
 
-                Component label = Component.translatable(planet.translation());
-
-                this.galaxyCategories.add(galaxyCategory);
-                this.solarSystemsCategories.add(solarSystemCategory);
+            this.galaxyCategories.add(galaxyCategory);
+            this.solarSystemsCategories.add(solarSystemCategory);
 
 
-                if (planet.parentWorld() == null) {
-                    createNavigationButton(label, solarSystemCategory, planet.buttonColor(), TooltipType.CATEGORY, planet, planetCategory);
-                }
-
-                createTeleportButton(1, label, planetCategory, planet.buttonColor(), TooltipType.PLANET, planet, planet.level());
+            if (planet.parentWorld() == null) {
+                createNavigationButton(label, solarSystemCategory, planet.buttonColor(), TooltipType.CATEGORY, planet, planetCategory);
             }
+
+            createTeleportButton(1, label, planetCategory, planet.buttonColor(), TooltipType.PLANET, planet, planet.level());
         });
 
         this.galaxyCategories.forEach((this::createGalaxyButton));
