@@ -39,7 +39,6 @@ public class GcysBlocks {
             .initialProperties(() -> Blocks.STONE)
             .register();
 
-
     public static final BlockEntry<FallingBlock> MOON_SAND = REGISTRATE
             .block("moon_sand", FallingBlock::new)
             .initialProperties(() -> Blocks.GRAVEL)
@@ -86,8 +85,8 @@ public class GcysBlocks {
             .tag(GTToolType.WRENCH.harvestTag, BlockTags.MINEABLE_WITH_PICKAXE)
             .simpleItem()
             .register();
-    public static final BlockEntry<Block> SEAT = REGISTRATE
-            .block("seat", Block::new)
+    public static final BlockEntry<CarpetBlock> SEAT = REGISTRATE
+            .block("seat", CarpetBlock::new)
             .initialProperties(() -> Blocks.IRON_BLOCK)
             .lang("Seat")
             .blockstate((ctx, prov) -> prov.simpleBlock(ctx.getEntry(), prov.models().carpet("seat", new ResourceLocation("block/light_gray_wool"))))

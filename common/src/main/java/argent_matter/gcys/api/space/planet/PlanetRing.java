@@ -10,7 +10,7 @@ public record PlanetRing(ResourceLocation galaxy, ResourceLocation solarSystem, 
 
     public static final Codec<PlanetRing> CODEC = RecordCodecBuilder.create(instance -> instance.group(
         ResourceLocation.CODEC.fieldOf("galaxy").forGetter(PlanetRing::galaxy),
-        ResourceLocation.CODEC.fieldOf("solar_system.json").forGetter(PlanetRing::solarSystem),
+        ResourceLocation.CODEC.fieldOf("solar_system").forGetter(PlanetRing::solarSystem),
         ResourceLocation.CODEC.fieldOf("texture").forGetter(PlanetRing::texture),
         Codec.INT.fieldOf("speed").forGetter(PlanetRing::speed),
         Codec.INT.fieldOf("scale").forGetter(PlanetRing::scale),

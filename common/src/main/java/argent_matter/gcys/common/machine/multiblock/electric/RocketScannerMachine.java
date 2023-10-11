@@ -34,7 +34,9 @@ import net.minecraft.world.phys.AABB;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 
@@ -96,6 +98,7 @@ public class RocketScannerMachine extends MultiblockControllerMachine implements
         int endZ = current.relative(right, rDist).get(right.getAxis());
         int startY = current.getY();
         int endY = current.offset(0, hDist, 0).getY();
+
         int tmp = startX;
         startX = Math.min(startX, endX);
         endX = Math.max(tmp, endX);
@@ -111,11 +114,23 @@ public class RocketScannerMachine extends MultiblockControllerMachine implements
             BlockPos startPos = BlockPos.ZERO;
             RocketEntity rocket = GcysEntities.ROCKET.create(this.getLevel());
             rocket.setPos(endX + getFrontFacing().getStepX(), endY, endZ + getFrontFacing().getStepZ());
+
+            Map<BlockPos, BlockState> states = new HashMap<>();
             for (BlockPos pos : BlockPos.betweenClosed(startX, startY, startZ, endX, endY, endZ)) {
                 BlockState state = this.getLevel().getBlockState(pos);
                 if (state.isAir()) continue;
                 else if (allAir) startPos = pos.immutable();
                 allAir = false;
+                states.put(pos.immutable(), state);
+                if (startPos.compareTo(pos) < 0) startPos = new BlockPos(
+                        Math.min(startPos.getX(), pos.getX()),
+                        Math.min(startPos.getY(), pos.getY()),
+                        Math.min(startPos.getZ(), pos.getZ()));
+            }
+
+            for (Map.Entry<BlockPos, BlockState> entry : states.entrySet()) {
+                BlockPos pos = entry.getKey();
+                BlockState state = entry.getValue();
                 rocket.addBlock(pos.subtract(startPos), state);
                 getLevel().setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
             }

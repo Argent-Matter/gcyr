@@ -9,8 +9,7 @@ import static com.gregtechceu.gtceu.data.lang.LangHandler.replace;
 public class LangHandler extends com.gregtechceu.gtceu.data.lang.LangHandler {
     public static void init(RegistrateLangProvider provider) {
         // blocks
-        replace(provider, "block.gcys.casing_aluminium_aerospace", "Aerospace-grade Aluminium Machine Casing");
-        replace(provider, "block.gcys.active_casing_rocket_motor", "Rocket motor");
+        replace(provider, "block.gcys.aluminium_aerospace", "Aerospace-grade Aluminium Machine Casing");
 
         // tooltips
         multilineLang(provider, "gcys.multiblock.space_shuttle.launch", "Travel to selected Space Station\n§cRequires ID Chip!");
@@ -39,5 +38,23 @@ public class LangHandler extends com.gregtechceu.gtceu.data.lang.LangHandler {
 
         provider.add("key.startRocket", "Start RocketEntity");
         provider.add("key.categories.gcys", "Gregicality Space");
+
+        provider.add("menu.gcys.catalog", "Catalog");
+        provider.add("menu.gcys.back", "Back");
+        provider.add("menu.gcys.planet", "Planet");
+        provider.add("menu.gcys.moon", "Moon");
+        provider.add("menu.gcys.orbit", "Orbit");
+        provider.add("menu.gcys.no_gravity", "No Gravity");
+        provider.add("menu.gcys.space_station", "Space Station");
+        provider.add("menu.gcys.solar_system", "Solar System");
+        provider.add("menu.gcys.galaxy", "Galaxy");
+        provider.add("menu.gcys.category", "Category");
+        provider.add("menu.gcys.provided", "Provided");
+        provider.add("menu.gcys.type", "Type");
+        provider.add("menu.gcys.gravity", "Gravity");
+        provider.add("menu.gcys.oxygen", "Oxygen");
+        provider.add("menu.gcys.temperature", "Temperature");
+        provider.add("menu.gcys.oxygen.true", "Has oxygen");
+        provider.add("menu.gcys.oxygen.false", "Doesn't have oxygen");
     }
 }
