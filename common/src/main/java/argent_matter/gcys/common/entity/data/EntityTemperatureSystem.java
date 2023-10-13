@@ -2,6 +2,7 @@ package argent_matter.gcys.common.entity.data;
 
 import argent_matter.gcys.common.item.armor.SpaceSuitArmorItem;
 import argent_matter.gcys.config.GcysConfig;
+import argent_matter.gcys.data.loader.PlanetData;
 import argent_matter.gcys.data.recipe.GcysTags;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
@@ -21,7 +22,7 @@ import java.util.stream.StreamSupport;
  * Proudly copied from <a href="https://github.com/terrarium-earth/Ad-Astra/blob/1.19/common/src/main/java/earth/terrarium/ad_astra/common/entity/system/EntityTemperatureSystem.java">Ad Astra</a>
  */
 public class EntityTemperatureSystem {
-    public static final UniformInt TEMP_RANGE = UniformInt.of(-60, 70);
+    public static final UniformInt TEMP_RANGE = UniformInt.of(-213, 333);
 
 
     public static void temperatureTick(LivingEntity entity, ServerLevel level) {
@@ -38,11 +39,11 @@ public class EntityTemperatureSystem {
             }*/
         }
 
-        float temperature = GcysConfig.INSTANCE.server.spaceTemperature;
+        float temperature = PlanetData.getWorldTemperature(level);
 
         // Normal temperature when inside an oxygen bubble. This should probably be changed so that a separate machine is required to manage temperature.
         if (EntityOxygenSystem.inDistributorBubble(level, entity.blockPosition())) {
-            temperature = 20.0f;
+            temperature = 293.0f;
         }
 
         UniformInt temperatureResistance = TEMP_RANGE;

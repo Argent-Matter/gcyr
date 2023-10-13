@@ -11,6 +11,7 @@ import argent_matter.gcys.common.data.GcysNetworking;
 import argent_matter.gcys.common.gui.PlanetSelectionMenu;
 import argent_matter.gcys.common.networking.c2s.PacketSendSelectedDimension;
 import argent_matter.gcys.data.loader.PlanetData;
+import argent_matter.gcys.util.GcysValues;
 import com.gregtechceu.gtceu.GTCEu;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
@@ -18,6 +19,7 @@ import com.mojang.math.Vector3f;
 import lombok.Getter;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.ChatFormatting;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -67,7 +69,7 @@ public class PlanetSelectionScreen extends Screen implements MenuAccess<PlanetSe
     final Set<Category> galaxyCategories = new HashSet<>();
     @Getter
     private final PlanetSelectionMenu menu;
-    private final Map<Category, LinkedList<Button>> categoryButtons = new HashMap<>();
+    private final Map<Category, LinkedList<ExtendedButton>> categoryButtons = new HashMap<>();
     public int minScrollY = 177;
     public int maxScrollY = 274;
     private Category currentCategory = Category.GALAXY_CATEGORY;
@@ -191,8 +193,8 @@ public class PlanetSelectionScreen extends Screen implements MenuAccess<PlanetSe
         super.init();
 
         // The back button. It is always element [0] in the buttons list.
-        LinkedList<Button> backButtonList = new LinkedList<>();
-        Button backButton = new Button(10, this.height / 2 - 36, 71, 20, BACK_TEXT, pressed -> onNavigationButtonClick(currentCategory.parent()));
+        LinkedList<ExtendedButton> backButtonList = new LinkedList<>();
+        ExtendedButton backButton = new ExtendedButton(10, this.height / 2 - 36, 71, 20, 1.0f, 1.0f, 1.0f, BACK_TEXT, pressed -> onNavigationButtonClick(currentCategory.parent()));
         this.addRenderableWidget(backButton);
         backButtonList.add(backButton);
 
@@ -280,7 +282,7 @@ public class PlanetSelectionScreen extends Screen implements MenuAccess<PlanetSe
             newRow = 118;
         }
 
-        LinkedList<Button> buttons = this.categoryButtons.getOrDefault(category, new LinkedList<>());
+        LinkedList<ExtendedButton> buttons = this.categoryButtons.getOrDefault(category, new LinkedList<>());
 
         int column = getColumn(category) - (row - 1) * 22;
         column -= 44 * (buttons.size() / 3);
@@ -298,42 +300,17 @@ public class PlanetSelectionScreen extends Screen implements MenuAccess<PlanetSe
     }
 
     public Button createButton(int row, Component label, Category category, int colour, int sizeX, int sizeY, TooltipType tooltip, Planet planetInfo, Consumer<Button> onClick) {
-
         int column = getColumn(category);
         return createButton(row, column, label, category, colour, sizeX, sizeY, tooltip, planetInfo, onClick);
     }
 
     public Button createButton(int row, int column, Component label, Category category, int colour, int sizeX, int sizeY, TooltipType tooltip, Planet planetInfo, Consumer<Button> onClick) {
-
-        LinkedList<Button> buttons = this.categoryButtons.getOrDefault(category, new LinkedList<>());
+        LinkedList<ExtendedButton> buttons = this.categoryButtons.getOrDefault(category, new LinkedList<>());
 
         float colorR = (float) ((colour << 16) & 0xFF) / 255.0f;
         float colorG = (float) ((colour << 8) & 0xFF) / 255.0f;
         float colorB = (float) (colour & 0xFF) / 255.0f;
-        Button button = new Button(row, column, sizeX, sizeY, label, onClick::accept, (button1, posestack, x, y) -> renderButtonTooltip(planetInfo, tooltip, button1, posestack, x, y)) {
-            // Override this for the colors
-            @Override
-            public void renderButton(PoseStack poseStack, int mouseX, int mouseY, float partialTick) {
-                Minecraft minecraft = Minecraft.getInstance();
-                Font font = minecraft.font;
-                RenderSystem.setShader(GameRenderer::getPositionTexShader);
-                RenderSystem.setShaderTexture(0, WIDGETS_LOCATION);
-                RenderSystem.setShaderColor(colorR, colorG, colorB, this.alpha);
-                int i = this.getYImage(this.isHoveredOrFocused());
-                RenderSystem.enableBlend();
-                RenderSystem.defaultBlendFunc();
-                RenderSystem.enableDepthTest();
-                this.blit(poseStack, this.x, this.y, 0, 46 + i * 20, this.width / 2, this.height);
-                this.blit(poseStack, this.x + this.width / 2, this.y, 200 - this.width / 2, 46 + i * 20, this.width / 2, this.height);
-                this.renderBg(poseStack, minecraft, mouseX, mouseY);
-                int j = this.active ? 0xFFFFFF : 0xA0A0A0;
-                drawCenteredString(poseStack, font, this.getMessage(), this.x + this.width / 2, this.y + (this.height - 8) / 2, j | Mth.ceil(this.alpha * 255.0F) << 24);
-
-                if (this.isHoveredOrFocused()) {
-                    this.renderToolTip(poseStack, mouseX, mouseY);
-                }
-            }
-        };
+        ExtendedButton button = new ExtendedButton(row, column, sizeX, sizeY, colorR, colorG, colorB, label, onClick::accept, (button1, posestack, x, y) -> renderButtonTooltip(planetInfo, tooltip, button1, posestack, x, y));
         this.addRenderableWidget(button);
 
         buttons.add(button);
@@ -346,33 +323,33 @@ public class PlanetSelectionScreen extends Screen implements MenuAccess<PlanetSe
 
         switch (tooltip) {
             case GALAXY -> {
-                textEntries.add(Component.nullToEmpty("§9" + PlanetSelectionScreen.CATEGORY_TEXT.getString() + ": §b" + button.getMessage().getString()));
-                textEntries.add(Component.nullToEmpty("§9" + PlanetSelectionScreen.TYPE_TEXT.getString() + ": §5" + PlanetSelectionScreen.GALAXY_TEXT.getString()));
+                textEntries.add(CATEGORY_TEXT.copy().withStyle(ChatFormatting.BLUE).append(": ").append(button.getMessage().copy().withStyle(ChatFormatting.AQUA)));
+                textEntries.add(TYPE_TEXT.copy().withStyle(ChatFormatting.BLUE).append(": ").append(GALAXY_TEXT.copy().withStyle(ChatFormatting.AQUA)));
             }
             case SOLAR_SYSTEM -> {
-                textEntries.add(Component.nullToEmpty("§9" + PlanetSelectionScreen.CATEGORY_TEXT.getString() + ": §b" + button.getMessage().getString()));
-                textEntries.add(Component.nullToEmpty("§9" + PlanetSelectionScreen.TYPE_TEXT.getString() + ": §3" + PlanetSelectionScreen.SOLAR_SYSTEM_TEXT.getString()));
+                textEntries.add(CATEGORY_TEXT.copy().withStyle(ChatFormatting.BLUE).append(": ").append(button.getMessage().copy().withStyle(ChatFormatting.AQUA)));
+                textEntries.add(TYPE_TEXT.copy().withStyle(ChatFormatting.BLUE).append(": ").append(SOLAR_SYSTEM_TEXT.copy().withStyle(ChatFormatting.DARK_AQUA)));
             }
             case CATEGORY -> {
-                textEntries.add(Component.nullToEmpty("§9" + PlanetSelectionScreen.CATEGORY_TEXT.getString() + ": §a" + button.getMessage().getString()));
-                textEntries.add(Component.nullToEmpty("§9" + PlanetSelectionScreen.PROVIDED_TEXT.getString() + ": §b" + Component.translatable("item.ad_astra.tier_" + planetInfo.rocketTier() + "_rocket").getString()));
+                textEntries.add(CATEGORY_TEXT.copy().withStyle(ChatFormatting.BLUE).append(": ").append(button.getMessage().copy().withStyle(ChatFormatting.GREEN)));
+                textEntries.add(PROVIDED_TEXT.copy().withStyle(ChatFormatting.BLUE).append(": ").append(Component.translatable("item.gcys.tier_" + planetInfo.rocketTier() + "_rocket").withStyle(ChatFormatting.AQUA)));
             }
             case PLANET -> {
-                textEntries.add(Component.nullToEmpty("§9" + PlanetSelectionScreen.TYPE_TEXT.getString() + ": §3" + (planetInfo.parentWorld() == null ? PlanetSelectionScreen.PLANET_TEXT.getString() : PlanetSelectionScreen.MOON_TEXT.getString())));
-                textEntries.add(Component.nullToEmpty("§9" + PlanetSelectionScreen.GRAVITY_TEXT.getString() + ": §3" + planetInfo.gravity() + " m/s"));
-                textEntries.add(Component.nullToEmpty("§9" + PlanetSelectionScreen.OXYGEN_TEXT.getString() + ": §" + (planetInfo.hasOxygen() ? ('a' + PlanetSelectionScreen.OXYGEN_TRUE_TEXT.getString()) : ('c' + PlanetSelectionScreen.OXYGEN_FALSE_TEXT.getString()))));
-                String temperatureColour = "§a";
+                textEntries.add(TYPE_TEXT.copy().withStyle(ChatFormatting.BLUE).append(": ").append((planetInfo.parentWorld() == null ? PlanetSelectionScreen.PLANET_TEXT : PlanetSelectionScreen.MOON_TEXT).copy().withStyle(ChatFormatting.AQUA)));
+                textEntries.add(GRAVITY_TEXT.copy().withStyle(ChatFormatting.BLUE).append(": ").append(Component.literal(planetInfo.gravity() + " m/s").withStyle(ChatFormatting.AQUA)));
+                textEntries.add(OXYGEN_TEXT.copy().withStyle(ChatFormatting.BLUE).append(": ").append((planetInfo.hasOxygen() ? OXYGEN_TRUE_TEXT : OXYGEN_FALSE_TEXT).copy().withStyle(planetInfo.hasOxygen() ? ChatFormatting.GREEN : ChatFormatting.RED)));
+                ChatFormatting temperatureColour = ChatFormatting.GREEN;
 
                 // Make the temperature text look orange when the temperature is hot and blue when the temperature is cold.
                 if (planetInfo.temperature() > 50) {
                     // Hot.
-                    temperatureColour = "§6";
+                    temperatureColour = ChatFormatting.GOLD;
                 } else if (planetInfo.temperature() < -20) {
                     // Cold.
-                    temperatureColour = "§1";
+                    temperatureColour = ChatFormatting.DARK_BLUE;
                 }
 
-                textEntries.add(Component.nullToEmpty("§9" + PlanetSelectionScreen.TEMPERATURE_TEXT.getString() + ": " + temperatureColour + " " + planetInfo.temperature() + " °C"));
+                textEntries.add(TEMPERATURE_TEXT.copy().withStyle(ChatFormatting.BLUE).append(": ").append(Component.literal(planetInfo.temperature() + " °C").withStyle(temperatureColour)));
             }
             default -> {
 
@@ -380,10 +357,10 @@ public class PlanetSelectionScreen extends Screen implements MenuAccess<PlanetSe
         }
 
         if (tooltip.equals(TooltipType.ORBIT) || tooltip.equals(TooltipType.SPACE_STATION)) {
-            textEntries.add(Component.nullToEmpty("§9" + PlanetSelectionScreen.TYPE_TEXT.getString() + ": §3" + PlanetSelectionScreen.ORBIT_TEXT.getString()));
-            textEntries.add(Component.nullToEmpty("§9" + PlanetSelectionScreen.GRAVITY_TEXT.getString() + ": §3" + PlanetSelectionScreen.NO_GRAVITY_TEXT.getString()));
-            textEntries.add(Component.nullToEmpty("§9" + PlanetSelectionScreen.OXYGEN_TEXT.getString() + ": §c " + PlanetSelectionScreen.OXYGEN_FALSE_TEXT.getString()));
-            //textEntries.add(Component.nullToEmpty("§9" + PlanetSelectionScreen.TEMPERATURE_TEXT.getString() + ": §1 " + ModUtils.ORBIT_TEMPERATURE + " °C"));
+            textEntries.add(TYPE_TEXT.copy().withStyle(ChatFormatting.BLUE).append(": ").append(ORBIT_TEXT.copy().withStyle(ChatFormatting.DARK_AQUA)));
+            textEntries.add(GRAVITY_TEXT.copy().withStyle(ChatFormatting.BLUE).append(": ").append(NO_GRAVITY_TEXT.copy().withStyle(ChatFormatting.DARK_AQUA)));
+            textEntries.add(OXYGEN_TEXT.copy().withStyle(ChatFormatting.BLUE).append(": ").append(OXYGEN_FALSE_TEXT.copy().withStyle(ChatFormatting.RED)));
+            textEntries.add(TEMPERATURE_TEXT.copy().withStyle(ChatFormatting.BLUE).append(": ").append(Component.literal(GcysValues.ORBIT_TEMPERATURE + " °C").withStyle(ChatFormatting.DARK_BLUE)));
         }
         this.renderTooltip(poseStack, textEntries, Optional.empty(), x, y);
     }
@@ -391,7 +368,7 @@ public class PlanetSelectionScreen extends Screen implements MenuAccess<PlanetSe
     @Override
     public boolean mouseScrolled(double mouseX, double mouseY, double amount) {
         // Simple scrollbar.
-        for (Map.Entry<Category, LinkedList<Button>> entry : this.categoryButtons.entrySet()) {
+        for (Map.Entry<Category, LinkedList<ExtendedButton>> entry : this.categoryButtons.entrySet()) {
             if (this.currentCategory.equals(entry.getKey())) {
 
                 List<Button> buttons = new LinkedList<>();
@@ -453,7 +430,7 @@ public class PlanetSelectionScreen extends Screen implements MenuAccess<PlanetSe
 
     public void resetButtonScroll() {
         categoryButtons.values().forEach(list -> list.forEach(button -> {
-            button.y = button.y + button.getHeight();
+            button.y = button.getStartY();
         }));
     }
 
@@ -478,7 +455,7 @@ public class PlanetSelectionScreen extends Screen implements MenuAccess<PlanetSe
     }
 
     public int getColumn(Category category) {
-        LinkedList<Button> buttons = this.categoryButtons.getOrDefault(category, new LinkedList<>());
+        LinkedList<ExtendedButton> buttons = this.categoryButtons.getOrDefault(category, new LinkedList<>());
         int index = buttons.size() + 1;
         int startY = this.height / 2 - 58;
         // Disable the galaxy category if the Milky Way is the only galaxy

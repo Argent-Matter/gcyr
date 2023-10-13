@@ -39,6 +39,8 @@ public class LangHandler extends com.gregtechceu.gtceu.data.lang.LangHandler {
         provider.add("key.startRocket", "Start RocketEntity");
         provider.add("key.categories.gcys", "Gregicality Space");
 
+        provider.add("menu.gcys.launch", "LAUNCH");
+
         provider.add("menu.gcys.catalog", "Catalog");
         provider.add("menu.gcys.back", "Back");
         provider.add("menu.gcys.planet", "Planet");
@@ -56,5 +58,7 @@ public class LangHandler extends com.gregtechceu.gtceu.data.lang.LangHandler {
         provider.add("menu.gcys.temperature", "Temperature");
         provider.add("menu.gcys.oxygen.true", "Has oxygen");
         provider.add("menu.gcys.oxygen.false", "Doesn't have oxygen");
+
+        provider.add("message.gcys.no_fuel", "The rocket must be fueled fully, and have a valid Planet ID Chip.");
     }
 }

@@ -3,8 +3,10 @@ package argent_matter.gcys.data.loader;
 import argent_matter.gcys.GregicalitySpace;
 import argent_matter.gcys.GregicalitySpaceClient;
 import argent_matter.gcys.api.space.planet.Planet;
+import argent_matter.gcys.common.data.GcysDimensionTypes;
 import argent_matter.gcys.common.data.GcysNetworking;
 import argent_matter.gcys.common.networking.s2c.PacketReturnPlanetData;
+import argent_matter.gcys.util.GcysValues;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.google.gson.Gson;
@@ -108,7 +110,7 @@ public class PlanetData extends SimpleJsonResourceReloadListener {
     }
 
     public static boolean isOrbitLevel(ResourceKey<Level> level) {
-        return false; //ORBITS_LEVELS.contains(level);
+        return level.location().equals(GcysDimensionTypes.SPACE_LEVEL.location());
     }
 
     public static boolean isPlanetLevel(Level level) {
@@ -120,13 +122,25 @@ public class PlanetData extends SimpleJsonResourceReloadListener {
     }
 
     public static boolean isOxygenated(Level level) {
-        return OXYGEN_LEVELS.contains(level.dimension()) || !isSpacelevel(level);
+        return OXYGEN_LEVELS.contains(level.dimension()) || !isSpaceLevel(level);
     }
 
     /**
      * Checks if the level is either a planet or an orbit level.
      */
-    public static boolean isSpacelevel(Level level) {
+    public static boolean isSpaceLevel(Level level) {
         return isPlanetLevel(level) || isOrbitLevel(level.dimension());
+    }
+
+    /**
+     * Gets the temperature of the level in kelvin.
+     *
+     * @return The temperature of the level, or 20° for dimensions without a defined temperature
+     */
+    public static float getWorldTemperature(Level level) {
+        if (isOrbitLevel(level.dimension())) {
+            return GcysValues.ORBIT_TEMPERATURE;
+        }
+        return PlanetData.getPlanetFromLevel(level.dimension()).map(Planet::temperature).orElse(293.0f);
     }
 }

@@ -85,7 +85,7 @@ public class GcysMachines {
                         .where('C', SEAT).build());
                 return shapeInfo;
             })
-            .workableCasingRenderer(GTCEu.id("block/casings/voltage/ev"),
+            .workableCasingRenderer(GTCEu.id("block/casings/voltage/ev/side"),
                     GTCEu.id("block/multiblock/assembly_line"), false)
             .register();
 

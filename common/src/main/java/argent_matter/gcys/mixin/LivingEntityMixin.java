@@ -1,9 +1,9 @@
 package argent_matter.gcys.mixin;
 
 import argent_matter.gcys.api.capability.IGpsTracked;
-import argent_matter.gcys.common.data.GcysDimensionTypes;
 import argent_matter.gcys.common.entity.data.EntityOxygenSystem;
 import argent_matter.gcys.common.entity.data.EntityTemperatureSystem;
+import argent_matter.gcys.data.loader.PlanetData;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
@@ -29,17 +29,17 @@ public abstract class LivingEntityMixin extends Entity implements IGpsTracked {
     }
 
     @Inject(method = "addAdditionalSaveData", at = @At("TAIL"))
-    public void gtceu$addAdditionalSaveData(CompoundTag tag, CallbackInfo ci) {
+    public void gcys$addAdditionalSaveData(CompoundTag tag, CallbackInfo ci) {
         tag.putBoolean("gcys:gps_tracked", gcys$gpsTracked);
     }
 
     @Inject(method = "readAdditionalSaveData", at = @At("TAIL"))
-    public void gtceu$readAdditionalSaveData(CompoundTag tag, CallbackInfo ci) {
+    public void gcys$readAdditionalSaveData(CompoundTag tag, CallbackInfo ci) {
         if (tag.contains("gcys:gps_tracked")) gcys$gpsTracked = tag.getBoolean("gcys:gps_tracked");
     }
 
     @Inject(method = "tick", at = @At("TAIL"))
-    public void gtceu$tick(CallbackInfo ci) {
+    public void gcys$tick(CallbackInfo ci) {
         LivingEntity entity = (LivingEntity) (Object) this;
         Level level = entity.level;
         if (!level.isClientSide) {
@@ -53,7 +53,7 @@ public abstract class LivingEntityMixin extends Entity implements IGpsTracked {
 
                 EntityOxygenSystem.oxygenTick(entity, (ServerLevel) level);
 
-                if (level.dimension() != GcysDimensionTypes.SPACE_LEVEL) {
+                if (!PlanetData.isSpaceLevel(level)) {
                     return;
                 }
 
