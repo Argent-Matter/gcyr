@@ -307,7 +307,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
 
     public void rocketExplosion() {
         if (this.getStartTimer() == 200) {
-            if (this.getDeltaMovement().y < -0.15) {
+            if (this.getDeltaMovement().y > -0.15) {
                 if (!this.level.isClientSide) {
                     this.level.explode(this, this.getX(), this.getBoundingBox().maxY, this.getZ(), 10, true, Explosion.BlockInteraction.BREAK);
                     this.remove(RemovalReason.DISCARDED);
@@ -335,12 +335,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
             BlockState state2 = this.level.getBlockState(new BlockPos((int)Math.floor(this.getX()), (int)(this.getY() - 0.2), (int)Math.floor(this.getZ())));
 
             if (!this.level.isEmptyBlock(pos) && (state2.is(GcysBlocks.LAUNCH_PAD.get()) || !state.is(GcysBlocks.LAUNCH_PAD.get()))) {
-                //this.dropEquipment();
-                //this.spawnRocketItem();
-
-                if (!this.level.isClientSide) {
-                    this.remove(RemovalReason.DISCARDED);
-                }
+                this.unBuild();
 
                 return true;
             }
@@ -402,7 +397,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         });
         newEntity.setPos(pos);
         Vec3 delta = this.getDeltaMovement();
-        newEntity.setDeltaMovement(delta.x, -0.1, delta.z);
+        newEntity.setDeltaMovement(delta.x, -0.5, delta.z);
         if (newEntity instanceof RocketEntity rocketEntity) {
             rocketEntity.destination = null;
             rocketEntity.entityData.set(ROCKET_STARTED, false);

@@ -72,4 +72,8 @@ public class GcysTagUtil {
         return createTag(Registry.FLUID, path, false);
     }
 
+    public static TagKey<Fluid> createModFluidTag(String path) {
+        return createModTag(Registry.FLUID, path);
+    }
+
 }

@@ -37,11 +37,13 @@ public class GcysBlocks {
     public static final BlockEntry<Block> MOON_STONE = REGISTRATE
             .block("moon_stone", Block::new)
             .initialProperties(() -> Blocks.STONE)
+            .simpleItem()
             .register();
 
     public static final BlockEntry<FallingBlock> MOON_SAND = REGISTRATE
             .block("moon_sand", FallingBlock::new)
             .initialProperties(() -> Blocks.GRAVEL)
+            .simpleItem()
             .register();
 
     public static final BlockEntry<RotatedPillarBlock> ROCKET_MOTOR = REGISTRATE
