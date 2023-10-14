@@ -1,0 +1,14 @@
+{
+  "structures": [
+    {
+      "structure": "gcys:photoshoot",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "salt": 477444994,
+    "spacing": 20,
+    "separation": 12
+  }
+}
