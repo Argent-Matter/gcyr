@@ -1,5 +1,5 @@
 {
     "ldlib": {
-        "connection": "gcym:block/casings/solid/machine_casing_aerospace_ctm"
+        "connection": "gcys:block/casings/solid/machine_casing_aerospace_ctm"
     }
 }

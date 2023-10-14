@@ -1,6 +1,7 @@
 package argent_matter.gcys.common.networking.c2s;
 
 import argent_matter.gcys.common.data.GcysItems;
+import argent_matter.gcys.common.item.PlanetIdChipBehaviour;
 import com.lowdragmc.lowdraglib.networking.IHandlerContext;
 import com.lowdragmc.lowdraglib.networking.IPacket;
 import lombok.AllArgsConstructor;
@@ -31,7 +32,8 @@ public class PacketSendSelectedDimension implements IPacket {
         if (!handler.isClient() && id != null) {
             ItemStack handItem = handler.getPlayer().getItemInHand(handler.getPlayer().getUsedItemHand());
             if (handItem.is(GcysItems.ID_CHIP.get())) {
-                handItem.getOrCreateTag().putString("gcys:current_planet", id.location().toString());
+                handItem.getOrCreateTag().putString(PlanetIdChipBehaviour.CURRENT_PLANET_TAG_ID, id.location().toString());
+                handItem.getTag().remove(PlanetIdChipBehaviour.CURRENT_STATION_TAG_ID);
             }
         }
     }

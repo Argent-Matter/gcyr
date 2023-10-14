@@ -7,6 +7,7 @@ import argent_matter.gcys.api.gui.widget.GcysGuiTextures;
 import argent_matter.gcys.api.registries.GcysRegistries;
 import argent_matter.gcys.api.space.satellite.SatelliteType;
 import argent_matter.gcys.api.space.satellite.data.SatelliteData;
+import argent_matter.gcys.api.space.station.SpaceStation;
 import argent_matter.gcys.common.data.GcysDimensionTypes;
 import argent_matter.gcys.common.data.GcysItems;
 import argent_matter.gcys.common.data.GcysRecipeTypes;
@@ -14,6 +15,8 @@ import argent_matter.gcys.common.item.IdChipBehaviour;
 import argent_matter.gcys.common.item.KeyCardBehaviour;
 import argent_matter.gcys.common.worldgen.SpaceLevelSource;
 import argent_matter.gcys.data.lang.LangHandler;
+import argent_matter.gcys.data.loader.PlanetData;
+import argent_matter.gcys.util.Vec2i;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.UITemplate;
@@ -119,16 +122,16 @@ public class SpaceShuttleMachine extends WorkableElectricMultiblockMachine {
         if (!level.isClientSide && recipe.matchRecipe(this).isSuccess() && GcysItems.ID_CHIP.isIn(inventory.getStackInSlot(0))) {
             this.recipeLogic.setupRecipe(recipe);
             int stationId = IdChipBehaviour.getCircuitId(inventory.getStackInSlot(0));
-            if (stationId != IdChipBehaviour.ID_EMPTY) {
+            if (stationId != SpaceStation.ID_EMPTY) {
                 ServerPlayer serverPlayer = (ServerPlayer) player;
                 ServerLevel space = level.getServer().getLevel(GcysDimensionTypes.SPACE_LEVEL);
                 ISpaceStationHolder stations = GcysCapabilityHelper.getSpaceStations(space);
-                Vec2 pos = stations.getStationPos(stationId);
-                if (pos == Vec2.NEG_UNIT_Y) {
+                Vec2i pos = stations.getStationPos(stationId);
+                if (pos == Vec2i.MAX_NEGATIVE) {
                     pos = stations.getFreeStationPos(stationId);
-                    stations.addStation(stationId, pos);
+                    stations.addStation(stationId, new SpaceStation(PlanetData.getPlanetFromLevel(Level.OVERWORLD).orElse(null), pos));
                 }
-                serverPlayer.teleportTo(space, pos.x, SpaceLevelSource.PLATFORM_HEIGHT + 1, pos.y, serverPlayer.getYRot(), serverPlayer.getXRot());
+                serverPlayer.teleportTo(space, pos.x(), SpaceLevelSource.PLATFORM_HEIGHT + 1, pos.y(), serverPlayer.getYRot(), serverPlayer.getXRot());
             }
         }
     }

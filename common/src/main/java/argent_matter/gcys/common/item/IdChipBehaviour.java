@@ -1,8 +1,10 @@
 package argent_matter.gcys.common.item;
 
 import argent_matter.gcys.api.capability.GcysCapabilityHelper;
+import argent_matter.gcys.api.space.station.SpaceStation;
 import argent_matter.gcys.common.data.GcysDimensionTypes;
 import argent_matter.gcys.common.data.GcysItems;
+import argent_matter.gcys.util.Vec2i;
 import com.gregtechceu.gtceu.api.capability.GTCapabilityHelper;
 import com.gregtechceu.gtceu.api.item.component.IAddInformation;
 import com.gregtechceu.gtceu.api.item.component.IInteractionItem;
@@ -25,7 +27,6 @@ import java.util.List;
 
 public class IdChipBehaviour implements IInteractionItem, IAddInformation {
 
-    public static final int ID_MAX = 31, ID_EMPTY = -1;
 
 
     public static ItemStack stack(int configuration) {
@@ -35,7 +36,7 @@ public class IdChipBehaviour implements IInteractionItem, IAddInformation {
     }
 
     public static void setCircuitId(ItemStack itemStack, int id) {
-        if (id < 0 || id > ID_MAX)
+        if (id < 0 || id > SpaceStation.ID_MAX)
             throw new IllegalArgumentException("Given id number is out of range!");
         var tagCompound = itemStack.getTag();
         if (tagCompound == null) {
@@ -50,7 +51,7 @@ public class IdChipBehaviour implements IInteractionItem, IAddInformation {
             return stack.getTag().getInt("Id");
         }
 
-        return ID_EMPTY;
+        return SpaceStation.ID_EMPTY;
     }
 
     public static void assignId(Level level, ItemStack stack) {
@@ -73,8 +74,8 @@ public class IdChipBehaviour implements IInteractionItem, IAddInformation {
         if (id != -1) {
             tooltipComponents.add(Component.translatable("metaitem.id_circuit.id", id));
             if (level != null && !level.isClientSide) {
-                Vec2 pos = GcysCapabilityHelper.getSpaceStations(((ServerLevel) level).getServer().getLevel(GcysDimensionTypes.SPACE_LEVEL)).getStationPos(id);
-                tooltipComponents.add(Component.translatable("metaitem.id_circuit.pos", pos.x, pos.y));
+                Vec2i pos = GcysCapabilityHelper.getSpaceStations(((ServerLevel) level).getServer().getLevel(GcysDimensionTypes.SPACE_LEVEL)).getStationPos(id);
+                tooltipComponents.add(Component.translatable("metaitem.id_circuit.pos", pos.x(), pos.y()));
             }
         }
     }

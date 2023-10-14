@@ -7,8 +7,10 @@ import argent_matter.gcys.api.space.planet.Planet;
 import argent_matter.gcys.api.space.planet.PlanetRing;
 import argent_matter.gcys.api.space.planet.SolarSystem;
 import argent_matter.gcys.client.gui.Category;
+import argent_matter.gcys.common.data.GcysDimensionTypes;
 import argent_matter.gcys.common.data.GcysNetworking;
 import argent_matter.gcys.common.gui.PlanetSelectionMenu;
+import argent_matter.gcys.common.networking.c2s.PacketCreateSpaceStation;
 import argent_matter.gcys.common.networking.c2s.PacketSendSelectedDimension;
 import argent_matter.gcys.data.loader.PlanetData;
 import argent_matter.gcys.util.GcysValues;
@@ -33,6 +35,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
 import java.util.*;
@@ -201,7 +204,7 @@ public class PlanetSelectionScreen extends Screen implements MenuAccess<PlanetSe
         this.categoryButtons.put(Category.BACK, backButtonList);
 
         // All buttons are data-driven; they are created from files in the /planet_data/planets directory.
-        List<Planet> planets = new ArrayList<>(PlanetData.planets());
+        List<Planet> planets = new ArrayList<>(PlanetData.planets().values());
         planets.sort(Comparator.comparing(g -> g.translation().substring(Math.abs(g.translation().indexOf(".text")))));
         planets.forEach(planet -> {
             Category galaxyCategory = new Category(planet.galaxy(), Category.GALAXY_CATEGORY);
@@ -213,12 +216,13 @@ public class PlanetSelectionScreen extends Screen implements MenuAccess<PlanetSe
             this.galaxyCategories.add(galaxyCategory);
             this.solarSystemsCategories.add(solarSystemCategory);
 
-
             if (planet.parentWorld() == null) {
                 createNavigationButton(label, solarSystemCategory, planet.buttonColor(), 71, 20, TooltipType.CATEGORY, planet, planetCategory);
             }
 
             createTeleportButton(1, label, planetCategory, planet.buttonColor(), 71, 20, TooltipType.PLANET, planet, planet.level());
+            createTeleportButton(2, ORBIT_TEXT, planetCategory, planet.buttonColor(), 37, 20, TooltipType.ORBIT, null, planet.level());
+            createSpaceStationTeleportButton(3, SPACE_STATION_TEXT, planetCategory, planet.buttonColor(), 71, 20, planet.level());
         });
 
         this.galaxyCategories.forEach((this::createGalaxyButton));
@@ -287,6 +291,15 @@ public class PlanetSelectionScreen extends Screen implements MenuAccess<PlanetSe
         int column = getColumn(category) - (row - 1) * 22;
         column -= 44 * (buttons.size() / 3);
         createButton(newRow + 10, column, label, category, colour, sizeX, sizeY, tooltip, planetInfo, onClick);
+    }
+
+    public void createSpaceStationTeleportButton(int row, Component label, Category category, int colour, int sizeX, int sizeY, ResourceKey<Level> level) {
+        createTeleportButton(row, label, category, colour, sizeX, sizeY, TooltipType.SPACE_STATION, null, level, press -> {
+            if (minecraft != null && minecraft.player != null) {
+                selectPlanet(level);
+                GcysNetworking.NETWORK.sendToServer(new PacketCreateSpaceStation());
+            }
+        });
     }
 
     public void selectPlanet(ResourceKey<Level> level) {

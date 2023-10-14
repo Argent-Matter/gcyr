@@ -5,7 +5,10 @@ import argent_matter.gcys.GregicalitySpaceClient;
 import argent_matter.gcys.common.data.GcysKeyMappings;
 import argent_matter.gcys.common.data.forge.GcysBiomesImpl;
 import argent_matter.gcys.common.data.forge.GcysDimensionTypesImpl;
+import argent_matter.gcys.data.loader.PlanetResources;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
@@ -20,5 +23,10 @@ public class GregicalitySpaceForge {
         GcysDimensionTypesImpl.register(bus);
 
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> GregicalitySpaceClient::init);
+    }
+
+    @SubscribeEvent
+    public static void registerClientReloadListeners(RegisterClientReloadListenersEvent event) {
+        event.registerReloadListener(PlanetResources.INSTANCE);
     }
 }

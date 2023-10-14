@@ -1,17 +1,19 @@
 package argent_matter.gcys.common.entity;
 
 import argent_matter.gcys.GregicalitySpace;
+import argent_matter.gcys.api.capability.GcysCapabilityHelper;
+import argent_matter.gcys.api.capability.ISpaceStationHolder;
 import argent_matter.gcys.api.gui.factory.EntityUIFactory;
 import argent_matter.gcys.api.space.planet.Planet;
-import argent_matter.gcys.common.data.GcysBlocks;
-import argent_matter.gcys.common.data.GcysEntityDataSerializers;
-import argent_matter.gcys.common.data.GcysItems;
-import argent_matter.gcys.common.data.GcysSoundEntries;
+import argent_matter.gcys.api.space.station.SpaceStation;
+import argent_matter.gcys.common.data.*;
 import argent_matter.gcys.common.entity.data.EntityTemperatureSystem;
 import argent_matter.gcys.common.item.PlanetIdChipBehaviour;
+import argent_matter.gcys.common.worldgen.SpaceLevelSource;
 import argent_matter.gcys.data.recipe.GcysTags;
 import argent_matter.gcys.util.PlatformUtils;
 import argent_matter.gcys.util.PosWithState;
+import argent_matter.gcys.util.Vec2i;
 import com.google.common.collect.Sets;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.UITemplate;
@@ -56,6 +58,7 @@ import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.dimension.DimensionType;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
@@ -63,6 +66,7 @@ import net.minecraft.world.phys.Vec3;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -82,6 +86,9 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
     private final FluidStorage fuelTank;
     private final ItemStackTransfer configSlot;
     private Planet destination;
+    private boolean destinationIsSpaceStation;
+
+    private Set<BlockPos> thrusterPositions = new HashSet<>();
 
     public RocketEntity(EntityType<?> entityType, Level level) {
         super(entityType, level);
@@ -236,14 +243,16 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         Vec3 vec = this.getDeltaMovement();
 
         if (this.level instanceof ServerLevel serverLevel) {
-            if (this.getStartTimer() == 200) {
-                for (ServerPlayer p : serverLevel.getServer().getPlayerList().getPlayers()) {
-                    serverLevel.sendParticles(p, ParticleTypes.FLAME, true, this.getX() - vec.x, this.getY() - vec.y - 2.2, this.getZ() - vec.z, 20, 0.1, 0.1, 0.1, 0.001);
-                    serverLevel.sendParticles(p, ParticleTypes.LARGE_SMOKE, true, this.getX() - vec.x, this.getY() - vec.y - 3.2, this.getZ() - vec.z, 10, 0.1, 0.1, 0.1, 0.04);
-                }
-            } else {
-                for (ServerPlayer p : serverLevel.getServer().getPlayerList().getPlayers()) {
-                    serverLevel.sendParticles(p, ParticleTypes.CAMPFIRE_COSY_SMOKE, true, this.getX() - vec.x, this.getY() - vec.y - 0.1, this.getZ() - vec.z, 6, 0.1, 0.1, 0.1, 0.023);
+            for (BlockPos pos : this.thrusterPositions) {
+                if (this.getStartTimer() == 200) {
+                    for (ServerPlayer p : serverLevel.getServer().getPlayerList().getPlayers()) {
+                        serverLevel.sendParticles(p, ParticleTypes.FLAME, true, this.getX() - vec.x + pos.getX(), this.getY() - vec.y - 2.2 + pos.getY(), this.getZ() - vec.z + pos.getZ(), 20, 0.1, 0.1, 0.1, 0.001);
+                        serverLevel.sendParticles(p, ParticleTypes.LARGE_SMOKE, true, this.getX() - vec.x + pos.getX(), this.getY() - vec.y - 3.2 + pos.getY(), this.getZ() - vec.z + pos.getZ(), 10, 0.1, 0.1, 0.1, 0.04);
+                    }
+                } else {
+                    for (ServerPlayer p : serverLevel.getServer().getPlayerList().getPlayers()) {
+                        serverLevel.sendParticles(p, ParticleTypes.CAMPFIRE_COSY_SMOKE, true, this.getX() - vec.x + pos.getX(), this.getY() - vec.y - 0.1 + pos.getY(), this.getZ() - vec.z + pos.getZ(), 6, 0.1, 0.1, 0.1, 0.023);
+                    }
                 }
             }
         }
@@ -280,11 +289,16 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         if (player != null) {
             SynchedEntityData data = this.getEntityData();
 
-            if (!this.configSlot.getStackInSlot(0).isEmpty() && this.fuelTank.getFluidAmount() >= this.getFuelCapacity()) {
+            ItemStack config = this.configSlot.getStackInSlot(0);
+            if (!config.isEmpty() && this.fuelTank.getFluidAmount() >= this.getFuelCapacity()) {
                 if (!data.get(RocketEntity.ROCKET_STARTED)) {
-                    this.destination = PlanetIdChipBehaviour.getPlanetFromStack(configSlot.getStackInSlot(0));
+                    this.destination = PlanetIdChipBehaviour.getPlanetFromStack(config);
 
-                    if (this.destination.rocketTier() >= determineRocketTier() || this.getLevel().dimension().location().equals(this.destination.level().location())) return;
+                    if (PlanetIdChipBehaviour.getSpaceStationId(config) != SpaceStation.ID_EMPTY) {
+                        this.destinationIsSpaceStation = true;
+                    }
+
+                    if (this.destination.rocketTier() >= determineRocketTier() || (!destinationIsSpaceStation && this.getLevel().dimension().location().equals(this.destination.level().location()))) return;
                     data.set(RocketEntity.ROCKET_STARTED, true);
                     //GcysSoundEntries.ROCKET.play(this.level, null, this.getX(), this.getY(), this.getZ(), 1, 1);
                     this.level.playSound(null, this, GcysSoundEntries.ROCKET.getMainEvent(), SoundSource.NEUTRAL, 1, 1);
@@ -332,7 +346,8 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
 
     public void burnEntities() {
         if (this.getStartTimer() == 200) {
-            AABB aabb = AABB.ofSize(new Vec3(this.getX(), this.getY() - 2, this.getZ()), 2, 2, 2);
+            BlockPos size = this.entityData.get(SIZE);
+            AABB aabb = AABB.ofSize(new Vec3(this.getX() + size.getX() / 2f, this.getY() - 2, this.getZ() + size.getZ() / 2f), size.getX() + 2, 2, size.getZ() + 2);
             List<LivingEntity> entities = this.getCommandSenderWorld().getEntitiesOfClass(LivingEntity.class, aabb);
 
             for (LivingEntity entity : entities) {
@@ -343,7 +358,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         }
     }
 
-    public boolean doesDrop(BlockState state, BlockPos pos) {
+    private boolean doesDrop(BlockState state, BlockPos pos) {
         if (this.onGround) {
 
             BlockState state2 = this.level.getBlockState(new BlockPos((int)Math.floor(this.getX()), (int)(this.getY() - 0.2), (int)Math.floor(this.getZ())));
@@ -380,7 +395,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         }
     }
 
-    public boolean consumeFuel() {
+    private boolean consumeFuel() {
         // Fuel Consumption = thruster count * 2
         if (!this.fuelTank.drain(getThrusterCount() * 2L, true).isEmpty()) {
             return !this.fuelTank.drain(getThrusterCount() * 2L, false).isEmpty();
@@ -388,12 +403,17 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         return false;
     }
 
-    public void goToDestination() {
+    private void goToDestination() {
         if (this.getY() < 600 || this.isRemote()) return;
         if (this.destination == null) {
             this.destination = PlanetIdChipBehaviour.getPlanetFromStack(configSlot.getStackInSlot(0));
         }
-        ServerLevel destinationLevel = this.getServer().getLevel(destination.level());
+        final ServerLevel destinationLevel;
+        if (this.destinationIsSpaceStation) {
+            destinationLevel = this.getServer().getLevel(GcysDimensionTypes.SPACE_LEVEL);
+        } else {
+            destinationLevel = this.getServer().getLevel(destination.level());
+        }
 
         Vec3 pos = this.position();
 
@@ -401,6 +421,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         Entity newEntity = PlatformUtils.changeDimension(this, destinationLevel);
         if (newEntity == null) {
             this.destination = null;
+            this.destinationIsSpaceStation = false;
             this.entityData.set(ROCKET_STARTED, false);
             this.setDeltaMovement(0, -0.1, 0);
             return;
@@ -409,11 +430,23 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
             Entity newPassenger = PlatformUtils.changeDimension(passenger, destinationLevel);
             if (newPassenger != null) newPassenger.startRiding(newEntity);
         });
-        newEntity.setPos(pos);
+
+        if (this.destinationIsSpaceStation) {
+            ISpaceStationHolder stations = GcysCapabilityHelper.getSpaceStations(destinationLevel);
+            int stationId = PlanetIdChipBehaviour.getSpaceStationId(this.configSlot.getStackInSlot(0));
+            BlockPos stationPos = stations.getStationWorldPos(stationId);
+            newEntity.setPos(stationPos.getX(), stationPos.getY(), stationPos.getZ());
+            return;
+        } else {
+            double scale = DimensionType.getTeleportationScale(this.level.dimensionType(), destinationLevel.dimensionType());
+            newEntity.setPos(pos.multiply(scale, 1, scale));
+        }
+
         Vec3 delta = this.getDeltaMovement();
         newEntity.setDeltaMovement(delta.x, -0.5, delta.z);
         if (newEntity instanceof RocketEntity rocketEntity) {
             rocketEntity.destination = null;
+            rocketEntity.destinationIsSpaceStation = false;
             rocketEntity.entityData.set(ROCKET_STARTED, false);
         }
     }
@@ -522,6 +555,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         }
         if (state.state().is(GcysBlocks.ROCKET_MOTOR.get())) {
             this.setThrusterCount(this.getThrusterCount() + 1);
+            this.thrusterPositions.add(pos);
         } else if (state.state().is(GcysBlocks.FUEL_TANK.get())) {
             this.setFuelCapacity(this.getFuelCapacity() + 5 * FluidHelper.getBucket());
         } else if (state.state().is(GcysBlocks.SEAT.get())) {

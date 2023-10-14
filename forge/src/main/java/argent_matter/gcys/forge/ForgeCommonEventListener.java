@@ -42,11 +42,6 @@ public class ForgeCommonEventListener {
     }
 
     @SubscribeEvent
-    public static void registerClientReloadListeners(RegisterClientReloadListenersEvent event) {
-        event.registerReloadListener(PlanetResources.INSTANCE);
-    }
-
-    @SubscribeEvent
     public static void registerServerReloadListeners(AddReloadListenerEvent event) {
         event.addListener(new PlanetData());
     }

@@ -26,6 +26,7 @@ import net.minecraft.util.GsonHelper;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.level.Level;
 
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.*;
 
@@ -33,7 +34,7 @@ import java.util.*;
 @MethodsReturnNonnullByDefault
 public class PlanetData extends SimpleJsonResourceReloadListener {
 
-    private static final Set<Planet> PLANETS = new HashSet<>();
+    private static final BiMap<ResourceLocation, Planet> PLANETS = HashBiMap.create();
     private static final BiMap<ResourceKey<Level>, Planet> LEVEL_TO_PLANET = HashBiMap.create();
     private static final Set<ResourceKey<Level>> PLANET_LEVELS = new HashSet<>();
     private static final Set<ResourceKey<Level>> OXYGEN_LEVELS = new HashSet<>();
@@ -47,23 +48,25 @@ public class PlanetData extends SimpleJsonResourceReloadListener {
     @Override
     protected void apply(Map<ResourceLocation, JsonElement> objects, ResourceManager resourceManager, ProfilerFiller profiler) {
         profiler.push("Gregicality Space Planet Deserialization");
-        List<Planet> planets = new ArrayList<>();
+        Map<ResourceLocation, Planet> planets = new HashMap<>();
 
         for (Map.Entry<ResourceLocation, JsonElement> entry : objects.entrySet()) {
             JsonObject jsonObject = GsonHelper.convertToJsonObject(entry.getValue(), "planet");
-            Planet newPlanet = Planet.CODEC.parse(JsonOps.INSTANCE, jsonObject).getOrThrow(false, GregicalitySpace.LOGGER::error);
-            planets.removeIf(planet -> planet.level().equals(newPlanet.level()));
-            planets.add(newPlanet);
+            Planet newPlanet = Planet.DIRECT_CODEC.parse(JsonOps.INSTANCE, jsonObject).getOrThrow(false, GregicalitySpace.LOGGER::error);
+            planets.entrySet().removeIf(planet -> planet.getValue().level().equals(newPlanet.level()));
+            planets.put(entry.getKey(), newPlanet);
         }
 
         PlanetData.updatePlanets(planets);
         profiler.pop();
     }
 
-    public static void updatePlanets(Collection<Planet> planets) {
+    public static void updatePlanets(Map<ResourceLocation, Planet> planets) {
         clear();
-        for (Planet planet : planets) {
-            PLANETS.add(planet);
+        for (var entry : planets.entrySet()) {
+            ResourceLocation id = entry.getKey();
+            Planet planet = entry.getValue();
+            PLANETS.put(id, planet);
             LEVEL_TO_PLANET.put(planet.level(), planet);
             PLANET_LEVELS.add(planet.level());
             if (planet.hasOxygen()) {
@@ -80,25 +83,45 @@ public class PlanetData extends SimpleJsonResourceReloadListener {
 
     public static void writePlanetData(FriendlyByteBuf buf) {
         CompoundTag nbt = new CompoundTag();
-        nbt.put("planets", Planet.CODEC.listOf().encodeStart(NbtOps.INSTANCE, PlanetData.planets().stream().toList())
-                .getOrThrow(false, GregicalitySpace.LOGGER::error));
+        for (var entry : PLANETS.entrySet()) {
+            nbt.put(entry.getKey().toString(), Planet.DIRECT_CODEC.encodeStart(NbtOps.INSTANCE, entry.getValue())
+                    .getOrThrow(false, GregicalitySpace.LOGGER::error));
+        }
         buf.writeNbt(nbt);
     }
 
     public static void readPlanetData(FriendlyByteBuf buf) {
         try {
-            PlanetData.updatePlanets(Planet.CODEC.listOf().parse(NbtOps.INSTANCE, buf.readNbt().get("planets"))
-                .result()
-                .orElseThrow());
+            CompoundTag nbt = buf.readNbt();
+            if (nbt == null) {
+                PlanetData.updatePlanets(Map.of());
+                return;
+            }
+
+            Map<ResourceLocation, Planet> planets = new HashMap<>();
+            for (String key : nbt.getAllKeys()) {
+                planets.put(ResourceLocation.tryParse(key), Planet.DIRECT_CODEC.parse(NbtOps.INSTANCE, nbt.getCompound(key)).result().orElseThrow());
+            }
+            PlanetData.updatePlanets(planets);
         } catch (Exception e) {
             GregicalitySpace.LOGGER.error("Failed to parse planet data!");
             e.printStackTrace();
-            PlanetData.updatePlanets(List.of());
+            PlanetData.updatePlanets(Map.of());
         }
     }
 
-    public static Set<Planet> planets() {
+    public static Map<ResourceLocation, Planet> planets() {
         return PLANETS;
+    }
+
+    @Nullable
+    public static ResourceLocation getPlanetId(Planet planet) {
+        return PLANETS.inverse().get(planet);
+    }
+
+    @Nullable
+    public static Planet getPlanet(ResourceLocation id) {
+        return PLANETS.get(id);
     }
 
     public static Optional<Planet> getPlanetFromLevel(ResourceKey<Level> level) {

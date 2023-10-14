@@ -1,6 +1,7 @@
 package argent_matter.gcys.common.data;
 
 import argent_matter.gcys.GregicalitySpace;
+import argent_matter.gcys.common.networking.c2s.PacketCreateSpaceStation;
 import argent_matter.gcys.common.networking.c2s.PacketLaunchRocket;
 import argent_matter.gcys.common.networking.c2s.PacketRequestPlanetData;
 import argent_matter.gcys.common.networking.c2s.PacketSendSelectedDimension;
@@ -17,6 +18,7 @@ public class GcysNetworking {
         NETWORK.registerC2S(PacketLaunchRocket.class);
         NETWORK.registerC2S(PacketRequestPlanetData.class);
         NETWORK.registerC2S(PacketSendSelectedDimension.class);
+        NETWORK.registerC2S(PacketCreateSpaceStation.class);
 
         NETWORK.registerS2C(PacketReturnPlanetData.class);
     }

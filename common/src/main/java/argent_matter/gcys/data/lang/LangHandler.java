@@ -1,10 +1,7 @@
 package argent_matter.gcys.data.lang;
 
 import argent_matter.gcys.common.data.GcysMaterials;
-import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.tterrag.registrate.providers.RegistrateLangProvider;
-
-import static com.gregtechceu.gtceu.data.lang.LangHandler.replace;
 
 public class LangHandler extends com.gregtechceu.gtceu.data.lang.LangHandler {
     public static void init(RegistrateLangProvider provider) {
@@ -20,7 +17,8 @@ public class LangHandler extends com.gregtechceu.gtceu.data.lang.LangHandler {
         provider.add("metaitem.id_circuit.id", "Circuit ID: %d");
         provider.add("metaitem.id_circuit.position", "Station Position: [x=%d,z=%d]");
 
-        provider.add("metaitem.planet_id_circuit.id", "Currently Selected Planet: ");
+        provider.add("metaitem.planet_id_circuit.id", "Currently selected planet: ");
+        provider.add("metaitem.planet_id_circuit.station", "To space station");
 
         // materials
         replace(provider, GcysMaterials.PolyOxydiphenylenePyromellitimide.getUnlocalizedName(), "Poly(4,4'-Oxydiphenylene-Pyromellitimide)");

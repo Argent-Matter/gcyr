@@ -112,7 +112,7 @@ public class SpaceLevelSource extends ChunkGenerator {
         int chunkZ = chunkPos.z;
 
         if (chunkX % 16 == 0 && chunkZ % 16 == 0) {
-            GregicalitySpace.LOGGER.info("made platform");
+            //GregicalitySpace.LOGGER.info("made platform");
             for(int x = -4; x < 4; ++x) {
                 for(int z = -4; z < 4; ++z) {
                     int blockX = SectionPos.sectionToBlockCoord(chunkX, x);
@@ -121,7 +121,7 @@ public class SpaceLevelSource extends ChunkGenerator {
                 }
             }
         }else if ((chunkX % 16 != 8 && chunkZ % 16 == 8) || (chunkX % 16 != -8 && chunkZ % 16 == -8)) {
-            GregicalitySpace.LOGGER.info("made Z edge");
+            //GregicalitySpace.LOGGER.info("made Z edge");
             for(int x = 0; x < 16; ++x) {
                 int blockX = SectionPos.sectionToBlockCoord(chunkX, x);
                 int blockZ = SectionPos.sectionToBlockCoord(chunkZ, 15);
@@ -130,7 +130,7 @@ public class SpaceLevelSource extends ChunkGenerator {
                 }
             }
         } else if ((chunkX % 16 == 8 && chunkZ % 16 != 8) || (chunkX % 16 == -8 && chunkZ % 16 != -8)) {
-            GregicalitySpace.LOGGER.info("made X edge");
+            //GregicalitySpace.LOGGER.info("made X edge");
             for(int z = 0; z < 16; ++z) {
                 int blockX = SectionPos.sectionToBlockCoord(chunkX, 15);
                 int blockZ = SectionPos.sectionToBlockCoord(chunkZ, z);
@@ -139,7 +139,7 @@ public class SpaceLevelSource extends ChunkGenerator {
                 }
             }
         } else if (chunkX % 16 == 8 && chunkZ % 16 == 8) {
-            GregicalitySpace.LOGGER.info("made corner positive");
+            //GregicalitySpace.LOGGER.info("made corner positive");
             for(int z = 0; z < 16; ++z) {
                 int blockX = SectionPos.sectionToBlockCoord(chunkX, 15);
                 int blockZ = SectionPos.sectionToBlockCoord(chunkZ, z);
@@ -155,7 +155,7 @@ public class SpaceLevelSource extends ChunkGenerator {
                 }
             }
         } else if (chunkX % 16 == -8 && chunkZ % 16 == -8) {
-            GregicalitySpace.LOGGER.info("made corner negative");
+            //GregicalitySpace.LOGGER.info("made corner negative");
             for(int z = 0; z < 16; ++z) {
                 int blockX = SectionPos.sectionToBlockCoord(chunkX, 15);
                 int blockZ = SectionPos.sectionToBlockCoord(chunkZ, z);
