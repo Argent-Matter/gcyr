@@ -435,7 +435,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
             ISpaceStationHolder stations = GcysCapabilityHelper.getSpaceStations(destinationLevel);
             int stationId = PlanetIdChipBehaviour.getSpaceStationId(this.configSlot.getStackInSlot(0));
             BlockPos stationPos = stations.getStationWorldPos(stationId);
-            newEntity.setPos(stationPos.getX(), stationPos.getY(), stationPos.getZ());
+            newEntity.setPos(stationPos.getX(), pos.y, stationPos.getZ());
             return;
         } else {
             double scale = DimensionType.getTeleportationScale(this.level.dimensionType(), destinationLevel.dimensionType());
@@ -448,6 +448,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
             rocketEntity.destination = null;
             rocketEntity.destinationIsSpaceStation = false;
             rocketEntity.entityData.set(ROCKET_STARTED, false);
+            rocketEntity.entityData.set(START_TIMER, 0);
         }
     }
 

@@ -22,7 +22,7 @@ import java.util.stream.StreamSupport;
  * Proudly copied from <a href="https://github.com/terrarium-earth/Ad-Astra/blob/1.19/common/src/main/java/earth/terrarium/ad_astra/common/entity/system/EntityTemperatureSystem.java">Ad Astra</a>
  */
 public class EntityTemperatureSystem {
-    public static final UniformInt TEMP_RANGE = UniformInt.of(-213, 333);
+    public static final UniformInt TEMP_RANGE = UniformInt.of(213, 333);
 
 
     public static void temperatureTick(LivingEntity entity, ServerLevel level) {

@@ -362,7 +362,7 @@ public class PlanetSelectionScreen extends Screen implements MenuAccess<PlanetSe
                     temperatureColour = ChatFormatting.DARK_BLUE;
                 }
 
-                textEntries.add(TEMPERATURE_TEXT.copy().withStyle(ChatFormatting.BLUE).append(": ").append(Component.literal(planetInfo.temperature() + " °C").withStyle(temperatureColour)));
+                textEntries.add(TEMPERATURE_TEXT.copy().withStyle(ChatFormatting.BLUE).append(": ").append(Component.literal(planetInfo.temperature() + " K").withStyle(temperatureColour)));
             }
             default -> {
 
@@ -373,7 +373,7 @@ public class PlanetSelectionScreen extends Screen implements MenuAccess<PlanetSe
             textEntries.add(TYPE_TEXT.copy().withStyle(ChatFormatting.BLUE).append(": ").append(ORBIT_TEXT.copy().withStyle(ChatFormatting.DARK_AQUA)));
             textEntries.add(GRAVITY_TEXT.copy().withStyle(ChatFormatting.BLUE).append(": ").append(NO_GRAVITY_TEXT.copy().withStyle(ChatFormatting.DARK_AQUA)));
             textEntries.add(OXYGEN_TEXT.copy().withStyle(ChatFormatting.BLUE).append(": ").append(OXYGEN_FALSE_TEXT.copy().withStyle(ChatFormatting.RED)));
-            textEntries.add(TEMPERATURE_TEXT.copy().withStyle(ChatFormatting.BLUE).append(": ").append(Component.literal(GcysValues.ORBIT_TEMPERATURE + " °C").withStyle(ChatFormatting.DARK_BLUE)));
+            textEntries.add(TEMPERATURE_TEXT.copy().withStyle(ChatFormatting.BLUE).append(": ").append(Component.literal(GcysValues.ORBIT_TEMPERATURE + " K").withStyle(ChatFormatting.DARK_BLUE)));
         }
         this.renderTooltip(poseStack, textEntries, Optional.empty(), x, y);
     }

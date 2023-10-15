@@ -5,6 +5,7 @@ import argent_matter.gcys.util.FloodFiller3D;
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.SimpleTieredMachine;
+import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.lowdragmc.lowdraglib.side.fluid.FluidHelper;
 import com.lowdragmc.lowdraglib.side.fluid.FluidStack;
 import com.mojang.math.Vector3f;
@@ -30,7 +31,7 @@ public class OxygenSpreaderMachine extends SimpleTieredMachine {
     }
 
     public boolean canDistribute(int oxygenBlocks) {
-        return ((FluidStack)recipeLogic.getLastRecipe().getInputContents(FluidRecipeCapability.CAP).get(0).content).getAmount() / FluidHelper.getBucket() >= oxygenBlocks;
+        return ((FluidIngredient)recipeLogic.getLastRecipe().getInputContents(FluidRecipeCapability.CAP).get(0).content).getAmount() / FluidHelper.getBucket() >= oxygenBlocks;
     }
 
     public void runAlgorithm() {
