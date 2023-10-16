@@ -3,6 +3,8 @@ package argent_matter.gcys.common.satellite;
 import argent_matter.gcys.api.space.satellite.Satellite;
 import argent_matter.gcys.api.space.satellite.SatelliteType;
 import argent_matter.gcys.api.space.satellite.data.SatelliteData;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.Level;
@@ -15,7 +17,9 @@ import org.jetbrains.annotations.Nullable;
  * @implNote DysonSwarmSatellite
  */
 public class DysonSwarmSatellite extends Satellite {
-    public DysonSwarmSatellite(SatelliteType<?> type, SatelliteData data, ResourceKey<DimensionType> level) {
+    public static final Codec<DysonSwarmSatellite> CODEC = RecordCodecBuilder.create(instance -> Satellite.baseCodec(instance).apply(instance, DysonSwarmSatellite::new));
+
+    public DysonSwarmSatellite(SatelliteType<?> type, SatelliteData data, ResourceKey<Level> level) {
         super(type, data, level);
     }
 

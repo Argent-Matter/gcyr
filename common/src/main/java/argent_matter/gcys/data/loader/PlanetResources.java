@@ -4,7 +4,9 @@ import argent_matter.gcys.GregicalitySpace;
 import argent_matter.gcys.GregicalitySpaceClient;
 import argent_matter.gcys.api.space.planet.Galaxy;
 import argent_matter.gcys.api.space.planet.PlanetRing;
+import argent_matter.gcys.api.space.planet.PlanetSkyRenderer;
 import argent_matter.gcys.api.space.planet.SolarSystem;
+import argent_matter.gcys.client.dimension.ClientModSkies;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
@@ -27,9 +29,27 @@ public class PlanetResources implements ResourceManagerReloadListener {
 
     @Override
     public void onResourceManagerReload(ResourceManager manager) {
+        List<PlanetSkyRenderer> skyRenderers = new ArrayList<>();
         List<SolarSystem> solarSystems = new ArrayList<>();
         List<PlanetRing> planetRings = new ArrayList<>();
         List<Galaxy> galaxies = new ArrayList<>();
+
+        // Sky Renderers
+        for (ResourceLocation id : manager.listResources("gcys/planet_assets/sky_renderers", path -> path.getPath().endsWith(".json")).keySet()) {
+            try {
+                for (Resource resource : manager.getResourceStack(id)) {
+                    InputStreamReader reader = new InputStreamReader(resource.open());
+                    JsonObject jsonObject = GsonHelper.fromJson(GSON, reader, JsonObject.class);
+
+                    if (jsonObject != null) {
+                        skyRenderers.add(PlanetSkyRenderer.CODEC.parse(JsonOps.INSTANCE, jsonObject).getOrThrow(false, GregicalitySpace.LOGGER::error));
+                    }
+                }
+            } catch (Exception e) {
+                GregicalitySpace.LOGGER.error("Failed to load Gregicality Space sky rendering assets from: \"" + id.toString() + "\"", e);
+                e.printStackTrace();
+            }
+        }
 
         // Solar Systems
         for (ResourceLocation id : manager.listResources("gcys/planet_assets/solar_systems", path -> path.getPath().endsWith(".json")).keySet()) {
@@ -83,8 +103,10 @@ public class PlanetResources implements ResourceManagerReloadListener {
 
         solarSystems.sort(Comparator.comparing(SolarSystem::solarSystem));
         galaxies.sort(Comparator.comparing(Galaxy::galaxy));
+        GregicalitySpaceClient.skyRenderers = skyRenderers;
         GregicalitySpaceClient.solarSystems = solarSystems;
         GregicalitySpaceClient.planetRings = planetRings;
         GregicalitySpaceClient.galaxies = galaxies;
+        ClientModSkies.register();
     }
 }

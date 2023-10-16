@@ -2,7 +2,8 @@ package argent_matter.gcys.api.space.satellite;
 
 import argent_matter.gcys.api.registries.GcysRegistries;
 import argent_matter.gcys.api.space.satellite.data.SatelliteData;
-import com.gregtechceu.gtceu.api.registry.GTRegistries;
+import com.mojang.datafixers.Products;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.core.Registry;
@@ -11,7 +12,6 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.dimension.DimensionType;
 
 import javax.annotation.Nullable;
 
@@ -26,7 +26,7 @@ public abstract class Satellite {
     @Getter
     protected SatelliteData data;
     @Getter
-    protected ResourceKey<DimensionType> level;
+    protected ResourceKey<Level> level;
     @Getter
     protected final SatelliteType<?> type;
     @Getter
@@ -36,10 +36,18 @@ public abstract class Satellite {
     @Setter
     protected boolean needsRepair;
 
-    public Satellite(SatelliteType<?> type, SatelliteData data, ResourceKey<DimensionType> level) {
+    public Satellite(SatelliteType<?> type, SatelliteData data, ResourceKey<Level> level) {
         this.type = type;
         this.data = data;
         this.level = level;
+    }
+
+    public static <S extends Satellite> Products.P3<RecordCodecBuilder.Mu<S>, SatelliteType<?>, SatelliteData, ResourceKey<Level>> baseCodec(RecordCodecBuilder.Instance<S> instance) {
+        return instance.group(
+                GcysRegistries.SATELLITES.codec().fieldOf("type").forGetter(Satellite::getType),
+                SatelliteData.CODEC.fieldOf("data").forGetter(Satellite::getData),
+                ResourceKey.codec(Registry.DIMENSION_REGISTRY).fieldOf("level").forGetter(Satellite::getLevel)
+        );
     }
 
     public Satellite copy() {
@@ -82,7 +90,7 @@ public abstract class Satellite {
 
         SatelliteData data = SatelliteData.deserializeNBT(nbt.getCompound("data"));
 
-        ResourceKey<DimensionType> levelResourceKey = ResourceKey.create(Registry.DIMENSION_TYPE_REGISTRY, new ResourceLocation(nbt.getString("level")));
+        ResourceKey<Level> levelResourceKey = ResourceKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(nbt.getString("level")));
 
         Satellite sat = satellite.create(type, data, levelResourceKey);
         if (nbt.contains("extra")) sat.deserializeExtraData(nbt.get("extra"), level);

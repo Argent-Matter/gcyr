@@ -5,6 +5,9 @@ import argent_matter.gcys.api.space.satellite.SatelliteType;
 import argent_matter.gcys.api.space.satellite.data.SatelliteData;
 import argent_matter.gcys.config.GcysConfig;
 import com.gregtechceu.gtceu.api.data.damagesource.DamageSources;
+import com.mojang.math.Vector3f;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
@@ -20,10 +23,12 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.AABB;
 
 public class LaserSatellite extends Satellite {
+    public static final Codec<LaserSatellite> CODEC = RecordCodecBuilder.create(instance -> Satellite.baseCodec(instance).apply(instance, LaserSatellite::new));
+
     private int currentMinedY;
     private boolean isMining = false;
 
-    public LaserSatellite(SatelliteType<?> type, SatelliteData data, ResourceKey<DimensionType> level) {
+    public LaserSatellite(SatelliteType<?> type, SatelliteData data, ResourceKey<Level> level) {
         super(type, data, level);
     }
 
@@ -32,8 +37,8 @@ public class LaserSatellite extends Satellite {
         if (isNonWorking()) return;
         if (isMining) {
             if (level.getGameTime() % GcysConfig.INSTANCE.satellites.laserSatelliteMiningTickStep == 0) {
-                float x = this.data.locationInWorld().x;
-                float z = this.data.locationInWorld().y;
+                float x = this.data.locationInWorld().x();
+                float z = this.data.locationInWorld().y();
                 for (float i = x - 1; i < x + 1; ++x) {
                     for (float j = z - 1; j < z + 1; ++z) {
                         level.setBlock(new BlockPos(i, currentMinedY, j), Blocks.AIR.defaultBlockState(), 3);
@@ -49,7 +54,7 @@ public class LaserSatellite extends Satellite {
 
     @Override
     public boolean runSatelliteFunction(Level level) {
-        currentMinedY = level.getHeight(Heightmap.Types.WORLD_SURFACE, Mth.floor(this.data.locationInWorld().x), Mth.floor(this.data.locationInWorld().y));
+        currentMinedY = level.getHeight(Heightmap.Types.WORLD_SURFACE, Mth.floor(this.data.locationInWorld().x()), Mth.floor(this.data.locationInWorld().y()));
         isMining = true;
         return true;
     }

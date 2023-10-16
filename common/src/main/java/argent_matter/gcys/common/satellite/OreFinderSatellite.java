@@ -10,7 +10,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.dimension.DimensionType;
 
 public class OreFinderSatellite extends Satellite {
-    public OreFinderSatellite(SatelliteType<?> type, SatelliteData data, ResourceKey<DimensionType> level) {
+    public OreFinderSatellite(SatelliteType<?> type, SatelliteData data, ResourceKey<Level> level) {
         super(type, data, level);
     }
 

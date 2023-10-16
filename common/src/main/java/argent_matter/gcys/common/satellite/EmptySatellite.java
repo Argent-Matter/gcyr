@@ -3,6 +3,9 @@ package argent_matter.gcys.common.satellite;
 import argent_matter.gcys.api.space.satellite.Satellite;
 import argent_matter.gcys.api.space.satellite.SatelliteType;
 import argent_matter.gcys.api.space.satellite.data.SatelliteData;
+import com.mojang.math.Vector3f;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceKey;
@@ -16,7 +19,9 @@ import org.jetbrains.annotations.Nullable;
  * @implNote EmptySatellite
  */
 public class EmptySatellite extends Satellite {
-    public EmptySatellite(SatelliteType<?> type, SatelliteData data, ResourceKey<DimensionType> level) {
+    public static final Codec<EmptySatellite> CODEC = RecordCodecBuilder.create(instance -> Satellite.baseCodec(instance).apply(instance, EmptySatellite::new));
+
+    public EmptySatellite(SatelliteType<?> type, SatelliteData data, ResourceKey<Level> level) {
         super(type, data, level);
     }
 

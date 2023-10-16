@@ -4,9 +4,15 @@
   "package": "argent_matter.gcys.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "LivingEntityMixin"
+    "LayerLightEngineMixin",
+    "LayerLightSectionStorageAccessor",
+    "ServerLevelMixin",
+    "LivingEntityMixin",
+    "ServerChunkCacheAccessor"
   ],
   "client": [
+    "LevelRendererAccessor",
+    "LevelRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1,

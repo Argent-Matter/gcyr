@@ -3,6 +3,7 @@ package argent_matter.gcys.api.space.satellite.capability;
 import argent_matter.gcys.GregicalitySpace;
 import argent_matter.gcys.api.capability.ISatelliteHolder;
 import argent_matter.gcys.api.space.satellite.Satellite;
+import argent_matter.gcys.util.Vec2i;
 import com.gregtechceu.gtceu.GTCEu;
 import lombok.Getter;
 import net.minecraft.nbt.CompoundTag;
@@ -43,13 +44,13 @@ public class SatelliteWorldSavedData extends SavedData implements ISatelliteHold
     }
 
     @Override
-    public Satellite getClosestSatellite(Vec2 position) {
+    public Satellite getClosestSatellite(Vec2i position) {
         return satellites.stream().min(Comparator.comparingDouble(obj -> obj.getData().locationInWorld().distanceToSqr(position))).orElse(null);
     }
 
     @Nullable
     @Override
-    public List<Satellite> getSatellitesNearPos(Vec2 position, int range) {
+    public List<Satellite> getSatellitesNearPos(Vec2i position, int range) {
         return satellites.stream().filter(sat -> sat.getData().locationInWorld().distanceToSqr(position) <= range * range).sorted(Comparator.comparingDouble(sat -> sat.getData().locationInWorld().distanceToSqr(position))).collect(Collectors.toList());
     }
 

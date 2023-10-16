@@ -4,6 +4,10 @@ import argent_matter.gcys.api.capability.IGpsTracked;
 import argent_matter.gcys.api.space.satellite.Satellite;
 import argent_matter.gcys.api.space.satellite.SatelliteType;
 import argent_matter.gcys.api.space.satellite.data.SatelliteData;
+import argent_matter.gcys.util.Vec2i;
+import com.mojang.math.Vector3f;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
@@ -26,19 +30,22 @@ import java.util.stream.Collectors;
  * @implNote GpsSatellite
  */
 public class GpsSatellite extends Satellite {
+
+    public static final Codec<GpsSatellite> CODEC = RecordCodecBuilder.create(instance -> Satellite.baseCodec(instance).apply(instance, GpsSatellite::new));
+
     public static Map<Level, Set<Entity>> trackedEntities = new LinkedHashMap<>();
 
     private Set<Entity> lastTrackedEntities = new HashSet<>();
 
-    public GpsSatellite(SatelliteType<?> type, SatelliteData data, ResourceKey<DimensionType> level) {
+    public GpsSatellite(SatelliteType<?> type, SatelliteData data, ResourceKey<Level> level) {
         super(type, data, level);
     }
 
     @Override
     public void tickSatellite(Level level) {
         if (isNonWorking()) return;
-        Vec2 pos = this.data.locationInWorld();
-        var set = level.getEntities(null, AABB.ofSize(new Vec3(pos.x, level.getSeaLevel(), pos.y), this.data.range(), 100, this.data.range())).stream().filter(ent -> ((IGpsTracked)ent).isGpsTracked()).collect(Collectors.toSet());
+        Vec2i pos = this.data.locationInWorld();
+        var set = level.getEntities(null, AABB.ofSize(new Vec3(pos.x(), level.getSeaLevel(), pos.y()), this.data.range(), 100, this.data.range())).stream().filter(ent -> ((IGpsTracked)ent).isGpsTracked()).collect(Collectors.toSet());
         lastTrackedEntities.removeAll(set);
         var tracked = trackedEntities.get(level);
         tracked.removeAll(lastTrackedEntities);

@@ -2,12 +2,14 @@ package argent_matter.gcys.common.data;
 
 import argent_matter.gcys.GregicalitySpace;
 import argent_matter.gcys.common.machine.electric.OxygenSpreaderMachine;
+import argent_matter.gcys.common.machine.multiblock.electric.DysonSystemControllerMachine;
 import argent_matter.gcys.common.machine.multiblock.electric.RocketScannerMachine;
 import argent_matter.gcys.common.machine.multiblock.electric.SpaceShuttleMachine;
 import argent_matter.gcys.data.recipe.GcysTags;
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.RotationState;
+import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
@@ -20,6 +22,7 @@ import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.api.registry.registrate.MachineBuilder;
 import com.gregtechceu.gtceu.client.renderer.machine.TieredHullMachineRenderer;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
+import com.gregtechceu.gtceu.common.data.GTMachines;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import net.minecraft.core.Direction;
@@ -31,6 +34,7 @@ import java.util.function.BiFunction;
 import static argent_matter.gcys.api.registries.GcysRegistries.REGISTRATE;
 import static argent_matter.gcys.common.data.GcysBlocks.*;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
+import static com.gregtechceu.gtceu.common.data.GCyMBlocks.CASING_ATOMIC;
 import static com.gregtechceu.gtceu.common.data.GTBlocks.*;
 import static com.gregtechceu.gtceu.common.data.GTMachines.*;
 
@@ -89,6 +93,32 @@ public class GcysMachines {
                     GTCEu.id("block/multiblock/assembly_line"), false)
             .register();
 
+    public static final MultiblockMachineDefinition DYSON_SYSTEM_CONTROLLER = REGISTRATE.multiblock("dyson_system_controller", DysonSystemControllerMachine::new)
+            .rotationState(RotationState.NON_Y_AXIS)
+            .appearanceBlock(CASING_ATOMIC)
+            .recipeType(GcysRecipeTypes.DYSON_ENERGY_RECIPES)
+            .pattern(definition -> FactoryBlockPattern.start()
+                    .aisle("CCCCCCC", "CCCCCCC", "  F    ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ")
+                    .aisle("CCCCCCC", "CCCCCCC", "  F    ", "  F    ", "  F    ", "  F    ", "  F    ", "  F    ", "       ", "  H    ", " HHH   ", "  H    ")
+                    .aisle("CCCCCCC", "CCGCCCC", "FFGFF  ", " FGF   ", " FGF   ", " FGF   ", " FGF   ", " FGF   ", "  G    ", " HGH   ", " HGH   ", " HHH   ")
+                    .aisle("CCCCCCC", "CCCCCCC", "  F    ", "  F    ", "  F  EE", "  F E  ", "  F E  ", "  F    ", "       ", "  H    ", " HHH   ", "  H    ")
+                    .aisle("CCCCCCC", "CCCCCCC", "  F  X ", "     X ", "    XEE", "    ET ", "    E  ", "       ", "       ", "       ", "       ", "       ")
+                    .aisle("CCCCCCC", "CCCCCCC", "       ", "       ", "     X ", "     EE", "     EE", "       ", "       ", "       ", "       ", "       ")
+                    .aisle("CCCCCCC", "CCCSCCC", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ")
+                    .where('S', controller(blocks(definition.getBlock())))
+                    .where('C', blocks(CASING_ATOMIC.get()).setMinGlobalLimited(90).or(autoAbilities(definition.getRecipeTypes())))
+                    .where('G', blocks(ChemicalHelper.getBlock(TagPrefix.wireGtHex, GTMaterials.RutheniumTriniumAmericiumNeutronate)))
+                    .where('F', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.HastelloyC276)))
+                    .where('H', blocks(CASING_BEAM_RECEIVER.get()))
+                    .where('X', blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.TungstenSteel)))
+                    .where('E', blocks(ChemicalHelper.getBlock(TagPrefix.block, GTMaterials.HSSS)))
+                    .where('T', blocks(POWER_TRANSFORMER[GTValues.UV].getBlock()))
+                    .where(' ', any())
+                    .build())
+            .workableCasingRenderer(GTCEu.id("block/casings/gcym/atomic_casing"),
+                    GTCEu.id("block/multiblock/assembly_line"), false)
+            .register();
+
     public static final MultiblockMachineDefinition SPACE_SHUTTLE = REGISTRATE.multiblock("space_shuttle", SpaceShuttleMachine::new)
             .rotationState(RotationState.NON_Y_AXIS)
             .appearanceBlock(CASING_TUNGSTENSTEEL_ROBUST)
@@ -103,8 +133,8 @@ public class GcysMachines {
                     .aisle("CCCCCCCCC", "         ", "   A A   ", " TTTTTTT ", " TTT TTT ", "  TT TT  ", "  TT TT  ", "   T T   ", "   T T   ", "   T T   ", "   B B   ", "    B    ")
                     .aisle("CCCCCCCCC", "CCCCCCCCC", "    A    ", "   TTT   ", "   TTT   ", "   TTT   ", "   TTT   ", "   TTT   ", "   TTT   ", "   TTT   ", "    B    ", "         ")
                     .aisle("CCCCCCCCC", "CCCCSCCCC", "         ", "         ", "         ", "         ", "         ", "         ", "         ", "         ", "         ", "         ")
-                    .where('S', Predicates.controller(blocks(definition.getBlock())))
-                    .where(' ', Predicates.air())
+                    .where('S', controller(blocks(definition.getBlock())))
+                    .where(' ', air())
                     .where('C', blocks(CASING_TUNGSTENSTEEL_ROBUST.get()).setMinGlobalLimited(110)
                             .or(Predicates.autoAbilities(definition.getRecipeTypes())))
                     .where('X', blocks(MATERIAL_BLOCKS.get(TagPrefix.frameGt, GTMaterials.StainlessSteel).get()))

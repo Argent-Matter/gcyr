@@ -109,7 +109,7 @@ public class SpaceShuttleMachine extends WorkableElectricMultiblockMachine {
             SatelliteType<?> type = data.contains("satellite_type") ? GcysRegistries.SATELLITES.get(new ResourceLocation(data.getString("satellite_type"))) : null;
             BlockPos pos = this.getPos();
             if (!this.getLevel().isClientSide && type != null) {
-                GcysCapabilityHelper.getSatellites((ServerLevel) this.getLevel()).addSatellite(type.getFactory().create(type, new SatelliteData(new Vec2(pos.getX(), pos.getZ()), this.getTier() * SATELLITE_RANGE_MULTIPLIER, currentSatelliteOwnerUUID), this.getLevel().dimensionTypeId()));
+                GcysCapabilityHelper.getSatellites((ServerLevel) this.getLevel()).addSatellite(type.getFactory().create(type, new SatelliteData(new Vec2i(pos.getX(), pos.getZ()), this.getTier() * SATELLITE_RANGE_MULTIPLIER, currentSatelliteOwnerUUID), this.getLevel().dimension()));
             }
         }
     }

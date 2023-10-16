@@ -33,6 +33,7 @@ public class GcysBlocks {
     }
 
     public static final BlockEntry<Block> CASING_ALUMINIUM_AEROSPACE = createCasingBlock("aluminium_aerospace", GregicalitySpace.id("block/casings/solid/machine_casing_aerospace"));
+    public static final BlockEntry<Block> CASING_BEAM_RECEIVER = createCasingBlock("beam_receiver", GregicalitySpace.id("block/casings/solid/beam_receiver"));
 
     public static final BlockEntry<Block> MOON_STONE = REGISTRATE
             .block("moon_stone", Block::new)

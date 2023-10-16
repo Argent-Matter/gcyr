@@ -1,11 +1,12 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "argent_matter.gcys.mixin.forge",
+  "package": "argent_matter.gcys.forge.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
   ],
   "client": [
+    "DimensionSpecialEffectsMixin"
   ],
   "injectors": {
     "defaultRequire": 1,

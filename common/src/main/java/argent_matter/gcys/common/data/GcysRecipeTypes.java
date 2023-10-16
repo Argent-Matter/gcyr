@@ -21,6 +21,10 @@ public class GcysRecipeTypes {
             .setProgressBar(GuiTextures.PROGRESS_BAR_MACERATE, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.MOTOR);
 
+    public static final GTRecipeType DYSON_ENERGY_RECIPES = register("dyson_controller", MULTIBLOCK).setMaxIOSize(1, 0, 0, 0).setEUIO(IO.OUT)
+            .setProgressBar(GcysGuiTextures.PROGRESS_BAR_ROCKET, LEFT_TO_RIGHT)
+            .setSound(GTSoundEntries.TRICORDER_TOOL);
+
     public static final GTRecipeType SPACE_SHUTTLE_RECIPES = register("space_shuttle", MULTIBLOCK).setMaxIOSize(4, 0, 2, 0).setEUIO(IO.IN)
             .setProgressBar(GcysGuiTextures.PROGRESS_BAR_ROCKET, LEFT_TO_RIGHT)
             .setSound(GcysSoundEntries.ROCKET);

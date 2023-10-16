@@ -2,6 +2,7 @@ package argent_matter.gcys.api.capability;
 
 import argent_matter.gcys.api.space.satellite.Satellite;
 import argent_matter.gcys.api.space.satellite.SatelliteType;
+import argent_matter.gcys.util.Vec2i;
 import net.minecraft.world.phys.Vec2;
 
 import javax.annotation.Nullable;
@@ -42,7 +43,7 @@ public interface ISatelliteHolder {
      * @return the closest satellite to this position, or null if none
      */
     @Nullable
-    Satellite getClosestSatellite(Vec2 position);
+    Satellite getClosestSatellite(Vec2i position);
 
     /**
      *
@@ -51,7 +52,7 @@ public interface ISatelliteHolder {
      * @return all satellites in area, sorted by distance (smallest first)
      */
     @Nullable
-    List<Satellite> getSatellitesNearPos(Vec2 position, int range);
+    List<Satellite> getSatellitesNearPos(Vec2i position, int range);
 
     void addSatellite(@Nullable Satellite satellite);
 

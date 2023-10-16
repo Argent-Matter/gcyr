@@ -9,6 +9,7 @@ public record Vec2i(int x, int y) {
             Codec.INT.fieldOf("y").forGetter(Vec2i::y)
     ).apply(instance, Vec2i::new));
 
+    public static final Vec2i ZERO = new Vec2i(0, 0);
     public static final Vec2i MAX_NEGATIVE = new Vec2i(Integer.MIN_VALUE, Integer.MIN_VALUE);
 
 

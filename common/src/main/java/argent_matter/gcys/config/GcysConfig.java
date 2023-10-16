@@ -46,6 +46,9 @@ public class GcysConfig {
         @Configurable
         @Configurable.Comment({"The temperature in space.", "Default: -270.0"})
         public float spaceTemperature = -270.0F;
+        @Configurable
+        @Configurable.Comment({"Maximum skylight in a dimension whose sun is covered by a dyson sphere.", "Default: 3"})
+        public int maxSphereSkylight = 3;
     }
 
 }

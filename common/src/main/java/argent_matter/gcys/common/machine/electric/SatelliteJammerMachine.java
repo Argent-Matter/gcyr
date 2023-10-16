@@ -3,6 +3,7 @@ package argent_matter.gcys.common.machine.electric;
 import argent_matter.gcys.api.capability.GcysCapabilityHelper;
 import argent_matter.gcys.api.gui.widget.GcysGuiTextures;
 import argent_matter.gcys.api.space.satellite.Satellite;
+import argent_matter.gcys.util.Vec2i;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.GTCapabilityHelper;
 import com.gregtechceu.gtceu.api.capability.IControllable;
@@ -80,7 +81,7 @@ public class SatelliteJammerMachine extends TieredEnergyMachine implements ICont
     protected void jamSatellites() {
         if (!this.getLevel().isClientSide) {
             BlockPos myPos = this.getPos();
-            List<Satellite> toJam = GcysCapabilityHelper.getSatellites((ServerLevel) this.getLevel()).getSatellitesNearPos(new Vec2(myPos.getX(), myPos.getZ()), range);
+            List<Satellite> toJam = GcysCapabilityHelper.getSatellites((ServerLevel) this.getLevel()).getSatellitesNearPos(new Vec2i(myPos.getX(), myPos.getZ()), range);
 
             if (toJam.size() > 0) {
                 List<Satellite> copy = new ArrayList<>(lastJammed);
@@ -115,8 +116,8 @@ public class SatelliteJammerMachine extends TieredEnergyMachine implements ICont
         }
     }
 
-    private String vec2ToString(Vec2 vector) {
-        return "x=" + vector.x + ",z=" + vector.y;
+    private String vec2ToString(Vec2i vector) {
+        return "x=" + vector.x() + ",z=" + vector.y();
     }
 
     @Override
