@@ -4,13 +4,11 @@
   "package": "argent_matter.gcys.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "LayerLightEngineMixin",
-    "LayerLightSectionStorageAccessor",
-    "ServerLevelMixin",
     "LivingEntityMixin",
-    "ServerChunkCacheAccessor"
+    "ServerLevelMixin"
   ],
   "client": [
+    "ClientLevelMixin",
     "LevelRendererAccessor",
     "LevelRendererMixin"
   ],
