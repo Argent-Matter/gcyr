@@ -1,4 +1,4 @@
-package argent_matter.gcys.common.machine.multiblock.electric;
+package argent_matter.gcys.common.machine.multiblock;
 
 import argent_matter.gcys.common.data.GcysBlocks;
 import argent_matter.gcys.common.data.GcysEntities;

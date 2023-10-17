@@ -15,13 +15,12 @@ public interface IDysonSystem {
      */
     boolean isDysonSphereActive();
 
-
     /**
      * @return how many dyson swarm satellites are active in this dimension.
      */
     int activeDysonSwarmSatelliteCount();
 
-    void addDysonSphere(BlockPos controllerLocation);
+    void addDysonSphere(BlockPos controllerPos);
 
     void disableDysonSphere(BlockPos controllerPos);
 

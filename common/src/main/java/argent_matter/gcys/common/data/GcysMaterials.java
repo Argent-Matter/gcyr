@@ -1,6 +1,9 @@
 package argent_matter.gcys.common.data;
 
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
+import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags;
+import com.gregtechceu.gtceu.api.data.chemical.material.properties.BlastProperty;
+import com.gregtechceu.gtceu.api.data.chemical.material.properties.ToolProperty;
 import com.gregtechceu.gtceu.api.fluids.FluidBuilder;
 import com.gregtechceu.gtceu.api.fluids.attribute.FluidAttributes;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
@@ -34,6 +37,15 @@ public class GcysMaterials {
             .dust(1)
             .color(0xFF084E)
             .components(Potassium, 1, Oxygen, 1, Hydrogen, 1)
+            .buildAndRegister();
+
+    public static final Material Bisalloy400 = new Material.Builder("bisalloy_500")
+            .ingot(5).fluid()
+            .color(0x0ca819)
+            .components(Carbon, 4, Phosphorus, 2, Manganese, 15, Silicon, 7, Sulfur, 1, Chromium, 12, Molybdenum, 5, Boron, 1)
+            .flags(MaterialFlags.GENERATE_PLATE, MaterialFlags.GENERATE_ROD, MaterialFlags.GENERATE_LONG_ROD, MaterialFlags.GENERATE_GEAR, MaterialFlags.GENERATE_FRAME)
+            .toolStats(ToolProperty.Builder.of(70.0F, 2.25F, 1296, 5).build())
+            .blastTemp(10800, BlastProperty.GasTier.HIGHER)
             .buildAndRegister();
 
     //endregion

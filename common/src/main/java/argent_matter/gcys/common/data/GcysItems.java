@@ -1,7 +1,6 @@
 package argent_matter.gcys.common.data;
 
 import argent_matter.gcys.common.item.GpsTrackerBehaviour;
-import argent_matter.gcys.common.item.IdChipBehaviour;
 import argent_matter.gcys.common.item.KeyCardBehaviour;
 import argent_matter.gcys.common.item.PlanetIdChipBehaviour;
 import argent_matter.gcys.common.item.armor.SpaceSuitArmorItem;
@@ -19,6 +18,7 @@ import static argent_matter.gcys.api.registries.GcysRegistries.REGISTRATE;
 @SuppressWarnings("Convert2MethodRef")
 public class GcysItems {
 
+    // region chips
     public static final ItemEntry<ComponentItem> GPS_TRACKER = REGISTRATE.item("gps_tracker", ComponentItem::create)
             .lang("GPS Tracker")
             .properties(p -> p.stacksTo(16))
@@ -40,7 +40,24 @@ public class GcysItems {
             .defaultModel()
             .register();
 
+    // endregion
 
+
+    // region dyson stuff
+
+    public static final ItemEntry<Item> PHOTOVOLTAIC_CELL = REGISTRATE.item("photovoltaic_cell", Item::new)
+            .lang("Photovoltaic Cell")
+            .defaultModel()
+            .register();
+
+    public static final ItemEntry<Item> DYSON_CONSTRUCTION_DRONE = REGISTRATE.item("dyson_construction_drone", Item::new)
+            .lang("Dyson Construction Drone")
+            .defaultModel()
+            .register();
+
+    // endregion
+
+    // region satellites
     public static final ItemEntry<Item> GPS_SATELLITE = REGISTRATE.item("gps_satellite", Item::new)
             .tag(GcysTags.SATELLITES)
             .properties(p -> p.rarity(Rarity.UNCOMMON).stacksTo(16))
@@ -67,12 +84,9 @@ public class GcysItems {
             .defaultModel()
             .register();
 
-    public static final ItemEntry<Item> SATELLITE_ROCKET = REGISTRATE.item("satellite_rocket", Item::new)
-            .properties(p -> p.rarity(Rarity.RARE).stacksTo(1).fireResistant())
-            .register();
-    public static final ItemEntry<Item> MANNED_ROCKET = REGISTRATE.item("manned_rocket", Item::new)
-            .properties(p -> p.rarity(Rarity.RARE).stacksTo(1).fireResistant())
-            .register();
+    // endregion
+
+    // region space
     public static final ItemEntry<Item> SPACE_FABRIC = REGISTRATE.item("space_fabric", Item::new)
             .properties(p -> p.fireResistant())
             .defaultModel()
@@ -94,6 +108,8 @@ public class GcysItems {
             .properties(p -> p.fireResistant())
             .defaultModel()
             .register();
+
+    // endregion
 
     public static <T extends ComponentItem> NonNullConsumer<T> attach(IItemComponent... components) {
         return item -> item.attachComponents(components);

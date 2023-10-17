@@ -21,7 +21,7 @@ public class ServerLevelMixin {
         IDysonSystem dysonSystem = GcysCapabilityHelper.getDysonSystem((ServerLevel) (Object) this);
         if (dysonSystem != null && dysonSystem.isDysonSphereActive()) {
             long dayTime = this.serverLevelData.getDayTime();
-            this.serverLevelData.setDayTime(dayTime + (24000L - (dayTime % 24000L) + 13000L) % 24000L);
+            this.serverLevelData.setDayTime(dayTime + (24000L - (dayTime % 24000L) + 18000L) % 24000L);
             ci.cancel();
         }
     }

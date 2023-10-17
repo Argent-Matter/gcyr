@@ -50,7 +50,6 @@ repositories {
     maven { url = "https://mvn.devos.one/snapshots/" } // Create Fabric, Porting Lib, Forge Tags, Milk Lib, Registrate Fabric
     //maven { url = "https://maven.cafeteria.dev/releases" } // Fake Player API
     maven { url = "https://maven.jamieswhiteshirt.com/libs-release" } // Reach Entity Attributes
-    maven { url = "https://jitpack.io/" } // Mixin Extras, Fabric ASM
     maven { url = "https://raw.githubusercontent.com/Fuzss/modresources/main/maven/" }
     maven { url = "https://maven.saps.dev/minecraft" } // saps.dev Maven (KubeJS and Rhino)
 }
@@ -82,6 +81,9 @@ dependencies {
 
     // Configuration
     modImplementation(fabric.configuration)
+
+    // Mixin Extras
+    include(implementation(annotationProcessor("io.github.llamalad7:mixinextras-fabric:0.2.0")))
 }
 
 processResources {

@@ -2,6 +2,7 @@ package argent_matter.gcys.common.data;
 
 import argent_matter.gcys.GregicalitySpace;
 import argent_matter.gcys.api.gui.widget.GcysGuiTextures;
+import com.gregtechceu.gtceu.api.capability.recipe.EURecipeCapability;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeSerializer;
@@ -21,7 +22,12 @@ public class GcysRecipeTypes {
             .setProgressBar(GuiTextures.PROGRESS_BAR_MACERATE, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.MOTOR);
 
-    public static final GTRecipeType DYSON_ENERGY_RECIPES = register("dyson_controller", MULTIBLOCK).setMaxIOSize(1, 0, 0, 0).setEUIO(IO.OUT)
+    public static final GTRecipeType DYSON_ENERGY_RECIPES = register("dyson_controller", MULTIBLOCK)
+            .setMaxIOSize(8, 0, 0, 0).setEUIO(IO.BOTH)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, LEFT_TO_RIGHT)
+            .setSound(GTSoundEntries.TRICORDER_TOOL);
+
+    public static final GTRecipeType SPACE_ELEVATOR_RECIPES = register("space_elevator", MULTIBLOCK).setMaxIOSize(16, 1, 4, 0).setEUIO(IO.IN)
             .setProgressBar(GcysGuiTextures.PROGRESS_BAR_ROCKET, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.TRICORDER_TOOL);
 

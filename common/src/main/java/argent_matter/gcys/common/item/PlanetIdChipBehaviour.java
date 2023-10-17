@@ -77,7 +77,7 @@ public class PlanetIdChipBehaviour implements IInteractionItem, IAddInformation 
         }
         int currentStationId = getSpaceStationId(stack);
         if (currentStationId != SpaceStation.ID_EMPTY) {
-            tooltipComponents.add(Component.translatable("metaitem.planet_id_circuit.station"));
+            tooltipComponents.add(Component.translatable("metaitem.planet_id_circuit.station", currentStationId));
         }
 
     }

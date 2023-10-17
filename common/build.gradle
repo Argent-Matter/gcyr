@@ -21,7 +21,6 @@ repositories {
     maven { url = "https://cursemaven.com" } // Forge Config API Port
     // maven { url = "https://maven.cafeteria.dev/releases" } // Fake Player API
     maven { url = "https://maven.jamieswhiteshirt.com/libs-release" } // Reach Entity Attributes
-    maven { url = "https://jitpack.io/" } // Mixin Extras, Fabric ASM
     maven {
         // saps.dev Maven (KubeJS and Rhino)
         url = "https://maven.saps.dev/minecraft"
@@ -68,6 +67,8 @@ dependencies {
     // Configuration
     modCompileOnly fabric.configuration
 
+    // Mixin Extras
+    implementation(annotationProcessor("io.github.llamalad7:mixinextras-fabric:0.2.0"))
 }
 
 

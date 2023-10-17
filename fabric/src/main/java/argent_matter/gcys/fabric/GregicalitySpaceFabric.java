@@ -2,13 +2,22 @@ package argent_matter.gcys.fabric;
 
 import argent_matter.gcys.GregicalitySpace;
 import argent_matter.gcys.api.capability.GcysCapabilityHelper;
+import argent_matter.gcys.api.capability.IDysonSystem;
+import argent_matter.gcys.common.data.GcysNetworking;
+import argent_matter.gcys.common.networking.s2c.PacketSyncDysonSphereStatus;
 import argent_matter.gcys.data.loader.PlanetData;
 import com.gregtechceu.gtceu.data.loader.fabric.OreDataLoaderImpl;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.entity.event.v1.EntitySleepEvents;
+import net.fabricmc.fabric.api.entity.event.v1.ServerEntityWorldChangeEvents;
+import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
+import net.fabricmc.fabric.api.networking.v1.EntityTrackingEvents;
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.profiling.ProfilerFiller;
@@ -40,6 +49,26 @@ public class GregicalitySpaceFabric implements ModInitializer {
             @Override
             public CompletableFuture<Void> reload(PreparationBarrier preparationBarrier, ResourceManager resourceManager, ProfilerFiller preparationsProfiler, ProfilerFiller reloadProfiler, Executor backgroundExecutor, Executor gameExecutor) {
                 return data.reload(preparationBarrier, resourceManager, preparationsProfiler, reloadProfiler, backgroundExecutor, gameExecutor);
+            }
+        });
+
+        ServerEntityWorldChangeEvents.AFTER_PLAYER_CHANGE_WORLD.register((player, origin, destination) -> {
+            IDysonSystem system = GcysCapabilityHelper.getDysonSystem(player.getLevel());
+            if (system != null && system.isDysonSphereActive()) {
+                GcysNetworking.NETWORK.sendToPlayer(new PacketSyncDysonSphereStatus(true), player);
+            } else {
+                GcysNetworking.NETWORK.sendToPlayer(new PacketSyncDysonSphereStatus(false), player);
+            }
+        });
+
+        ServerEntityEvents.ENTITY_LOAD.register((entity, world) -> {
+            if (entity instanceof ServerPlayer player) {
+                IDysonSystem system = GcysCapabilityHelper.getDysonSystem(player.getLevel());
+                if (system != null && system.isDysonSphereActive()) {
+                    GcysNetworking.NETWORK.sendToPlayer(new PacketSyncDysonSphereStatus(true), player);
+                } else {
+                    GcysNetworking.NETWORK.sendToPlayer(new PacketSyncDysonSphereStatus(false), player);
+                }
             }
         });
     }

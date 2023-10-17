@@ -32,9 +32,19 @@ public class GcysBlocks {
         REGISTRATE.creativeModeTab(() -> GcysCreativeModeTabs.GCYS);
     }
 
-    public static final BlockEntry<Block> CASING_ALUMINIUM_AEROSPACE = createCasingBlock("aluminium_aerospace", GregicalitySpace.id("block/casings/solid/machine_casing_aerospace"));
+    // region casings
+    public static final BlockEntry<Block> CASING_ALUMINIUM_AEROSPACE = createCasingBlock("aerospace_aluminium_casing", GregicalitySpace.id("block/casings/solid/machine_casing_aerospace"));
     public static final BlockEntry<Block> CASING_BEAM_RECEIVER = createCasingBlock("beam_receiver", GregicalitySpace.id("block/casings/solid/beam_receiver"));
+    public static final BlockEntry<Block> CASING_SUPPORT = createCasingBlock("space_elevator_support", GregicalitySpace.id("block/casings/solid/space_elevator_support"));
 
+    public static final BlockEntry<Block> CASING_DYSON_SPHERE = createCasingBlock("dyson_sphere_casing", GregicalitySpace.id("block/casings/solid/dyson_sphere"));
+    public static final BlockEntry<Block> CASING_DYSON_CELL = createCasingBlock("dyson_solar_cell", GregicalitySpace.id("block/casings/solid/dyson_solar_cell"));
+    public static final BlockEntry<Block> CASING_DYSON_PORT = createCasingBlock("dyson_sphere_maintenance_port", GregicalitySpace.id("block/casings/solid/dyson_sphere_maintenance_port"));
+
+    // endregion
+
+
+    // region moon
     public static final BlockEntry<Block> MOON_STONE = REGISTRATE
             .block("moon_stone", Block::new)
             .initialProperties(() -> Blocks.STONE)
@@ -47,6 +57,9 @@ public class GcysBlocks {
             .simpleItem()
             .register();
 
+    // endregion
+
+    // region rocket stuff
     public static final BlockEntry<RotatedPillarBlock> ROCKET_MOTOR = REGISTRATE
             .block("rocket_motor", RotatedPillarBlock::new)
             .initialProperties(() -> Blocks.IRON_BLOCK)
@@ -96,6 +109,8 @@ public class GcysBlocks {
             .tag(GTToolType.WRENCH.harvestTag, BlockTags.MINEABLE_WITH_PICKAXE)
             .simpleItem()
             .register();
+
+    // endregion
 
     private static BlockEntry<Block> createCasingBlock(String name, ResourceLocation texture) {
         return createCasingBlock(name, RendererBlock::new, texture, () -> Blocks.IRON_BLOCK, () -> RenderType::cutoutMipped);

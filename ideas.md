@@ -2,7 +2,7 @@
 
 - you must maintain satellites. If you fail to do so, they will fall down (explode on the ground) and leave space debris.
 - if you accumulate enough space debris, it'll become impossible to launch new satellites.
-- the dyson sphere must also be maintained. Failing to do so will destroy the sphere and prevent building of new ones.
+- the dyson sphere must also be maintained. Failing to do so will implode the sphere into the sun and prevent building of new ones.
 - if a player leaves a dyson sphere running for too long, they'll have to take vitamin D supplements. not taking them will cause cardiac arrest (death)
 - Ore mining lasers. May be used for nefarious purposes.
 - Building a dyson sphere will cause all dyson swarm satellites' power output to nullify.

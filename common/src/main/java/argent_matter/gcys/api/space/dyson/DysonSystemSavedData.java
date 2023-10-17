@@ -11,6 +11,7 @@ import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.*;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.saveddata.SavedData;
 
 import javax.annotation.Nullable;
@@ -50,11 +51,13 @@ public class DysonSystemSavedData extends SavedData implements IDysonSystem {
     }
 
     @Override
-    public void addDysonSphere(BlockPos controllerLocation) {
+    public void addDysonSphere(BlockPos controllerPos) {
         if (this.currentActiveSunBlock != null) return;
-        currentActiveSunBlock = new DysonSphere(controllerLocation);
+        currentActiveSunBlock = new DysonSphere(controllerPos);
         this.setDirty();
-        GcysNetworking.NETWORK.sendToAll(new PacketSyncDysonSphereStatus(true));
+        for (ServerPlayer player : this.level.players()) {
+            GcysNetworking.NETWORK.sendToPlayer(new PacketSyncDysonSphereStatus(true), player);
+        }
     }
 
     @Override
@@ -62,7 +65,9 @@ public class DysonSystemSavedData extends SavedData implements IDysonSystem {
         if (currentActiveSunBlock != null && controllerPos.equals(currentActiveSunBlock.controllerPos())) {
             currentActiveSunBlock = null;
             this.setDirty();
-            GcysNetworking.NETWORK.sendToAll(new PacketSyncDysonSphereStatus(false));
+            for (ServerPlayer player : this.level.players()) {
+                GcysNetworking.NETWORK.sendToPlayer(new PacketSyncDysonSphereStatus(false), player);
+            }
         }
     }
 
@@ -82,6 +87,9 @@ public class DysonSystemSavedData extends SavedData implements IDysonSystem {
         if (arg.contains("dysonSphereControllerPos", Tag.TAG_COMPOUND)) {
             BlockPos sphereControllerPos = NbtUtils.readBlockPos(arg.getCompound("dysonSphereControllerPos"));
             this.currentActiveSunBlock = new DysonSphere(sphereControllerPos);
+            for (ServerPlayer player : this.level.players()) {
+                GcysNetworking.NETWORK.sendToPlayer(new PacketSyncDysonSphereStatus(true), player);
+            }
         }
         CompoundTag stationsTag = arg.getCompound("satellites");
         for (String name : stationsTag.getAllKeys()) {
