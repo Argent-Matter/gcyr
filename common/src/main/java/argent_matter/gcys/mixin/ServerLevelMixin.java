@@ -20,7 +20,8 @@ public class ServerLevelMixin {
     public void gcys$overrideDayTime(long time, CallbackInfo ci) {
         IDysonSystem dysonSystem = GcysCapabilityHelper.getDysonSystem((ServerLevel) (Object) this);
         if (dysonSystem != null && dysonSystem.isDysonSphereActive()) {
-            this.serverLevelData.setDayTime(18000L);
+            long dayTime = this.serverLevelData.getDayTime();
+            this.serverLevelData.setDayTime(dayTime + (24000L - (dayTime % 24000L) + 13000L) % 24000L);
             ci.cancel();
         }
     }
