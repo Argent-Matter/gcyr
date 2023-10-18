@@ -69,10 +69,10 @@ public class PolymerRecipes {
                 .outputItems(dust, Oxydianiline, 1)
                 .duration(200).EUt(VA[HV]).save(provider);
 
-        CHEMICAL_RECIPES.recipeBuilder(GregicalitySpace.id("poly_oxydiphenylene_pyromellitimide"))
+        CHEMICAL_RECIPES.recipeBuilder(GregicalitySpace.id("kapton_k"))
                 .inputFluids(PyromelliticDianhydride.getFluid(1000))
                 .inputFluids(Oxydianiline.getFluid(1000))
-                .outputFluids(PolyOxydiphenylenePyromellitimide.getFluid(1000))
+                .outputFluids(KaptonK.getFluid(1000))
                 .duration(400).EUt(VA[HV]).save(provider);
 
         // Kapton E coming soon:tm:

@@ -183,7 +183,7 @@ public class GcysMachines {
                     .where('X', blocks(MATERIAL_BLOCKS.get(TagPrefix.frameGt, GTMaterials.StainlessSteel).get()))
                     .where('T', blocks(CASING_ALUMINIUM_AEROSPACE.get()))
                     .where('A', blocks(ROCKET_MOTOR.get()))
-                    .where('B', blocks(MATERIAL_BLOCKS.get(TagPrefix.block, GcysMaterials.PolyOxydiphenylenePyromellitimide).get()))
+                    .where('B', blocks(MATERIAL_BLOCKS.get(TagPrefix.block, GcysMaterials.KaptonK).get()))
                     .build())
             .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_robust_tungstensteel"),
                     GTCEu.id("block/multiblock/assembly_line"), false)

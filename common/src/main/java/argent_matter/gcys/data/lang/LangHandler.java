@@ -21,7 +21,6 @@ public class LangHandler extends com.gregtechceu.gtceu.data.lang.LangHandler {
         provider.add("metaitem.planet_id_circuit.station", "To space station");
 
         // materials
-        replace(provider, GcysMaterials.PolyOxydiphenylenePyromellitimide.getUnlocalizedName(), "Poly(4,4'-Oxydiphenylene-Pyromellitimide)");
 
         // machines
         provider.add("gcys.machine.satellite_jammer.jammed", "Jammed %s");

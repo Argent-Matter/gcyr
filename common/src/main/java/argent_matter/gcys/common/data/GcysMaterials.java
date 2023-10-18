@@ -59,14 +59,6 @@ public class GcysMaterials {
             .components(Carbon, 6, Hydrogen, 4, Fluorine, 1, Nitrogen, 1, Oxygen, 2)
             .buildAndRegister();
 
-    public static final Material PolyOxydiphenylenePyromellitimide = new Material.Builder("poly_oxydiphenylene_pyromellitimide")
-            .polymer(1)
-            .fluid(FluidStorageKeys.LIQUID, new FluidBuilder().temperature(493))
-            .color(0x915A23)
-            .appendFlags(STD_METAL, GENERATE_FOIL)
-            .components(Carbon, 6, Hydrogen, 11, Nitrogen, 1, Oxygen, 1)
-            .buildAndRegister();
-
     public static final Material PyromelliticDianhydride = new Material.Builder("pyrometillic_dianhydride")
             .dust()
             .fluid(FluidStorageKeys.LIQUID, new FluidBuilder().temperature(493))
@@ -117,6 +109,14 @@ public class GcysMaterials {
             .components(Carbon, 6, Hydrogen, 7, Nitrogen, 1, Oxygen, 1)
             .buildAndRegister()
             .setFormula("H2NC6H4OH", true);
+
+    public static final Material KaptonK = new Material.Builder("kapton_k")
+            .polymer(1)
+            .fluid(FluidStorageKeys.LIQUID, new FluidBuilder().temperature(493))
+            .color(0x915A23)
+            .appendFlags(STD_METAL, GENERATE_FOIL)
+            .components(PyromelliticDianhydride, 1, Oxydianiline, 1)
+            .buildAndRegister();
 
 
     //endregion
