@@ -2,26 +2,50 @@ package argent_matter.gcys.api.space.dyson;
 
 import argent_matter.gcys.GregicalitySpace;
 import argent_matter.gcys.api.capability.IDysonSystem;
+import argent_matter.gcys.api.space.planet.Planet;
 import argent_matter.gcys.common.data.GcysNetworking;
 import argent_matter.gcys.common.data.GcysSatellites;
 import argent_matter.gcys.common.networking.s2c.PacketSyncDysonSphereStatus;
 import argent_matter.gcys.common.satellite.DysonSwarmSatellite;
+import argent_matter.gcys.data.loader.PlanetData;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
+import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.*;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.saveddata.SavedData;
 
 import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
 public class DysonSystemSavedData extends SavedData implements IDysonSystem {
     @Nullable
-    public static DysonSystemSavedData getOrCreate(ServerLevel serverLevel) {
-        if (serverLevel.dimensionType().hasCeiling()) return null;
+    public static DysonSystemSavedData getOrCreate(ServerLevel originLevel) {
+        if (originLevel.dimensionType().hasCeiling()) return null;
+
+        Planet planet = PlanetData.getPlanetFromLevel(originLevel.dimension()).orElse(null);
+        if (planet == null) return null; // A planet definition is required.
+
+        ResourceLocation solarSystem = planet.solarSystem();
+        List<Planet> planets = PlanetData.getSolarSystemPlanets(solarSystem);
+        if (planets.isEmpty()) {
+            internalGetOrCreate(originLevel);
+        }
+        ServerLevel firstWorldLevel = originLevel.getServer().getLevel(planets.get(0).level());
+        return internalGetOrCreate(Objects.requireNonNullElse(firstWorldLevel, originLevel));
+
+    }
+
+    private static DysonSystemSavedData internalGetOrCreate(ServerLevel serverLevel) {
         return serverLevel.getDataStorage().computeIfAbsent(tag -> new DysonSystemSavedData(serverLevel, tag), () -> new DysonSystemSavedData(serverLevel), GregicalitySpace.MOD_ID + "_dyson_systems");
     }
 
