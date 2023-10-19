@@ -12,15 +12,21 @@ import net.minecraft.world.phys.Vec2;
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
+import java.util.Set;
 
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
 public interface ISpaceStationHolder {
 
     /**
-     * @return all satellites of this capability (= level)
+     * @return all space stations of this capability (= level)
      */
     Int2ObjectMap<SpaceStation> getStations();
+
+    /**
+     * @return all space stations orbiting this planet.
+     */
+    Set<SpaceStation> getStationsForPlanet(Planet planet);
 
     /**
      * @param position the position from which distance is measured from
@@ -35,6 +41,13 @@ public interface ISpaceStationHolder {
      */
     Vec2i getStationPos(int id);
 
+    /**
+     *
+     * @param id the station's id
+     * @return this station.
+     */
+    SpaceStation getStation(int id);
+
     BlockPos getStationWorldPos(int id);
 
     /**
@@ -43,20 +56,24 @@ public interface ISpaceStationHolder {
      * @param range range that is searched
      * @return all satellites in area, sorted by distance (smallest first)
      */
-    @Nullable
     List<Integer> getStationsNearPos(Vec2i position, int range);
 
-    @Nullable
     default List<Integer> getStationsNearWorldPos(BlockPos pos, int range) {
         return getStationsNearPos(new Vec2i(pos.getX() / 16, pos.getZ() / 16), range / 16);
     }
 
+    /**
+     * Allocates (& saves) a new station to this space station holder.
+     * @param orbitPlanet the planet this new station will orbit.
+     * @return a {@link Pair} containing 1. the new station's id, 2. the new station object.
+     */
     @Nullable
     default Pair<Integer, SpaceStation> allocateStation(Planet orbitPlanet) {
         int id = getFreeStationId();
         Vec2i pos = getFreeStationPos(id);
         if (pos == Vec2i.MAX_NEGATIVE) return null;
-        return new Pair<>(id, new SpaceStation(orbitPlanet, pos));
+        SpaceStation station = new SpaceStation(orbitPlanet, pos);
+        return new Pair<>(id, station);
     }
 
     void addStation(int stationId, SpaceStation pos);

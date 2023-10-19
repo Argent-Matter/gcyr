@@ -44,7 +44,7 @@ public class DysonSphereCondition extends RecipeCondition {
     public boolean test(@NotNull GTRecipe recipe, @NotNull RecipeLogic recipeLogic) {
         Level level = recipeLogic.getMachine().getLevel();
         if (!level.isClientSide) {
-            IDysonSystem system = GcysCapabilityHelper.getDysonSystem((ServerLevel) level);
+            IDysonSystem system = GcysCapabilityHelper.getDysonSystem((ServerLevel) level, recipeLogic.getMachine().getPos());
             if ((system == null || !system.isDysonSphereActive()) && !isActive) return true;
             else return system != null && system.isDysonSphereActive() && isActive;
         }

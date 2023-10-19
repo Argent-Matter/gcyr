@@ -53,7 +53,7 @@ public class GregicalitySpaceFabric implements ModInitializer {
         });
 
         ServerEntityWorldChangeEvents.AFTER_PLAYER_CHANGE_WORLD.register((player, origin, destination) -> {
-            IDysonSystem system = GcysCapabilityHelper.getDysonSystem(player.getLevel());
+            IDysonSystem system = GcysCapabilityHelper.getDysonSystem(player.getLevel(), player.getOnPos());
             if (system != null && system.isDysonSphereActive()) {
                 GcysNetworking.NETWORK.sendToPlayer(new PacketSyncDysonSphereStatus(true), player);
             } else {
@@ -63,7 +63,7 @@ public class GregicalitySpaceFabric implements ModInitializer {
 
         ServerEntityEvents.ENTITY_LOAD.register((entity, world) -> {
             if (entity instanceof ServerPlayer player) {
-                IDysonSystem system = GcysCapabilityHelper.getDysonSystem(player.getLevel());
+                IDysonSystem system = GcysCapabilityHelper.getDysonSystem(player.getLevel(), player.getOnPos());
                 if (system != null && system.isDysonSphereActive()) {
                     GcysNetworking.NETWORK.sendToPlayer(new PacketSyncDysonSphereStatus(true), player);
                 } else {

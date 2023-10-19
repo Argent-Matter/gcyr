@@ -28,7 +28,7 @@ public class DysonSystemControllerRenderer extends WorkableCasingMachineRenderer
 
     @Override
     public void render(BlockEntity blockEntity, float partialTicks, PoseStack poseStack, MultiBufferSource buffer, int combinedLight, int combinedOverlay) {
-        if (blockEntity instanceof IMachineBlockEntity machineBlockEntity && machineBlockEntity.getMetaMachine() instanceof DysonSystemControllerMachine machine) {
+        if (blockEntity instanceof IMachineBlockEntity machineBlockEntity && machineBlockEntity.getMetaMachine() instanceof DysonSystemControllerMachine machine && machine.isActive()) {
             var level = machine.getLevel();
 
             Direction frontFacing = machine.getFrontFacing();

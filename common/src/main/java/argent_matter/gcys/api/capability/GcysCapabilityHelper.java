@@ -3,6 +3,7 @@ package argent_matter.gcys.api.capability;
 import argent_matter.gcys.api.space.dyson.DysonSystemSavedData;
 import argent_matter.gcys.api.space.satellite.capability.SatelliteWorldSavedData;
 import argent_matter.gcys.api.space.station.StationWorldSavedData;
+import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 
 import javax.annotation.Nullable;
@@ -19,7 +20,7 @@ public class GcysCapabilityHelper {
     }
 
     @Nullable
-    public static IDysonSystem getDysonSystem(ServerLevel level) {
-        return DysonSystemSavedData.getOrCreate(level);
+    public static IDysonSystem getDysonSystem(ServerLevel level, @Nullable BlockPos pos) {
+        return DysonSystemSavedData.getOrCreateMaybeSpace(level, pos);
     }
 }

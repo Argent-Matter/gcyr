@@ -30,7 +30,7 @@ public class PacketCreateSpaceStation implements IPacket {
 
             ItemStack held = handler.getPlayer().getItemInHand(handler.getPlayer().getUsedItemHand());
             if (GcysItems.ID_CHIP.isIn(held)) {
-                PlanetIdChipBehaviour.setSpaceStation(holder.allocateStation(PlanetIdChipBehaviour.getPlanetFromStack(held)).getFirst(), held);
+                PlanetIdChipBehaviour.setSpaceStation(held, holder.allocateStation(PlanetIdChipBehaviour.getPlanetFromStack(held)).getFirst());
             }
         }
     }

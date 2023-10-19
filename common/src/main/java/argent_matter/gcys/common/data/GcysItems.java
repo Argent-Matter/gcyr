@@ -7,6 +7,7 @@ import argent_matter.gcys.common.item.armor.SpaceSuitArmorItem;
 import argent_matter.gcys.data.recipe.GcysTags;
 import com.gregtechceu.gtceu.api.item.ComponentItem;
 import com.gregtechceu.gtceu.api.item.component.IItemComponent;
+import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import com.tterrag.registrate.util.nullness.NonNullConsumer;
 import net.minecraft.world.entity.EquipmentSlot;

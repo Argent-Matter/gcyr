@@ -6,7 +6,7 @@ import com.tterrag.registrate.providers.RegistrateLangProvider;
 public class LangHandler extends com.gregtechceu.gtceu.data.lang.LangHandler {
     public static void init(RegistrateLangProvider provider) {
         // blocks
-        replace(provider, "block.gcys.aluminium_aerospace", "Aerospace-grade Aluminium Machine Casing");
+        replace(provider, "block.gcys.aerospace_aluminium_casing", "Aerospace-grade Aluminium Machine Casing");
 
         // tooltips
         multilineLang(provider, "gcys.multiblock.space_shuttle.launch", "Travel to selected Space Station\n§cRequires ID Chip!");
@@ -18,7 +18,7 @@ public class LangHandler extends com.gregtechceu.gtceu.data.lang.LangHandler {
         provider.add("metaitem.id_circuit.position", "Station Position: [x=%d,z=%d]");
 
         provider.add("metaitem.planet_id_circuit.id", "Currently selected planet: ");
-        provider.add("metaitem.planet_id_circuit.station", "To space station");
+        provider.add("metaitem.planet_id_circuit.station", "To in-orbit space station (ID: %s)");
 
         // materials
 
@@ -58,6 +58,8 @@ public class LangHandler extends com.gregtechceu.gtceu.data.lang.LangHandler {
         provider.add("menu.gcys.oxygen.true", "Has oxygen");
         provider.add("menu.gcys.oxygen.false", "Doesn't have oxygen");
 
+        // messages
         provider.add("message.gcys.no_fuel", "The rocket must be fueled fully, and have a valid Planet ID Chip.");
+        provider.add("message.gcys.notice_id_changed", "The destination of your Space Station ID chip might have changed. Remember to rewrite the personal destination chip with the new data before setting a new target!");
     }
 }

@@ -2,6 +2,7 @@ package argent_matter.gcys.api.space.station;
 
 import argent_matter.gcys.GregicalitySpace;
 import argent_matter.gcys.api.capability.ISpaceStationHolder;
+import argent_matter.gcys.api.space.planet.Planet;
 import argent_matter.gcys.common.data.GcysDimensionTypes;
 import argent_matter.gcys.common.worldgen.SpaceLevelSource;
 import argent_matter.gcys.util.Vec2i;
@@ -17,8 +18,10 @@ import net.minecraft.world.level.saveddata.SavedData;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @MethodsReturnNonnullByDefault
@@ -54,6 +57,11 @@ public class StationWorldSavedData extends SavedData implements ISpaceStationHol
     }
 
     @Override
+    public Set<SpaceStation> getStationsForPlanet(Planet planet) {
+        return stations.values().stream().filter(spaceStation -> spaceStation.orbitPlanet().equals(planet)).collect(Collectors.toSet());
+    }
+
+    @Override
     public int getClosestStationId(Vec2i position) {
         var result = stations.int2ObjectEntrySet().stream().min(Comparator.comparingDouble(obj -> obj.getValue().position().distanceToSqr(position))).orElse(null);
         return result == null ? -1 : result.getIntKey();
@@ -67,12 +75,16 @@ public class StationWorldSavedData extends SavedData implements ISpaceStationHol
     }
 
     @Override
-    public BlockPos getStationWorldPos(int id) {
-        Vec2i stationPos = getStationPos(id);
-        return new BlockPos(stationPos.x() * 16, SpaceLevelSource.PLATFORM_HEIGHT, stationPos.y() * 16);
+    public SpaceStation getStation(int id) {
+        return stations.get(id);
     }
 
-    @Nullable
+    @Override
+    public BlockPos getStationWorldPos(int id) {
+        Vec2i stationPos = getStationPos(id);
+        return new BlockPos(stationPos.x() * 16 * 16, SpaceLevelSource.PLATFORM_HEIGHT, stationPos.y() * 16 * 16);
+    }
+
     @Override
     public List<Integer> getStationsNearPos(Vec2i position, int range) {
         return stations.int2ObjectEntrySet().stream().filter(obj -> obj.getValue().position().distanceToSqr(position) <= range * range).sorted(Comparator.comparingDouble(obj -> obj.getValue().position().distanceToSqr(position))).map(Int2ObjectMap.Entry::getIntKey).collect(Collectors.toList());
@@ -107,7 +119,7 @@ public class StationWorldSavedData extends SavedData implements ISpaceStationHol
         for (String name : stationsTag.getAllKeys()) {
             CompoundTag tag = stationsTag.getCompound(name);
             int id = Integer.parseInt(name);
-            SpaceStation station = SpaceStation.CODEC.parse(NbtOps.INSTANCE, tag.getCompound("station")).result().orElseThrow();
+            SpaceStation station = SpaceStation.CODEC.parse(NbtOps.INSTANCE, tag).result().orElseThrow();
             stations.put(id, station);
             freeStationPositions.remove(id);
         }

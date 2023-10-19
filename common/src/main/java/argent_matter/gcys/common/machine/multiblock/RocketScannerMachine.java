@@ -2,7 +2,10 @@ package argent_matter.gcys.common.machine.multiblock;
 
 import argent_matter.gcys.common.data.GcysBlocks;
 import argent_matter.gcys.common.data.GcysEntities;
+import argent_matter.gcys.common.data.GcysItems;
 import argent_matter.gcys.common.entity.RocketEntity;
+import argent_matter.gcys.common.item.KeyCardBehaviour;
+import argent_matter.gcys.common.item.PlanetIdChipBehaviour;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IDisplayUIMachine;
@@ -14,8 +17,11 @@ import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.api.pattern.TraceabilityPredicate;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
+import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
+import com.lowdragmc.lowdraglib.gui.widget.SlotWidget;
+import com.lowdragmc.lowdraglib.misc.ItemStackTransfer;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
@@ -25,11 +31,14 @@ import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
+import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -58,8 +67,27 @@ public class RocketScannerMachine extends MultiblockControllerMachine implements
     private boolean rocketBuilt;
 
 
+    @Getter
+    @Persisted
+    private final ItemStackTransfer configSaveSlot, configLoadSlot;
+
     public RocketScannerMachine(IMachineBlockEntity holder) {
         super(holder);
+        this.configSaveSlot = new ItemStackTransfer(1);
+        this.configSaveSlot.setFilter(GcysItems.ID_CHIP::isIn);
+        this.configSaveSlot.setOnContentsChanged(this::onSaveSlotChanged);
+
+        this.configLoadSlot = new ItemStackTransfer(1);
+        this.configLoadSlot.setFilter(GcysItems.KEYCARD::isIn);
+        this.configLoadSlot.setOnContentsChanged(this::onLoadSlotChanged);
+    }
+
+    @Override
+    public ModularUI createUI(Player entityPlayer) {
+        ModularUI modularUI = IDisplayUIMachine.super.createUI(entityPlayer);
+        modularUI.widget(new SlotWidget(configSaveSlot, 0, 149, 83));
+        modularUI.widget(new SlotWidget(configLoadSlot, 0, 149, 105));
+        return modularUI;
     }
 
     @Override
@@ -82,6 +110,23 @@ public class RocketScannerMachine extends MultiblockControllerMachine implements
             } else if (componentData.equals("unbuild_rocket")) {
                 setRocketBuilt(false);
             }
+        }
+    }
+
+    private void onSaveSlotChanged() {
+        ItemStack saveStack = this.configSaveSlot.getStackInSlot(0);
+        if (GcysItems.ID_CHIP.isIn(saveStack)) {
+            ItemStack keyCardStack = GcysItems.KEYCARD.asStack(1);
+            KeyCardBehaviour.setSavedStation(keyCardStack, PlanetIdChipBehaviour.getSpaceStationId(saveStack), PlanetIdChipBehaviour.getPlanetFromStack(saveStack));
+            this.configLoadSlot.setStackInSlot(0, keyCardStack);
+        }
+    }
+
+    private void onLoadSlotChanged() {
+        ItemStack saveStack = this.configSaveSlot.getStackInSlot(0);
+        ItemStack loadStack = this.configLoadSlot.getStackInSlot(0);
+        if (GcysItems.ID_CHIP.isIn(saveStack) && GcysItems.KEYCARD.isIn(loadStack)) {
+            PlanetIdChipBehaviour.setSpaceStation(saveStack, KeyCardBehaviour.getSavedStation(loadStack));
         }
     }
 

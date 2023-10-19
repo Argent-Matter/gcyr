@@ -50,7 +50,7 @@ public class PolymerRecipes {
         CHEMICAL_RECIPES.recipeBuilder(GregicalitySpace.id("potassium_hydroxide"))
                 .inputFluids(Durene.getFluid(250))
                 .inputFluids(Oxygen.getFluid(1500))
-                .outputItems(dust, PyromelliticDianhydride)
+                .outputFluids(PyromelliticDianhydride.getFluid(250))
                 .outputFluids(Water.getFluid(1500))
                 .duration(400).EUt(VA[HV]).save(provider);
 
@@ -66,7 +66,7 @@ public class PolymerRecipes {
         DISTILLATION_RECIPES.recipeBuilder(GregicalitySpace.id("distill_oxydianiline_sludge"))
                 .inputFluids(OxydianilineSludge.getFluid(1000))
                 .outputFluids(Dimethylformamide.getFluid(1000))
-                .outputItems(dust, Oxydianiline, 1)
+                .outputFluids(Oxydianiline.getFluid(144))
                 .duration(200).EUt(VA[HV]).save(provider);
 
         CHEMICAL_RECIPES.recipeBuilder(GregicalitySpace.id("kapton_k"))
@@ -78,6 +78,57 @@ public class PolymerRecipes {
         // Kapton E coming soon:tm:
         /*
          * ortho-Xylene, 3 Oxygen, Palladium (Cata (consumed)) -> biphenyltetracarboxylic acid dianhydride (BPDA) (C16H6O6), 3 Water (heater), Hydrogen (skips a step: Phthalic Anhydride (C6H4(CO)2O))
-         * */
+         *
+         */
+
+        // Kevlar
+        CHEMICAL_RECIPES.recipeBuilder(GregicalitySpace.id("cuminaldehyde"))
+                .inputFluids(Cumene.getFluid(1000))
+                .inputFluids(Hydrogen.getFluid(2000))
+                .inputFluids(CarbonMonoxide.getFluid(1000))
+                .outputFluids(Cuminaldehyde.getFluid(1000))
+                .duration(200).EUt(VA[HV]).save(provider);
+
+        CHEMICAL_RECIPES.recipeBuilder(GregicalitySpace.id("cymene"))
+                .inputFluids(Toluene.getFluid(500))
+                .inputFluids(Propene.getFluid(500))
+                .outputFluids(Cymene.getFluid(1000))
+                .duration(200).EUt(VA[HV]).save(provider);
+
+        CHEMICAL_RECIPES.recipeBuilder(GregicalitySpace.id("cuminol"))
+                .inputFluids(Cuminaldehyde.getFluid(1000))
+                .inputFluids(Hydrogen.getFluid(1000))
+                .outputFluids(Cuminol.getFluid(1000))
+                .duration(200).EUt(VA[HV]).save(provider);
+
+        LARGE_CHEMICAL_RECIPES.recipeBuilder(GregicalitySpace.id("therephthalic_acid"))
+                .inputFluids(Cymene.getFluid(1000))
+                .inputFluids(Cuminol.getFluid(1000))
+                .inputFluids(ChromicAcid.getFluid(1000))
+                .outputFluids(TerephthalicAcid.getFluid(1000))
+                .duration(200).EUt(VA[EV]).save(provider);
+
+        LARGE_CHEMICAL_RECIPES.recipeBuilder(GregicalitySpace.id("terephthaloyl_chloride"))
+                .inputFluids(TerephthalicAcid.getFluid(1000))
+                .inputFluids(Methanol.getFluid(1000))
+                .inputFluids(Chlorine.getFluid(2000))
+                .outputFluids(TerephthaloylChloride.getFluid(1000))
+                .outputFluids(Water.getFluid(3000))
+                .duration(200).EUt(VA[EV]).save(provider);
+
+        CHEMICAL_RECIPES.recipeBuilder(GregicalitySpace.id("para_phenylenediamine"))
+                .inputFluids(Nitrochlorobenzene.getFluid(1000))
+                .inputFluids(Ammonia.getFluid(1000))
+                .inputFluids(Hydrogen.getFluid(1000))
+                .outputFluids(ParaPhenylenediamine.getFluid(1000))
+                .outputFluids(CarbonDioxide.getFluid(1000))
+                .duration(200).EUt(VA[HV]).save(provider);
+
+        LARGE_CHEMICAL_RECIPES.recipeBuilder(GregicalitySpace.id("para_aramid"))
+                .inputFluids(ParaPhenylenediamine.getFluid(1000))
+                .inputFluids(TerephthaloylChloride.getFluid(1000))
+                .outputFluids(ParaAramid.getFluid(1000))
+                .outputFluids(HydrochloricAcid.getFluid(2000))
+                .duration(200).EUt(VA[HV]).save(provider);
     }
 }

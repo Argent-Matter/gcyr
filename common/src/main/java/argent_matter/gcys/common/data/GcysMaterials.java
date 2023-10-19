@@ -8,15 +8,17 @@ import com.gregtechceu.gtceu.api.fluids.FluidBuilder;
 import com.gregtechceu.gtceu.api.fluids.attribute.FluidAttributes;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
 
-import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags.DISABLE_DECOMPOSITION;
-import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags.GENERATE_FOIL;
+import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags.*;
+import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags.GENERATE_PLATE;
+import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIconSet.SHINY;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 
 @SuppressWarnings("unused")
 public class GcysMaterials {
 
     public static void init() {
-
+        // Add flags to base GT materials
+        IronMagnetic.addFlags(GENERATE_FOIL);
     }
 
 
@@ -30,7 +32,7 @@ public class GcysMaterials {
     public static final Material PotassiumCarbonate = new Material.Builder("potassium_carbonate")
             .dust(1)
             .color(0xF6F2C1)
-            .components(Potassium, 2,Carbon, 1,Oxygen, 3)
+            .components(Potassium, 2,Carbon, 1, Oxygen, 3)
             .buildAndRegister();
 
     public static final Material PotassiumHydroxide = new Material.Builder("potassium_hydroxide")
@@ -46,6 +48,25 @@ public class GcysMaterials {
             .flags(MaterialFlags.GENERATE_PLATE, MaterialFlags.GENERATE_ROD, MaterialFlags.GENERATE_LONG_ROD, MaterialFlags.GENERATE_GEAR, MaterialFlags.GENERATE_FRAME)
             .toolStats(ToolProperty.Builder.of(70.0F, 2.25F, 1296, 5).build())
             .blastTemp(10800, BlastProperty.GasTier.HIGHER)
+            .buildAndRegister();
+
+    public static final Material ChromicAcid = new Material.Builder("chromic_acid")
+            .fluid()
+            .color(0xE5D8F2)
+            .components(Hydrogen, 2, Chromium, 1, Oxygen, 4)
+            .buildAndRegister();
+
+
+    //endregion
+
+    //region first degree mats
+
+    public static final Material FiberGlass = new Material.Builder("fiberglass")
+            .polymer(1)
+            .fluid(FluidStorageKeys.LIQUID, new FluidBuilder().temperature(1531))
+            .color(0xC7D9D1).iconSet(SHINY)
+            .flags(GENERATE_FINE_WIRE, GENERATE_PLATE, GENERATE_FOIL, NO_SMASHING, NO_WORKING)
+            .components(Epoxy, 2, SiliconDioxide, 7)
             .buildAndRegister();
 
     //endregion
@@ -90,7 +111,6 @@ public class GcysMaterials {
             .setFormula("(CH3)2NC(O)H", true);
 
     public static final Material Oxydianiline = new Material.Builder("oxydianiline")
-            .dust()
             .fluid(FluidStorageKeys.LIQUID, new FluidBuilder().temperature(493))
             .color(0xfAAEE0)
             .components(Carbon, 12, Hydrogen, 12, Nitrogen, 2, Oxygen, 1)
@@ -118,6 +138,52 @@ public class GcysMaterials {
             .components(PyromelliticDianhydride, 1, Oxydianiline, 1)
             .buildAndRegister();
 
+
+    // Kevlar
+    public static final Material Cuminaldehyde = new Material.Builder("cuminaldehyde")
+            .fluid()
+            .color(0xD9BF1A)
+            .components(Carbon, 10, Hydrogen, 12, Oxygen, 1)
+            .buildAndRegister();
+
+    public static final Material Cuminol = new Material.Builder("cuminol")
+            .fluid()
+            .color(0xD9BF1A)
+            .components(Carbon, 10, Hydrogen, 14)
+            .buildAndRegister();
+
+    public static final Material Cymene = new Material.Builder("cymene")
+            .fluid()
+            .color(0x615A0C)
+            .components(Carbon, 10, Hydrogen, 14)
+            .buildAndRegister();
+
+    public static final Material TerephthalicAcid = new Material.Builder("therephthalic_acid")
+            .fluid()
+            .color(0xDB9374)
+            .components(Carbon, 6, Hydrogen, 4, CarbonDioxide, 2, Hydrogen, 2)
+            .buildAndRegister()
+            .setFormula("C6H4(CO2H)2", true);
+
+    public static final Material TerephthaloylChloride = new Material.Builder("terephthaloyl_chloride")
+            .fluid()
+            .color(0xB883DE)
+            .components(Carbon, 8, Hydrogen, 4, Chlorine, 2, Oxygen, 2)
+            .buildAndRegister();
+
+    public static final Material ParaPhenylenediamine = new Material.Builder("para_phenylenediamine")
+            .fluid()
+            .color(0xC3DE83)
+            .components(ChloroNitrobenzene, 1, Ammonia, 1)
+            .buildAndRegister();
+
+    public static final Material ParaAramid = new Material.Builder("para_aramid")
+            .polymer(2)
+            .fluid(FluidStorageKeys.LIQUID, new FluidBuilder().temperature(493))
+            .color(0xE6ED7B)
+            .appendFlags(STD_METAL, GENERATE_FOIL)
+            .components(ParaPhenylenediamine, 1, TerephthaloylChloride, 1)
+            .buildAndRegister();
 
     //endregion
 

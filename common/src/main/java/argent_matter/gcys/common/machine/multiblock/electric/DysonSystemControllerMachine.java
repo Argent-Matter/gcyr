@@ -38,7 +38,7 @@ public class DysonSystemControllerMachine extends WorkableElectricMultiblockMach
     protected @Nullable GTRecipe getRealRecipe(GTRecipe recipe) {
         if (this.getLevel().dimensionType().hasCeiling()) return null;
         if (recipe.getInputContents(ItemRecipeCapability.CAP).isEmpty()) {
-            IDysonSystem system = GcysCapabilityHelper.getDysonSystem((ServerLevel) this.getLevel());
+            IDysonSystem system = GcysCapabilityHelper.getDysonSystem((ServerLevel) this.getLevel(), this.getPos());
             if (system == null) return null;
         }
         return super.getRealRecipe(recipe);
@@ -65,7 +65,7 @@ public class DysonSystemControllerMachine extends WorkableElectricMultiblockMach
         if (recipe == null || this.isRemote()) return;
         if (recipe.getInputContents(ItemRecipeCapability.CAP).isEmpty()) return; // assume the recipe is a dyson launch or repair if it has item inputs.
 
-        IDysonSystem system = GcysCapabilityHelper.getDysonSystem((ServerLevel) this.getLevel());
+        IDysonSystem system = GcysCapabilityHelper.getDysonSystem((ServerLevel) this.getLevel(), this.getPos());
         if (system == null || system.isDysonSphereActive()) return;
         system.addDysonSphere(this.getPos());
     }
@@ -84,7 +84,7 @@ public class DysonSystemControllerMachine extends WorkableElectricMultiblockMach
                 button = ComponentPanelWidget.withButton(Component.translatable("gui.gcys.dyson_sphere.start").withStyle(ChatFormatting.GREEN), "dbg_start_sphere");
             }
         } else {
-            IDysonSystem system = GcysCapabilityHelper.getDysonSystem((ServerLevel) this.getLevel());
+            IDysonSystem system = GcysCapabilityHelper.getDysonSystem((ServerLevel) this.getLevel(), this.getPos());
             if (system != null && system.isDysonSphereActive()) {
                 button = ComponentPanelWidget.withButton(Component.translatable("gui.gcys.dyson_sphere.stop").withStyle(ChatFormatting.RED), "dbg_delete_sphere");
             } else {
@@ -99,9 +99,9 @@ public class DysonSystemControllerMachine extends WorkableElectricMultiblockMach
     public void handleDisplayClick(String componentData, ClickData clickData) {
         if (!clickData.isRemote) {
             if (componentData.equals("dbg_start_sphere")) {
-                GcysCapabilityHelper.getDysonSystem((ServerLevel) this.getLevel()).addDysonSphere(this.getPos());
+                GcysCapabilityHelper.getDysonSystem((ServerLevel) this.getLevel(), this.getPos()).addDysonSphere(this.getPos());
             } else if (componentData.equals("dbg_delete_sphere")) {
-                GcysCapabilityHelper.getDysonSystem((ServerLevel) this.getLevel()).disableDysonSphere(this.getPos());
+                GcysCapabilityHelper.getDysonSystem((ServerLevel) this.getLevel(), this.getPos()).disableDysonSphere(this.getPos());
             }
         }
     }

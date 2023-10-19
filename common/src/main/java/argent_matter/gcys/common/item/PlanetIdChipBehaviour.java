@@ -2,7 +2,6 @@ package argent_matter.gcys.common.item;
 
 import argent_matter.gcys.api.space.planet.Planet;
 import argent_matter.gcys.api.space.station.SpaceStation;
-import argent_matter.gcys.client.gui.screen.PlanetSelectionScreen;
 import argent_matter.gcys.common.data.GcysItems;
 import argent_matter.gcys.common.data.GcysMenus;
 import argent_matter.gcys.data.loader.PlanetData;
@@ -10,7 +9,6 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.gregtechceu.gtceu.api.item.component.IAddInformation;
 import com.gregtechceu.gtceu.api.item.component.IInteractionItem;
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
@@ -44,8 +42,8 @@ public class PlanetIdChipBehaviour implements IInteractionItem, IAddInformation 
         return InteractionResultHolder.pass(heldItem);
     }
 
-    public static void setSpaceStation(int stationId, ItemStack held) {
-        if (!GcysItems.ID_CHIP.isIn(held)) return;
+    public static void setSpaceStation(ItemStack held, int stationId) {
+        if (!GcysItems.ID_CHIP.isIn(held) || stationId == SpaceStation.ID_EMPTY) return;
         held.getOrCreateTag().putInt(CURRENT_STATION_TAG_ID, stationId);
     }
 

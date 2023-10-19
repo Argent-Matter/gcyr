@@ -1,8 +1,11 @@
 package argent_matter.gcys.api.space.dyson;
 
 import argent_matter.gcys.GregicalitySpace;
+import argent_matter.gcys.api.capability.GcysCapabilityHelper;
 import argent_matter.gcys.api.capability.IDysonSystem;
+import argent_matter.gcys.api.capability.ISpaceStationHolder;
 import argent_matter.gcys.api.space.planet.Planet;
+import argent_matter.gcys.common.data.GcysDimensionTypes;
 import argent_matter.gcys.common.data.GcysNetworking;
 import argent_matter.gcys.common.data.GcysSatellites;
 import argent_matter.gcys.common.networking.s2c.PacketSyncDysonSphereStatus;
@@ -14,6 +17,7 @@ import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.*;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.saveddata.SavedData;
@@ -42,7 +46,28 @@ public class DysonSystemSavedData extends SavedData implements IDysonSystem {
         }
         ServerLevel firstWorldLevel = originLevel.getServer().getLevel(planets.get(0).level());
         return internalGetOrCreate(Objects.requireNonNullElse(firstWorldLevel, originLevel));
+    }
 
+    @Nullable
+    public static DysonSystemSavedData getOrCreateMaybeSpace(ServerLevel level, @Nullable BlockPos pos) {
+        if (pos != null && level.dimension().location().equals(GcysDimensionTypes.SPACE_LEVEL.location())) {
+            ISpaceStationHolder spaceStations = GcysCapabilityHelper.getSpaceStations(level);
+            if (spaceStations == null) return null;
+            List<Integer> nearbyStationIds = spaceStations.getStationsNearWorldPos(pos, 8 * 8 /*half of max station size*/);
+            if (nearbyStationIds.isEmpty()) return null;
+            return getOrCreateForSpace(level.getServer(), nearbyStationIds.get(0));
+        }
+        return getOrCreate(level);
+    }
+
+    @Nullable
+    public static DysonSystemSavedData getOrCreateForSpace(MinecraftServer server, int stationId) {
+        ISpaceStationHolder spaceStations = GcysCapabilityHelper.getSpaceStations(server.getLevel(GcysDimensionTypes.SPACE_LEVEL));
+        if (spaceStations == null) return null;
+
+        ServerLevel serverLevel = server.getLevel(spaceStations.getStation(stationId).orbitPlanet().level());
+        if (serverLevel == null) return null;
+        return getOrCreate(serverLevel);
     }
 
     private static DysonSystemSavedData internalGetOrCreate(ServerLevel serverLevel) {
