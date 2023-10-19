@@ -3,6 +3,7 @@ package argent_matter.gcys.data.loader;
 import argent_matter.gcys.GregicalitySpace;
 import argent_matter.gcys.GregicalitySpaceClient;
 import argent_matter.gcys.api.space.planet.Planet;
+import argent_matter.gcys.api.space.planet.SolarSystem;
 import argent_matter.gcys.common.data.GcysDimensionTypes;
 import argent_matter.gcys.common.data.GcysNetworking;
 import argent_matter.gcys.common.networking.s2c.PacketReturnPlanetData;
@@ -35,6 +36,7 @@ import java.util.*;
 public class PlanetData extends SimpleJsonResourceReloadListener {
 
     private static final BiMap<ResourceLocation, Planet> PLANETS = HashBiMap.create();
+    private static final BiMap<ResourceLocation, List<Planet>> SOLAR_SYSTEMS = HashBiMap.create();
     private static final BiMap<ResourceKey<Level>, Planet> LEVEL_TO_PLANET = HashBiMap.create();
     private static final Set<ResourceKey<Level>> PLANET_LEVELS = new HashSet<>();
     private static final Set<ResourceKey<Level>> OXYGEN_LEVELS = new HashSet<>();
@@ -67,6 +69,7 @@ public class PlanetData extends SimpleJsonResourceReloadListener {
             ResourceLocation id = entry.getKey();
             Planet planet = entry.getValue();
             PLANETS.put(id, planet);
+            SOLAR_SYSTEMS.computeIfAbsent(planet.solarSystem(), system -> new ArrayList<>()).add(planet);
             LEVEL_TO_PLANET.put(planet.level(), planet);
             PLANET_LEVELS.add(planet.level());
             if (planet.hasOxygen()) {
@@ -124,6 +127,10 @@ public class PlanetData extends SimpleJsonResourceReloadListener {
         return PLANETS.get(id);
     }
 
+    public static List<Planet> getSolarSystemPlanets(ResourceLocation solarSystemId) {
+        return SOLAR_SYSTEMS.get(solarSystemId);
+    }
+
     public static Optional<Planet> getPlanetFromLevel(ResourceKey<Level> level) {
         return Optional.ofNullable(LEVEL_TO_PLANET.get(level));
     }
@@ -158,7 +165,7 @@ public class PlanetData extends SimpleJsonResourceReloadListener {
     /**
      * Gets the temperature of the level in kelvin.
      *
-     * @return The temperature of the level, or 20° for dimensions without a defined temperature
+     * @return The temperature of the level, or 293K for dimensions without a defined temperature
      */
     public static float getWorldTemperature(Level level) {
         if (isOrbitLevel(level.dimension())) {

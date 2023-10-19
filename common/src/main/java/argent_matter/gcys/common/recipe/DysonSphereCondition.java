@@ -37,7 +37,7 @@ public class DysonSphereCondition extends RecipeCondition {
 
     @Override
     public Component getTooltips() {
-        return Component.translatable(isActive ? "gcys.condition.requires_dyson_sphere" : "gcys.condition.requires_no_dyson_sphere");
+        return Component.translatable(isActive ? "gcys.condition.requires_dyson_sphere.true" : "gcys.condition.requires_dyson_sphere.false");
     }
 
     @Override
@@ -45,10 +45,10 @@ public class DysonSphereCondition extends RecipeCondition {
         Level level = recipeLogic.getMachine().getLevel();
         if (!level.isClientSide) {
             IDysonSystem system = GcysCapabilityHelper.getDysonSystem((ServerLevel) level);
-            if (system == null && !isActive) return true;
-            else return !isActive;
+            if ((system == null || !system.isDysonSphereActive()) && !isActive) return true;
+            else return system != null && system.isDysonSphereActive() && isActive;
         }
-        return true;
+        return false;
     }
 
     @NotNull

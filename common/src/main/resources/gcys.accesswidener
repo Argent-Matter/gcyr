@@ -1,1 +1,5 @@
 accessWidener   v2  named
+
+accessible method net/minecraft/core/particles/SimpleParticleType <init> (Z)V
+accessible method net/minecraft/client/particle/ParticleEngine register (Lnet/minecraft/core/particles/ParticleType;Lnet/minecraft/client/particle/ParticleEngine$SpriteParticleRegistration;)V
+accessible class net/minecraft/client/particle/ParticleEngine$SpriteParticleRegistration

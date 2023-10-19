@@ -1,6 +1,7 @@
 package argent_matter.gcys.common.data;
 
 import argent_matter.gcys.GregicalitySpace;
+import argent_matter.gcys.client.renderer.machine.DysonSystemControllerRenderer;
 import argent_matter.gcys.common.machine.electric.OxygenSpreaderMachine;
 import argent_matter.gcys.common.machine.multiblock.electric.DysonSystemControllerMachine;
 import argent_matter.gcys.common.machine.multiblock.RocketScannerMachine;
@@ -114,8 +115,7 @@ public class GcysMachines {
                     .where('T', blocks(POWER_TRANSFORMER[GTValues.UV].getBlock()))
                     .where(' ', any())
                     .build())
-            .workableCasingRenderer(GTCEu.id("block/casings/gcym/atomic_casing"),
-                    GTCEu.id("block/multiblock/assembly_line"), false)
+            .renderer(DysonSystemControllerRenderer::new)
             .register();
 
     public static final MultiblockMachineDefinition SPACE_ELEVATOR = REGISTRATE.multiblock("space_elevator", WorkableElectricMultiblockMachine::new)

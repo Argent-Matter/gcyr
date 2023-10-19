@@ -19,6 +19,7 @@ public class GregicalitySpaceForge {
     public GregicalitySpaceForge() {
         GregicalitySpace.init();
         var bus = FMLJavaModLoadingContext.get().getModEventBus();
+        bus.register(this);
         GcysBiomesImpl.register(bus);
         GcysDimensionTypesImpl.register(bus);
 
@@ -26,7 +27,7 @@ public class GregicalitySpaceForge {
     }
 
     @SubscribeEvent
-    public static void registerClientReloadListeners(RegisterClientReloadListenersEvent event) {
+    public void registerClientReloadListeners(RegisterClientReloadListenersEvent event) {
         event.registerReloadListener(PlanetResources.INSTANCE);
     }
 }

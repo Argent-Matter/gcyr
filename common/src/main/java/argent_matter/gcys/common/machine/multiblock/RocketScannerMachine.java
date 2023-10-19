@@ -67,8 +67,11 @@ public class RocketScannerMachine extends MultiblockControllerMachine implements
         IDisplayUIMachine.super.addDisplayText(textList);
         if (!this.isFormed) return;
 
-        textList.add(ComponentPanelWidget.withButton(Component.translatable("gcys.multiblock.rocket.unbuild").withStyle(ChatFormatting.RED), "unbuild_rocket"));
-        textList.add(ComponentPanelWidget.withButton(Component.translatable("gcys.multiblock.rocket.build").withStyle(ChatFormatting.GREEN), "build_rocket"));
+        if (this.rocketBuilt) {
+            textList.add(ComponentPanelWidget.withButton(Component.translatable("gcys.multiblock.rocket.unbuild").withStyle(ChatFormatting.RED), "unbuild_rocket"));
+        } else {
+            textList.add(ComponentPanelWidget.withButton(Component.translatable("gcys.multiblock.rocket.build").withStyle(ChatFormatting.GREEN), "build_rocket"));
+        }
     }
 
     @Override

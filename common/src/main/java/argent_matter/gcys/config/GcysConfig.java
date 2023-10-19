@@ -17,6 +17,8 @@ public class GcysConfig {
     public SatelliteConfigs satellites = new SatelliteConfigs();
     @Configurable
     public ServerConfigs server = new ServerConfigs();
+    @Configurable
+    public MachineConfigs machine = new MachineConfigs();
 
     public static class SatelliteConfigs {
         @Configurable
@@ -46,9 +48,13 @@ public class GcysConfig {
         @Configurable
         @Configurable.Comment({"The temperature in space.", "Default: -270.0"})
         public float spaceTemperature = -270.0F;
-        @Configurable
-        @Configurable.Comment({"Maximum skylight in a dimension whose sun is covered by a dyson sphere.", "Default: 3"})
-        public int maxSphereSkylight = 3;
     }
 
+
+    public static class MachineConfigs {
+        @Configurable
+        @Configurable.Comment({"Damage caused by standing in an active dyson system controller's beam. (per tick)", "Default: 5.0"})
+        public float dysonControllerBeamDamage = 5.0f;
+
+    }
 }

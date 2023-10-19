@@ -22,6 +22,7 @@ public class GregicalitySpace {
 		GcysNetworking.init();
 		UIFactory.register(EntityUIFactory.INSTANCE);
 
+		GcysRecipeConditions.init();
 		GcysSatellites.init();
 		GcysEntityDataSerializers.init();
 		GcysEntities.init();
@@ -34,6 +35,7 @@ public class GregicalitySpace {
 		GcysRegistries.REGISTRATE.registerRegistrate();
 		GcysDimensionTypes.init();
 		GcysBiomes.init();
+		GcysParticles.init();
 	}
 
 	public static ResourceLocation id(String path) {
@@ -41,8 +43,10 @@ public class GregicalitySpace {
 	}
 
 	public static void onKeyPressed(int key, int action, int modifiers) {
+		/* use GUI instead, this was just another annoying useless keybind
 		if (GcysKeyMappings.START_ROCKET.isDown()) {
 			GcysNetworking.NETWORK.sendToServer(new PacketLaunchRocket());
 		}
+		 */
 	}
 }

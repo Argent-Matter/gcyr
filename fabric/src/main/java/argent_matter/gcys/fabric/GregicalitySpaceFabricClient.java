@@ -2,11 +2,15 @@ package argent_matter.gcys.fabric;
 
 import argent_matter.gcys.GregicalitySpace;
 import argent_matter.gcys.GregicalitySpaceClient;
+import argent_matter.gcys.client.data.GcysParticleProviders;
 import argent_matter.gcys.common.data.GcysKeyMappings;
 import argent_matter.gcys.data.loader.PlanetResources;
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
+import net.fabricmc.fabric.api.particle.v1.FabricParticleTypes;
 import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
+import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.resources.ResourceManager;

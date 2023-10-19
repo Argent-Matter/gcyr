@@ -164,6 +164,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
                 .widget(new TankWidget(this.fuelTank, 16, 20, 20, 58, true, true).setBackground(GuiTextures.FLUID_TANK_BACKGROUND))
                 .widget(new SlotWidget(configSlot, 0, 40, 20, true, true))
                 .widget(new ButtonWidget(40, 60, 36, 18, new GuiTextureGroup(GuiTextures.BUTTON.copy().setColor(0xFFAA0000), new TextTexture("menu.gcys.launch")), (clickData) -> this.startRocket()))
+                .widget(new ButtonWidget(40, 40, 36, 18, new GuiTextureGroup(GuiTextures.BUTTON.copy().setColor(0xFFE0B900), new TextTexture("gcys.multiblock.rocket.unbuild")), (clickData) -> this.unBuild()))
                 .widget(UITemplate.bindPlayerInventory(entityPlayer.getInventory(), GuiTextures.SLOT, 7, 84, true))
                 .background(GuiTextures.BACKGROUND);
     }

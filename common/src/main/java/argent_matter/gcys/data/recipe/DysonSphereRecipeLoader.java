@@ -2,6 +2,7 @@ package argent_matter.gcys.data.recipe;
 
 import argent_matter.gcys.GregicalitySpace;
 import argent_matter.gcys.common.data.GcysBlocks;
+import argent_matter.gcys.common.data.GcysDimensionTypes;
 import argent_matter.gcys.common.data.GcysItems;
 import argent_matter.gcys.common.data.GcysMaterials;
 import argent_matter.gcys.common.recipe.DysonSphereCondition;
@@ -42,12 +43,12 @@ public class DysonSphereRecipeLoader {
                 .inputItems(GTMachines.CLEANING_MAINTENANCE_HATCH.asStack(4))
                 .inputItems(TagPrefix.frameGt, GTMaterials.NaquadahAlloy, 6)
                 .inputItems(TagPrefix.plateDense, GTMaterials.RhodiumPlatedPalladium, 4)
-                .inputItems(TagPrefix.gear, GTMaterials.HSSE, 12)
+                .inputItems(TagPrefix.gear, GTMaterials.HSSS, 12)
                 .outputItems(GcysBlocks.CASING_DYSON_PORT.asStack(2))
                 .EUt(VA[ZPM]).duration(4000)
                 .save(provider);
 
-        ASSEMBLY_LINE_RECIPES.recipeBuilder(GregicalitySpace.id("dyson_repair_drone"))
+        ASSEMBLY_LINE_RECIPES.recipeBuilder(GregicalitySpace.id("dyson_construction_drone"))
                 .inputItems(TagPrefix.rotor, GTMaterials.HSSS, 4)
                 .inputItems(CustomTags.ZPM_CIRCUITS, 2)
                 .inputItems(CustomTags.ZPM_BATTERIES, 4)
@@ -61,12 +62,20 @@ public class DysonSphereRecipeLoader {
                 .inputItems(GcysBlocks.CASING_DYSON_CELL.asStack(48))
                 .inputItems(GcysBlocks.CASING_DYSON_PORT.asStack(32))
                 .inputItems(GcysItems.DYSON_CONSTRUCTION_DRONE.asStack(32))
+                .dimension(GcysDimensionTypes.SPACE_LEVEL.location())
                 .EUt(VA[UV]).duration(32000)
                 .save(provider);
 
-        DYSON_ENERGY_RECIPES.recipeBuilder(GregicalitySpace.id("run_dyson_sphere"))
-                .duration(200).EUt(-V[UHV])
+        DYSON_ENERGY_RECIPES.recipeBuilder(GregicalitySpace.id("run_dyson_sphere_space"))
                 .addCondition(new DysonSphereCondition(true))
+                .dimension(GcysDimensionTypes.SPACE_LEVEL.location())
+                .duration(200).EUt(-V[UHV])
+                .save(provider);
+
+        DYSON_ENERGY_RECIPES.recipeBuilder(GregicalitySpace.id("run_dyson_sphere_not_space"))
+                .addCondition(new DysonSphereCondition(true))
+                .dimension(GcysDimensionTypes.SPACE_LEVEL.location(), true)
+                .duration(200).EUt(-V[UV])
                 .save(provider);
     }
 }

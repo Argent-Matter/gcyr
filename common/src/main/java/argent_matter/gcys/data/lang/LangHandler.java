@@ -25,6 +25,8 @@ public class LangHandler extends com.gregtechceu.gtceu.data.lang.LangHandler {
         // machines
         provider.add("gcys.machine.satellite_jammer.jammed", "Jammed %s");
         provider.add("gcys.machine.satellite_jammer.position", "At %s");
+        provider.add("gcys.condition.requires_dyson_sphere.true", "Requires active Dyson Sphere");
+        provider.add("gcys.condition.requires_dyson_sphere.false", "Requires no Dyson Sphere to be active");
 
         // satellites
         provider.add("gcys.satellite.gps", "GPS Satellite");

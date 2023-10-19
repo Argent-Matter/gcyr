@@ -6,7 +6,8 @@
   "mixins": [
   ],
   "client": [
-    "KeyboardHandlerMixin"
+    "KeyboardHandlerMixin",
+    "ParticleEngineMixin"
   ],
   "injectors": {
     "defaultRequire": 1,
