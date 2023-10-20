@@ -5,7 +5,7 @@ import argent_matter.gcys.api.registries.GcysRegistries;
 import argent_matter.gcys.common.data.*;
 import argent_matter.gcys.config.GcysConfig;
 import argent_matter.gcys.data.GCySDatagen;
-import com.lowdragmc.lowdraglib.Platform;
+import com.gregtechceu.gtceu.config.ConfigHolder;
 import com.lowdragmc.lowdraglib.gui.factory.UIFactory;
 import net.minecraft.resources.ResourceLocation;
 import org.slf4j.Logger;
@@ -18,6 +18,7 @@ public class GCyS {
 	public static final Logger LOGGER = LoggerFactory.getLogger(NAME);
 
 	public static void init() {
+		ConfigHolder.init(); // Forcefully init GT config because fabric doesn't allow dependents to load after dependencies
 		GcysConfig.init();
 		GCySNetworking.init();
 		UIFactory.register(EntityUIFactory.INSTANCE);
@@ -28,6 +29,8 @@ public class GCyS {
 		GCySCreativeModeTabs.init();
 		GCySEntities.init();
 		GCySBlocks.init();
+		GCySRecipeTypes.init();
+		GCySMachines.init();
 		GCySItems.init();
 		GCySMenus.init();
 

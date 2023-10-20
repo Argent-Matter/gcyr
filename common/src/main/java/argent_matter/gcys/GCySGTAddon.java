@@ -47,12 +47,12 @@ public class GCySGTAddon implements IGTAddon {
 
     @Override
     public void registerRecipeTypes() {
-        GCySRecipeTypes.init();
+
     }
 
     @Override
     public void registerMachines() {
-        GCySMachines.init();
+
     }
 
     @Override
