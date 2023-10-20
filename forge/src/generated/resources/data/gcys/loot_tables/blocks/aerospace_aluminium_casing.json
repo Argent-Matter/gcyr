@@ -11,10 +11,11 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "gcys:aluminium_aerospace"
+          "name": "gcys:aerospace_aluminium_casing"
         }
       ],
       "rolls": 1.0
     }
-  ]
+  ],
+  "random_sequence": "gcys:blocks/aerospace_aluminium_casing"
 }

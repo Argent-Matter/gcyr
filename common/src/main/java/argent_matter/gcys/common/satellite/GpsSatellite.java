@@ -5,7 +5,6 @@ import argent_matter.gcys.api.space.satellite.Satellite;
 import argent_matter.gcys.api.space.satellite.SatelliteType;
 import argent_matter.gcys.api.space.satellite.data.SatelliteData;
 import argent_matter.gcys.util.Vec2i;
-import com.mojang.math.Vector3f;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.nbt.ListTag;

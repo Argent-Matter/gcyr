@@ -5,6 +5,7 @@ import argent_matter.gcys.api.registries.GcysRegistries;
 import argent_matter.gcys.common.data.*;
 import argent_matter.gcys.config.GcysConfig;
 import argent_matter.gcys.data.GCySDatagen;
+import com.lowdragmc.lowdraglib.Platform;
 import com.lowdragmc.lowdraglib.gui.factory.UIFactory;
 import net.minecraft.resources.ResourceLocation;
 import org.slf4j.Logger;
@@ -24,6 +25,7 @@ public class GCyS {
 		GCySRecipeConditions.init();
 		GCySSatellites.init();
 		GCySEntityDataSerializers.init();
+		GCySCreativeModeTabs.init();
 		GCySEntities.init();
 		GCySBlocks.init();
 		GCySItems.init();
@@ -33,7 +35,6 @@ public class GCyS {
 
 		GcysRegistries.REGISTRATE.registerRegistrate();
 		GCySDimensionTypes.init();
-		GCySBiomes.init();
 		GCySParticles.init();
 	}
 

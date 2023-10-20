@@ -5,10 +5,10 @@ import argent_matter.gcys.api.capability.GcysCapabilityHelper;
 import argent_matter.gcys.api.capability.IDysonSystem;
 import argent_matter.gcys.config.GcysConfig;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
-import com.gregtechceu.gtceu.api.data.damagesource.DamageSources;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.common.data.GTDamageTypes;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
 import net.minecraft.ChatFormatting;
@@ -54,7 +54,7 @@ public class DysonSystemControllerMachine extends WorkableElectricMultiblockMach
         Direction rightFacing = frontFacing.getClockWise();
         BlockPos pos = this.getPos().mutable().move(backFacing, 4).move(rightFacing, 1).move(0, 7 + 256 /*pre offset up by half distance*/, 0).immutable();
         for (LivingEntity entity : level.getEntitiesOfClass(LivingEntity.class, AABB.ofSize(Vec3.atCenterOf(pos), 3, 512, 3), EntitySelector.LIVING_ENTITY_STILL_ALIVE)) {
-            entity.hurt(DamageSources.getElectricDamage(), GcysConfig.INSTANCE.machine.dysonControllerBeamDamage);
+            entity.hurt(GTDamageTypes.ELECTRIC.source(level), GcysConfig.INSTANCE.machine.dysonControllerBeamDamage);
         }
     }
 

@@ -14,37 +14,36 @@ dependencyResolutionManagement {
     }
     versionCatalogs {
         // Minecraft Version
-        def minecraftVersion = "1.19.2"
+        def minecraftVersion = "1.20.1"
 
         // Mod Dependencies Versions
         // Common
-        def reiVersion = "9.1.619"
-        def gtCeuVersion = "1.0.13.b"
-        def ldLibVersion = "1.0.19.d"
-        def kjsVersion = "1902.6.1-build.373"
+        def reiVersion = "12.0.625"
+        def kjsVersion = "2001.6.3-build.37"
 
         // Fabric
         def fabricLoaderVersion = "0.14.21" // https://fabricmc.net/develop/
-        def fabricApiVersion = "0.76.0" // https://fabricmc.net/develop/
-        def topFabricVersion = "1.19-6.0.0"
-        def registrateFabricVersion = "1.1.58-MC1.19.2"
-        def configurationFabricFile = "4104224"
+        def fabricApiVersion = "0.83.0" // https://fabricmc.net/develop/
+        //def topFabricVersion = "1.19-6.0.0"
+        def registrateFabricVersion = "1.3.59-MC1.20"
 
         // Forge
-        def forgeVersion = "43.2.19"
-        def registrateForgeVersion = "MC1.19-1.1.5"
-        def topForgeVersion = "1.19-6.2.0-6"
-        def configurationForgeFile = "4519560"
+        def forgeVersion = "47.1.3"
+        def registrateForgeVersion = "MC1.20-1.3.3"
+        def topForgeVersion = "1.20.1-10.0.1-3"
 
         // Libs
-        def quiltMappingsVersion = "21"  // https://lambdaurora.dev/tools/import_quilt.html
-        def parchmentVersion = "2022.11.27" // https://parchmentmc.org/docs/getting-started
+        def quiltMappingsVersion = "5"  // https://lambdaurora.dev/tools/import_quilt.html
+        def parchmentVersion = "2023.09.03" // https://parchmentmc.org/docs/getting-started
         def shadowVersion = "7.1.2"
         def architecturyPluginVersion = "3.4-SNAPSHOT"
         def architecturyLoomVersion = "1.3-SNAPSHOT"
         def vineFlowerVersion = "1.+"
         def macheteVersion = "1.+"
-        def mixinExtrasVersion = "0.2.0"
+        def configurationVersion = "2.2.0"
+        def gtCeuVersion = "1.0.13.b"
+        def ldLibVersion = "1.0.19.d"
+        def mixinExtrasVersion = "0.2.0-rc.5"
 
         fabric {
             def parchment = version("parchment", parchmentVersion)
@@ -68,8 +67,8 @@ dependencyResolutionManagement {
             library("rei-api", "me.shedaniel", "RoughlyEnoughItems-api-fabric").versionRef(rei)
             library("rei-fabric", "me.shedaniel", "RoughlyEnoughItems-fabric").versionRef(rei)
 
-            def theoneprobe = version("theoneprobe", topFabricVersion)
-            library("theoneprobe", "mcjty.theoneprobe", "theoneprobe-fabric").versionRef(theoneprobe)
+            //def theoneprobe = version("theoneprobe", topFabricVersion)
+            //library("theoneprobe", "mcjty.theoneprobe", "theoneprobe-fabric").versionRef(theoneprobe)
 
             def kubejs = version("kubejs", kjsVersion)
             library("kubejs-common", "dev.latvian.mods", "kubejs").versionRef(kubejs)
@@ -79,8 +78,8 @@ dependencyResolutionManagement {
             library("gtceu-fabric", "com.gregtechceu.gtceu", "gtceu-fabric-${minecraftVersion}").versionRef(gtceu)
             library("gtceu-common", "com.gregtechceu.gtceu", "gtceu-common-${minecraftVersion}").versionRef(gtceu)
 
-            def configuration = version("configuration", configurationFabricFile)
-            library("configuration", "curse.maven", "configuration-444699").versionRef(configuration)
+            def configuration = version("configuration", configurationVersion)
+            library("configuration", "dev.toma.configuration", "configuration-fabric-1.20.1").versionRef(configuration)
 
             def mixinExtras = version("mixinExtras", mixinExtrasVersion)
             library("mixinExtras-fabric", "io.github.llamalad7", "mixinextras-fabric").versionRef(mixinExtras)
@@ -111,8 +110,8 @@ dependencyResolutionManagement {
             def gtceu = version("gtceu", gtCeuVersion)
             library("gtceu-forge", "com.gregtechceu.gtceu", "gtceu-forge-${minecraftVersion}").versionRef(gtceu)
 
-            def configuration = version("configuration", configurationForgeFile)
-            library("configuration", "curse.maven", "configuration-444699").versionRef(configuration)
+            def configuration = version("configuration", configurationVersion)
+            library("configuration", "dev.toma.configuration", "configuration-forge-1.20.1").versionRef(configuration)
 
             def mixinExtras = version("mixinExtras", mixinExtrasVersion)
             library("mixinExtras-common", "io.github.llamalad7", "mixinextras-common").versionRef(mixinExtras)

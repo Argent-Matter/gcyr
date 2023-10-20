@@ -1,7 +1,9 @@
 package argent_matter.gcys.util;
 
+import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.FriendlyByteBuf;
@@ -20,7 +22,7 @@ public record PosWithState(BlockPos pos, BlockState state) {
 
     public static PosWithState readFromTag(CompoundTag tag) {
         BlockPos pos = NbtUtils.readBlockPos(tag.getCompound("pos"));
-        BlockState state = NbtUtils.readBlockState(tag.getCompound("state"));
+        BlockState state = NbtUtils.readBlockState(BuiltInRegistries.BLOCK.asLookup(), tag.getCompound("state"));
         return new PosWithState(pos, state);
     }
 

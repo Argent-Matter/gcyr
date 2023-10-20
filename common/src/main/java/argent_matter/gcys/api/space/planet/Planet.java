@@ -6,6 +6,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
@@ -23,8 +24,8 @@ public record Planet(String translation, ResourceLocation galaxy, ResourceLocati
             Codec.STRING.fieldOf("translation").forGetter(Planet::translation),
             ResourceLocation.CODEC.fieldOf("galaxy").forGetter(Planet::galaxy),
             ResourceLocation.CODEC.fieldOf("solar_system").forGetter(Planet::solarSystem),
-            ResourceKey.codec(Registry.DIMENSION_REGISTRY).fieldOf("world").forGetter(Planet::level),
-            ResourceKey.codec(Registry.DIMENSION_REGISTRY).optionalFieldOf("parent_world").forGetter(Planet::getParentlevel),
+            ResourceKey.codec(Registries.DIMENSION).fieldOf("world").forGetter(Planet::level),
+            ResourceKey.codec(Registries.DIMENSION).optionalFieldOf("parent_world").forGetter(Planet::getParentlevel),
             Codec.INT.fieldOf("rocket_tier").forGetter(Planet::rocketTier),
             Codec.FLOAT.fieldOf("gravity").forGetter(Planet::gravity),
             Codec.BOOL.fieldOf("has_atmosphere").forGetter(Planet::hasAtmosphere),
@@ -38,10 +39,10 @@ public record Planet(String translation, ResourceLocation galaxy, ResourceLocati
     public static final Codec<Planet> ID_CODEC = ResourceLocation.CODEC
                     .flatXmap(rl -> Optional.ofNullable(PlanetData.getPlanet(rl))
                                     .map(DataResult::success)
-                                    .orElseGet(() -> DataResult.error("No Planet with id " + rl + " registered")),
+                                    .orElseGet(() -> DataResult.error(() -> "No Planet with id " + rl + " registered")),
                             obj -> Optional.ofNullable(PlanetData.getPlanetId(obj))
                                     .map(DataResult::success)
-                                    .orElseGet(() -> DataResult.error("Planet " + obj + " not registered")));
+                                    .orElseGet(() -> DataResult.error(() -> "Planet " + obj + " not registered")));
 
     public static final Codec<Planet> CODEC = Codec.either(
             ID_CODEC,

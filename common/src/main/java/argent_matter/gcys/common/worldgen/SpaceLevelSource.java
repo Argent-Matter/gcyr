@@ -5,7 +5,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Registry;
+import net.minecraft.core.Holder;
 import net.minecraft.core.SectionPos;
 import net.minecraft.resources.RegistryOps;
 import net.minecraft.server.level.WorldGenRegion;
@@ -21,30 +21,23 @@ import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.RandomState;
 import net.minecraft.world.level.levelgen.blending.Blender;
-import net.minecraft.world.level.levelgen.structure.StructureSet;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
 public class SpaceLevelSource extends ChunkGenerator {
-    public static final Codec<SpaceLevelSource> CODEC = RecordCodecBuilder.create((instance) -> {
-        return commonCodec(instance).and(RegistryOps.retrieveRegistry(Registry.BIOME_REGISTRY).forGetter((spaceLevelSource) -> {
-            return spaceLevelSource.biomes;
-        })).apply(instance, instance.stable(SpaceLevelSource::new));
-    });
-
-    private final Registry<Biome> biomes;
+    public static final Codec<SpaceLevelSource> CODEC = RecordCodecBuilder.create(
+            instance -> instance.group(RegistryOps.retrieveElement(GCySBiomes.SPACE)).apply(instance, instance.stable(SpaceLevelSource::new))
+    );
 
     public static final int PLATFORM_HEIGHT = 63;
 
-    public SpaceLevelSource(Registry<StructureSet> structures, Registry<Biome> biomes) {
-        super(structures, Optional.empty(), new FixedBiomeSource(biomes.getHolderOrThrow(GCySBiomes.SPACE)));
-        this.biomes = biomes;
+    public SpaceLevelSource(Holder.Reference<Biome> biome) {
+        super(new FixedBiomeSource(biome));
     }
 
     @Override

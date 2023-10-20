@@ -3,7 +3,6 @@ package argent_matter.gcys.client.renderer.entity;
 import argent_matter.gcys.common.entity.RocketEntity;
 import argent_matter.gcys.util.PosWithState;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.Sheets;

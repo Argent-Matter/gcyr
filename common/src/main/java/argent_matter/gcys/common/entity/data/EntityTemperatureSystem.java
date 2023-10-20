@@ -59,14 +59,14 @@ public class EntityTemperatureSystem {
     }
 
     private static void burnEntity(LivingEntity entity) {
-        entity.hurt(DamageSource.ON_FIRE, GcysConfig.INSTANCE.server.heatDamage);
+        entity.hurt(entity.damageSources().onFire(), GcysConfig.INSTANCE.server.heatDamage);
         entity.setSecondsOnFire(10);
     }
 
     private static void freezeEntity(LivingEntity entity, ServerLevel level) {
-        entity.hurt(DamageSource.FREEZE, GcysConfig.INSTANCE.server.freezeDamage);
+        entity.hurt(entity.damageSources().freeze(), GcysConfig.INSTANCE.server.freezeDamage);
         entity.setTicksFrozen(Math.min(entity.getTicksRequiredToFreeze() + 20, entity.getTicksFrozen() + 5 * 10));
-        RandomSource random = entity.level.getRandom();
+        RandomSource random = entity.level().getRandom();
         level.addParticle(ParticleTypes.SNOWFLAKE, entity.getX(), entity.getY() + 1, entity.getZ(), Mth.randomBetween(random, -1.0f, 1.0f) * 0.083333336f, 0.05, (double) Mth.randomBetween(random, -1.0f, 1.0f) * 0.083333336);
 
         // Turn skeletons into strays

@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "gcys:item/manned_rocket"
+    "layer0": "gcys:item/dyson_construction_drone"
   }
 }

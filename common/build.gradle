@@ -59,7 +59,7 @@ dependencies {
     modCompileOnly fabric.rei.fabric
 
     // TOP
-    modCompileOnly fabric.theoneprobe
+    modCompileOnly(forge.theoneprobe) { transitive = false }
 
     // KJS
     modCompileOnly fabric.kubejs.common

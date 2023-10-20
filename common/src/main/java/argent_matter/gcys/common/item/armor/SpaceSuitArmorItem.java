@@ -14,12 +14,12 @@ import net.minecraft.world.item.ItemStack;
 public class SpaceSuitArmorItem extends ArmorItem {
     public static final long CAPACITY = (int) (16 * FluidHelper.getBucket());
 
-    public SpaceSuitArmorItem(EquipmentSlot slot, Properties properties) {
-        super(GcysArmorMaterials.SPACE, slot, properties);
+    public SpaceSuitArmorItem(ArmorItem.Type type, Properties properties) {
+        super(GcysArmorMaterials.SPACE, type, properties);
     }
 
     @ExpectPlatform
-    public static SpaceSuitArmorItem create(EquipmentSlot slot, Item.Properties properties) {
+    public static SpaceSuitArmorItem create(ArmorItem.Type slot, Item.Properties properties) {
         throw new AssertionError();
     }
 

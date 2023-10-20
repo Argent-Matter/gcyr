@@ -10,6 +10,7 @@ import com.google.common.collect.HashBiMap;
 import com.gregtechceu.gtceu.api.item.component.IAddInformation;
 import com.gregtechceu.gtceu.api.item.component.IInteractionItem;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
@@ -58,13 +59,13 @@ public class PlanetIdChipBehaviour implements IInteractionItem, IAddInformation 
 
     public static void setPlanetFromName(String planetName, ItemStack held) {
         if (!GCySItems.ID_CHIP.isIn(held)) return;
-        Planet currentTarget = PLANET_NAME_CACHE.computeIfAbsent(planetName, (name) -> PlanetData.getPlanetFromLevel(ResourceKey.create(Registry.DIMENSION_REGISTRY, ResourceLocation.of(name.substring(6), '.'))).orElse(null));
+        Planet currentTarget = PLANET_NAME_CACHE.computeIfAbsent(planetName, (name) -> PlanetData.getPlanetFromLevel(ResourceKey.create(Registries.DIMENSION, ResourceLocation.of(name.substring(6), '.'))).orElse(null));
         held.getOrCreateTag().putString(CURRENT_PLANET_TAG_ID, currentTarget.level().location().toString());
     }
 
     @Nullable
     public static Planet getPlanetFromStack(ItemStack stack) {
-        return PlanetData.getPlanetFromLevel(ResourceKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(stack.getOrCreateTag().getString(CURRENT_PLANET_TAG_ID)))).orElse(null);
+        return PlanetData.getPlanetFromLevel(ResourceKey.create(Registries.DIMENSION, new ResourceLocation(stack.getOrCreateTag().getString(CURRENT_PLANET_TAG_ID)))).orElse(null);
     }
 
     @Override

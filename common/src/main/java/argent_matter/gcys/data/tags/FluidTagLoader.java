@@ -9,16 +9,15 @@ import net.minecraft.world.level.material.Fluid;
 
 public class FluidTagLoader {
     public static void init(RegistrateTagsProvider<Fluid> provider) {
-        createBlock(provider, GCySTags.VEHICLE_FUELS, "gtceu:rocket_fuel");
+        createFluid(provider, GCySTags.VEHICLE_FUELS, "gtceu:rocket_fuel");
     }
 
-    private static void createBlock(RegistrateTagsProvider<Fluid> provider, TagKey<Fluid> tagKey, String... rls) {
-        TagBuilder builder = provider.getOrCreateRawBuilder(tagKey);
+    private static void createFluid(RegistrateTagsProvider<Fluid> provider, TagKey<Fluid> tagKey, String... rls) {
+        var  builder = provider.addTag(tagKey);
         for (String str : rls) {
             if (str.startsWith("#")) builder.addOptionalTag(rl(str.substring(1)));
-            else builder.addElement(rl(str));
+            else builder.addOptional(rl(str));
         }
-        builder.build();
     }
 
     private static ResourceLocation rl(String name) {

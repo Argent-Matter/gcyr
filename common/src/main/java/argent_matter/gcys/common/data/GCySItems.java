@@ -10,6 +10,7 @@ import com.gregtechceu.gtceu.api.item.component.IItemComponent;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import com.tterrag.registrate.util.nullness.NonNullConsumer;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
 
@@ -92,19 +93,19 @@ public class GCySItems {
             .defaultModel()
             .register();
 
-    public static final ItemEntry<SpaceSuitArmorItem> SPACE_SUIT_HELMET = REGISTRATE.item("space_helmet", properties -> SpaceSuitArmorItem.create(EquipmentSlot.HEAD, properties))
+    public static final ItemEntry<SpaceSuitArmorItem> SPACE_SUIT_HELMET = REGISTRATE.item("space_helmet", properties -> SpaceSuitArmorItem.create(ArmorItem.Type.HELMET, properties))
             .properties(p -> p.fireResistant())
             .defaultModel()
             .register();
-    public static final ItemEntry<SpaceSuitArmorItem> SPACE_SUIT_CHEST = REGISTRATE.item("space_chestplate", properties -> SpaceSuitArmorItem.create(EquipmentSlot.CHEST, properties))
+    public static final ItemEntry<SpaceSuitArmorItem> SPACE_SUIT_CHEST = REGISTRATE.item("space_chestplate", properties -> SpaceSuitArmorItem.create(ArmorItem.Type.CHESTPLATE, properties))
             .properties(p -> p.fireResistant())
             .defaultModel()
             .register();
-    public static final ItemEntry<SpaceSuitArmorItem> SPACE_SUIT_LEGS = REGISTRATE.item("space_leggings", properties -> SpaceSuitArmorItem.create(EquipmentSlot.LEGS, properties))
+    public static final ItemEntry<SpaceSuitArmorItem> SPACE_SUIT_LEGS = REGISTRATE.item("space_leggings", properties -> SpaceSuitArmorItem.create(ArmorItem.Type.LEGGINGS, properties))
             .properties(p -> p.fireResistant())
             .defaultModel()
             .register();
-    public static final ItemEntry<SpaceSuitArmorItem> SPACE_SUIT_BOOTS = REGISTRATE.item("space_boots", properties -> SpaceSuitArmorItem.create(EquipmentSlot.FEET, properties))
+    public static final ItemEntry<SpaceSuitArmorItem> SPACE_SUIT_BOOTS = REGISTRATE.item("space_boots", properties -> SpaceSuitArmorItem.create(ArmorItem.Type.BOOTS, properties))
             .properties(p -> p.fireResistant())
             .defaultModel()
             .register();

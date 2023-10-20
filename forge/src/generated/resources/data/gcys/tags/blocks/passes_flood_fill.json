@@ -9,7 +9,13 @@
       "id": "#minecraft:fences",
       "required": false
     },
-    "minecraft:iron_bars",
-    "minecraft:tnt"
+    {
+      "id": "minecraft:iron_bars",
+      "required": false
+    },
+    {
+      "id": "minecraft:tnt",
+      "required": false
+    }
   ]
 }

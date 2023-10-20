@@ -3,9 +3,14 @@ package argent_matter.gcys.fabric;
 import argent_matter.gcys.GCyS;
 import argent_matter.gcys.api.capability.GcysCapabilityHelper;
 import argent_matter.gcys.api.capability.IDysonSystem;
+import argent_matter.gcys.common.data.GCySMachines;
 import argent_matter.gcys.common.data.GCySNetworking;
+import argent_matter.gcys.common.data.GCySRecipeTypes;
+import argent_matter.gcys.common.data.GCySSoundEntries;
 import argent_matter.gcys.common.networking.s2c.PacketSyncDysonSphereStatus;
 import argent_matter.gcys.data.loader.PlanetData;
+import com.gregtechceu.gtceu.config.ConfigHolder;
+import com.lowdragmc.lowdraglib.Platform;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.entity.event.v1.ServerEntityWorldChangeEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
@@ -24,6 +29,12 @@ import java.util.concurrent.Executor;
 public class GCySFabric implements ModInitializer {
     @Override
     public void onInitialize() {
+        if (Platform.isDatagen()) { // Force these to load for data generation
+            ConfigHolder.init(); // force init GTCEu ConfigHolder
+            GCySSoundEntries.init();
+            GCySRecipeTypes.init();
+            GCySMachines.init();
+        }
         GCyS.init();
 
 
@@ -49,7 +60,7 @@ public class GCySFabric implements ModInitializer {
         });
 
         ServerEntityWorldChangeEvents.AFTER_PLAYER_CHANGE_WORLD.register((player, origin, destination) -> {
-            IDysonSystem system = GcysCapabilityHelper.getDysonSystem(player.getLevel(), player.getOnPos());
+            IDysonSystem system = GcysCapabilityHelper.getDysonSystem(player.serverLevel(), player.getOnPos());
             if (system != null && system.isDysonSphereActive()) {
                 GCySNetworking.NETWORK.sendToPlayer(new PacketSyncDysonSphereStatus(true), player);
             } else {
@@ -59,7 +70,7 @@ public class GCySFabric implements ModInitializer {
 
         ServerEntityEvents.ENTITY_LOAD.register((entity, world) -> {
             if (entity instanceof ServerPlayer player) {
-                IDysonSystem system = GcysCapabilityHelper.getDysonSystem(player.getLevel(), player.getOnPos());
+                IDysonSystem system = GcysCapabilityHelper.getDysonSystem(player.serverLevel(), player.getOnPos());
                 if (system != null && system.isDysonSphereActive()) {
                     GCySNetworking.NETWORK.sendToPlayer(new PacketSyncDysonSphereStatus(true), player);
                 } else {

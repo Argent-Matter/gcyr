@@ -1,8 +1,8 @@
 package argent_matter.gcys.client.dimension.renderer;
 
-import com.mojang.math.Vector3f;
 import net.minecraft.Util;
 import net.minecraft.util.Mth;
+import org.joml.Vector3f;
 
 import java.util.Random;
 import java.util.function.BiFunction;

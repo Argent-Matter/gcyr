@@ -18,6 +18,7 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.properties.BlockSetType;
 
 import java.util.Map;
 import java.util.function.BiFunction;
@@ -64,20 +65,18 @@ public class GCySBlocks {
             .block("rocket_motor", RotatedPillarBlock::new)
             .initialProperties(() -> Blocks.IRON_BLOCK)
             .lang("Rocket Motor")
-            .blockstate((ctx, prov) -> prov.simpleBlock(ctx.getEntry(), prov.models().cubeBottomTop("rocket_motor",
-                    GCyS.id("block/casings/rocket/rocket_motor_side"), GCyS.id("block/casings/rocket/rocket_motor_bottom"), GCyS.id("block/casings/rocket/rocket_motor_top")
-            )))
+            .blockstate(GCySModels::rocketMotorModel)
             .tag(GTToolType.WRENCH.harvestTag, BlockTags.MINEABLE_WITH_PICKAXE)
             .simpleItem()
             .register();
 
     public static final BlockEntry<DoorBlock> AIRLOCK_DOOR = REGISTRATE
-            .block("airlock_door", DoorBlock::new)
+            .block("airlock_door", properties -> new DoorBlock(properties, BlockSetType.IRON))
             .initialProperties(() -> Blocks.IRON_BLOCK)
             .lang("Airlock Door")
             .properties(p -> p.strength(4.0F, 6.0F))
             .tag(GTToolType.WRENCH.harvestTag, BlockTags.MINEABLE_WITH_PICKAXE, GCySTags.BLOCKS_FLOOD_FILL)
-            .blockstate((ctx, prov) -> prov.doorBlock(ctx.getEntry(), GCyS.id("block/airlock_door_bottom"), GCyS.id("block/airlock_door_top")))
+            .blockstate(GCySModels::airlockDoorModel)
             .item()
             .tag(ItemTags.DOORS)
             .defaultModel()
@@ -88,7 +87,7 @@ public class GCySBlocks {
             .block("launch_pad", Block::new)
             .initialProperties(() -> Blocks.IRON_BLOCK)
             .lang("Launch Pad")
-            .blockstate((ctx, prov) -> prov.simpleBlock(ctx.getEntry()))
+            .defaultBlockstate()
             .tag(GTToolType.WRENCH.harvestTag, BlockTags.MINEABLE_WITH_PICKAXE)
             .simpleItem()
             .register();
@@ -97,7 +96,7 @@ public class GCySBlocks {
             .block("fuel_tank", RotatedPillarBlock::new)
             .initialProperties(() -> Blocks.IRON_BLOCK)
             .lang("Fuel Tank")
-            .blockstate((ctx, prov) -> prov.axisBlock(ctx.getEntry()))
+            .blockstate(GCySModels::axisModel)
             .tag(GTToolType.WRENCH.harvestTag, BlockTags.MINEABLE_WITH_PICKAXE)
             .simpleItem()
             .register();
@@ -105,7 +104,7 @@ public class GCySBlocks {
             .block("seat", CarpetBlock::new)
             .initialProperties(() -> Blocks.IRON_BLOCK)
             .lang("Seat")
-            .blockstate((ctx, prov) -> prov.simpleBlock(ctx.getEntry(), prov.models().carpet("seat", new ResourceLocation("block/light_gray_wool"))))
+            .blockstate(GCySModels::seatModel)
             .tag(GTToolType.WRENCH.harvestTag, BlockTags.MINEABLE_WITH_PICKAXE)
             .simpleItem()
             .register();

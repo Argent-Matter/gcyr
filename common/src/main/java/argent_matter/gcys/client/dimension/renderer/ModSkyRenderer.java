@@ -6,14 +6,14 @@ import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexBuffer;
-import com.mojang.math.Matrix4f;
-import com.mojang.math.Vector3f;
 import net.minecraft.client.Camera;
 import net.minecraft.client.GraphicsStatus;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.FogRenderer;
 import net.minecraft.client.renderer.GameRenderer;
+import org.joml.Matrix4f;
+import org.joml.Vector3f;
 
 import java.util.List;
 
@@ -105,7 +105,7 @@ public class ModSkyRenderer {
             starsBuffer.close();
         }
 
-        starsBuffer = new VertexBuffer();
+        starsBuffer = new VertexBuffer(VertexBuffer.Usage.STATIC);
         starsCount = stars;
         BufferBuilder.RenderedBuffer renderedBuffer = SkyUtil.renderStars(bufferBuilder, stars, starsRenderer.colouredStars());
         starsBuffer.bind();

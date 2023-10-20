@@ -1,15 +1,16 @@
 package argent_matter.gcys.api.space.planet;
 
-import com.mojang.math.Vector3f;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+import org.joml.Vector3f;
 
 import java.util.List;
 import java.util.Locale;
@@ -21,7 +22,7 @@ public record PlanetSkyRenderer(ResourceKey<Level> dimension, PlanetSkyRenderer.
                                 List<SkyObject> skyObjects) {
 
     public static final Codec<PlanetSkyRenderer> CODEC = RecordCodecBuilder.create(instance -> instance.group(
-            ResourceKey.codec(Registry.DIMENSION_REGISTRY).fieldOf("world").forGetter(PlanetSkyRenderer::dimension),
+            ResourceKey.codec(Registries.DIMENSION).fieldOf("world").forGetter(PlanetSkyRenderer::dimension),
             StarsRenderer.CODEC.fieldOf("stars").forGetter(PlanetSkyRenderer::starsRenderer),
             DimensionEffects.CODEC.fieldOf("dimension_effects").forGetter(PlanetSkyRenderer::effects),
             CloudEffects.CODEC.fieldOf("cloud_effects").forGetter(PlanetSkyRenderer::cloudEffects),
@@ -103,7 +104,7 @@ public record PlanetSkyRenderer(ResourceKey<Level> dimension, PlanetSkyRenderer.
                 RenderType.CODEC.fieldOf("render_type").forGetter(SkyObject::renderType),
                 Codec.FLOAT.fieldOf("scale").forGetter(SkyObject::scale),
                 Codec.INT.fieldOf("color").orElse(0xFFFFFFFF).forGetter(SkyObject::colour),
-                Vector3f.CODEC.fieldOf("rotation").forGetter(SkyObject::rotation)
+                ExtraCodecs.VECTOR3F.fieldOf("rotation").forGetter(SkyObject::rotation)
         ).apply(instance, SkyObject::new));
     }
 

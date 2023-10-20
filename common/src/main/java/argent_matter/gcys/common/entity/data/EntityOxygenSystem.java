@@ -14,6 +14,8 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageSources;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
@@ -87,7 +89,7 @@ public class EntityOxygenSystem {
             if (hasOxygenatedSpaceSuit) {
                 consumeOxygen(entity);
             } else if (!StreamSupport.stream(entity.getArmorSlots().spliterator(), false).allMatch(stack -> stack.is(GCySTags.OXYGENATED_ARMOR))) {
-                entity.hurt(DamageSource.DROWN, GcysConfig.INSTANCE.server.oxygenDamage);
+                entity.hurt(level.damageSources().drown(), GcysConfig.INSTANCE.server.oxygenDamage);
                 entity.setAirSupply(-40);
             }
         }
@@ -176,7 +178,7 @@ public class EntityOxygenSystem {
     }
 
     private static void consumeOxygen(LivingEntity entity) {
-        if (entity.getLevel().getGameTime() % 3 == 0) {
+        if (entity.level().getGameTime() % 3 == 0) {
             entity.setAirSupply(Math.min(entity.getMaxAirSupply(), entity.getAirSupply() + 4 * 10));
             SpaceSuitArmorItem.consumeSpaceSuitOxygen(entity, 1);
         }
@@ -186,7 +188,7 @@ public class EntityOxygenSystem {
      * Checks if an entity has oxygen.
      */
     public static boolean entityHasOxygen(Level level, LivingEntity entity) {
-        return posHasOxygen(level, new BlockPos(entity.getEyePosition()));
+        return posHasOxygen(level, BlockPos.containing(entity.getEyePosition()));
     }
 
     /**

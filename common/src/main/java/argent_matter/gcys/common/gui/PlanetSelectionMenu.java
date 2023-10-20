@@ -16,7 +16,7 @@ public class PlanetSelectionMenu extends AbstractContainerMenu {
 
     public PlanetSelectionMenu(int syncId, Player player, FriendlyByteBuf buf) {
         this(syncId, player);
-        if (player.level.isClientSide) {
+        if (player.level().isClientSide) {
             PlanetData.readPlanetData(buf);
             GCySClient.hasUpdatedPlanets = true;
         }

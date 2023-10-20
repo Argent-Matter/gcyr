@@ -7,6 +7,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceKey;
@@ -46,7 +47,7 @@ public abstract class Satellite {
         return instance.group(
                 GcysRegistries.SATELLITES.codec().fieldOf("type").forGetter(Satellite::getType),
                 SatelliteData.CODEC.fieldOf("data").forGetter(Satellite::getData),
-                ResourceKey.codec(Registry.DIMENSION_REGISTRY).fieldOf("level").forGetter(Satellite::getLevel)
+                ResourceKey.codec(Registries.DIMENSION).fieldOf("level").forGetter(Satellite::getLevel)
         );
     }
 
@@ -90,7 +91,7 @@ public abstract class Satellite {
 
         SatelliteData data = SatelliteData.deserializeNBT(nbt.getCompound("data"));
 
-        ResourceKey<Level> levelResourceKey = ResourceKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(nbt.getString("level")));
+        ResourceKey<Level> levelResourceKey = ResourceKey.create(Registries.DIMENSION, new ResourceLocation(nbt.getString("level")));
 
         Satellite sat = satellite.create(type, data, levelResourceKey);
         if (nbt.contains("extra")) sat.deserializeExtraData(nbt.get("extra"), level);

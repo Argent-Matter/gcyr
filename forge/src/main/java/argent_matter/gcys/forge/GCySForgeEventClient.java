@@ -14,7 +14,7 @@ public class GCySForgeEventClient {
     @SubscribeEvent
     public static void registerParticles(RegisterParticleProvidersEvent event) {
         GcysParticleProviders.init();
-        GcysParticleProviders.PARTICLES.forEach(event::register);
+        GcysParticleProviders.PARTICLES.forEach(event::registerSpriteSet);
     }
 
 }

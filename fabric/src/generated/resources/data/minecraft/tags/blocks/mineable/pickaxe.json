@@ -1,7 +1,12 @@
 {
   "replace": false,
   "values": [
-    "gcys:aluminium_aerospace",
+    "gcys:aerospace_aluminium_casing",
+    "gcys:beam_receiver",
+    "gcys:space_elevator_support",
+    "gcys:dyson_sphere_casing",
+    "gcys:dyson_solar_cell",
+    "gcys:dyson_sphere_maintenance_port",
     "gcys:rocket_motor",
     "gcys:airlock_door",
     "gcys:launch_pad",

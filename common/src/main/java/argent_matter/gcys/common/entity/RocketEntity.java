@@ -38,6 +38,7 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -54,7 +55,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.vehicle.DismountHelper;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
-import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -140,9 +140,9 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
     @Override
     public InteractionResult interact(Player player, InteractionHand hand) {
         super.interact(player, hand);
-        InteractionResult result = InteractionResult.sidedSuccess(this.level.isClientSide);
+        InteractionResult result = InteractionResult.sidedSuccess(this.level().isClientSide);
 
-        if (!this.level.isClientSide) {
+        if (!this.level().isClientSide) {
             if (player.isSecondaryUseActive()) {
                 this.openCustomInventoryScreen(player);
                 return InteractionResult.CONSUME;
@@ -184,7 +184,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
     }
 
     @Override
-    public void positionRider(Entity passenger) {
+    public void positionRider(Entity passenger, Entity.MoveFunction callback) {
         if (this.hasPassenger(passenger)) {
             int passengerIndex = this.getPassengers().indexOf(passenger);
             if (this.getSeatPositions().isEmpty()) {
@@ -192,7 +192,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
                 return;
             }
             BlockPos seatPos = this.getSeatPositions().get(passengerIndex);
-            passenger.setPos(this.getX() + seatPos.getX() + 0.5, this.getY() + seatPos.getY() - 0.5, this.getZ() + seatPos.getZ() + 0.5);
+            callback.accept(passenger, this.getX() + seatPos.getX() + 0.5, this.getY() + seatPos.getY() - 0.5, this.getZ() + seatPos.getZ() + 0.5);
         }
     }
 
@@ -220,13 +220,13 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         }
 
         for(BlockPos blockpos : set) {
-            if (!this.level.getFluidState(blockpos).is(FluidTags.LAVA)) {
-                double floor = this.level.getBlockFloorHeight(blockpos);
+            if (!this.level().getFluidState(blockpos).is(FluidTags.LAVA)) {
+                double floor = this.level().getBlockFloorHeight(blockpos);
                 if (DismountHelper.isBlockFloorValid(floor)) {
                     Vec3 vector3d1 = Vec3.upFromBottomCenterOf(blockpos, floor);
 
                     for(Pose pose : livingEntity.getDismountPoses()) {
-                        if (DismountHelper.isBlockFloorValid(this.level.getBlockFloorHeight(blockpos))) {
+                        if (DismountHelper.isBlockFloorValid(this.level().getBlockFloorHeight(blockpos))) {
                             livingEntity.setPose(pose);
                             return vector3d1;
                         }
@@ -241,7 +241,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
     public void spawnParticle() {
         Vec3 vec = this.getDeltaMovement();
 
-        if (this.level instanceof ServerLevel serverLevel) {
+        if (this.level() instanceof ServerLevel serverLevel) {
             for (BlockPos pos : this.thrusterPositions) {
                 if (this.getStartTimer() == 200) {
                     for (ServerPlayer p : serverLevel.getServer().getPlayerList().getPlayers()) {
@@ -301,10 +301,10 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
                         this.destinationIsSpaceStation = true;
                     }
 
-                    if (this.destination.rocketTier() >= determineRocketTier() || (!destinationIsSpaceStation && this.getLevel().dimension().location().equals(this.destination.level().location()))) return;
+                    if (this.destination.rocketTier() >= determineRocketTier() || (!destinationIsSpaceStation && this.level().dimension().location().equals(this.destination.level().location()))) return;
                     data.set(RocketEntity.ROCKET_STARTED, true);
-                    //GCySSoundEntries.ROCKET.play(this.level, null, this.getX(), this.getY(), this.getZ(), 1, 1);
-                    this.level.playSound(null, this, GCySSoundEntries.ROCKET.getMainEvent(), SoundSource.NEUTRAL, 1, 1);
+                    //GCySSoundEntries.ROCKET.play(this.level(), null, this.getX(), this.getY(), this.getZ(), 1, 1);
+                    this.level().playSound(null, this, GCySSoundEntries.ROCKET.getMainEvent(), SoundSource.NEUTRAL, 1, 1);
                 }
             } else {
                 sendVehicleHasNoFuelMessage(player);
@@ -338,9 +338,9 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
 
     public void rocketExplosion() {
         if (this.getStartTimer() == 200) {
-            if (this.getDeltaMovement().y > -0.15 && this.isOnGround()) {
-                if (!this.level.isClientSide) {
-                    this.level.explode(this, this.getX(), this.getBoundingBox().maxY, this.getZ(), 10, true, Explosion.BlockInteraction.BREAK);
+            if (this.getDeltaMovement().y > -0.15 && this.onGround()) {
+                if (!this.level().isClientSide) {
+                    this.level().explode(this, this.getX(), this.getBoundingBox().maxY, this.getZ(), 10, true, Level.ExplosionInteraction.MOB);
                     this.remove(RemovalReason.DISCARDED);
                 }
             }
@@ -362,11 +362,11 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
     }
 
     private boolean doesDrop(BlockState state, BlockPos pos) {
-        if (this.onGround) {
+        if (this.onGround()) {
 
-            BlockState state2 = this.level.getBlockState(new BlockPos((int)Math.floor(this.getX()), (int)(this.getY() - 0.2), (int)Math.floor(this.getZ())));
+            BlockState state2 = this.level().getBlockState(new BlockPos((int)Math.floor(this.getX()), (int)(this.getY() - 0.2), (int)Math.floor(this.getZ())));
 
-            if (!this.level.isEmptyBlock(pos) && (state2.is(GCySBlocks.LAUNCH_PAD.get()) || !state.is(GCySBlocks.LAUNCH_PAD.get()))) {
+            if (!this.level().isEmptyBlock(pos) && (state2.is(GCySBlocks.LAUNCH_PAD.get()) || !state.is(GCySBlocks.LAUNCH_PAD.get()))) {
                 this.unBuild();
 
                 return true;
@@ -382,12 +382,12 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         BlockPos blockPos2 = new BlockPos((int) aabb.maxX, (int) aabb.minY, (int) aabb.maxZ);
 
         //noinspection deprecation
-        if (this.level.hasChunksAt(blockPos1, blockPos2)) {
+        if (this.level().hasChunksAt(blockPos1, blockPos2)) {
             for (int i = blockPos1.getX(); i <= blockPos2.getX(); ++i) {
                 for (int j = blockPos1.getY(); j <= blockPos2.getY(); ++j) {
                     for (int k = blockPos1.getZ(); k <= blockPos2.getZ(); ++k) {
                         BlockPos pos = new BlockPos(i, j, k);
-                        BlockState state = this.level.getBlockState(pos);
+                        BlockState state = this.level().getBlockState(pos);
 
                         if (this.doesDrop(state, pos)) {
                             return;
@@ -481,7 +481,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
             BlockPos stationPos = stations.getStationWorldPos(stationId);
             newRocket.setPos(stationPos.getX(), pos.y, stationPos.getZ());
         } else {
-            double scale = DimensionType.getTeleportationScale(this.level.dimensionType(), destinationLevel.dimensionType());
+            double scale = DimensionType.getTeleportationScale(this.level().dimensionType(), destinationLevel.dimensionType());
             newRocket.setPos(pos.multiply(scale, 1, scale));
         }
 
@@ -496,7 +496,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
     }
 
     public void unBuild() {
-        if (this.level.isClientSide) return;
+        if (this.level().isClientSide) return;
 
         if (!configSlot.getStackInSlot(0).isEmpty())
             this.spawnAtLocation(configSlot.getStackInSlot(0));
@@ -514,11 +514,11 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
                     offset,
                     false
             );
-            if (!this.level.getBlockState(offset).isAir() && !this.level.getBlockState(offset).canBeReplaced(new BlockPlaceContext(this.level, null, InteractionHand.MAIN_HAND, ItemStack.EMPTY, result))) {
+            if (!this.level().getBlockState(offset).isAir() && !this.level().getBlockState(offset).canBeReplaced(new BlockPlaceContext(this.level(), null, InteractionHand.MAIN_HAND, ItemStack.EMPTY, result))) {
                 this.spawnAtLocation(state.state().getBlock().asItem());
                 continue;
             }
-            this.level.setBlock(offset, state.state(), Block.UPDATE_ALL);
+            this.level().setBlock(offset, state.state(), Block.UPDATE_ALL);
         }
 
         this.remove(RemovalReason.DISCARDED);
@@ -706,7 +706,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
     }
 
     @Override
-    public Packet<?> getAddEntityPacket() {
+    public Packet<ClientGamePacketListener> getAddEntityPacket() {
         return new ClientboundAddEntityPacket(this);
     }
 
@@ -717,7 +717,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
     }
 
     public static void sendVehicleHasNoFuelMessage(Player player) {
-        if (!player.level.isClientSide) {
+        if (!player.level().isClientSide) {
             player.displayClientMessage(Component.translatable("message." + GCyS.MOD_ID + ".no_fuel"), false);
         }
     }
@@ -729,7 +729,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
 
     @Override
     public boolean isRemote() {
-        return this.level.isClientSide;
+        return this.level().isClientSide;
     }
 
     @Override

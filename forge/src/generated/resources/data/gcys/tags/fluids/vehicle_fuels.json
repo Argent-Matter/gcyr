@@ -1,5 +1,8 @@
 {
   "values": [
-    "gtceu:rocket_fuel"
+    {
+      "id": "gtceu:rocket_fuel",
+      "required": false
+    }
   ]
 }

@@ -41,7 +41,7 @@ public abstract class LivingEntityMixin extends Entity implements IGpsTracked {
     @Inject(method = "tick", at = @At("TAIL"))
     public void gcys$tick(CallbackInfo ci) {
         LivingEntity entity = (LivingEntity) (Object) this;
-        Level level = entity.level;
+        Level level = entity.level();
         if (!level.isClientSide) {
             if (level.getGameTime() % 10 == 0) {
                 if (entity instanceof Player player && (player.isCreative() || player.isSpectator())) {

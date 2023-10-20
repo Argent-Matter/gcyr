@@ -2,7 +2,6 @@ package argent_matter.gcys.forge;
 
 import argent_matter.gcys.GCyS;
 import argent_matter.gcys.GCySClient;
-import argent_matter.gcys.common.data.forge.GCySBiomesImpl;
 import argent_matter.gcys.common.data.forge.GCySDimensionTypesImpl;
 import argent_matter.gcys.data.loader.PlanetResources;
 import net.minecraftforge.api.distmarker.Dist;
@@ -18,7 +17,6 @@ public class GCySForge {
         GCyS.init();
         var bus = FMLJavaModLoadingContext.get().getModEventBus();
         bus.register(this);
-        GCySBiomesImpl.register(bus);
         GCySDimensionTypesImpl.register(bus);
 
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> GCySClient::init);

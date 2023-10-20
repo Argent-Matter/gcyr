@@ -30,13 +30,13 @@ public class GCySEntityDataSerializers {
         @Override
         public void write(FriendlyByteBuf friendlyByteBuf, PosWithState posState) {
             EntityDataSerializers.BLOCK_POS.write(friendlyByteBuf, posState.pos());
-            EntityDataSerializers.BLOCK_STATE.write(friendlyByteBuf, Optional.of(posState.state()));
+            EntityDataSerializers.BLOCK_STATE.write(friendlyByteBuf, posState.state());
         }
 
         @Override
         public PosWithState read(FriendlyByteBuf friendlyByteBuf) {
             BlockPos pos = EntityDataSerializers.BLOCK_POS.read(friendlyByteBuf);
-            BlockState state = EntityDataSerializers.BLOCK_STATE.read(friendlyByteBuf).orElse(Blocks.AIR.defaultBlockState());
+            BlockState state = EntityDataSerializers.BLOCK_STATE.read(friendlyByteBuf);
             return new PosWithState(pos, state);
         }
     };

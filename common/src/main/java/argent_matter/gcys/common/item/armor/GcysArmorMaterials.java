@@ -6,6 +6,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.LazyLoadedValue;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.crafting.Ingredient;
 
@@ -41,12 +42,14 @@ public enum GcysArmorMaterials implements ArmorMaterial {
         this.repairIngredient = new LazyLoadedValue<>(repairIngredient);
     }
 
-    public int getDurabilityForSlot(EquipmentSlot slot) {
-        return HEALTH_PER_SLOT[slot.getIndex()] * this.durabilityMultiplier;
+    @Override
+    public int getDurabilityForType(ArmorItem.Type type) {
+        return HEALTH_PER_SLOT[type.getSlot().getIndex()] * this.durabilityMultiplier;
     }
 
-    public int getDefenseForSlot(EquipmentSlot slot) {
-        return this.slotProtections[slot.getIndex()];
+    @Override
+    public int getDefenseForType(ArmorItem.Type type) {
+        return this.slotProtections[type.getSlot().getIndex()];
     }
 
     public Ingredient getRepairIngredient() {

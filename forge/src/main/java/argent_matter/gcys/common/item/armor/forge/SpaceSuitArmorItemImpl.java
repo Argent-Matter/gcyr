@@ -2,6 +2,7 @@ package argent_matter.gcys.common.item.armor.forge;
 
 import argent_matter.gcys.common.item.armor.SpaceSuitArmorItem;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.capabilities.Capability;
@@ -13,11 +14,11 @@ import net.minecraftforge.fluids.capability.templates.FluidHandlerItemStack;
 import javax.annotation.Nonnull;
 
 public class SpaceSuitArmorItemImpl extends SpaceSuitArmorItem implements IForgeItem {
-    public SpaceSuitArmorItemImpl(EquipmentSlot slot, Properties properties) {
+    public SpaceSuitArmorItemImpl(ArmorItem.Type slot, Properties properties) {
         super(slot, properties);
     }
 
-    public static SpaceSuitArmorItem create(EquipmentSlot slot, Item.Properties properties) {
+    public static SpaceSuitArmorItem create(ArmorItem.Type slot, Item.Properties properties) {
         return new SpaceSuitArmorItemImpl(slot, properties);
     }
 

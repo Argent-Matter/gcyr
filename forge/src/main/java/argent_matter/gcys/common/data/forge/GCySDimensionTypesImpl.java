@@ -5,13 +5,14 @@ import argent_matter.gcys.common.data.GCySBiomes;
 import argent_matter.gcys.common.worldgen.SpaceLevelSource;
 import com.mojang.serialization.Codec;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 
 public class GCySDimensionTypesImpl {
 
-    private static final DeferredRegister<Codec<? extends ChunkGenerator>> CHUNK_GENERATOR_REGISTER = DeferredRegister.create(Registry.CHUNK_GENERATOR_REGISTRY, GCyS.MOD_ID);
+    private static final DeferredRegister<Codec<? extends ChunkGenerator>> CHUNK_GENERATOR_REGISTER = DeferredRegister.create(Registries.CHUNK_GENERATOR, GCyS.MOD_ID);
 
     public static void register(IEventBus bus) {
         CHUNK_GENERATOR_REGISTER.register(bus);

@@ -13,6 +13,5 @@ public class GCySDatagen {
         GcysRegistries.REGISTRATE.addDataGenerator(ProviderType.BLOCK_TAGS, BlockTagLoader::init);
         GcysRegistries.REGISTRATE.addDataGenerator(ProviderType.FLUID_TAGS, FluidTagLoader::init);
         GcysRegistries.REGISTRATE.addDataGenerator(ProviderType.LANG, LangHandler::init);
-        GregTechDatagen.init();
     }
 }

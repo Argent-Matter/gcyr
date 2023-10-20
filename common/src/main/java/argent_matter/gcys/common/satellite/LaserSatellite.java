@@ -4,8 +4,7 @@ import argent_matter.gcys.api.space.satellite.Satellite;
 import argent_matter.gcys.api.space.satellite.SatelliteType;
 import argent_matter.gcys.api.space.satellite.data.SatelliteData;
 import argent_matter.gcys.config.GcysConfig;
-import com.gregtechceu.gtceu.api.data.damagesource.DamageSources;
-import com.mojang.math.Vector3f;
+import com.gregtechceu.gtceu.common.data.GTDamageTypes;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
@@ -37,16 +36,16 @@ public class LaserSatellite extends Satellite {
         if (isNonWorking()) return;
         if (isMining) {
             if (level.getGameTime() % GcysConfig.INSTANCE.satellites.laserSatelliteMiningTickStep == 0) {
-                float x = this.data.locationInWorld().x();
-                float z = this.data.locationInWorld().y();
-                for (float i = x - 1; i < x + 1; ++x) {
-                    for (float j = z - 1; j < z + 1; ++z) {
+                int x = this.data.locationInWorld().x();
+                int z = this.data.locationInWorld().y();
+                for (int i = x - 1; i < x + 1; ++x) {
+                    for (int j = z - 1; j < z + 1; ++z) {
                         level.setBlock(new BlockPos(i, currentMinedY, j), Blocks.AIR.defaultBlockState(), 3);
                     }
                 }
 
                 var entities = level.getEntities(EntityTypeTest.forClass(LivingEntity.class), new AABB(x - 1, currentMinedY - 1, z - 1, x + 1, currentMinedY + 1, z + 1), EntitySelector.NO_CREATIVE_OR_SPECTATOR);
-                entities.forEach(entity -> entity.hurt(DamageSources.getRadioactiveDamage(), GcysConfig.INSTANCE.satellites.laserSatelliteDamagePerTickStep));
+                entities.forEach(entity -> entity.hurt(GTDamageTypes.RADIATION.source(level), GcysConfig.INSTANCE.satellites.laserSatelliteDamagePerTickStep));
             }
         }
 

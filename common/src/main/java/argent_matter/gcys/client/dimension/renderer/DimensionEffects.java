@@ -2,12 +2,12 @@ package argent_matter.gcys.client.dimension.renderer;
 
 import argent_matter.gcys.api.space.planet.PlanetSkyRenderer;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Matrix4f;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.DimensionSpecialEffects;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.world.phys.Vec3;
+import org.joml.Matrix4f;
 
 public class DimensionEffects extends DimensionSpecialEffects implements DimensionRenderer {
     private final PlanetSkyRenderer renderer;

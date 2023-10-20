@@ -1,10 +1,10 @@
 package argent_matter.gcys.client.dimension.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Matrix4f;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.LightTexture;
+import org.joml.Matrix4f;
 
 public interface DimensionRenderer {
 

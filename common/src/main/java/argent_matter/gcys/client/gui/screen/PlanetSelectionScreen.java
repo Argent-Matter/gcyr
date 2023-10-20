@@ -16,14 +16,14 @@ import argent_matter.gcys.util.GCySValues;
 import com.gregtechceu.gtceu.GTCEu;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import lombok.Getter;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.ChatFormatting;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.MenuAccess;
@@ -31,6 +31,7 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.level.Level;
@@ -86,28 +87,29 @@ public class PlanetSelectionScreen extends Screen implements MenuAccess<PlanetSe
         }
 
         // Set the initial gui time to the level time. This creates a random start position for each rotating object.
-        guiTime = handler.getPlayer().level.getRandom().nextFloat() * 100000.0f;
+        //noinspection resource
+        guiTime = handler.getPlayer().level().getRandom().nextFloat() * 100000.0f;
     }
 
     @Override
-    public void render(PoseStack poseStack, int mouseX, int mouseY, float delta) {
+    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
 
         // For rotations
         this.guiTime += delta;
-        this.renderBackground(poseStack, mouseX, mouseY, delta);
-        super.render(poseStack, mouseX, mouseY, delta);
+        this.renderBackground(guiGraphics, mouseX, mouseY, delta);
+        super.render(guiGraphics, mouseX, mouseY, delta);
 
         // Catalog text.
-        this.font.draw(poseStack, CATALOG_TEXT, 29, (this.height / 2.0f) - 143.0f / 2.0f, -1);
+        guiGraphics.drawString(this.font, CATALOG_TEXT, 29, (int) ((this.height / 2.0f) - 143.0f / 2.0f), -1);
     }
 
-    private void drawBackground(PoseStack poseStack) {
-        GuiComponent.fill(poseStack, 0, 0, this.width, this.height, 0xff000419);
+    private void drawBackground(GuiGraphics guiGraphics) {
+        guiGraphics.fill(0, 0, this.width, this.height, 0xff000419);
         RenderSystem.enableBlend();
     }
 
-    private void renderBackground(PoseStack poseStack, int mouseX, int mouseY, float delta) {
-        super.renderBackground(poseStack);
+    private void renderBackground(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
+        super.renderBackground(guiGraphics);
 
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
@@ -115,7 +117,7 @@ public class PlanetSelectionScreen extends Screen implements MenuAccess<PlanetSe
         RenderSystem.defaultBlendFunc();
 
         // Planet selection background
-        drawBackground(poseStack);
+        drawBackground(guiGraphics);
 
         int currentPage = this.getPage();
 
@@ -137,14 +139,14 @@ public class PlanetSelectionScreen extends Screen implements MenuAccess<PlanetSe
         if (currentPage == 1) {
             GCySClient.galaxies.stream().filter(g -> g.galaxy().equals(this.currentCategory.id()))
                 .findFirst()
-                .ifPresent(galaxy -> addRotatingTexture(this, poseStack, -125, -125, galaxy.scale(), galaxy.scale(), galaxy.texture(), 0.6f));
+                .ifPresent(galaxy -> addRotatingTexture(this, guiGraphics, -125, -125, galaxy.scale(), galaxy.scale(), galaxy.texture(), 0.6f));
         }
         // Render the Solar System when inside the Solar System category
         else {
             if (solarSystem != null) {
 
                 // Sun
-                addTexture(poseStack, (this.width - solarSystem.sunScale()) / 2, (this.height - solarSystem.sunScale()) / 2, solarSystem.sunScale(), solarSystem.sunScale(), solarSystem.sun());
+                addTexture(guiGraphics, (this.width - solarSystem.sunScale()) / 2, (this.height - solarSystem.sunScale()) / 2, solarSystem.sunScale(), solarSystem.sunScale(), solarSystem.sun());
 
                 for (PlanetRing ring : planetRings) {
                     drawCircle(this.width / 2f, this.height / 2f, ring.radius() * 24, 75, solarSystem.ringColour());
@@ -152,18 +154,18 @@ public class PlanetSelectionScreen extends Screen implements MenuAccess<PlanetSe
 
                 for (PlanetRing ring : planetRings) {
                     int coordinates = (int) (ring.radius() * 17 - (ring.scale() / 1.9));
-                    addRotatingTexture(this, poseStack, coordinates, coordinates, ring.scale(), ring.scale(), ring.texture(), 365 / (float) ring.speed());
+                    addRotatingTexture(this, guiGraphics, coordinates, coordinates, ring.scale(), ring.scale(), ring.texture(), 365 / (float) ring.speed());
                 }
             }
         }
 
         // Display either the small or large menu when a planet category is opened.
         if (currentPage == 3) {
-            addTexture(poseStack, 0, (this.height / 2) - 177 / 2, 215, 177, LARGE_MENU_TEXTURE);
-            this.scrollBar.x = 210;
+            addTexture(guiGraphics, 0, (this.height / 2) - 177 / 2, 215, 177, LARGE_MENU_TEXTURE);
+            this.scrollBar.setX(210);
         } else {
-            addTexture(poseStack, 0, (this.height / 2) - 177 / 2, 105, 177, SMALL_MENU_LIST);
-            this.scrollBar.x = SCROLL_BAR_X;
+            addTexture(guiGraphics, 0, (this.height / 2) - 177 / 2, 105, 177, SMALL_MENU_LIST);
+            this.scrollBar.setX(SCROLL_BAR_X);
         }
 
         this.categoryButtons.forEach((category, buttons) -> buttons.forEach(button -> button.visible = this.currentCategory.equals(category)));
@@ -184,7 +186,6 @@ public class PlanetSelectionScreen extends Screen implements MenuAccess<PlanetSe
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
         RenderSystem.disableBlend();
         RenderSystem.disableDepthTest();
-        RenderSystem.disableTexture();
         RenderSystem.disableScissor();
     }
 
@@ -227,17 +228,15 @@ public class PlanetSelectionScreen extends Screen implements MenuAccess<PlanetSe
 
         // Scroll bar
         this.scrollBar = new Button(SCROLL_BAR_X, minScrollY, 4, 8, Component.nullToEmpty(""), pressed -> {
-        }) {
+        }, Button.DEFAULT_NARRATION) {
             @Override
-            public void render(PoseStack poseStack, int mouseX, int mouseY, float delta) {
+            public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
                 if (this.visible) {
-                    RenderSystem.setShader(GameRenderer::getPositionTexShader);
-                    RenderSystem.setShaderTexture(0, SCROLL_BAR);
                     RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
                     RenderSystem.enableBlend();
                     RenderSystem.defaultBlendFunc();
                     RenderSystem.enableDepthTest();
-                    GuiComponent.blit(poseStack, this.x, this.y, 0, 0, this.width, this.height, this.width, this.height);
+                    guiGraphics.blit(SCROLL_BAR, this.getX(), this.getY(), 0, 0, this.width, this.height, this.width, this.height);
                 }
             }
         };
@@ -251,7 +250,7 @@ public class PlanetSelectionScreen extends Screen implements MenuAccess<PlanetSe
 
     public void onNavigationButtonClick(Category target) {
         this.resetButtonScroll();
-        this.scrollBar.y = minScrollY;
+        this.scrollBar.setY(minScrollY);
         this.currentCategory = target;
     }
 
@@ -320,7 +319,7 @@ public class PlanetSelectionScreen extends Screen implements MenuAccess<PlanetSe
         float colorR = (float) ((colour << 16) & 0xFF) / 255.0f;
         float colorG = (float) ((colour << 8) & 0xFF) / 255.0f;
         float colorB = (float) (colour & 0xFF) / 255.0f;
-        ExtendedButton button = new ExtendedButton(row, column, sizeX, sizeY, colorR, colorG, colorB, label, onClick::accept, (button1, posestack, x, y) -> renderButtonTooltip(planetInfo, tooltip, button1, posestack, x, y));
+        ExtendedButton button = new ExtendedButton(row, column, sizeX, sizeY, colorR, colorG, colorB, label, onClick::accept, (button1) -> renderButtonTooltip(planetInfo, tooltip, button1));
         this.addRenderableWidget(button);
 
         buttons.add(button);
@@ -328,7 +327,7 @@ public class PlanetSelectionScreen extends Screen implements MenuAccess<PlanetSe
         return button;
     }
 
-    public void renderButtonTooltip(Planet planetInfo, TooltipType tooltip, Button button, PoseStack poseStack, int x, int y) {
+    public List<FormattedCharSequence> renderButtonTooltip(Planet planetInfo, TooltipType tooltip, Button button) {
         List<Component> textEntries = new LinkedList<>();
 
         switch (tooltip) {
@@ -372,7 +371,7 @@ public class PlanetSelectionScreen extends Screen implements MenuAccess<PlanetSe
             textEntries.add(OXYGEN_TEXT.copy().withStyle(ChatFormatting.BLUE).append(": ").append(OXYGEN_FALSE_TEXT.copy().withStyle(ChatFormatting.RED)));
             textEntries.add(TEMPERATURE_TEXT.copy().withStyle(ChatFormatting.BLUE).append(": ").append(Component.literal(GCySValues.ORBIT_TEMPERATURE + " K").withStyle(ChatFormatting.DARK_BLUE)));
         }
-        this.renderTooltip(poseStack, textEntries, Optional.empty(), x, y);
+        return textEntries.stream().map(Component::getVisualOrderText).toList();
     }
 
     @Override
@@ -395,7 +394,7 @@ public class PlanetSelectionScreen extends Screen implements MenuAccess<PlanetSe
 
                 // Don't scroll if there are not enough buttons.
                 if (overflowButtons > 0) {
-                    final int referencePoint = backButton.y;
+                    final int referencePoint = backButton.getY();
                     int minThreshold = this.height / 2 - 35;
                     int maxThreshold = (this.height / 2 - 38) - (overflowButtons * (isLargePage ? 7 : 21));
                     int sensitivity = (int) (SCROLL_SENSITIVITY * amount);
@@ -413,22 +412,22 @@ public class PlanetSelectionScreen extends Screen implements MenuAccess<PlanetSe
 
                     // Move all buttons based on the scroll.
                     for (Button button2 : buttons) {
-                        button2.y += sensitivity;
+                        button2.setY(button2.getY() + sensitivity);
 
                         if (referencePoint >= minThreshold) {
-                            button2.y -= referencePoint - minThreshold;
+                            button2.setY(button2.getY() - referencePoint - minThreshold);
                         } else if (referencePoint <= maxThreshold) {
-                            button2.y -= referencePoint - maxThreshold;
+                            button2.setY(button2.getY() - referencePoint - maxThreshold);
                         }
                     }
 
                     float min = maxThreshold / (float) minThreshold;
-                    float ratio = backButton.y / (float) minThreshold;
+                    float ratio = backButton.getY() / (float) minThreshold;
                     ratio = Mth.inverseLerp(ratio, 1, min);
 
                     // Flip min and max for inverse operation.
-                    this.scrollBar.y = (int) Mth.lerp(ratio, maxScrollY, minScrollY);
-                    this.scrollBar.y = Mth.clamp(this.scrollBar.y, minScrollY, maxScrollY);
+                    this.scrollBar.setY((int) Mth.lerp(ratio, maxScrollY, minScrollY));
+                    this.scrollBar.setY(Mth.clamp(this.scrollBar.getY(), minScrollY, maxScrollY));
                 }
 
                 break;
@@ -440,7 +439,7 @@ public class PlanetSelectionScreen extends Screen implements MenuAccess<PlanetSe
 
     public void resetButtonScroll() {
         categoryButtons.values().forEach(list -> list.forEach(button -> {
-            button.y = button.getStartY();
+            button.setY(button.getStartY());
         }));
     }
 
@@ -496,12 +495,11 @@ public class PlanetSelectionScreen extends Screen implements MenuAccess<PlanetSe
         NONE, GALAXY, SOLAR_SYSTEM, CATEGORY, PLANET, ORBIT, SPACE_STATION
     }
 
-    public static void addTexture(PoseStack poseStack, int x, int y, int width, int height, ResourceLocation texture) {
-        RenderSystem.setShaderTexture(0, texture);
-        GuiComponent.blit(poseStack, x, y, 0, 0, width, height, width, height);
+    public static void addTexture(GuiGraphics guiGraphics, int x, int y, int width, int height, ResourceLocation texture) {
+        guiGraphics.blit(texture, x, y, 0, 0, width, height, width, height);
     }
 
-    public static void addRotatingTexture(PlanetSelectionScreen screen, PoseStack poseStack, int x, int y, int width, int height, ResourceLocation texture, float speed) {
+    public static void addRotatingTexture(PlanetSelectionScreen screen, GuiGraphics guiGraphics, int x, int y, int width, int height, ResourceLocation texture, float speed) {
 
         double scale = Minecraft.getInstance().getWindow().getGuiScaledHeight() / 400.0;
 
@@ -513,14 +511,14 @@ public class PlanetSelectionScreen extends Screen implements MenuAccess<PlanetSe
         width *= scale;
         height *= scale;
 
-        poseStack.pushPose();
+        guiGraphics.pose().pushPose();
 
-        poseStack.translate(screen.width / 2.0f, screen.height / 2.0f, 0);
-        poseStack.mulPose(Vector3f.ZP.rotationDegrees(screen.getGuiTime() * (speed / 3.0f)));
+        guiGraphics.pose().translate(screen.width / 2.0f, screen.height / 2.0f, 0);
+        guiGraphics.pose().mulPose(Axis.ZP.rotationDegrees(screen.getGuiTime() * (speed / 3.0f)));
 
-        addTexture(poseStack, x, y, width, height, texture);
+        addTexture(guiGraphics, x, y, width, height, texture);
 
-        poseStack.popPose();
+        guiGraphics.pose().popPose();
     }
 
     public static void drawCircle(double x, double y, double radius, int sides, int ringColour) {

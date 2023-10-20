@@ -6,6 +6,7 @@ import argent_matter.gcys.common.data.GCySItems;
 import argent_matter.gcys.data.loader.PlanetData;
 import com.gregtechceu.gtceu.api.item.component.IInteractionItem;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -49,7 +50,7 @@ public class KeyCardBehaviour implements IInteractionItem {
     @Nullable
     public static Planet getSavedPlanet(ItemStack stack) {
         if (!GCySItems.KEYCARD.isIn(stack)) return null;
-        return PlanetData.getPlanetFromLevel(ResourceKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(stack.getOrCreateTag().getString(PlanetIdChipBehaviour.CURRENT_PLANET_TAG_ID)))).orElse(null);
+        return PlanetData.getPlanetFromLevel(ResourceKey.create(Registries.DIMENSION, new ResourceLocation(stack.getOrCreateTag().getString(PlanetIdChipBehaviour.CURRENT_PLANET_TAG_ID)))).orElse(null);
     }
 
     @Override

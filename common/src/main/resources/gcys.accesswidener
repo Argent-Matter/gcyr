@@ -3,3 +3,11 @@ accessWidener   v2  named
 accessible method net/minecraft/core/particles/SimpleParticleType <init> (Z)V
 accessible method net/minecraft/client/particle/ParticleEngine register (Lnet/minecraft/core/particles/ParticleType;Lnet/minecraft/client/particle/ParticleEngine$SpriteParticleRegistration;)V
 accessible class net/minecraft/client/particle/ParticleEngine$SpriteParticleRegistration
+
+accessible method net/minecraft/client/gui/components/AbstractButton getTextureY ()I
+accessible field net/minecraft/client/gui/components/Button DEFAULT_NARRATION Lnet/minecraft/client/gui/components/Button$CreateNarration;
+transitive-extendable method net/minecraft/client/gui/components/AbstractWidget updateTooltip ()V
+accessible field net/minecraft/client/gui/components/AbstractWidget wasHoveredOrFocused Z
+accessible field net/minecraft/client/gui/components/AbstractWidget hoverOrFocusedStartTime J
+accessible field net/minecraft/client/gui/components/AbstractWidget tooltipMsDelay I
+transitive-accessible method net/minecraft/client/gui/components/CycleButton updateTooltip ()V

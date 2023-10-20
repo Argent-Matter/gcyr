@@ -115,7 +115,7 @@ public class SpaceShuttleMachine extends WorkableElectricMultiblockMachine {
     private static final ResourceLocation mannedLaunchRecipeId = GCyS.id("space_shuttle/manned_launch_station");
 
     private void launchPlayerToStation(ClickData data, Player player) {
-        Level level = player.getLevel();
+        Level level = player.level();
         var recipe = GCySRecipeTypes.SPACE_SHUTTLE_RECIPES.getRecipe(level.getRecipeManager(), mannedLaunchRecipeId);
         if (!level.isClientSide && recipe.matchRecipe(this).isSuccess() && GCySItems.ID_CHIP.isIn(inventory.getStackInSlot(0))) {
             this.recipeLogic.setupRecipe(recipe);

@@ -7,6 +7,7 @@ import com.lowdragmc.lowdraglib.networking.IPacket;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.ItemStack;
@@ -25,7 +26,7 @@ public class PacketSendSelectedDimension implements IPacket {
 
     @Override
     public void decode(FriendlyByteBuf buf) {
-        this.id = buf.readResourceKey(Registry.DIMENSION_REGISTRY);
+        this.id = buf.readResourceKey(Registries.DIMENSION);
     }
 
     public void execute(IHandlerContext handler) {

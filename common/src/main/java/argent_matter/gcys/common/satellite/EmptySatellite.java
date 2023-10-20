@@ -3,7 +3,6 @@ package argent_matter.gcys.common.satellite;
 import argent_matter.gcys.api.space.satellite.Satellite;
 import argent_matter.gcys.api.space.satellite.SatelliteType;
 import argent_matter.gcys.api.space.satellite.data.SatelliteData;
-import com.mojang.math.Vector3f;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.nbt.CompoundTag;

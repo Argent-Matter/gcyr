@@ -9,6 +9,7 @@ import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import com.gregtechceu.gtceu.common.data.GTSoundEntries;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.crafting.RecipeType;
 
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.ELECTRIC;
@@ -36,8 +37,8 @@ public class GCySRecipeTypes {
 
     public static GTRecipeType register(String name, String group, RecipeType<?>... proxyRecipes) {
         var recipeType = new GTRecipeType(GCyS.id(name), group, proxyRecipes);
-        GTRegistries.register(Registry.RECIPE_TYPE, recipeType.registryName, recipeType);
-        GTRegistries.register(Registry.RECIPE_SERIALIZER, recipeType.registryName, new GTRecipeSerializer());
+        GTRegistries.register(BuiltInRegistries.RECIPE_TYPE, recipeType.registryName, recipeType);
+        GTRegistries.register(BuiltInRegistries.RECIPE_SERIALIZER, recipeType.registryName, new GTRecipeSerializer());
         GTRegistries.RECIPE_TYPES.register(recipeType.registryName, recipeType);
         return recipeType;
     }
