@@ -1,6 +1,6 @@
 package argent_matter.gcys.fabric.mixin;
 
-import argent_matter.gcys.GregicalitySpace;
+import argent_matter.gcys.GCyS;
 import net.minecraft.client.KeyboardHandler;
 import net.minecraft.client.Minecraft;
 import org.spongepowered.asm.mixin.Final;
@@ -18,7 +18,7 @@ public class KeyboardHandlerMixin {
     @Inject(method = "keyPress", at = @At("RETURN"))
     public void onRawKey(long windowPointer, int key, int scanCode, int action, int modifiers, CallbackInfo info) {
         if (windowPointer == this.minecraft.getWindow().getWindow()) {
-            GregicalitySpace.onKeyPressed(key, action, modifiers);
+            GCyS.onKeyPressed(key, action, modifiers);
         }
     }
 }

@@ -1,6 +1,6 @@
 package argent_matter.gcys.mixin;
 
-import argent_matter.gcys.GregicalitySpaceClient;
+import argent_matter.gcys.GCySClient;
 import com.llamalad7.mixinextras.injector.WrapWithCondition;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -20,7 +20,7 @@ public abstract class LevelRendererMixin {
             ),
             at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/vertex/BufferUploader;drawWithShader(Lcom/mojang/blaze3d/vertex/BufferBuilder$RenderedBuffer;)V"))
     private boolean gcys$removeSunMoon(BufferBuilder.RenderedBuffer buffer, PoseStack poseStack, Matrix4f projectionMatrix, float partialTick, Camera camera, boolean bl, Runnable skyFogSetup) {
-        if (GregicalitySpaceClient.isDysonSphereActive) {
+        if (GCySClient.isDysonSphereActive) {
             buffer.release();
             return false;
         }

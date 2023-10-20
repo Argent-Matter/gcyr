@@ -1,17 +1,15 @@
 package argent_matter.gcys.api.space.satellite.capability;
 
-import argent_matter.gcys.GregicalitySpace;
+import argent_matter.gcys.GCyS;
 import argent_matter.gcys.api.capability.ISatelliteHolder;
 import argent_matter.gcys.api.space.satellite.Satellite;
 import argent_matter.gcys.util.Vec2i;
-import com.gregtechceu.gtceu.GTCEu;
 import lombok.Getter;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.saveddata.SavedData;
-import net.minecraft.world.phys.Vec2;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -23,7 +21,7 @@ public class SatelliteWorldSavedData extends SavedData implements ISatelliteHold
     @Nullable
     public static SatelliteWorldSavedData getOrCreate(ServerLevel serverLevel) {
         if (serverLevel.dimensionType().hasCeiling()) return null;
-        return serverLevel.getDataStorage().computeIfAbsent(tag -> new SatelliteWorldSavedData(serverLevel, tag), () -> new SatelliteWorldSavedData(serverLevel), GregicalitySpace.MOD_ID + "_satellites");
+        return serverLevel.getDataStorage().computeIfAbsent(tag -> new SatelliteWorldSavedData(serverLevel, tag), () -> new SatelliteWorldSavedData(serverLevel), GCyS.MOD_ID + "_satellites");
     }
 
     @Getter

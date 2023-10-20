@@ -1,6 +1,6 @@
 package argent_matter.gcys.common.entity;
 
-import argent_matter.gcys.GregicalitySpace;
+import argent_matter.gcys.GCyS;
 import argent_matter.gcys.api.capability.GcysCapabilityHelper;
 import argent_matter.gcys.api.capability.ISpaceStationHolder;
 import argent_matter.gcys.api.gui.factory.EntityUIFactory;
@@ -10,7 +10,7 @@ import argent_matter.gcys.common.data.*;
 import argent_matter.gcys.common.entity.data.EntityTemperatureSystem;
 import argent_matter.gcys.common.item.KeyCardBehaviour;
 import argent_matter.gcys.common.item.PlanetIdChipBehaviour;
-import argent_matter.gcys.data.recipe.GcysTags;
+import argent_matter.gcys.data.recipe.GCySTags;
 import argent_matter.gcys.util.PlatformUtils;
 import argent_matter.gcys.util.PosWithState;
 import com.google.common.collect.Sets;
@@ -74,13 +74,13 @@ import java.util.Set;
 @ParametersAreNonnullByDefault
 public class RocketEntity extends Entity implements HasCustomInventoryScreen, IUIHolder {
     public static final EntityDataAccessor<Boolean> ROCKET_STARTED = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializers.BOOLEAN);
-    public static final EntityDataAccessor<Long> REQUIRED_FUEL_AMOUNT = SynchedEntityData.defineId(RocketEntity.class, GcysEntityDataSerializers.LONG);
+    public static final EntityDataAccessor<Long> REQUIRED_FUEL_AMOUNT = SynchedEntityData.defineId(RocketEntity.class, GCySEntityDataSerializers.LONG);
     public static final EntityDataAccessor<Integer> THRUSTER_COUNT = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializers.INT);
     public static final EntityDataAccessor<Integer> WEIGHT = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializers.INT);
     public static final EntityDataAccessor<Integer> START_TIMER = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializers.INT);
-    private static final EntityDataAccessor<List<PosWithState>> POSITIONED_STATES = SynchedEntityData.defineId(RocketEntity.class, GcysEntityDataSerializers.POSITIONED_BLOCK_STATE_LIST);
+    private static final EntityDataAccessor<List<PosWithState>> POSITIONED_STATES = SynchedEntityData.defineId(RocketEntity.class, GCySEntityDataSerializers.POSITIONED_BLOCK_STATE_LIST);
     private static final EntityDataAccessor<BlockPos> SIZE = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializers.BLOCK_POS);
-    private static final EntityDataAccessor<List<BlockPos>> SEAT_POSITIONS = SynchedEntityData.defineId(RocketEntity.class, GcysEntityDataSerializers.BLOCK_POS_LIST);
+    private static final EntityDataAccessor<List<BlockPos>> SEAT_POSITIONS = SynchedEntityData.defineId(RocketEntity.class, GCySEntityDataSerializers.BLOCK_POS_LIST);
 
 
     private final FluidStorage fuelTank;
@@ -93,9 +93,9 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
     public RocketEntity(EntityType<?> entityType, Level level) {
         super(entityType, level);
         this.configSlot = new ItemStackTransfer(1);
-        this.configSlot.setFilter(stack -> GcysItems.ID_CHIP.isIn(stack) || GcysItems.KEYCARD.isIn(stack));
+        this.configSlot.setFilter(stack -> GCySItems.ID_CHIP.isIn(stack) || GCySItems.KEYCARD.isIn(stack));
         //noinspection deprecation
-        this.fuelTank = new FluidStorage(0, fluid -> fluid.getFluid().is(GcysTags.VEHICLE_FUELS));
+        this.fuelTank = new FluidStorage(0, fluid -> fluid.getFluid().is(GCySTags.VEHICLE_FUELS));
     }
 
     public void reinitializeFluidStorage() {
@@ -291,9 +291,9 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
             ItemStack config = this.configSlot.getStackInSlot(0);
             if (!config.isEmpty() && this.fuelTank.getFluidAmount() >= this.getFuelCapacity()) {
                 if (!data.get(RocketEntity.ROCKET_STARTED)) {
-                    if (GcysItems.ID_CHIP.isIn(config)) {
+                    if (GCySItems.ID_CHIP.isIn(config)) {
                         this.destination = PlanetIdChipBehaviour.getPlanetFromStack(config);
-                    } else if (GcysItems.KEYCARD.isIn(config)) {
+                    } else if (GCySItems.KEYCARD.isIn(config)) {
                         this.destination = KeyCardBehaviour.getSavedPlanet(config);
                     }
 
@@ -303,8 +303,8 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
 
                     if (this.destination.rocketTier() >= determineRocketTier() || (!destinationIsSpaceStation && this.getLevel().dimension().location().equals(this.destination.level().location()))) return;
                     data.set(RocketEntity.ROCKET_STARTED, true);
-                    //GcysSoundEntries.ROCKET.play(this.level, null, this.getX(), this.getY(), this.getZ(), 1, 1);
-                    this.level.playSound(null, this, GcysSoundEntries.ROCKET.getMainEvent(), SoundSource.NEUTRAL, 1, 1);
+                    //GCySSoundEntries.ROCKET.play(this.level, null, this.getX(), this.getY(), this.getZ(), 1, 1);
+                    this.level.playSound(null, this, GCySSoundEntries.ROCKET.getMainEvent(), SoundSource.NEUTRAL, 1, 1);
                 }
             } else {
                 sendVehicleHasNoFuelMessage(player);
@@ -366,7 +366,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
 
             BlockState state2 = this.level.getBlockState(new BlockPos((int)Math.floor(this.getX()), (int)(this.getY() - 0.2), (int)Math.floor(this.getZ())));
 
-            if (!this.level.isEmptyBlock(pos) && (state2.is(GcysBlocks.LAUNCH_PAD.get()) || !state.is(GcysBlocks.LAUNCH_PAD.get()))) {
+            if (!this.level.isEmptyBlock(pos) && (state2.is(GCySBlocks.LAUNCH_PAD.get()) || !state.is(GCySBlocks.LAUNCH_PAD.get()))) {
                 this.unBuild();
 
                 return true;
@@ -409,14 +409,14 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
     private void goToDestination() {
         if (this.getY() < 600 || this.isRemote()) return;
         ItemStack configStack = configSlot.getStackInSlot(0);
-        if (this.destination == null && GcysItems.ID_CHIP.isIn(configStack)) {
+        if (this.destination == null && GCySItems.ID_CHIP.isIn(configStack)) {
             this.destination = PlanetIdChipBehaviour.getPlanetFromStack(configStack);
-        } else if (GcysItems.KEYCARD.isIn(configStack) && KeyCardBehaviour.getSavedStation(configStack) != SpaceStation.ID_EMPTY) {
+        } else if (GCySItems.KEYCARD.isIn(configStack) && KeyCardBehaviour.getSavedStation(configStack) != SpaceStation.ID_EMPTY) {
             this.destinationIsSpaceStation = true;
         }
         final ServerLevel destinationLevel;
         if (this.destinationIsSpaceStation) {
-            destinationLevel = this.getServer().getLevel(GcysDimensionTypes.SPACE_LEVEL);
+            destinationLevel = this.getServer().getLevel(GCySDimensionTypes.SPACE_LEVEL);
         } else {
             destinationLevel = this.getServer().getLevel(destination.level());
         }
@@ -448,7 +448,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
             ISpaceStationHolder stations = GcysCapabilityHelper.getSpaceStations(destinationLevel);
             int stationId;
             boolean didChange = false;
-            if (GcysItems.KEYCARD.isIn(configStack)) {
+            if (GCySItems.KEYCARD.isIn(configStack)) {
                 stationId = KeyCardBehaviour.getSavedStation(configStack);
                 if (stations.getStation(stationId) == null) {
                     Pair<Integer, SpaceStation> allocated = stations.allocateStation(this.destination);
@@ -457,7 +457,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
                     KeyCardBehaviour.setSavedStation(configStack, stationId, KeyCardBehaviour.getSavedPlanet(configStack));
                     didChange = true;
                 }
-            } else if (GcysItems.ID_CHIP.isIn(configStack)) {
+            } else if (GCySItems.ID_CHIP.isIn(configStack)) {
                 stationId = PlanetIdChipBehaviour.getSpaceStationId(configStack);
                 if (stations.getStation(stationId) == null) {
                     Pair<Integer, SpaceStation> allocated = stations.allocateStation(this.destination);
@@ -600,12 +600,12 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         if (destroyTime > 0) {
             this.setWeight(this.getWeight() + (int) (destroyTime / 2.5f));
         }
-        if (state.state().is(GcysBlocks.ROCKET_MOTOR.get())) {
+        if (state.state().is(GCySBlocks.ROCKET_MOTOR.get())) {
             this.setThrusterCount(this.getThrusterCount() + 1);
             this.thrusterPositions.add(pos);
-        } else if (state.state().is(GcysBlocks.FUEL_TANK.get())) {
+        } else if (state.state().is(GCySBlocks.FUEL_TANK.get())) {
             this.setFuelCapacity(this.getFuelCapacity() + 5 * FluidHelper.getBucket());
-        } else if (state.state().is(GcysBlocks.SEAT.get())) {
+        } else if (state.state().is(GCySBlocks.SEAT.get())) {
             this.addSeatPos(pos);
         }
         this.setBoundingBox(makeBoundingBox());
@@ -718,7 +718,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
 
     public static void sendVehicleHasNoFuelMessage(Player player) {
         if (!player.level.isClientSide) {
-            player.displayClientMessage(Component.translatable("message." + GregicalitySpace.MOD_ID + ".no_fuel"), false);
+            player.displayClientMessage(Component.translatable("message." + GCyS.MOD_ID + ".no_fuel"), false);
         }
     }
 

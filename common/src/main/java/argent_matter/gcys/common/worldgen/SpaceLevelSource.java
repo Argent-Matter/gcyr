@@ -1,8 +1,6 @@
 package argent_matter.gcys.common.worldgen;
 
-import argent_matter.gcys.GregicalitySpace;
-import argent_matter.gcys.common.data.GcysBiomes;
-import com.gregtechceu.gtceu.GTCEu;
+import argent_matter.gcys.common.data.GCySBiomes;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -45,7 +43,7 @@ public class SpaceLevelSource extends ChunkGenerator {
     public static final int PLATFORM_HEIGHT = 63;
 
     public SpaceLevelSource(Registry<StructureSet> structures, Registry<Biome> biomes) {
-        super(structures, Optional.empty(), new FixedBiomeSource(biomes.getHolderOrThrow(GcysBiomes.SPACE)));
+        super(structures, Optional.empty(), new FixedBiomeSource(biomes.getHolderOrThrow(GCySBiomes.SPACE)));
         this.biomes = biomes;
     }
 
@@ -112,7 +110,7 @@ public class SpaceLevelSource extends ChunkGenerator {
         int chunkZ = chunkPos.z;
 
         if (chunkX % 16 == 0 && chunkZ % 16 == 0) {
-            //GregicalitySpace.LOGGER.info("made platform");
+            //GCyS.LOGGER.info("made platform");
             for(int x = -4; x < 4; ++x) {
                 for(int z = -4; z < 4; ++z) {
                     int blockX = SectionPos.sectionToBlockCoord(chunkX, x);
@@ -121,7 +119,7 @@ public class SpaceLevelSource extends ChunkGenerator {
                 }
             }
         }else if ((chunkX % 16 != 8 && chunkZ % 16 == 8) || (chunkX % 16 != -8 && chunkZ % 16 == -8)) {
-            //GregicalitySpace.LOGGER.info("made Z edge");
+            //GCyS.LOGGER.info("made Z edge");
             for(int x = 0; x < 16; ++x) {
                 int blockX = SectionPos.sectionToBlockCoord(chunkX, x);
                 int blockZ = SectionPos.sectionToBlockCoord(chunkZ, 15);
@@ -130,7 +128,7 @@ public class SpaceLevelSource extends ChunkGenerator {
                 }
             }
         } else if ((chunkX % 16 == 8 && chunkZ % 16 != 8) || (chunkX % 16 == -8 && chunkZ % 16 != -8)) {
-            //GregicalitySpace.LOGGER.info("made X edge");
+            //GCyS.LOGGER.info("made X edge");
             for(int z = 0; z < 16; ++z) {
                 int blockX = SectionPos.sectionToBlockCoord(chunkX, 15);
                 int blockZ = SectionPos.sectionToBlockCoord(chunkZ, z);
@@ -139,7 +137,7 @@ public class SpaceLevelSource extends ChunkGenerator {
                 }
             }
         } else if (chunkX % 16 == 8 && chunkZ % 16 == 8) {
-            //GregicalitySpace.LOGGER.info("made corner positive");
+            //GCyS.LOGGER.info("made corner positive");
             for(int z = 0; z < 16; ++z) {
                 int blockX = SectionPos.sectionToBlockCoord(chunkX, 15);
                 int blockZ = SectionPos.sectionToBlockCoord(chunkZ, z);
@@ -155,7 +153,7 @@ public class SpaceLevelSource extends ChunkGenerator {
                 }
             }
         } else if (chunkX % 16 == -8 && chunkZ % 16 == -8) {
-            //GregicalitySpace.LOGGER.info("made corner negative");
+            //GCyS.LOGGER.info("made corner negative");
             for(int z = 0; z < 16; ++z) {
                 int blockX = SectionPos.sectionToBlockCoord(chunkX, 15);
                 int blockZ = SectionPos.sectionToBlockCoord(chunkZ, z);

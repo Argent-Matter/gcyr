@@ -1,6 +1,6 @@
 package argent_matter.gcys.api.gui.factory;
 
-import argent_matter.gcys.GregicalitySpace;
+import argent_matter.gcys.GCyS;
 import com.lowdragmc.lowdraglib.gui.factory.UIFactory;
 import com.lowdragmc.lowdraglib.gui.modular.IUIHolder;
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
@@ -16,7 +16,7 @@ public class EntityUIFactory extends UIFactory<Entity> {
     public static final EntityUIFactory INSTANCE = new EntityUIFactory();
 
     private EntityUIFactory() {
-        super(GregicalitySpace.id("entity"));
+        super(GCyS.id("entity"));
     }
 
     @Override

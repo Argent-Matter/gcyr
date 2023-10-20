@@ -1,9 +1,7 @@
 package argent_matter.gcys.util;
 
 import argent_matter.gcys.config.GcysConfig;
-import argent_matter.gcys.data.recipe.GcysTags;
-import com.gregtechceu.gtceu.config.ConfigHolder;
-import com.gregtechceu.gtceu.data.recipe.CustomTags;
+import argent_matter.gcys.data.recipe.GCySTags;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -38,9 +36,9 @@ public class FloodFiller3D {
             /*if (runAdditionalChecks(level, state, pos)) {
                 continue;
             } else */{
-                if (state.is(GcysTags.BLOCKS_FLOOD_FILL)) continue;
+                if (state.is(GCySTags.BLOCKS_FLOOD_FILL)) continue;
                 VoxelShape collisionShape = state.getCollisionShape(level, pos);
-                if (!state.isAir() && !state.is(GcysTags.PASSES_FLOOD_FILL) && !collisionShape.isEmpty() && isSideSolid(collisionShape, pair.getSecond(), state) && (isFaceSturdy(collisionShape, pair.getSecond(), state) || isFaceSturdy(collisionShape, pair.getSecond().getOpposite(), state))) {
+                if (!state.isAir() && !state.is(GCySTags.PASSES_FLOOD_FILL) && !collisionShape.isEmpty() && isSideSolid(collisionShape, pair.getSecond(), state) && (isFaceSturdy(collisionShape, pair.getSecond(), state) || isFaceSturdy(collisionShape, pair.getSecond().getOpposite(), state))) {
                     continue;
                 }
             }

@@ -1,6 +1,6 @@
 package argent_matter.gcys.client.renderer.machine;
 
-import argent_matter.gcys.common.data.GcysParticles;
+import argent_matter.gcys.common.data.GCySParticles;
 import argent_matter.gcys.common.machine.multiblock.electric.DysonSystemControllerMachine;
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
@@ -39,7 +39,7 @@ public class DysonSystemControllerRenderer extends WorkableCasingMachineRenderer
             double x = pos.getX() + 0.5;
             double z = pos.getZ() + 0.5;
             for (int y = pos.getY(); y < 512; y += 4) {
-                level.addAlwaysVisibleParticle(GcysParticles.DYSON_BEAM, x, y, z, 0, 0, 0);
+                level.addAlwaysVisibleParticle(GCySParticles.DYSON_BEAM, x, y, z, 0, 0, 0);
             }
         }
     }

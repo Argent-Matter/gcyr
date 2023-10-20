@@ -1,9 +1,9 @@
 package argent_matter.gcys.api.space.station;
 
-import argent_matter.gcys.GregicalitySpace;
+import argent_matter.gcys.GCyS;
 import argent_matter.gcys.api.capability.ISpaceStationHolder;
 import argent_matter.gcys.api.space.planet.Planet;
-import argent_matter.gcys.common.data.GcysDimensionTypes;
+import argent_matter.gcys.common.data.GCySDimensionTypes;
 import argent_matter.gcys.common.worldgen.SpaceLevelSource;
 import argent_matter.gcys.util.Vec2i;
 import it.unimi.dsi.fastutil.ints.Int2ObjectLinkedOpenHashMap;
@@ -18,7 +18,6 @@ import net.minecraft.world.level.saveddata.SavedData;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
@@ -29,8 +28,8 @@ import java.util.stream.Collectors;
 public class StationWorldSavedData extends SavedData implements ISpaceStationHolder {
     @Nullable
     public static StationWorldSavedData getOrCreate(ServerLevel serverLevel) {
-        if (serverLevel.dimension() != GcysDimensionTypes.SPACE_LEVEL) return null;
-        return serverLevel.getDataStorage().computeIfAbsent(tag -> new StationWorldSavedData(serverLevel, tag), () -> new StationWorldSavedData(serverLevel), GregicalitySpace.MOD_ID + "_space_stations");
+        if (serverLevel.dimension() != GCySDimensionTypes.SPACE_LEVEL) return null;
+        return serverLevel.getDataStorage().computeIfAbsent(tag -> new StationWorldSavedData(serverLevel, tag), () -> new StationWorldSavedData(serverLevel), GCyS.MOD_ID + "_space_stations");
     }
 
     private final Int2ObjectMap<SpaceStation> stations = new Int2ObjectLinkedOpenHashMap<>(1);

@@ -2,8 +2,8 @@ package argent_matter.gcys.common.networking.c2s;
 
 import argent_matter.gcys.api.capability.GcysCapabilityHelper;
 import argent_matter.gcys.api.capability.ISpaceStationHolder;
-import argent_matter.gcys.common.data.GcysDimensionTypes;
-import argent_matter.gcys.common.data.GcysItems;
+import argent_matter.gcys.common.data.GCySDimensionTypes;
+import argent_matter.gcys.common.data.GCySItems;
 import argent_matter.gcys.common.item.PlanetIdChipBehaviour;
 import com.lowdragmc.lowdraglib.networking.IHandlerContext;
 import com.lowdragmc.lowdraglib.networking.IPacket;
@@ -25,11 +25,11 @@ public class PacketCreateSpaceStation implements IPacket {
     @Override
     public void execute(IHandlerContext handler) {
         if (handler.getLevel() instanceof ServerLevel serverLevel) {
-            ISpaceStationHolder holder = GcysCapabilityHelper.getSpaceStations(serverLevel.getServer().getLevel(GcysDimensionTypes.SPACE_LEVEL));
+            ISpaceStationHolder holder = GcysCapabilityHelper.getSpaceStations(serverLevel.getServer().getLevel(GCySDimensionTypes.SPACE_LEVEL));
             if (holder == null) return;
 
             ItemStack held = handler.getPlayer().getItemInHand(handler.getPlayer().getUsedItemHand());
-            if (GcysItems.ID_CHIP.isIn(held)) {
+            if (GCySItems.ID_CHIP.isIn(held)) {
                 PlanetIdChipBehaviour.setSpaceStation(held, holder.allocateStation(PlanetIdChipBehaviour.getPlanetFromStack(held)).getFirst());
             }
         }

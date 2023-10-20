@@ -1,6 +1,6 @@
 package argent_matter.gcys.common.machine.multiblock.electric;
 
-import argent_matter.gcys.GregicalitySpaceClient;
+import argent_matter.gcys.GCySClient;
 import argent_matter.gcys.api.capability.GcysCapabilityHelper;
 import argent_matter.gcys.api.capability.IDysonSystem;
 import argent_matter.gcys.config.GcysConfig;
@@ -78,7 +78,7 @@ public class DysonSystemControllerMachine extends WorkableElectricMultiblockMach
         // TODO disable/remove this once release comes
         Component button;
         if (isRemote()) {
-            if (GregicalitySpaceClient.isDysonSphereActive) {
+            if (GCySClient.isDysonSphereActive) {
                 button = ComponentPanelWidget.withButton(Component.translatable("gui.gcys.dyson_sphere.stop").withStyle(ChatFormatting.RED), "dbg_delete_sphere");
             } else {
                 button = ComponentPanelWidget.withButton(Component.translatable("gui.gcys.dyson_sphere.start").withStyle(ChatFormatting.GREEN), "dbg_start_sphere");

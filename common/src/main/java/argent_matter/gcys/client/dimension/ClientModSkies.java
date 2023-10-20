@@ -1,6 +1,6 @@
 package argent_matter.gcys.client.dimension;
 
-import argent_matter.gcys.GregicalitySpaceClient;
+import argent_matter.gcys.GCySClient;
 import argent_matter.gcys.api.space.planet.PlanetSkyRenderer;
 import argent_matter.gcys.client.dimension.renderer.DimensionEffects;
 import dev.architectury.injectables.annotations.ExpectPlatform;
@@ -10,7 +10,7 @@ import net.minecraft.world.level.Level;
 public class ClientModSkies {
 
     public static void register() {
-        for (PlanetSkyRenderer skyRenderer : GregicalitySpaceClient.skyRenderers) {
+        for (PlanetSkyRenderer skyRenderer : GCySClient.skyRenderers) {
             registerDimensionEffects(skyRenderer.dimension(), new DimensionEffects(skyRenderer));
         }
     }

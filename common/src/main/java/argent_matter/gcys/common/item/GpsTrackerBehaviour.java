@@ -18,7 +18,7 @@ import java.util.List;
 public class GpsTrackerBehaviour implements IAddInformation, IInteractionItem {
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltipComponents, TooltipFlag isAdvanced) {
-        tooltipComponents.add(Component.translatable("behaviour.gpstracker.track_entity"));
+        tooltipComponents.add(Component.translatable("behaviour.gps_tracker.track_entity"));
     }
 
     @Override

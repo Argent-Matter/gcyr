@@ -1,15 +1,14 @@
 package argent_matter.gcys.common.entity.data;
 
 
-import argent_matter.gcys.GregicalitySpace;
-import argent_matter.gcys.common.data.GcysDimensionTypes;
+import argent_matter.gcys.GCyS;
+import argent_matter.gcys.common.data.GCySDimensionTypes;
 import argent_matter.gcys.common.item.armor.SpaceSuitArmorItem;
 import argent_matter.gcys.config.GcysConfig;
 import argent_matter.gcys.data.loader.PlanetData;
-import argent_matter.gcys.data.recipe.GcysTags;
+import argent_matter.gcys.data.recipe.GCySTags;
 import com.google.common.collect.Table;
 import com.google.common.collect.Tables;
-import com.gregtechceu.gtceu.GTCEu;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
@@ -68,11 +67,11 @@ public class EntityOxygenSystem {
             return;
         }
 
-        /*if (entity.getType().is(GcysTags.NO_OXYGEN)) {
+        /*if (entity.getType().is(GCySTags.NO_OXYGEN)) {
             return;
         }*/
 
-        if (level.dimension() != GcysDimensionTypes.SPACE_LEVEL && !entity.isUnderWater()) {
+        if (level.dimension() != GCySDimensionTypes.SPACE_LEVEL && !entity.isUnderWater()) {
             return;
         }
 
@@ -87,7 +86,7 @@ public class EntityOxygenSystem {
         if (!entityHasOxygen) {
             if (hasOxygenatedSpaceSuit) {
                 consumeOxygen(entity);
-            } else if (!StreamSupport.stream(entity.getArmorSlots().spliterator(), false).allMatch(stack -> stack.is(GcysTags.OXYGENATED_ARMOR))) {
+            } else if (!StreamSupport.stream(entity.getArmorSlots().spliterator(), false).allMatch(stack -> stack.is(GCySTags.OXYGENATED_ARMOR))) {
                 entity.hurt(DamageSource.DROWN, GcysConfig.INSTANCE.server.oxygenDamage);
                 entity.setAirSupply(-40);
             }
@@ -171,7 +170,7 @@ public class EntityOxygenSystem {
                 }
             }
         } catch (UnsupportedOperationException e) {
-            GregicalitySpace.LOGGER.error("Error deoxygenizing blocks");
+            GCyS.LOGGER.error("Error deoxygenizing blocks");
             e.printStackTrace();
         }
     }

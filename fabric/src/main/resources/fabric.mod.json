@@ -14,16 +14,16 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "argent_matter.gcys.fabric.GregicalitySpaceFabric"
+      "argent_matter.gcys.fabric.GCySFabric"
     ],
     "client": [
-      "argent_matter.gcys.fabric.GregicalitySpaceFabricClient"
+      "argent_matter.gcys.fabric.GCySFabricClient"
     ],
     "fabric-datagen": [
-      "argent_matter.gcys.data.fabric.GcysDatagen"
+      "argent_matter.gcys.data.fabric.GCySDatagen"
     ],
     "gtceu_addon": [
-      "argent_matter.gcys.GcysGTAddon"
+      "argent_matter.gcys.GCySGTAddon"
     ]
   },
   "mixins": [

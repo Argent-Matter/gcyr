@@ -1,6 +1,6 @@
 package argent_matter.gcys.api.data.tag;
 
-import argent_matter.gcys.GregicalitySpace;
+import argent_matter.gcys.GCyS;
 import com.lowdragmc.lowdraglib.Platform;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
@@ -20,7 +20,7 @@ public class GcysTagUtil {
     }
 
     public static <T> TagKey<T> createPlatformTag(Registry<T> registry, String forgePath, String fabricPath, boolean modTag) {
-        if (modTag) return optionalTag(registry, Platform.isForge() ? GregicalitySpace.id(forgePath) : GregicalitySpace.id(fabricPath));
+        if (modTag) return optionalTag(registry, Platform.isForge() ? GCyS.id(forgePath) : GCyS.id(fabricPath));
         return optionalTag(registry, Platform.isForge() ? new ResourceLocation("forge", forgePath) : new ResourceLocation("c", fabricPath));
     }
 
@@ -29,7 +29,7 @@ public class GcysTagUtil {
     }
 
     public static <T> TagKey<T> createModTag(Registry<T> registry, String path) {
-        return optionalTag(registry, GregicalitySpace.id(path));
+        return optionalTag(registry, GCyS.id(path));
     }
 
     public static TagKey<Block> createBlockTag(String path) {

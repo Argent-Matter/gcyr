@@ -1,13 +1,13 @@
 package argent_matter.gcys.api.space.dyson;
 
-import argent_matter.gcys.GregicalitySpace;
+import argent_matter.gcys.GCyS;
 import argent_matter.gcys.api.capability.GcysCapabilityHelper;
 import argent_matter.gcys.api.capability.IDysonSystem;
 import argent_matter.gcys.api.capability.ISpaceStationHolder;
 import argent_matter.gcys.api.space.planet.Planet;
-import argent_matter.gcys.common.data.GcysDimensionTypes;
-import argent_matter.gcys.common.data.GcysNetworking;
-import argent_matter.gcys.common.data.GcysSatellites;
+import argent_matter.gcys.common.data.GCySDimensionTypes;
+import argent_matter.gcys.common.data.GCySNetworking;
+import argent_matter.gcys.common.data.GCySSatellites;
 import argent_matter.gcys.common.networking.s2c.PacketSyncDysonSphereStatus;
 import argent_matter.gcys.common.satellite.DysonSwarmSatellite;
 import argent_matter.gcys.data.loader.PlanetData;
@@ -50,7 +50,7 @@ public class DysonSystemSavedData extends SavedData implements IDysonSystem {
 
     @Nullable
     public static DysonSystemSavedData getOrCreateMaybeSpace(ServerLevel level, @Nullable BlockPos pos) {
-        if (pos != null && level.dimension().location().equals(GcysDimensionTypes.SPACE_LEVEL.location())) {
+        if (pos != null && level.dimension().location().equals(GCySDimensionTypes.SPACE_LEVEL.location())) {
             ISpaceStationHolder spaceStations = GcysCapabilityHelper.getSpaceStations(level);
             if (spaceStations == null) return null;
             List<Integer> nearbyStationIds = spaceStations.getStationsNearWorldPos(pos, 8 * 8 /*half of max station size*/);
@@ -62,7 +62,7 @@ public class DysonSystemSavedData extends SavedData implements IDysonSystem {
 
     @Nullable
     public static DysonSystemSavedData getOrCreateForSpace(MinecraftServer server, int stationId) {
-        ISpaceStationHolder spaceStations = GcysCapabilityHelper.getSpaceStations(server.getLevel(GcysDimensionTypes.SPACE_LEVEL));
+        ISpaceStationHolder spaceStations = GcysCapabilityHelper.getSpaceStations(server.getLevel(GCySDimensionTypes.SPACE_LEVEL));
         if (spaceStations == null) return null;
 
         ServerLevel serverLevel = server.getLevel(spaceStations.getStation(stationId).orbitPlanet().level());
@@ -71,7 +71,7 @@ public class DysonSystemSavedData extends SavedData implements IDysonSystem {
     }
 
     private static DysonSystemSavedData internalGetOrCreate(ServerLevel serverLevel) {
-        return serverLevel.getDataStorage().computeIfAbsent(tag -> new DysonSystemSavedData(serverLevel, tag), () -> new DysonSystemSavedData(serverLevel), GregicalitySpace.MOD_ID + "_dyson_systems");
+        return serverLevel.getDataStorage().computeIfAbsent(tag -> new DysonSystemSavedData(serverLevel, tag), () -> new DysonSystemSavedData(serverLevel), GCyS.MOD_ID + "_dyson_systems");
     }
 
     @Nullable
@@ -105,7 +105,7 @@ public class DysonSystemSavedData extends SavedData implements IDysonSystem {
         currentActiveSunBlock = new DysonSphere(controllerPos);
         this.setDirty();
         for (ServerPlayer player : this.level.players()) {
-            GcysNetworking.NETWORK.sendToPlayer(new PacketSyncDysonSphereStatus(true), player);
+            GCySNetworking.NETWORK.sendToPlayer(new PacketSyncDysonSphereStatus(true), player);
         }
     }
 
@@ -115,7 +115,7 @@ public class DysonSystemSavedData extends SavedData implements IDysonSystem {
             currentActiveSunBlock = null;
             this.setDirty();
             for (ServerPlayer player : this.level.players()) {
-                GcysNetworking.NETWORK.sendToPlayer(new PacketSyncDysonSphereStatus(false), player);
+                GCySNetworking.NETWORK.sendToPlayer(new PacketSyncDysonSphereStatus(false), player);
             }
         }
     }
@@ -137,7 +137,7 @@ public class DysonSystemSavedData extends SavedData implements IDysonSystem {
             BlockPos sphereControllerPos = NbtUtils.readBlockPos(arg.getCompound("dysonSphereControllerPos"));
             this.currentActiveSunBlock = new DysonSphere(sphereControllerPos);
             for (ServerPlayer player : this.level.players()) {
-                GcysNetworking.NETWORK.sendToPlayer(new PacketSyncDysonSphereStatus(true), player);
+                GCySNetworking.NETWORK.sendToPlayer(new PacketSyncDysonSphereStatus(true), player);
             }
         }
         CompoundTag stationsTag = arg.getCompound("satellites");
@@ -145,7 +145,7 @@ public class DysonSystemSavedData extends SavedData implements IDysonSystem {
             ListTag tag = stationsTag.getList(name, Tag.TAG_COMPOUND);
             long pos = Long.parseLong(name);
             for (int i = 0; i < tag.size(); ++i) {
-                DysonSwarmSatellite satellite = GcysSatellites.DYSON_SWARM.getCodec().parse(NbtOps.INSTANCE, tag.getCompound(i)).getOrThrow(false, GregicalitySpace.LOGGER::error);
+                DysonSwarmSatellite satellite = GCySSatellites.DYSON_SWARM.getCodec().parse(NbtOps.INSTANCE, tag.getCompound(i)).getOrThrow(false, GCyS.LOGGER::error);
                 swarmSatellites.computeIfAbsent(pos, $ -> new HashSet<>()).add(satellite);
             }
         }
@@ -160,7 +160,7 @@ public class DysonSystemSavedData extends SavedData implements IDysonSystem {
         for (Long2ObjectMap.Entry<Set<DysonSwarmSatellite>> entry : swarmSatellites.long2ObjectEntrySet()) {
             ListTag pos = new ListTag();
             for (DysonSwarmSatellite satellite : entry.getValue()) {
-                Tag station = GcysSatellites.DYSON_SWARM.getCodec().encodeStart(NbtOps.INSTANCE, satellite).result().orElseThrow();
+                Tag station = GCySSatellites.DYSON_SWARM.getCodec().encodeStart(NbtOps.INSTANCE, satellite).result().orElseThrow();
                 pos.add(station);
             }
             tag.put(Long.toString(entry.getLongKey()), pos);

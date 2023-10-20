@@ -1,6 +1,5 @@
 package argent_matter.gcys.data.lang;
 
-import argent_matter.gcys.common.data.GcysMaterials;
 import com.tterrag.registrate.providers.RegistrateLangProvider;
 
 public class LangHandler extends com.gregtechceu.gtceu.data.lang.LangHandler {

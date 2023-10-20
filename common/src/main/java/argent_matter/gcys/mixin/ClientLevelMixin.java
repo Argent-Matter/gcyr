@@ -1,6 +1,6 @@
 package argent_matter.gcys.mixin;
 
-import argent_matter.gcys.GregicalitySpaceClient;
+import argent_matter.gcys.GCySClient;
 import net.minecraft.client.multiplayer.ClientLevel;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -16,7 +16,7 @@ public class ClientLevelMixin {
 
     @Inject(method = "setDayTime", at = @At("HEAD"), cancellable = true)
     public void gcys$overrideDayTime(long time, CallbackInfo ci) {
-        if (GregicalitySpaceClient.isDysonSphereActive) {
+        if (GCySClient.isDysonSphereActive) {
             long dayTime = this.clientLevelData.getDayTime();
             this.clientLevelData.setDayTime(dayTime + (24000L - (dayTime % 24000L) + 18000L) % 24000L);
             ci.cancel();

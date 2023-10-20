@@ -1,13 +1,12 @@
 package argent_matter.gcys.data.loader;
 
-import argent_matter.gcys.GregicalitySpace;
-import argent_matter.gcys.GregicalitySpaceClient;
+import argent_matter.gcys.GCyS;
+import argent_matter.gcys.GCySClient;
 import argent_matter.gcys.api.space.planet.Planet;
-import argent_matter.gcys.api.space.planet.SolarSystem;
-import argent_matter.gcys.common.data.GcysDimensionTypes;
-import argent_matter.gcys.common.data.GcysNetworking;
+import argent_matter.gcys.common.data.GCySDimensionTypes;
+import argent_matter.gcys.common.data.GCySNetworking;
 import argent_matter.gcys.common.networking.s2c.PacketReturnPlanetData;
-import argent_matter.gcys.util.GcysValues;
+import argent_matter.gcys.util.GCySValues;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.google.gson.Gson;
@@ -54,7 +53,7 @@ public class PlanetData extends SimpleJsonResourceReloadListener {
 
         for (Map.Entry<ResourceLocation, JsonElement> entry : objects.entrySet()) {
             JsonObject jsonObject = GsonHelper.convertToJsonObject(entry.getValue(), "planet");
-            Planet newPlanet = Planet.DIRECT_CODEC.parse(JsonOps.INSTANCE, jsonObject).getOrThrow(false, GregicalitySpace.LOGGER::error);
+            Planet newPlanet = Planet.DIRECT_CODEC.parse(JsonOps.INSTANCE, jsonObject).getOrThrow(false, GCyS.LOGGER::error);
             planets.entrySet().removeIf(planet -> planet.getValue().level().equals(newPlanet.level()));
             planets.put(entry.getKey(), newPlanet);
         }
@@ -88,7 +87,7 @@ public class PlanetData extends SimpleJsonResourceReloadListener {
         CompoundTag nbt = new CompoundTag();
         for (var entry : PLANETS.entrySet()) {
             nbt.put(entry.getKey().toString(), Planet.DIRECT_CODEC.encodeStart(NbtOps.INSTANCE, entry.getValue())
-                    .getOrThrow(false, GregicalitySpace.LOGGER::error));
+                    .getOrThrow(false, GCyS.LOGGER::error));
         }
         buf.writeNbt(nbt);
     }
@@ -107,7 +106,7 @@ public class PlanetData extends SimpleJsonResourceReloadListener {
             }
             PlanetData.updatePlanets(planets);
         } catch (Exception e) {
-            GregicalitySpace.LOGGER.error("Failed to parse planet data!");
+            GCyS.LOGGER.error("Failed to parse planet data!");
             e.printStackTrace();
             PlanetData.updatePlanets(Map.of());
         }
@@ -140,13 +139,13 @@ public class PlanetData extends SimpleJsonResourceReloadListener {
     }
 
     public static boolean isOrbitLevel(ResourceKey<Level> level) {
-        return level.location().equals(GcysDimensionTypes.SPACE_LEVEL.location());
+        return level.location().equals(GCySDimensionTypes.SPACE_LEVEL.location());
     }
 
     public static boolean isPlanetLevel(Level level) {
-        if (level.isClientSide && !GregicalitySpaceClient.hasUpdatedPlanets) {
-            GcysNetworking.NETWORK.sendToServer(new PacketReturnPlanetData());
-            GregicalitySpaceClient.hasUpdatedPlanets = true;
+        if (level.isClientSide && !GCySClient.hasUpdatedPlanets) {
+            GCySNetworking.NETWORK.sendToServer(new PacketReturnPlanetData());
+            GCySClient.hasUpdatedPlanets = true;
         }
         return PLANET_LEVELS.contains(level.dimension());
     }
@@ -169,7 +168,7 @@ public class PlanetData extends SimpleJsonResourceReloadListener {
      */
     public static float getWorldTemperature(Level level) {
         if (isOrbitLevel(level.dimension())) {
-            return GcysValues.ORBIT_TEMPERATURE;
+            return GCySValues.ORBIT_TEMPERATURE;
         }
         return PlanetData.getPlanetFromLevel(level.dimension()).map(Planet::temperature).orElse(293.0f);
     }

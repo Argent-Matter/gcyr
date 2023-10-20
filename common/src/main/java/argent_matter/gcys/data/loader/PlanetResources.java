@@ -1,7 +1,7 @@
 package argent_matter.gcys.data.loader;
 
-import argent_matter.gcys.GregicalitySpace;
-import argent_matter.gcys.GregicalitySpaceClient;
+import argent_matter.gcys.GCyS;
+import argent_matter.gcys.GCySClient;
 import argent_matter.gcys.api.space.planet.Galaxy;
 import argent_matter.gcys.api.space.planet.PlanetRing;
 import argent_matter.gcys.api.space.planet.PlanetSkyRenderer;
@@ -42,11 +42,11 @@ public class PlanetResources implements ResourceManagerReloadListener {
                     JsonObject jsonObject = GsonHelper.fromJson(GSON, reader, JsonObject.class);
 
                     if (jsonObject != null) {
-                        skyRenderers.add(PlanetSkyRenderer.CODEC.parse(JsonOps.INSTANCE, jsonObject).getOrThrow(false, GregicalitySpace.LOGGER::error));
+                        skyRenderers.add(PlanetSkyRenderer.CODEC.parse(JsonOps.INSTANCE, jsonObject).getOrThrow(false, GCyS.LOGGER::error));
                     }
                 }
             } catch (Exception e) {
-                GregicalitySpace.LOGGER.error("Failed to load Gregicality Space sky rendering assets from: \"" + id.toString() + "\"", e);
+                GCyS.LOGGER.error("Failed to load Gregicality Space sky rendering assets from: \"" + id.toString() + "\"", e);
                 e.printStackTrace();
             }
         }
@@ -59,11 +59,11 @@ public class PlanetResources implements ResourceManagerReloadListener {
                     JsonObject jsonObject = GsonHelper.fromJson(GSON, reader, JsonObject.class);
 
                     if (jsonObject != null) {
-                        solarSystems.add(SolarSystem.CODEC.parse(JsonOps.INSTANCE, jsonObject).getOrThrow(false, GregicalitySpace.LOGGER::error));
+                        solarSystems.add(SolarSystem.CODEC.parse(JsonOps.INSTANCE, jsonObject).getOrThrow(false, GCyS.LOGGER::error));
                     }
                 }
             } catch (Exception e) {
-                GregicalitySpace.LOGGER.error("Failed to load Gregicality Space solar system assets from: \"" + id.toString() + "\"", e);
+                GCyS.LOGGER.error("Failed to load Gregicality Space solar system assets from: \"" + id.toString() + "\"", e);
                 e.printStackTrace();
             }
         }
@@ -75,11 +75,11 @@ public class PlanetResources implements ResourceManagerReloadListener {
                     JsonObject jsonObject = GsonHelper.fromJson(GSON, reader, JsonObject.class);
 
                     if (jsonObject != null) {
-                        planetRings.add(PlanetRing.CODEC.parse(JsonOps.INSTANCE, jsonObject).getOrThrow(false, GregicalitySpace.LOGGER::error));
+                        planetRings.add(PlanetRing.CODEC.parse(JsonOps.INSTANCE, jsonObject).getOrThrow(false, GCyS.LOGGER::error));
                     }
                 }
             } catch (Exception e) {
-                GregicalitySpace.LOGGER.error("Failed to load Gregicality Space planet ring assets from: \"" + id.toString() + "\"", e);
+                GCyS.LOGGER.error("Failed to load Gregicality Space planet ring assets from: \"" + id.toString() + "\"", e);
                 e.printStackTrace();
             }
         }
@@ -92,21 +92,21 @@ public class PlanetResources implements ResourceManagerReloadListener {
                     JsonObject jsonObject = GsonHelper.fromJson(GSON, reader, JsonObject.class);
 
                     if (jsonObject != null) {
-                        galaxies.add(Galaxy.CODEC.parse(JsonOps.INSTANCE, jsonObject).getOrThrow(false, GregicalitySpace.LOGGER::error));
+                        galaxies.add(Galaxy.CODEC.parse(JsonOps.INSTANCE, jsonObject).getOrThrow(false, GCyS.LOGGER::error));
                     }
                 }
             } catch (Exception e) {
-                GregicalitySpace.LOGGER.error("Failed to load Gregicality Space galaxy assets from: \"" + id.toString() + "\"", e);
+                GCyS.LOGGER.error("Failed to load Gregicality Space galaxy assets from: \"" + id.toString() + "\"", e);
                 e.printStackTrace();
             }
         }
 
         solarSystems.sort(Comparator.comparing(SolarSystem::solarSystem));
         galaxies.sort(Comparator.comparing(Galaxy::galaxy));
-        GregicalitySpaceClient.skyRenderers = skyRenderers;
-        GregicalitySpaceClient.solarSystems = solarSystems;
-        GregicalitySpaceClient.planetRings = planetRings;
-        GregicalitySpaceClient.galaxies = galaxies;
+        GCySClient.skyRenderers = skyRenderers;
+        GCySClient.solarSystems = solarSystems;
+        GCySClient.planetRings = planetRings;
+        GCySClient.galaxies = galaxies;
         ClientModSkies.register();
     }
 }

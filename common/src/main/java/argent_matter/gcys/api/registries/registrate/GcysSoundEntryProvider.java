@@ -1,8 +1,7 @@
 package argent_matter.gcys.api.registries.registrate;
 
-import argent_matter.gcys.GregicalitySpace;
+import argent_matter.gcys.GCyS;
 import com.google.gson.JsonObject;
-import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import com.gregtechceu.gtceu.api.sound.SoundEntry;
 import net.minecraft.data.CachedOutput;
@@ -30,12 +29,12 @@ public class GcysSoundEntryProvider implements DataProvider {
     }
 
     public void generate(Path path, CachedOutput cache) {
-        path = path.resolve("assets/" + GregicalitySpace.MOD_ID);
+        path = path.resolve("assets/" + GCyS.MOD_ID);
 
         try {
             JsonObject json = new JsonObject();
             for (SoundEntry sound : GTRegistries.SOUNDS) {
-                if (sound.getId().getNamespace().equals(GregicalitySpace.MOD_ID)) sound.write(json);
+                if (sound.getId().getNamespace().equals(GCyS.MOD_ID)) sound.write(json);
             }
             DataProvider.saveStable(cache, json, path.resolve("sounds.json"));
 

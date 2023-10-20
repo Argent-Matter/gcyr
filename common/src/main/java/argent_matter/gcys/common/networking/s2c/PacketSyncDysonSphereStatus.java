@@ -1,6 +1,6 @@
 package argent_matter.gcys.common.networking.s2c;
 
-import argent_matter.gcys.GregicalitySpaceClient;
+import argent_matter.gcys.GCySClient;
 import com.lowdragmc.lowdraglib.networking.IHandlerContext;
 import com.lowdragmc.lowdraglib.networking.IPacket;
 import lombok.AllArgsConstructor;
@@ -20,7 +20,7 @@ public class PacketSyncDysonSphereStatus implements IPacket {
     @Override
     public void decode(FriendlyByteBuf buf) {
         this.isSphereActive = buf.readBoolean();
-        GregicalitySpaceClient.isDysonSphereActive = isSphereActive;
+        GCySClient.isDysonSphereActive = isSphereActive;
     }
 
     @Override

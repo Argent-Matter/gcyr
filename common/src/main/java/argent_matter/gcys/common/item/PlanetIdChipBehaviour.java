@@ -2,8 +2,8 @@ package argent_matter.gcys.common.item;
 
 import argent_matter.gcys.api.space.planet.Planet;
 import argent_matter.gcys.api.space.station.SpaceStation;
-import argent_matter.gcys.common.data.GcysItems;
-import argent_matter.gcys.common.data.GcysMenus;
+import argent_matter.gcys.common.data.GCySItems;
+import argent_matter.gcys.common.data.GCySMenus;
 import argent_matter.gcys.data.loader.PlanetData;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
@@ -36,19 +36,19 @@ public class PlanetIdChipBehaviour implements IInteractionItem, IAddInformation 
     public InteractionResultHolder<ItemStack> use(Item item, Level level, Player player, InteractionHand usedHand) {
         ItemStack heldItem = player.getItemInHand(usedHand);
         if (player instanceof ServerPlayer serverPlayer) {
-            GcysMenus.PLANET_SELECTION.open(serverPlayer, Component.translatable("gui.gcys.planet_selector"), PlanetData::writePlanetData);
+            GCySMenus.PLANET_SELECTION.open(serverPlayer, Component.translatable("gui.gcys.planet_selector"), PlanetData::writePlanetData);
             return InteractionResultHolder.consume(heldItem);
         }
         return InteractionResultHolder.pass(heldItem);
     }
 
     public static void setSpaceStation(ItemStack held, int stationId) {
-        if (!GcysItems.ID_CHIP.isIn(held) || stationId == SpaceStation.ID_EMPTY) return;
+        if (!GCySItems.ID_CHIP.isIn(held) || stationId == SpaceStation.ID_EMPTY) return;
         held.getOrCreateTag().putInt(CURRENT_STATION_TAG_ID, stationId);
     }
 
     public static int getSpaceStationId(ItemStack held) {
-        if (!GcysItems.ID_CHIP.isIn(held) || !held.getOrCreateTag().contains(CURRENT_STATION_TAG_ID, Tag.TAG_INT)) return SpaceStation.ID_EMPTY;
+        if (!GCySItems.ID_CHIP.isIn(held) || !held.getOrCreateTag().contains(CURRENT_STATION_TAG_ID, Tag.TAG_INT)) return SpaceStation.ID_EMPTY;
         return held.getOrCreateTag().getInt(CURRENT_STATION_TAG_ID);
     }
 
@@ -57,7 +57,7 @@ public class PlanetIdChipBehaviour implements IInteractionItem, IAddInformation 
     }
 
     public static void setPlanetFromName(String planetName, ItemStack held) {
-        if (!GcysItems.ID_CHIP.isIn(held)) return;
+        if (!GCySItems.ID_CHIP.isIn(held)) return;
         Planet currentTarget = PLANET_NAME_CACHE.computeIfAbsent(planetName, (name) -> PlanetData.getPlanetFromLevel(ResourceKey.create(Registry.DIMENSION_REGISTRY, ResourceLocation.of(name.substring(6), '.'))).orElse(null));
         held.getOrCreateTag().putString(CURRENT_PLANET_TAG_ID, currentTarget.level().location().toString());
     }

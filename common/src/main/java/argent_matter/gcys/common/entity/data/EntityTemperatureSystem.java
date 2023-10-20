@@ -3,7 +3,7 @@ package argent_matter.gcys.common.entity.data;
 import argent_matter.gcys.common.item.armor.SpaceSuitArmorItem;
 import argent_matter.gcys.config.GcysConfig;
 import argent_matter.gcys.data.loader.PlanetData;
-import argent_matter.gcys.data.recipe.GcysTags;
+import argent_matter.gcys.data.recipe.GCySTags;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
@@ -76,11 +76,11 @@ public class EntityTemperatureSystem {
     }
 
     public static boolean armourIsFreezeResistant(LivingEntity entity) {
-        return StreamSupport.stream(entity.getArmorSlots().spliterator(), false).allMatch(s -> s.is(GcysTags.FREEZE_RESISTANT));
+        return StreamSupport.stream(entity.getArmorSlots().spliterator(), false).allMatch(s -> s.is(GCySTags.FREEZE_RESISTANT));
     }
 
     public static boolean armourIsHeatResistant(LivingEntity entity) {
-        return StreamSupport.stream(entity.getArmorSlots().spliterator(), false).allMatch(s -> s.is(GcysTags.HEAT_RESISTANT));
+        return StreamSupport.stream(entity.getArmorSlots().spliterator(), false).allMatch(s -> s.is(GCySTags.HEAT_RESISTANT));
     }
 }
 

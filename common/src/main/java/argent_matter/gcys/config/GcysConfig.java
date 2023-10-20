@@ -1,12 +1,12 @@
 package argent_matter.gcys.config;
 
-import argent_matter.gcys.GregicalitySpace;
+import argent_matter.gcys.GCyS;
 import dev.toma.configuration.Configuration;
 import dev.toma.configuration.config.Config;
 import dev.toma.configuration.config.Configurable;
 import dev.toma.configuration.config.format.ConfigFormats;
 
-@Config(id = GregicalitySpace.MOD_ID)
+@Config(id = GCyS.MOD_ID)
 public class GcysConfig {
     public static GcysConfig INSTANCE;
     public static void init() {

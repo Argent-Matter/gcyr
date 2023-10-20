@@ -1,8 +1,8 @@
 package argent_matter.gcys.common.machine.multiblock;
 
-import argent_matter.gcys.common.data.GcysBlocks;
-import argent_matter.gcys.common.data.GcysEntities;
-import argent_matter.gcys.common.data.GcysItems;
+import argent_matter.gcys.common.data.GCySBlocks;
+import argent_matter.gcys.common.data.GCySEntities;
+import argent_matter.gcys.common.data.GCySItems;
 import argent_matter.gcys.common.entity.RocketEntity;
 import argent_matter.gcys.common.item.KeyCardBehaviour;
 import argent_matter.gcys.common.item.PlanetIdChipBehaviour;
@@ -38,7 +38,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
-import org.jetbrains.annotations.NotNull;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -74,11 +73,11 @@ public class RocketScannerMachine extends MultiblockControllerMachine implements
     public RocketScannerMachine(IMachineBlockEntity holder) {
         super(holder);
         this.configSaveSlot = new ItemStackTransfer(1);
-        this.configSaveSlot.setFilter(GcysItems.ID_CHIP::isIn);
+        this.configSaveSlot.setFilter(GCySItems.ID_CHIP::isIn);
         this.configSaveSlot.setOnContentsChanged(this::onSaveSlotChanged);
 
         this.configLoadSlot = new ItemStackTransfer(1);
-        this.configLoadSlot.setFilter(GcysItems.KEYCARD::isIn);
+        this.configLoadSlot.setFilter(GCySItems.KEYCARD::isIn);
         this.configLoadSlot.setOnContentsChanged(this::onLoadSlotChanged);
     }
 
@@ -115,8 +114,8 @@ public class RocketScannerMachine extends MultiblockControllerMachine implements
 
     private void onSaveSlotChanged() {
         ItemStack saveStack = this.configSaveSlot.getStackInSlot(0);
-        if (GcysItems.ID_CHIP.isIn(saveStack)) {
-            ItemStack keyCardStack = GcysItems.KEYCARD.asStack(1);
+        if (GCySItems.ID_CHIP.isIn(saveStack)) {
+            ItemStack keyCardStack = GCySItems.KEYCARD.asStack(1);
             KeyCardBehaviour.setSavedStation(keyCardStack, PlanetIdChipBehaviour.getSpaceStationId(saveStack), PlanetIdChipBehaviour.getPlanetFromStack(saveStack));
             this.configLoadSlot.setStackInSlot(0, keyCardStack);
         }
@@ -125,7 +124,7 @@ public class RocketScannerMachine extends MultiblockControllerMachine implements
     private void onLoadSlotChanged() {
         ItemStack saveStack = this.configSaveSlot.getStackInSlot(0);
         ItemStack loadStack = this.configLoadSlot.getStackInSlot(0);
-        if (GcysItems.ID_CHIP.isIn(saveStack) && GcysItems.KEYCARD.isIn(loadStack)) {
+        if (GCySItems.ID_CHIP.isIn(saveStack) && GCySItems.KEYCARD.isIn(loadStack)) {
             PlanetIdChipBehaviour.setSpaceStation(saveStack, KeyCardBehaviour.getSavedStation(loadStack));
         }
     }
@@ -160,7 +159,7 @@ public class RocketScannerMachine extends MultiblockControllerMachine implements
         if (this.rocketBuilt) {
             boolean allAir = true;
             BlockPos startPos = BlockPos.ZERO;
-            RocketEntity rocket = GcysEntities.ROCKET.create(this.getLevel());
+            RocketEntity rocket = GCySEntities.ROCKET.create(this.getLevel());
             rocket.setPos(endX + getFrontFacing().getStepX(), endY, endZ + getFrontFacing().getStepZ());
 
             Map<BlockPos, BlockState> states = new HashMap<>();
@@ -270,7 +269,7 @@ public class RocketScannerMachine extends MultiblockControllerMachine implements
      * @return if a block is a valid wall block at pos moved in direction
      */
     public boolean isBlockEdge(@Nonnull Level world, @Nonnull BlockPos.MutableBlockPos pos, @Nonnull Direction direction) {
-        return world.getBlockState(pos.move(direction)).is(GcysBlocks.LAUNCH_PAD.get()) && !world.getBlockState(pos.relative(direction, 1)).is(GcysBlocks.LAUNCH_PAD.get());
+        return world.getBlockState(pos.move(direction)).is(GCySBlocks.LAUNCH_PAD.get()) && !world.getBlockState(pos.relative(direction, 1)).is(GCySBlocks.LAUNCH_PAD.get());
     }
 
     /**
@@ -352,7 +351,7 @@ public class RocketScannerMachine extends MultiblockControllerMachine implements
                 .aisle(center).setRepeatable(bDist)
                 .aisle(front)
                 .where('S', Predicates.controller(Predicates.blocks(this.getDefinition().get())))
-                .where('B', blocks(GcysBlocks.LAUNCH_PAD.get()))
+                .where('B', blocks(GCySBlocks.LAUNCH_PAD.get()))
                 .where('K', towerPredicate)
                 .where(' ', any())
                 .build();

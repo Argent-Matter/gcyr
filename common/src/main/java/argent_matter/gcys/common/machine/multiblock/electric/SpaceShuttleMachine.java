@@ -1,6 +1,6 @@
 package argent_matter.gcys.common.machine.multiblock.electric;
 
-import argent_matter.gcys.GregicalitySpace;
+import argent_matter.gcys.GCyS;
 import argent_matter.gcys.api.capability.GcysCapabilityHelper;
 import argent_matter.gcys.api.capability.ISpaceStationHolder;
 import argent_matter.gcys.api.gui.widget.GcysGuiTextures;
@@ -8,11 +8,11 @@ import argent_matter.gcys.api.registries.GcysRegistries;
 import argent_matter.gcys.api.space.satellite.SatelliteType;
 import argent_matter.gcys.api.space.satellite.data.SatelliteData;
 import argent_matter.gcys.api.space.station.SpaceStation;
-import argent_matter.gcys.common.data.GcysDimensionTypes;
-import argent_matter.gcys.common.data.GcysItems;
-import argent_matter.gcys.common.data.GcysRecipeTypes;
-import argent_matter.gcys.common.item.IdChipBehaviour;
+import argent_matter.gcys.common.data.GCySDimensionTypes;
+import argent_matter.gcys.common.data.GCySItems;
+import argent_matter.gcys.common.data.GCySRecipeTypes;
 import argent_matter.gcys.common.item.KeyCardBehaviour;
+import argent_matter.gcys.common.item.PlanetIdChipBehaviour;
 import argent_matter.gcys.common.worldgen.SpaceLevelSource;
 import argent_matter.gcys.data.lang.LangHandler;
 import argent_matter.gcys.data.loader.PlanetData;
@@ -33,14 +33,12 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.Tag;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.Vec2;
 
 import javax.annotation.Nullable;
 import java.util.UUID;
@@ -83,10 +81,10 @@ public class SpaceShuttleMachine extends WorkableElectricMultiblockMachine {
 
     protected void updatedInventory() {
         var stack = inventory.getStackInSlot(0);
-        if (GcysItems.KEYCARD.isIn(stack)) {
+        if (GCySItems.KEYCARD.isIn(stack)) {
             this.currentSatelliteOwnerUUID = KeyCardBehaviour.getOwner(stack);
             this.recipeLogic.setWorkingEnabled(true);
-        } else if (GcysItems.ID_CHIP.isIn(stack)) {
+        } else if (GCySItems.ID_CHIP.isIn(stack)) {
             this.currentSatelliteOwnerUUID = null;
             this.recipeLogic.setWorkingEnabled(true);
         } else {
@@ -114,17 +112,17 @@ public class SpaceShuttleMachine extends WorkableElectricMultiblockMachine {
         }
     }
 
-    private static final ResourceLocation mannedLaunchRecipeId = GregicalitySpace.id("space_shuttle/manned_launch_station");
+    private static final ResourceLocation mannedLaunchRecipeId = GCyS.id("space_shuttle/manned_launch_station");
 
     private void launchPlayerToStation(ClickData data, Player player) {
         Level level = player.getLevel();
-        var recipe = GcysRecipeTypes.SPACE_SHUTTLE_RECIPES.getRecipe(level.getRecipeManager(), mannedLaunchRecipeId);
-        if (!level.isClientSide && recipe.matchRecipe(this).isSuccess() && GcysItems.ID_CHIP.isIn(inventory.getStackInSlot(0))) {
+        var recipe = GCySRecipeTypes.SPACE_SHUTTLE_RECIPES.getRecipe(level.getRecipeManager(), mannedLaunchRecipeId);
+        if (!level.isClientSide && recipe.matchRecipe(this).isSuccess() && GCySItems.ID_CHIP.isIn(inventory.getStackInSlot(0))) {
             this.recipeLogic.setupRecipe(recipe);
-            int stationId = IdChipBehaviour.getCircuitId(inventory.getStackInSlot(0));
+            int stationId = PlanetIdChipBehaviour.getSpaceStationId(inventory.getStackInSlot(0));
             if (stationId != SpaceStation.ID_EMPTY) {
                 ServerPlayer serverPlayer = (ServerPlayer) player;
-                ServerLevel space = level.getServer().getLevel(GcysDimensionTypes.SPACE_LEVEL);
+                ServerLevel space = level.getServer().getLevel(GCySDimensionTypes.SPACE_LEVEL);
                 ISpaceStationHolder stations = GcysCapabilityHelper.getSpaceStations(space);
                 Vec2i pos = stations.getStationPos(stationId);
                 if (pos == Vec2i.MAX_NEGATIVE) {
