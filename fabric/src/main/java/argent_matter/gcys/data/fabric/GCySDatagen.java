@@ -44,7 +44,7 @@ public class GCySDatagen implements DataGeneratorEntrypoint {
         var set = Set.of(GCyS.MOD_ID);
         var registryAccess = RegistryAccess.fromRegistryOfRegistries(BuiltInRegistries.REGISTRY);
         var registries = createProvider(registryAccess);
-        pack.addProvider(bindRegistries((output, provider) -> new GTRegistriesDatapackGenerator(
+        pack.addProvider(bindRegistries((output, provider) -> new FixedGTRegistriesDatapackGenerator(
                 output, registries, new RegistrySetBuilder()
                 .add(Registries.BIOME, GCySBiomes::bootstrap),
                 set, "Worldgen Data"), registries));
