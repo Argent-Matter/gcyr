@@ -67,6 +67,6 @@ issueTrackerURL="https://github.com/argent-matter/gcys/issues"
    [[dependencies.gcys]]
       modId="gtceu"
       mandatory=true
-      versionRange="[1.0.6,)"
+      versionRange="[1.0.13.b,)"
       ordering="AFTER"
       side="BOTH"
