@@ -31,10 +31,6 @@ public class GCySRecipeTypes {
             .setProgressBar(GcysGuiTextures.PROGRESS_BAR_ROCKET, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.TRICORDER_TOOL);
 
-    public static final GTRecipeType SPACE_SHUTTLE_RECIPES = register("space_shuttle", MULTIBLOCK).setMaxIOSize(4, 0, 2, 0).setEUIO(IO.IN)
-            .setProgressBar(GcysGuiTextures.PROGRESS_BAR_ROCKET, LEFT_TO_RIGHT)
-            .setSound(GCySSoundEntries.ROCKET);
-
     public static GTRecipeType register(String name, String group, RecipeType<?>... proxyRecipes) {
         var recipeType = new GTRecipeType(GCyS.id(name), group, proxyRecipes);
         GTRegistries.register(BuiltInRegistries.RECIPE_TYPE, recipeType.registryName, recipeType);
