@@ -5,10 +5,10 @@ import argent_matter.gcys.client.renderer.machine.DysonSystemControllerRenderer;
 import argent_matter.gcys.common.machine.electric.OxygenSpreaderMachine;
 import argent_matter.gcys.common.machine.multiblock.electric.DysonSystemControllerMachine;
 import argent_matter.gcys.common.machine.multiblock.RocketScannerMachine;
-import argent_matter.gcys.common.machine.multiblock.electric.SpaceShuttleMachine;
 import argent_matter.gcys.data.recipe.GCySTags;
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
 import com.gregtechceu.gtceu.api.data.RotationState;
 import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
@@ -20,15 +20,19 @@ import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMa
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.MultiblockShapeInfo;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
+import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.registry.registrate.MachineBuilder;
 import com.gregtechceu.gtceu.client.renderer.machine.TieredHullMachineRenderer;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
+import com.gregtechceu.gtceu.config.ConfigHolder;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.Blocks;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.function.BiFunction;
 
 import static argent_matter.gcys.api.registries.GcysRegistries.REGISTRATE;
@@ -36,9 +40,12 @@ import static argent_matter.gcys.common.data.GCySBlocks.*;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 import static com.gregtechceu.gtceu.common.data.GCyMBlocks.CASING_ATOMIC;
 import static com.gregtechceu.gtceu.common.data.GTBlocks.*;
-import static com.gregtechceu.gtceu.common.data.GTMachines.*;
+import static com.gregtechceu.gtceu.common.data.GTMachines.POWER_TRANSFORMER;
 
+@SuppressWarnings({"Convert2MethodRef", "FunctionalExpressionCanBeFolded", "unused"})
 public class GCySMachines {
+
+    public final static int[] HIGH_TIERS = new int[] {GTValues.IV, GTValues.LuV, GTValues.ZPM, GTValues.UV, GTValues.UHV};
 
     public final static MachineDefinition[] OXYGEN_SPREADER = registerTieredMachines("oxygen_spreader", OxygenSpreaderMachine::new,
             (tier, builder) -> builder
@@ -95,7 +102,7 @@ public class GCySMachines {
 
     public static final MultiblockMachineDefinition DYSON_SYSTEM_CONTROLLER = REGISTRATE.multiblock("dyson_system_controller", DysonSystemControllerMachine::new)
             .rotationState(RotationState.NON_Y_AXIS)
-            .appearanceBlock(CASING_ATOMIC)
+            .appearanceBlock(() -> CASING_ATOMIC.get()) // You MUST do it like this, so that the GTBlocks/GCyMBlocks class isn't loaded too early. Because that causes a crash.
             .recipeType(GCySRecipeTypes.DYSON_ENERGY_RECIPES)
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("CCCCCCC", "CCCCCCC", "  F    ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ")
@@ -120,7 +127,7 @@ public class GCySMachines {
 
     public static final MultiblockMachineDefinition SPACE_ELEVATOR = REGISTRATE.multiblock("space_elevator", WorkableElectricMultiblockMachine::new)
             .rotationState(RotationState.NON_Y_AXIS)
-            .appearanceBlock(CASING_TUNGSTENSTEEL_ROBUST)
+            .appearanceBlock(() -> CASING_TUNGSTENSTEEL_ROBUST.get())
             .recipeType(GCySRecipeTypes.SPACE_ELEVATOR_RECIPES)
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("         KKKKKKK         ", "          BXXXB          ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ")
@@ -162,37 +169,10 @@ public class GCySMachines {
                     GTCEu.id("block/multiblock/assembly_line"), false)
             .register();
 
-    public static final MultiblockMachineDefinition SPACE_SHUTTLE = REGISTRATE.multiblock("space_shuttle", SpaceShuttleMachine::new)
-            .rotationState(RotationState.NON_Y_AXIS)
-            .appearanceBlock(CASING_TUNGSTENSTEEL_ROBUST)
-            .recipeType(GCySRecipeTypes.SPACE_SHUTTLE_RECIPES)
-            .pattern(definition -> FactoryBlockPattern.start()
-                    .aisle("CCCCCCCCC", "CCCCCCCCC", "   X X   ", "   XXX   ", "   X X   ", "   XXX   ", "   X X   ", "   XXX   ", "   X X   ", "   XXX   ", "   X X   ", "         ")
-                    .aisle("CCCCCCCCC", "CCCCCCCCC", "   X X   ", "         ", "   X X   ", "         ", "   X X   ", "         ", "   X X   ", "         ", "   X X   ", "         ")
-                    .aisle("CCCCCCCCC", "CCCCCCCCC", "   X X   ", "   XXX   ", "   X X   ", "   XXX   ", "   X X   ", "   XXX   ", "   X X   ", "   XXX   ", "   X X   ", "         ")
-                    .aisle("CCCCCCCCC", "CCCCCCCCC", "         ", "    T    ", "         ", "         ", "         ", "         ", "   XXX   ", "         ", "         ", "         ")
-                    .aisle("CCCCCCCCC", "CCCCCCCCC", "         ", "    T    ", "    T    ", "    T    ", "         ", "         ", "   XXX   ", "         ", "         ", "         ")
-                    .aisle("CCCCCCCCC", "CCCCCCCCC", "    A    ", "   TTT   ", "   TTT   ", "   TTT   ", "   TTT   ", "   TTT   ", "   TTT   ", "   TTT   ", "    B    ", "         ")
-                    .aisle("CCCCCCCCC", "         ", "   A A   ", " TTTTTTT ", " TTT TTT ", "  TT TT  ", "  TT TT  ", "   T T   ", "   T T   ", "   T T   ", "   B B   ", "    B    ")
-                    .aisle("CCCCCCCCC", "CCCCCCCCC", "    A    ", "   TTT   ", "   TTT   ", "   TTT   ", "   TTT   ", "   TTT   ", "   TTT   ", "   TTT   ", "    B    ", "         ")
-                    .aisle("CCCCCCCCC", "CCCCSCCCC", "         ", "         ", "         ", "         ", "         ", "         ", "         ", "         ", "         ", "         ")
-                    .where('S', controller(blocks(definition.getBlock())))
-                    .where(' ', air())
-                    .where('C', blocks(CASING_TUNGSTENSTEEL_ROBUST.get()).setMinGlobalLimited(110)
-                            .or(Predicates.autoAbilities(definition.getRecipeTypes())))
-                    .where('X', blocks(MATERIAL_BLOCKS.get(TagPrefix.frameGt, GTMaterials.StainlessSteel).get()))
-                    .where('T', blocks(CASING_ALUMINIUM_AEROSPACE.get()))
-                    .where('A', blocks(ROCKET_MOTOR.get()))
-                    .where('B', blocks(MATERIAL_BLOCKS.get(TagPrefix.block, GCySMaterials.KaptonK).get()))
-                    .build())
-            .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_robust_tungstensteel"),
-                    GTCEu.id("block/multiblock/assembly_line"), false)
-            .register();
-
     public static final MultiblockMachineDefinition DRONE_HANGAR = REGISTRATE.multiblock("drone_hangar", WorkableElectricMultiblockMachine::new)
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeType(GTRecipeTypes.VACUUM_RECIPES)
-            .appearanceBlock(CASING_ALUMINIUM_FROSTPROOF)
+            .appearanceBlock(() -> CASING_ALUMINIUM_FROSTPROOF.get())
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("XXX", "XXX", "XXX")
                     .aisle("XXX", "X#X", "XXX")
@@ -218,6 +198,22 @@ public class GCySMachines {
             definitions[i] = builder.apply(tier, register);
         }
         return definitions;
+    }
+
+    public static Component explosion() {
+        if (ConfigHolder.INSTANCE.machines.doTerrainExplosion)
+            return Component.translatable("gtceu.universal.tooltip.terrain_resist");
+        return null;
+    }
+
+    public static Component[] workableTiered(int tier, long voltage, long energyCapacity, GTRecipeType recipeType, long tankCapacity, boolean input) {
+        List<Component> tooltipComponents = new ArrayList<>();
+        tooltipComponents.add(input ? Component.translatable("gtceu.universal.tooltip.voltage_in", voltage, GTValues.VNF[tier]) :
+                Component.translatable("gtceu.universal.tooltip.voltage_out", voltage, GTValues.VNF[tier]));
+        tooltipComponents.add(Component.translatable("gtceu.universal.tooltip.energy_storage_capacity", energyCapacity));
+        if (recipeType.getMaxInputs(FluidRecipeCapability.CAP) > 0 || recipeType.getMaxOutputs(FluidRecipeCapability.CAP) > 0)
+            tooltipComponents.add(Component.translatable("gtceu.universal.tooltip.fluid_storage_capacity", tankCapacity));
+        return tooltipComponents.toArray(Component[]::new);
     }
 
     public static void init() {
