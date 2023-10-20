@@ -10,4 +10,3 @@ transitive-extendable method net/minecraft/client/gui/components/AbstractWidget 
 accessible field net/minecraft/client/gui/components/AbstractWidget wasHoveredOrFocused Z
 accessible field net/minecraft/client/gui/components/AbstractWidget hoverOrFocusedStartTime J
 accessible field net/minecraft/client/gui/components/AbstractWidget tooltipMsDelay I
-transitive-accessible method net/minecraft/client/gui/components/CycleButton updateTooltip ()V
