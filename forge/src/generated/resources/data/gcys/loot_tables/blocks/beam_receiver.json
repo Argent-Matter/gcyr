@@ -11,7 +11,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "gcys:aluminium_aerospace"
+          "name": "gcys:beam_receiver"
         }
       ],
       "rolls": 1.0
