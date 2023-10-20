@@ -60,9 +60,9 @@ jobs:
         name: Get Version
         id: var
         run: |
-          MESSAGE=$(ls fabric/build/libs/* | grep sources.jar -v | grep shadow.jar -v | awk -F 'gtceu-fabric-|.jar' '{print $2}')
+          MESSAGE=$(ls fabric/build/libs/* | grep sources.jar -v | grep shadow.jar -v | awk -F 'gcys-fabric-|.jar' '{print $2}')
           echo fabric_version=$MESSAGE >> $GITHUB_OUTPUT
-          MESSAGE=$(ls forge/build/libs/* | grep sources.jar -v | grep shadow.jar -v | awk -F 'gtceu-forge-|.jar' '{print $2}')
+          MESSAGE=$(ls forge/build/libs/* | grep sources.jar -v | grep shadow.jar -v | awk -F 'gcys-forge-|.jar' '{print $2}')
           echo forge_version=$MESSAGE >> $GITHUB_OUTPUT
 
       - if: ${{ inputs.publishCurseForgeAndModrinth }}
@@ -83,7 +83,7 @@ jobs:
             fabric/build/libs/!(*-@(dev|sources|javadoc|dev-shadow)).jar
             fabric/build/libs/*-@(dev|sources|javadoc|dev-shadow).jar
 
-          name: GregTechCEu ${{ steps.var.outputs.fabric_version }}-fabric
+          name: GCyS ${{ steps.var.outputs.fabric_version }}-fabric
           version: mc${{ steps.var.outputs.fabric_version }}-fabric
           version-type: ${{ inputs.releaseType }}
           changelog-file: CHANGELOG.*
@@ -119,7 +119,7 @@ jobs:
             forge/build/libs/!(*-@(dev|sources|javadoc|dev-shadow)).jar
             forge/build/libs/*-@(dev|sources|javadoc|dev-shadow).jar
 
-          name: GregTechCEu ${{ steps.var.outputs.forge_version }}-forge
+          name: GCyS ${{ steps.var.outputs.forge_version }}-forge
           version: mc${{ steps.var.outputs.forge_version }}-forge
           version-type: ${{ inputs.releaseType }}
           changelog-file: CHANGELOG.*
