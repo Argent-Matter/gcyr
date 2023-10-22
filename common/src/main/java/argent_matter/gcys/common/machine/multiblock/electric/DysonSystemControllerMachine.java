@@ -135,6 +135,15 @@ public class DysonSystemControllerMachine extends WorkableElectricMultiblockMach
                     textList.add(Component.translatable("menu.gcys.dyson_sphere.collapsed"));
                 }
             }
+
+            // TODO disable/remove this once release comes
+            Component button;
+            if (system.isDysonSphereActive()) {
+                button = ComponentPanelWidget.withButton(Component.translatable("menu.gcys.dyson_sphere.stop"), "dbg_delete_sphere").copy().withStyle(ChatFormatting.RED);
+            } else {
+                button = ComponentPanelWidget.withButton(Component.translatable("menu.gcys.dyson_sphere.start"), "dbg_start_sphere").copy().withStyle(ChatFormatting.GREEN);
+            }
+            textList.add(button);
         }
 
     }
