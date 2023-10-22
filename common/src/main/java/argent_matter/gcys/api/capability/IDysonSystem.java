@@ -1,18 +1,23 @@
 package argent_matter.gcys.api.capability;
 
 
+import argent_matter.gcys.api.space.dyson.DysonSphere;
 import argent_matter.gcys.common.satellite.DysonSwarmSatellite;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
 public interface IDysonSystem {
     /**
-     * @return if a dyson sphere active in this dimension.
+     * @return this solar system's active dyson sphere, or null if none
      */
+    @Nullable
+    DysonSphere activeDysonSphere();
+
     boolean isDysonSphereActive();
 
     /**
@@ -27,4 +32,8 @@ public interface IDysonSystem {
     void addDysonSatellite(BlockPos controllerPos, DysonSwarmSatellite satellite);
 
     void disableAllDysonSatellites(BlockPos controllerPos);
+
+    void tick();
+
+    void setDirty();
 }

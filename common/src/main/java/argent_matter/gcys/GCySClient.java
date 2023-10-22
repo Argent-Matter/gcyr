@@ -11,7 +11,7 @@ import java.util.List;
 
 public class GCySClient {
 
-    public static boolean isDysonSphereActive;
+    public static boolean isDysonSphereActive = false;
 
     public static boolean hasUpdatedPlanets = false;
     public static List<PlanetSkyRenderer> skyRenderers = new ArrayList<>();
@@ -20,6 +20,6 @@ public class GCySClient {
     public static List<Galaxy> galaxies = new ArrayList<>();
 
     public static void init() {
-        GCySKeyMappings.init();
+        //GCySKeyMappings.init();
     }
 }

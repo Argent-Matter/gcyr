@@ -2,15 +2,13 @@ package argent_matter.gcys.data.fabric;
 
 import argent_matter.gcys.GCyS;
 import argent_matter.gcys.api.registries.GcysRegistries;
-import argent_matter.gcys.api.registries.registrate.GcysSoundEntryProvider;
 import argent_matter.gcys.common.data.GCySBiomes;
-import argent_matter.gcys.common.data.GCySRecipeTypes;
-import argent_matter.gcys.common.data.GCySSoundEntries;
-import com.gregtechceu.gtceu.common.data.GTMachines;
+import com.gregtechceu.gtceu.api.registry.registrate.SoundEntryBuilder;
 import com.gregtechceu.gtceu.data.fabric.GTRegistriesDatapackGenerator;
 import io.github.fabricators_of_create.porting_lib.data.ExistingFileHelper;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
+import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.Util;
 import net.minecraft.core.HolderLookup;
@@ -39,12 +37,12 @@ public class GCySDatagen implements DataGeneratorEntrypoint {
         var pack = generator.createPack();
         GcysRegistries.REGISTRATE.setupDatagen(pack, helper);
         // sound
-        pack.addProvider((FabricDataGenerator.Pack.Factory<DataProvider>) GcysSoundEntryProvider::new);
+        pack.addProvider((FabricDataOutput output) -> new SoundEntryBuilder.SoundEntryProvider(output, GCyS.MOD_ID));
         // worldgen
         var set = Set.of(GCyS.MOD_ID);
         var registryAccess = RegistryAccess.fromRegistryOfRegistries(BuiltInRegistries.REGISTRY);
         var registries = createProvider(registryAccess);
-        pack.addProvider(bindRegistries((output, provider) -> new FixedGTRegistriesDatapackGenerator(
+        pack.addProvider(bindRegistries((output, provider) -> new GTRegistriesDatapackGenerator(
                 output, registries, new RegistrySetBuilder()
                 .add(Registries.BIOME, GCySBiomes::bootstrap),
                 set, "Worldgen Data"), registries));

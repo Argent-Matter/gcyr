@@ -16,6 +16,7 @@ import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -28,7 +29,6 @@ public class ForgeCommonEventListener {
 
     @SubscribeEvent
     public static void registerItemStackCapabilities(AttachCapabilitiesEvent<ItemStack> event) {
-
         if (event.getObject().getItem() instanceof SpaceSuitArmorItemImpl spaceSuitItem) {
             final ItemStack itemStack = event.getObject();
             event.addCapability(GCyS.id("fluid"), new ICapabilityProvider() {
@@ -54,7 +54,7 @@ public class ForgeCommonEventListener {
     public static void playerChangedDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
         if (event.getEntity() instanceof ServerPlayer player) {
             IDysonSystem system = GcysCapabilityHelper.getDysonSystem(player.serverLevel(), player.getOnPos());
-            if (system != null && system.isDysonSphereActive()) {
+            if (system != null && system.isDysonSphereActive() && !system.activeDysonSphere().isCollapsed()) {
                 GCySNetworking.NETWORK.sendToPlayer(new PacketSyncDysonSphereStatus(true), player);
             } else {
                 GCySNetworking.NETWORK.sendToPlayer(new PacketSyncDysonSphereStatus(false), player);
@@ -66,11 +66,16 @@ public class ForgeCommonEventListener {
     public static void entityJoined(EntityJoinLevelEvent event) {
         if (event.getEntity() instanceof ServerPlayer player) {
             IDysonSystem system = GcysCapabilityHelper.getDysonSystem(player.serverLevel(), player.getOnPos());
-            if (system != null && system.isDysonSphereActive()) {
+            if (system != null && system.isDysonSphereActive() && !system.activeDysonSphere().isCollapsed()) {
                 GCySNetworking.NETWORK.sendToPlayer(new PacketSyncDysonSphereStatus(true), player);
             } else {
                 GCySNetworking.NETWORK.sendToPlayer(new PacketSyncDysonSphereStatus(false), player);
             }
         }
+    }
+
+    @SubscribeEvent
+    public static void levelTick(TickEvent.LevelTickEvent event) {
+        GCyS.onLevelTick(event.level, event.phase == TickEvent.Phase.START);
     }
 }

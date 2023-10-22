@@ -7,8 +7,9 @@ import net.minecraft.core.particles.SimpleParticleType;
 public class DysonBeamParticle extends SimpleAnimatedParticle {
     protected DysonBeamParticle(ClientLevel level, double x, double y, double z, SpriteSet sprites) {
         super(level, x, y, z, sprites, 0.0f);
-        this.quadSize *= 4.0f;
-        this.lifetime = 100;
+        this.quadSize = 1.0f;
+        this.lifetime = 20;
+        this.setSize(4.0f, 4.0f);
         this.setSpriteFromAge(sprites);
     }
 
