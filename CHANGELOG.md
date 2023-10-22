@@ -1,8 +1,13 @@
 
+0.0.2.b:
+- fix Dyson Sphere Casing recipe
+- fix lang issues
+- add Atomic Casing recipe
+
 0.0.2.a:
 - fix fabric
 - make dyson sphere able to collapse if left without maintenance
-- add dyson sphe
+- add dyson sphere maintenance logic
 - remove rocket launch keybind
 
 

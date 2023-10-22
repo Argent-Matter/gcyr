@@ -36,6 +36,7 @@ import java.util.function.BiFunction;
 
 import static argent_matter.gcys.api.registries.GcysRegistries.REGISTRATE;
 import static argent_matter.gcys.common.data.GCySBlocks.*;
+import static com.gregtechceu.gtceu.api.GTValues.VNF;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 import static com.gregtechceu.gtceu.common.data.GCyMBlocks.CASING_ATOMIC;
 import static com.gregtechceu.gtceu.common.data.GTBlocks.*;
@@ -48,6 +49,7 @@ public class GCySMachines {
 
     public final static MachineDefinition[] OXYGEN_SPREADER = registerTieredMachines("oxygen_spreader", OxygenSpreaderMachine::new,
             (tier, builder) -> builder
+                    .langValue("%s Oxygen Spreader".formatted(VNF[tier]))
                     .rotationState(RotationState.NON_Y_AXIS)
                     .hasTESR(true)
                     .renderer(() -> new TieredHullMachineRenderer(tier, GCyS.id("block/machine/oxygen_spreader_machine")))
