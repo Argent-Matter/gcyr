@@ -2,7 +2,9 @@ package argent_matter.gcys.data.recipe;
 
 import argent_matter.gcys.GCyS;
 import argent_matter.gcys.common.data.GCySItems;
+import argent_matter.gcys.common.data.GCySMaterials;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.UnificationEntry;
+import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.*;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
@@ -17,13 +19,25 @@ import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 
 public class MiscRecipes {
     public static void init(Consumer<FinishedRecipe> provider) {
+        VanillaRecipeHelper.addShapedRecipe(provider, true, GCyS.id("casing_atomic"),
+                GCyMBlocks.CASING_ATOMIC.asStack(2),
+                "PhP", "PFP", "PwP",
+                'P', new UnificationEntry(TagPrefix.plateDouble, GCySMaterials.Trinaquadalloy),
+                'F', new UnificationEntry(TagPrefix.frameGt, GTMaterials.NaquadahAlloy));
 
-        VanillaRecipeHelper.addShapelessRecipe(provider, "gcys_id_chip", GCySItems.ID_CHIP.asStack(),
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GCyS.id("casing_atomic"))
+                .inputItems(TagPrefix.plateDouble, GCySMaterials.Trinaquadalloy, 6)
+                .inputItems(TagPrefix.frameGt, GTMaterials.NaquadahAlloy)
+                .circuitMeta(6)
+                .outputItems(GCyMBlocks.CASING_ATOMIC.asStack(2))
+                .duration(50).EUt(16).save(provider);
+
+        VanillaRecipeHelper.addShapelessRecipe(provider, GCyS.id("id_chip"), GCySItems.ID_CHIP.asStack(),
                 new UnificationEntry(foil, IronMagnetic),
                 new UnificationEntry(plate, Polyethylene)
         );
 
-        VanillaRecipeHelper.addShapedRecipe(provider, "gcys_photovoltaic_cell", GCySItems.PHOTOVOLTAIC_CELL.asStack(),
+        VanillaRecipeHelper.addShapedRecipe(provider, GCyS.id("photovoltaic_cell"), GCySItems.PHOTOVOLTAIC_CELL.asStack(),
                 "WVW", "VGV", "CVC",
                 'W', GTItems.NAQUADAH_WAFER.asStack(), 'G', GTBlocks.CASING_TEMPERED_GLASS.asStack(), 'C', CustomTags.LuV_CIRCUITS, 'V', new UnificationEntry(wireFine, Gold)
         );
@@ -42,22 +56,22 @@ public class MiscRecipes {
                 .outputItems(GCySItems.SPACE_FABRIC.asStack(1))
                 .duration(100).EUt(VA[HV]).save(provider);
 
-        VanillaRecipeHelper.addShapedRecipe(provider, "gcys_space_helmet", GCySItems.SPACE_SUIT_HELMET.asStack(),
+        VanillaRecipeHelper.addShapedRecipe(provider, GCyS.id("space_helmet"), GCySItems.SPACE_SUIT_HELMET.asStack(),
                 "SFS", "FFF", "SCS",
                 'S', GCySItems.SPACE_FABRIC.asStack(), 'F', new UnificationEntry(foil, Gold), 'C', CustomTags.EV_CIRCUITS
         );
 
-        VanillaRecipeHelper.addShapedRecipe(provider, "gcys_space_chest", GCySItems.SPACE_SUIT_CHEST.asStack(),
+        VanillaRecipeHelper.addShapedRecipe(provider, GCyS.id("space_chest"), GCySItems.SPACE_SUIT_CHEST.asStack(),
                 "STS", "SCS", "SCS",
                 'S', GCySItems.SPACE_FABRIC.asStack(), 'T', GTItems.FLUID_CELL_LARGE_TUNGSTEN_STEEL.asStack(), 'C', CustomTags.EV_CIRCUITS
         );
 
-        VanillaRecipeHelper.addShapedRecipe(provider, "gcys_space_legs", GCySItems.SPACE_SUIT_LEGS.asStack(),
+        VanillaRecipeHelper.addShapedRecipe(provider, GCyS.id("space_legs"), GCySItems.SPACE_SUIT_LEGS.asStack(),
                 "SCS", "S S", "S S",
                 'S', GCySItems.SPACE_FABRIC.asStack(), 'C', CustomTags.EV_CIRCUITS
         );
 
-        VanillaRecipeHelper.addShapedRecipe(provider, "gcys_space_boots", GCySItems.SPACE_SUIT_BOOTS.asStack(),
+        VanillaRecipeHelper.addShapedRecipe(provider, GCyS.id("space_boots"), GCySItems.SPACE_SUIT_BOOTS.asStack(),
                 "S S", "S S",
                 'S', GCySItems.SPACE_FABRIC.asStack()
         );

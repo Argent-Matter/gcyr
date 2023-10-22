@@ -1,9 +1,46 @@
 package argent_matter.gcys.data.lang;
 
+import argent_matter.gcys.common.data.GCySMaterials;
+import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.tterrag.registrate.providers.RegistrateLangProvider;
 
+import java.util.Set;
+
+import static com.gregtechceu.gtceu.utils.FormattingUtil.toEnglishName;
+
 public class LangHandler extends com.gregtechceu.gtceu.data.lang.LangHandler {
+
+    // add materials in here as new ones are added
+    private static final Set<Material> MATERIALS = Set.of(
+            GCySMaterials.PotassiumChloride,
+            GCySMaterials.PotassiumCarbonate,
+            GCySMaterials.PotassiumHydroxide,
+            GCySMaterials.ChromicAcid,
+            GCySMaterials.Trinaquadalloy,
+            GCySMaterials.FiberGlass,
+            GCySMaterials.ChloroNitrobenzene,
+            GCySMaterials.PyromelliticDianhydride,
+            GCySMaterials.Durene,
+            GCySMaterials.Dimethylformamide,
+            GCySMaterials.Oxydianiline,
+            GCySMaterials.OxydianilineSludge,
+            GCySMaterials.AminoPhenol,
+            GCySMaterials.KaptonK,
+            GCySMaterials.Cuminaldehyde,
+            GCySMaterials.Cuminol,
+            GCySMaterials.TerephthalicAcid,
+            GCySMaterials.TerephthaloylChloride
+    );
+
     public static void init(RegistrateLangProvider provider) {
+        // materials
+        for (Material material : MATERIALS) {
+            provider.add(material.getUnlocalizedName(), toEnglishName(material.getName()));
+        }
+        provider.add(GCySMaterials.Bisalloy400.getUnlocalizedName(), "Bisalloy-400");
+        provider.add(GCySMaterials.ParaPhenylenediamine.getUnlocalizedName(), "Para-Phenylenediamine");
+        provider.add(GCySMaterials.ParaAramid.getUnlocalizedName(), "Para-Aramid");
+
         // blocks
         replace(provider, "block.gcys.aerospace_aluminium_casing", "Aerospace-grade Aluminium Machine Casing");
 
@@ -13,9 +50,6 @@ public class LangHandler extends com.gregtechceu.gtceu.data.lang.LangHandler {
         provider.add("gcys.multiblock.rocket.unbuild", "Destroy Rocket");
 
         // items
-        provider.add("metaitem.id_circuit.id", "Circuit ID: %d");
-        provider.add("metaitem.id_circuit.position", "Station Position: [x=%d,z=%d]");
-
         provider.add("metaitem.planet_id_circuit.id", "Currently selected planet: ");
         provider.add("metaitem.planet_id_circuit.station", "To in-orbit space station (ID: %s)");
 

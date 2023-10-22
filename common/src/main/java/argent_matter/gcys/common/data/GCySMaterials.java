@@ -1,7 +1,9 @@
 package argent_matter.gcys.common.data;
 
+import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags;
+import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIconSet;
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.BlastProperty;
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.ToolProperty;
 import com.gregtechceu.gtceu.api.fluids.FluidBuilder;
@@ -19,6 +21,7 @@ public class GCySMaterials {
     public static void init() {
         // Add flags to base GT materials
         IronMagnetic.addFlags(GENERATE_FOIL);
+        TitaniumTungstenCarbide.addFlags(GENERATE_ROD);
     }
 
 
@@ -41,7 +44,7 @@ public class GCySMaterials {
             .components(Potassium, 1, Oxygen, 1, Hydrogen, 1)
             .buildAndRegister();
 
-    public static final Material Bisalloy400 = new Material.Builder("bisalloy_500")
+    public static final Material Bisalloy400 = new Material.Builder("bisalloy_400")
             .ingot(5).fluid()
             .color(0x0ca819)
             .components(Carbon, 4, Phosphorus, 2, Manganese, 15, Silicon, 7, Sulfur, 1, Chromium, 12, Molybdenum, 5, Boron, 1)
@@ -51,15 +54,22 @@ public class GCySMaterials {
             .buildAndRegister();
 
     public static final Material ChromicAcid = new Material.Builder("chromic_acid")
-            .fluid()
+            .fluid(FluidStorageKeys.LIQUID, new FluidBuilder().attribute(FluidAttributes.ACID))
             .color(0xE5D8F2)
             .components(Hydrogen, 2, Chromium, 1, Oxygen, 4)
             .buildAndRegister();
 
+    public static Material Trinaquadalloy = new Material.Builder("trinaquadalloy")
+            .ingot().fluid()
+            .color(0x281832).iconSet(MaterialIconSet.BRIGHT)
+            .flags(GENERATE_PLATE)
+            .components(Trinium, 6, Naquadah, 2, Carbon, 1)
+            .blastTemp(8747, BlastProperty.GasTier.HIGHER, GTValues.VA[GTValues.ZPM], 1200)
+            .buildAndRegister();
 
     //endregion
 
-    //region first degree mats
+    //region second degree mats
 
     public static final Material FiberGlass = new Material.Builder("fiberglass")
             .polymer(1)
@@ -152,7 +162,7 @@ public class GCySMaterials {
             .buildAndRegister();
 
     public static final Material TerephthalicAcid = new Material.Builder("therephthalic_acid")
-            .fluid()
+            .fluid(FluidStorageKeys.LIQUID, new FluidBuilder().attribute(FluidAttributes.ACID))
             .color(0xDB9374)
             .components(Carbon, 6, Hydrogen, 4, CarbonDioxide, 2, Hydrogen, 2)
             .buildAndRegister()
