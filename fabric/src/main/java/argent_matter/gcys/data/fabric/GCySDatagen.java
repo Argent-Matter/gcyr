@@ -1,7 +1,8 @@
 package argent_matter.gcys.data.fabric;
 
+import argent_matter.gcys.GCyS;
 import argent_matter.gcys.api.registries.GcysRegistries;
-import argent_matter.gcys.api.registries.registrate.GcysSoundEntryProvider;
+import com.gregtechceu.gtceu.api.registry.registrate.SoundEntryBuilder;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.loader.api.FabricLoader;
@@ -17,7 +18,7 @@ public class GCySDatagen implements DataGeneratorEntrypoint {
                 rootPath.resolve("fabric").resolve("src").resolve("main").resolve("resources"));
         GcysRegistries.REGISTRATE.setupDatagen(generator, helper);
         // sound
-        var provider = new GcysSoundEntryProvider(generator);
+        var provider = new SoundEntryBuilder.SoundEntryProvider(generator, GCyS.MOD_ID);
         generator.addProvider(true, provider);
     }
 }

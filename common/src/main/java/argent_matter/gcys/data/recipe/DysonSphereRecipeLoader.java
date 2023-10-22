@@ -63,6 +63,18 @@ public class DysonSphereRecipeLoader {
                 .inputItems(GCySBlocks.CASING_DYSON_PORT.asStack(32))
                 .inputItems(GCySItems.DYSON_CONSTRUCTION_DRONE.asStack(32))
                 .dimension(GCySDimensionTypes.SPACE_LEVEL.location())
+                .addCondition(new DysonSphereCondition(false))
+                .addData("gcys:launch_dyson_sphere", true)
+                .EUt(VA[UV]).duration(32000)
+                .save(provider);
+
+        DYSON_ENERGY_RECIPES.recipeBuilder(GCyS.id("repair_dyson_sphere"))
+                .inputItems(GCySBlocks.CASING_DYSON_SPHERE.asStack(16))
+                .inputItems(GCySBlocks.CASING_DYSON_CELL.asStack(8))
+                .inputItems(GCySItems.DYSON_CONSTRUCTION_DRONE.asStack(16))
+                .dimension(GCySDimensionTypes.SPACE_LEVEL.location())
+                .addCondition(new DysonSphereCondition(true))
+                .addData("gcys:repair_dyson_sphere", true)
                 .EUt(VA[UV]).duration(32000)
                 .save(provider);
 

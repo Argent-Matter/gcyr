@@ -1,40 +1,117 @@
 package argent_matter.gcys.api.space.dyson;
 
-import com.gregtechceu.gtceu.api.gui.widget.EnumSelectorWidget;
-import com.lowdragmc.lowdraglib.gui.texture.IGuiTexture;
+import argent_matter.gcys.api.capability.IDysonSystem;
+import com.gregtechceu.gtceu.api.GTValues;
+import lombok.Getter;
+import lombok.Setter;
 import net.minecraft.core.BlockPos;
-import net.minecraft.util.StringRepresentable;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtUtils;
+import net.minecraft.nbt.Tag;
+import net.minecraft.server.level.ServerLevel;
 
-public record DysonSphere(
-        BlockPos controllerPos) {
+public class DysonSphere {
 
-    public enum Component implements StringRepresentable, EnumSelectorWidget.SelectableEnum {
-        FRAME("frame", "gcys.dyson_component.frame"),
-        CELL("cell", "gcys.dyson_component.cell"),
-        PANEL("panel", "gcys.dyson_component.panel"),
-        PORT("port", "gcys.dyson_component.port")
-        ;
+    private final int MINIMUM_MAINTENANCE_TIME = 3456000; // 48 real-life hours = 3456000 ticks
+    private final float BASE_COLLAPSE_CHANCE = 0.00005f;
 
-        private final String id, tooltipKey;
+    private final IDysonSystem system;
 
-        Component(String id, String tooltipKey) {
-            this.id = id;
-            this.tooltipKey = tooltipKey;
+    @Getter
+    private BlockPos controllerPos;
+    @Getter @Setter
+    private int timeActive = 0, timeNeededMaintenance = 0;
+    @Getter
+    private boolean needsMaintenance;
+    @Getter @Setter
+    private boolean collapsed;
+
+    public DysonSphere(BlockPos controllerPos, IDysonSystem system) {
+        this.controllerPos = controllerPos;
+        this.system = system;
+    }
+
+    public void tick(ServerLevel level) {
+        if (level.getGameTime() % 20 == 0) {
+            if (this.isCollapsed()) return;
+            if (this.isNeedsMaintenance()) {
+                if (GTValues.RNG.nextFloat() <= BASE_COLLAPSE_CHANCE * timeNeededMaintenance) {
+                    this.setCollapsed();
+                }
+
+                timeNeededMaintenance++;
+                this.system.setDirty();
+                return;
+            }
+
+            if (calculateTime(20)) {
+                if (GTValues.RNG.nextFloat() - 0.75f >= 0) {
+                    this.needsMaintenance();
+                }
+            }
         }
+    }
 
-        @Override
-        public String getSerializedName() {
-            return id;
-        }
+    public float getCollapseChance() {
+        return BASE_COLLAPSE_CHANCE * timeNeededMaintenance;
+    }
 
-        @Override
-        public String getTooltip() {
-            return tooltipKey;
-        }
+    public void needsMaintenance() {
+        this.needsMaintenance = true;
+        this.timeNeededMaintenance++;
+        this.system.setDirty();
+    }
 
-        @Override
-        public IGuiTexture getIcon() {
-            return null;
+    public void fixMaintenance() {
+        this.needsMaintenance = false;
+        this.timeNeededMaintenance = 0;
+        this.system.setDirty();
+    }
+
+    public void setCollapsed() {
+        this.setCollapsed(true);
+        this.system.disableDysonSphere(this.controllerPos);
+    }
+
+    private boolean calculateTime(int timeSinceLastTick) {
+        setTimeActive(timeSinceLastTick + getTimeActive());
+        this.system.setDirty();
+        var value = getTimeActive() - MINIMUM_MAINTENANCE_TIME;
+        if (value > 0) {
+            setTimeActive(value);
+            return true;
         }
+        return false;
+    }
+
+    public void setControllerPos(BlockPos controllerPos) {
+        this.controllerPos = controllerPos;
+        this.system.setDirty();
+    }
+
+    public void save(CompoundTag tag) {
+        if (controllerPos != null) {
+            tag.put("controllerPos", NbtUtils.writeBlockPos(controllerPos));
+        }
+        tag.putBoolean("needsMaintenance", this.isNeedsMaintenance());
+        tag.putBoolean("collapsed", this.isCollapsed());
+        tag.putInt("timeActive", this.timeActive);
+        tag.putInt("timeNeededMaintenance", this.timeNeededMaintenance);
+    }
+
+    public static DysonSphere load(CompoundTag tag, IDysonSystem system) {
+        BlockPos controllerPos = tag.contains("controllerPos", Tag.TAG_COMPOUND) ? NbtUtils.readBlockPos(tag.getCompound("controllerPos")) : null;
+        boolean needsMaintenance = tag.getBoolean("needsMaintenance");
+        boolean collapsed = tag.getBoolean("collapsed");
+        int timeActive = tag.getInt("timeActive");
+        int timeNeededMaintenance = tag.getInt("timeNeededMaintenance");
+
+        DysonSphere sphere = new DysonSphere(controllerPos, system);
+        sphere.needsMaintenance = needsMaintenance;
+        sphere.setCollapsed(collapsed);
+        sphere.setTimeActive(timeActive);
+        sphere.setTimeNeededMaintenance(timeNeededMaintenance);
+
+        return sphere;
     }
 }

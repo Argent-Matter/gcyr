@@ -46,16 +46,6 @@ public class GCySGTAddon implements IGTAddon {
     }
 
     @Override
-    public void registerRecipeTypes() {
-
-    }
-
-    @Override
-    public void registerMachines() {
-
-    }
-
-    @Override
     public void registerWorldgenLayers() {
         IGTAddon.super.registerWorldgenLayers();
     }
@@ -71,7 +61,7 @@ public class GCySGTAddon implements IGTAddon {
     }
 
     @Override
-    public void initializeRecipes(Consumer<FinishedRecipe> provider) {
+    public void addRecipes(Consumer<FinishedRecipe> provider) {
         GCySRecipes.init(provider);
     }
 }

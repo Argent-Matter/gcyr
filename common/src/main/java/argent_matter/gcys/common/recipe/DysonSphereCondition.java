@@ -3,15 +3,9 @@ package argent_matter.gcys.common.recipe;
 import argent_matter.gcys.api.capability.GcysCapabilityHelper;
 import argent_matter.gcys.api.capability.IDysonSystem;
 import com.google.gson.JsonObject;
-import com.gregtechceu.gtceu.api.capability.ICleanroomReceiver;
-import com.gregtechceu.gtceu.api.machine.MetaMachine;
-import com.gregtechceu.gtceu.api.machine.feature.ICleanroomProvider;
-import com.gregtechceu.gtceu.api.machine.feature.multiblock.IMultiController;
-import com.gregtechceu.gtceu.api.machine.multiblock.CleanroomType;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.RecipeCondition;
-import com.gregtechceu.gtceu.config.ConfigHolder;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -45,8 +39,8 @@ public class DysonSphereCondition extends RecipeCondition {
         Level level = recipeLogic.getMachine().getLevel();
         if (!level.isClientSide) {
             IDysonSystem system = GcysCapabilityHelper.getDysonSystem((ServerLevel) level, recipeLogic.getMachine().getPos());
-            if ((system == null || !system.isDysonSphereActive()) && !isActive) return true;
-            else return system != null && system.isDysonSphereActive() && isActive;
+            if (system == null || !system.isDysonSphereActive() || !system.activeDysonSphere().isCollapsed() && !isActive) return true;
+            else return system.isDysonSphereActive() && !system.activeDysonSphere().isCollapsed() && isActive;
         }
         return false;
     }

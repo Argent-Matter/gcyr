@@ -28,12 +28,9 @@ public class GCySFabric implements ModInitializer {
 
 
         // register satellite ticking
-        ServerTickEvents.START_WORLD_TICK.register((serverLevel) -> {
-            if (!serverLevel.dimensionType().hasCeiling()) {
-                var sat = GcysCapabilityHelper.getSatellites(serverLevel);
-                if (sat != null) sat.tickSatellites();
-            }
-        });
+        ServerTickEvents.START_WORLD_TICK.register((serverLevel) -> GCyS.onLevelTick(serverLevel, true));
+
+        ServerTickEvents.END_WORLD_TICK.register((serverLevel) -> GCyS.onLevelTick(serverLevel, false));
 
         ResourceManagerHelper.get(PackType.SERVER_DATA).registerReloadListener(new IdentifiableResourceReloadListener() {
             private final PlanetData data = new PlanetData();
@@ -50,7 +47,7 @@ public class GCySFabric implements ModInitializer {
 
         ServerEntityWorldChangeEvents.AFTER_PLAYER_CHANGE_WORLD.register((player, origin, destination) -> {
             IDysonSystem system = GcysCapabilityHelper.getDysonSystem(player.getLevel(), player.getOnPos());
-            if (system != null && system.isDysonSphereActive()) {
+            if (system != null && system.isDysonSphereActive() && !system.activeDysonSphere().isCollapsed()) {
                 GCySNetworking.NETWORK.sendToPlayer(new PacketSyncDysonSphereStatus(true), player);
             } else {
                 GCySNetworking.NETWORK.sendToPlayer(new PacketSyncDysonSphereStatus(false), player);
@@ -60,7 +57,7 @@ public class GCySFabric implements ModInitializer {
         ServerEntityEvents.ENTITY_LOAD.register((entity, world) -> {
             if (entity instanceof ServerPlayer player) {
                 IDysonSystem system = GcysCapabilityHelper.getDysonSystem(player.getLevel(), player.getOnPos());
-                if (system != null && system.isDysonSphereActive()) {
+                if (system != null && system.isDysonSphereActive() && !system.activeDysonSphere().isCollapsed()) {
                     GCySNetworking.NETWORK.sendToPlayer(new PacketSyncDysonSphereStatus(true), player);
                 } else {
                     GCySNetworking.NETWORK.sendToPlayer(new PacketSyncDysonSphereStatus(false), player);
