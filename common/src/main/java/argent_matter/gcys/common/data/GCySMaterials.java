@@ -95,13 +95,6 @@ public class GCySMaterials {
             .buildAndRegister()
             .setFormula("C6H2(CH3)4", true);
 
-    public static final Material FormicAcid = new Material.Builder("formic_acid")
-            .fluid(FluidStorageKeys.LIQUID, new FluidBuilder().attribute(FluidAttributes.ACID))
-            .color(0xA6A6A6)
-            .flags(DISABLE_DECOMPOSITION)
-            .components(Carbon, 1, Hydrogen, 2, Oxygen, 2)
-            .buildAndRegister();
-
     public static final Material Dimethylformamide = new Material.Builder("dimethylformamide")
             .fluid()
             .color(0x554469)

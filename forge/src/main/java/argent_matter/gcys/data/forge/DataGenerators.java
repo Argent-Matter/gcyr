@@ -1,8 +1,8 @@
 package argent_matter.gcys.data.forge;
 
 import argent_matter.gcys.GCyS;
-import argent_matter.gcys.api.registries.registrate.GcysSoundEntryProvider;
 import argent_matter.gcys.common.data.GCySBiomes;
+import com.gregtechceu.gtceu.api.registry.registrate.SoundEntryBuilder;
 import com.gregtechceu.gtceu.data.forge.GTRegistriesDatapackGenerator;
 import net.minecraft.Util;
 import net.minecraft.core.HolderLookup;
@@ -34,7 +34,7 @@ public class DataGenerators {
         var registries = createProvider(registryAccess);
         if (event.includeServer()) {
             var set = Set.of(GCyS.MOD_ID);
-            generator.addProvider(true, new GcysSoundEntryProvider(generator.getPackOutput()));
+            generator.addProvider(true, new SoundEntryBuilder.SoundEntryProvider(generator.getPackOutput(), GCyS.MOD_ID));
             generator.addProvider(true, bindRegistries((output, provider) -> new GTRegistriesDatapackGenerator(
                     output, registries, new RegistrySetBuilder()
                     .add(Registries.BIOME, GCySBiomes::bootstrap),

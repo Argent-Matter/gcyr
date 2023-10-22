@@ -13,7 +13,7 @@ public class GCySKeyMappingsImpl {
 
     }
 
-    @SubscribeEvent
+    //@SubscribeEvent
     public static void event(RegisterKeyMappingsEvent event) {
         event.register(GCySKeyMappings.START_ROCKET);
     }

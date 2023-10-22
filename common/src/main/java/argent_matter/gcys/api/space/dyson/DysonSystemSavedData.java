@@ -24,10 +24,7 @@ import net.minecraft.world.level.saveddata.SavedData;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
@@ -90,32 +87,50 @@ public class DysonSystemSavedData extends SavedData implements IDysonSystem {
     }
 
     @Override
+    @Nullable
+    public DysonSphere activeDysonSphere() {
+        return currentActiveSunBlock;
+    }
+
+    @Override
     public boolean isDysonSphereActive() {
         return currentActiveSunBlock != null;
     }
 
     @Override
     public int activeDysonSwarmSatelliteCount() {
-        return swarmSatellites.size();
+        return (int) swarmSatellites.values().stream().flatMap(Collection::stream).count();
     }
 
     @Override
     public void addDysonSphere(BlockPos controllerPos) {
         if (this.currentActiveSunBlock != null) return;
-        currentActiveSunBlock = new DysonSphere(controllerPos);
+        this.currentActiveSunBlock = new DysonSphere(controllerPos, this);
+        this.swarmSatellites.keySet().forEach(pos -> this.disableAllDysonSatellites(BlockPos.of(pos)));
         this.setDirty();
-        for (ServerPlayer player : this.level.players()) {
-            GCySNetworking.NETWORK.sendToPlayer(new PacketSyncDysonSphereStatus(true), player);
+        for (ServerPlayer player : this.level.getServer().getPlayerList().getPlayers()) {
+            Planet playerPlanet = PlanetData.getPlanetFromLevel(player.serverLevel().dimension()).orElse(null);
+            Planet thisPlanet = PlanetData.getPlanetFromLevel(this.level.dimension()).orElse(null);
+            if (playerPlanet == null || thisPlanet == null) continue;
+            if (playerPlanet.solarSystem().equals(thisPlanet.solarSystem())) {
+                GCySNetworking.NETWORK.sendToPlayer(new PacketSyncDysonSphereStatus(false), player);
+            }
         }
     }
 
     @Override
     public void disableDysonSphere(BlockPos controllerPos) {
-        if (currentActiveSunBlock != null && controllerPos.equals(currentActiveSunBlock.controllerPos())) {
-            currentActiveSunBlock = null;
+        if (currentActiveSunBlock != null && controllerPos.equals(currentActiveSunBlock.getControllerPos())) {
+            currentActiveSunBlock.setControllerPos(null);
+
             this.setDirty();
-            for (ServerPlayer player : this.level.players()) {
-                GCySNetworking.NETWORK.sendToPlayer(new PacketSyncDysonSphereStatus(false), player);
+            for (ServerPlayer player : this.level.getServer().getPlayerList().getPlayers()) {
+                Planet playerPlanet = PlanetData.getPlanetFromLevel(player.serverLevel().dimension()).orElse(null);
+                Planet thisPlanet = PlanetData.getPlanetFromLevel(this.level.dimension()).orElse(null);
+                if (playerPlanet == null || thisPlanet == null) continue;
+                if (playerPlanet.solarSystem().equals(thisPlanet.solarSystem())) {
+                    GCySNetworking.NETWORK.sendToPlayer(new PacketSyncDysonSphereStatus(false), player);
+                }
             }
         }
     }
@@ -132,10 +147,16 @@ public class DysonSystemSavedData extends SavedData implements IDysonSystem {
         this.setDirty();
     }
 
+    @Override
+    public void tick() {
+        if (this.currentActiveSunBlock != null) {
+            this.currentActiveSunBlock.tick(this.level);
+        }
+    }
+
     public void load(CompoundTag arg) {
-        if (arg.contains("dysonSphereControllerPos", Tag.TAG_COMPOUND)) {
-            BlockPos sphereControllerPos = NbtUtils.readBlockPos(arg.getCompound("dysonSphereControllerPos"));
-            this.currentActiveSunBlock = new DysonSphere(sphereControllerPos);
+        if (arg.contains("dysonSphere", Tag.TAG_COMPOUND)) {
+            this.currentActiveSunBlock = DysonSphere.load(arg.getCompound("dysonSphere"), this);
             for (ServerPlayer player : this.level.players()) {
                 GCySNetworking.NETWORK.sendToPlayer(new PacketSyncDysonSphereStatus(true), player);
             }
@@ -154,7 +175,9 @@ public class DysonSystemSavedData extends SavedData implements IDysonSystem {
     @Override
     public CompoundTag save(CompoundTag compoundTag) {
         if (currentActiveSunBlock != null) {
-            compoundTag.put("dysonSphereControllerPos", NbtUtils.writeBlockPos(this.currentActiveSunBlock.controllerPos()));
+            CompoundTag tag = new CompoundTag();
+            this.currentActiveSunBlock.save(tag);
+            compoundTag.put("dysonSphere", tag);
         }
         CompoundTag tag = new CompoundTag();
         for (Long2ObjectMap.Entry<Set<DysonSwarmSatellite>> entry : swarmSatellites.long2ObjectEntrySet()) {

@@ -37,6 +37,11 @@ public class LangHandler extends com.gregtechceu.gtceu.data.lang.LangHandler {
         provider.add("key.startRocket", "Start RocketEntity");
         provider.add("key.categories.gcys", "Gregicality Space");
 
+        provider.add("menu.gcys.dyson_sphere.needs_maintenance", "DYSON SPHERE REQUIRES MAINTENANCE");
+        provider.add("menu.gcys.dyson_sphere.time_since_needed_maintenance", "Time since last maintenance: %s seconds");
+        provider.add("menu.gcys.dyson_sphere.implosion_chance", "Chance of implosion: %.2f%%");
+        provider.add("menu.gcys.dyson_sphere.collapsed", "DYSON SPHERE COLLAPSED");
+
         provider.add("menu.gcys.launch", "LAUNCH");
 
         provider.add("menu.gcys.catalog", "Catalog");
