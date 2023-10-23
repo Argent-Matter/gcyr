@@ -47,7 +47,7 @@ public class GCySMaterials {
     public static final Material Bisalloy400 = new Material.Builder("bisalloy_400")
             .ingot(5).fluid()
             .color(0x0ca819)
-            .components(Carbon, 4, Phosphorus, 2, Manganese, 15, Silicon, 7, Sulfur, 1, Chromium, 12, Molybdenum, 5, Boron, 1)
+            .components(Carbon, 3, Manganese, 4, Silicon, 2, Chromium, 3, Molybdenum, 1, Iron, 11)
             .flags(MaterialFlags.GENERATE_PLATE, MaterialFlags.GENERATE_ROD, MaterialFlags.GENERATE_LONG_ROD, MaterialFlags.GENERATE_GEAR, MaterialFlags.GENERATE_FRAME)
             .toolStats(ToolProperty.Builder.of(70.0F, 2.25F, 1296, 5).build())
             .blastTemp(10800, BlastProperty.GasTier.HIGHER)
