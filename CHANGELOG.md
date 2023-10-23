@@ -3,6 +3,7 @@
 - fix Dyson Sphere Casing recipe
 - fix lang issues
 - add Atomic Casing recipe
+- fix dyson crash on fabric
 
 0.0.2.a:
 - fix fabric
