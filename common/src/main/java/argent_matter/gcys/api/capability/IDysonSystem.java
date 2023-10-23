@@ -35,5 +35,5 @@ public interface IDysonSystem {
 
     void tick();
 
-    void setDirty();
+    void setChanged();
 }

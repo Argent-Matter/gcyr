@@ -154,6 +154,11 @@ public class DysonSystemSavedData extends SavedData implements IDysonSystem {
         }
     }
 
+    @Override
+    public void setChanged() {
+        this.setDirty();
+    }
+
     public void load(CompoundTag arg) {
         if (arg.contains("dysonSphere", Tag.TAG_COMPOUND)) {
             this.currentActiveSunBlock = DysonSphere.load(arg.getCompound("dysonSphere"), this);
