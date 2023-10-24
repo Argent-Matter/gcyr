@@ -57,18 +57,18 @@ public class ExtendedButton extends Button {
     }
 
     public void updateTooltip() {
-        boolean bl = this.isHovered || this.isFocused() && Minecraft.getInstance().getLastInputType().isKeyboard();
-        if (bl != this.wasHoveredOrFocused) {
-            if (bl) {
+        boolean hovered = this.isHovered || this.isFocused() && Minecraft.getInstance().getLastInputType().isKeyboard();
+        if (hovered != this.wasHoveredOrFocused) {
+            if (hovered) {
                 this.hoverOrFocusedStartTime = Util.getMillis();
             }
 
-            this.wasHoveredOrFocused = bl;
+            this.wasHoveredOrFocused = hovered;
         }
 
-        if (bl && Util.getMillis() - this.hoverOrFocusedStartTime > (long)this.tooltipMsDelay) {
+        if (hovered && Util.getMillis() - this.hoverOrFocusedStartTime > (long)this.tooltipMsDelay) {
             Screen screen = Minecraft.getInstance().screen;
-            if (screen != null) {
+            if (screen != null && this.tooltip != null) {
                 screen.setTooltipForNextRenderPass(this.tooltip.onTooltip(this), this.createTooltipPositioner(), this.isFocused());
             }
         }

@@ -2,7 +2,6 @@ package argent_matter.gcys.common.entity.data;
 
 
 import argent_matter.gcys.GCyS;
-import argent_matter.gcys.common.data.GCySDimensionTypes;
 import argent_matter.gcys.common.item.armor.SpaceSuitArmorItem;
 import argent_matter.gcys.config.GcysConfig;
 import argent_matter.gcys.data.loader.PlanetData;
@@ -13,9 +12,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.DamageSources;
-import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
@@ -73,7 +69,7 @@ public class EntityOxygenSystem {
             return;
         }*/
 
-        if (level.dimension() != GCySDimensionTypes.SPACE_LEVEL && !entity.isUnderWater()) {
+        if (!PlanetData.isSpaceLevel(level) && !entity.isUnderWater()) {
             return;
         }
 

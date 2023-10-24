@@ -588,7 +588,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         }
 
         blocks.add(state);
-        this.entityData.set(POSITIONED_STATES, blocks);
+        this.entityData.set(POSITIONED_STATES, blocks, true);
         BlockPos pos = state.pos();
         BlockPos size = this.entityData.get(SIZE);
         this.entityData.set(SIZE, new BlockPos(
@@ -618,7 +618,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
     public void addSeatPos(BlockPos pos) {
         List<BlockPos> seats = this.entityData.get(SEAT_POSITIONS);
         seats.add(pos);
-        this.entityData.set(SEAT_POSITIONS, seats);
+        this.entityData.set(SEAT_POSITIONS, seats, true);
     }
 
     public List<BlockPos> getSeatPositions() {
