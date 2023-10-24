@@ -1,5 +1,6 @@
 package argent_matter.gcys.common.machine.multiblock;
 
+import argent_matter.gcys.api.space.planet.Planet;
 import argent_matter.gcys.common.data.GCySBlocks;
 import argent_matter.gcys.common.data.GCySEntities;
 import argent_matter.gcys.common.data.GCySItems;
@@ -115,8 +116,11 @@ public class RocketScannerMachine extends MultiblockControllerMachine implements
     private void onSaveSlotChanged() {
         ItemStack saveStack = this.configSaveSlot.getStackInSlot(0);
         if (GCySItems.ID_CHIP.isIn(saveStack)) {
+            Planet planet = PlanetIdChipBehaviour.getPlanetFromStack(saveStack);
+            if (planet == null) return;
+
             ItemStack keyCardStack = GCySItems.KEYCARD.asStack(1);
-            KeyCardBehaviour.setSavedStation(keyCardStack, PlanetIdChipBehaviour.getSpaceStationId(saveStack), PlanetIdChipBehaviour.getPlanetFromStack(saveStack));
+            KeyCardBehaviour.setSavedStation(keyCardStack, PlanetIdChipBehaviour.getSpaceStationId(saveStack), planet);
             this.configLoadSlot.setStackInSlot(0, keyCardStack);
         }
     }

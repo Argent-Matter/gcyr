@@ -40,7 +40,7 @@ public class DysonSphere {
                 }
 
                 timeNeededMaintenance++;
-                this.system.setDirty();
+                this.system.setChanged();
                 return;
             }
 
@@ -59,13 +59,13 @@ public class DysonSphere {
     public void needsMaintenance() {
         this.needsMaintenance = true;
         this.timeNeededMaintenance++;
-        this.system.setDirty();
+        this.system.setChanged();
     }
 
     public void fixMaintenance() {
         this.needsMaintenance = false;
         this.timeNeededMaintenance = 0;
-        this.system.setDirty();
+        this.system.setChanged();
     }
 
     public void setCollapsed() {
@@ -75,7 +75,7 @@ public class DysonSphere {
 
     private boolean calculateTime(int timeSinceLastTick) {
         setTimeActive(timeSinceLastTick + getTimeActive());
-        this.system.setDirty();
+        this.system.setChanged();
         var value = getTimeActive() - MINIMUM_MAINTENANCE_TIME;
         if (value > 0) {
             setTimeActive(value);
@@ -86,7 +86,7 @@ public class DysonSphere {
 
     public void setControllerPos(BlockPos controllerPos) {
         this.controllerPos = controllerPos;
-        this.system.setDirty();
+        this.system.setChanged();
     }
 
     public void save(CompoundTag tag) {

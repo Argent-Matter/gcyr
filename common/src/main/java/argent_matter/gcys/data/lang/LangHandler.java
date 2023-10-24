@@ -53,8 +53,6 @@ public class LangHandler extends com.gregtechceu.gtceu.data.lang.LangHandler {
         provider.add("metaitem.planet_id_circuit.id", "Currently selected planet: ");
         provider.add("metaitem.planet_id_circuit.station", "To in-orbit space station (ID: %s)");
 
-        // materials
-
         // machines
         provider.add("gcys.machine.satellite_jammer.jammed", "Jammed %s");
         provider.add("gcys.machine.satellite_jammer.position", "At %s");
@@ -71,6 +69,7 @@ public class LangHandler extends com.gregtechceu.gtceu.data.lang.LangHandler {
         provider.add("key.startRocket", "Start RocketEntity");
         provider.add("key.categories.gcys", "Gregicality Space");
 
+        // GUIs
         provider.add("menu.gcys.dyson_sphere.needs_maintenance", "DYSON SPHERE REQUIRES MAINTENANCE");
         provider.add("menu.gcys.dyson_sphere.time_since_needed_maintenance", "Time since last maintenance: %s seconds");
         provider.add("menu.gcys.dyson_sphere.implosion_chance", "Chance of implosion: %.2f%%");
