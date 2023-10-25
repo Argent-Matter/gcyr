@@ -82,7 +82,7 @@ public class SpaceLevelSource extends ChunkGenerator {
 
     @Override
     public int getBaseHeight(int x, int z, Heightmap.Types type, LevelHeightAccessor level, RandomState random) {
-        return 64;
+        return 0;
     }
 
     @Override
@@ -101,6 +101,14 @@ public class SpaceLevelSource extends ChunkGenerator {
         ChunkPos chunkPos = chunk.getPos();
         int chunkX = chunkPos.x;
         int chunkZ = chunkPos.z;
+
+        for (int x1 = 0; x1 < 16; ++x1) {
+            for (int z1 = 0; z1 < 16; ++z1) {
+                int blockX = SectionPos.sectionToBlockCoord(chunkX, x1);
+                int blockZ = SectionPos.sectionToBlockCoord(chunkZ, z1);
+                level.setBlock(mutableBlockPos.set(blockX, 256, blockZ), Blocks.BARRIER.defaultBlockState(), 2);
+            }
+        }
 
         if (chunkX % 16 == 0 && chunkZ % 16 == 0) {
             //GCyS.LOGGER.info("made platform");

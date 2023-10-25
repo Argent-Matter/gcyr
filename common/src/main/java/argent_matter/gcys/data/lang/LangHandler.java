@@ -76,6 +76,7 @@ public class LangHandler extends com.gregtechceu.gtceu.data.lang.LangHandler {
         provider.add("menu.gcys.dyson_sphere.collapsed", "DYSON SPHERE COLLAPSED");
 
         provider.add("menu.gcys.launch", "LAUNCH");
+        provider.add("menu.gcys.save_destination_station", "Save Space Station ID to keycard");
 
         provider.add("menu.gcys.catalog", "Catalog");
         provider.add("menu.gcys.back", "Back");

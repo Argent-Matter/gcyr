@@ -15,8 +15,8 @@ import java.util.Optional;
 import java.util.function.Function;
 
 public record Planet(String translation, ResourceLocation galaxy, ResourceLocation solarSystem,
-                     ResourceKey<Level> level,
-                     ResourceKey<Level> parentWorld, int rocketTier, float gravity,
+                     ResourceKey<Level> level, ResourceKey<Level> orbitWorld, ResourceKey<Level> parentWorld,
+                     int rocketTier, float gravity,
                      boolean hasAtmosphere, int daysInYear, float temperature, long solarPower,
                      boolean hasOxygen, int buttonColor) {
 
@@ -25,6 +25,7 @@ public record Planet(String translation, ResourceLocation galaxy, ResourceLocati
             ResourceLocation.CODEC.fieldOf("galaxy").forGetter(Planet::galaxy),
             ResourceLocation.CODEC.fieldOf("solar_system").forGetter(Planet::solarSystem),
             ResourceKey.codec(Registries.DIMENSION).fieldOf("world").forGetter(Planet::level),
+            ResourceKey.codec(Registries.DIMENSION).fieldOf("orbit_world").forGetter(Planet::orbitWorld),
             ResourceKey.codec(Registries.DIMENSION).optionalFieldOf("parent_world").forGetter(Planet::getParentlevel),
             Codec.INT.fieldOf("rocket_tier").forGetter(Planet::rocketTier),
             Codec.FLOAT.fieldOf("gravity").forGetter(Planet::gravity),
@@ -49,8 +50,8 @@ public record Planet(String translation, ResourceLocation galaxy, ResourceLocati
             DIRECT_CODEC
     ).xmap(either -> either.map(Function.identity(), Function.identity()), Either::left);
 
-    public Planet(String translation, ResourceLocation galaxy, ResourceLocation solarSystem, ResourceKey<Level> level, Optional<ResourceKey<Level>> parentWorld, int rocketTier, float gravity, boolean hasAtmosphere, int daysInYear, float temperature, long solarPower, boolean hasOxygen, int buttonColor) {
-        this(translation, galaxy, solarSystem, level, parentWorld.orElse(null), rocketTier, gravity, hasAtmosphere, daysInYear, temperature, solarPower, hasOxygen, buttonColor);
+    public Planet(String translation, ResourceLocation galaxy, ResourceLocation solarSystem, ResourceKey<Level> level, ResourceKey<Level> orbitWorld, Optional<ResourceKey<Level>> parentWorld, int rocketTier, float gravity, boolean hasAtmosphere, int daysInYear, float temperature, long solarPower, boolean hasOxygen, int buttonColor) {
+        this(translation, galaxy, solarSystem, level, orbitWorld, parentWorld.orElse(null), rocketTier, gravity, hasAtmosphere, daysInYear, temperature, solarPower, hasOxygen, buttonColor);
     }
 
     private Optional<ResourceKey<Level>> getParentlevel() {

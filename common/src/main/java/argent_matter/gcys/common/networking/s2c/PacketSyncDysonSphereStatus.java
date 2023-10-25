@@ -22,9 +22,4 @@ public class PacketSyncDysonSphereStatus implements IPacket {
         this.isSphereActive = buf.readBoolean();
         GCySClient.isDysonSphereActive = isSphereActive;
     }
-
-    @Override
-    public void execute(IHandlerContext handler) {
-        IPacket.super.execute(handler);
-    }
 }

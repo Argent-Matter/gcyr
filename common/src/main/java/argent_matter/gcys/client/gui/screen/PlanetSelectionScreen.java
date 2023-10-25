@@ -219,7 +219,7 @@ public class PlanetSelectionScreen extends Screen implements MenuAccess<PlanetSe
             }
 
             createTeleportButton(1, label, planetCategory, planet.buttonColor(), 71, 20, TooltipType.PLANET, planet, planet.level());
-            createTeleportButton(2, ORBIT_TEXT, planetCategory, planet.buttonColor(), 37, 20, TooltipType.ORBIT, null, planet.level());
+            createTeleportButton(2, ORBIT_TEXT, planetCategory, planet.buttonColor(), 37, 20, TooltipType.ORBIT, null, planet.orbitWorld());
             createSpaceStationTeleportButton(3, SPACE_STATION_TEXT, planetCategory, planet.buttonColor(), 71, 20, planet.level());
         });
 

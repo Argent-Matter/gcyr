@@ -20,6 +20,7 @@ import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
+import com.lowdragmc.lowdraglib.gui.widget.ButtonWidget;
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.SlotWidget;
 import com.lowdragmc.lowdraglib.misc.ItemStackTransfer;
@@ -61,12 +62,9 @@ public class RocketScannerMachine extends MultiblockControllerMachine implements
 
     @Persisted
     private int lDist = 0, rDist = 0, bDist = 0, hDist = 0;
-
     @Persisted @DescSynced
     @Getter
     private boolean rocketBuilt;
-
-
     @Getter
     @Persisted
     private final ItemStackTransfer configSaveSlot, configLoadSlot;
@@ -87,6 +85,7 @@ public class RocketScannerMachine extends MultiblockControllerMachine implements
         ModularUI modularUI = IDisplayUIMachine.super.createUI(entityPlayer);
         modularUI.widget(new SlotWidget(configSaveSlot, 0, 149, 83));
         modularUI.widget(new SlotWidget(configLoadSlot, 0, 149, 105));
+        modularUI.widget(new ButtonWidget(129, 105, 18, 18, this::onSaveButtonClick).setHoverTooltips(Component.translatable("menu.gcys.save_destination_station")));
         return modularUI;
     }
 
@@ -110,6 +109,20 @@ public class RocketScannerMachine extends MultiblockControllerMachine implements
             } else if (componentData.equals("unbuild_rocket")) {
                 setRocketBuilt(false);
             }
+        }
+    }
+
+    private void onSaveButtonClick(ClickData data) {
+        if (data.isRemote) return;
+
+        ItemStack saveStack = this.configSaveSlot.getStackInSlot(0);
+        if (GCySItems.ID_CHIP.isIn(saveStack)) {
+            Planet planet = PlanetIdChipBehaviour.getPlanetFromStack(saveStack);
+            if (planet == null) return;
+
+            ItemStack keyCardStack = GCySItems.KEYCARD.asStack(1);
+            KeyCardBehaviour.setSavedStation(keyCardStack, PlanetIdChipBehaviour.getSpaceStationId(saveStack), planet);
+            this.configLoadSlot.setStackInSlot(0, keyCardStack);
         }
     }
 
