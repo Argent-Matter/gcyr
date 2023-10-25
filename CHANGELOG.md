@@ -1,7 +1,3 @@
-
-0.0.2.a:
-- fix fabric
-
-
-0.0.2:
-- initial release
+- make space stations use different dimensions per planet orbit
+- remove "orbit" button from planet selection screen, it did nothing
+- 

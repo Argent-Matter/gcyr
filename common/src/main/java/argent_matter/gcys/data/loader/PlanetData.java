@@ -3,9 +3,8 @@ package argent_matter.gcys.data.loader;
 import argent_matter.gcys.GCyS;
 import argent_matter.gcys.GCySClient;
 import argent_matter.gcys.api.space.planet.Planet;
-import argent_matter.gcys.common.data.GCySDimensionTypes;
 import argent_matter.gcys.common.data.GCySNetworking;
-import argent_matter.gcys.common.networking.s2c.PacketReturnPlanetData;
+import argent_matter.gcys.common.networking.c2s.PacketRequestPlanetData;
 import argent_matter.gcys.util.GCySValues;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
@@ -145,6 +144,10 @@ public class PlanetData extends SimpleJsonResourceReloadListener {
         return Optional.ofNullable(ORBIT_TO_PLANET.get(level));
     }
 
+    public static Optional<Planet> getPlanetFromLevelOrOrbit(ResourceKey<Level> level) {
+        return Optional.ofNullable(getPlanetFromLevel(level).orElseGet(() -> getPlanetFromOrbit(level).orElse(null)));
+    }
+
     public static Optional<ResourceKey<Level>> getLevelFromPlanet(Planet planet) {
         return Optional.ofNullable(LEVEL_TO_PLANET.inverse().get(planet));
     }
@@ -155,7 +158,7 @@ public class PlanetData extends SimpleJsonResourceReloadListener {
 
     public static boolean isPlanetLevel(Level level) {
         if (level.isClientSide && !GCySClient.hasUpdatedPlanets) {
-            GCySNetworking.NETWORK.sendToServer(new PacketReturnPlanetData());
+            GCySNetworking.NETWORK.sendToServer(new PacketRequestPlanetData());
             GCySClient.hasUpdatedPlanets = true;
         }
         return PLANET_LEVELS.contains(level.dimension());

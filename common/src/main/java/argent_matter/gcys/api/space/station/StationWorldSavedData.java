@@ -2,9 +2,8 @@ package argent_matter.gcys.api.space.station;
 
 import argent_matter.gcys.GCyS;
 import argent_matter.gcys.api.capability.ISpaceStationHolder;
-import argent_matter.gcys.api.space.planet.Planet;
-import argent_matter.gcys.common.data.GCySDimensionTypes;
 import argent_matter.gcys.common.worldgen.SpaceLevelSource;
+import argent_matter.gcys.data.loader.PlanetData;
 import argent_matter.gcys.util.Vec2i;
 import it.unimi.dsi.fastutil.ints.Int2ObjectLinkedOpenHashMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
@@ -20,15 +19,14 @@ import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
 public class StationWorldSavedData extends SavedData implements ISpaceStationHolder {
     @Nullable
-    public static StationWorldSavedData getOrCreate(ServerLevel serverLevel) {
-        if (serverLevel.dimension() != GCySDimensionTypes.SPACE_LEVEL) return null;
+    public static StationWorldSavedData getOrCreate(@Nullable ServerLevel serverLevel) {
+        if (serverLevel == null || !PlanetData.isOrbitLevel(serverLevel.dimension())) return null;
         return serverLevel.getDataStorage().computeIfAbsent(tag -> new StationWorldSavedData(serverLevel, tag), () -> new StationWorldSavedData(serverLevel), GCyS.MOD_ID + "_space_stations");
     }
 
@@ -53,11 +51,6 @@ public class StationWorldSavedData extends SavedData implements ISpaceStationHol
     @Override
     public Int2ObjectMap<SpaceStation> getStations() {
         return stations;
-    }
-
-    @Override
-    public Set<SpaceStation> getStationsForPlanet(Planet planet) {
-        return stations.values().stream().filter(spaceStation -> spaceStation.orbitPlanet().equals(planet)).collect(Collectors.toSet());
     }
 
     @Override

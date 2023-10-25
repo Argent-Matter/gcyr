@@ -35,11 +35,13 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.level.Level;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.*;
 import java.util.function.Consumer;
 
 @Environment(EnvType.CLIENT)
 @MethodsReturnNonnullByDefault
+@ParametersAreNonnullByDefault
 public class PlanetSelectionScreen extends Screen implements MenuAccess<PlanetSelectionMenu> {
 
     public static final ResourceLocation SMALL_MENU_LIST = GCyS.id("textures/gui/selection_menu.png");
@@ -86,7 +88,7 @@ public class PlanetSelectionScreen extends Screen implements MenuAccess<PlanetSe
         }
 
         // Set the initial gui time to the level time. This creates a random start position for each rotating object.
-        guiTime = handler.getPlayer().level.getRandom().nextFloat() * 100000.0f;
+        guiTime = handler.getPlayer().getLevel().getRandom().nextFloat() * 100000.0f;
     }
 
     @Override
@@ -218,8 +220,7 @@ public class PlanetSelectionScreen extends Screen implements MenuAccess<PlanetSe
             }
 
             createTeleportButton(1, label, planetCategory, planet.buttonColor(), 71, 20, TooltipType.PLANET, planet, planet.level());
-            createTeleportButton(2, ORBIT_TEXT, planetCategory, planet.buttonColor(), 37, 20, TooltipType.ORBIT, null, planet.orbitWorld());
-            createSpaceStationTeleportButton(3, SPACE_STATION_TEXT, planetCategory, planet.buttonColor(), 71, 20, planet.level());
+            createSpaceStationTeleportButton(2, SPACE_STATION_TEXT, planetCategory, planet.buttonColor(), 71, 20, planet.orbitWorld());
         });
 
         this.galaxyCategories.forEach((this::createGalaxyButton));
@@ -286,7 +287,7 @@ public class PlanetSelectionScreen extends Screen implements MenuAccess<PlanetSe
         LinkedList<ExtendedButton> buttons = this.categoryButtons.getOrDefault(category, new LinkedList<>());
 
         int column = getColumn(category) - (row - 1) * 22;
-        column -= 44 * (buttons.size() / 3);
+        column -= 22 * (buttons.size() / 2);
         createButton(newRow + 10, column, label, category, colour, sizeX, sizeY, tooltip, planetInfo, onClick);
     }
 

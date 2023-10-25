@@ -24,11 +24,6 @@ public interface ISpaceStationHolder {
     Int2ObjectMap<SpaceStation> getStations();
 
     /**
-     * @return all space stations orbiting this planet.
-     */
-    Set<SpaceStation> getStationsForPlanet(Planet planet);
-
-    /**
      * @param position the position from which distance is measured from
      * @return the closest satellite to this position, or null if none
      */
