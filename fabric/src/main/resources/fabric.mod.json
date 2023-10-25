@@ -33,6 +33,6 @@
   "depends": {
     "fabricloader": ">=0.14.20",
     "minecraft": ">=1.19.2",
-    "gtceu": ">=1.0.13.b"
+    "gtceu": "*"
   }
 }
