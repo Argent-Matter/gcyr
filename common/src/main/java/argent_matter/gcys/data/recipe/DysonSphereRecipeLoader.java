@@ -2,10 +2,10 @@ package argent_matter.gcys.data.recipe;
 
 import argent_matter.gcys.GCyS;
 import argent_matter.gcys.common.data.GCySBlocks;
-import argent_matter.gcys.common.data.GCySDimensionTypes;
 import argent_matter.gcys.common.data.GCySItems;
 import argent_matter.gcys.common.data.GCySMaterials;
 import argent_matter.gcys.common.recipe.DysonSphereCondition;
+import argent_matter.gcys.common.recipe.OrbitCondition;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTMachines;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
@@ -62,8 +62,8 @@ public class DysonSphereRecipeLoader {
                 .inputItems(GCySBlocks.CASING_DYSON_CELL.asStack(48))
                 .inputItems(GCySBlocks.CASING_DYSON_PORT.asStack(32))
                 .inputItems(GCySItems.DYSON_CONSTRUCTION_DRONE.asStack(32))
-                .dimension(GCySDimensionTypes.SPACE_LEVEL.location())
-                .addCondition(new DysonSphereCondition(false))
+                .addCondition(new OrbitCondition())
+                .addCondition(new DysonSphereCondition().setReverse(true))
                 .addData("gcys:launch_dyson_sphere", true)
                 .EUt(VA[UV]).duration(32000)
                 .save(provider);
@@ -72,21 +72,21 @@ public class DysonSphereRecipeLoader {
                 .inputItems(GCySBlocks.CASING_DYSON_SPHERE.asStack(16))
                 .inputItems(GCySBlocks.CASING_DYSON_CELL.asStack(8))
                 .inputItems(GCySItems.DYSON_CONSTRUCTION_DRONE.asStack(16))
-                .dimension(GCySDimensionTypes.SPACE_LEVEL.location())
-                .addCondition(new DysonSphereCondition(true))
+                .addCondition(new OrbitCondition())
+                .addCondition(new DysonSphereCondition())
                 .addData("gcys:repair_dyson_sphere", true)
                 .EUt(VA[UV]).duration(32000)
                 .save(provider);
 
         DYSON_ENERGY_RECIPES.recipeBuilder(GCyS.id("run_dyson_sphere_space"))
-                .addCondition(new DysonSphereCondition(true))
-                .dimension(GCySDimensionTypes.SPACE_LEVEL.location())
+                .addCondition(new DysonSphereCondition())
+                .addCondition(new OrbitCondition())
                 .duration(200).EUt(-V[UHV])
                 .save(provider);
 
         DYSON_ENERGY_RECIPES.recipeBuilder(GCyS.id("run_dyson_sphere_not_space"))
-                .addCondition(new DysonSphereCondition(true))
-                .dimension(GCySDimensionTypes.SPACE_LEVEL.location(), true)
+                .addCondition(new DysonSphereCondition())
+                .addCondition(new OrbitCondition().setReverse(true))
                 .duration(200).EUt(-V[UV])
                 .save(provider);
     }

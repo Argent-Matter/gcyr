@@ -1,11 +1,8 @@
 package argent_matter.gcys.api.space.dyson;
 
 import argent_matter.gcys.GCyS;
-import argent_matter.gcys.api.capability.GcysCapabilityHelper;
 import argent_matter.gcys.api.capability.IDysonSystem;
-import argent_matter.gcys.api.capability.ISpaceStationHolder;
 import argent_matter.gcys.api.space.planet.Planet;
-import argent_matter.gcys.common.data.GCySDimensionTypes;
 import argent_matter.gcys.common.data.GCySNetworking;
 import argent_matter.gcys.common.data.GCySSatellites;
 import argent_matter.gcys.common.networking.s2c.PacketSyncDysonSphereStatus;
@@ -15,9 +12,11 @@ import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.*;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.NbtOps;
+import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.saveddata.SavedData;
@@ -33,38 +32,15 @@ public class DysonSystemSavedData extends SavedData implements IDysonSystem {
     public static DysonSystemSavedData getOrCreate(ServerLevel originLevel) {
         if (originLevel.dimensionType().hasCeiling()) return null;
 
-        Planet planet = PlanetData.getPlanetFromLevel(originLevel.dimension()).orElse(null);
-        if (planet == null) return null; // A planet definition is required.
+        ResourceLocation solarSystem = PlanetData.getPlanetFromLevelOrOrbit(originLevel.dimension()).map(Planet::solarSystem).orElse(null);
+        if (solarSystem == null) return null; // A planet definition is required.
 
-        ResourceLocation solarSystem = planet.solarSystem();
         List<Planet> planets = PlanetData.getSolarSystemPlanets(solarSystem);
         if (planets.isEmpty()) {
             internalGetOrCreate(originLevel);
         }
         ServerLevel firstWorldLevel = originLevel.getServer().getLevel(planets.get(0).level());
         return internalGetOrCreate(Objects.requireNonNullElse(firstWorldLevel, originLevel));
-    }
-
-    @Nullable
-    public static DysonSystemSavedData getOrCreateMaybeSpace(ServerLevel level, @Nullable BlockPos pos) {
-        if (pos != null && level.dimension().location().equals(GCySDimensionTypes.SPACE_LEVEL.location())) {
-            ISpaceStationHolder spaceStations = GcysCapabilityHelper.getSpaceStations(level);
-            if (spaceStations == null) return null;
-            List<Integer> nearbyStationIds = spaceStations.getStationsNearWorldPos(pos, 8 * 8 /*half of max station size*/);
-            if (nearbyStationIds.isEmpty()) return null;
-            return getOrCreateForSpace(level.getServer(), nearbyStationIds.get(0));
-        }
-        return getOrCreate(level);
-    }
-
-    @Nullable
-    public static DysonSystemSavedData getOrCreateForSpace(MinecraftServer server, int stationId) {
-        ISpaceStationHolder spaceStations = GcysCapabilityHelper.getSpaceStations(server.getLevel(GCySDimensionTypes.SPACE_LEVEL));
-        if (spaceStations == null) return null;
-
-        ServerLevel serverLevel = server.getLevel(spaceStations.getStation(stationId).orbitPlanet().level());
-        if (serverLevel == null) return null;
-        return getOrCreate(serverLevel);
     }
 
     private static DysonSystemSavedData internalGetOrCreate(ServerLevel serverLevel) {
@@ -99,7 +75,7 @@ public class DysonSystemSavedData extends SavedData implements IDysonSystem {
 
     @Override
     public int activeDysonSwarmSatelliteCount() {
-        return (int) swarmSatellites.values().stream().flatMap(Collection::stream).count();
+        return swarmSatellites.values().stream().mapToInt(Collection::size).sum();
     }
 
     @Override

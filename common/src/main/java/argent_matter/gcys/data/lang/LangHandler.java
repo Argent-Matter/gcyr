@@ -58,13 +58,14 @@ public class LangHandler extends com.gregtechceu.gtceu.data.lang.LangHandler {
         provider.add("gcys.machine.satellite_jammer.position", "At %s");
         provider.add("gcys.condition.requires_dyson_sphere.true", "Requires active Dyson Sphere");
         provider.add("gcys.condition.requires_dyson_sphere.false", "Requires no Dyson Sphere to be active");
+        provider.add("gcys.condition.space", "Requires machine to be in space");
 
         // satellites
         provider.add("gcys.satellite.gps", "GPS Satellite");
         provider.add("gcys.satellite.laser", "LASER Satellite");
         provider.add("gcys.satellite.empty", "Empty Satellite");
         provider.add("gcys.satellite.dyson_swarm", "Dyson Swarm Satellite");
-        provider.add("behaviour.satellite.type", "Satellite Type: ");
+        provider.add("behaviour.satellite.type", "Satellite Type: %s");
 
         provider.add("key.startRocket", "Start RocketEntity");
         provider.add("key.categories.gcys", "Gregicality Space");

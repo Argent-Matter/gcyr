@@ -5,11 +5,8 @@ import argent_matter.gcys.api.space.station.SpaceStation;
 import argent_matter.gcys.common.data.GCySItems;
 import argent_matter.gcys.common.data.GCySMenus;
 import argent_matter.gcys.data.loader.PlanetData;
-import com.google.common.collect.BiMap;
-import com.google.common.collect.HashBiMap;
 import com.gregtechceu.gtceu.api.item.component.IAddInformation;
 import com.gregtechceu.gtceu.api.item.component.IInteractionItem;
-import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
@@ -28,8 +25,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class PlanetIdChipBehaviour implements IInteractionItem, IAddInformation {
-    private static final BiMap<String, Planet> PLANET_NAME_CACHE = HashBiMap.create();
-
     public static final String CURRENT_STATION_TAG_ID = "gcys:current_station";
     public static final String CURRENT_PLANET_TAG_ID = "gcys:current_planet";
 
@@ -54,18 +49,12 @@ public class PlanetIdChipBehaviour implements IInteractionItem, IAddInformation 
     }
 
     public String getPlanetName(Planet currentTarget) {
-        return PLANET_NAME_CACHE.inverse().computeIfAbsent(currentTarget, planet -> PlanetData.getLevelFromPlanet(planet).map(level -> "level." + level.location().toLanguageKey()).orElse("UNKNOWN LEVEL"));
-    }
-
-    public static void setPlanetFromName(String planetName, ItemStack held) {
-        if (!GCySItems.ID_CHIP.isIn(held)) return;
-        Planet currentTarget = PLANET_NAME_CACHE.computeIfAbsent(planetName, (name) -> PlanetData.getPlanetFromLevel(ResourceKey.create(Registries.DIMENSION, ResourceLocation.of(name.substring(6), '.'))).orElse(null));
-        held.getOrCreateTag().putString(CURRENT_PLANET_TAG_ID, currentTarget.level().location().toString());
+        return currentTarget.translation();
     }
 
     @Nullable
     public static Planet getPlanetFromStack(ItemStack stack) {
-        return PlanetData.getPlanetFromLevel(ResourceKey.create(Registries.DIMENSION, new ResourceLocation(stack.getOrCreateTag().getString(CURRENT_PLANET_TAG_ID)))).orElse(null);
+        return PlanetData.getPlanetFromLevelOrOrbit(ResourceKey.create(Registries.DIMENSION, new ResourceLocation(stack.getOrCreateTag().getString(CURRENT_PLANET_TAG_ID)))).orElse(null);
     }
 
     @Override

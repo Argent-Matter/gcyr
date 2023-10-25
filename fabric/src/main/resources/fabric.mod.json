@@ -10,7 +10,7 @@
 
   "license": "GNU GPL 3.0",
   "icon": "icon.png",
-  "accessWidener" : "gcys.accesswidener",
+
   "environment": "*",
   "entrypoints": {
     "main": [

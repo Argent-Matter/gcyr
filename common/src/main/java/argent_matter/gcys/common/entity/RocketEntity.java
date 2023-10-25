@@ -70,6 +70,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+@SuppressWarnings("resource")
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
 public class RocketEntity extends Entity implements HasCustomInventoryScreen, IUIHolder {
@@ -414,12 +415,8 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         } else if (GCySItems.KEYCARD.isIn(configStack) && KeyCardBehaviour.getSavedStation(configStack) != SpaceStation.ID_EMPTY) {
             this.destinationIsSpaceStation = true;
         }
-        final ServerLevel destinationLevel;
-        if (this.destinationIsSpaceStation) {
-            destinationLevel = this.getServer().getLevel(GCySDimensionTypes.SPACE_LEVEL);
-        } else {
-            destinationLevel = this.getServer().getLevel(destination.level());
-        }
+        final ServerLevel destinationLevel = this.getServer().getLevel(this.destinationIsSpaceStation ? destination.orbitWorld() : destination.level());
+
 
         Vec3 pos = this.position();
 
@@ -652,13 +649,6 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         for (int i = 0; i < blocks.size(); ++i) {
             this.addBlock(PosWithState.readFromTag(blocks.getCompound(i)));
         }
-        /*
-        this.getSeatPositions().clear();
-        ListTag seats = compound.getList("seats", Tag.TAG_COMPOUND);
-        for (int i = 0; i < seats.size(); ++i) {
-            this.addSeatPos(NbtUtils.readBlockPos(seats.getCompound(i)));
-        }
-         */
 
         this.setFuelCapacity(compound.getLong("fuelCapacity"));
         this.fuelTank.setFluid(FluidStack.loadFromTag(compound.getCompound("fuel")));
@@ -677,14 +667,6 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         for (PosWithState state : blocks) {
             blockTag.add(state.writeToTag());
         }
-        /*
-        var seats = this.getSeatPositions();
-        ListTag seatsTag = new ListTag();
-        compound.put("seat", seatsTag);
-        for (BlockPos seatPos : seats) {
-            seatsTag.add(NbtUtils.writeBlockPos(seatPos));
-        }
-         */
 
         compound.putLong("fuelCapacity", this.getFuelCapacity());
         CompoundTag fuel = new CompoundTag();

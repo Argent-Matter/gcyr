@@ -53,7 +53,7 @@ public class ForgeCommonEventListener {
     @SubscribeEvent
     public static void playerChangedDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
         if (event.getEntity() instanceof ServerPlayer player) {
-            IDysonSystem system = GcysCapabilityHelper.getDysonSystem(player.serverLevel(), player.getOnPos());
+            IDysonSystem system = GcysCapabilityHelper.getDysonSystem(player.serverLevel());
             if (system != null && system.isDysonSphereActive() && !system.activeDysonSphere().isCollapsed()) {
                 GCySNetworking.NETWORK.sendToPlayer(new PacketSyncDysonSphereStatus(true), player);
             } else {
@@ -65,7 +65,7 @@ public class ForgeCommonEventListener {
     @SubscribeEvent
     public static void entityJoined(EntityJoinLevelEvent event) {
         if (event.getEntity() instanceof ServerPlayer player) {
-            IDysonSystem system = GcysCapabilityHelper.getDysonSystem(player.serverLevel(), player.getOnPos());
+            IDysonSystem system = GcysCapabilityHelper.getDysonSystem(player.serverLevel());
             if (system != null && system.isDysonSphereActive() && !system.activeDysonSphere().isCollapsed()) {
                 GCySNetworking.NETWORK.sendToPlayer(new PacketSyncDysonSphereStatus(true), player);
             } else {

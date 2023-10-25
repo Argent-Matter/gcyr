@@ -57,7 +57,7 @@ public class GCySFabric implements ModInitializer {
         });
 
         ServerEntityWorldChangeEvents.AFTER_PLAYER_CHANGE_WORLD.register((player, origin, destination) -> {
-            IDysonSystem system = GcysCapabilityHelper.getDysonSystem(player.serverLevel(), player.getOnPos());
+            IDysonSystem system = GcysCapabilityHelper.getDysonSystem(player.serverLevel());
             if (system != null && system.isDysonSphereActive() && !system.activeDysonSphere().isCollapsed()) {
                 GCySNetworking.NETWORK.sendToPlayer(new PacketSyncDysonSphereStatus(true), player);
             } else {
@@ -67,7 +67,7 @@ public class GCySFabric implements ModInitializer {
 
         ServerEntityEvents.ENTITY_LOAD.register((entity, world) -> {
             if (entity instanceof ServerPlayer player) {
-                IDysonSystem system = GcysCapabilityHelper.getDysonSystem(player.serverLevel(), player.getOnPos());
+                IDysonSystem system = GcysCapabilityHelper.getDysonSystem(player.serverLevel());
                 if (system != null && system.isDysonSphereActive() && !system.activeDysonSphere().isCollapsed()) {
                     GCySNetworking.NETWORK.sendToPlayer(new PacketSyncDysonSphereStatus(true), player);
                 } else {

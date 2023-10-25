@@ -3,6 +3,7 @@
   "galaxy": "gcys:milky_way",
   "solar_system": "gcys:solar_system",
   "world": "gcys:luna",
+  "orbit_world": "gcys:luna_orbit",
   "parent_world": "minecraft:overworld",
   "rocket_tier": 1,
   "gravity": 1.625,

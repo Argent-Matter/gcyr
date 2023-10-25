@@ -72,7 +72,7 @@ public class GCyS {
 				if (sat != null) sat.tickSatellites();
 			}
 
-			IDysonSystem system = DysonSystemSavedData.getOrCreate(level);
+			IDysonSystem system = GcysCapabilityHelper.getDysonSystem(level);
 			if (system == null || TICKED_SYSTEMS.get().contains(system)) return;
 			system.tick();
 		} else {

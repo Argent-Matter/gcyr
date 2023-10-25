@@ -8,6 +8,7 @@ import argent_matter.gcys.common.entity.RocketEntity;
 import argent_matter.gcys.common.item.KeyCardBehaviour;
 import argent_matter.gcys.common.item.PlanetIdChipBehaviour;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
+import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IDisplayUIMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
@@ -73,11 +74,9 @@ public class RocketScannerMachine extends MultiblockControllerMachine implements
         super(holder);
         this.configSaveSlot = new ItemStackTransfer(1);
         this.configSaveSlot.setFilter(GCySItems.ID_CHIP::isIn);
-        this.configSaveSlot.setOnContentsChanged(this::onSaveSlotChanged);
 
         this.configLoadSlot = new ItemStackTransfer(1);
         this.configLoadSlot.setFilter(GCySItems.KEYCARD::isIn);
-        this.configLoadSlot.setOnContentsChanged(this::onLoadSlotChanged);
     }
 
     @Override
@@ -85,7 +84,7 @@ public class RocketScannerMachine extends MultiblockControllerMachine implements
         ModularUI modularUI = IDisplayUIMachine.super.createUI(entityPlayer);
         modularUI.widget(new SlotWidget(configSaveSlot, 0, 149, 83));
         modularUI.widget(new SlotWidget(configLoadSlot, 0, 149, 105));
-        modularUI.widget(new ButtonWidget(129, 105, 18, 18, this::onSaveButtonClick).setHoverTooltips(Component.translatable("menu.gcys.save_destination_station")));
+        modularUI.widget(new ButtonWidget(129, 83, 18, 18, this::onSaveButtonClick).setButtonTexture(GuiTextures.BUTTON).setHoverTooltips(Component.translatable("menu.gcys.save_destination_station")));
         return modularUI;
     }
 

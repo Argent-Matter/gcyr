@@ -10,7 +10,6 @@ import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMa
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.common.data.GTDamageTypes;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
-import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
 import net.minecraft.ChatFormatting;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
@@ -39,7 +38,7 @@ public class DysonSystemControllerMachine extends WorkableElectricMultiblockMach
     public void onStructureInvalid() {
         super.onStructureInvalid();
         if (!isRemote()) {
-            IDysonSystem system = GcysCapabilityHelper.getDysonSystem((ServerLevel) this.getLevel(), this.getPos());
+            IDysonSystem system = GcysCapabilityHelper.getDysonSystem((ServerLevel) this.getLevel());
             if (system == null || !system.isDysonSphereActive()) return;
             system.activeDysonSphere().setControllerPos(null);
         }
@@ -49,7 +48,7 @@ public class DysonSystemControllerMachine extends WorkableElectricMultiblockMach
     public void onStructureFormed() {
         super.onStructureFormed();
         if (!isRemote()) {
-            IDysonSystem system = GcysCapabilityHelper.getDysonSystem((ServerLevel) this.getLevel(), this.getPos());
+            IDysonSystem system = GcysCapabilityHelper.getDysonSystem((ServerLevel) this.getLevel());
             if (system == null) return;
             if (system.isDysonSphereActive() && system.activeDysonSphere().getControllerPos() == null) {
                 system.activeDysonSphere().setControllerPos(this.getPos());
@@ -63,7 +62,7 @@ public class DysonSystemControllerMachine extends WorkableElectricMultiblockMach
     protected @Nullable GTRecipe getRealRecipe(GTRecipe recipe) {
         if (this.getLevel().dimensionType().hasCeiling()) return null;
         if (recipe.data.contains("gcys:repair_dyson_sphere")) {
-            IDysonSystem system = GcysCapabilityHelper.getDysonSystem((ServerLevel) this.getLevel(), this.getPos());
+            IDysonSystem system = GcysCapabilityHelper.getDysonSystem((ServerLevel) this.getLevel());
             if (system != null && system.isDysonSphereActive() && (!system.activeDysonSphere().isNeedsMaintenance() || !this.getPos().equals(system.activeDysonSphere().getControllerPos()))) return null;
         }
         return super.getRealRecipe(recipe);
@@ -90,7 +89,7 @@ public class DysonSystemControllerMachine extends WorkableElectricMultiblockMach
         if (recipe == null || this.isRemote()) return;
         if (recipe.getInputContents(ItemRecipeCapability.CAP).isEmpty()) return; // assume the recipe is a dyson launch or repair if it has item inputs.
 
-        IDysonSystem system = GcysCapabilityHelper.getDysonSystem((ServerLevel) this.getLevel(), this.getPos());
+        IDysonSystem system = GcysCapabilityHelper.getDysonSystem((ServerLevel) this.getLevel());
         if (system == null) return;
         if (!system.isDysonSphereActive() && recipe.data.contains("gcys:launch_dyson_sphere")) {
             system.addDysonSphere(this.getPos());
@@ -111,7 +110,7 @@ public class DysonSystemControllerMachine extends WorkableElectricMultiblockMach
 
             double x = pos.getX() + 0.5;
             double z = pos.getZ() + 0.5;
-            for (int y = pos.getY(); y < 512; y += 4) {
+            for (int y = pos.getY(); y < 512; y += 2) {
                 level.addAlwaysVisibleParticle(GCySParticles.DYSON_BEAM, true, x, y, z, 0, 0, 0);
             }
         }
@@ -123,7 +122,7 @@ public class DysonSystemControllerMachine extends WorkableElectricMultiblockMach
         if (!isFormed) return;
 
         if (!isRemote()) {
-            IDysonSystem system = GcysCapabilityHelper.getDysonSystem((ServerLevel) this.getLevel(), this.getPos());
+            IDysonSystem system = GcysCapabilityHelper.getDysonSystem((ServerLevel) this.getLevel());
             if (system == null) return;
 
             if (system.isDysonSphereActive()) {
@@ -143,9 +142,9 @@ public class DysonSystemControllerMachine extends WorkableElectricMultiblockMach
     public void handleDisplayClick(String componentData, ClickData clickData) {
         if (!clickData.isRemote) {
             if (componentData.equals("dbg_start_sphere")) {
-                GcysCapabilityHelper.getDysonSystem((ServerLevel) this.getLevel(), this.getPos()).addDysonSphere(this.getPos());
+                GcysCapabilityHelper.getDysonSystem((ServerLevel) this.getLevel()).addDysonSphere(this.getPos());
             } else if (componentData.equals("dbg_delete_sphere")) {
-                GcysCapabilityHelper.getDysonSystem((ServerLevel) this.getLevel(), this.getPos()).disableDysonSphere(this.getPos());
+                GcysCapabilityHelper.getDysonSystem((ServerLevel) this.getLevel()).disableDysonSphere(this.getPos());
             }
         }
     }
