@@ -1,0 +1,21 @@
+{
+  "values": [
+    "gcyr:iv_oxygen_spreader",
+    "gcyr:luv_oxygen_spreader",
+    "gcyr:zpm_oxygen_spreader",
+    "gcyr:uv_oxygen_spreader",
+    "gcyr:uhv_oxygen_spreader",
+    {
+      "id": "#minecraft:fences",
+      "required": false
+    },
+    {
+      "id": "minecraft:iron_bars",
+      "required": false
+    },
+    {
+      "id": "minecraft:tnt",
+      "required": false
+    }
+  ]
+}

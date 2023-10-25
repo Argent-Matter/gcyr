@@ -1,0 +1,9 @@
+{
+  "values": [
+    "gcyr:gps_satellite",
+    "gcyr:laser_satellite",
+    "gcyr:empty_satellite",
+    "gcyr:ore_finder_satellite",
+    "gcyr:dyson_swarm_satellite"
+  ]
+}

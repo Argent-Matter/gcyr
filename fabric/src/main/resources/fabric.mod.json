@@ -1,9 +1,9 @@
 {
   "schemaVersion": 1,
-  "id": "gcys",
+  "id": "gcyr",
   "version": "${version}",
 
-  "name": "Gregicality Space",
+  "name": "Gregicality Rocketry",
   "description": "A space addon for GregTechCEu",
   "authors": [],
   "contact": {},
@@ -14,21 +14,21 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "argent_matter.gcys.fabric.GCySFabric"
+      "argent_matter.gcyr.fabric.GCyRFabric"
     ],
     "client": [
-      "argent_matter.gcys.fabric.GCySFabricClient"
+      "argent_matter.gcyr.fabric.GCyRFabricClient"
     ],
     "fabric-datagen": [
-      "argent_matter.gcys.data.fabric.GCySDatagen"
+      "argent_matter.gcyr.data.fabric.GCyRDatagen"
     ],
     "gtceu_addon": [
-      "argent_matter.gcys.GCySGTAddon"
+      "argent_matter.gcyr.GCyRGTAddon"
     ]
   },
   "mixins": [
-    "gcys.mixins.json",
-    "gcys-common.mixins.json"
+    "gcyr.mixins.json",
+    "gcyr-common.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=0.14.21",

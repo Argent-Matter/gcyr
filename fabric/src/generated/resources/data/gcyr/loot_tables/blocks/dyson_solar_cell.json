@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "gcyr:dyson_solar_cell"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "gcyr:blocks/dyson_solar_cell"
+}

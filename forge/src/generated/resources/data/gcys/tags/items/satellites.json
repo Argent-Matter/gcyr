@@ -1,9 +1,0 @@
-{
-  "values": [
-    "gcys:gps_satellite",
-    "gcys:laser_satellite",
-    "gcys:empty_satellite",
-    "gcys:ore_finder_satellite",
-    "gcys:dyson_swarm_satellite"
-  ]
-}
