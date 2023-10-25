@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/cube_bottom_top",
-  "textures": {
-    "bottom": "gcys:block/casings/rocket/rocket_motor_bottom",
-    "side": "gcys:block/casings/rocket/rocket_motor_side",
-    "top": "gcys:block/casings/rocket/rocket_motor_top"
-  }
-}
