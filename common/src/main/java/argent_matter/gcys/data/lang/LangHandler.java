@@ -38,6 +38,7 @@ public class LangHandler extends com.gregtechceu.gtceu.data.lang.LangHandler {
         provider.add("key.categories.gcys", "Gregicality Space");
 
         provider.add("menu.gcys.launch", "LAUNCH");
+        provider.add("menu.gcys.save_destination_station", "Save Space Station ID to keycard");
 
         provider.add("menu.gcys.catalog", "Catalog");
         provider.add("menu.gcys.back", "Back");
