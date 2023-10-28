@@ -2,6 +2,8 @@ package argent_matter.gcyr.common.data;
 
 import argent_matter.gcyr.GCyR;
 import argent_matter.gcyr.common.machine.electric.OxygenSpreaderMachine;
+import argent_matter.gcyr.common.machine.multiblock.SpaceStationPackagerMachine;
+import argent_matter.gcyr.common.machine.multiblock.electric.DroneHangarMachine;
 import argent_matter.gcyr.common.machine.multiblock.electric.DysonSystemControllerMachine;
 import argent_matter.gcyr.common.machine.multiblock.RocketScannerMachine;
 import argent_matter.gcyr.data.recipe.GCyRTags;
@@ -29,6 +31,8 @@ import com.gregtechceu.gtceu.config.ConfigHolder;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.DoorBlock;
+import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -95,6 +99,56 @@ public class GCyRMachines {
                         .where('E', ROCKET_MOTOR)
                         .where('T', FUEL_TANK)
                         .where('C', SEAT).build());
+                return shapeInfo;
+            })
+            .workableCasingRenderer(GTCEu.id("block/casings/voltage/ev/side"),
+                    GTCEu.id("block/multiblock/assembly_line"), false)
+            .register();
+
+    public static final MachineDefinition SPACE_STATION_PACKAGER = REGISTRATE.multiblock("space_station_packager", SpaceStationPackagerMachine::new)
+            .langValue("Space Station Packager")
+            .rotationState(RotationState.NON_Y_AXIS)
+            .tier(GTValues.EV)
+            .pattern((definition) -> FactoryBlockPattern.start()
+                    .aisle("         ", "   K   ", "   K   ", "   K   ", "   K   ", "   K   ")
+                    .aisle(" BBBBBBB ", "       ", "       ", "       ", "       ", "       ")
+                    .aisle(" BBBBBBB ", "       ", "       ", "       ", "       ", "       ")
+                    .aisle(" BBBBBBB ", "       ", "       ", "       ", "       ", "       ")
+                    .aisle(" BBBBBBB ", "       ", "       ", "       ", "       ", "       ")
+                    .aisle(" BBBBBBB ", "       ", "       ", "       ", "       ", "       ")
+                    .aisle("         ", "   S   ", "       ", "       ", "       ", "       ")
+                    .where('S', controller(blocks(definition.getBlock())))
+                    .where('B', blocks(LAUNCH_PAD.get()))
+                    .where('K', blocks(GTBlocks.MATERIAL_BLOCKS.get(TagPrefix.frameGt, GTMaterials.StainlessSteel).get()))
+                    .where(' ', any())
+                    .build()
+            )
+            .shapeInfos(definition -> {
+                ArrayList<MultiblockShapeInfo> shapeInfo = new ArrayList<>();
+                MultiblockShapeInfo.ShapeInfoBuilder builder = MultiblockShapeInfo.builder()
+                        .aisle("       ", "   S   ", "       ", "       ", "       ", "       ")
+                        .aisle("BBBBBBB", "       ", "       ", "       ", "       ", "       ")
+                        .aisle("BBBBBBB", " CCCCC ", " CCDCC ", " CGHGC ", " CCCCC ", " CCCCC ")
+                        .aisle("BBBBBBB", " CCCCC ", " C   C ", " G   G ", " C   C ", " CCCCC ")
+                        .aisle("BBBBBBB", " CCCCC ", " C   C ", " G   G ", " C   C ", " CCCCC ")
+                        .aisle("BBBBBBB", " CCCCC ", " C   C ", " G   G ", " C   C ", " CCCCC ")
+                        .aisle("BBBBBBB", " CCCCC ", " CCDCC ", " CGGGC ", " CCDCC ", " CCCCC ")
+                        .aisle("BBBBBBB", "       ", "       ", "       ", "       ", "       ")
+                        .aisle("       ", "   K   ", "   K   ", "   K   ", "   K   ", "   K   ")
+                        .where('S', definition, Direction.NORTH)
+                        .where(' ', Blocks.AIR)
+                        .where('K', GTBlocks.MATERIAL_BLOCKS.get(TagPrefix.frameGt, GTMaterials.StainlessSteel).get())
+                        .where('B', LAUNCH_PAD);
+                shapeInfo.add(builder
+                        .where('D', Blocks.AIR)
+                        .where('H', Blocks.AIR)
+                        .where('G', Blocks.AIR)
+                        .where('C', Blocks.AIR).build());
+                shapeInfo.add(builder
+                        .where('D', AIRLOCK_DOOR.getDefaultState().setValue(DoorBlock.HALF, DoubleBlockHalf.LOWER))
+                        .where('H', AIRLOCK_DOOR.getDefaultState().setValue(DoorBlock.HALF, DoubleBlockHalf.UPPER))
+                        .where('G', CASING_TEMPERED_GLASS)
+                        .where('C', Blocks.WHITE_CONCRETE).build());
                 return shapeInfo;
             })
             .workableCasingRenderer(GTCEu.id("block/casings/voltage/ev/side"),
@@ -171,7 +225,7 @@ public class GCyRMachines {
                     GTCEu.id("block/multiblock/assembly_line"), false)
             .register();
 
-    public static final MultiblockMachineDefinition DRONE_HANGAR = REGISTRATE.multiblock("drone_hangar", WorkableElectricMultiblockMachine::new)
+    public static final MultiblockMachineDefinition DRONE_HANGAR = REGISTRATE.multiblock("drone_hangar", DroneHangarMachine::new)
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeType(GTRecipeTypes.VACUUM_RECIPES)
             .appearanceBlock(() -> CASING_ALUMINIUM_FROSTPROOF.get())

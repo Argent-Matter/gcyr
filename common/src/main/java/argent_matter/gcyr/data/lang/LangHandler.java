@@ -46,8 +46,7 @@ public class LangHandler extends com.gregtechceu.gtceu.data.lang.LangHandler {
 
         // tooltips
         multilineLang(provider, "gcyr.multiblock.space_shuttle.launch", "Travel to selected Space Station\n§cRequires ID Chip!");
-        provider.add("gcyr.multiblock.rocket.build", "Scan Rocket");
-        provider.add("gcyr.multiblock.rocket.unbuild", "Destroy Rocket");
+        provider.add("metaitem.gcyr.satellite_package.has_satellite", "Has satellite or space station");
 
         // items
         provider.add("metaitem.planet_id_circuit.id", "Currently selected planet: ");
@@ -77,7 +76,10 @@ public class LangHandler extends com.gregtechceu.gtceu.data.lang.LangHandler {
         provider.add("menu.gcyr.dyson_sphere.collapsed", "DYSON SPHERE COLLAPSED");
 
         provider.add("menu.gcyr.launch", "LAUNCH");
+
         provider.add("menu.gcyr.save_destination_station", "Save Space Station ID to keycard");
+        provider.add("gcyr.multiblock.rocket.build", "Scan Rocket");
+        provider.add("gcyr.multiblock.rocket.unbuild", "Destroy Rocket");
 
         provider.add("menu.gcyr.catalog", "Catalog");
         provider.add("menu.gcyr.back", "Back");

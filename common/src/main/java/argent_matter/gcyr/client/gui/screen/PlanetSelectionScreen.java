@@ -219,8 +219,8 @@ public class PlanetSelectionScreen extends Screen implements MenuAccess<PlanetSe
                 createNavigationButton(label, solarSystemCategory, planet.buttonColor(), 71, 20, TooltipType.CATEGORY, planet, planetCategory);
             }
 
-            createTeleportButton(1, label, planetCategory, planet.buttonColor(), 71, 20, TooltipType.PLANET, planet, planet.level());
-            createSpaceStationTeleportButton(2, SPACE_STATION_TEXT, planetCategory, planet.buttonColor(), 71, 20, planet.orbitWorld());
+            createTeleportButton(1, label, planetCategory, planet.buttonColor(), 71, 20, TooltipType.PLANET, planet);
+            createSpaceStationTeleportButton(2, SPACE_STATION_TEXT, planetCategory, planet.buttonColor(), 71, 20, planet);
         });
 
         this.galaxyCategories.forEach((this::createGalaxyButton));
@@ -270,11 +270,11 @@ public class PlanetSelectionScreen extends Screen implements MenuAccess<PlanetSe
         createButton(label, category, colour, sizeX, sizeY, tooltip, planetInfo, press -> onNavigationButtonClick(target));
     }
 
-    public void createTeleportButton(int row, Component label, Category category, int colour, int sizeX, int sizeY, TooltipType tooltip, Planet planetInfo, ResourceKey<Level> level) {
-        createTeleportButton(row, label, category, colour, sizeX, sizeY, tooltip, planetInfo, level, press -> selectPlanet(level));
+    public void createTeleportButton(int row, Component label, Category category, int colour, int sizeX, int sizeY, TooltipType tooltip, Planet planetInfo) {
+        createTeleportButton(row, label, category, colour, sizeX, sizeY, tooltip, planetInfo, press -> selectPlanet(planetInfo));
     }
 
-    public void createTeleportButton(int row, Component label, Category category, int colour, int sizeX, int sizeY, TooltipType tooltip, Planet planetInfo, ResourceKey<Level> level, Consumer<Button> onClick) {
+    public void createTeleportButton(int row, Component label, Category category, int colour, int sizeX, int sizeY, TooltipType tooltip, Planet planetInfo, Consumer<Button> onClick) {
         int newRow = 0;
         if (row == 2) {
             newRow = 76;
@@ -289,19 +289,19 @@ public class PlanetSelectionScreen extends Screen implements MenuAccess<PlanetSe
         createButton(newRow + 10, column, label, category, colour, sizeX, sizeY, tooltip, planetInfo, onClick);
     }
 
-    public void createSpaceStationTeleportButton(int row, Component label, Category category, int colour, int sizeX, int sizeY, ResourceKey<Level> level) {
-        createTeleportButton(row, label, category, colour, sizeX, sizeY, TooltipType.SPACE_STATION, null, level, press -> {
+    public void createSpaceStationTeleportButton(int row, Component label, Category category, int colour, int sizeX, int sizeY, Planet planet) {
+        createTeleportButton(row, label, category, colour, sizeX, sizeY, TooltipType.SPACE_STATION, planet, press -> {
             if (minecraft != null && minecraft.player != null) {
-                selectPlanet(level);
+                selectPlanet(planet);
                 GCyRNetworking.NETWORK.sendToServer(new PacketCreateSpaceStation());
             }
         });
     }
 
-    public void selectPlanet(ResourceKey<Level> level) {
+    public void selectPlanet(Planet planet) {
         this.minecraft.player.closeContainer();
         // Tell the server to teleport the player after the button has been pressed.
-        GCyRNetworking.NETWORK.sendToServer(new PacketSendSelectedDimension(level));
+        GCyRNetworking.NETWORK.sendToServer(new PacketSendSelectedDimension(PlanetData.getPlanetId(planet)));
     }
 
     public Button createButton(Component label, Category category, int colour, int sizeX, int sizeY, TooltipType tooltip, Planet planetInfo, Consumer<Button> onClick) {

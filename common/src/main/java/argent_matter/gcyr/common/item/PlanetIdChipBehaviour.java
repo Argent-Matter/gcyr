@@ -25,8 +25,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class PlanetIdChipBehaviour implements IInteractionItem, IAddInformation {
-    public static final String CURRENT_STATION_TAG_ID = "gcyr:current_station";
-    public static final String CURRENT_PLANET_TAG_ID = "gcyr:current_planet";
+    public static final String CURRENT_STATION_KEY = "gcyr:current_station";
+    public static final String CURRENT_PLANET_KEY = "gcyr:current_planet";
 
     @Override
     public InteractionResultHolder<ItemStack> use(Item item, Level level, Player player, InteractionHand usedHand) {
@@ -40,28 +40,24 @@ public class PlanetIdChipBehaviour implements IInteractionItem, IAddInformation 
 
     public static void setSpaceStation(ItemStack held, int stationId) {
         if (!GCyRItems.ID_CHIP.isIn(held) || stationId == SpaceStation.ID_EMPTY) return;
-        held.getOrCreateTag().putInt(CURRENT_STATION_TAG_ID, stationId);
+        held.getOrCreateTag().putInt(CURRENT_STATION_KEY, stationId);
     }
 
     public static int getSpaceStationId(ItemStack held) {
-        if (!GCyRItems.ID_CHIP.isIn(held) || !held.getOrCreateTag().contains(CURRENT_STATION_TAG_ID, Tag.TAG_INT)) return SpaceStation.ID_EMPTY;
-        return held.getOrCreateTag().getInt(CURRENT_STATION_TAG_ID);
-    }
-
-    public String getPlanetName(Planet currentTarget) {
-        return currentTarget.translation();
+        if (!GCyRItems.ID_CHIP.isIn(held) || !held.getOrCreateTag().contains(CURRENT_STATION_KEY, Tag.TAG_INT)) return SpaceStation.ID_EMPTY;
+        return held.getOrCreateTag().getInt(CURRENT_STATION_KEY);
     }
 
     @Nullable
     public static Planet getPlanetFromStack(ItemStack stack) {
-        return PlanetData.getPlanetFromLevelOrOrbit(ResourceKey.create(Registries.DIMENSION, new ResourceLocation(stack.getOrCreateTag().getString(CURRENT_PLANET_TAG_ID)))).orElse(null);
+        return PlanetData.getPlanetFromLevelOrOrbit(ResourceKey.create(Registries.DIMENSION, new ResourceLocation(stack.getOrCreateTag().getString(CURRENT_PLANET_KEY)))).orElse(null);
     }
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltipComponents, TooltipFlag isAdvanced) {
         Planet currentTarget = getPlanetFromStack(stack);
         if (currentTarget != null) {
-            tooltipComponents.add(Component.translatable("metaitem.planet_id_circuit.id").append(Component.translatable(getPlanetName(currentTarget))));
+            tooltipComponents.add(Component.translatable("metaitem.planet_id_circuit.id").append(Component.translatable(currentTarget.translation())));
         }
         int currentStationId = getSpaceStationId(stack);
         if (currentStationId != SpaceStation.ID_EMPTY) {

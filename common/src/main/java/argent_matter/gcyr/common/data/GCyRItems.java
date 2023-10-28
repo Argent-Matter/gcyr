@@ -3,6 +3,7 @@ package argent_matter.gcyr.common.data;
 import argent_matter.gcyr.common.item.GpsTrackerBehaviour;
 import argent_matter.gcyr.common.item.KeyCardBehaviour;
 import argent_matter.gcyr.common.item.PlanetIdChipBehaviour;
+import argent_matter.gcyr.common.item.StationContainerBehaviour;
 import argent_matter.gcyr.common.item.armor.SpaceSuitArmorItem;
 import argent_matter.gcyr.data.recipe.GCyRTags;
 import com.gregtechceu.gtceu.api.item.ComponentItem;
@@ -82,6 +83,12 @@ public class GCyRItems {
             .tag(GCyRTags.SATELLITES)
             .properties(p -> p.rarity(Rarity.UNCOMMON).stacksTo(16))
             .defaultModel()
+            .register();
+
+    public static final ItemEntry<ComponentItem> SPACE_STATION_PACKAGE = REGISTRATE.item("space_station_package", ComponentItem::create)
+            .lang("Space Station Package")
+            .properties(p -> p.stacksTo(1))
+            .onRegister(attach(new StationContainerBehaviour()))
             .register();
 
     // endregion
