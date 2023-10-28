@@ -5,7 +5,8 @@ import com.gregtechceu.gtceu.common.data.GTCreativeModeTabs;
 import com.tterrag.registrate.util.entry.RegistryEntry;
 import net.minecraft.world.item.CreativeModeTab;
 
-import static com.gregtechceu.gtceu.api.registry.GTRegistries.REGISTRATE;
+import static argent_matter.gcyr.api.registries.GCyRRegistries.REGISTRATE;
+
 
 public class GCyRCreativeModeTabs {
     public static RegistryEntry<CreativeModeTab> GCYR = REGISTRATE.defaultCreativeTab(GCyR.MOD_ID,
