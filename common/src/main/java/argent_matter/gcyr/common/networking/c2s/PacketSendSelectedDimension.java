@@ -8,32 +8,31 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import net.minecraft.core.Registry;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
 
 @NoArgsConstructor
 @AllArgsConstructor
 public class PacketSendSelectedDimension implements IPacket {
 
-    private ResourceKey<Level> id;
+    private ResourceLocation planetId;
 
     @Override
     public void encode(FriendlyByteBuf buf) {
-        buf.writeResourceKey(id);
+        buf.writeResourceLocation(planetId);
     }
 
     @Override
     public void decode(FriendlyByteBuf buf) {
-        this.id = buf.readResourceKey(Registry.DIMENSION_REGISTRY);
+        this.planetId = buf.readResourceLocation();
     }
 
     public void execute(IHandlerContext handler) {
-        if (!handler.isClient() && id != null) {
+        if (!handler.isClient() && planetId != null) {
             ItemStack handItem = handler.getPlayer().getItemInHand(handler.getPlayer().getUsedItemHand());
             if (handItem.is(GCyRItems.ID_CHIP.get())) {
-                handItem.getOrCreateTag().putString(PlanetIdChipBehaviour.CURRENT_PLANET_TAG_ID, id.location().toString());
-                handItem.getTag().remove(PlanetIdChipBehaviour.CURRENT_STATION_TAG_ID);
+                handItem.getOrCreateTag().putString(PlanetIdChipBehaviour.CURRENT_PLANET_KEY, planetId.toString());
+                handItem.getTag().remove(PlanetIdChipBehaviour.CURRENT_STATION_KEY);
             }
         }
     }
