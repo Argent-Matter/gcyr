@@ -34,6 +34,7 @@ public interface ISpaceStationHolder {
      * @param id the station's id
      * @return the center of this station
      */
+    @Nullable
     Vec2i getStationPos(int id);
 
     /**
@@ -41,8 +42,10 @@ public interface ISpaceStationHolder {
      * @param id the station's id
      * @return this station.
      */
-    SpaceStation getStation(int id);
+    @Nullable
+    SpaceStation getStation(@Nullable Integer id);
 
+    @Nullable
     BlockPos getStationWorldPos(int id);
 
     /**

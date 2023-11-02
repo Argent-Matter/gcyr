@@ -43,8 +43,9 @@ public class PlanetIdChipBehaviour implements IInteractionItem, IAddInformation 
         held.getOrCreateTag().putInt(CURRENT_STATION_KEY, stationId);
     }
 
-    public static int getSpaceStationId(ItemStack held) {
-        if (!GCyRItems.ID_CHIP.isIn(held) || !held.getOrCreateTag().contains(CURRENT_STATION_KEY, Tag.TAG_INT)) return SpaceStation.ID_EMPTY;
+    @Nullable
+    public static Integer getSpaceStationId(ItemStack held) {
+        if (!GCyRItems.ID_CHIP.isIn(held) || !held.getOrCreateTag().contains(CURRENT_STATION_KEY, Tag.TAG_INT)) return null;
         return held.getOrCreateTag().getInt(CURRENT_STATION_KEY);
     }
 
@@ -59,8 +60,8 @@ public class PlanetIdChipBehaviour implements IInteractionItem, IAddInformation 
         if (currentTarget != null) {
             tooltipComponents.add(Component.translatable("metaitem.planet_id_circuit.id").append(Component.translatable(currentTarget.translation())));
         }
-        int currentStationId = getSpaceStationId(stack);
-        if (currentStationId != SpaceStation.ID_EMPTY) {
+        Integer currentStationId = getSpaceStationId(stack);
+        if (currentStationId != null) {
             tooltipComponents.add(Component.translatable("metaitem.planet_id_circuit.station", currentStationId));
         }
 
