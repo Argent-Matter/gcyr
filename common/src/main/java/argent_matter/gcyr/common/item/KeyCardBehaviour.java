@@ -38,14 +38,15 @@ public class KeyCardBehaviour implements IAddInformation/*, IInteractionItem*/ {
         stack.getOrCreateTag().putUUID("KeyCardOwner", entity.getUUID());
     }
 
-    public static void setSavedStation(ItemStack stack, int stationId, Planet planet) {
+    public static void setSavedStation(ItemStack stack, @Nullable Integer stationId, Planet planet) {
         if (!GCyRItems.KEYCARD.isIn(stack)) return;
+        if (stationId == null) return;
         stack.getOrCreateTag().putInt(PlanetIdChipBehaviour.CURRENT_STATION_KEY, stationId);
         stack.getTag().putString(PlanetIdChipBehaviour.CURRENT_PLANET_KEY, PlanetData.getPlanetId(planet).toString());
     }
 
-    public static int getSavedStation(ItemStack stack) {
-        if (!GCyRItems.KEYCARD.isIn(stack)) return SpaceStation.ID_EMPTY;
+    public static Integer getSavedStation(ItemStack stack) {
+        if (!GCyRItems.KEYCARD.isIn(stack)) return null;
         return stack.getOrCreateTag().getInt(PlanetIdChipBehaviour.CURRENT_STATION_KEY);
     }
 
@@ -71,8 +72,8 @@ public class KeyCardBehaviour implements IAddInformation/*, IInteractionItem*/ {
         if (currentTarget != null) {
             tooltipComponents.add(Component.translatable("metaitem.planet_id_circuit.id").append(Component.translatable(currentTarget.translation())));
         }
-        int currentStationId = getSavedStation(stack);
-        if (currentStationId != SpaceStation.ID_EMPTY) {
+        Integer currentStationId = getSavedStation(stack);
+        if (currentStationId != null) {
             tooltipComponents.add(Component.translatable("metaitem.planet_id_circuit.station", currentStationId));
         }
 

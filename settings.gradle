@@ -41,7 +41,7 @@ dependencyResolutionManagement {
         def vineFlowerVersion = "1.+"
         def macheteVersion = "1.+"
         def configurationVersion = "2.2.0"
-        def gtCeuVersion = "1.0.13.c"
+        def gtCeuVersion = "1.0.13.e"
         def ldLibVersion = "1.0.19.d"
         def mixinExtrasVersion = "0.2.0-rc.5"
 

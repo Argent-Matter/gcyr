@@ -10,6 +10,7 @@ import argent_matter.gcyr.common.data.*;
 import argent_matter.gcyr.common.entity.data.EntityTemperatureSystem;
 import argent_matter.gcyr.common.item.KeyCardBehaviour;
 import argent_matter.gcyr.common.item.PlanetIdChipBehaviour;
+import argent_matter.gcyr.common.item.StationContainerBehaviour;
 import argent_matter.gcyr.data.recipe.GCyRTags;
 import argent_matter.gcyr.util.PlatformUtils;
 import argent_matter.gcyr.util.PosWithState;
@@ -32,9 +33,13 @@ import com.mojang.datafixers.util.Pair;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.GlobalPos;
+import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.NbtUtils;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
@@ -43,6 +48,8 @@ import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
@@ -70,7 +77,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@SuppressWarnings("resource")
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
 public class RocketEntity extends Entity implements HasCustomInventoryScreen, IUIHolder {
@@ -85,9 +91,11 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
 
 
     private final FluidStorage fuelTank;
-    private final ItemStackTransfer configSlot;
+    private final ItemStackTransfer configSlot, satelliteSlot;
     private Planet destination;
     private boolean destinationIsSpaceStation;
+    @Nullable
+    private GlobalPos lastPos;
 
     private final Set<BlockPos> thrusterPositions = new HashSet<>();
 
@@ -95,6 +103,8 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         super(entityType, level);
         this.configSlot = new ItemStackTransfer(1);
         this.configSlot.setFilter(stack -> GCyRItems.ID_CHIP.isIn(stack) || GCyRItems.KEYCARD.isIn(stack));
+        this.satelliteSlot = new ItemStackTransfer(1);
+        this.satelliteSlot.setFilter(stack -> GCyRItems.SPACE_STATION_PACKAGE.isIn(stack) || stack.is(GCyRTags.SATELLITES));
         //noinspection deprecation
         this.fuelTank = new FluidStorage(0, fluid -> fluid.getFluid().is(GCyRTags.VEHICLE_FUELS));
     }
@@ -161,7 +171,8 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         return new ModularUI(176, 166, this, entityPlayer)
                 .widget(new LabelWidget(7, 7, this.getDisplayName().getString()))
                 .widget(new TankWidget(this.fuelTank, 16, 20, 20, 58, true, true).setBackground(GuiTextures.FLUID_TANK_BACKGROUND))
-                .widget(new SlotWidget(configSlot, 0, 40, 20, true, true))
+                .widget(new SlotWidget(configSlot, 0, 40, 20))
+                .widget(new SlotWidget(satelliteSlot, 0, 60, 20))
                 .widget(new ButtonWidget(40, 60, 36, 18, new GuiTextureGroup(GuiTextures.BUTTON.copy().setColor(0xFFAA0000), new TextTexture("menu.gcyr.launch")), (clickData) -> this.startRocket()))
                 .widget(new ButtonWidget(40, 40, 36, 18, new GuiTextureGroup(GuiTextures.BUTTON.copy().setColor(0xFFE0B900), new TextTexture("gcyr.multiblock.rocket.unbuild")), (clickData) -> this.unBuild()))
                 .widget(UITemplate.bindPlayerInventory(entityPlayer.getInventory(), GuiTextures.SLOT, 7, 84, true))
@@ -298,11 +309,11 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
                         this.destination = KeyCardBehaviour.getSavedPlanet(config);
                     }
 
-                    if (PlanetIdChipBehaviour.getSpaceStationId(config) != SpaceStation.ID_EMPTY || KeyCardBehaviour.getSavedStation(config) != SpaceStation.ID_EMPTY) {
+                    if (PlanetIdChipBehaviour.getSpaceStationId(config) != null || KeyCardBehaviour.getSavedStation(config) != null) {
                         this.destinationIsSpaceStation = true;
                     }
 
-                    if (this.destination.rocketTier() >= determineRocketTier() || (!destinationIsSpaceStation && this.level().dimension().location().equals(this.destination.level().location()))) return;
+                    if (this.destination.rocketTier() >= determineRocketTier() || (!destinationIsSpaceStation && this.level().dimension().equals(this.destination.level()))) return;
                     data.set(RocketEntity.ROCKET_STARTED, true);
                     //GCyRSoundEntries.ROCKET.play(this.level(), null, this.getX(), this.getY(), this.getZ(), 1, 1);
                     this.level().playSound(null, this, GCyRSoundEntries.ROCKET.getMainEvent(), SoundSource.NEUTRAL, 1, 1);
@@ -412,11 +423,23 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         ItemStack configStack = configSlot.getStackInSlot(0);
         if (this.destination == null && GCyRItems.ID_CHIP.isIn(configStack)) {
             this.destination = PlanetIdChipBehaviour.getPlanetFromStack(configStack);
-        } else if (GCyRItems.KEYCARD.isIn(configStack) && KeyCardBehaviour.getSavedStation(configStack) != SpaceStation.ID_EMPTY) {
+        } else if (GCyRItems.KEYCARD.isIn(configStack) && KeyCardBehaviour.getSavedStation(configStack) != null) {
             this.destinationIsSpaceStation = true;
+            // return if no valid station & no station kit
+            if (!this.satelliteSlot.getStackInSlot(0).is(GCyRItems.SPACE_STATION_PACKAGE.get()) && GCyRCapabilityHelper.getSpaceStations(this.getServer().getLevel(destination.orbitWorld())).getStation(KeyCardBehaviour.getSavedStation(configStack)) == null) {
+                this.destination = null;
+                this.destinationIsSpaceStation = false;
+                this.entityData.set(ROCKET_STARTED, false);
+                this.setDeltaMovement(0, -0.5, 0);
+                return;
+            }
         }
-        final ServerLevel destinationLevel = this.getServer().getLevel(this.destinationIsSpaceStation ? destination.orbitWorld() : destination.level());
-
+        ResourceKey<Level> destinationDim = this.destinationIsSpaceStation ? destination.orbitWorld() : destination.level();
+        final ServerLevel destinationLevel = this.getServer().getLevel(destinationDim);
+        BlockPos destinationPos = null;
+        if (lastPos != null && lastPos.dimension().equals(destinationDim)) {
+            destinationPos = lastPos.pos();
+        }
 
         Vec3 pos = this.position();
 
@@ -443,7 +466,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
 
         if (this.destinationIsSpaceStation) {
             ISpaceStationHolder stations = GCyRCapabilityHelper.getSpaceStations(destinationLevel);
-            int stationId;
+            Integer stationId;
             boolean didChange = false;
             if (GCyRItems.KEYCARD.isIn(configStack)) {
                 stationId = KeyCardBehaviour.getSavedStation(configStack);
@@ -464,7 +487,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
                     didChange = true;
                 }
             } else {
-                stationId = SpaceStation.ID_EMPTY;
+                stationId = null;
             }
 
             if (didChange) {
@@ -476,17 +499,32 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
             }
 
             BlockPos stationPos = stations.getStationWorldPos(stationId);
-            newRocket.setPos(stationPos.getX(), pos.y, stationPos.getZ());
+            if (destinationPos == null) {
+                destinationPos = new BlockPos(stationPos.getX(), (int) pos.y, stationPos.getZ());
+            }
+
+            if (GCyRItems.SPACE_STATION_PACKAGE.isIn(this.satelliteSlot.getStackInSlot(0))) {
+                ItemStack stack = this.satelliteSlot.getStackInSlot(0);
+                buildSpaceStation(stack, new BlockPos(destinationPos.getX(), 64, destinationPos.getZ()));
+            }
         } else {
             double scale = DimensionType.getTeleportationScale(this.level().dimensionType(), destinationLevel.dimensionType());
-            newRocket.setPos(pos.multiply(scale, 1, scale));
+            if (destinationPos == null) {
+                destinationPos = BlockPos.containing(pos.multiply(scale, 1, scale));
+            }
         }
+        newRocket.setPos(destinationPos.getX(), destinationPos.getY(), destinationPos.getZ());
 
         Vec3 delta = this.getDeltaMovement();
         newRocket.setDeltaMovement(delta.x, -0.5, delta.z);
         if (newRocket instanceof RocketEntity rocketEntity) {
             rocketEntity.destination = null;
             rocketEntity.destinationIsSpaceStation = false;
+            if (this.destinationIsSpaceStation) {
+                rocketEntity.lastPos = GlobalPos.of(destinationDim, this.getOnPos());
+            } else {
+                rocketEntity.lastPos = null;
+            }
             rocketEntity.entityData.set(ROCKET_STARTED, false);
             rocketEntity.entityData.set(START_TIMER, 0);
         }
@@ -502,11 +540,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         for (PosWithState state : this.getBlocks()) {
             BlockPos offset = origin.offset(state.pos());
             BlockHitResult result = new BlockHitResult(
-                    new Vec3(
-                            offset.getX() + 0.5,
-                            offset.getY() + 0.5,
-                            offset.getZ() + 0.5
-                    ),
+                    offset.getCenter(),
                     Direction.DOWN,
                     offset,
                     false
@@ -519,6 +553,40 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         }
 
         this.remove(RemovalReason.DISCARDED);
+    }
+
+    private void buildSpaceStation(ItemStack stack, BlockPos origin) {
+        if (!GCyRItems.SPACE_STATION_PACKAGE.isIn(stack)) return;
+        Set<PosWithState> blocks = StationContainerBehaviour.getSatelliteBlocks(stack);
+        if (blocks == null) return;
+
+        boolean start = true;
+        BlockPos original = origin;
+        for (PosWithState state : blocks) {
+            BlockPos pos = state.pos();
+            if (start) origin = pos;
+            start = false;
+            if (origin.compareTo(pos) < 0) origin = new BlockPos(
+                    Math.min(pos.getX(), origin.getX()),
+                    Math.min(pos.getY(), origin.getY()),
+                    Math.min(pos.getZ(), origin.getZ()));
+        }
+        origin = new BlockPos(original.getX() - origin.getX() / 2, original.getY(), original.getZ() - origin.getZ() / 2);
+
+        for (PosWithState state : blocks) {
+            BlockPos offset = origin.offset(state.pos());
+            BlockHitResult result = new BlockHitResult(
+                    offset.getCenter(),
+                    Direction.DOWN,
+                    offset,
+                    false
+            );
+            if (!this.level().getBlockState(offset).isAir() && !this.level().getBlockState(offset).canBeReplaced(new BlockPlaceContext(this.level(), null, InteractionHand.MAIN_HAND, ItemStack.EMPTY, result))) {
+                this.spawnAtLocation(state.state().getBlock().asItem());
+                continue;
+            }
+            this.level().setBlock(offset, state.state(), Block.UPDATE_ALL);
+        }
     }
 
     @Override
@@ -657,6 +725,13 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         this.setStartTimer(compound.getInt("startTimer"));
         this.entityData.set(ROCKET_STARTED, compound.getBoolean("isStarted"));
         this.setWeight(compound.getInt("weight"));
+
+        if (compound.contains("lastPos")) {
+            CompoundTag tag = compound.getCompound("lastPos");
+            BlockPos pos = NbtUtils.readBlockPos(tag.getCompound("pos"));
+            ResourceKey<Level> level = ResourceKey.create(Registries.DIMENSION, new ResourceLocation(tag.getString("level")));
+            this.lastPos = GlobalPos.of(level, pos);
+        }
     }
 
     @Override
@@ -677,6 +752,13 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         compound.putInt("startTimer", this.getStartTimer());
         compound.putBoolean("isStarted", this.entityData.get(ROCKET_STARTED));
         compound.putInt("weight", this.getWeight());
+
+        if (this.lastPos != null) {
+            CompoundTag tag = new CompoundTag();
+            tag.put("pos", NbtUtils.writeBlockPos(this.lastPos.pos()));
+            tag.putString("level", this.lastPos.dimension().location().toString());
+            compound.put("lastPos", tag);
+        }
     }
 
     @Override

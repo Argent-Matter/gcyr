@@ -110,6 +110,7 @@ public class SpaceLevelSource extends ChunkGenerator {
             }
         }
 
+        /*
         if (chunkX % 16 == 0 && chunkZ % 16 == 0) {
             //GCyR.LOGGER.info("made platform");
             for(int x = -4; x < 4; ++x) {
@@ -119,7 +120,10 @@ public class SpaceLevelSource extends ChunkGenerator {
                     level.setBlock(mutableBlockPos.set(blockX, PLATFORM_HEIGHT, blockZ), Blocks.GRAY_CONCRETE.defaultBlockState(), 2);
                 }
             }
-        }else if ((chunkX % 16 != 8 && chunkZ % 16 == 8) || (chunkX % 16 != -8 && chunkZ % 16 == -8)) {
+        }else
+        */
+        if ((chunkX % 16 != 8 && chunkZ % 16 == 8) || (chunkX % 16 != -8 && chunkZ % 16 == -8)) {
+
             //GCyR.LOGGER.info("made Z edge");
             for(int x = 0; x < 16; ++x) {
                 int blockX = SectionPos.sectionToBlockCoord(chunkX, x);

@@ -19,6 +19,7 @@ import com.lowdragmc.lowdraglib.gui.widget.SlotWidget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.misc.ItemStackTransfer;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import lombok.Getter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -31,6 +32,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import java.util.*;
 
 public class SpaceStationPackagerMachine extends PlatformMultiblockMachine {
+    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(SpaceStationPackagerMachine.class, PlatformMultiblockMachine.MANAGED_FIELD_HOLDER);
+
     @Getter
     @Persisted
     private final ItemStackTransfer packageSlot, keycardSlot, outputSlots;
@@ -39,23 +42,21 @@ public class SpaceStationPackagerMachine extends PlatformMultiblockMachine {
         super(holder);
         this.packageSlot = new ItemStackTransfer(1);
         this.packageSlot.setFilter(GCyRItems.SPACE_STATION_PACKAGE::isIn);
-
         this.keycardSlot = new ItemStackTransfer(1);
-
         this.outputSlots = new ItemStackTransfer(2);
     }
 
     @Override
     public ModularUI createUI(Player entityPlayer) {
-        ModularUI modularUI = new ModularUI(176, 166, this, entityPlayer);
+        ModularUI modularUI = new ModularUI(176, 166, this, entityPlayer).background(GuiTextures.BACKGROUND);
         modularUI.widget(new LabelWidget(4, 5, self().getBlockState().getBlock().getDescriptionId()));
 
-        WidgetGroup buttons = new WidgetGroup(7, (128-24*2-18), 0, 0);
+        WidgetGroup buttons = new WidgetGroup(7, 24, 0, 0);
         //buttons.addWidget(new ButtonWidget(0, 0, 80, 24, GuiTextures.BUTTON.copy().setColor(0xFFAA0000), this::onBuildButtonClick));
         buttons.addWidget(new ButtonWidget(0, 24+18, 80, 24, GuiTextures.BUTTON.copy().setColor(0xFFAA0000), this::onBuildButtonClick));
         modularUI.widget(buttons);
 
-        WidgetGroup slots = new WidgetGroup(128, 60, 0, 0);
+        WidgetGroup slots = new WidgetGroup(128, 24, 0, 0);
         slots.addWidget(new SlotWidget(packageSlot, 0, 0, 0));
         slots.addWidget(new SlotWidget(keycardSlot, 0, 18, 0));
         slots.addWidget(new SlotWidget(outputSlots, 0, 0, 22, true, false));
@@ -77,7 +78,6 @@ public class SpaceStationPackagerMachine extends PlatformMultiblockMachine {
         if (spaceStationHolder == null) return;
         Planet thisPlanet = PlanetData.getPlanetFromLevel(this.getLevel().dimension()).orElse(null);
         if (thisPlanet == null) return;
-
 
         Direction back = this.getFrontFacing().getOpposite();
         Direction left = this.getFrontFacing().getCounterClockWise();
@@ -133,6 +133,10 @@ public class SpaceStationPackagerMachine extends PlatformMultiblockMachine {
         ItemStack keycardStack = GCyRItems.KEYCARD.asStack();
         KeyCardBehaviour.setSavedStation(keycardStack, spaceStationHolder.allocateStation(thisPlanet).getFirst(), thisPlanet);
         outputSlots.setStackInSlot(1, keycardStack);
+    }
 
+    @Override
+    public ManagedFieldHolder getFieldHolder() {
+        return MANAGED_FIELD_HOLDER;
     }
 }

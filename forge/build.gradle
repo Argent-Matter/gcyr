@@ -97,7 +97,7 @@ dependencies {
 
     // LDLib
     modImplementation(forge.gtceu.forge) { transitive = false }
-    modImplementation(forge.ldlib.forge) //{ transitive = false }
+    modImplementation(forge.ldlib.forge) { transitive = false }
 
     // Registrate
     modImplementation("com.tterrag.registrate:Registrate:${forge.versions.registrate.get()}")

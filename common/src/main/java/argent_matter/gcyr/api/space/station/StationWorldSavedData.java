@@ -59,21 +59,26 @@ public class StationWorldSavedData extends SavedData implements ISpaceStationHol
         return result == null ? -1 : result.getIntKey();
     }
 
+    @Nullable
     @Override
     public Vec2i getStationPos(int id) {
         var station = stations.get(id);
-        if (station == null) return Vec2i.MAX_NEGATIVE;
+        if (station == null) return null;
         return station.position();
     }
 
+    @Nullable
     @Override
-    public SpaceStation getStation(int id) {
+    public SpaceStation getStation(@Nullable Integer id) {
+        if (id == null) return null;
         return stations.get(id);
     }
 
+    @Nullable
     @Override
     public BlockPos getStationWorldPos(int id) {
         Vec2i stationPos = getStationPos(id);
+        if (stationPos == null) return null;
         return new BlockPos(stationPos.x() * 16 * 16, SpaceLevelSource.PLATFORM_HEIGHT, stationPos.y() * 16 * 16);
     }
 
