@@ -1,1 +1,2 @@
-- move assets to correct folder (oops)
+- add satellite packaging machine (slightly nonfunctional)
+- make space not have the starting platform, rocket places it from the package.
