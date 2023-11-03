@@ -558,7 +558,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
     private void buildSpaceStation(ItemStack stack, BlockPos origin) {
         if (!GCyRItems.SPACE_STATION_PACKAGE.isIn(stack)) return;
         Set<PosWithState> blocks = StationContainerBehaviour.getSatelliteBlocks(stack);
-        if (blocks == null) return;
+        if (blocks == null || blocks.isEmpty()) return;
 
         boolean start = true;
         BlockPos original = origin;

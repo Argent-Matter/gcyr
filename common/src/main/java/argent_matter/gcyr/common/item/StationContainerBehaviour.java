@@ -29,7 +29,7 @@ public class StationContainerBehaviour implements IAddInformation {
         if (!stack.hasTag() || !stack.getTag().contains(SATELLITE_BLOCKS_KEY, Tag.TAG_LIST)) return null;
 
         Set<PosWithState> states = new HashSet<>();
-        ListTag blocks = stack.getOrCreateTag().getList("blocks", Tag.TAG_COMPOUND);
+        ListTag blocks = stack.getOrCreateTag().getList(SATELLITE_BLOCKS_KEY, Tag.TAG_COMPOUND);
         for (int i = 0; i < blocks.size(); ++i) {
             states.add(PosWithState.readFromTag(blocks.getCompound(i)));
         }

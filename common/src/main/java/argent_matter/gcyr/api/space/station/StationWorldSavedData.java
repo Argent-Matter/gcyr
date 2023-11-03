@@ -2,6 +2,7 @@ package argent_matter.gcyr.api.space.station;
 
 import argent_matter.gcyr.GCyR;
 import argent_matter.gcyr.api.capability.ISpaceStationHolder;
+import argent_matter.gcyr.api.space.planet.Planet;
 import argent_matter.gcyr.common.worldgen.SpaceLevelSource;
 import argent_matter.gcyr.data.loader.PlanetData;
 import argent_matter.gcyr.util.Vec2i;
@@ -26,7 +27,13 @@ import java.util.stream.Collectors;
 public class StationWorldSavedData extends SavedData implements ISpaceStationHolder {
     @Nullable
     public static StationWorldSavedData getOrCreate(@Nullable ServerLevel serverLevel) {
-        if (serverLevel == null || !PlanetData.isOrbitLevel(serverLevel.dimension())) return null;
+        if (serverLevel == null) return null;
+        if (!PlanetData.isOrbitLevel(serverLevel.dimension())) {
+            Planet planet = PlanetData.getPlanetFromLevel(serverLevel.dimension()).orElse(null);
+            if (planet == null) return null;
+            ServerLevel orbit = serverLevel.getServer().getLevel(planet.orbitWorld());
+            return getOrCreate(orbit);
+        }
         return serverLevel.getDataStorage().computeIfAbsent(tag -> new StationWorldSavedData(serverLevel, tag), () -> new StationWorldSavedData(serverLevel), GCyR.MOD_ID + "_space_stations");
     }
 
