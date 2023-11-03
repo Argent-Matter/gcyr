@@ -10,6 +10,7 @@ import argent_matter.gcyr.common.data.*;
 import argent_matter.gcyr.common.entity.data.EntityTemperatureSystem;
 import argent_matter.gcyr.common.item.KeyCardBehaviour;
 import argent_matter.gcyr.common.item.PlanetIdChipBehaviour;
+import argent_matter.gcyr.common.item.StationContainerBehaviour;
 import argent_matter.gcyr.data.recipe.GCyRTags;
 import argent_matter.gcyr.util.PlatformUtils;
 import argent_matter.gcyr.util.PosWithState;
@@ -519,6 +520,40 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         }
 
         this.remove(RemovalReason.DISCARDED);
+    }
+
+    private void buildSpaceStation(ItemStack stack, BlockPos origin) {
+        if (!GCyRItems.SPACE_STATION_PACKAGE.isIn(stack)) return;
+        Set<PosWithState> blocks = StationContainerBehaviour.getSatelliteBlocks(stack);
+        if (blocks == null || blocks.isEmpty()) return;
+
+        boolean start = true;
+        BlockPos original = origin;
+        for (PosWithState state : blocks) {
+            BlockPos pos = state.pos();
+            if (start) origin = pos;
+            start = false;
+            if (origin.compareTo(pos) < 0) origin = new BlockPos(
+                    Math.min(pos.getX(), origin.getX()),
+                    Math.min(pos.getY(), origin.getY()),
+                    Math.min(pos.getZ(), origin.getZ()));
+        }
+        origin = new BlockPos(original.getX() - origin.getX() / 2, original.getY(), original.getZ() - origin.getZ() / 2);
+
+        for (PosWithState state : blocks) {
+            BlockPos offset = origin.offset(state.pos());
+            BlockHitResult result = new BlockHitResult(
+                    Vec3.atCenterOf(offset),
+                    Direction.DOWN,
+                    offset,
+                    false
+            );
+            if (!this.level.getBlockState(offset).isAir() && !this.level.getBlockState(offset).canBeReplaced(new BlockPlaceContext(this.level, null, InteractionHand.MAIN_HAND, ItemStack.EMPTY, result))) {
+                this.spawnAtLocation(state.state().getBlock().asItem());
+                continue;
+            }
+            this.level.setBlock(offset, state.state(), Block.UPDATE_ALL);
+        }
     }
 
     @Override
