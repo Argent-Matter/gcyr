@@ -123,7 +123,7 @@ public class GCyRMachines {
                     .where(' ', any())
                     .build()
             )
-            .shapeInfos(definition -> {
+            /*.shapeInfos(definition -> {
                 ArrayList<MultiblockShapeInfo> shapeInfo = new ArrayList<>();
                 MultiblockShapeInfo.ShapeInfoBuilder builder = MultiblockShapeInfo.builder()
                         .aisle("       ", "   S   ", "       ", "       ", "       ", "       ")
@@ -150,7 +150,7 @@ public class GCyRMachines {
                         .where('G', CASING_TEMPERED_GLASS)
                         .where('C', Blocks.WHITE_CONCRETE).build());
                 return shapeInfo;
-            })
+            })*/
             .workableCasingRenderer(GTCEu.id("block/casings/voltage/luv/side"),
                     GTCEu.id("block/multiblock/assembly_line"), false)
             .register();
