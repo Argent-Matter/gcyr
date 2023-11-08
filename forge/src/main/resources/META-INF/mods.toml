@@ -68,5 +68,5 @@ issueTrackerURL="https://github.com/argent-matter/gcyr/issues"
       modId="gtceu"
       mandatory=true
       versionRange="[1.0.13.c,)"
-      ordering="AFTER"
+      ordering="BEFORE"
       side="BOTH"

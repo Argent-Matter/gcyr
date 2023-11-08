@@ -19,8 +19,8 @@ dependencyResolutionManagement {
         // Mod Dependencies Versions
         // Common
         def reiVersion = "9.1.619"
-        def gtCeuVersion = "1.0.13.c"
-        def ldLibVersion = "1.0.19.d"
+        def gtCeuVersion = "1.0.14.a"
+        def ldLibVersion = "1.0.20.a"
         def kjsVersion = "1902.6.1-build.373"
 
         // Fabric

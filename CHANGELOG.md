@@ -1,5 +1,4 @@
-- add satellite packaging machine (slightly nonfunctional)
-- make space not have the starting platform, rocket places it from the package.
-- fix GT compat.
+- update GT
+- disable space station packager preview example for now, until I figure out how to fix it.
 
 WARNING: space station doesn't build correctly just yet.

@@ -5,5 +5,5 @@ import com.gregtechceu.gtceu.common.data.GTItems;
 import com.lowdragmc.lowdraglib.utils.LDLItemGroup;
 
 public class GCyRCreativeModeTabs {
-    public static LDLItemGroup GCYR = new LDLItemGroup(GCyR.MOD_ID, GCyR.MOD_ID, () -> GTItems.FLUID_CELL.asStack());
+    public static LDLItemGroup GCYR = new LDLItemGroup(GCyR.MOD_ID, GCyR.MOD_ID, () -> GCyRItems.DYSON_CONSTRUCTION_DRONE.asStack());
 }
