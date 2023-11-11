@@ -1,6 +1,10 @@
 package argent_matter.gcyr.common.data.fabric;
 
 import argent_matter.gcyr.GCyR;
+import argent_matter.gcyr.api.block.IFuelTankProperties;
+import argent_matter.gcyr.api.block.IRocketMotorType;
+import argent_matter.gcyr.common.block.FuelTankBlock;
+import argent_matter.gcyr.common.block.RocketMotorBlock;
 import com.tterrag.registrate.providers.DataGenContext;
 import com.tterrag.registrate.providers.RegistrateBlockstateProvider;
 import net.minecraft.resources.ResourceLocation;
@@ -10,9 +14,9 @@ import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 
 public class GCyRModelsImpl {
-    public static void rocketMotorModel(DataGenContext<Block, RotatedPillarBlock> ctx, RegistrateBlockstateProvider prov) {
-        prov.simpleBlock(ctx.getEntry(), prov.models().cubeBottomTop("rocket_motor",
-                GCyR.id("block/casings/rocket/rocket_motor_side"), GCyR.id("block/casings/rocket/rocket_motor_bottom"), GCyR.id("block/casings/rocket/rocket_motor_top")
+    public static void rocketMotorModel(DataGenContext<Block, RocketMotorBlock> ctx, RegistrateBlockstateProvider prov, IRocketMotorType type) {
+        prov.simpleBlock(ctx.getEntry(), prov.models().cubeBottomTop("%s_rocket_motor".formatted(type.getSerializedName()),
+                GCyR.id("block/casings/%s_rocket_motor/rocket_motor_side".formatted(type.getSerializedName())), GCyR.id("block/casings/%s_rocket_motor/rocket_motor_bottom".formatted(type.getSerializedName())), GCyR.id("block/casings/%s_rocket_motor/rocket_motor_top".formatted(type.getSerializedName()))
         ));
     }
 
@@ -20,7 +24,7 @@ public class GCyRModelsImpl {
         prov.doorBlock(ctx.getEntry(), GCyR.id("block/airlock_door_bottom"), GCyR.id("block/airlock_door_top"));
     }
 
-    public static void axisModel(DataGenContext<Block, RotatedPillarBlock> ctx, RegistrateBlockstateProvider prov) {
+    public static void fuelTankModel(DataGenContext<Block, FuelTankBlock> ctx, RegistrateBlockstateProvider prov) {
         prov.axisBlock(ctx.getEntry());
     }
 

@@ -78,14 +78,14 @@ public class GCyRMachines {
                     .where('K', blocks(GTBlocks.MATERIAL_BLOCKS.get(TagPrefix.frameGt, GTMaterials.StainlessSteel).get()))
                     .where(' ', any())
                     .build()
-            )
+            )/*
             .shapeInfos(definition -> {
                 ArrayList<MultiblockShapeInfo> shapeInfo = new ArrayList<>();
                 MultiblockShapeInfo.ShapeInfoBuilder builder = MultiblockShapeInfo.builder()
                         .aisle("     ", "  S  ", "     ", "     ", "     ", "     ")
-                        .aisle(" BBB ", "     ", "     ", "     ", "     ", "     ")
+                        .aisle(" BBB ", "  E  ", "     ", "     ", "     ", "     ")
                         .aisle(" BBB ", " EEE ", " TTT ", "  C  ", "     ", "     ")
-                        .aisle(" BBB ", "     ", "     ", "     ", "     ", "     ")
+                        .aisle(" BBB ", "  E  ", "     ", "     ", "     ", "     ")
                         .aisle("     ", "  K  ", "  K  ", "  K  ", "  K  ", "  K  ")
                         .where('S', definition, Direction.NORTH)
                         .where(' ', Blocks.AIR)
@@ -96,11 +96,11 @@ public class GCyRMachines {
                         .where('T', Blocks.AIR)
                         .where('C', Blocks.AIR).build());
                 shapeInfo.add(builder
-                        .where('E', ROCKET_MOTOR)
-                        .where('T', FUEL_TANK)
+                        .where('E', BASIC_ROCKET_MOTOR)
+                        .where('T', BASIC_FUEL_TANK)
                         .where('C', SEAT).build());
                 return shapeInfo;
-            })
+            })*/
             .workableCasingRenderer(GTCEu.id("block/casings/voltage/ev/side"),
                     GTCEu.id("block/multiblock/assembly_line"), false)
             .register();
@@ -110,13 +110,13 @@ public class GCyRMachines {
             .rotationState(RotationState.NON_Y_AXIS)
             .tier(GTValues.LuV)
             .pattern((definition) -> FactoryBlockPattern.start()
-                    .aisle("         ", "   K   ", "   K   ", "   K   ", "   K   ", "   K   ")
-                    .aisle(" BBBBBBB ", "       ", "       ", "       ", "       ", "       ")
-                    .aisle(" BBBBBBB ", "       ", "       ", "       ", "       ", "       ")
-                    .aisle(" BBBBBBB ", "       ", "       ", "       ", "       ", "       ")
-                    .aisle(" BBBBBBB ", "       ", "       ", "       ", "       ", "       ")
-                    .aisle(" BBBBBBB ", "       ", "       ", "       ", "       ", "       ")
-                    .aisle("         ", "   S   ", "       ", "       ", "       ", "       ")
+                    .aisle("       ", "   K   ", "   K   ", "   K   ", "   K   ", "   K   ")
+                    .aisle("BBBBBBB", "       ", "       ", "       ", "       ", "       ")
+                    .aisle("BBBBBBB", "       ", "       ", "       ", "       ", "       ")
+                    .aisle("BBBBBBB", "       ", "       ", "       ", "       ", "       ")
+                    .aisle("BBBBBBB", "       ", "       ", "       ", "       ", "       ")
+                    .aisle("BBBBBBB", "       ", "       ", "       ", "       ", "       ")
+                    .aisle("       ", "   S   ", "       ", "       ", "       ", "       ")
                     .where('S', controller(blocks(definition.getBlock())))
                     .where('B', blocks(LAUNCH_PAD.get()))
                     .where('K', blocks(GTBlocks.MATERIAL_BLOCKS.get(TagPrefix.frameGt, GTMaterials.StainlessSteel).get()))
@@ -159,6 +159,7 @@ public class GCyRMachines {
             .rotationState(RotationState.NON_Y_AXIS)
             .appearanceBlock(() -> CASING_ATOMIC.get()) // You MUST do it like this, so that the GTBlocks/GCyMBlocks class isn't loaded too early. Because that causes a crash.
             .recipeType(GCyRRecipeTypes.DYSON_ENERGY_RECIPES)
+            .tier(GTValues.UV)
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("CCCCCCC", "CCCCCCC", "  F    ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ")
                     .aisle("CCCCCCC", "CCCCCCC", "  F    ", "  F    ", "  F    ", "  F    ", "  F    ", "  F    ", "       ", "  H    ", " HHH   ", "  H    ")

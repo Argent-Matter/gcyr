@@ -14,10 +14,10 @@ import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.*;
 public class PolymerRecipes {
 
     public static void init(Consumer<FinishedRecipe> provider) {
-        polyOxydiphenylenePyromellitimideProcess(provider);
+        kaptonKProcess(provider);
     }
 
-    public static void polyOxydiphenylenePyromellitimideProcess(Consumer<FinishedRecipe> provider) {
+    public static void kaptonKProcess(Consumer<FinishedRecipe> provider) {
         // Kapton K
         CHEMICAL_RECIPES.recipeBuilder(GCyR.id("aminophenol"))
                 .inputFluids(Phenol.getFluid(1000))

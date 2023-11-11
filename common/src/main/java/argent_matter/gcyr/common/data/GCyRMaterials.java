@@ -62,7 +62,7 @@ public class GCyRMaterials {
     public static Material Trinaquadalloy = new Material.Builder("trinaquadalloy")
             .ingot().fluid()
             .color(0x281832).iconSet(MaterialIconSet.BRIGHT)
-            .flags(GENERATE_PLATE)
+            .flags(GENERATE_PLATE, GENERATE_DENSE)
             .components(Trinium, 6, Naquadah, 2, Carbon, 1)
             .blastTemp(8747, BlastProperty.GasTier.HIGHER, GTValues.VA[GTValues.ZPM], 1200)
             .buildAndRegister();

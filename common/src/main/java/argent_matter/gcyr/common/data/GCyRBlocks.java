@@ -1,12 +1,17 @@
 package argent_matter.gcyr.common.data;
 
 import argent_matter.gcyr.GCyR;
+import argent_matter.gcyr.api.block.IFuelTankProperties;
+import argent_matter.gcyr.api.block.IRocketMotorType;
+import argent_matter.gcyr.common.block.FuelTankBlock;
+import argent_matter.gcyr.common.block.RocketMotorBlock;
 import argent_matter.gcyr.data.recipe.GCyRTags;
 import com.gregtechceu.gtceu.api.block.RendererBlock;
 import com.gregtechceu.gtceu.api.block.RendererGlassBlock;
 import com.gregtechceu.gtceu.api.item.RendererBlockItem;
 import com.gregtechceu.gtceu.api.item.tool.GTToolType;
 import com.gregtechceu.gtceu.client.renderer.block.TextureOverrideRenderer;
+import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.lowdragmc.lowdraglib.Platform;
 import com.lowdragmc.lowdraglib.client.renderer.IRenderer;
 import com.tterrag.registrate.util.entry.BlockEntry;
@@ -20,6 +25,7 @@ import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiFunction;
 import java.util.function.Supplier;
@@ -61,14 +67,10 @@ public class GCyRBlocks {
     // endregion
 
     // region rocket stuff
-    public static final BlockEntry<RotatedPillarBlock> ROCKET_MOTOR = REGISTRATE
-            .block("rocket_motor", RotatedPillarBlock::new)
-            .initialProperties(() -> Blocks.IRON_BLOCK)
-            .lang("Rocket Motor")
-            .blockstate(GCyRModels::rocketMotorModel)
-            .tag(GTToolType.WRENCH.harvestTag, BlockTags.MINEABLE_WITH_PICKAXE)
-            .simpleItem()
-            .register();
+    public static final Map<IRocketMotorType, Supplier<RocketMotorBlock>> ALL_ROCKET_MOTORS = new HashMap<>();
+    public static final BlockEntry<RocketMotorBlock> BASIC_ROCKET_MOTOR = createRocketMotor(RocketMotorBlock.RocketMotorType.BASIC);
+    public static final BlockEntry<RocketMotorBlock> ADVANCED_ROCKET_MOTOR = createRocketMotor(RocketMotorBlock.RocketMotorType.ADVANCED);
+    public static final BlockEntry<RocketMotorBlock> ELITE_ROCKET_MOTOR = createRocketMotor(RocketMotorBlock.RocketMotorType.ELITE);
 
     public static final BlockEntry<DoorBlock> AIRLOCK_DOOR = REGISTRATE
             .block("airlock_door", properties -> new DoorBlock(properties, BlockSetType.IRON))
@@ -92,14 +94,6 @@ public class GCyRBlocks {
             .simpleItem()
             .register();
 
-    public static final BlockEntry<RotatedPillarBlock> FUEL_TANK = REGISTRATE
-            .block("fuel_tank", RotatedPillarBlock::new)
-            .initialProperties(() -> Blocks.IRON_BLOCK)
-            .lang("Fuel Tank")
-            .blockstate(GCyRModels::axisModel)
-            .tag(GTToolType.WRENCH.harvestTag, BlockTags.MINEABLE_WITH_PICKAXE)
-            .simpleItem()
-            .register();
     public static final BlockEntry<CarpetBlock> SEAT = REGISTRATE
             .block("seat", CarpetBlock::new)
             .initialProperties(() -> Blocks.IRON_BLOCK)
@@ -108,6 +102,11 @@ public class GCyRBlocks {
             .tag(GTToolType.WRENCH.harvestTag, BlockTags.MINEABLE_WITH_PICKAXE)
             .simpleItem()
             .register();
+
+    public static final Map<IFuelTankProperties, Supplier<FuelTankBlock>> ALL_FUEL_TANKS = new HashMap<>();
+    public static final BlockEntry<FuelTankBlock> BASIC_FUEL_TANK = createFuelTank(FuelTankBlock.FuelTankProperties.BASIC);
+    public static final BlockEntry<FuelTankBlock> ADVANCED_FUEL_TANK = createFuelTank(FuelTankBlock.FuelTankProperties.ADVANCED);
+    public static final BlockEntry<FuelTankBlock> ELITE_FUEL_TANK = createFuelTank(FuelTankBlock.FuelTankProperties.ELITE);
 
     // endregion
 
@@ -145,6 +144,30 @@ public class GCyRBlocks {
                 .model(NonNullBiConsumer.noop())
                 .build()
                 .register();
+    }
+
+    private static BlockEntry<FuelTankBlock> createFuelTank(IFuelTankProperties properties) {
+        BlockEntry<FuelTankBlock> block = REGISTRATE.block("%s_fuel_tank".formatted(properties.getSerializedName()), (p) -> new FuelTankBlock(p, properties))
+                .initialProperties(() -> Blocks.IRON_BLOCK)
+                .lang("%s Fuel Tank".formatted(FormattingUtil.toEnglishName(properties.getSerializedName())))
+                .blockstate(GCyRModels::fuelTankModel)
+                .tag(GTToolType.WRENCH.harvestTag, BlockTags.MINEABLE_WITH_PICKAXE)
+                .simpleItem()
+                .register();
+        ALL_FUEL_TANKS.put(properties, block);
+        return block;
+    }
+
+    private static BlockEntry<RocketMotorBlock> createRocketMotor(IRocketMotorType properties) {
+        BlockEntry<RocketMotorBlock> block = REGISTRATE.block("%s_rocket_motor".formatted(properties.getSerializedName()), (p) -> new RocketMotorBlock(p, properties))
+                .initialProperties(() -> Blocks.IRON_BLOCK)
+                .lang("%s Rocket Motor".formatted(FormattingUtil.toEnglishName(properties.getSerializedName())))
+                .blockstate((ctx, prov) -> GCyRModels.rocketMotorModel(ctx, prov, properties))
+                .tag(GTToolType.WRENCH.harvestTag, BlockTags.MINEABLE_WITH_PICKAXE)
+                .simpleItem()
+                .register();
+        ALL_ROCKET_MOTORS.put(properties, block);
+        return block;
     }
 
     public static void init() {

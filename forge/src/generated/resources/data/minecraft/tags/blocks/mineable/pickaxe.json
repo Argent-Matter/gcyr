@@ -6,10 +6,14 @@
     "gcyr:dyson_sphere_casing",
     "gcyr:dyson_solar_cell",
     "gcyr:dyson_sphere_maintenance_port",
-    "gcyr:rocket_motor",
+    "gcyr:basic_rocket_motor",
+    "gcyr:advanced_rocket_motor",
+    "gcyr:elite_rocket_motor",
     "gcyr:airlock_door",
     "gcyr:launch_pad",
-    "gcyr:fuel_tank",
-    "gcyr:seat"
+    "gcyr:seat",
+    "gcyr:basic_fuel_tank",
+    "gcyr:advanced_fuel_tank",
+    "gcyr:elite_fuel_tank"
   ]
 }
