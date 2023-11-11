@@ -162,8 +162,8 @@ public class GCyRBlocks {
                 .initialProperties(() -> Blocks.IRON_BLOCK)
                 .lang("%s Rocket Motor".formatted(FormattingUtil.toEnglishName(properties.getSerializedName())))
                 .blockstate((ctx, prov) -> prov.simpleBlock(ctx.getEntry(), prov.models().cubeBottomTop("rocket_motor",
-                        GCyR.id("block/casings/%s_rocket_motor/rocket_motor_side").formatted(properties.getSerializedName()), GCyR.id("block/casings/%s_rocket_motor/rocket_motor_bottom").formatted(properties.getSerializedName()), GCyR.id("block/casings/%s_rocket_motor/rocket_motor_top").formatted(properties.getSerializedName())
-                )))
+                        GCyR.id("block/casings/%s_rocket_motor/rocket_motor_side".formatted(properties.getSerializedName())), GCyR.id("block/casings/%s_rocket_motor/rocket_motor_bottom".formatted(properties.getSerializedName())), GCyR.id("block/casings/%s_rocket_motor/rocket_motor_top".formatted(properties.getSerializedName())))
+                ))
                 .tag(GTToolType.WRENCH.harvestTag, BlockTags.MINEABLE_WITH_PICKAXE)
                 .simpleItem()
                 .register();
