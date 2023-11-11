@@ -1,6 +1,7 @@
 package argent_matter.gcyr.config;
 
 import argent_matter.gcyr.GCyR;
+import com.lowdragmc.lowdraglib.side.fluid.FluidHelper;
 import dev.toma.configuration.Configuration;
 import dev.toma.configuration.config.Config;
 import dev.toma.configuration.config.Configurable;
@@ -19,6 +20,8 @@ public class GCyRConfig {
     public ServerConfigs server = new ServerConfigs();
     @Configurable
     public MachineConfigs machine = new MachineConfigs();
+    @Configurable
+    public RocketConfigs rocket = new RocketConfigs();
 
     public static class SatelliteConfigs {
         @Configurable
@@ -56,5 +59,20 @@ public class GCyRConfig {
         @Configurable.Comment({"Damage caused by standing in an active dyson system controller's beam. (per tick)", "Default: 5.0"})
         public float dysonControllerBeamDamage = 5.0f;
 
+    }
+
+    public static class RocketConfigs {
+        @Configurable
+        @Configurable.Comment({"How much fuel is required to travel to a moon or back?", "note: this is platform-specific.", "Default: 8 buckets."})
+        public long moonFuelAmount = 8 * FluidHelper.getBucket();
+        @Configurable
+        @Configurable.Comment({"How much fuel is required to travel to a planet in the same solar system?", "note: this is platform-specific.", "Default: 14 buckets."})
+        public long solarSystemFuelAmount = 14 * FluidHelper.getBucket();
+        @Configurable
+        @Configurable.Comment({"How much fuel is required to travel to a planet in the same galaxy?", "note: this is platform-specific.", "Default: 26 buckets."})
+        public long galaxyFuelAmount = 26 * FluidHelper.getBucket();
+        @Configurable
+        @Configurable.Comment({"How much fuel is required to travel to a planet anywhere?", "note: this is platform-specific.", "Default: 8 buckets."})
+        public long anywhereFuelAmount = 48 * FluidHelper.getBucket();
     }
 }
