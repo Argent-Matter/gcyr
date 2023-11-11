@@ -45,7 +45,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtUtils;
@@ -304,7 +303,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
     }
 
     public long computeRequiredFuelAmountForDestination(@Nullable Planet destination) {
-        Planet current = PlanetData.getPlanetFromLevelOrOrbit(this.level().dimension()).orElse(null);
+        Planet current = PlanetData.getPlanetFromLevelOrOrbit(this.level.dimension()).orElse(null);
         if (current == null || destination == null) {
             return (long) (this.getFuelCapacity() * 0.85);
         } else if (destination.parentWorld() == current.level() || current.parentWorld() == destination.level()) {
@@ -774,7 +773,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         if (compound.contains("lastPos")) {
             CompoundTag tag = compound.getCompound("lastPos");
             BlockPos pos = NbtUtils.readBlockPos(tag.getCompound("pos"));
-            ResourceKey<Level> level = ResourceKey.create(Registries.DIMENSION, new ResourceLocation(tag.getString("level")));
+            ResourceKey<Level> level = ResourceKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(tag.getString("level")));
             this.lastPos = GlobalPos.of(level, pos);
         }
     }
