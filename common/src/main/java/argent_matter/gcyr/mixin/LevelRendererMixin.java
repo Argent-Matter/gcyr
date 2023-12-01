@@ -14,6 +14,7 @@ import org.spongepowered.asm.mixin.injection.Slice;
 @Mixin(LevelRenderer.class)
 public abstract class LevelRendererMixin {
 
+    /* TODO find out how to make sodium happy with this. :sadge:
     @WrapWithCondition(method = "renderSky",
             slice = @Slice(
               from = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;setShaderTexture(ILnet/minecraft/resources/ResourceLocation;)V")
@@ -26,4 +27,5 @@ public abstract class LevelRendererMixin {
         }
         return true;
     }
+     */
 }

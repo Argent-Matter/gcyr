@@ -28,6 +28,7 @@ import com.gregtechceu.gtceu.api.gui.UITemplate;
 import com.lowdragmc.lowdraglib.gui.modular.IUIHolder;
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
 import com.lowdragmc.lowdraglib.gui.texture.GuiTextureGroup;
+import com.lowdragmc.lowdraglib.gui.texture.ProgressTexture;
 import com.lowdragmc.lowdraglib.gui.texture.TextTexture;
 import com.lowdragmc.lowdraglib.gui.widget.ButtonWidget;
 import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
@@ -180,7 +181,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
     public ModularUI createUI(Player entityPlayer) {
         return new ModularUI(176, 166, this, entityPlayer)
                 .widget(new LabelWidget(7, 7, this.getDisplayName().getString()))
-                .widget(new TankWidget(this.fuelTank, 16, 20, 20, 58, true, true).setBackground(GuiTextures.FLUID_TANK_BACKGROUND))
+                .widget(new TankWidget(this.fuelTank, 16, 20, 20, 58, true, true).setBackground(GuiTextures.FLUID_TANK_BACKGROUND).setFillDirection(ProgressTexture.FillDirection.DOWN_TO_UP))
                 .widget(new SlotWidget(configSlot, 0, 40, 20))
                 .widget(new SlotWidget(satelliteSlot, 0, 60, 20))
                 .widget(new ButtonWidget(40, 60, 36, 18, new GuiTextureGroup(GuiTextures.BUTTON.copy().setColor(0xFFAA0000), new TextTexture("menu.gcyr.launch")), (clickData) -> this.startRocket()))
@@ -307,7 +308,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         Planet current = PlanetData.getPlanetFromLevelOrOrbit(this.level().dimension()).orElse(null);
         if (current == null || destination == null) {
             return (long) (this.getFuelCapacity() * 0.85);
-        } else if (destination.parentWorld() == current.level() || current.parentWorld() == destination.level()) {
+        } else if (destination.parentWorld() == current.level() || current.parentWorld() == destination.level() || current == destination) {
             return GCyRConfig.INSTANCE.rocket.moonFuelAmount;
         } else if (current.solarSystem().equals(destination.solarSystem())) {
             return GCyRConfig.INSTANCE.rocket.solarSystemFuelAmount;
@@ -334,7 +335,10 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
             } else if (GCyRItems.KEYCARD.isIn(config)) {
                 this.destination = KeyCardBehaviour.getSavedPlanet(config);
             }
-            if (this.fuelTank.getFluidAmount() < computeRequiredFuelAmountForDestination(this.destination)) return;
+            if (this.fuelTank.getFluidAmount() < computeRequiredFuelAmountForDestination(this.destination)) {
+                sendVehicleHasNoFuelMessage(player);
+                return;
+            }
 
             if (PlanetIdChipBehaviour.getSpaceStationId(config) != null || KeyCardBehaviour.getSavedStation(config) != null) {
                 this.destinationIsSpaceStation = true;
@@ -570,6 +574,8 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
 
         if (!configSlot.getStackInSlot(0).isEmpty())
             this.spawnAtLocation(configSlot.getStackInSlot(0));
+        if (!satelliteSlot.getStackInSlot(0).isEmpty())
+            this.spawnAtLocation(satelliteSlot.getStackInSlot(0));
 
         BlockPos origin = this.blockPosition();
         for (PosWithState state : this.getBlocks()) {
@@ -601,10 +607,10 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
             BlockPos pos = state.pos();
             if (start) origin = pos;
             start = false;
-            if (origin.compareTo(pos) < 0) origin = new BlockPos(
-                    Math.min(pos.getX(), origin.getX()),
-                    Math.min(pos.getY(), origin.getY()),
-                    Math.min(pos.getZ(), origin.getZ()));
+            if (origin.compareTo(pos.offset(original)) < 0) origin = new BlockPos(
+                    Math.min(pos.getX() + original.getX(), origin.getX()),
+                    Math.min(pos.getY() + original.getY(), origin.getY()),
+                    Math.min(pos.getZ() + original.getZ(), origin.getZ()));
         }
         origin = new BlockPos(original.getX() - origin.getX() / 2, original.getY(), original.getZ() - origin.getZ() / 2);
 
