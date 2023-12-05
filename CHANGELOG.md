@@ -1,3 +1,2 @@
-- add recipes
-
-WARNING: space station doesn't build correctly just yet.
+- Added Mars Dimension! New Content Coming soon
+- bump up version to 0.1.2a
