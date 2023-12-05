@@ -14,6 +14,7 @@ import com.gregtechceu.gtceu.client.renderer.block.TextureOverrideRenderer;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.lowdragmc.lowdraglib.Platform;
 import com.lowdragmc.lowdraglib.client.renderer.IRenderer;
+import com.tterrag.registrate.Registrate;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
 import com.tterrag.registrate.util.nullness.NonNullSupplier;
@@ -59,8 +60,22 @@ public class GCyRBlocks {
             .register();
 
     public static final BlockEntry<FallingBlock> MOON_SAND = REGISTRATE
+
             .block("moon_sand", FallingBlock::new)
-            .initialProperties(() -> Blocks.GRAVEL)
+            .initialProperties(() -> Blocks.SAND)
+            .simpleItem()
+            .register();
+
+    // region mars
+    public static final BlockEntry<Block> MARS_REGOLITH = REGISTRATE
+            .block("mars_regolith", Block::new)
+            .initialProperties(()  -> Blocks.SAND)
+            .simpleItem()
+            .register();
+
+    public static final BlockEntry<Block> MARTIAN_ROCK = REGISTRATE
+            .block("martian_rock", Block::new)
+            .initialProperties(() -> Blocks.STONE)
             .simpleItem()
             .register();
 

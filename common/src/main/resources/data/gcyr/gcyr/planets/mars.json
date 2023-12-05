@@ -1,0 +1,16 @@
+{
+  "translation": "level.gcyr.mars",
+  "galaxy": "gcyr:milky_way",
+  "solar_system": "gcyr:solar_system",
+  "world": "gcyr:mars",
+  "orbit_world": "gcyr:mars_orbit",
+  "rocket_tier": 2,
+  "gravity": 3.72076,
+  "has_atmosphere": true,
+  "days_in_year": 687,
+  "temperature": -65,
+  "solar_power": 11,
+  "orbit_solar_power": 13,
+  "has_oxygen": false,
+  "button_color": 4289243304
+}
