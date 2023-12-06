@@ -51,6 +51,33 @@ public class GCyRBlocks {
 
     // endregion
 
+    // region mercury
+
+    public static final BlockEntry<Block> MERCURY_ROCK = REGISTRATE
+            .block("mercury_rock", Block::new)
+            .initialProperties(() -> Blocks.STONE)
+            .simpleItem()
+            .register();
+
+    //region venus
+
+    public static final BlockEntry<Block> VENUS_SAND = REGISTRATE
+            .block("venus_sand", Block::new)
+            .initialProperties(() -> Blocks.SAND)
+            .simpleItem()
+            .register();
+
+    public static final BlockEntry<Block> VENUSIAN_REGOLITH = REGISTRATE
+            .block("venusian_regolith", Block::new)
+            .initialProperties(() -> Blocks.SANDSTONE)
+            .simpleItem()
+            .register();
+
+    public static final BlockEntry<Block> VENUS_ROCK = REGISTRATE
+            .block("venus_rock", Block::new)
+            .simpleItem()
+            .register();
+
 
     // region moon
     public static final BlockEntry<Block> MOON_STONE = REGISTRATE
@@ -78,6 +105,8 @@ public class GCyRBlocks {
             .initialProperties(() -> Blocks.STONE)
             .simpleItem()
             .register();
+
+
 
     // endregion
 
