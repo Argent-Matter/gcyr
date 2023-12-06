@@ -1,0 +1,16 @@
+{
+  "translation": "level.gcyr.mercury",
+  "galaxy": "gcyr:milky_way",
+  "solar_system": "gcyr:solar_system",
+  "world": "gcyr:mercury",
+  "orbit_world": "gcyr:mercury_orbit",
+  "rocket_tier": 2,
+  "gravity": 3.7,
+  "has_atmosphere": false,
+  "days_in_year": 88,
+  "temperature": 167,
+  "solar_power": 19,
+  "orbit_solar_power": 21,
+  "has_oxygen": false,
+  "button_color": 4289243304
+}

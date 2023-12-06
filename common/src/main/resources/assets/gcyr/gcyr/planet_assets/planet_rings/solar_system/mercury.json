@@ -1,0 +1,8 @@
+{
+  "galaxy": "gcyr:milky_way",
+  "solar_system": "gcyr:solar_system",
+  "texture": "gcyr:textures/sky/mercury.png",
+  "speed": 88,
+  "scale": 8,
+  "radius": 1.0
+}
