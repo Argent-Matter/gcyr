@@ -93,6 +93,24 @@ public class MiscRecipes {
         VanillaRecipeHelper.addShapedRecipe(provider, GCyR.id("space_elevator"), GCyRMachines.SPACE_ELEVATOR.asStack(), "FFF", "PHP", "PCP", 'H', GTMachines.HULL[UEV].asStack(), 'F', new UnificationEntry(plateDense, Trinaquadalloy), 'C', CustomTags.UHV_CIRCUITS, 'P', GTBlocks.CASING_TUNGSTENSTEEL_ROBUST.asStack());
 
         //endregion
+
+        //region rocket parts
+
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GCyR.id("basic_fuel_tank"))
+                .inputItems(GTMachines.TITANIUM_DRUM, 2)
+                .inputItems(plate, KaptonK, 6)
+                .inputItems(frameGt, Titanium)
+                .outputItems(GCyRBlocks.BASIC_FUEL_TANK.asStack(1))
+                .EUt(VA[EV]).duration(300);
+
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GCyR.id("basic_rocket_motor"))
+                .inputItems(GTItems.POWER_THRUSTER_ADVANCED, 4)
+                .inputItems(plate, KaptonK, 6)
+                .inputItems(frameGt, Titanium)
+                .outputItems(GCyRBlocks.BASIC_ROCKET_MOTOR.asStack(1))
+                .EUt(VA[EV]).duration(300);
+
+        //endregion
     }
 
 }
