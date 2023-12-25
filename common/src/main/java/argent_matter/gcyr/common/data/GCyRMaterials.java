@@ -139,6 +139,7 @@ public class GCyRMaterials {
             .color(0x915A23)
             .appendFlags(STD_METAL, GENERATE_FOIL)
             .components(PyromelliticDianhydride, 1, Oxydianiline, 1)
+            .fluidPipeProperties(1500, 450, true, true, true, false)
             .buildAndRegister();
 
 
