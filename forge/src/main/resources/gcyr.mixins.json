@@ -6,7 +6,8 @@
   "mixins": [
   ],
   "client": [
-    "DimensionSpecialEffectsMixin"
+    "DimensionSpecialEffectsMixin",
+    "LevelRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1,

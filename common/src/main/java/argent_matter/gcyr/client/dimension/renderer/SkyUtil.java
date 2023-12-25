@@ -184,8 +184,9 @@ public class SkyUtil {
     }
 
     public static void renderColouring(BufferBuilder bufferBuilder, PoseStack poseStack, ClientLevel level, float tickDelta, float timeOfDay, int sunsetAngle) {
-
         float[] fogColours = level.effects().getSunriseColor(timeOfDay, tickDelta);
+        if (fogColours == null) return;
+
         RenderSystem.setShader(GameRenderer::getPositionColorShader);
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
         poseStack.pushPose();

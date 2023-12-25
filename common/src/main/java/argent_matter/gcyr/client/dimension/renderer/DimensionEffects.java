@@ -2,6 +2,7 @@ package argent_matter.gcyr.client.dimension.renderer;
 
 import argent_matter.gcyr.api.space.planet.PlanetSkyRenderer;
 import com.mojang.blaze3d.vertex.PoseStack;
+import lombok.Getter;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.DimensionSpecialEffects;
@@ -10,6 +11,7 @@ import net.minecraft.world.phys.Vec3;
 import org.joml.Matrix4f;
 
 public class DimensionEffects extends DimensionSpecialEffects implements DimensionRenderer {
+    @Getter
     private final PlanetSkyRenderer renderer;
     private final ModSkyRenderer skyRenderer;
 
