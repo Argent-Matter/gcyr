@@ -7,7 +7,7 @@ on:
         description: 'release type'
         required: true
         type: choice
-        default: 'alpha'
+        default: 'beta'
         options:
           - 'release'
           - 'beta'

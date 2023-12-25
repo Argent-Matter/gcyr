@@ -30,7 +30,7 @@ public class GCyRRecipeTypes {
             .setProgressBar(GCyRGuiTextures.PROGRESS_BAR_ROCKET, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.TRICORDER_TOOL);
 
-    public static final GTRecipeType ROCKET_FUELS = register("rocket_fuel", MULTIBLOCK).setMaxIOSize(0, 0, 1, 0).setEUIO(IO.IN)
+    public static final GTRecipeType ROCKET_FUEL_RECIPES = register("rocket_fuel", MULTIBLOCK).setMaxIOSize(0, 0, 1, 0).setEUIO(IO.IN)
             .setProgressBar(GCyRGuiTextures.PROGRESS_BAR_ROCKET, LEFT_TO_RIGHT)
             .setSound(GCyRSoundEntries.ROCKET);
 
