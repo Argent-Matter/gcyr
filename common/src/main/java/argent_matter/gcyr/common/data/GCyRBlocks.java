@@ -52,15 +52,14 @@ public class GCyRBlocks {
     // endregion
 
     // region mercury
-
     public static final BlockEntry<Block> MERCURY_ROCK = REGISTRATE
             .block("mercury_rock", Block::new)
             .initialProperties(() -> Blocks.STONE)
             .simpleItem()
             .register();
+    //endregion
 
     //region venus
-
     public static final BlockEntry<Block> VENUS_SAND = REGISTRATE
             .block("venus_sand", Block::new)
             .initialProperties(() -> Blocks.SAND)
@@ -77,6 +76,7 @@ public class GCyRBlocks {
             .block("venus_rock", Block::new)
             .simpleItem()
             .register();
+    //endregion
 
 
     // region moon
@@ -87,11 +87,11 @@ public class GCyRBlocks {
             .register();
 
     public static final BlockEntry<FallingBlock> MOON_SAND = REGISTRATE
-
             .block("moon_sand", FallingBlock::new)
             .initialProperties(() -> Blocks.SAND)
             .simpleItem()
             .register();
+    //endregion
 
     // region mars
     public static final BlockEntry<Block> MARS_REGOLITH = REGISTRATE
@@ -105,10 +105,8 @@ public class GCyRBlocks {
             .initialProperties(() -> Blocks.STONE)
             .simpleItem()
             .register();
-
-
-
     // endregion
+
 
     // region rocket stuff
     public static final Map<IRocketMotorType, Supplier<RocketMotorBlock>> ALL_ROCKET_MOTORS = new HashMap<>();

@@ -5,6 +5,8 @@ import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags;
 import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIconSet;
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.BlastProperty;
+import com.gregtechceu.gtceu.api.data.chemical.material.properties.OreProperty;
+import com.gregtechceu.gtceu.api.data.chemical.material.properties.PropertyKey;
 import com.gregtechceu.gtceu.api.data.chemical.material.properties.ToolProperty;
 import com.gregtechceu.gtceu.api.fluids.FluidBuilder;
 import com.gregtechceu.gtceu.api.fluids.attribute.FluidAttributes;
@@ -22,6 +24,7 @@ public class GCyRMaterials {
         // Add flags to base GT materials
         IronMagnetic.addFlags(GENERATE_FOIL);
         TitaniumTungstenCarbide.addFlags(GENERATE_ROD);
+        Titanium.setProperty(PropertyKey.ORE, new OreProperty());
     }
 
 
@@ -66,6 +69,13 @@ public class GCyRMaterials {
             .components(Trinium, 6, Naquadah, 2, Carbon, 1)
             .blastTemp(8747, BlastProperty.GasTier.HIGHER, GTValues.VA[GTValues.ZPM], 1200)
             .buildAndRegister();
+
+    public static Material Fluorite = new Material.Builder("fluorite")
+            .gem().ore()
+            .color(0x0c9949).iconSet(MaterialIconSet.DIAMOND)
+            .components(Calcium, 1, Fluorine, 2)
+            .buildAndRegister();
+
 
     //endregion
 
