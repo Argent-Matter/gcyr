@@ -14,23 +14,23 @@ import net.minecraft.world.item.ItemStack;
 @AllArgsConstructor
 public class PacketSendSelectedDimension implements IPacket {
 
-    private ResourceLocation planetId;
+    private ResourceLocation dimensionId;
 
     @Override
     public void encode(FriendlyByteBuf buf) {
-        buf.writeResourceLocation(planetId);
+        buf.writeResourceLocation(dimensionId);
     }
 
     @Override
     public void decode(FriendlyByteBuf buf) {
-        this.planetId = buf.readResourceLocation();
+        this.dimensionId = buf.readResourceLocation();
     }
 
     public void execute(IHandlerContext handler) {
-        if (!handler.isClient() && planetId != null) {
+        if (!handler.isClient() && dimensionId != null) {
             ItemStack handItem = handler.getPlayer().getItemInHand(handler.getPlayer().getUsedItemHand());
             if (handItem.is(GCyRItems.ID_CHIP.get())) {
-                handItem.getOrCreateTag().putString(PlanetIdChipBehaviour.CURRENT_PLANET_KEY, planetId.toString());
+                handItem.getOrCreateTag().putString(PlanetIdChipBehaviour.CURRENT_PLANET_KEY, dimensionId.toString());
                 handItem.getTag().remove(PlanetIdChipBehaviour.CURRENT_STATION_KEY);
             }
         }

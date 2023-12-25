@@ -301,7 +301,7 @@ public class PlanetSelectionScreen extends Screen implements MenuAccess<PlanetSe
     public void selectPlanet(Planet planet) {
         this.minecraft.player.closeContainer();
         // Tell the server to teleport the player after the button has been pressed.
-        GCyRNetworking.NETWORK.sendToServer(new PacketSendSelectedDimension(PlanetData.getPlanetId(planet)));
+        GCyRNetworking.NETWORK.sendToServer(new PacketSendSelectedDimension(planet.level().location()));
     }
 
     public Button createButton(Component label, Category category, int colour, int sizeX, int sizeY, TooltipType tooltip, Planet planetInfo, Consumer<Button> onClick) {
