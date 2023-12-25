@@ -42,6 +42,7 @@ public class GCyRDatagen implements DataGeneratorEntrypoint {
         var set = Set.of(GCyR.MOD_ID);
         var registryAccess = RegistryAccess.fromRegistryOfRegistries(BuiltInRegistries.REGISTRY);
         var registries = createProvider(registryAccess);
+        pack.addProvider((FabricDataGenerator.Pack.Factory<DataProvider>) output -> new BiomeTagsProviderImpl(output, registries));
         pack.addProvider(bindRegistries((output, provider) -> new GTRegistriesDatapackGenerator(
                 output, registries, new RegistrySetBuilder()
                 .add(Registries.BIOME, GCyRBiomes::bootstrap),

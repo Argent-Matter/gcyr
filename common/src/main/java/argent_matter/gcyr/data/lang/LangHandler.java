@@ -2,6 +2,7 @@ package argent_matter.gcyr.data.lang;
 
 import argent_matter.gcyr.common.data.GCyRMaterials;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
+import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.tterrag.registrate.providers.RegistrateLangProvider;
 
 import java.util.Set;
@@ -17,6 +18,7 @@ public class LangHandler extends com.gregtechceu.gtceu.data.lang.LangHandler {
             GCyRMaterials.PotassiumHydroxide,
             GCyRMaterials.ChromicAcid,
             GCyRMaterials.Trinaquadalloy,
+            GCyRMaterials.Fluorite,
             GCyRMaterials.FiberGlass,
             GCyRMaterials.ChloroNitrobenzene,
             GCyRMaterials.PyromelliticDianhydride,
@@ -37,6 +39,12 @@ public class LangHandler extends com.gregtechceu.gtceu.data.lang.LangHandler {
         for (Material material : MATERIALS) {
             provider.add(material.getUnlocalizedName(), toEnglishName(material.getName()));
         }
+        // tag prefixes
+        provider.add("tagprefix.moon", TagPrefix.get("moon").langValue());
+        provider.add("tagprefix.mars", TagPrefix.get("mars").langValue());
+        provider.add("tagprefix.venus", TagPrefix.get("venus").langValue());
+        provider.add("tagprefix.mercury", TagPrefix.get("mercury").langValue());
+
         provider.add(GCyRMaterials.Bisalloy400.getUnlocalizedName(), "Bisalloy-400");
         provider.add(GCyRMaterials.ParaPhenylenediamine.getUnlocalizedName(), "Para-Phenylenediamine");
         provider.add(GCyRMaterials.ParaAramid.getUnlocalizedName(), "Para-Aramid");

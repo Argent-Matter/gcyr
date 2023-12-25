@@ -19,6 +19,6 @@ public class GCyRDimensionTypesImpl {
     }
 
     public static void initGenerator() {
-        CHUNK_GENERATOR_REGISTER.register(GCyRBiomes.SPACE.location().getPath(), () -> SpaceLevelSource.CODEC);
+        CHUNK_GENERATOR_REGISTER.register("space", () -> SpaceLevelSource.CODEC);
     }
 }

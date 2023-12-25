@@ -34,6 +34,7 @@ public class DataGenerators {
         var registries = createProvider(registryAccess);
         if (event.includeServer()) {
             var set = Set.of(GCyR.MOD_ID);
+            generator.addProvider(true, bindRegistries(BiomeTagsProviderImpl::new, registries));
             generator.addProvider(true, new SoundEntryBuilder.SoundEntryProvider(generator.getPackOutput(), GCyR.MOD_ID));
             generator.addProvider(true, bindRegistries((output, provider) -> new GTRegistriesDatapackGenerator(
                     output, registries, new RegistrySetBuilder()

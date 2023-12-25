@@ -17,6 +17,13 @@ import org.jetbrains.annotations.Nullable;
 
 public class GCyRBiomes {
     public static final ResourceKey<Biome> SPACE = ResourceKey.create(Registries.BIOME, GCyR.id("space"));
+    public static final ResourceKey<Biome> MOON = ResourceKey.create(Registries.BIOME, GCyR.id("moon"));
+    public static final ResourceKey<Biome> INFERNAL_VENUS_BARRENS = ResourceKey.create(Registries.BIOME, GCyR.id("infernal_venus_barrens"));
+    public static final ResourceKey<Biome> MARTIAN_CANYON_CREEK = ResourceKey.create(Registries.BIOME, GCyR.id("martian_canyon_creek"));
+    public static final ResourceKey<Biome> MARTIAN_POLAR_CAPS = ResourceKey.create(Registries.BIOME, GCyR.id("martian_polar_caps"));
+    public static final ResourceKey<Biome> MARTIAN_WASTELANDS = ResourceKey.create(Registries.BIOME, GCyR.id("martian_wastelands"));
+    public static final ResourceKey<Biome> MERCURY_DELTAS = ResourceKey.create(Registries.BIOME, GCyR.id("mercury_deltas"));
+    public static final ResourceKey<Biome> VENUS_WASTELANDS = ResourceKey.create(Registries.BIOME, GCyR.id("venus_wastelands"));
 
 
     public static void bootstrap(BootstapContext<Biome> ctx) {

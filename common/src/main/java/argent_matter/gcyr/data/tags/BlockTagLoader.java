@@ -10,6 +10,8 @@ import net.minecraft.world.level.block.Block;
 public class BlockTagLoader {
 
     public static void init(RegistrateTagsProvider<Block> provider) {
+        createBlock(provider, GCyRTags.MOON_ORE_REPLACEABLES, "gcyr:moon_stone");
+        createBlock(provider, GCyRTags.MARS_ORE_REPLACEABLES, "gcyr:martian_rock");
         createBlock(provider, GCyRTags.PASSES_FLOOD_FILL, "#fences", "iron_bars", "tnt");
     }
 
