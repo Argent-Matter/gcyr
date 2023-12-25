@@ -1,6 +1,8 @@
 package argent_matter.gcyr.client.renderer.entity;
 
+import argent_matter.gcyr.common.data.GCyRNetworking;
 import argent_matter.gcyr.common.entity.RocketEntity;
+import argent_matter.gcyr.common.networking.c2s.PacketRequestRocketBlocks;
 import argent_matter.gcyr.util.PosWithState;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -33,6 +35,10 @@ public class RocketEntityRenderer extends EntityRenderer<RocketEntity> {
 
     @Override
     public void render(RocketEntity entity, float entityYaw, float partialTick, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
+        if (entity.getBlocks().isEmpty()) {
+            GCyRNetworking.NETWORK.sendToServer(new PacketRequestRocketBlocks(entity.getId()));
+        }
+
         poseStack.pushPose();
 
         // render blocks
