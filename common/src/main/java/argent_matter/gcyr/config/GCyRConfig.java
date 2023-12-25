@@ -72,7 +72,7 @@ public class GCyRConfig {
         @Configurable.Comment({"How much fuel is required to travel to a planet in the same galaxy?", "note: this is platform-specific.", "Default: 26 buckets."})
         public long galaxyFuelAmount = 26 * FluidHelper.getBucket();
         @Configurable
-        @Configurable.Comment({"How much fuel is required to travel to a planet anywhere?", "note: this is platform-specific.", "Default: 8 buckets."})
+        @Configurable.Comment({"How much fuel is required to travel to a planet anywhere?", "note: this is platform-specific.", "Default: 48 buckets."})
         public long anywhereFuelAmount = 48 * FluidHelper.getBucket();
     }
 }
