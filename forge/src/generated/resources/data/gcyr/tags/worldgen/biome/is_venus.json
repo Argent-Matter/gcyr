@@ -1,0 +1,12 @@
+{
+  "values": [
+    {
+      "id": "gcyr:venus_wastelands",
+      "required": false
+    },
+    {
+      "id": "gcyr:infernal_venus_barrens",
+      "required": false
+    }
+  ]
+}

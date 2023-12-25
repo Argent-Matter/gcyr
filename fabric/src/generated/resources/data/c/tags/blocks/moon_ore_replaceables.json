@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "gcyr:moon_stone",
+      "required": false
+    }
+  ]
+}
