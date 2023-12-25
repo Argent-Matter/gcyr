@@ -43,7 +43,7 @@ dependencyResolutionManagement {
         def configurationVersion = "2.2.0"
         def gtCeuVersion = "1.0.14.a"
         def ldLibVersion = "1.0.20.a"
-        def mixinExtrasVersion = "0.2.0-rc.5"
+        def mixinExtrasVersion = "0.2.0"
 
         fabric {
             def parchment = version("parchment", parchmentVersion)
