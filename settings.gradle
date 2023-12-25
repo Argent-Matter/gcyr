@@ -42,7 +42,7 @@ dependencyResolutionManagement {
         def macheteVersion = "1.+"
         def configurationVersion = "2.2.0"
         def gtCeuVersion = "1.0.18.a"
-        def ldLibVersion = "1.0.20.a"
+        def ldLibVersion = "1.0.22"
         def mixinExtrasVersion = "0.2.0"
 
         fabric {
