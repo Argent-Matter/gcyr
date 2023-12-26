@@ -149,49 +149,7 @@ public class PolymerRecipes {
                 .outputFluids(ParaPhenylenediamine.getFluid(1000))
                 .outputFluids(Water.getFluid(3000))
                 .duration(60).EUt(VHA[HV]).save(provider);
-/*
-        CHEMICAL_RECIPES.recipeBuilder(GCyR.id("cuminaldehyde"))
-                .inputFluids(Cumene.getFluid(1000))
-                .inputFluids(Hydrogen.getFluid(2000))
-                .inputFluids(CarbonMonoxide.getFluid(1000))
-                .outputFluids(Cuminaldehyde.getFluid(1000))
-                .duration(200).EUt(VA[HV]).save(provider);
 
-        CHEMICAL_RECIPES.recipeBuilder(GCyR.id("cymene"))
-                .inputFluids(Toluene.getFluid(500))
-                .inputFluids(Propene.getFluid(500))
-                .outputFluids(Cymene.getFluid(1000))
-                .duration(200).EUt(VA[HV]).save(provider);
-
-        CHEMICAL_RECIPES.recipeBuilder(GCyR.id("cuminol"))
-                .inputFluids(Cuminaldehyde.getFluid(1000))
-                .inputFluids(Hydrogen.getFluid(1000))
-                .outputFluids(Cuminol.getFluid(1000))
-                .duration(200).EUt(VA[HV]).save(provider);
-
-        LARGE_CHEMICAL_RECIPES.recipeBuilder(GCyR.id("therephthalic_acid"))
-                .inputFluids(Cymene.getFluid(1000))
-                .inputFluids(Cuminol.getFluid(1000))
-                .inputFluids(ChromicAcid.getFluid(1000))
-                .outputFluids(TerephthalicAcid.getFluid(1000))
-                .duration(200).EUt(VA[EV]).save(provider);
-
-        LARGE_CHEMICAL_RECIPES.recipeBuilder(GCyR.id("terephthaloyl_chloride"))
-                .inputFluids(TerephthalicAcid.getFluid(1000))
-                .inputFluids(Methanol.getFluid(1000))
-                .inputFluids(Chlorine.getFluid(2000))
-                .outputFluids(TerephthaloylChloride.getFluid(1000))
-                .outputFluids(Water.getFluid(3000))
-                .duration(200).EUt(VA[EV]).save(provider);
-
-        CHEMICAL_RECIPES.recipeBuilder(GCyR.id("para_phenylenediamine"))
-                .inputFluids(Nitrochlorobenzene.getFluid(1000))
-                .inputFluids(Ammonia.getFluid(1000))
-                .inputFluids(Hydrogen.getFluid(1000))
-                .outputFluids(ParaPhenylenediamine.getFluid(1000))
-                .outputFluids(CarbonDioxide.getFluid(1000))
-                .duration(200).EUt(VA[HV]).save(provider);
-*/
         LARGE_CHEMICAL_RECIPES.recipeBuilder(GCyR.id("para_aramid"))
                 .inputFluids(ParaPhenylenediamine.getFluid(1000))
                 .inputFluids(TerephthaloylChloride.getFluid(1000))
