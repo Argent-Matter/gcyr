@@ -89,7 +89,7 @@ public class GCyRGTAddon implements IGTAddon {
 
     @Override
     public boolean requiresHighTier() {
-        return true;
+        return false;
     }
 
     @Override
