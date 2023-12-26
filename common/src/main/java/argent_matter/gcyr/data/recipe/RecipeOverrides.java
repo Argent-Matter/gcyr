@@ -48,14 +48,14 @@ public class RecipeOverrides {
                 .outputFluids(LightFuel.getFluid(50))
                 .outputFluids(Toluene.getFluid(20))
                 .outputFluids(Benzene.getFluid(100))
-                .outputFluids(ParaXylene.getFluid(100))
+                .outputFluids(ParaXylene.getFluid(150))
                 .outputFluids(Butene.getFluid(50))
                 .outputFluids(Butadiene.getFluid(50))
                 .outputFluids(Propane.getFluid(15))
                 .outputFluids(Propene.getFluid(250))
                 .outputFluids(Ethane.getFluid(65))
                 .outputFluids(Ethylene.getFluid(450))
-                .outputFluids(Methane.getFluid(500))
+                .outputFluids(Methane.getFluid(450))
                 .duration(120).EUt(VA[MV]).save(provider);
     }
 }
