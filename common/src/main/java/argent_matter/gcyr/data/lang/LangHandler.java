@@ -19,8 +19,11 @@ public class LangHandler extends com.gregtechceu.gtceu.data.lang.LangHandler {
             GCyRMaterials.ChromicAcid,
             GCyRMaterials.Trinaquadalloy,
             GCyRMaterials.Fluorite,
+            GCyRMaterials.CobaltBromide,
+            GCyRMaterials.ManganeseBromide,
+            GCyRMaterials.ManganeseAcetate,
+            GCyRMaterials.HydrobromicAcid,
             GCyRMaterials.FiberGlass,
-            GCyRMaterials.ChloroNitrobenzene,
             GCyRMaterials.PyromelliticDianhydride,
             GCyRMaterials.Durene,
             GCyRMaterials.Dimethylformamide,
@@ -28,10 +31,9 @@ public class LangHandler extends com.gregtechceu.gtceu.data.lang.LangHandler {
             GCyRMaterials.OxydianilineSludge,
             GCyRMaterials.AminoPhenol,
             GCyRMaterials.KaptonK,
-            GCyRMaterials.Cuminaldehyde,
-            GCyRMaterials.Cuminol,
             GCyRMaterials.TerephthalicAcid,
-            GCyRMaterials.TerephthaloylChloride
+            GCyRMaterials.TerephthaloylChloride,
+            GCyRMaterials.Nitroaniline
     );
 
     public static void init(RegistrateLangProvider provider) {
@@ -46,8 +48,11 @@ public class LangHandler extends com.gregtechceu.gtceu.data.lang.LangHandler {
         provider.add("tagprefix.mercury", TagPrefix.get("mercury").langValue());
 
         provider.add(GCyRMaterials.Bisalloy400.getUnlocalizedName(), "Bisalloy-400");
+        provider.add(GCyRMaterials.CoMnBrCatalyst.getUnlocalizedName(), "Co-Mn-Br Catalyst");
         provider.add(GCyRMaterials.ParaPhenylenediamine.getUnlocalizedName(), "Para-Phenylenediamine");
         provider.add(GCyRMaterials.ParaAramid.getUnlocalizedName(), "Para-Aramid");
+        provider.add(GCyRMaterials.ParaXylene.getUnlocalizedName(), "Para-Xylene");
+        provider.add(GCyRMaterials.BisTrichloromethylBenzene.getUnlocalizedName(), "Bis(trichloromethyl)benzene");
 
         // blocks
         replace(provider, "block.gcyr.aerospace_aluminium_casing", "Aerospace-grade Aluminium Machine Casing");

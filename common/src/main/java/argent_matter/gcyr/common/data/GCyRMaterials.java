@@ -4,10 +4,7 @@ import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags;
 import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIconSet;
-import com.gregtechceu.gtceu.api.data.chemical.material.properties.BlastProperty;
-import com.gregtechceu.gtceu.api.data.chemical.material.properties.OreProperty;
-import com.gregtechceu.gtceu.api.data.chemical.material.properties.PropertyKey;
-import com.gregtechceu.gtceu.api.data.chemical.material.properties.ToolProperty;
+import com.gregtechceu.gtceu.api.data.chemical.material.properties.*;
 import com.gregtechceu.gtceu.api.fluids.FluidBuilder;
 import com.gregtechceu.gtceu.api.fluids.attribute.FluidAttributes;
 import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
@@ -25,6 +22,9 @@ public class GCyRMaterials {
         IronMagnetic.addFlags(GENERATE_FOIL);
         TitaniumTungstenCarbide.addFlags(GENERATE_ROD);
         Titanium.setProperty(PropertyKey.ORE, new OreProperty());
+
+        Bromine.setProperty(PropertyKey.FLUID, new FluidProperty());
+        Bromine.getProperty(PropertyKey.FLUID).getStorage().enqueueRegistration(FluidStorageKeys.LIQUID, new FluidBuilder().attribute(FluidAttributes.ACID));
     }
 
 
@@ -76,6 +76,36 @@ public class GCyRMaterials {
             .components(Calcium, 1, Fluorine, 2)
             .buildAndRegister();
 
+    public static Material CobaltBromide = new Material.Builder("cobalt_bromide")
+            .fluid()
+            .colorAverage()
+            .flags(DECOMPOSITION_BY_ELECTROLYZING)
+            .components(Cobalt, 1, Bromine, 1, AceticAcid, 1)
+            .buildAndRegister();
+    public static Material ManganeseBromide = new Material.Builder("manganese_bromide")
+            .fluid()
+            .colorAverage()
+            .flags(DECOMPOSITION_BY_ELECTROLYZING)
+            .components(Manganese, 1, Bromine, 1, AceticAcid, 1)
+            .buildAndRegister();
+    public static Material ManganeseAcetate = new Material.Builder("manganese_acetate")
+            .fluid()
+            .colorAverage()
+            .flags(DECOMPOSITION_BY_ELECTROLYZING)
+            .components(Manganese, 1, AceticAcid, 1)
+            .buildAndRegister();
+    public static Material HydrobromicAcid = new Material.Builder("hydrobromic_acid")
+            .fluid()
+            .colorAverage()
+            .flags(DECOMPOSITION_BY_ELECTROLYZING)
+            .components(Hydrogen, 1, Bromine, 1, Water, 1)
+            .buildAndRegister();
+
+    public static Material CoMnBrCatalyst = new Material.Builder("co_mn_br_catalyst")
+            .fluid()
+            .colorAverage()
+            .components(CobaltBromide, 1, ManganeseBromide, 1, ManganeseAcetate, 1, HydrobromicAcid, 1)
+            .buildAndRegister();
 
     //endregion
 
@@ -93,13 +123,6 @@ public class GCyRMaterials {
 
 
     //region organic chemistry materials
-    public static final Material ChloroNitrobenzene = new Material.Builder("chloronitrobenzene")
-            .gas()
-            .color(0x796013)
-            .flags(DISABLE_DECOMPOSITION)
-            .components(Carbon, 6, Hydrogen, 4, Fluorine, 1, Nitrogen, 1, Oxygen, 2)
-            .buildAndRegister();
-
     public static final Material PyromelliticDianhydride = new Material.Builder("pyrometillic_dianhydride")
             .dust()
             .fluid(FluidStorageKeys.LIQUID, new FluidBuilder().temperature(493))
@@ -154,23 +177,18 @@ public class GCyRMaterials {
 
 
     // Kevlar
-    public static final Material Cuminaldehyde = new Material.Builder("cuminaldehyde")
-            .fluid()
-            .color(0xD9BF1A)
-            .components(Carbon, 10, Hydrogen, 12, Oxygen, 1)
+    public static final Material ParaXylene = new Material.Builder("para_xylene")
+            .fluid(FluidStorageKeys.LIQUID, new FluidBuilder().temperature(493))
+            .colorAverage()
+            .components(Carbon, 8, Hydrogen, 10)
             .buildAndRegister();
 
-    public static final Material Cuminol = new Material.Builder("cuminol")
-            .fluid()
-            .color(0xD9BF1A)
-            .components(Carbon, 10, Hydrogen, 14)
-            .buildAndRegister();
-
-    public static final Material Cymene = new Material.Builder("cymene")
-            .fluid()
-            .color(0x615A0C)
-            .components(Carbon, 10, Hydrogen, 14)
-            .buildAndRegister();
+    public static final Material BisTrichloromethylBenzene = new Material.Builder("bis_trichloromethyl_benzene")
+            .fluid(FluidStorageKeys.LIQUID, new FluidBuilder().temperature(493))
+            .color(0xB48C63)
+            .components(Carbon, 8, Hydrogen, 4, Chlorine, 6)
+            .buildAndRegister()
+            .setFormula("C6H4(CCl3)2", true);
 
     public static final Material TerephthalicAcid = new Material.Builder("therephthalic_acid")
             .fluid(FluidStorageKeys.LIQUID, new FluidBuilder().attribute(FluidAttributes.ACID))
@@ -185,10 +203,16 @@ public class GCyRMaterials {
             .components(Carbon, 8, Hydrogen, 4, Chlorine, 2, Oxygen, 2)
             .buildAndRegister();
 
+    public static final Material Nitroaniline = new Material.Builder("nitroaniline")
+            .fluid()
+            .colorAverage()
+            .components(Carbon, 8, Hydrogen, 4, Chlorine, 2, Oxygen, 2)
+            .buildAndRegister();
+
     public static final Material ParaPhenylenediamine = new Material.Builder("para_phenylenediamine")
             .fluid()
             .color(0xC3DE83)
-            .components(ChloroNitrobenzene, 1, Ammonia, 1)
+            .components(Nitrochlorobenzene, 1, Ammonia, 1)
             .buildAndRegister();
 
     public static final Material ParaAramid = new Material.Builder("para_aramid")
