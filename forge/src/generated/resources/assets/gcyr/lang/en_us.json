@@ -116,7 +116,7 @@
   "menu.gcyr.space_station": "Space Station",
   "menu.gcyr.temperature": "Temperature",
   "menu.gcyr.type": "Type",
-  "message.gcyr.invalid_planet": "The rocket must have a valid Planet ID Chip.",
+  "message.gcyr.invalid_id": "The rocket must have a valid Planet ID Chip.",
   "message.gcyr.no_fuel": "The rocket must be fueled fully.",
   "message.gcyr.notice_id_changed": "The destination of your Space Station ID chip might have changed. Remember to rewrite the personal destination chip with the new data before setting a new target!",
   "message.gcyr.rocket_not_good_enough": "The rocket doesn't have enough tier %s components to travel to the selected planet.",
