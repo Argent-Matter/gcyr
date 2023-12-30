@@ -594,9 +594,9 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
                 destinationPos = new BlockPos(stationPos.getX(), (int) pos.y, stationPos.getZ());
             }
 
-            if (GCyRItems.SPACE_STATION_PACKAGE.isIn(this.satelliteSlot.getStackInSlot(0))) {
+            if (newRocket instanceof RocketEntity rocketEntity && GCyRItems.SPACE_STATION_PACKAGE.isIn(this.satelliteSlot.getStackInSlot(0))) {
                 ItemStack stack = this.satelliteSlot.getStackInSlot(0);
-                buildSpaceStation(stack, new BlockPos(destinationPos.getX(), 64, destinationPos.getZ()));
+                rocketEntity.buildSpaceStation(stack, new BlockPos(destinationPos.getX(), 64, destinationPos.getZ()));
             }
         } else {
             double scale = DimensionType.getTeleportationScale(this.level().dimensionType(), destinationLevel.dimensionType());
@@ -657,24 +657,18 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         BlockPos original = origin;
         for (PosWithState state : blocks) {
             BlockPos pos = state.pos();
-            if (start) origin = pos;
+            if (start) origin = original.offset(pos);
             start = false;
-            if (origin.compareTo(pos.offset(original)) < 0) origin = new BlockPos(
-                    Math.min(pos.getX() + original.getX(), origin.getX()),
-                    Math.min(pos.getY() + original.getY(), origin.getY()),
-                    Math.min(pos.getZ() + original.getZ(), origin.getZ()));
+            if (origin.compareTo(pos.offset(original)) > 0) origin = new BlockPos(
+                    Math.min(original.getX() - pos.getX(), origin.getX()),
+                    Math.min(original.getY() - pos.getY(), origin.getY()),
+                    Math.min(original.getZ() - pos.getZ(), origin.getZ()));
         }
-        origin = new BlockPos(original.getX() - origin.getX() / 2, original.getY(), original.getZ() - origin.getZ() / 2);
 
         for (PosWithState state : blocks) {
             BlockPos offset = origin.offset(state.pos());
-            BlockHitResult result = new BlockHitResult(
-                    offset.getCenter(),
-                    Direction.DOWN,
-                    offset,
-                    false
-            );
-            if (!this.level().getBlockState(offset).isAir() && !this.level().getBlockState(offset).canBeReplaced(new BlockPlaceContext(this.level(), null, InteractionHand.MAIN_HAND, ItemStack.EMPTY, result))) {
+            BlockState originalState = this.level().getBlockState(offset);
+            if (!originalState.isAir() && !originalState.canBeReplaced()) {
                 this.spawnAtLocation(state.state().getBlock().asItem());
                 continue;
             }
@@ -812,17 +806,6 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
 
     public double getRocketSpeed() {
         return this.getThrusterCount() * 4.0 - (getWeight() + 1);
-    }
-
-    public int determineRocketTier() {
-        int minTier = Integer.MAX_VALUE;
-        int maxTier = Integer.MIN_VALUE;
-
-        for (IRocketPart part : this.partCounts.keySet()) {
-            minTier = Math.min(minTier, part.getTier());
-            maxTier = Math.max(maxTier, part.getTier());
-        }
-        return (int) ((maxTier * 0.75) + (minTier / 0.75)) / 2;
     }
 
     @Override
