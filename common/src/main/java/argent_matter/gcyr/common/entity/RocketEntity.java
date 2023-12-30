@@ -9,6 +9,7 @@ import argent_matter.gcyr.api.space.station.SpaceStation;
 import argent_matter.gcyr.common.block.FuelTankBlock;
 import argent_matter.gcyr.common.block.RocketMotorBlock;
 import argent_matter.gcyr.common.data.*;
+import argent_matter.gcyr.common.entity.data.EntityOxygenSystem;
 import argent_matter.gcyr.common.entity.data.EntityTemperatureSystem;
 import argent_matter.gcyr.common.item.KeyCardBehaviour;
 import argent_matter.gcyr.common.item.PlanetIdChipBehaviour;
@@ -68,6 +69,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.player.Player;
@@ -296,7 +298,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
 
         if (this.level() instanceof ServerLevel serverLevel) {
             for (BlockPos pos : this.thrusterPositions) {
-                if (this.getStartTimer() <= 200) {
+                if (this.getStartTimer() >= 200) {
                     for (ServerPlayer p : serverLevel.getServer().getPlayerList().getPlayers()) {
                         serverLevel.sendParticles(p, ParticleTypes.FLAME, true, this.getX() - vec.x + pos.getX() + 0.5, this.getY() - vec.y - 2.2 + pos.getY() + 0.5, this.getZ() - vec.z + pos.getZ() + 0.5, 20, 0.1, 0.1, 0.1, 0.001);
                         serverLevel.sendParticles(p, ParticleTypes.LARGE_SMOKE, true, this.getX() - vec.x + pos.getX() + 0.5, this.getY() - vec.y - 3.2 + pos.getY() + 0.5, this.getZ() - vec.z + pos.getZ() + 0.5, 10, 0.1, 0.1, 0.1, 0.04);
@@ -430,22 +432,21 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         this.setDeltaMovement(delta.add(0, -LivingEntity.DEFAULT_BASE_GRAVITY, 0));
         // braking
         if (getControllingPassenger() != null && ((LivingEntityAccessor)getControllingPassenger()).isJumping() && consumeFuel()) {
-            this.setDeltaMovement(delta);
+            this.setDeltaMovement(delta.x, Math.min(delta.y + 0.05, -0.05), delta.z);
             this.fallDistance *= 0.9f;
             this.spawnParticles();
         }
-        rocketExplosion();
     }
 
-    public void rocketExplosion() {
-        if (this.getStartTimer() <= 200) {
-            if (this.fallDistance > 48 && this.onGround()) {
-                if (!this.level().isClientSide) {
-                    this.level().explode(this, this.getX(), this.getBoundingBox().minY, this.getZ(), 10, true, Level.ExplosionInteraction.MOB);
-                    this.remove(RemovalReason.DISCARDED);
-                }
-            }
+    @Override
+    public boolean causeFallDamage(float fallDistance, float multiplier, DamageSource source) {
+        if (level().isClientSide()) return false;
+        if (fallDistance > 48 && onGround()) {
+            this.level().explode(this, this.getX(), this.getBoundingBox().minY, this.getZ(), 10, EntityOxygenSystem.levelHasOxygen(this.level()), Level.ExplosionInteraction.MOB);
+            this.remove(RemovalReason.DISCARDED);
+            return true;
         }
+        return false;
     }
 
     public void burnEntities() {
