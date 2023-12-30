@@ -7,6 +7,7 @@
     "EntityMixin",
     "GTOresAccessor",
     "GTOresMixin",
+    "LivingEntityAccessor",
     "LivingEntityMixin",
     "ServerLevelMixin"
   ],

@@ -16,6 +16,7 @@ import argent_matter.gcyr.common.item.StationContainerBehaviour;
 import argent_matter.gcyr.config.GCyRConfig;
 import argent_matter.gcyr.data.loader.PlanetData;
 import argent_matter.gcyr.data.recipe.GCyRTags;
+import argent_matter.gcyr.mixin.LivingEntityAccessor;
 import argent_matter.gcyr.util.PlatformUtils;
 import argent_matter.gcyr.util.PosWithState;
 import com.google.common.collect.Sets;
@@ -24,7 +25,6 @@ import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.UITemplate;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
-import com.gregtechceu.gtceu.api.recipe.GTRecipeSerializer;
 import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
 import com.lowdragmc.lowdraglib.gui.modular.IUIHolder;
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
@@ -312,10 +312,17 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
     @Nullable
     public Player getFirstPlayerPassenger() {
         if (!this.getPassengers().isEmpty() && this.getPassengers().get(0) instanceof Player player) {
-
             return player;
         }
+        return null;
+    }
 
+
+    @Nullable
+    public LivingEntity getControllingPassenger() {
+        if (this.getFirstPassenger() instanceof LivingEntity livingEntity) {
+            return livingEntity;
+        }
         return null;
     }
 
@@ -422,14 +429,20 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         }
         Vec3 delta = this.getDeltaMovement();
         this.setDeltaMovement(delta.x, delta.y - 0.1, delta.z);
+        // braking
+        if (getControllingPassenger() != null && ((LivingEntityAccessor)getControllingPassenger()).isJumping()) {
+            this.setDeltaMovement(delta.x, delta.y, delta.z);
+            this.fallDistance *= 0.9f;
+            this.spawnParticle();
+        }
         rocketExplosion();
     }
 
     public void rocketExplosion() {
         if (this.getStartTimer() == 200) {
-            if (this.getDeltaMovement().y > -0.15 && this.onGround()) {
+            if (this.fallDistance > 48 && this.onGround()) {
                 if (!this.level().isClientSide) {
-                    this.level().explode(this, this.getX(), this.getBoundingBox().maxY, this.getZ(), 10, true, Level.ExplosionInteraction.MOB);
+                    this.level().explode(this, this.getX(), this.getBoundingBox().minY, this.getZ(), 10, true, Level.ExplosionInteraction.MOB);
                     this.remove(RemovalReason.DISCARDED);
                 }
             }
