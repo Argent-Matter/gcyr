@@ -51,7 +51,7 @@ public class SpaceStationPackagerMachine extends PlatformMultiblockMachine {
         ModularUI modularUI = new ModularUI(176, 166, this, entityPlayer).background(GuiTextures.BACKGROUND);
         modularUI.widget(new LabelWidget(4, 5, self().getBlockState().getBlock().getDescriptionId()));
 
-        WidgetGroup buttons = new WidgetGroup(7, 24, 0, 0);
+        WidgetGroup buttons = new WidgetGroup(7, 16, 0, 0);
         //buttons.addWidget(new ButtonWidget(0, 0, 80, 24, GuiTextures.BUTTON.copy().setColor(0xFFAA0000), this::onBuildButtonClick));
         buttons.addWidget(new ButtonWidget(0, 24+18, 80, 24, GuiTextures.BUTTON.copy().setColor(0xFFAA0000), this::onBuildButtonClick));
         modularUI.widget(buttons);
@@ -63,7 +63,7 @@ public class SpaceStationPackagerMachine extends PlatformMultiblockMachine {
         slots.addWidget(new SlotWidget(outputSlots, 1, 18, 22, true, false));
         modularUI.widget(slots);
 
-        modularUI.widget(UITemplate.bindPlayerInventory(entityPlayer.getInventory(), GuiTextures.SLOT, 7, 134, true));
+        modularUI.widget(UITemplate.bindPlayerInventory(entityPlayer.getInventory(), GuiTextures.SLOT, 7, 86, true));
         return modularUI;
     }
 
