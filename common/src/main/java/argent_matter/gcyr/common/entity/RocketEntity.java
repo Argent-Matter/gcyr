@@ -162,10 +162,11 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
 
         boolean started = this.entityData.get(ROCKET_STARTED);
         if (started && this.consumeFuel()) {
-            this.spawnParticle();
+            this.spawnParticles();
             this.startTimerAndFlyMovement();
             this.goToDestination();
-        } else if (started) {
+        }
+        if (!started) {
             this.fall();
         }
         this.move(MoverType.SELF, this.getDeltaMovement());
@@ -290,19 +291,19 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         return new Vec3(this.getX(), this.getBoundingBox().maxY, this.getZ());
     }
 
-    public void spawnParticle() {
+    public void spawnParticles() {
         Vec3 vec = this.getDeltaMovement();
 
         if (this.level() instanceof ServerLevel serverLevel) {
             for (BlockPos pos : this.thrusterPositions) {
-                if (this.getStartTimer() == 200) {
+                if (this.getStartTimer() <= 200) {
                     for (ServerPlayer p : serverLevel.getServer().getPlayerList().getPlayers()) {
-                        serverLevel.sendParticles(p, ParticleTypes.FLAME, true, this.getX() - vec.x + pos.getX(), this.getY() - vec.y - 2.2 + pos.getY(), this.getZ() - vec.z + pos.getZ(), 20, 0.1, 0.1, 0.1, 0.001);
-                        serverLevel.sendParticles(p, ParticleTypes.LARGE_SMOKE, true, this.getX() - vec.x + pos.getX(), this.getY() - vec.y - 3.2 + pos.getY(), this.getZ() - vec.z + pos.getZ(), 10, 0.1, 0.1, 0.1, 0.04);
+                        serverLevel.sendParticles(p, ParticleTypes.FLAME, true, this.getX() - vec.x + pos.getX() + 0.5, this.getY() - vec.y - 2.2 + pos.getY() + 0.5, this.getZ() - vec.z + pos.getZ() + 0.5, 20, 0.1, 0.1, 0.1, 0.001);
+                        serverLevel.sendParticles(p, ParticleTypes.LARGE_SMOKE, true, this.getX() - vec.x + pos.getX() + 0.5, this.getY() - vec.y - 3.2 + pos.getY() + 0.5, this.getZ() - vec.z + pos.getZ() + 0.5, 10, 0.1, 0.1, 0.1, 0.04);
                     }
                 } else {
                     for (ServerPlayer p : serverLevel.getServer().getPlayerList().getPlayers()) {
-                        serverLevel.sendParticles(p, ParticleTypes.CAMPFIRE_COSY_SMOKE, true, this.getX() - vec.x + pos.getX(), this.getY() - vec.y - 0.1 + pos.getY(), this.getZ() - vec.z + pos.getZ(), 6, 0.1, 0.1, 0.1, 0.023);
+                        serverLevel.sendParticles(p, ParticleTypes.CAMPFIRE_COSY_SMOKE, true, this.getX() - vec.x + pos.getX() + 0.5, this.getY() - vec.y - 0.1 + pos.getY() + 0.5, this.getZ() - vec.z + pos.getZ() + 0.5, 6, 0.1, 0.1, 0.1, 0.023);
                     }
                 }
             }
@@ -424,22 +425,20 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
     }
 
     public void fall() {
-        if (this.getStartTimer() < 200) {
-            return;
-        }
+        if (this.isNoGravity()) return;
         Vec3 delta = this.getDeltaMovement();
-        this.setDeltaMovement(delta.x, delta.y - 0.1, delta.z);
+        this.setDeltaMovement(delta.add(0, -LivingEntity.DEFAULT_BASE_GRAVITY, 0));
         // braking
         if (getControllingPassenger() != null && ((LivingEntityAccessor)getControllingPassenger()).isJumping() && consumeFuel()) {
-            this.setDeltaMovement(delta.x, delta.y, delta.z);
+            this.setDeltaMovement(delta);
             this.fallDistance *= 0.9f;
-            this.spawnParticle();
+            this.spawnParticles();
         }
         rocketExplosion();
     }
 
     public void rocketExplosion() {
-        if (this.getStartTimer() == 200) {
+        if (this.getStartTimer() <= 200) {
             if (this.fallDistance > 48 && this.onGround()) {
                 if (!this.level().isClientSide) {
                     this.level().explode(this, this.getX(), this.getBoundingBox().minY, this.getZ(), 10, true, Level.ExplosionInteraction.MOB);
@@ -506,8 +505,12 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         if (this.selectedFuelRecipe != null) {
             recipeDuration = this.selectedFuelRecipe.duration;
         }
-        if (!this.fuelTank.drain((long) ((getThrusterCount() + getDestination().rocketTier()) / (recipeDuration / 20.0 + 1) * 2), true).isEmpty()) {
-            return !this.fuelTank.drain((getThrusterCount() + getDestination().rocketTier()) * 2L, false).isEmpty();
+        int destinationRocketTier = 1;
+        if (this.getDestination() != null) {
+            destinationRocketTier = this.getDestination().rocketTier();
+        }
+        if (!this.fuelTank.drain((long) ((getThrusterCount() + destinationRocketTier) / (recipeDuration / 20.0 + 1) * 2), true).isEmpty()) {
+            return !this.fuelTank.drain((getThrusterCount() + destinationRocketTier) * 2L, false).isEmpty();
         }
         return false;
     }
