@@ -148,6 +148,12 @@ public class RocketScannerMachine extends PlatformMultiblockMachine implements I
             }
             if (allAir) return;
 
+            // sort by descending Y to avoid duping seats etc. when building
+            // because BlockPos.betweenClosed has to be ascending Y
+            states = states.entrySet()
+                    .stream()
+                    .sorted(Collections.reverseOrder(Map.Entry.comparingByKey()))
+                    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
             for (Map.Entry<BlockPos, BlockState> entry : states.entrySet()) {
                 BlockPos pos = entry.getKey();
                 BlockState state = entry.getValue();
