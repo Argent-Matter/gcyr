@@ -21,7 +21,7 @@ public abstract class EntityMixin {
 
     @Inject(method = "tick", at = @At("TAIL"))
     private void gcyr$tick(CallbackInfo ci) {
-        Entity entity = ((Entity) (Object) this);
+        Entity entity = (Entity) (Object) this;
         if (!(entity.level() instanceof ServerLevel level)) return;
 
         // Teleport the entity to the planet when they fall in the void while in an orbit dimension
