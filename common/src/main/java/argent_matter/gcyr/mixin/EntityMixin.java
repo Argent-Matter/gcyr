@@ -27,7 +27,8 @@ public abstract class EntityMixin {
         // Teleport the entity to the planet when they fall in the void while in an orbit dimension
         if (entity.getY() < level.getMinBuildHeight() && PlanetData.isOrbitLevel(level.dimension())) {
             ServerLevel newLevel = level.getServer().getLevel(PlanetData.getPlanetFromOrbit(level.dimension()).map(Planet::level).orElse(Level.OVERWORLD));
-            PlatformUtils.changeDimension(entity, newLevel);
+            Entity newEntity = PlatformUtils.changeDimension(entity, newLevel);
+            newEntity.setPos(newEntity.getX(), 600.0, newEntity.getZ());
         }
     }
 
