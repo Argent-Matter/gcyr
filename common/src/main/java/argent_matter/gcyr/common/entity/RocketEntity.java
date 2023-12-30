@@ -430,7 +430,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         Vec3 delta = this.getDeltaMovement();
         this.setDeltaMovement(delta.x, delta.y - 0.1, delta.z);
         // braking
-        if (getControllingPassenger() != null && ((LivingEntityAccessor)getControllingPassenger()).isJumping()) {
+        if (getControllingPassenger() != null && ((LivingEntityAccessor)getControllingPassenger()).isJumping() && consumeFuel()) {
             this.setDeltaMovement(delta.x, delta.y, delta.z);
             this.fallDistance *= 0.9f;
             this.spawnParticle();
