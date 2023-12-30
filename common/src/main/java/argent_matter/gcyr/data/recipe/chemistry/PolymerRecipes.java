@@ -140,7 +140,7 @@ public class PolymerRecipes {
                 .inputFluids(Nitrochlorobenzene.getFluid(1000))
                 .inputFluids(Ammonia.getFluid(2000))
                 .outputFluids(Nitroaniline.getFluid(1000))
-                .outputFluids(AmmoniumChloride.getFluid(1000))
+                .outputItems(dust, AmmoniumChloride, 1)
                 .duration(60).EUt(VHA[HV]).save(provider);
 
         CHEMICAL_RECIPES.recipeBuilder(GCyR.id("para_phenylenediamine"))
