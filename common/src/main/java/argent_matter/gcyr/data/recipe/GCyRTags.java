@@ -2,9 +2,9 @@ package argent_matter.gcyr.data.recipe;
 
 import argent_matter.gcyr.api.data.tag.GCyRTagUtil;
 import com.gregtechceu.gtceu.api.data.tag.TagUtil;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
@@ -33,4 +33,8 @@ public class GCyRTags {
     public static final TagKey<Biome> IS_MERCURY = GCyRTagUtil.createModTag(Registries.BIOME, "is_mercury");
     public static final TagKey<Biome> IS_MARS = GCyRTagUtil.createModTag(Registries.BIOME, "is_mars");
     public static final TagKey<Biome> IS_VENUS = GCyRTagUtil.createModTag(Registries.BIOME, "is_venus");
+
+    // Entity
+    public static final TagKey<EntityType<?>> IGNORE_OXYGEN = GCyRTagUtil.createModTag(Registries.ENTITY_TYPE, "ignore_oxygen");
+    public static final TagKey<EntityType<?>> IGNORE_TEMPERATURE = GCyRTagUtil.createModTag(Registries.ENTITY_TYPE, "ignore_temperature");
 }
