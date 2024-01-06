@@ -1,7 +1,20 @@
 {
   "variants": {
-    "": {
-      "model": "gcyr:block/venusian_regolith"
-    }
+    "": [
+      {
+        "model": "gcyr:block/venusian_regolith"
+      },
+      {
+        "model": "gcyr:block/venusian_regolith",
+        "y": 180
+      },
+      {
+        "model": "gcyr:block/venusian_regolith_mirrored"
+      },
+      {
+        "model": "gcyr:block/venusian_regolith_mirrored",
+        "y": 180
+      }
+    ]
   }
 }

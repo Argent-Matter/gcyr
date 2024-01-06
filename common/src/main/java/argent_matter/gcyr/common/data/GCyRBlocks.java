@@ -24,6 +24,7 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
+import net.minecraft.world.level.material.MapColor;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -54,6 +55,8 @@ public class GCyRBlocks {
     public static final BlockEntry<Block> MERCURY_ROCK = REGISTRATE
             .block("mercury_rock", Block::new)
             .initialProperties(() -> Blocks.STONE)
+            .properties(properties -> properties.mapColor(MapColor.COLOR_GRAY))
+            .blockstate(GCyRModels::randomRotatedModel)
             .simpleItem()
             .register();
     //endregion
@@ -62,17 +65,24 @@ public class GCyRBlocks {
     public static final BlockEntry<FallingBlock> VENUS_SAND = REGISTRATE
             .block("venus_sand", FallingBlock::new)
             .initialProperties(() -> Blocks.SAND)
+            .properties(properties -> properties.mapColor(MapColor.TERRACOTTA_ORANGE))
+            .blockstate(GCyRModels::randomRotatedModel)
             .simpleItem()
             .register();
 
     public static final BlockEntry<Block> VENUSIAN_REGOLITH = REGISTRATE
             .block("venusian_regolith", Block::new)
             .initialProperties(() -> Blocks.SANDSTONE)
+            .properties(properties -> properties.mapColor(MapColor.TERRACOTTA_ORANGE))
+            .blockstate(GCyRModels::randomRotatedModel)
             .simpleItem()
             .register();
 
     public static final BlockEntry<Block> VENUS_ROCK = REGISTRATE
             .block("venus_rock", Block::new)
+            .initialProperties(() -> Blocks.STONE)
+            .properties(properties -> properties.mapColor(MapColor.TERRACOTTA_ORANGE))
+            .blockstate(GCyRModels::randomRotatedModel)
             .simpleItem()
             .register();
     //endregion
@@ -82,12 +92,14 @@ public class GCyRBlocks {
     public static final BlockEntry<Block> MOON_STONE = REGISTRATE
             .block("moon_stone", Block::new)
             .initialProperties(() -> Blocks.STONE)
+            .blockstate(GCyRModels::randomRotatedModel)
             .simpleItem()
             .register();
 
     public static final BlockEntry<FallingBlock> MOON_SAND = REGISTRATE
             .block("moon_sand", FallingBlock::new)
-            .initialProperties(() -> Blocks.SAND)
+            .initialProperties(() -> Blocks.GRAVEL)
+            .blockstate(GCyRModels::randomRotatedModel)
             .simpleItem()
             .register();
     //endregion

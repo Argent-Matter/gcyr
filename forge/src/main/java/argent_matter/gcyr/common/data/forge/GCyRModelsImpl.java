@@ -10,7 +10,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.CarpetBlock;
 import net.minecraft.world.level.block.DoorBlock;
-import net.minecraft.world.level.block.RotatedPillarBlock;
+import net.minecraftforge.client.model.generators.ConfiguredModel;
+import net.minecraftforge.client.model.generators.ModelFile;
+import net.minecraftforge.client.model.generators.ModelProvider;
 
 public class GCyRModelsImpl {
     public static void rocketMotorModel(DataGenContext<Block, RocketMotorBlock> ctx, RegistrateBlockstateProvider prov, IRocketMotorType type) {
@@ -29,5 +31,25 @@ public class GCyRModelsImpl {
 
     public static void seatModel(DataGenContext<Block, CarpetBlock> ctx, RegistrateBlockstateProvider prov) {
         prov.simpleBlock(ctx.getEntry(), prov.models().carpet("seat", new ResourceLocation("block/light_gray_wool")));
+    }
+
+    public static void randomRotatedModel(DataGenContext<Block, ? extends Block> ctx, RegistrateBlockstateProvider prov) {
+        Block block = ctx.getEntry();
+        ModelFile cubeAll = prov.cubeAll(block);
+        ModelFile cubeMirroredAll = prov.models().singleTexture(ctx.getName() + "_mirrored", prov.mcLoc(ModelProvider.BLOCK_FOLDER + "/cube_mirrored_all"), "all", prov.blockTexture(block));
+        ConfiguredModel[] models = ConfiguredModel.builder()
+                .modelFile(cubeAll)
+                .rotationY(0)
+                .nextModel()
+                .modelFile(cubeAll)
+                .rotationY(180)
+                .nextModel()
+                .modelFile(cubeMirroredAll)
+                .rotationY(0)
+                .nextModel()
+                .modelFile(cubeMirroredAll)
+                .rotationY(180)
+                .build();
+        prov.simpleBlock(block, models);
     }
 }
