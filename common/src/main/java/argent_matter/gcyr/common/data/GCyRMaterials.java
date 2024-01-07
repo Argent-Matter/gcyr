@@ -82,6 +82,18 @@ public class GCyRMaterials {
             .flags(DECOMPOSITION_BY_ELECTROLYZING)
             .components(Cobalt, 1, Bromine, 1, AceticAcid, 1)
             .buildAndRegister();
+
+    public static Material Iron_Oxide = new Material.Builder("iron_oxide")
+            .dust()
+            .color(0xBD3514)
+            .flags(DECOMPOSITION_BY_CENTRIFUGING)
+            .components(Iron, 2, Oxygen, 3)
+            .buildAndRegister();
+
+    public static Material Martian_Rock_Dust = new Material.Builder("martian_rock_dust")
+            .dust()
+            .color(0xAB2C0E)
+            .buildAndRegister();
     public static Material ManganeseBromide = new Material.Builder("manganese_bromide")
             .fluid()
             .colorAverage()

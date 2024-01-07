@@ -33,7 +33,10 @@ public class LangHandler extends com.gregtechceu.gtceu.data.lang.LangHandler {
             GCyRMaterials.KaptonK,
             GCyRMaterials.TerephthalicAcid,
             GCyRMaterials.TerephthaloylChloride,
-            GCyRMaterials.Nitroaniline
+            GCyRMaterials.Nitroaniline,
+            GCyRMaterials.Martian_Rock_Dust,
+            GCyRMaterials.Iron_Oxide
+
     );
 
     public static void init(RegistrateLangProvider provider) {
