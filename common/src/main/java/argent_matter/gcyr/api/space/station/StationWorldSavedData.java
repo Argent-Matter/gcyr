@@ -20,6 +20,7 @@ import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @MethodsReturnNonnullByDefault
@@ -86,12 +87,17 @@ public class StationWorldSavedData extends SavedData implements ISpaceStationHol
     public BlockPos getStationWorldPos(int id) {
         Vec2i stationPos = getStationPos(id);
         if (stationPos == null) return null;
-        return new BlockPos(stationPos.x() * 16 * 16, SpaceLevelSource.PLATFORM_HEIGHT, stationPos.y() * 16 * 16);
+        return new BlockPos(stationPos.x() * SpaceStation.BLOCK_MULTIPLIER, SpaceLevelSource.PLATFORM_HEIGHT, stationPos.y() * SpaceStation.BLOCK_MULTIPLIER);
     }
 
     @Override
     public List<Integer> getStationsNearPos(Vec2i position, int range) {
-        return stations.int2ObjectEntrySet().stream().filter(obj -> obj.getValue().position().distanceToSqr(position) <= range * range).sorted(Comparator.comparingDouble(obj -> obj.getValue().position().distanceToSqr(position))).map(Int2ObjectMap.Entry::getIntKey).collect(Collectors.toList());
+        return stations.int2ObjectEntrySet().stream().filter(obj -> obj.getValue().position().distanceToSqr(position) <= range * range).sorted(Map.Entry.comparingByKey()).map(Int2ObjectMap.Entry::getIntKey).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Integer> getStationsNearWorldPos(BlockPos position, int range) {
+        return stations.int2ObjectEntrySet().stream().filter(obj -> obj.getValue().position().distanceToBlockSqr(position) <= range * range).sorted(Map.Entry.comparingByKey()).map(Int2ObjectMap.Entry::getIntKey).collect(Collectors.toList());
     }
 
     @Override

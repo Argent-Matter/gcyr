@@ -33,5 +33,10 @@ public class GCyRModels {
         throw new AssertionError();
     }
 
+    @ExpectPlatform
+    public static void randomRotatedModel(DataGenContext<Block, ? extends Block> ctx, RegistrateBlockstateProvider prov) {
+        throw new AssertionError();
+    }
+
 
 }

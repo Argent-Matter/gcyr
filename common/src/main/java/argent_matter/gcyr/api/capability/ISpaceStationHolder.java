@@ -57,7 +57,7 @@ public interface ISpaceStationHolder {
     List<Integer> getStationsNearPos(Vec2i position, int range);
 
     default List<Integer> getStationsNearWorldPos(BlockPos pos, int range) {
-        return getStationsNearPos(new Vec2i(pos.getX() / 16, pos.getZ() / 16), range / 16);
+        return getStationsNearPos(new Vec2i(pos.getX() / SpaceStation.BLOCK_MULTIPLIER, pos.getZ() / SpaceStation.BLOCK_MULTIPLIER), range / SpaceStation.BLOCK_MULTIPLIER);
     }
 
     /**

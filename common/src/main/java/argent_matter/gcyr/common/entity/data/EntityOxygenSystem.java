@@ -21,6 +21,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.IdentityHashMap;
 import java.util.Set;
 import java.util.stream.StreamSupport;
 
@@ -29,8 +30,7 @@ import java.util.stream.StreamSupport;
  */
 public class EntityOxygenSystem {
 
-    public static final Table<ResourceKey<Level>, BlockPos, Set<BlockPos>> OXYGEN_LOCATIONS = Tables.newCustomTable(new HashMap<>(), HashMap::new);
-
+    public static final Table<ResourceKey<Level>, BlockPos, Set<BlockPos>> OXYGEN_LOCATIONS = Tables.newCustomTable(new IdentityHashMap<>(), HashMap::new);
 
     /**
      * Checks if a level has oxygen, regardless of position.
@@ -65,9 +65,9 @@ public class EntityOxygenSystem {
             return;
         }
 
-        /*if (entity.getType().is(GCyRTags.NO_OXYGEN)) {
+        if (entity.getType().is(GCyRTags.IGNORE_OXYGEN)) {
             return;
-        }*/
+        }
 
         if (!PlanetData.isSpaceLevel(level) && !entity.isUnderWater()) {
             return;
@@ -122,23 +122,13 @@ public class EntityOxygenSystem {
                 }
 
                 Block block = state.getBlock();
-                if (block instanceof CandleCakeBlock) {
-                    level.setBlockAndUpdate(pos, state.setValue(CandleCakeBlock.LIT, false));
-                    continue;
-                }
-
-                if (block instanceof CandleBlock) {
-                    level.setBlockAndUpdate(pos, state.setValue(CandleBlock.LIT, false));
+                if (state.hasProperty(BlockStateProperties.LIT)) {
+                    level.setBlockAndUpdate(pos, state.setValue(BlockStateProperties.LIT, false));
                     continue;
                 }
 
                 if (block instanceof FireBlock) {
                     level.removeBlock(pos, false);
-                    continue;
-                }
-
-                if (block instanceof CampfireBlock) {
-                    level.setBlockAndUpdate(pos, state.setValue(CampfireBlock.LIT, false));
                     continue;
                 }
 
@@ -161,9 +151,11 @@ public class EntityOxygenSystem {
                     if (state.hasProperty(BlockStateProperties.WATERLOGGED)) {
                         level.setBlockAndUpdate(pos, state.setValue(BlockStateProperties.WATERLOGGED, false));
                     } else {
-                        // maybe check "planet" temperature in the future if we ever add those?
-                        // and then turn into ice instead if temp > 0
-                        level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
+                        if (PlanetData.getWorldTemperature(level) < 273.0f) {
+                            level.setBlockAndUpdate(pos, Blocks.ICE.defaultBlockState());
+                        } else {
+                            level.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
+                        }
                     }
                 }
             }
@@ -192,7 +184,6 @@ public class EntityOxygenSystem {
      */
     @SuppressWarnings("deprecation")
     public static boolean posHasOxygen(Level level, BlockPos pos) {
-
         if (!level.hasChunkAt(pos)) {
             return true;
         }

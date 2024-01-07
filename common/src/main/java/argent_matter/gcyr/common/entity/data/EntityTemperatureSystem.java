@@ -33,9 +33,9 @@ public class EntityTemperatureSystem {
                 return;
             }
 
-            /*if (ModUtils.checkTag(entity, ModTags.LIVES_WITHOUT_OXYGEN)) {
+            if (entity.getType().is(GCyRTags.IGNORE_TEMPERATURE)) {
                 return;
-            }*/
+            }
         }
 
         float temperature = PlanetData.getWorldTemperature(level);
