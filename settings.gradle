@@ -18,12 +18,12 @@ dependencyResolutionManagement {
 
         // Mod Dependencies Versions
         // Common
-        def reiVersion = "12.0.625"
-        def kjsVersion = "2001.6.3-build.37"
+        def reiVersion = "12.0.684"
+        def kjsVersion = "2001.6.4-build.120"
 
         // Fabric
-        def fabricLoaderVersion = "0.14.21" // https://fabricmc.net/develop/
-        def fabricApiVersion = "0.83.0" // https://fabricmc.net/develop/
+        def fabricLoaderVersion = "0.15.3" // https://fabricmc.net/develop/
+        def fabricApiVersion = "0.91.0" // https://fabricmc.net/develop/
         //def topFabricVersion = "1.19-6.0.0"
         def registrateFabricVersion = "1.3.59-MC1.20"
 
@@ -41,8 +41,8 @@ dependencyResolutionManagement {
         def vineFlowerVersion = "1.+"
         def macheteVersion = "1.+"
         def configurationVersion = "2.2.0"
-        def gtCeuVersion = "1.0.18.a"
-        def ldLibVersion = "1.0.22"
+        def gtCeuVersion = "1.0.20"
+        def ldLibVersion = "1.0.22.a"
         def mixinExtrasVersion = "0.2.0"
 
         fabric {
