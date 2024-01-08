@@ -118,6 +118,15 @@ public class GCyRBlocks {
             .register();
     // endregion
 
+    public static final BlockEntry<MushroomBlock> PRB_SHROOM = REGISTRATE
+            .block("prb_underground_mushroom", (p) -> new MushroomBlock(p, null /*todo fix*/))
+            .initialProperties(() -> Blocks.BROWN_MUSHROOM)
+            .properties(p -> p.mapColor(MapColor.COLOR_CYAN))
+            .blockstate(GCyRModels::crossModel)
+            .item()
+            .defaultModel()
+            .build()
+            .register();
 
     // region rocket stuff
     public static final Map<IRocketMotorType, Supplier<RocketMotorBlock>> ALL_ROCKET_MOTORS = new HashMap<>();

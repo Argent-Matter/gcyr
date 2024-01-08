@@ -38,5 +38,8 @@ public class GCyRModels {
         throw new AssertionError();
     }
 
-
+    @ExpectPlatform
+    public static void crossModel(DataGenContext<Block, ? extends Block> ctx, RegistrateBlockstateProvider prov) {
+        throw new AssertionError();
+    }
 }

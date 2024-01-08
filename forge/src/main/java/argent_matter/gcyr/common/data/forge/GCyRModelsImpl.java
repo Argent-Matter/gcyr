@@ -52,4 +52,10 @@ public class GCyRModelsImpl {
                 .build();
         prov.simpleBlock(block, models);
     }
+
+    public static void crossModel(DataGenContext<Block, ? extends Block> ctx, RegistrateBlockstateProvider prov) {
+        Block block = ctx.getEntry();
+        ModelFile cross = prov.models().cross(ctx.getName(), prov.blockTexture(block));
+        prov.simpleBlock(block, cross);
+    }
 }
