@@ -122,9 +122,10 @@ public class GCyRBlocks {
             .block("prb_underground_mushroom", (p) -> new MushroomBlock(p, null /*todo fix*/))
             .initialProperties(() -> Blocks.BROWN_MUSHROOM)
             .properties(p -> p.mapColor(MapColor.COLOR_CYAN))
+            .addLayer(() -> RenderType::cutout)
             .blockstate(GCyRModels::crossModel)
             .item()
-            .defaultModel()
+            .model(GCyRModels::blockTextureGeneratedModel)
             .build()
             .register();
 

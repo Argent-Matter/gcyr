@@ -5,11 +5,12 @@ import argent_matter.gcyr.common.block.FuelTankBlock;
 import argent_matter.gcyr.common.block.RocketMotorBlock;
 import com.tterrag.registrate.providers.DataGenContext;
 import com.tterrag.registrate.providers.RegistrateBlockstateProvider;
+import com.tterrag.registrate.providers.RegistrateItemModelProvider;
 import dev.architectury.injectables.annotations.ExpectPlatform;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.CarpetBlock;
 import net.minecraft.world.level.block.DoorBlock;
-import net.minecraft.world.level.block.RotatedPillarBlock;
 
 public class GCyRModels {
 
@@ -40,6 +41,11 @@ public class GCyRModels {
 
     @ExpectPlatform
     public static void crossModel(DataGenContext<Block, ? extends Block> ctx, RegistrateBlockstateProvider prov) {
+        throw new AssertionError();
+    }
+
+    @ExpectPlatform
+    public static void blockTextureGeneratedModel(DataGenContext<Item, ? extends Item> ctx, RegistrateItemModelProvider prov) {
         throw new AssertionError();
     }
 }
