@@ -1,0 +1,15 @@
+{
+  "translation": "level.gcyr.proxima_centauri_b",
+  "galaxy": "gcyr:milky_way",
+  "solar_system": "gcyr:alpha_centauri",
+  "world": "gcyr:proxima_centauri_b",
+  "orbit_world": "gcyr:proxima_centauri_b_orbit",
+  "rocket_tier": 3,
+  "gravity": 9.806,
+  "has_atmosphere": true,
+  "days_in_year": 11,
+  "temperature": 303,
+  "solar_power": 13,
+  "has_oxygen": true,
+  "button_color": 893717
+}
