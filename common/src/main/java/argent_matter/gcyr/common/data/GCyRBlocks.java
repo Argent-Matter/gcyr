@@ -130,7 +130,7 @@ public class GCyRBlocks {
             .initialProperties(() -> Blocks.IRON_BLOCK)
             .lang("Airlock Door")
             .properties(p -> p.strength(4.0F, 6.0F))
-            .tag(GTToolType.WRENCH.harvestTag, BlockTags.MINEABLE_WITH_PICKAXE, GCyRTags.BLOCKS_FLOOD_FILL)
+            .tag(GTToolType.WRENCH.harvestTags.get(0), BlockTags.MINEABLE_WITH_PICKAXE, GCyRTags.BLOCKS_FLOOD_FILL)
             .blockstate(GCyRModels::airlockDoorModel)
             .item()
             .tag(ItemTags.DOORS)
@@ -143,7 +143,7 @@ public class GCyRBlocks {
             .initialProperties(() -> Blocks.IRON_BLOCK)
             .lang("Launch Pad")
             .defaultBlockstate()
-            .tag(GTToolType.WRENCH.harvestTag, BlockTags.MINEABLE_WITH_PICKAXE)
+            .tag(GTToolType.WRENCH.harvestTags.get(0), BlockTags.MINEABLE_WITH_PICKAXE)
             .simpleItem()
             .register();
 
@@ -152,7 +152,7 @@ public class GCyRBlocks {
             .initialProperties(() -> Blocks.IRON_BLOCK)
             .lang("Seat")
             .blockstate(GCyRModels::seatModel)
-            .tag(GTToolType.WRENCH.harvestTag, BlockTags.MINEABLE_WITH_PICKAXE)
+            .tag(GTToolType.WRENCH.harvestTags.get(0), BlockTags.MINEABLE_WITH_PICKAXE)
             .simpleItem()
             .register();
 
@@ -178,7 +178,7 @@ public class GCyRBlocks {
                 .initialProperties(properties)
                 .addLayer(type)
                 .blockstate(NonNullBiConsumer.noop())
-                .tag(GTToolType.WRENCH.harvestTag, BlockTags.MINEABLE_WITH_PICKAXE)
+                .tag(GTToolType.WRENCH.harvestTags.get(0), BlockTags.MINEABLE_WITH_PICKAXE)
                 .item(RendererBlockItem::new)
                 .model(NonNullBiConsumer.noop())
                 .build()
@@ -192,7 +192,7 @@ public class GCyRBlocks {
                 .initialProperties(properties)
                 .addLayer(type)
                 .blockstate(NonNullBiConsumer.noop())
-                .tag(GTToolType.WRENCH.harvestTag, BlockTags.MINEABLE_WITH_PICKAXE)
+                .tag(GTToolType.WRENCH.harvestTags.get(0), BlockTags.MINEABLE_WITH_PICKAXE)
                 .item(RendererBlockItem::new)
                 .model(NonNullBiConsumer.noop())
                 .build()
@@ -204,7 +204,7 @@ public class GCyRBlocks {
                 .initialProperties(() -> Blocks.IRON_BLOCK)
                 .lang("%s Fuel Tank".formatted(FormattingUtil.toEnglishName(properties.getSerializedName())))
                 .blockstate(GCyRModels::fuelTankModel)
-                .tag(GTToolType.WRENCH.harvestTag, BlockTags.MINEABLE_WITH_PICKAXE)
+                .tag(GTToolType.WRENCH.harvestTags.get(0))
                 .simpleItem()
                 .register();
         ALL_FUEL_TANKS.put(properties, block);
@@ -216,7 +216,7 @@ public class GCyRBlocks {
                 .initialProperties(() -> Blocks.IRON_BLOCK)
                 .lang("%s Rocket Motor".formatted(FormattingUtil.toEnglishName(properties.getSerializedName())))
                 .blockstate((ctx, prov) -> GCyRModels.rocketMotorModel(ctx, prov, properties))
-                .tag(GTToolType.WRENCH.harvestTag, BlockTags.MINEABLE_WITH_PICKAXE)
+                .tag(GTToolType.WRENCH.harvestTags.get(0))
                 .simpleItem()
                 .register();
         ALL_ROCKET_MOTORS.put(properties, block);
