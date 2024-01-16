@@ -3,14 +3,17 @@ plugins {
     alias libs.plugins.architectury.loom apply false
     alias libs.plugins.vineFlower apply false // VineFlower, a better decompiler
     alias libs.plugins.machete // automatic jar compressing on build
+    alias libs.plugins.shadow
 }
 
+apply plugin: "dev.architectury.loom"
+apply plugin: "io.github.juuxel.loom-vineflower"
 apply plugin: "java"
 apply plugin: "architectury-plugin"
 apply plugin: "maven-publish"
 
 archivesBaseName = "${project.name}-${libs.versions.minecraft.get()}"
-group = rootProject.maven_group
+group = properties.maven_group
 
 // Formats the mod version to include the loader, Minecraft version, and build number (if present)
 String buildNumber = System.getenv("GITHUB_ACTION_NUMBER")
@@ -26,11 +29,7 @@ java {
     withSourcesJar()
 }
 
-String getConfig(String key) {
-    return project.getParent().properties.get(key)
-}
-
-def mod_id = getConfig("mod_id")
+def mod_id = properties.mod_id
 
 architectury {
     platformSetupLoomIde()
@@ -48,7 +47,6 @@ loom {
 
     forge {
         mixinConfig(
-                "${mod_id}-common.mixins.json",
                 "${mod_id}.mixins.json",
         )
 
@@ -134,16 +132,14 @@ repositories {
 
 dependencies {
     minecraft "com.mojang:minecraft:${libs.versions.minecraft.get()}"
+    forge forge.minecraftForge
+
     // The following line declares the mojmap mappings, you may use other mappings as well
     mappings loom.layered {
         it.mappings("org.quiltmc:quilt-mappings:${libs.versions.minecraft.get()}+build.${libs.versions.quiltMappings.get()}:intermediary-v2")
         it.parchment("org.parchmentmc.data:parchment-${libs.versions.minecraft.get()}:${libs.versions.parchment.get()}@zip")
         it.officialMojangMappings { nameSyntheticMembers = false }
     }
-    forge forge.minecraftForge
-
-    common(project(path: ":${mod_id}-common", configuration: "namedElements")) { transitive = false }
-    shadowCommon(project(path: ":${mod_id}-common", configuration: "transformProductionForge")) { transitive = false }
 
     // LDLib
     modImplementation(forge.gtceu.forge) { transitive = false }
@@ -168,6 +164,7 @@ dependencies {
 
     // Mixin Extras
     implementation(annotationProcessor("io.github.llamalad7:mixinextras-common:0.2.0"))
+    api("io.github.llamalad7:mixinextras-forge:0.2.0")
 
     // lombok
     compileOnly 'org.projectlombok:lombok:1.18.24'
@@ -198,12 +195,6 @@ remapJar {
 
 jar {
     archiveClassifier.set("dev")
-}
-
-sourcesJar {
-    def commonSources = project(":${mod_id}-common").sourcesJar
-    dependsOn commonSources
-    from commonSources.archiveFile.map { zipTree(it) }
 }
 
 components.java {

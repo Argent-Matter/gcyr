@@ -17,7 +17,7 @@ import static com.lowdragmc.lowdraglib.gui.texture.ProgressTexture.FillDirection
 
 public class GCyRRecipeTypes {
 
-    public final static GTRecipeType OXYGEN_SPREADER_RECIPES = register("oxygen_spreader", ELECTRIC).setMaxIOSize(1, 0, 1, 0).setEUIO(IO.IN)
+    public static final GTRecipeType OXYGEN_SPREADER_RECIPES = register("oxygen_spreader", ELECTRIC).setMaxIOSize(1, 0, 1, 0).setEUIO(IO.IN)
             .setProgressBar(GuiTextures.PROGRESS_BAR_MACERATE, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.MOTOR);
 

@@ -1,9 +1,9 @@
 package argent_matter.gcyr.common.data;
 
 import argent_matter.gcyr.GCyR;
-import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.registries.ForgeRegistries;
 
 public class GCyRParticles {
 
@@ -13,8 +13,8 @@ public class GCyRParticles {
 
     }
 
-    @ExpectPlatform
     public static SimpleParticleType register(ResourceLocation id, SimpleParticleType particleType) {
-        throw new AssertionError();
+        ForgeRegistries.PARTICLE_TYPES.register(id, particleType);
+        return particleType;
     }
 }

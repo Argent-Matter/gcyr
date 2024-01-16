@@ -1,6 +1,6 @@
-package argent_matter.gcyr.forge.mixin;
+package argent_matter.gcyr.mixin;
 
-import argent_matter.gcyr.client.dimension.forge.ClientModSkiesImpl;
+import argent_matter.gcyr.client.dimension.ClientModSkies;
 import net.minecraft.client.renderer.DimensionSpecialEffects;
 import net.minecraft.world.level.dimension.DimensionType;
 import org.spongepowered.asm.mixin.Mixin;
@@ -13,8 +13,8 @@ public abstract class DimensionSpecialEffectsMixin {
 
     @Inject(method = "forType", at = @At("HEAD"), cancellable = true)
     private static void gcyr$forType(DimensionType type, CallbackInfoReturnable<DimensionSpecialEffects> cir) {
-        if (ClientModSkiesImpl.DIMENSION_SPECIAL_EFFECTS.containsKey(type.effectsLocation())) {
-            cir.setReturnValue(ClientModSkiesImpl.DIMENSION_SPECIAL_EFFECTS.get(type.effectsLocation()));
+        if (ClientModSkies.DIMENSION_SPECIAL_EFFECTS.containsKey(type.effectsLocation())) {
+            cir.setReturnValue(ClientModSkies.DIMENSION_SPECIAL_EFFECTS.get(type.effectsLocation()));
         }
     }
 }

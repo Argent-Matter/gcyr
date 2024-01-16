@@ -1,7 +1,6 @@
 package argent_matter.gcyr.common.data;
 
 import argent_matter.gcyr.GCyR;
-import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;

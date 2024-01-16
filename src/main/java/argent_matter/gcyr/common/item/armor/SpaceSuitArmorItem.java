@@ -3,13 +3,18 @@ package argent_matter.gcyr.common.item.armor;
 import com.lowdragmc.lowdraglib.misc.ItemStackTransfer;
 import com.lowdragmc.lowdraglib.side.fluid.FluidHelper;
 import com.lowdragmc.lowdraglib.side.fluid.FluidTransferHelper;
-import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.fluids.capability.templates.FluidHandlerItemStack;
+
+import javax.annotation.Nonnull;
 
 public class SpaceSuitArmorItem extends ArmorItem {
     public static final long CAPACITY = (int) (16 * FluidHelper.getBucket());
@@ -18,9 +23,11 @@ public class SpaceSuitArmorItem extends ArmorItem {
         super(GCyRArmorMaterials.SPACE, type, properties);
     }
 
-    @ExpectPlatform
-    public static SpaceSuitArmorItem create(ArmorItem.Type slot, Item.Properties properties) {
-        throw new AssertionError();
+    public <T> LazyOptional<T> getCapability(@Nonnull final ItemStack itemStack, @Nonnull final Capability<T> cap) {
+        if (cap == ForgeCapabilities.FLUID_HANDLER_ITEM) {
+            return ForgeCapabilities.FLUID_HANDLER_ITEM.orEmpty(cap, LazyOptional.of(() -> new FluidHandlerItemStack(itemStack, Math.toIntExact(SpaceSuitArmorItem.CAPACITY))));
+        }
+        return LazyOptional.empty();
     }
 
     public static boolean hasFullSet(LivingEntity entity) {

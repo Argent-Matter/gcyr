@@ -99,19 +99,19 @@ public class GCyRItems {
             .defaultModel()
             .register();
 
-    public static final ItemEntry<SpaceSuitArmorItem> SPACE_SUIT_HELMET = REGISTRATE.item("space_helmet", properties -> SpaceSuitArmorItem.create(ArmorItem.Type.HELMET, properties))
+    public static final ItemEntry<SpaceSuitArmorItem> SPACE_SUIT_HELMET = REGISTRATE.item("space_helmet", properties -> new SpaceSuitArmorItem(ArmorItem.Type.HELMET, properties))
             .properties(p -> p.fireResistant())
             .defaultModel()
             .register();
-    public static final ItemEntry<SpaceSuitArmorItem> SPACE_SUIT_CHEST = REGISTRATE.item("space_chestplate", properties -> SpaceSuitArmorItem.create(ArmorItem.Type.CHESTPLATE, properties))
+    public static final ItemEntry<SpaceSuitArmorItem> SPACE_SUIT_CHEST = REGISTRATE.item("space_chestplate", properties -> new SpaceSuitArmorItem(ArmorItem.Type.CHESTPLATE, properties))
             .properties(p -> p.fireResistant())
             .defaultModel()
             .register();
-    public static final ItemEntry<SpaceSuitArmorItem> SPACE_SUIT_LEGS = REGISTRATE.item("space_leggings", properties -> SpaceSuitArmorItem.create(ArmorItem.Type.LEGGINGS, properties))
+    public static final ItemEntry<SpaceSuitArmorItem> SPACE_SUIT_LEGS = REGISTRATE.item("space_leggings", properties -> new SpaceSuitArmorItem(ArmorItem.Type.LEGGINGS, properties))
             .properties(p -> p.fireResistant())
             .defaultModel()
             .register();
-    public static final ItemEntry<SpaceSuitArmorItem> SPACE_SUIT_BOOTS = REGISTRATE.item("space_boots", properties -> SpaceSuitArmorItem.create(ArmorItem.Type.BOOTS, properties))
+    public static final ItemEntry<SpaceSuitArmorItem> SPACE_SUIT_BOOTS = REGISTRATE.item("space_boots", properties -> new SpaceSuitArmorItem(ArmorItem.Type.BOOTS, properties))
             .properties(p -> p.fireResistant())
             .defaultModel()
             .register();

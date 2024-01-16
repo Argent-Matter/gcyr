@@ -4,7 +4,6 @@ import argent_matter.gcyr.api.space.planet.Galaxy;
 import argent_matter.gcyr.api.space.planet.PlanetRing;
 import argent_matter.gcyr.api.space.planet.PlanetSkyRenderer;
 import argent_matter.gcyr.api.space.planet.SolarSystem;
-import argent_matter.gcyr.common.data.GCyRKeyMappings;
 
 import java.util.ArrayList;
 import java.util.List;
