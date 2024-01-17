@@ -3,112 +3,216 @@ plugins {
     alias libs.plugins.architectury.loom apply false
     alias libs.plugins.vineFlower apply false // VineFlower, a better decompiler
     alias libs.plugins.machete // automatic jar compressing on build
+    alias libs.plugins.shadow
 }
 
+apply plugin: "dev.architectury.loom"
+apply plugin: "io.github.juuxel.loom-vineflower"
+apply plugin: "java"
+apply plugin: "architectury-plugin"
+apply plugin: "maven-publish"
+
+archivesBaseName = "${project.name}-${libs.versions.minecraft.get()}"
+group = properties.maven_group
+
+// Formats the mod version to include the loader, Minecraft version, and build number (if present)
+String buildNumber = System.getenv("GITHUB_ACTION_NUMBER")
+version = "${mod_version}" + (buildNumber != null ? "-build_${System.getenv("GITHUB_RUN_NUMBER")}" : "")
+
+
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+    options.release = 17
+}
+
+java {
+    withSourcesJar()
+}
+
+def mod_id = properties.mod_id
 
 architectury {
+    platformSetupLoomIde()
+    forge()
     minecraft = libs.versions.minecraft
 }
 
-subprojects {
-    apply plugin: "dev.architectury.loom"
-    apply plugin: "io.github.juuxel.loom-vineflower"
+static def isJetBrainsRuntime() {
+    return System.getProperty('java.vm.vendor').contains('JetBrains')
+}
 
-    loom {
-        silentMojangMappingsLicense()
+loom {
+    accessWidenerPath = file("src/main/resources/${mod_id}.accesswidener")
+    silentMojangMappingsLicense()
+
+    forge {
+        mixinConfig(
+                "${mod_id}.mixins.json",
+        )
+
+        convertAccessWideners = true
+        extraAccessWideners.add loom.accessWidenerPath.get().asFile.name
+
+        dataGen{
+            mod(mod_id)
+        }
     }
 
-    repositories {
-        mavenLocal()
-        mavenCentral()
-        maven { url = "https://maven.shedaniel.me/" } // Cloth Config, REI
-        maven {
-            url "https://cursemaven.com"
-            content {
-                includeGroup "curse.maven"
-            }
-        } // Curse Forge File
-        maven {
-            name = "Jared's maven"
-            url = "https://maven.blamejared.com/"
-        } // JEI
-        maven { url 'https://jitpack.io' } // MixinExtras
-        maven {
-            // location of a maven mirror for JEI files, as a fallback
-            name = "ModMaven"
-            url = "https://modmaven.dev"
-        } // JEI mirror, AE2
-        maven { url = "https://maven.parchmentmc.org" } // Parchment mappings
-        maven { url = "https://maven.quiltmc.org/repository/release/" } // Quilt Mappings
-        maven { url = "https://maven.firstdarkdev.xyz/snapshots" } // LDLib
-        /*
-        maven {
-            url = "https://maven.pkg.github.com/GregTechCEu/GregTechLib-1.19"
-            credentials(HttpHeaderCredentials.class) {
-                name = "Authorization"
-                value = "Bearer ghp_" + "HLWnQ1hbSwRNebZSZ8bsFWPrV41FfR4ErfOb"
-            }
-            authentication {
-                create("header", HttpHeaderAuthentication.class)
-            }
-        } // LDLib
-        */
-        maven { // Flywheel
-            url = "https://maven.tterrag.com/"
-            content {
-                // need to be specific here due to version overlaps
-                includeGroup("com.jozufozu.flywheel")
-            }
-        }
-        maven { // TOP-Fabric
-            url "https://maven.wispforest.io"
-        }
-
+    runConfigs.named("data").configure {
+        programArg("--existing=" + file("src/main/resources").absolutePath)
+        programArgs("--client", "--server")
     }
 
-    dependencies {
-        minecraft "com.mojang:minecraft:${libs.versions.minecraft.get()}"
-        // The following line declares the mojmap mappings, you may use other mappings as well
-        mappings loom.layered {
-            it.mappings("org.quiltmc:quilt-mappings:${libs.versions.minecraft.get()}+build.${libs.versions.quiltMappings.get()}:intermediary-v2")
-            it.parchment("org.parchmentmc.data:parchment-${libs.versions.minecraft.get()}:${libs.versions.parchment.get()}@zip")
-            it.officialMojangMappings { nameSyntheticMembers = false }
+    if (isJetBrainsRuntime()) {
+        runs {
+            client {
+                vmArgs '-XX:+AllowEnhancedClassRedefinition'
+                vmArgs '-XX:HotswapAgent=fatjar'
+            }
         }
-
-        // lombok
-        compileOnly 'org.projectlombok:lombok:1.18.24'
-        annotationProcessor 'org.projectlombok:lombok:1.18.24'
-
-        implementation 'com.google.code.findbugs:jsr305:3.0.2'
     }
 }
 
-allprojects {
-    apply plugin: "java"
-    apply plugin: "architectury-plugin"
-    apply plugin: "maven-publish"
+configurations {
+    common
+    shadowCommon // Don't use shadow from the shadow plugin because we don't want IDEA to index this.
+    compileClasspath.extendsFrom common
+    runtimeClasspath.extendsFrom common
+    developmentForge.extendsFrom common
+}
 
-    archivesBaseName = "${project.name}-${libs.versions.minecraft.get()}"
-    group = rootProject.maven_group
+repositories {
+    mavenLocal()
+    // mavens for Forge-exclusives
+    maven { url = "https://api.modrinth.com/maven" } // Jade
+    maven { url = "https://maven.theillusivec4.top/" } // Curios
+    maven { // Create Forge and Registrate Forge
+        url = "https://maven.tterrag.com/"
+        content {
+            includeGroup("com.tterrag.registrate")
+            includeGroup("com.simibubi.create")
+        }
+    }
+    maven { url = "https://maven.parchmentmc.org" } // Parchment mappings
+    maven { url = "https://maven.quiltmc.org/repository/release" } // Quilt Mappings
+    maven { // TOP
+        url "https://maven.k-4u.nl"
+    }
+    maven {
+        // saps.dev Maven (KubeJS and Rhino)
+        url = "https://maven.saps.dev/minecraft"
+        content {
+            includeGroup "dev.latvian.mods"
+        }
+    }
+    mavenLocal()
+    mavenCentral()
+    maven { url = "https://maven.shedaniel.me/" } // Cloth Config, REI
+    maven {
+        url "https://cursemaven.com"
+        content {
+            includeGroup "curse.maven"
+        }
+    } // Curse Forge File
+    maven {
+        name = "Jared's maven"
+        url = "https://maven.blamejared.com/"
+    } // JEI
+    maven { url 'https://jitpack.io' } // MixinExtras
+    maven {
+        // location of a maven mirror for JEI files, as a fallback
+        name = "ModMaven"
+        url = "https://modmaven.dev"
+    } // JEI mirror, AE2
+    maven { url = "https://maven.parchmentmc.org" } // Parchment mappings
+    maven { url = "https://maven.quiltmc.org/repository/release/" } // Quilt Mappings
+    maven { url = "https://maven.firstdarkdev.xyz/snapshots" } // LDLib
 
-    // Formats the mod version to include the loader, Minecraft version, and build number (if present)
-    String buildNumber = System.getenv("GITHUB_ACTION_NUMBER")
-    version = "${mod_version}" + (buildNumber != null ? "-build_${System.getenv("GITHUB_RUN_NUMBER")}" : "")
+}
 
+dependencies {
+    minecraft "com.mojang:minecraft:${libs.versions.minecraft.get()}"
+    forge forge.minecraftForge
+
+    // The following line declares the mojmap mappings, you may use other mappings as well
+    mappings loom.layered {
+        it.mappings("org.quiltmc:quilt-mappings:${libs.versions.minecraft.get()}+build.${libs.versions.quiltMappings.get()}:intermediary-v2")
+        it.parchment("org.parchmentmc.data:parchment-${libs.versions.minecraft.get()}:${libs.versions.parchment.get()}@zip")
+        it.officialMojangMappings { nameSyntheticMembers = false }
+    }
+
+    // LDLib
+    modImplementation(forge.gtceu.forge) { transitive = false }
+    modImplementation(forge.ldlib.forge) { transitive = false }
+
+    // Registrate
+    modImplementation("com.tterrag.registrate:Registrate:${forge.versions.registrate.get()}")
+
+    // REI
+    modCompileOnly forge.rei.plugin
+    modCompileOnly forge.rei.api
+    modImplementation forge.rei.forge
+
+    // TOP
+    modCompileOnly(forge.theoneprobe) { transitive = false }
+
+    // KJS
+    modImplementation forge.kubejs.forge
+
+    // Configuration
+    modImplementation(forge.configuration)
+
+    // Mixin Extras
+    implementation(annotationProcessor("io.github.llamalad7:mixinextras-common:0.2.0"))
+    api("io.github.llamalad7:mixinextras-forge:0.2.0")
+
+    // lombok
+    compileOnly 'org.projectlombok:lombok:1.18.24'
+    annotationProcessor 'org.projectlombok:lombok:1.18.24'
+}
+
+processResources {
+    inputs.property "version", project.version
+    inputs.property "mod_id", project.mod_id
+
+    filesMatching("META-INF/mods.toml") {
+        expand "version": project.version
+    }
+}
+
+shadowJar {
+    exclude "fabric.mod.json"
+
+    configurations = [project.configurations.shadowCommon]
+    archiveClassifier.set("dev-shadow")
+}
+
+remapJar {
+    inputFile.set shadowJar.archiveFile
+    dependsOn shadowJar
+    archiveClassifier.set(null)
+}
+
+jar {
+    archiveClassifier.set("dev")
+}
+
+components.java {
+    withVariantsFromConfiguration(project.configurations.shadowRuntimeElements) {
+        skip()
+    }
+}
+
+publishing {
+    publications {
+        mavenForge(MavenPublication) {
+            artifactId = rootProject.mod_id + "-" + project.name
+            from components.java
+        }
+    }
+
+    // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
     repositories {
-        // Add repositories to retrieve artifacts from in here.
-        // You should only use this when depending on other mods because
-        // Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
-        // See https://docs.gradle.org/current/userguide/declaring_repositories.html
-        // for more information about repositories.
-    }
-
-    tasks.withType(JavaCompile) {
-        options.encoding = "UTF-8"
-        options.release = 17
-    }
-
-    java {
-        withSourcesJar()
+        // Add repositories to publish to here.
     }
 }

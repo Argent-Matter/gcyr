@@ -21,12 +21,6 @@ dependencyResolutionManagement {
         def reiVersion = "12.0.684"
         def kjsVersion = "2001.6.4-build.120"
 
-        // Fabric
-        def fabricLoaderVersion = "0.15.3" // https://fabricmc.net/develop/
-        def fabricApiVersion = "0.91.0" // https://fabricmc.net/develop/
-        //def topFabricVersion = "1.19-6.0.0"
-        def registrateFabricVersion = "1.3.59-MC1.20"
-
         // Forge
         def forgeVersion = "47.1.3"
         def registrateForgeVersion = "MC1.20-1.3.3"
@@ -41,49 +35,9 @@ dependencyResolutionManagement {
         def vineFlowerVersion = "1.+"
         def macheteVersion = "1.+"
         def configurationVersion = "2.2.0"
-        def gtCeuVersion = "1.0.20"
+        def gtCeuVersion = "1.1.0"
         def ldLibVersion = "1.0.22.a"
         def mixinExtrasVersion = "0.2.0"
-
-        fabric {
-            def parchment = version("parchment", parchmentVersion)
-            library("parchment", "org.parchmentmc.data", "parchment-${minecraftVersion}").versionRef(parchment)
-
-            def fabricLoader = version("fabricLoader", fabricLoaderVersion)
-            library("fabricLoader", "net.fabricmc", "fabric-loader").versionRef(fabricLoader)
-
-            def fabricApi = version("fabricApi", "${fabricApiVersion}+${minecraftVersion}")
-            library("fabricApi", "net.fabricmc.fabric-api", "fabric-api").versionRef(fabricApi)
-
-            def ldLib = version("ldlib", ldLibVersion)
-            library("ldlib-common", "com.lowdragmc.ldlib", "ldlib-common-${minecraftVersion}").versionRef(ldLib)
-            library("ldlib-fabric", "com.lowdragmc.ldlib", "ldlib-fabric-${minecraftVersion}").versionRef(ldLib)
-
-            def registrate = version("registrate", registrateFabricVersion)
-            library("registrate", "com.tterrag.registrate_fabric", "Registrate").versionRef(registrate)
-
-            def rei = version("rei", reiVersion)
-            library("rei-plugin", "me.shedaniel", "RoughlyEnoughItems-default-plugin-fabric").versionRef(rei)
-            library("rei-api", "me.shedaniel", "RoughlyEnoughItems-api-fabric").versionRef(rei)
-            library("rei-fabric", "me.shedaniel", "RoughlyEnoughItems-fabric").versionRef(rei)
-
-            //def theoneprobe = version("theoneprobe", topFabricVersion)
-            //library("theoneprobe", "mcjty.theoneprobe", "theoneprobe-fabric").versionRef(theoneprobe)
-
-            def kubejs = version("kubejs", kjsVersion)
-            library("kubejs-common", "dev.latvian.mods", "kubejs").versionRef(kubejs)
-            library("kubejs-fabric", "dev.latvian.mods", "kubejs-fabric").versionRef(kubejs)
-
-            def gtceu = version("gtceu", gtCeuVersion)
-            library("gtceu-fabric", "com.gregtechceu.gtceu", "gtceu-fabric-${minecraftVersion}").versionRef(gtceu)
-            library("gtceu-common", "com.gregtechceu.gtceu", "gtceu-common-${minecraftVersion}").versionRef(gtceu)
-
-            def configuration = version("configuration", configurationVersion)
-            library("configuration", "dev.toma.configuration", "configuration-fabric-1.20.1").versionRef(configuration)
-
-            def mixinExtras = version("mixinExtras", mixinExtrasVersion)
-            library("mixinExtras-fabric", "io.github.llamalad7", "mixinextras-fabric").versionRef(mixinExtras)
-        }
 
         forge {
             version("forgeShortVersion", forgeVersion)
@@ -108,7 +62,7 @@ dependencyResolutionManagement {
             library("kubejs-forge", "dev.latvian.mods", "kubejs-forge").versionRef(kubejs)
 
             def gtceu = version("gtceu", gtCeuVersion)
-            library("gtceu-forge", "com.gregtechceu.gtceu", "gtceu-forge-${minecraftVersion}").versionRef(gtceu)
+            library("gtceu-forge", "com.gregtechceu.gtceu", "gtceu-${minecraftVersion}").versionRef(gtceu)
 
             def configuration = version("configuration", configurationVersion)
             library("configuration", "dev.toma.configuration", "configuration-forge-1.20.1").versionRef(configuration)
@@ -142,13 +96,5 @@ dependencyResolutionManagement {
         }
     }
 }
-
-include("${mod_id}-common")
-include("${mod_id}-fabric")
-include("${mod_id}-forge")
-
-project(":${mod_id}-common").setProjectDir(new File("common"))
-project(":${mod_id}-forge").setProjectDir(new File("forge"))
-project(":${mod_id}-fabric").setProjectDir(new File("fabric"))
 
 rootProject.name = "${mod_name}"
