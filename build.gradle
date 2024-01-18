@@ -180,16 +180,9 @@ processResources {
     }
 }
 
-shadowJar {
-    exclude "fabric.mod.json"
-
-    configurations = [project.configurations.shadowCommon]
-    archiveClassifier.set("dev-shadow")
-}
-
 remapJar {
-    inputFile.set shadowJar.archiveFile
-    dependsOn shadowJar
+    inputFile.set jar.archiveFile
+    dependsOn jar
     archiveClassifier.set(null)
 }
 
