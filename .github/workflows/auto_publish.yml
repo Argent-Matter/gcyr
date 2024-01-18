@@ -60,14 +60,12 @@ jobs:
         name: Get Version
         id: var
         run: |
-          MESSAGE=$(ls fabric/build/libs/* | grep sources.jar -v | grep shadow.jar -v | awk -F 'gcyr-fabric-|.jar' '{print $2}')
-          echo fabric_version=$MESSAGE >> $GITHUB_OUTPUT
-          MESSAGE=$(ls forge/build/libs/* | grep sources.jar -v | grep shadow.jar -v | awk -F 'gcyr-forge-|.jar' '{print $2}')
+          MESSAGE=$(ls build/libs/* | grep sources.jar -v | grep shadow.jar -v | awk -F 'gcyr-|.jar' '{print $2}')
           echo forge_version=$MESSAGE >> $GITHUB_OUTPUT
 
       - if: ${{ inputs.publishCurseForgeAndModrinth }}
-        name: mc-publish-fabric
-        uses: Kir-Antipov/mc-publish@v3.3
+        name: mc-publish
+        uses: Kir-Antipov/mc-publish@v3.3.0
         with:
           # Only include this section if you wish to publish
           # your assets on Modrinth.
@@ -80,47 +78,11 @@ jobs:
           curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
 
           files: |
-            fabric/build/libs/!(*-@(dev|sources|javadoc|dev-shadow)).jar
-            fabric/build/libs/*-@(dev|sources|javadoc|dev-shadow).jar
+            build/libs/!(*-@(dev|sources|javadoc|dev-shadow)).jar
+            build/libs/*-@(dev|sources|javadoc|dev-shadow).jar
 
-          name: GCyR ${{ steps.var.outputs.fabric_version }}-fabric
-          version: mc${{ steps.var.outputs.fabric_version }}-fabric
-          version-type: ${{ inputs.releaseType }}
-          changelog-file: CHANGELOG.*
-
-          loaders: |
-            fabric
-          game-versions: |
-            ${{ github.ref_name }}
-          dependencies: |
-            gtceu{modrinth:7tG215v7}{curseforge:890405}
-          game-version-filter: none
-          java: |
-            17
-          retry-attempts: 2
-          retry-delay: 10000
-          fail-mode: fail
-
-      - if: ${{ inputs.publishCurseForgeAndModrinth }}
-        name: mc-publish-forge
-        uses: Kir-Antipov/mc-publish@v3.3
-        with:
-          # Only include this section if you wish to publish
-          # your assets on Modrinth.
-          modrinth-id: 4VJrCEMZ
-          modrinth-token: ${{ secrets.MODRINTH_TOKEN }}
-
-          # Only include this section if you wish to publish
-          # your assets on CurseForge.
-          curseforge-id: 922713
-          curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
-
-          files: |
-            forge/build/libs/!(*-@(dev|sources|javadoc|dev-shadow)).jar
-            forge/build/libs/*-@(dev|sources|javadoc|dev-shadow).jar
-
-          name: GCyR ${{ steps.var.outputs.forge_version }}-forge
-          version: mc${{ steps.var.outputs.forge_version }}-forge
+          name: GCyR ${{ steps.var.outputs.version }}
+          version: mc${{ steps.var.outputs.version }}
           version-type: ${{ inputs.releaseType }}
           changelog-file: CHANGELOG.*
 
