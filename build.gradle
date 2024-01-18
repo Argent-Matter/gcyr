@@ -182,7 +182,7 @@ processResources {
 
 remapJar {
     inputFile.set jar.archiveFile
-    dependsOn jar
+    dependsOn(":optimizeOutputsOfJar")
     archiveClassifier.set(null)
 }
 

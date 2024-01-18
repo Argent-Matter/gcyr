@@ -7,6 +7,7 @@ import argent_matter.gcyr.common.data.GCyRMaterials;
 import argent_matter.gcyr.common.recipe.DysonSphereCondition;
 import argent_matter.gcyr.common.recipe.OrbitCondition;
 import com.gregtechceu.gtceu.GTCEu;
+import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTMachines;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
@@ -82,13 +83,13 @@ public class DysonSphereRecipeLoader {
         DYSON_ENERGY_RECIPES.recipeBuilder(GCyR.id("run_dyson_sphere_space"))
                 .addCondition(new DysonSphereCondition())
                 .addCondition(new OrbitCondition())
-                .duration(200).EUt(GTCEu.isHighTier() ? -V[UIV] : -V[UV])
+                .duration(200).EUt(GTCEuAPI.isHighTier() ? -V[UIV] : -V[UV])
                 .save(provider);
 
         DYSON_ENERGY_RECIPES.recipeBuilder(GCyR.id("run_dyson_sphere_not_space"))
                 .addCondition(new DysonSphereCondition())
                 .addCondition(new OrbitCondition().setReverse(true))
-                .duration(200).EUt(GTCEu.isHighTier() ? -V[UHV] : -V[ZPM])
+                .duration(200).EUt(GTCEuAPI.isHighTier() ? -V[UHV] : -V[ZPM])
                 .save(provider);
     }
 }
