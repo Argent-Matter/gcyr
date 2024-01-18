@@ -1,1 +1,2 @@
 - updated to GTCEu 1.1.0
+- fix space elevator requiring UEV component

@@ -5,6 +5,7 @@ import argent_matter.gcyr.common.data.GCyRBlocks;
 import argent_matter.gcyr.common.data.GCyRItems;
 import argent_matter.gcyr.common.data.GCyRMachines;
 import argent_matter.gcyr.common.data.GCyRMaterials;
+import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.UnificationEntry;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
@@ -90,7 +91,7 @@ public class MiscRecipes {
         VanillaRecipeHelper.addShapedRecipe(provider, GCyR.id("rocket_scanner"), GCyRMachines.ROCKET_SCANNER.asStack(), "PCP", "CHC", "SCS", 'H', GTMachines.HULL[EV].asStack(), 'P', GCyRBlocks.LAUNCH_PAD.asStack(), 'C', CustomTags.EV_CIRCUITS, 'S', new UnificationEntry(plate, Titanium));
         VanillaRecipeHelper.addShapedRecipe(provider, GCyR.id("space_station_packager"), GCyRMachines.SPACE_STATION_PACKAGER.asStack(), "PCP", "FHF", "PCP", 'H', GTMachines.HULL[LuV].asStack(), 'P', new UnificationEntry(frameGt, StainlessSteel), 'C', CustomTags.LuV_CIRCUITS, 'F', GTBlocks.PLASTCRETE.asStack());
         VanillaRecipeHelper.addShapedRecipe(provider, GCyR.id("dyson_system_controller"), GCyRMachines.DYSON_SYSTEM_CONTROLLER.asStack(), "PCP", "FHF", "PCP", 'H', GTMachines.HULL[UHV].asStack(), 'P', new UnificationEntry(plate, Darmstadtium), 'C', CustomTags.UHV_CIRCUITS, 'F', GCyMBlocks.CASING_ATOMIC.asStack());
-        VanillaRecipeHelper.addShapedRecipe(provider, GCyR.id("space_elevator"), GCyRMachines.SPACE_ELEVATOR.asStack(), "FFF", "PHP", "PCP", 'H', GTMachines.HULL[UEV].asStack(), 'F', new UnificationEntry(plateDense, Trinaquadalloy), 'C', CustomTags.UHV_CIRCUITS, 'P', GTBlocks.CASING_TUNGSTENSTEEL_ROBUST.asStack());
+        VanillaRecipeHelper.addShapedRecipe(provider, GCyR.id("space_elevator"), GCyRMachines.SPACE_ELEVATOR.asStack(), "FFF", "PHP", "PCP", 'H', GTCEuAPI.isHighTier() ? GTMachines.HULL[UEV].asStack() : GTMachines.HULL[UHV].asStack(), 'F', new UnificationEntry(plateDense, Trinaquadalloy), 'C', CustomTags.UHV_CIRCUITS, 'P', GTBlocks.CASING_TUNGSTENSTEEL_ROBUST.asStack());
 
         //endregion
 
