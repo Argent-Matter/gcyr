@@ -36,7 +36,7 @@ dependencyResolutionManagement {
         def macheteVersion = "1.+"
         def configurationVersion = "2.2.0"
         def gtCeuVersion = "1.1.0"
-        def ldLibVersion = "1.0.22.a"
+        def ldLibVersion = "1.0.22.b"
         def mixinExtrasVersion = "0.2.0"
 
         forge {
