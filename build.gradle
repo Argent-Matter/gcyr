@@ -127,11 +127,18 @@ repositories {
     maven { url = "https://maven.parchmentmc.org" } // Parchment mappings
     maven { url = "https://maven.quiltmc.org/repository/release/" } // Quilt Mappings
     maven { url = "https://maven.firstdarkdev.xyz/snapshots" } // LDLib
-
+    maven {
+        name = "redlance"
+        url = "https://repo.constructlegacy.ru/public"
+    }
+    maven {
+        name = "mixin"
+        url = "https://repo.spongepowered.org/repository/maven-public/"
+    }
 }
 
 dependencies {
-    minecraft "com.mojang:minecraft:${libs.versions.minecraft.get()}"
+    minecraft libs.minecraft
     forge forge.minecraftForge
 
     // The following line declares the mojmap mappings, you may use other mappings as well
@@ -163,12 +170,17 @@ dependencies {
     modImplementation(forge.configuration)
 
     // Mixin Extras
-    implementation(annotationProcessor("io.github.llamalad7:mixinextras-common:0.2.0"))
-    api("io.github.llamalad7:mixinextras-forge:0.2.0")
+    implementation(annotationProcessor("io.github.llamalad7:mixinextras-common:${forge.versions.mixinExtras.get()}"))
+    api("io.github.llamalad7:mixinextras-forge:${forge.versions.mixinExtras.get()}")
+    // apply a newer mixin AP to fix an issue with building the Lithium mixins
+    implementation(annotationProcessor("org.spongepowered:mixin:${libs.versions.mixin.get()}:processor"))
 
     // lombok
     compileOnly 'org.projectlombok:lombok:1.18.24'
     annotationProcessor 'org.projectlombok:lombok:1.18.24'
+
+    // testing mods
+    modCompileOnly forge.radium
 }
 
 processResources {

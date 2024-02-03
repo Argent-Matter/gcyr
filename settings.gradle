@@ -39,6 +39,7 @@ dependencyResolutionManagement {
         def gtCeuVersion = "1.1.2.a"
         def ldLibVersion = "1.0.23.a"
         def mixinExtrasVersion = "0.2.0"
+        def mixinVersion = "0.8.6-SNAPSHOT"
 
         forge {
             version("forgeShortVersion", forgeVersion)
