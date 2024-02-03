@@ -14,6 +14,7 @@ import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 import com.gregtechceu.gtceu.data.recipe.misc.MetaTileEntityLoader;
 import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.world.item.Items;
 
 import java.util.function.Consumer;
 
@@ -110,6 +111,19 @@ public class MiscRecipes {
                 .inputItems(frameGt, Titanium)
                 .outputItems(GCyRBlocks.BASIC_ROCKET_MOTOR.asStack(1))
                 .EUt(VA[EV]).duration(300);
+
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GCyR.id("launch_pad"))
+                .inputItems(Items.BLACK_CONCRETE, 1)
+                .inputItems(frameGt, Steel, 1)
+                .inputFluids(DyeYellow.getFluid(200))
+                .inputFluids(PolyvinylChloride.getFluid(576))
+                .EUt(VA[HV]).duration(40);
+
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GCyR.id("seat"))
+                .inputItems(Items.WHITE_CARPET, 1)
+                .inputItems(rod, Steel, 6)
+                .inputItems(plate, Steel, 2)
+                .EUt(VA[MV]).duration(50);
 
         //endregion
     }
