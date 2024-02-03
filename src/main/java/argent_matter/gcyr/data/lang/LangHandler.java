@@ -11,51 +11,19 @@ import static com.gregtechceu.gtceu.utils.FormattingUtil.toEnglishName;
 
 public class LangHandler extends com.gregtechceu.gtceu.data.lang.LangHandler {
 
-    // add materials in here as new ones are added
-    private static final Set<Material> MATERIALS = Set.of(
-            GCyRMaterials.PotassiumChloride,
-            GCyRMaterials.PotassiumCarbonate,
-            GCyRMaterials.PotassiumHydroxide,
-            GCyRMaterials.ChromicAcid,
-            GCyRMaterials.Trinaquadalloy,
-            GCyRMaterials.Fluorite,
-            GCyRMaterials.CobaltBromide,
-            GCyRMaterials.ManganeseBromide,
-            GCyRMaterials.ManganeseAcetate,
-            GCyRMaterials.HydrobromicAcid,
-            GCyRMaterials.FiberGlass,
-            GCyRMaterials.PyromelliticDianhydride,
-            GCyRMaterials.Durene,
-            GCyRMaterials.Dimethylformamide,
-            GCyRMaterials.Oxydianiline,
-            GCyRMaterials.OxydianilineSludge,
-            GCyRMaterials.AminoPhenol,
-            GCyRMaterials.KaptonK,
-            GCyRMaterials.TerephthalicAcid,
-            GCyRMaterials.TerephthaloylChloride,
-            GCyRMaterials.Nitroaniline,
-            GCyRMaterials.MartianRockDust,
-            GCyRMaterials.IronOxide
-
-    );
-
     public static void init(RegistrateLangProvider provider) {
-        // materials
-        for (Material material : MATERIALS) {
-            provider.add(material.getUnlocalizedName(), toEnglishName(material.getName()));
-        }
         // tag prefixes
         provider.add("tagprefix.moon", TagPrefix.get("moon").langValue());
         provider.add("tagprefix.mars", TagPrefix.get("mars").langValue());
         provider.add("tagprefix.venus", TagPrefix.get("venus").langValue());
         provider.add("tagprefix.mercury", TagPrefix.get("mercury").langValue());
 
-        provider.add(GCyRMaterials.Bisalloy400.getUnlocalizedName(), "Bisalloy-400");
-        provider.add(GCyRMaterials.CoMnBrCatalyst.getUnlocalizedName(), "Co-Mn-Br Catalyst");
-        provider.add(GCyRMaterials.ParaPhenylenediamine.getUnlocalizedName(), "Para-Phenylenediamine");
-        provider.add(GCyRMaterials.ParaAramid.getUnlocalizedName(), "Para-Aramid");
-        provider.add(GCyRMaterials.ParaXylene.getUnlocalizedName(), "Para-Xylene");
-        provider.add(GCyRMaterials.BisTrichloromethylBenzene.getUnlocalizedName(), "Bis(trichloromethyl)benzene");
+        replace(provider, GCyRMaterials.Bisalloy400.getUnlocalizedName(), "Bisalloy-400");
+        replace(provider, GCyRMaterials.CoMnBrCatalyst.getUnlocalizedName(), "Co-Mn-Br Catalyst");
+        replace(provider, GCyRMaterials.ParaPhenylenediamine.getUnlocalizedName(), "Para-Phenylenediamine");
+        replace(provider, GCyRMaterials.ParaAramid.getUnlocalizedName(), "Para-Aramid");
+        replace(provider, GCyRMaterials.ParaXylene.getUnlocalizedName(), "Para-Xylene");
+        replace(provider, GCyRMaterials.BisTrichloromethylBenzene.getUnlocalizedName(), "Bis(trichloromethyl)benzene");
 
         // blocks
         replace(provider, "block.gcyr.aerospace_aluminium_casing", "Aerospace-grade Aluminium Machine Casing");
