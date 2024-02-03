@@ -25,6 +25,7 @@ dependencyResolutionManagement {
         def forgeVersion = "47.1.3"
         def registrateForgeVersion = "MC1.20-1.3.3"
         def topForgeVersion = "1.20.1-10.0.1-3"
+        def radiumVersion = "0.12.2+git.5f80f74"
 
         // Libs
         def quiltMappingsVersion = "5"  // https://lambdaurora.dev/tools/import_quilt.html
@@ -35,8 +36,8 @@ dependencyResolutionManagement {
         def vineFlowerVersion = "1.+"
         def macheteVersion = "1.+"
         def configurationVersion = "2.2.0"
-        def gtCeuVersion = "1.1.0"
-        def ldLibVersion = "1.0.22.b"
+        def gtCeuVersion = "1.1.2.a"
+        def ldLibVersion = "1.0.23.a"
         def mixinExtrasVersion = "0.2.0"
 
         forge {
@@ -70,6 +71,9 @@ dependencyResolutionManagement {
             def mixinExtras = version("mixinExtras", mixinExtrasVersion)
             library("mixinExtras-common", "io.github.llamalad7", "mixinextras-common").versionRef(mixinExtras)
             library("mixinExtras-forge", "io.github.llamalad7", "mixinextras-forge").versionRef(mixinExtras)
+
+            def radium = version("radium", radiumVersion)
+            library("radium", "me.jellysquid.mods", "radium").versionRef(radium)
         }
 
         libs {
@@ -78,6 +82,9 @@ dependencyResolutionManagement {
 
             def minecraft = version("minecraft", minecraftVersion)
             library("minecraft", "com.mojang", "minecraft").versionRef(minecraft)
+
+            def mixin = version("mixin", mixinVersion)
+            library("mixin", "org.spongepowered", "mixin").versionRef(mixin)
 
             def shadow = version("shadow", shadowVersion)
             plugin("shadow", "com.github.johnrengelman.shadow").versionRef(shadow)
