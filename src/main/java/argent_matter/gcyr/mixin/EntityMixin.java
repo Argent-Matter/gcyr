@@ -47,41 +47,6 @@ public abstract class EntityMixin {
         }
     }
 
-    @ModifyExpressionValue(method = "collideBoundingBox", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;getWorldBorder()Lnet/minecraft/world/level/border/WorldBorder;"))
-    private static WorldBorder gcyr$modifySpaceStationBorder(WorldBorder value, @Nullable Entity entity, Vec3 vec, AABB collisionBox, Level level, List<VoxelShape> potentialHits) {
-        if (entity != null && level instanceof ServerLevel serverLevel) {
-            if (PlanetData.isOrbitLevel(serverLevel.dimension())) {
-                // default to normal world border if somehow not on a space station dimension
-                ISpaceStationHolder spaceStationHolder = GCyRCapabilityHelper.getSpaceStations(serverLevel);
-                if (spaceStationHolder == null) return value;
-
-                // get nearest space station
-                List<Integer> stationIds = spaceStationHolder.getStationsNearWorldPos(entity.blockPosition(), SpaceStation.BLOCK_MULTIPLIER / 2);
-                if (!stationIds.isEmpty()) {
-                    int nearest = stationIds.get(0);
-                    SpaceStation station = spaceStationHolder.getStation(nearest);
-                    // get border of selected station, or fall back to normal border if invalid
-                    WorldBorder border = station != null ? station.border() : value;
-
-                    // sync new border to client
-                    if (entity instanceof ServerPlayer player) {
-                        player.connection.send(new ClientboundSetBorderCenterPacket(border));
-                        player.connection.send(new ClientboundSetBorderSizePacket(border));
-                    }
-                    return border;
-                }
-            } else {
-                // reset client border if not on station
-                if (entity instanceof ServerPlayer player) {
-                    player.connection.send(new ClientboundSetBorderCenterPacket(value));
-                    player.connection.send(new ClientboundSetBorderSizePacket(value));
-                }
-            }
-
-        }
-        return value;
-    }
-
     @Inject(method = "saveWithoutId", at = @At("RETURN"))
     private void gcyr$addAdditionalSaveData(CompoundTag compound, CallbackInfoReturnable<Boolean> cir) {
         if (this instanceof IAutoPersistEntity autoPersistEntity) {

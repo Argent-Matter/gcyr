@@ -61,7 +61,7 @@ jobs:
         id: var
         run: |
           MESSAGE=$(ls build/libs/* | grep sources.jar -v | grep shadow.jar -v | awk -F 'gcyr-|.jar' '{print $2}')
-          echo forge_version=$MESSAGE >> $GITHUB_OUTPUT
+          echo version=$MESSAGE >> $GITHUB_OUTPUT
 
       - if: ${{ inputs.publishCurseForgeAndModrinth }}
         name: mc-publish

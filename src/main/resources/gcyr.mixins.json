@@ -3,13 +3,18 @@
   "minVersion": "0.8",
   "package": "argent_matter.gcyr.mixin",
   "compatibilityLevel": "JAVA_17",
+  "plugin": "argent_matter.gcyr.mixin.GCyRMixinPlugin",
   "mixins": [
+    "EntityBorderMixin",
     "EntityMixin",
     "GTOresAccessor",
     "GTOresMixin",
     "LivingEntityAccessor",
     "LivingEntityMixin",
-    "ServerLevelMixin"
+    "ServerLevelMixin",
+    "lithium.LithiumEntityCollisions$IterableAccessor",
+    "lithium.LithiumEntityCollisions$IteratorMixin",
+    "lithium.LithiumEntityCollisionsMixin"
   ],
   "client": [
     "ClientLevelMixin",
