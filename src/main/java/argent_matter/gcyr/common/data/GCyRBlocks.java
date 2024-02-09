@@ -33,7 +33,7 @@ import java.util.function.Supplier;
 import static argent_matter.gcyr.api.registries.GCyRRegistries.REGISTRATE;
 
 @SuppressWarnings("unused")
-public class GCyRBlocks {
+public class  GCyRBlocks {
 
     static {
         REGISTRATE.creativeModeTab(() -> GCyRCreativeModeTabs.GCYR);
@@ -72,7 +72,7 @@ public class GCyRBlocks {
     public static final BlockEntry<Block> VENUSIAN_REGOLITH = REGISTRATE
             .block("venusian_regolith", Block::new)
             .initialProperties(() -> Blocks.SANDSTONE)
-            .properties(properties -> properties.mapColor(MapColor.TERRACOTTA_ORANGE))
+            .properties(properties -> properties.mapColor(MapColor.TERRACOTTA_GRAY))
             .blockstate(GCyRModels::randomRotatedModel)
             .simpleItem()
             .register();
@@ -80,7 +80,7 @@ public class GCyRBlocks {
     public static final BlockEntry<Block> VENUS_ROCK = REGISTRATE
             .block("venus_rock", Block::new)
             .initialProperties(() -> Blocks.STONE)
-            .properties(properties -> properties.mapColor(MapColor.TERRACOTTA_ORANGE))
+            .properties(properties -> properties.mapColor(MapColor.TERRACOTTA_LIGHT_GRAY))
             .blockstate(GCyRModels::randomRotatedModel)
             .simpleItem()
             .register();
