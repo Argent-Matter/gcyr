@@ -7,7 +7,7 @@
       "type": "minecraft:multi_noise",
       "biomes": [
         {
-          "biome": "gcyr:venus_wastelands",
+          "biome": "gcyr:venus_hills",
           "parameters": {
             "temperature": 1,
             "humidity": -1,
@@ -19,7 +19,7 @@
           }
         },
         {
-          "biome": "gcyr:infernal_venus_barrens",
+          "biome": "gcyr:venus_barren_plains",
           "parameters": {
             "temperature": 0,
             "humidity": 0,
