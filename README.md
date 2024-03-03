@@ -13,9 +13,9 @@
 
 ## Features:
 
-# - Space Travel with a similar Rocket System to Advanced Rocketry!
-# - Customizable Space Stations
-# - A Satellite System(Including an Orbital Laser, Mining Lasers Etc... NYI!)
-# - Dyson Sphere(s) (When activated they permanently turn your solar system dark, aka no DayLightCycle + plus the sun and the moon disappears, till you disable it)
-# - It adds another Solar System with Exoplanets and Alien Life(NYI)
-# - Ability to easily add your own Custom Planets with Datapacks/Kubejs!
+ - Space Travel with a similar Rocket System to Advanced Rocketry!
+ - Customizable Space Stations
+ - A Satellite System(Including an Orbital Laser, Mining Lasers Etc... NYI!)
+ - Dyson Sphere(s) (When activated they permanently turn your solar system dark, aka no DayLightCycle + plus the sun and the moon disappears, till you disable it)
+ - It adds another Solar System with Exoplanets and Alien Life(NYI)
+ - Ability to easily add your own Custom Planets with Datapacks/Kubejs!
