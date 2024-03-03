@@ -5,10 +5,10 @@
     <a href="https://github.com/Argent-Matter/gcyr/blob/1.20.1/LICENSE"><img src="https://img.shields.io/github/license/Nomi-CEu/Nomi-CEu?style=for-the-badge&logo=github" alt="License"></a>
     <a href="https://discord.gg/bmsXZGHQUx"><img src="https://dcbadge.vercel.app/api/server/9eGYEDc7s9"/>
     <br>
-    <p align="center"><img alt="CurseForge Downloads" src="https://img.shields.io/curseforge/dt/922713?style=plastic">
-    <p align="center"><img alt="CurseForge Version" src="https://img.shields.io/curseforge/v/922713?style=plastic">
-    <p align="center"><img alt="Modrinth Version" src="https://img.shields.io/modrinth/v/4VJrCEMZ?style=plastic">
-    <p align="center"><img alt="Modrinth Downloads" src="https://img.shields.io/modrinth/dt/4VJrCEMZ?style=plastic">
+    <a href="https://www.curseforge.com/minecraft/mc-mods/gcyr"><img alt="CurseForge Downloads" src="https://img.shields.io/curseforge/dt/922713?style=plastic">
+    <a href="https://www.curseforge.com/minecraft/mc-mods/gcyr"><img alt="CurseForge Version" src="https://img.shields.io/curseforge/v/922713?style=plastic">
+    <a href="https://modrinth.com/mod/gcyr"><img alt="Modrinth Version" src="https://img.shields.io/modrinth/v/4VJrCEMZ?style=plastic">
+    <a href="https://modrinth.com/mod/gcyr"><img alt="Modrinth Downloads" src="https://img.shields.io/modrinth/dt/4VJrCEMZ?style=plastic">
 </h1>
 
 ## Features:
