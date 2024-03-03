@@ -6,7 +6,7 @@
     "colored_stars": true,
     "daylight_visible": false
   },
-  "sunset_color": "vanilla",
+  "sunset_color": "blue",
   "dimension_effects": {
     "type": "simple"
   },
@@ -29,7 +29,7 @@
       "texture": "gcyr:textures/sky/earth.png",
       "blending": true,
       "render_type": "static",
-      "scale": 1.0,
+      "scale": 0.2,
       "rotation": [
         -20.0,
         -40.0,
@@ -40,7 +40,7 @@
       "texture": "gcyr:textures/sky/light.png",
       "blending": true,
       "render_type": "dynamic",
-      "scale": 2.5,
+      "scale": 0.5,
       "color": 8437759,
       "rotation": [
         -20.0,

@@ -1,0 +1,29 @@
+{
+  "world": "gcyr:mercury",
+  "stars": {
+    "fancy_count": 13000,
+    "fast_count": 6000,
+    "colored_stars": true,
+    "daylight_visible": true
+  },
+  "sunset_color": "none",
+  "dimension_effects": {
+    "type": "simple"
+  },
+  "cloud_effects": "none",
+  "weather_effects": "none",
+  "horizon_angle": 0,
+  "sky_objects": [
+    {
+      "texture": "gcyr:textures/sky/sun.png",
+      "blending": true,
+      "render_type": "dynamic",
+      "scale": 90.0,
+      "rotation": [
+        0.0,
+        -90.0,
+        0.0
+      ]
+    }
+  ]
+}

@@ -2,7 +2,6 @@ package argent_matter.gcyr.common.data;
 
 import argent_matter.gcyr.GCyR;
 import net.minecraft.core.HolderGetter;
-import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstapContext;
 import net.minecraft.resources.ResourceKey;
@@ -10,19 +9,18 @@ import net.minecraft.sounds.Music;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.biome.*;
 import net.minecraft.world.level.levelgen.carver.ConfiguredWorldCarver;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import org.jetbrains.annotations.Nullable;
 
 public class GCyRBiomes {
     public static final ResourceKey<Biome> SPACE = ResourceKey.create(Registries.BIOME, GCyR.id("space"));
     public static final ResourceKey<Biome> MOON = ResourceKey.create(Registries.BIOME, GCyR.id("moon"));
-    public static final ResourceKey<Biome> INFERNAL_VENUS_BARRENS = ResourceKey.create(Registries.BIOME, GCyR.id("infernal_venus_barrens"));
+    public static final ResourceKey<Biome> VENUS_BARREN_PLAINS = ResourceKey.create(Registries.BIOME, GCyR.id("venus_barren_plains"));
     public static final ResourceKey<Biome> MARTIAN_CANYON_CREEK = ResourceKey.create(Registries.BIOME, GCyR.id("martian_canyon_creek"));
     public static final ResourceKey<Biome> MARTIAN_POLAR_CAPS = ResourceKey.create(Registries.BIOME, GCyR.id("martian_polar_caps"));
     public static final ResourceKey<Biome> MARTIAN_WASTELANDS = ResourceKey.create(Registries.BIOME, GCyR.id("martian_wastelands"));
     public static final ResourceKey<Biome> MERCURY_DELTAS = ResourceKey.create(Registries.BIOME, GCyR.id("mercury_deltas"));
-    public static final ResourceKey<Biome> VENUS_WASTELANDS = ResourceKey.create(Registries.BIOME, GCyR.id("venus_wastelands"));
+    public static final ResourceKey<Biome> VENUS_HILLS = ResourceKey.create(Registries.BIOME, GCyR.id("venus_hills"));
 
 
     public static void bootstrap(BootstapContext<Biome> ctx) {
