@@ -5,7 +5,17 @@
     <a href="https://github.com/Argent-Matter/gcyr/blob/1.20.1/LICENSE"><img src="https://img.shields.io/github/license/Nomi-CEu/Nomi-CEu?style=for-the-badge&logo=github" alt="License"></a>
     <a href="https://discord.gg/bmsXZGHQUx"><img src="https://dcbadge.vercel.app/api/server/9eGYEDc7s9"/>
     <br>
-    <a href="https://www.curseforge.com/minecraft/mc-mods/gcyr"><img src="https://cf.way2muchnoise.eu/981238.svg?badge_style=for_the_badge" alt="CurseForge"></a>
-    <p align="center"><img src="https://img.shields.io/modrinth/dt/4VJrCEMZ" alt=""></a>
-    <p align="center"><img src="https://img.shields.io/badge/dynamic/json?label=Available%20for&color=4bab62&query=version&url=https://api.blueish.dev/api/minecraft/version?id=4VJrCEMZ" alt=""></a>
+    <p align="center"><img alt="CurseForge Downloads" src="https://img.shields.io/curseforge/dt/922713?style=plastic">
+    <p align="center"><img alt="CurseForge Version" src="https://img.shields.io/curseforge/v/922713?style=plastic">
+    <p align="center"><img alt="Modrinth Version" src="https://img.shields.io/modrinth/v/4VJrCEMZ?style=plastic">
+    <p align="center"><img alt="Modrinth Downloads" src="https://img.shields.io/modrinth/dt/4VJrCEMZ?style=plastic">
 </h1>
+
+## Features:
+
+# - Space Travel with a similar Rocket System to Advanced Rocketry!
+# - Customizable Space Stations
+# - A Satellite System(Including an Orbital Laser, Mining Lasers Etc... NYI!)
+# - Dyson Sphere(s) (When activated they permanently turn your solar system dark, aka no DayLightCycle + plus the sun and the moon disappears, till you disable it)
+# - It adds another Solar System with Exoplanets and Alien Life(NYI)
+# - Ability to easily add your own Custom Planets with Datapacks/Kubejs!
