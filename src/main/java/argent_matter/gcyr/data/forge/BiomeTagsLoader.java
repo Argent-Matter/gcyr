@@ -23,6 +23,6 @@ public class BiomeTagsLoader extends BiomeTagsProvider {
         tag(GCyRTags.IS_MOON).addOptional(GCyRBiomes.MOON.location());
         tag(GCyRTags.IS_MERCURY).addOptional(GCyRBiomes.MERCURY_DELTAS.location());
         tag(GCyRTags.IS_MARS).addOptional(GCyRBiomes.MARTIAN_CANYON_CREEK.location()).addOptional(GCyRBiomes.MARTIAN_WASTELANDS.location()).addOptional(GCyRBiomes.MARTIAN_POLAR_CAPS.location());
-        tag(GCyRTags.IS_VENUS).addOptional(GCyRBiomes.VENUS_HILLS.location()).addOptional(GCyRBiomes.VENUS_BARREN_PLAINS.location());
+        tag(GCyRTags.IS_VENUS).addOptional(GCyRBiomes.VENUS_ERODED_PLAINS.location()).addOptional(GCyRBiomes.VENUS_ERODED_PLAINS.location());
     }
 }

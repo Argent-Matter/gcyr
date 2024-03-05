@@ -7,12 +7,12 @@
       "type": "minecraft:multi_noise",
       "biomes": [
         {
-          "biome": "gcyr:venus_hills",
+          "biome": "gcyr:venus_eroded_plains",
           "parameters": {
-            "temperature": 1,
+            "temperature": 0.8,
             "humidity": -1,
-            "continentalness": 0,
-            "erosion": 0,
+            "continentalness": 0.3,
+            "erosion": -0.5,
             "weirdness": -0.5,
             "depth": 0,
             "offset": 0
@@ -24,7 +24,7 @@
             "temperature": 0,
             "humidity": 0,
             "continentalness": -0.65,
-            "erosion": 0,
+            "erosion": 0.5,
             "weirdness": -1.5,
             "depth": 0,
             "offset": 0

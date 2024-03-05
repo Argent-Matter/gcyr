@@ -1,18 +1,20 @@
 {
   "temperature": 1.6,
   "downfall": 1,
-  "has_precipitation": true,
-  "creature_spawn_probability": 0,
+  "has_precipitation": false,
   "effects": {
     "sky_color": 13943453,
     "fog_color": 15261874,
-    "water_color": 4159204,
+    "water_color": 5193751,
     "water_fog_color": 329011,
     "grass_color": 9551193,
     "foliage_color": 7842607
   },
-  "spawners": {},
-  "spawn_costs": {},
+  "creature_spawn_probability": 0,
+  "spawners": {
+  },
+  "spawn_costs": {
+  },
   "carvers": {
     "air": [
       "minecraft:cave",
