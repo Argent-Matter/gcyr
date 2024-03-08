@@ -2,7 +2,7 @@
   "type": "minecraft:add",
   "argument1": {
     "type": "minecraft:mul",
-    "argument1": 10,
+    "argument1": 7,
     "argument2": {
       "type": "minecraft:quarter_negative",
       "argument": {
@@ -44,8 +44,8 @@
                         "type": "minecraft:spline",
                         "spline": 0
                       },
-                      "min": 0.007,
-                      "max": 1.28
+                      "min": 0.01,
+                      "max": 1.4
                     },
                     "argument2": {
                       "type": "minecraft:cache_once",
