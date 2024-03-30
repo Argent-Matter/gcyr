@@ -1,6 +1,7 @@
 package argent_matter.gcyr.common.data;
 
 import argent_matter.gcyr.GCyR;
+import argent_matter.gcyr.common.machine.electric.FluidLoaderMachine;
 import argent_matter.gcyr.common.machine.electric.OxygenSpreaderMachine;
 import argent_matter.gcyr.common.machine.multiblock.RocketScannerMachine;
 import argent_matter.gcyr.common.machine.multiblock.SpaceStationPackagerMachine;
@@ -8,6 +9,7 @@ import argent_matter.gcyr.common.machine.multiblock.electric.DroneHangarMachine;
 import argent_matter.gcyr.common.machine.multiblock.electric.DysonSystemControllerMachine;
 import argent_matter.gcyr.data.recipe.GCyRTags;
 import com.gregtechceu.gtceu.GTCEu;
+import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
 import com.gregtechceu.gtceu.api.data.RotationState;
@@ -35,7 +37,7 @@ import java.util.function.BiFunction;
 
 import static argent_matter.gcyr.api.registries.GCyRRegistries.REGISTRATE;
 import static argent_matter.gcyr.common.data.GCyRBlocks.*;
-import static com.gregtechceu.gtceu.api.GTValues.VNF;
+import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 import static com.gregtechceu.gtceu.common.data.GCyMBlocks.CASING_ATOMIC;
 import static com.gregtechceu.gtceu.common.data.GTBlocks.*;
@@ -43,20 +45,29 @@ import static com.gregtechceu.gtceu.common.data.GTMachines.POWER_TRANSFORMER;
 
 @SuppressWarnings({"Convert2MethodRef", "FunctionalExpressionCanBeFolded", "unused"})
 public class GCyRMachines {
-
-    public final static int[] HIGH_TIERS = new int[] {GTValues.IV, GTValues.LuV, GTValues.ZPM, GTValues.UV, GTValues.UHV};
+    public final static int[] ELECTRIC_TIERS = GTValues.tiersBetween(LV, GTCEuAPI.isHighTier() ? OpV : UV);
+    public final static int[] LOW_TIERS = GTValues.tiersBetween(LV, EV);
+    public final static int[] HIGH_TIERS = GTValues.tiersBetween(IV, GTCEuAPI.isHighTier() ? OpV : UHV);
 
     public final static MachineDefinition[] OXYGEN_SPREADER = registerTieredMachines("oxygen_spreader", OxygenSpreaderMachine::new,
             (tier, builder) -> builder
                     .langValue("%s Oxygen Spreader".formatted(VNF[tier]))
                     .rotationState(RotationState.NON_Y_AXIS)
-                    .hasTESR(true)
-                    .renderer(() -> new TieredHullMachineRenderer(tier, GCyR.id("block/machine/oxygen_spreader_machine")))
+                    .renderer(() -> new TieredHullMachineRenderer(tier, GCyR.id("block/machine/oxygen_spreader")))
                     .recipeType(GCyRRecipeTypes.OXYGEN_SPREADER_RECIPES)
                     .tooltips(workableTiered(tier, GTValues.V[tier], GTValues.V[tier] * 64, GCyRRecipeTypes.OXYGEN_SPREADER_RECIPES, OxygenSpreaderMachine.tankScalingFunction(tier), true))
                     .blockBuilder(block -> block.tag(GCyRTags.PASSES_FLOOD_FILL))
                     .register(),
             HIGH_TIERS);
+
+    public final static MachineDefinition[] FLUID_LOADER = registerTieredMachines("fluid_loader", FluidLoaderMachine::new,
+            (tier, builder) -> builder
+                    .langValue("%s Fluid Loader".formatted(VNF[tier]))
+                    .rotationState(RotationState.ALL)
+                    .renderer(() -> new TieredHullMachineRenderer(tier, GCyR.id("block/machine/fluid_loader")))
+                    .recipeType(GTRecipeTypes.DUMMY_RECIPES)
+                    .register(),
+            LOW_TIERS);
 
     public static final MachineDefinition ROCKET_SCANNER = REGISTRATE.multiblock("rocket_scanner", RocketScannerMachine::new)
             .langValue("Rocket Scanner")

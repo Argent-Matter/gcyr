@@ -1,11 +1,11 @@
 {
   "values": [
     {
-      "id": "gcyr:venus_wastelands",
+      "id": "gcyr:venus_eroded_plains",
       "required": false
     },
     {
-      "id": "gcyr:infernal_venus_barrens",
+      "id": "gcyr:venus_eroded_plains",
       "required": false
     }
   ]

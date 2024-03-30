@@ -117,12 +117,14 @@ public class MiscRecipes {
                 .inputItems(frameGt, Steel, 1)
                 .inputFluids(DyeYellow.getFluid(200))
                 .inputFluids(PolyvinylChloride.getFluid(576))
+                .outputItems(GCyRBlocks.LAUNCH_PAD.asStack(1))
                 .EUt(VA[HV]).duration(40);
 
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GCyR.id("seat"))
                 .inputItems(Items.WHITE_CARPET, 1)
                 .inputItems(rod, Steel, 6)
                 .inputItems(plate, Steel, 2)
+                .outputItems(GCyRBlocks.SEAT.asStack(1))
                 .EUt(VA[MV]).duration(50);
 
         //endregion

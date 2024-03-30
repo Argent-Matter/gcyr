@@ -2,6 +2,7 @@ package argent_matter.gcyr.common.item.armor;
 
 import com.lowdragmc.lowdraglib.misc.ItemStackTransfer;
 import com.lowdragmc.lowdraglib.side.fluid.FluidHelper;
+import com.lowdragmc.lowdraglib.side.fluid.FluidStack;
 import com.lowdragmc.lowdraglib.side.fluid.FluidTransferHelper;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -28,6 +29,16 @@ public class SpaceSuitArmorItem extends ArmorItem {
             return ForgeCapabilities.FLUID_HANDLER_ITEM.orEmpty(cap, LazyOptional.of(() -> new FluidHandlerItemStack(itemStack, Math.toIntExact(SpaceSuitArmorItem.CAPACITY))));
         }
         return LazyOptional.empty();
+    }
+
+    @Override
+    public int getBarWidth(ItemStack stack) {
+        return Math.round(13.0F - (float)oxygenAmount(stack) * 13.0F / (float)oxygenMax(stack));
+    }
+
+    @Override
+    public int getBarColor(ItemStack stack) {
+        return 0xff84ebf5;
     }
 
     public static boolean hasFullSet(LivingEntity entity) {
@@ -59,12 +70,43 @@ public class SpaceSuitArmorItem extends ArmorItem {
         return false;
     }
 
+    public static long oxygenAmount(LivingEntity entity) {
+        ItemStack chest = entity.getItemBySlot(EquipmentSlot.CHEST);
+        return oxygenAmount(chest);
+    }
+
+    public static long oxygenAmount(ItemStack stack) {
+        if (stack.getItem() instanceof SpaceSuitArmorItem) {
+            var storage = new ItemStackTransfer(stack);
+            var fluid = FluidTransferHelper.getFluidTransfer(storage, 0);
+            if (fluid != null) {
+                return fluid.getFluidInTank(0).getAmount();
+            }
+        }
+        return 0;
+    }
+
+    public static long oxygenMax(LivingEntity entity) {
+        ItemStack chest = entity.getItemBySlot(EquipmentSlot.CHEST);
+        return oxygenMax(chest);
+    }
+
+    public static long oxygenMax(ItemStack stack) {
+        if (stack.getItem() instanceof SpaceSuitArmorItem) {
+            var fluid = FluidTransferHelper.getFluidTransfer(new ItemStackTransfer(stack), 0);
+            if (fluid != null) {
+                return fluid.getTankCapacity(0);
+            }
+        }
+        return 0;
+    }
+
     public static void consumeSpaceSuitOxygen(LivingEntity entity, int amount) {
         ItemStack chest = entity.getItemBySlot(EquipmentSlot.CHEST);
-        var storage = new ItemStackTransfer(chest);
-        var fluid = FluidTransferHelper.getFluidTransfer(storage, 0);
         if (chest.getItem() instanceof SpaceSuitArmorItem) {
-            fluid.drain(amount, false);
+            var storage = new ItemStackTransfer(chest);
+            var fluid = FluidTransferHelper.getFluidTransfer(storage, 0);
+            fluid.drain(FluidStack.create(fluid.getFluidInTank(0), amount), false, true);
         }
 
     }
