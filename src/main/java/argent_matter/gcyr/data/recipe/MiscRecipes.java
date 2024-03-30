@@ -103,14 +103,16 @@ public class MiscRecipes {
                 .inputItems(plate, KaptonK, 6)
                 .inputItems(frameGt, Titanium)
                 .outputItems(GCyRBlocks.BASIC_FUEL_TANK.asStack(1))
-                .EUt(VA[EV]).duration(300);
+                .EUt(VA[EV]).duration(300)
+                .save(provider);
 
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GCyR.id("basic_rocket_motor"))
                 .inputItems(GTItems.POWER_THRUSTER_ADVANCED, 4)
                 .inputItems(plate, KaptonK, 6)
                 .inputItems(frameGt, Titanium)
                 .outputItems(GCyRBlocks.BASIC_ROCKET_MOTOR.asStack(1))
-                .EUt(VA[EV]).duration(300);
+                .EUt(VA[EV]).duration(300)
+                .save(provider);
 
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GCyR.id("launch_pad"))
                 .inputItems(Items.BLACK_CONCRETE, 1)
@@ -118,14 +120,16 @@ public class MiscRecipes {
                 .inputFluids(DyeYellow.getFluid(200))
                 .inputFluids(PolyvinylChloride.getFluid(576))
                 .outputItems(GCyRBlocks.LAUNCH_PAD.asStack(1))
-                .EUt(VA[HV]).duration(40);
+                .EUt(VA[HV]).duration(40)
+                .save(provider);
 
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GCyR.id("seat"))
                 .inputItems(Items.WHITE_CARPET, 1)
                 .inputItems(rod, Steel, 6)
                 .inputItems(plate, Steel, 2)
                 .outputItems(GCyRBlocks.SEAT.asStack(1))
-                .EUt(VA[MV]).duration(50);
+                .EUt(VA[MV]).duration(50)
+                .save(provider);
 
         //endregion
     }
