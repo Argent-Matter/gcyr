@@ -118,8 +118,7 @@ public class MiscRecipes {
                 .inputItems(Items.BLACK_CONCRETE, 1)
                 .inputItems(frameGt, Steel, 1)
                 .inputFluids(DyeYellow.getFluid(200))
-                .inputFluids(PolyvinylChloride.getFluid(576))
-                .outputItems(GCyRBlocks.LAUNCH_PAD.asStack(1))
+                .outputItems(GCyRBlocks.LAUNCH_PAD.asStack(2))
                 .EUt(VA[HV]).duration(40)
                 .save(provider);
 
