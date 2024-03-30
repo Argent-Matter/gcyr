@@ -17,14 +17,15 @@ public class EntityOxygenHUD implements IGuiOverlay {
                 gui.setupOverlayRenderState(true, false);
                 int minX = 32;
                 int minY = screenHeight - 32;
-                graphics.blit(GUI_TEXTURE, minX, minY, 0, 0, 64, 32, 64, 32);
+                graphics.blit(GUI_TEXTURE, minX, minY, 0, 0, 64, 16, 64, 32);
 
                 long oxygenAmount = SpaceSuitArmorItem.oxygenAmount(gui.getMinecraft().player);
                 long maxOxygen = SpaceSuitArmorItem.oxygenMax(gui.getMinecraft().player);
                 if (maxOxygen == 0) {
                     return;
                 }
-                graphics.blit(GUI_TEXTURE, minX, minY, 0, 0.5f, (int) (oxygenAmount * 64.0 / maxOxygen), 32, 64, 32);
+                int width = (int) (oxygenAmount * 64.0 / maxOxygen);
+                graphics.blit(GUI_TEXTURE, minX, minY, 0, 16, width, 16, 64, 32);
             }
         }
     }
