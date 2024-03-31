@@ -2,13 +2,7 @@ package argent_matter.gcyr.data.recipe.builder;
 
 
 import com.google.gson.JsonObject;
-import net.minecraft.advancements.Advancement;
-import net.minecraft.advancements.AdvancementRewards;
-import net.minecraft.advancements.CriterionTriggerInstance;
-import net.minecraft.advancements.RequirementsStrategy;
-import net.minecraft.advancements.critereon.RecipeUnlockedTrigger;
 import net.minecraft.data.recipes.FinishedRecipe;
-import net.minecraft.data.recipes.RecipeBuilder;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -22,7 +16,6 @@ public class SmithingSpaceSuitRecipeBuilder {
     private final Ingredient template;
     private final Ingredient base;
     private final Ingredient addition;
-    private final Advancement.Builder advancement = Advancement.Builder.recipeAdvancement();
     private final RecipeSerializer<?> type;
 
     public SmithingSpaceSuitRecipeBuilder(RecipeSerializer<?> type, RecipeCategory category, Ingredient template, Ingredient base, Ingredient addition) {
@@ -37,29 +30,9 @@ public class SmithingSpaceSuitRecipeBuilder {
         return new SmithingSpaceSuitRecipeBuilder(RecipeSerializer.SMITHING_TRIM, category, template, base, addition);
     }
 
-    public SmithingSpaceSuitRecipeBuilder unlocks(String key, CriterionTriggerInstance criterion) {
-        this.advancement.addCriterion(key, criterion);
-        return this;
-    }
-
     public void save(Consumer<FinishedRecipe> recipeConsumer, ResourceLocation location) {
-        this.ensureValid(location);
-        this.advancement
-                .parent(RecipeBuilder.ROOT_RECIPE_ADVANCEMENT)
-                .addCriterion("has_the_recipe", RecipeUnlockedTrigger.unlocked(location))
-                .rewards(AdvancementRewards.Builder.recipe(location))
-                .requirements(RequirementsStrategy.OR);
         recipeConsumer.accept(
-                new SmithingSpaceSuitRecipeBuilder.Result(
-                        location, this.type, this.template, this.base, this.addition, this.advancement, location.withPrefix("recipes/" + this.category.getFolderName() + "/")
-                )
-        );
-    }
-
-    private void ensureValid(ResourceLocation location) {
-        if (this.advancement.getCriteria().isEmpty()) {
-            throw new IllegalStateException("No way of obtaining recipe " + location);
-        }
+                new SmithingSpaceSuitRecipeBuilder.Result(location, this.type, this.template, this.base, this.addition));
     }
 
     public record Result(
@@ -67,9 +40,7 @@ public class SmithingSpaceSuitRecipeBuilder {
             RecipeSerializer<?> type,
             Ingredient template,
             Ingredient base,
-            Ingredient addition,
-            Advancement.Builder advancement,
-            ResourceLocation advancementId
+            Ingredient addition
     ) implements FinishedRecipe {
         @Override
         public void serializeRecipeData(JsonObject json) {
@@ -91,13 +62,13 @@ public class SmithingSpaceSuitRecipeBuilder {
         @Nullable
         @Override
         public JsonObject serializeAdvancement() {
-            return this.advancement.serializeToJson();
+            return null;
         }
 
         @Nullable
         @Override
         public ResourceLocation getAdvancementId() {
-            return this.advancementId;
+            return null;
         }
     }
 }
