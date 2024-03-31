@@ -1,4 +1,4 @@
-package argent_matter.gcyr.common.recipe;
+package argent_matter.gcyr.common.recipe.condition;
 
 import argent_matter.gcyr.GCyRClient;
 import argent_matter.gcyr.common.data.GCyRNetworking;

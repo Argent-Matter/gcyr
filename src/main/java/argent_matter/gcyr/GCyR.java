@@ -46,6 +46,8 @@ public class GCyR {
 		bus.addGenericListener(MachineDefinition.class, this::registerMachines);
 		GCyRDimensionTypes.register(bus);
 
+		GCyRVanillaRecipeTypes.RECIPE_TYPE_DEFERRED_REGISTER.register(bus);
+
 		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> GCyRClient::init);
 	}
 

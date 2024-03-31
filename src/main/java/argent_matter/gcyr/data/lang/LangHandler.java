@@ -18,6 +18,7 @@ public class LangHandler extends com.gregtechceu.gtceu.data.lang.LangHandler {
         provider.add("tagprefix.venus", TagPrefix.get("venus").langValue());
         provider.add("tagprefix.mercury", TagPrefix.get("mercury").langValue());
 
+        // materials
         replace(provider, GCyRMaterials.Bisalloy400.getUnlocalizedName(), "Bisalloy-400");
         replace(provider, GCyRMaterials.CoMnBrCatalyst.getUnlocalizedName(), "Co-Mn-Br Catalyst");
         replace(provider, GCyRMaterials.ParaPhenylenediamine.getUnlocalizedName(), "Para-Phenylenediamine");
@@ -35,6 +36,10 @@ public class LangHandler extends com.gregtechceu.gtceu.data.lang.LangHandler {
         // items
         provider.add("metaitem.planet_id_circuit.id", "Currently selected planet: ");
         provider.add("metaitem.planet_id_circuit.station", "To in-orbit space station (ID: %s)");
+        provider.add("item.gcyr.smithing_template.space_upgrade.ingredients", "Space Fabric");
+        provider.add("item.gcyr.smithing_template.space_upgrade.additions_slot_description", "Add Space Fabric");
+        provider.add("trim_material.gcyr.space", "Space Suit");
+        provider.add("tooltip.gcyr.spacesuit", "Works as a space suit.");
 
         // machines
         provider.add("gcyr.machine.satellite_jammer.jammed", "Jammed %s");

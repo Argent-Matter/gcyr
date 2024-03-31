@@ -84,7 +84,7 @@ public class EntityOxygenSystem {
         if (!entityHasOxygen) {
             if (hasOxygenatedSpaceSuit) {
                 consumeOxygen(entity);
-            } else if (!StreamSupport.stream(entity.getArmorSlots().spliterator(), false).allMatch(stack -> stack.is(GCyRTags.OXYGENATED_ARMOR))) {
+            } else if (!StreamSupport.stream(entity.getArmorSlots().spliterator(), false).allMatch(stack -> stack.is(GCyRTags.SPACESUIT_ARMOR))) {
                 entity.hurt(level.damageSources().drown(), GCyRConfig.INSTANCE.server.oxygenDamage);
                 entity.setAirSupply(-40);
             }

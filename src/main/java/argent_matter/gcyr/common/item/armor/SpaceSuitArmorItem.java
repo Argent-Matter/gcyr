@@ -1,5 +1,6 @@
 package argent_matter.gcyr.common.item.armor;
 
+import argent_matter.gcyr.common.recipe.type.SmithingSpaceSuitRecipe;
 import com.lowdragmc.lowdraglib.misc.ItemStackTransfer;
 import com.lowdragmc.lowdraglib.side.fluid.FluidHelper;
 import com.lowdragmc.lowdraglib.side.fluid.FluidStack;
@@ -24,7 +25,7 @@ public class SpaceSuitArmorItem extends ArmorItem {
         super(GCyRArmorMaterials.SPACE, type, properties);
     }
 
-    public <T> LazyOptional<T> getCapability(@Nonnull final ItemStack itemStack, @Nonnull final Capability<T> cap) {
+    public static <T> LazyOptional<T> getCapability(@Nonnull final ItemStack itemStack, @Nonnull final Capability<T> cap) {
         if (cap == ForgeCapabilities.FLUID_HANDLER_ITEM) {
             return ForgeCapabilities.FLUID_HANDLER_ITEM.orEmpty(cap, LazyOptional.of(() -> new FluidHandlerItemStack(itemStack, Math.toIntExact(SpaceSuitArmorItem.CAPACITY))));
         }
@@ -46,7 +47,7 @@ public class SpaceSuitArmorItem extends ArmorItem {
         int armorCount = 0;
         for (ItemStack stack : entity.getArmorSlots()) {
             slotCount++;
-            if (stack.getItem() instanceof SpaceSuitArmorItem) {
+            if (stack.getItem() instanceof SpaceSuitArmorItem || stack.hasTag() && stack.getTag().getBoolean(SmithingSpaceSuitRecipe.SPACE_SUIT_ARMOR_KEY)) {
                 armorCount++;
             }
         }
@@ -61,12 +62,13 @@ public class SpaceSuitArmorItem extends ArmorItem {
      */
     public static boolean hasOxygenatedSpaceSuit(LivingEntity entity) {
         ItemStack chest = entity.getItemBySlot(EquipmentSlot.CHEST);
-        var storage = new ItemStackTransfer(chest);
-        var fluid = FluidTransferHelper.getFluidTransfer(storage, 0);
-        if (chest.getItem() instanceof SpaceSuitArmorItem && fluid != null) {
-            return fluid.getFluidInTank(0).getAmount() > 0;
+        if (chest.getItem() instanceof SpaceSuitArmorItem || chest.hasTag() && chest.getTag().getBoolean(SmithingSpaceSuitRecipe.SPACE_SUIT_ARMOR_KEY)) {
+            var storage = new ItemStackTransfer(chest);
+            var fluid = FluidTransferHelper.getFluidTransfer(storage, 0);
+            if (fluid != null) {
+                return fluid.getFluidInTank(0).getAmount() > 0;
+            }
         }
-
         return false;
     }
 
@@ -76,7 +78,7 @@ public class SpaceSuitArmorItem extends ArmorItem {
     }
 
     public static long oxygenAmount(ItemStack stack) {
-        if (stack.getItem() instanceof SpaceSuitArmorItem) {
+        if (stack.getItem() instanceof SpaceSuitArmorItem || stack.hasTag() && stack.getTag().getBoolean(SmithingSpaceSuitRecipe.SPACE_SUIT_ARMOR_KEY)) {
             var storage = new ItemStackTransfer(stack);
             var fluid = FluidTransferHelper.getFluidTransfer(storage, 0);
             if (fluid != null) {
@@ -92,7 +94,7 @@ public class SpaceSuitArmorItem extends ArmorItem {
     }
 
     public static long oxygenMax(ItemStack stack) {
-        if (stack.getItem() instanceof SpaceSuitArmorItem) {
+        if (stack.getItem() instanceof SpaceSuitArmorItem || stack.hasTag() && stack.getTag().getBoolean(SmithingSpaceSuitRecipe.SPACE_SUIT_ARMOR_KEY)) {
             var fluid = FluidTransferHelper.getFluidTransfer(new ItemStackTransfer(stack), 0);
             if (fluid != null) {
                 return fluid.getTankCapacity(0);
@@ -103,7 +105,7 @@ public class SpaceSuitArmorItem extends ArmorItem {
 
     public static void consumeSpaceSuitOxygen(LivingEntity entity, int amount) {
         ItemStack chest = entity.getItemBySlot(EquipmentSlot.CHEST);
-        if (chest.getItem() instanceof SpaceSuitArmorItem) {
+        if (chest.getItem() instanceof SpaceSuitArmorItem || chest.hasTag() && chest.getTag().getBoolean(SmithingSpaceSuitRecipe.SPACE_SUIT_ARMOR_KEY)) {
             var storage = new ItemStackTransfer(chest);
             var fluid = FluidTransferHelper.getFluidTransfer(storage, 0);
             fluid.drain(FluidStack.create(fluid.getFluidInTank(0), amount), false, true);
