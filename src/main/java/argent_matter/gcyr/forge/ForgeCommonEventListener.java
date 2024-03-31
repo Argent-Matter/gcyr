@@ -45,7 +45,7 @@ public class ForgeCommonEventListener {
     public static void registerItemStackCapabilities(AttachCapabilitiesEvent<ItemStack> event) {
         final ItemStack itemStack = event.getObject();
         if (itemStack.is(GCyRItems.SPACE_SUIT_CHEST.get()) || (itemStack.hasTag() && itemStack.getTag().getBoolean(SmithingSpaceSuitRecipe.SPACE_SUIT_ARMOR_KEY))) {
-            event.addCapability(GCyR.id("gcyr:spacesuit"), new ICapabilityProvider() {
+            event.addCapability(GCyR.id("spacesuit"), new ICapabilityProvider() {
                 @Override
                 public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> capability, @Nullable Direction arg) {
                     return SpaceSuitArmorItem.getCapability(itemStack, capability);
