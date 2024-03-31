@@ -66,12 +66,15 @@
   "item.gcyr.laser_satellite": "ǝʇıןןǝʇɐS ɹǝsɐꞀ",
   "item.gcyr.ore_finder_satellite": "ǝʇıןןǝʇɐS ɹǝpuıℲ ǝɹO",
   "item.gcyr.photovoltaic_cell": "ןןǝƆ ɔıɐʇןoʌoʇoɥԀ",
+  "item.gcyr.smithing_template.space_upgrade.additions_slot_description": "ɔıɹqɐℲ ǝɔɐdS ppⱯ",
+  "item.gcyr.smithing_template.space_upgrade.ingredients": "ɔıɹqɐℲ ǝɔɐdS",
   "item.gcyr.space_boots": "sʇooᗺ ǝɔɐdS",
   "item.gcyr.space_chestplate": "ǝʇɐןdʇsǝɥƆ ǝɔɐdS",
   "item.gcyr.space_fabric": "ɔıɹqɐℲ ǝɔɐdS",
   "item.gcyr.space_helmet": "ʇǝɯןǝH ǝɔɐdS",
   "item.gcyr.space_leggings": "sbuıbbǝꞀ ǝɔɐdS",
   "item.gcyr.space_station_package": "ǝbɐʞɔɐԀ uoıʇɐʇS ǝɔɐdS",
+  "item.minecraft.smithing_template": "ǝʇɐןdɯǝ⟘ buıɥʇıɯS ǝpɐɹbd∩ ǝɔɐdS",
   "key.categories.gcyr": "ʎɹʇǝʞɔoᴚ ʎʇıןɐɔıbǝɹ⅁",
   "key.startRocket": "ʎʇıʇuƎʇǝʞɔoᴚ ʇɹɐʇS",
   "material.gcyr.aminophenol": "ןouǝɥdouıɯⱯ",
@@ -136,5 +139,7 @@
   "tagprefix.mars": "ǝɹO %s sɹɐW",
   "tagprefix.mercury": "ǝɹO %s ʎɹnɔɹǝW",
   "tagprefix.moon": "ǝɹO %s uooW",
-  "tagprefix.venus": "ǝɹO %s snuǝΛ"
+  "tagprefix.venus": "ǝɹO %s snuǝΛ",
+  "tooltip.gcyr.spacesuit": "˙ʇıns ǝɔɐds ɐ sɐ sʞɹoM",
+  "trim_material.gcyr.space": "ʇınS ǝɔɐdS"
 }

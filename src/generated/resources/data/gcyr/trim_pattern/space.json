@@ -1,0 +1,7 @@
+{
+  "asset_id": "gcyr:space",
+  "description": {
+    "translate": "trim_pattern.gcyr.space"
+  },
+  "template_item": "gcyr:space_upgrade_smithing_template"
+}
