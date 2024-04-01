@@ -2,6 +2,7 @@ package argent_matter.gcyr.common.gui;
 
 import argent_matter.gcyr.GCyR;
 import argent_matter.gcyr.common.item.armor.SpaceSuitArmorItem;
+import argent_matter.gcyr.config.GCyRConfig;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.gui.overlay.ForgeGui;
@@ -15,9 +16,9 @@ public class EntityOxygenHUD implements IGuiOverlay {
         if (!gui.getMinecraft().options.hideGui) {
             if (SpaceSuitArmorItem.hasFullSet(gui.getMinecraft().player)) {
                 gui.setupOverlayRenderState(true, false);
-                int minX = 32;
-                int minY = screenHeight - 32;
-                graphics.blit(GUI_TEXTURE, minX, minY, 0, 0, 64, 16, 64, 32);
+                int x = GCyRConfig.INSTANCE.client.oxygenBarX;
+                int y = screenHeight - GCyRConfig.INSTANCE.client.oxygenBarY;
+                graphics.blit(GUI_TEXTURE, x, y, 0, 0, 64, 16, 64, 32);
 
                 long oxygenAmount = SpaceSuitArmorItem.oxygenAmount(gui.getMinecraft().player);
                 long maxOxygen = SpaceSuitArmorItem.oxygenMax(gui.getMinecraft().player);
@@ -25,7 +26,7 @@ public class EntityOxygenHUD implements IGuiOverlay {
                     return;
                 }
                 int width = (int) (oxygenAmount * 64.0 / maxOxygen);
-                graphics.blit(GUI_TEXTURE, minX, minY, 0, 16, width, 16, 64, 32);
+                graphics.blit(GUI_TEXTURE, x, y, 0, 16, width, 16, 64, 32);
             }
         }
     }
