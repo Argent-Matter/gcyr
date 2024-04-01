@@ -37,9 +37,11 @@ public class LangHandler extends com.gregtechceu.gtceu.data.lang.LangHandler {
         provider.add("metaitem.planet_id_circuit.id", "Currently selected planet: ");
         provider.add("metaitem.planet_id_circuit.station", "To in-orbit space station (ID: %s)");
         provider.add("item.gcyr.smithing_template.space_upgrade.ingredients", "Space Fabric");
-        provider.add("item.gcyr.smithing_template.space_upgrade.additions_slot_description", "Add Space Fabric");
+        provider.add("item.gcyr.smithing_template.space_upgrade.additions_slot_description", "Add Space Suit Part");
         provider.add("trim_material.gcyr.space", "Space Suit");
+        provider.add("trim_pattern.gcyr.space", "Space Suit Upgrade");
         provider.add("tooltip.gcyr.spacesuit", "Works as a space suit.");
+        provider.add("tooltip.gcyr.spacesuit.stored", "Stored Oxygen: %s / %s mB");
 
         // machines
         provider.add("gcyr.machine.satellite_jammer.jammed", "Jammed %s");

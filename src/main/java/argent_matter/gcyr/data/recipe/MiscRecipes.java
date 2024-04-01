@@ -64,6 +64,7 @@ public class MiscRecipes {
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GCyR.id("space_fabric"))
                 .inputItems(foil, Polytetrafluoroethylene, 4)
                 .inputItems(foil, ParaAramid, 4)
+                .inputItems(foil, Polybenzimidazole, 4)
                 .inputItems(dust, FiberGlass, 4)
                 .outputItems(GCyRItems.SPACE_FABRIC.asStack(1))
                 .duration(100).EUt(VA[HV]).save(provider);
@@ -72,21 +73,43 @@ public class MiscRecipes {
                 "SFS", "FFF", "SCS",
                 'S', GCyRItems.SPACE_FABRIC.asStack(), 'F', new UnificationEntry(foil, Gold), 'C', CustomTags.EV_CIRCUITS
         );
-
         VanillaRecipeHelper.addShapedRecipe(provider, GCyR.id("space_chest"), GCyRItems.SPACE_SUIT_CHEST.asStack(),
                 "STS", "SCS", "SCS",
                 'S', GCyRItems.SPACE_FABRIC.asStack(), 'T', GTItems.FLUID_CELL_LARGE_TUNGSTEN_STEEL.asStack(), 'C', CustomTags.EV_CIRCUITS
         );
-
         VanillaRecipeHelper.addShapedRecipe(provider, GCyR.id("space_legs"), GCyRItems.SPACE_SUIT_LEGS.asStack(),
                 "SCS", "S S", "S S",
                 'S', GCyRItems.SPACE_FABRIC.asStack(), 'C', CustomTags.EV_CIRCUITS
         );
-
         VanillaRecipeHelper.addShapedRecipe(provider, GCyR.id("space_boots"), GCyRItems.SPACE_SUIT_BOOTS.asStack(),
                 "S S", "S S",
                 'S', GCyRItems.SPACE_FABRIC.asStack()
         );
+
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GCyR.id("space_upgrade_smithing_template"))
+                .inputItems(GCyRItems.SPACE_FABRIC.asStack(5))
+                .inputItems(plate, Titanium, 2)
+                .inputItems(foil, Polybenzimidazole, 4)
+                .outputItems(GCyRItems.SPACE_UPGRADE_SMITHING_TEMPLATE.asStack(1))
+                .EUt(VA[IV]).duration(50)
+                .save(provider);
+
+        SmithingSpaceSuitRecipeBuilder.smithingSpacesuit(Ingredient.of(GCyRItems.SPACE_UPGRADE_SMITHING_TEMPLATE.get()),
+                        Ingredient.of(Tags.Items.ARMORS_BOOTS),
+                        Ingredient.of(GCyRItems.SPACE_SUIT_BOOTS.get()))
+                .save(provider, GCyR.id("space_suit_boots_smithing_trim"));
+        SmithingSpaceSuitRecipeBuilder.smithingSpacesuit(Ingredient.of(GCyRItems.SPACE_UPGRADE_SMITHING_TEMPLATE.get()),
+                        Ingredient.of(Tags.Items.ARMORS_LEGGINGS),
+                        Ingredient.of(GCyRItems.SPACE_SUIT_LEGS.get()))
+                .save(provider, GCyR.id("space_suit_leggings_smithing_trim"));
+        SmithingSpaceSuitRecipeBuilder.smithingSpacesuit(Ingredient.of(GCyRItems.SPACE_UPGRADE_SMITHING_TEMPLATE.get()),
+                        Ingredient.of(Tags.Items.ARMORS_CHESTPLATES),
+                        Ingredient.of(GCyRItems.SPACE_SUIT_CHEST.get()))
+                .save(provider, GCyR.id("space_suit_chestplate_smithing_trim"));
+        SmithingSpaceSuitRecipeBuilder.smithingSpacesuit(Ingredient.of(GCyRItems.SPACE_UPGRADE_SMITHING_TEMPLATE.get()),
+                        Ingredient.of(Tags.Items.ARMORS_HELMETS),
+                        Ingredient.of(GCyRItems.SPACE_SUIT_HELMET.get()))
+                .save(provider, GCyR.id("space_suit_helmet_smithing_trim"));
 
         //endregion
 
@@ -135,27 +158,6 @@ public class MiscRecipes {
                 .save(provider);
 
         //endregion
-
-        SmithingSpaceSuitRecipeBuilder.smithingSpacesuit(Ingredient.of(GCyRItems.SPACE_UPGRADE_SMITHING_TEMPLATE.get()),
-                Ingredient.of(Tags.Items.ARMORS_BOOTS),
-                Ingredient.of(GCyRItems.SPACE_SUIT_BOOTS.get()),
-                RecipeCategory.MISC)
-                .save(provider, GCyR.id("space_suit_boots_smithing_trim"));
-        SmithingSpaceSuitRecipeBuilder.smithingSpacesuit(Ingredient.of(GCyRItems.SPACE_UPGRADE_SMITHING_TEMPLATE.get()),
-                        Ingredient.of(Tags.Items.ARMORS_LEGGINGS),
-                        Ingredient.of(GCyRItems.SPACE_SUIT_LEGS.get()),
-                        RecipeCategory.MISC)
-                .save(provider, GCyR.id("space_suit_leggings_smithing_trim"));
-        SmithingSpaceSuitRecipeBuilder.smithingSpacesuit(Ingredient.of(GCyRItems.SPACE_UPGRADE_SMITHING_TEMPLATE.get()),
-                        Ingredient.of(Tags.Items.ARMORS_CHESTPLATES),
-                        Ingredient.of(GCyRItems.SPACE_SUIT_CHEST.get()),
-                        RecipeCategory.MISC)
-                .save(provider, GCyR.id("space_suit_chestplate_smithing_trim"));
-        SmithingSpaceSuitRecipeBuilder.smithingSpacesuit(Ingredient.of(GCyRItems.SPACE_UPGRADE_SMITHING_TEMPLATE.get()),
-                        Ingredient.of(Tags.Items.ARMORS_HELMETS),
-                        Ingredient.of(GCyRItems.SPACE_SUIT_HELMET.get()),
-                        RecipeCategory.MISC)
-                .save(provider, GCyR.id("space_suit_helmet_smithing_trim"));
     }
 
 }

@@ -27,6 +27,7 @@ public class GCyRTags {
 
     // Fluid
     public static final TagKey<Fluid> VEHICLE_FUELS = GCyRTagUtil.createModFluidTag("vehicle_fuels");
+    public static final TagKey<Fluid> OXYGEN = TagUtil.createFluidTag("oxygen");
 
     // Biome
     public static final TagKey<Biome> IS_SPACE = GCyRTagUtil.createModTag(Registries.BIOME, "is_space");

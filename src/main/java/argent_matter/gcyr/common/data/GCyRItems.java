@@ -124,7 +124,6 @@ public class GCyRItems {
             .defaultModel()
             .register();
 
-    // SmithingTemplateItem.createArmorTrimTemplate(GCyRTrimPatterns.SPACE)
     public static final ItemEntry<SmithingTemplateItem> SPACE_UPGRADE_SMITHING_TEMPLATE = REGISTRATE.item("space_upgrade_smithing_template", properties ->
                     new SmithingTemplateItem(SmithingTemplateItem.ARMOR_TRIM_APPLIES_TO,
                             Component.translatable(Util.makeDescriptionId("item", GCyR.id("smithing_template.space_upgrade.ingredients"))),
@@ -132,7 +131,7 @@ public class GCyRItems {
                             SmithingTemplateItem.ARMOR_TRIM_BASE_SLOT_DESCRIPTION,
                             Component.translatable(Util.makeDescriptionId("item", GCyR.id("smithing_template.space_upgrade.additions_slot_description"))),
                             SmithingTemplateItem.createTrimmableArmorIconList(),
-                            List.of(GCyR.id("item/empty_slot_space_fabric"))))
+                            SmithingTemplateItem.createTrimmableArmorIconList()))
             .register();
 
     // endregion

@@ -66,7 +66,7 @@
   "item.gcyr.laser_satellite": "Laser Satellite",
   "item.gcyr.ore_finder_satellite": "Ore Finder Satellite",
   "item.gcyr.photovoltaic_cell": "Photovoltaic Cell",
-  "item.gcyr.smithing_template.space_upgrade.additions_slot_description": "Add Space Fabric",
+  "item.gcyr.smithing_template.space_upgrade.additions_slot_description": "Add Space Suit Part",
   "item.gcyr.smithing_template.space_upgrade.ingredients": "Space Fabric",
   "item.gcyr.space_boots": "Space Boots",
   "item.gcyr.space_chestplate": "Space Chestplate",
@@ -141,5 +141,7 @@
   "tagprefix.moon": "Moon %s Ore",
   "tagprefix.venus": "Venus %s Ore",
   "tooltip.gcyr.spacesuit": "Works as a space suit.",
-  "trim_material.gcyr.space": "Space Suit"
+  "tooltip.gcyr.spacesuit.stored": "Stored Oxygen: %s / %s mB",
+  "trim_material.gcyr.space": "Space Suit",
+  "trim_pattern.gcyr.space": "Space Suit Upgrade"
 }

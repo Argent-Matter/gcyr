@@ -1,23 +1,22 @@
 package argent_matter.gcyr.common.recipe.type;
 
-import argent_matter.gcyr.common.data.GCyRRecipeTypes;
 import argent_matter.gcyr.common.data.GCyRVanillaRecipeTypes;
 import argent_matter.gcyr.common.item.armor.trim.GCyRTrimMaterials;
+import argent_matter.gcyr.common.item.armor.trim.GCyRTrimPatterns;
 import com.google.gson.JsonObject;
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.nbt.NbtOps;
-import net.minecraft.nbt.Tag;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.RegistryOps;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.armortrim.*;
+import net.minecraft.world.item.armortrim.ArmorTrim;
+import net.minecraft.world.item.armortrim.TrimMaterial;
+import net.minecraft.world.item.armortrim.TrimPattern;
+import net.minecraft.world.item.armortrim.TrimPatterns;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.SmithingRecipe;
@@ -77,12 +76,12 @@ public class SmithingSpaceSuitRecipe implements SmithingRecipe {
     @Override
     public ItemStack getResultItem(RegistryAccess registryAccess) {
         ItemStack itemstack = new ItemStack(Items.DIAMOND_CHESTPLATE);
-        Optional<Holder.Reference<TrimPattern>> optional = registryAccess.registryOrThrow(Registries.TRIM_PATTERN).holders().findFirst();
-        if (optional.isPresent()) {
-            Optional<Holder.Reference<TrimMaterial>> optional1 = registryAccess.registryOrThrow(Registries.TRIM_MATERIAL).getHolder(TrimMaterials.REDSTONE);
-            if (optional1.isPresent()) {
-                ArmorTrim armortrim = new ArmorTrim(optional1.get(), optional.get());
-                ArmorTrim.setTrim(registryAccess, itemstack, armortrim);
+        Optional<Holder.Reference<TrimPattern>> pattern = registryAccess.registryOrThrow(Registries.TRIM_PATTERN).getHolder(GCyRTrimPatterns.SPACE);
+        if (pattern.isPresent()) {
+            Optional<Holder.Reference<TrimMaterial>> material = registryAccess.registryOrThrow(Registries.TRIM_MATERIAL).getHolder(GCyRTrimMaterials.SPACE);
+            if (material.isPresent()) {
+                ArmorTrim armortrim = new ArmorTrim(material.get(), pattern.get());
+                setTrim(registryAccess, itemstack, armortrim);
             }
         }
 
