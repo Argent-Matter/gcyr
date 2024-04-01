@@ -17,6 +17,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
@@ -26,6 +27,7 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.jetbrains.annotations.NotNull;
@@ -40,14 +42,13 @@ public class ForgeCommonEventListener {
     @SubscribeEvent
     public static void registerItemStackCapabilities(AttachCapabilitiesEvent<ItemStack> event) {
         final ItemStack itemStack = event.getObject();
-        if (itemStack.is(GCyRItems.SPACE_SUIT_CHEST.get()) || (itemStack.hasTag() && itemStack.getTag().getBoolean(SmithingSpaceSuitRecipe.SPACE_SUIT_ARMOR_KEY))) {
+        if (itemStack.is(Tags.Items.ARMORS_CHESTPLATES) && itemStack.hasTag() && itemStack.getTag().getBoolean(SmithingSpaceSuitRecipe.SPACE_SUIT_ARMOR_KEY)) {
             event.addCapability(GCyR.id("spacesuit"), new ICapabilityProvider() {
                 @Override
                 public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> capability, @Nullable Direction arg) {
                     return SpaceSuitArmorItem.getCapability(itemStack, capability);
                 }
             });
-
         }
     }
 
@@ -100,14 +101,17 @@ public class ForgeCommonEventListener {
         }
     }
 
-    @SubscribeEvent
+    @SubscribeEvent(priority = EventPriority.HIGH)
     public static void onAddTooltips(ItemTooltipEvent event) {
-        if (event.getItemStack().hasTag() && event.getItemStack().getTag().getBoolean(SmithingSpaceSuitRecipe.SPACE_SUIT_ARMOR_KEY)) {
-            event.getToolTip().add(1, Component.translatable("tooltip.gcyr.spacesuit"));
-            IFluidTransfer transfer = FluidTransferHelper.getFluidTransfer(new ItemStackTransfer(event.getItemStack()), 0);
-            if (transfer != null) {
-                event.getToolTip().add(1, Component.translatable("tooltip.gcyr.spacesuit.stored", transfer.getFluidInTank(0), transfer.getTankCapacity(0)));
+        ItemStack stack = event.getItemStack();
+        if (stack.hasTag() && stack.getTag().getBoolean(SmithingSpaceSuitRecipe.SPACE_SUIT_ARMOR_KEY)) {
+            if (stack.is(Tags.Items.ARMORS_CHESTPLATES)) {
+                IFluidTransfer transfer = FluidTransferHelper.getFluidTransfer(new ItemStackTransfer(stack), 0);
+                if (transfer != null) {
+                    event.getToolTip().add(1, Component.translatable("tooltip.gcyr.spacesuit.stored", transfer.getFluidInTank(0).getAmount(), transfer.getTankCapacity(0)));
+                }
             }
+            event.getToolTip().add(1, Component.translatable("tooltip.gcyr.spacesuit"));
         }
     }
 }

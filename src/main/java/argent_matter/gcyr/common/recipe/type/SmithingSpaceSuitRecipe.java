@@ -1,5 +1,6 @@
 package argent_matter.gcyr.common.recipe.type;
 
+import argent_matter.gcyr.common.data.GCyRItems;
 import argent_matter.gcyr.common.data.GCyRVanillaRecipeTypes;
 import argent_matter.gcyr.common.item.armor.trim.GCyRTrimMaterials;
 import argent_matter.gcyr.common.item.armor.trim.GCyRTrimPatterns;
@@ -7,10 +8,12 @@ import com.google.gson.JsonObject;
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.Container;
+import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.armortrim.ArmorTrim;
@@ -22,6 +25,10 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.SmithingRecipe;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.ForgeHooks;
+import net.minecraftforge.common.Tags;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.templates.FluidHandlerItemStack;
 
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -48,15 +55,16 @@ public class SmithingSpaceSuitRecipe implements SmithingRecipe {
 
     @Override
     public ItemStack assemble(Container container, RegistryAccess registryAccess) {
-        ItemStack trimItem = container.getItem(1);
-        if ((!trimItem.hasTag() || !trimItem.getTag().getBoolean(SPACE_SUIT_ARMOR_KEY)) && this.base.test(trimItem)) {
+        ItemStack baseItem = container.getItem(1);
+        ItemStack additionItem = container.getItem(2);
+        if ((!baseItem.hasTag() || !baseItem.getTag().getBoolean(SPACE_SUIT_ARMOR_KEY)) && this.base.test(baseItem)) {
             Optional<Holder.Reference<TrimMaterial>> trimMaterial = registryAccess.registryOrThrow(Registries.TRIM_MATERIAL).getHolder(GCyRTrimMaterials.SPACE);
             Optional<Holder.Reference<TrimPattern>> trimPattern = TrimPatterns.getFromTemplate(registryAccess, container.getItem(0));
             if (/*trimMaterial.isPresent() && trimPattern.isPresent()*/ true) { // maybe add textures too, idk?
-                ItemStack trimCopied = trimItem.copy();
+                ItemStack trimCopied = baseItem.copy();
                 trimCopied.setCount(1);
                 ArmorTrim trim = new ArmorTrim(trimMaterial.get(), trimPattern.get());
-                setTrim(registryAccess, trimCopied, trim);
+                setTrim(registryAccess, trimCopied, additionItem, trim);
                 return trimCopied;
             }
         }
@@ -64,8 +72,20 @@ public class SmithingSpaceSuitRecipe implements SmithingRecipe {
         return ItemStack.EMPTY;
     }
 
-    public static void setTrim(RegistryAccess registryAccess, ItemStack armor, ArmorTrim trim) {
+    public static void setTrim(RegistryAccess registryAccess, ItemStack armor, ItemStack addition, ArmorTrim trim) {
+        // Set the "is this a space suit" NBT
         armor.getOrCreateTag().putBoolean(SPACE_SUIT_ARMOR_KEY, true);
+        // if the armor piece is a chestplate, copy the fluid from the "addition" item (space suit) if the space suit isn't empty
+        if (armor.is(Tags.Items.ARMORS_CHESTPLATES)) {
+            addition.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).ifPresent(cap -> {
+                FluidStack stack = cap.getFluidInTank(0);
+                if (!stack.isEmpty()) {
+                    CompoundTag fluidTag = new CompoundTag();
+                    stack.writeToNBT(fluidTag);
+                    armor.getOrCreateTag().put(FluidHandlerItemStack.FLUID_NBT_KEY, fluidTag);
+                }
+            });
+        }
         /*
         if (armor.is(ItemTags.TRIMMABLE_ARMOR)) {
             armor.getOrCreateTag().put("Trim", ArmorTrim.CODEC.encodeStart(RegistryOps.create(NbtOps.INSTANCE, registryAccess), trim).result().orElseThrow());
@@ -81,7 +101,7 @@ public class SmithingSpaceSuitRecipe implements SmithingRecipe {
             Optional<Holder.Reference<TrimMaterial>> material = registryAccess.registryOrThrow(Registries.TRIM_MATERIAL).getHolder(GCyRTrimMaterials.SPACE);
             if (material.isPresent()) {
                 ArmorTrim armortrim = new ArmorTrim(material.get(), pattern.get());
-                setTrim(registryAccess, itemstack, armortrim);
+                setTrim(registryAccess, itemstack, new ItemStack(GCyRItems.SPACE_SUIT_CHEST.get()), armortrim);
             }
         }
 
