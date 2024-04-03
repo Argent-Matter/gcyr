@@ -64,6 +64,7 @@ public class GCyR {
 		GCyRBlocks.init();
 		GCyRItems.init();
 		GCyRMenus.init();
+		;
 
 		GCyRDatagen.init();
 
