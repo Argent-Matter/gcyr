@@ -241,8 +241,9 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
                 .widget(new TankWidget(this.fuelTank, 16, 20, 20, 58, true, true).setBackground(GuiTextures.FLUID_TANK_BACKGROUND).setFillDirection(ProgressTexture.FillDirection.DOWN_TO_UP))
                 .widget(new SlotWidget(configSlot, 0, 40, 20))
                 .widget(new SlotWidget(satelliteSlot, 0, 60, 20))
-                .widget(new ButtonWidget(40, 60, 36, 18, new GuiTextureGroup(GuiTextures.BUTTON.copy().setColor(0xFFAA0000), new TextTexture("menu.gcyr.launch")), (clickData) -> this.startRocket()))
-                .widget(new ButtonWidget(40, 40, 36, 18, new GuiTextureGroup(GuiTextures.BUTTON.copy().setColor(0xFFE0B900), new TextTexture("gcyr.multiblock.rocket.unbuild")), (clickData) -> this.unBuild()))
+                .widget(new ButtonWidget(40, 60, 38, 18, new GuiTextureGroup(GuiTextures.BUTTON.copy().setColor(0xFFAA0000), new TextTexture("menu.gcyr.launch")), (clickData) -> this.startRocket()))
+                .widget(new ButtonWidget(40, 40, 38, 18, new GuiTextureGroup(GuiTextures.BUTTON.copy().setColor(0xFFE0B900), new TextTexture("menu.gcyr.rocket.unbuild")), (clickData) -> this.unBuild()))
+                .widget(new LabelWidget(84, 25, this.getDisplayThrust()))
                 .widget(UITemplate.bindPlayerInventory(entityPlayer.getInventory(), GuiTextures.SLOT, 7, 84, true))
                 .background(GuiTextures.BACKGROUND);
     }
@@ -883,6 +884,20 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
 
     public List<BlockPos> getSeatPositions() {
         return this.entityData.get(SEAT_POSITIONS);
+    }
+
+    public Component getDisplayThrust() {
+        var thrust = getRocketSpeed();
+        String label;
+        if (thrust < 0.01) {
+            label = String.format("§c%.1f§r", thrust);
+        } else if (thrust < 1.01) {
+            label = String.format("§6%.1f§r", thrust);
+        } else {
+            label = String.format("§a%.1f§r", thrust);
+        }
+
+        return Component.translatable("menu.gcyr.rocket.thrust", label);
     }
 
     public double getRocketSpeed() {
