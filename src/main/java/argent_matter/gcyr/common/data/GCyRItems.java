@@ -1,18 +1,26 @@
 package argent_matter.gcyr.common.data;
 
+import argent_matter.gcyr.GCyR;
 import argent_matter.gcyr.common.item.GpsTrackerBehaviour;
 import argent_matter.gcyr.common.item.KeyCardBehaviour;
 import argent_matter.gcyr.common.item.PlanetIdChipBehaviour;
 import argent_matter.gcyr.common.item.StationContainerBehaviour;
 import argent_matter.gcyr.common.item.armor.SpaceSuitArmorItem;
+import argent_matter.gcyr.common.item.armor.trim.GCyRTrimPatterns;
 import argent_matter.gcyr.data.recipe.GCyRTags;
 import com.gregtechceu.gtceu.api.item.ComponentItem;
 import com.gregtechceu.gtceu.api.item.component.IItemComponent;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import com.tterrag.registrate.util.nullness.NonNullConsumer;
+import net.minecraft.ChatFormatting;
+import net.minecraft.Util;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.SmithingTemplateItem;
+
+import java.util.List;
 
 import static argent_matter.gcyr.api.registries.GCyRRegistries.REGISTRATE;
 
@@ -114,6 +122,16 @@ public class GCyRItems {
     public static final ItemEntry<SpaceSuitArmorItem> SPACE_SUIT_BOOTS = REGISTRATE.item("space_boots", properties -> new SpaceSuitArmorItem(ArmorItem.Type.BOOTS, properties))
             .properties(p -> p.fireResistant())
             .defaultModel()
+            .register();
+
+    public static final ItemEntry<SmithingTemplateItem> SPACE_UPGRADE_SMITHING_TEMPLATE = REGISTRATE.item("space_upgrade_smithing_template", properties ->
+                    new SmithingTemplateItem(SmithingTemplateItem.ARMOR_TRIM_APPLIES_TO,
+                            Component.translatable(Util.makeDescriptionId("item", GCyR.id("smithing_template.space_upgrade.ingredients"))),
+                            Component.translatable(Util.makeDescriptionId("trim_pattern", GCyRTrimPatterns.SPACE.location())).withStyle(ChatFormatting.GRAY),
+                            SmithingTemplateItem.ARMOR_TRIM_BASE_SLOT_DESCRIPTION,
+                            Component.translatable(Util.makeDescriptionId("item", GCyR.id("smithing_template.space_upgrade.additions_slot_description"))),
+                            SmithingTemplateItem.createTrimmableArmorIconList(),
+                            SmithingTemplateItem.createTrimmableArmorIconList()))
             .register();
 
     // endregion

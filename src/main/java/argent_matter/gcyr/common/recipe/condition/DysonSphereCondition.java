@@ -1,4 +1,4 @@
-package argent_matter.gcyr.common.recipe;
+package argent_matter.gcyr.common.recipe.condition;
 
 import argent_matter.gcyr.api.capability.GCyRCapabilityHelper;
 import argent_matter.gcyr.api.capability.IDysonSystem;

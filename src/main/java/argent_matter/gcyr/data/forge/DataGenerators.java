@@ -2,6 +2,8 @@ package argent_matter.gcyr.data.forge;
 
 import argent_matter.gcyr.GCyR;
 import argent_matter.gcyr.common.data.GCyRBiomes;
+import argent_matter.gcyr.common.item.armor.trim.GCyRTrimMaterials;
+import argent_matter.gcyr.common.item.armor.trim.GCyRTrimPatterns;
 import com.gregtechceu.gtceu.api.registry.registrate.SoundEntryBuilder;
 import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.core.registries.Registries;
@@ -30,7 +32,9 @@ public class DataGenerators {
             generator.addProvider(true, new SoundEntryBuilder.SoundEntryProvider(output, GCyR.MOD_ID));
             generator.addProvider(true, new DatapackBuiltinEntriesProvider(
                     output, provider, new RegistrySetBuilder()
-                    .add(Registries.BIOME, GCyRBiomes::bootstrap),
+                    .add(Registries.BIOME, GCyRBiomes::bootstrap)
+                    .add(Registries.TRIM_PATTERN, GCyRTrimPatterns::bootstrap)
+                    .add(Registries.TRIM_MATERIAL, GCyRTrimMaterials::bootstrap),
                     set));
         }
     }

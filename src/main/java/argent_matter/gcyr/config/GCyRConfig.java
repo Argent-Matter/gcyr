@@ -22,6 +22,8 @@ public class GCyRConfig {
     public MachineConfigs machine = new MachineConfigs();
     @Configurable
     public RocketConfigs rocket = new RocketConfigs();
+    @Configurable
+    public ClientConfigs client = new ClientConfigs();
 
     public static class SatelliteConfigs {
         @Configurable
@@ -74,5 +76,14 @@ public class GCyRConfig {
         @Configurable
         @Configurable.Comment({"How much fuel is required to travel to a planet anywhere?", "note: this is platform-specific.", "Default: 48 buckets."})
         public long anywhereFuelAmount = 48 * FluidHelper.getBucket();
+    }
+
+    public static class ClientConfigs {
+        @Configurable
+        @Configurable.Comment({"Offset of the oxygen bar from the left side of the screen.", "Default: 32"})
+        public int oxygenBarX = 32;
+        @Configurable
+        @Configurable.Comment({"Offset of the oxygen bar from the bottom of the screen.", "Default: 32"})
+        public int oxygenBarY = 32;
     }
 }

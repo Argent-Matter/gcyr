@@ -13,7 +13,7 @@ import net.minecraft.world.level.material.Fluid;
 public class GCyRTags {
     // Item
     public static final TagKey<Item> SATELLITES = GCyRTagUtil.createModItemTag("satellites");
-    public static final TagKey<Item> OXYGENATED_ARMOR = GCyRTagUtil.createModItemTag("oxygenated_armor");
+    public static final TagKey<Item> SPACESUIT_ARMOR = GCyRTagUtil.createModItemTag("is_spacesuit");
     public static final TagKey<Item> FREEZE_RESISTANT = GCyRTagUtil.createModItemTag("freeze_resistant");
     public static final TagKey<Item> HEAT_RESISTANT = GCyRTagUtil.createModItemTag("heat_resistant");
 
@@ -27,6 +27,7 @@ public class GCyRTags {
 
     // Fluid
     public static final TagKey<Fluid> VEHICLE_FUELS = GCyRTagUtil.createModFluidTag("vehicle_fuels");
+    public static final TagKey<Fluid> OXYGEN = TagUtil.createFluidTag("oxygen");
 
     // Biome
     public static final TagKey<Biome> IS_SPACE = GCyRTagUtil.createModTag(Registries.BIOME, "is_space");

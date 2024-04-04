@@ -3,6 +3,7 @@ package argent_matter.gcyr;
 import argent_matter.gcyr.api.gui.factory.EntityUIFactory;
 import argent_matter.gcyr.api.registries.GCyRRegistries;
 import argent_matter.gcyr.common.data.*;
+import argent_matter.gcyr.common.gui.EntityOxygenHUD;
 import argent_matter.gcyr.config.GCyRConfig;
 import argent_matter.gcyr.data.GCyRDatagen;
 import argent_matter.gcyr.data.loader.PlanetResources;
@@ -19,6 +20,7 @@ import com.lowdragmc.lowdraglib.gui.factory.UIFactory;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
+import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
@@ -44,6 +46,8 @@ public class GCyR {
 		bus.addGenericListener(MachineDefinition.class, this::registerMachines);
 		GCyRDimensionTypes.register(bus);
 
+		GCyRVanillaRecipeTypes.RECIPE_TYPE_DEFERRED_REGISTER.register(bus);
+
 		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> GCyRClient::init);
 	}
 
@@ -60,6 +64,7 @@ public class GCyR {
 		GCyRBlocks.init();
 		GCyRItems.init();
 		GCyRMenus.init();
+		;
 
 		GCyRDatagen.init();
 
@@ -71,6 +76,12 @@ public class GCyR {
 	public static ResourceLocation id(String path) {
 		return new ResourceLocation(MOD_ID, path);
 	}
+
+	@SubscribeEvent
+	public void registerGuiOverlays(RegisterGuiOverlaysEvent event) {
+		event.registerBelowAll("oxygen_tank", new EntityOxygenHUD());
+	}
+
 
 	@SubscribeEvent
 	public void registerClientReloadListeners(RegisterClientReloadListenersEvent event) {

@@ -1,7 +1,7 @@
 package argent_matter.gcyr.common.data;
 
-import argent_matter.gcyr.common.recipe.DysonSphereCondition;
-import argent_matter.gcyr.common.recipe.OrbitCondition;
+import argent_matter.gcyr.common.recipe.condition.DysonSphereCondition;
+import argent_matter.gcyr.common.recipe.condition.OrbitCondition;
 import com.gregtechceu.gtceu.api.registry.GTRegistries;
 
 public class GCyRRecipeConditions {

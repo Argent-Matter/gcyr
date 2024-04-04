@@ -10,3 +10,7 @@ transitive-extendable method net/minecraft/client/gui/components/AbstractWidget 
 accessible field net/minecraft/client/gui/components/AbstractWidget wasHoveredOrFocused Z
 accessible field net/minecraft/client/gui/components/AbstractWidget hoverOrFocusedStartTime J
 accessible field net/minecraft/client/gui/components/AbstractWidget tooltipMsDelay I
+
+accessible field net/minecraft/world/item/SmithingTemplateItem ARMOR_TRIM_APPLIES_TO Lnet/minecraft/network/chat/Component;
+accessible field net/minecraft/world/item/SmithingTemplateItem ARMOR_TRIM_BASE_SLOT_DESCRIPTION Lnet/minecraft/network/chat/Component;
+accessible method net/minecraft/world/item/SmithingTemplateItem createTrimmableArmorIconList ()Ljava/util/List;

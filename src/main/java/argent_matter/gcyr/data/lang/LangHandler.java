@@ -18,6 +18,7 @@ public class LangHandler extends com.gregtechceu.gtceu.data.lang.LangHandler {
         provider.add("tagprefix.venus", TagPrefix.get("venus").langValue());
         provider.add("tagprefix.mercury", TagPrefix.get("mercury").langValue());
 
+        // materials
         replace(provider, GCyRMaterials.Bisalloy400.getUnlocalizedName(), "Bisalloy-400");
         replace(provider, GCyRMaterials.CoMnBrCatalyst.getUnlocalizedName(), "Co-Mn-Br Catalyst");
         replace(provider, GCyRMaterials.ParaPhenylenediamine.getUnlocalizedName(), "Para-Phenylenediamine");
@@ -35,6 +36,12 @@ public class LangHandler extends com.gregtechceu.gtceu.data.lang.LangHandler {
         // items
         provider.add("metaitem.planet_id_circuit.id", "Currently selected planet: ");
         provider.add("metaitem.planet_id_circuit.station", "To in-orbit space station (ID: %s)");
+        provider.add("item.gcyr.smithing_template.space_upgrade.ingredients", "Space Fabric");
+        provider.add("item.gcyr.smithing_template.space_upgrade.additions_slot_description", "Add Space Suit Part");
+        provider.add("trim_material.gcyr.space", "Space Suit");
+        provider.add("trim_pattern.gcyr.space", "Space Suit Upgrade");
+        provider.add("tooltip.gcyr.spacesuit", "Works as a space suit.");
+        provider.add("tooltip.gcyr.spacesuit.stored", "Stored Oxygen: %s / %s mB");
 
         // machines
         provider.add("gcyr.machine.satellite_jammer.jammed", "Jammed %s");
@@ -60,6 +67,8 @@ public class LangHandler extends com.gregtechceu.gtceu.data.lang.LangHandler {
         provider.add("menu.gcyr.dyson_sphere.collapsed", "DYSON SPHERE COLLAPSED");
 
         provider.add("menu.gcyr.launch", "LAUNCH");
+        provider.add("menu.gcyr.rocket.unbuild", "UNBUILD");
+        provider.add("menu.gcyr.rocket.thrust", "Thrust: %s m/s");
 
         provider.add("menu.gcyr.save_destination_station", "Save Space Station ID to keycard");
         provider.add("gcyr.multiblock.rocket.build", "Scan Rocket");
@@ -88,5 +97,15 @@ public class LangHandler extends com.gregtechceu.gtceu.data.lang.LangHandler {
         provider.add("message.gcyr.invalid_id", "The rocket must have a valid Planet ID Chip.");
         provider.add("message.gcyr.rocket_not_good_enough", "The rocket doesn't have enough tier %s components to travel to the selected planet.");
         provider.add("message.gcyr.notice_id_changed", "The destination of your Space Station ID chip might have changed. Remember to rewrite the personal destination chip with the new data before setting a new target!");
+
+        // planets (from resources/data/gcyr/gcyr/planets)
+        provider.add("gcyr.solar_system", "Sol");
+        provider.add("gcyr.alpha_centauri", "Alpha Centauri");
+        provider.add("level.overworld", "Earth");
+        provider.add("level.gcyr.moon", "Moon");
+        provider.add("level.gcyr.mercury", "Mercury");
+        provider.add("level.gcyr.venus", "Venus");
+        provider.add("level.gcyr.mars", "Mars");
+
     }
 }

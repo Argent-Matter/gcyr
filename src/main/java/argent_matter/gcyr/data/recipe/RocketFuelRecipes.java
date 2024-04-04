@@ -17,8 +17,9 @@ public class RocketFuelRecipes {
                 .duration(25) // duration is used / 10 as a divisor to fuel usage
                 .EUt(0) // use EUt as a bogus tier indicator. more than a rocket's motor tier fuels aren't allowed to be used in the rocket.
                 .save(provider);
+
         ROCKET_FUEL_RECIPES.recipeBuilder(GCyR.id("diesel"))
-                .inputFluids(GTMaterials.Gasoline.getFluid(1))
+                .inputFluids(GTMaterials.Diesel.getFluid(1))
                 .duration(18).EUt(0)
                 .save(provider);
 

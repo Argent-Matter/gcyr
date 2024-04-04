@@ -1,0 +1,29 @@
+{
+  "world": "gcyr:venus",
+  "stars": {
+    "fancy_count": 0,
+    "fast_count": 0,
+    "colored_stars": false,
+    "daylight_visible": true
+  },
+  "sunset_color": "none",
+  "dimension_effects": {
+    "type": "none"
+  },
+  "cloud_effects": "none",
+  "weather_effects": "none",
+  "horizon_angle": 0,
+  "sky_objects": [
+    {
+      "texture": "gcyr:textures/sky/sun.png",
+      "blending": true,
+      "render_type": "dynamic",
+      "scale": 40.0,
+      "rotation": [
+        0.0,
+        -90.0,
+        0.0
+      ]
+    }
+  ]
+}

@@ -20,7 +20,7 @@ import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 @SuppressWarnings("unused")
 public class GCyROres {
 
-    // moon ores
+   // TODO Tweak Ore Generation... Maybe by community feedback
     public static final RuleTest MOON_ORE_REPLACEABLES = new TagMatchTest(GCyRTags.MOON_ORE_REPLACEABLES);
     public static RuleTest[] MOON_RULES = new RuleTest[]{MOON_ORE_REPLACEABLES};
 
@@ -160,7 +160,107 @@ public class GCyROres {
                     .placement(SurfaceIndicatorGenerator.IndicatorPlacement.ABOVE)
             ));
 
+    public static final GTOreDefinition TUNGSTOTITANATE_VEIN_VENUS = create("tungstotitanate_vein_venus", vein -> vein
+            .clusterSize(30).density(0.3f).weight(40)
+            .layer(GCyRWorldGenLayers.VENUS)
+            .heightRangeUniform(10, 80)
+            .biomes(GCyRTags.IS_VENUS)
+            .dikeVeinGenerator(generator -> generator
+                    .withBlock(new DikeVeinGenerator.DikeBlockDefinition(Tungstate, 8, 18, 80))
+                    .withBlock(new DikeVeinGenerator.DikeBlockDefinition(Scheelite, 4, 15, 80))
+                    .withBlock(new DikeVeinGenerator.DikeBlockDefinition(Bauxite, 2, 15, 80))
+            )
+            .surfaceIndicatorGenerator(indicator -> indicator
+                    .surfaceRock(Tungstate)
+                    .placement(SurfaceIndicatorGenerator.IndicatorPlacement.ABOVE)
+            ));
 
+    public static final GTOreDefinition SULFUR_VEIN_VENUS = create("sulfurc_vein_venus", vein -> vein
+            .clusterSize(30).density(0.3f).weight(40)
+            .layer(GCyRWorldGenLayers.VENUS)
+            .heightRangeUniform(10, 80)
+            .biomes(GCyRTags.IS_VENUS)
+            .veinedVeinGenerator(generator -> generator
+                    .oreBlock(new VeinedVeinGenerator.VeinBlockDefinition(Sulfur, 5))
+                    .oreBlock(new VeinedVeinGenerator.VeinBlockDefinition(Tetrahedrite, 1))
+                    .rareBlock(new VeinedVeinGenerator.VeinBlockDefinition(Sphalerite, 1))
+                    .rareBlockChance(0.33f)
+                    .veininessThreshold(5.1f)
+                    .maxRichnessThreshold(5.4f)
+                    .minRichness(0.2f)
+                    .maxRichness(0.5f)
+                    .edgeRoundoffBegin(12)
+            )
+            .surfaceIndicatorGenerator(indicator -> indicator
+                    .surfaceRock(Sulfur)
+                    .placement(SurfaceIndicatorGenerator.IndicatorPlacement.ABOVE)
+            ));
+
+    public static final GTOreDefinition COPPER_VEIN_VENUS = create("copper_vein_venus", vein -> vein
+            .clusterSize(30).density(0.3f).weight(40)
+            .layer(GCyRWorldGenLayers.VENUS)
+            .heightRangeUniform(10, 80)
+            .biomes(GCyRTags.IS_VENUS)
+            .veinedVeinGenerator(generator -> generator
+                    .oreBlock(new VeinedVeinGenerator.VeinBlockDefinition(Copper, 4))
+                    .oreBlock(new VeinedVeinGenerator.VeinBlockDefinition(Tetrahedrite, 3))
+                    .oreBlock(new VeinedVeinGenerator.VeinBlockDefinition(Chalcopyrite, 2))
+                    .oreBlock(new VeinedVeinGenerator.VeinBlockDefinition(Pyrite, 1))
+                    .rareBlockChance(0.33f)
+                    .veininessThreshold(5.1f)
+                    .maxRichnessThreshold(5.4f)
+                    .minRichness(0.2f)
+                    .maxRichness(0.5f)
+                    .edgeRoundoffBegin(12)
+            )
+            .surfaceIndicatorGenerator(indicator -> indicator
+                    .surfaceRock(Chalcopyrite)
+                    .placement(SurfaceIndicatorGenerator.IndicatorPlacement.ABOVE)
+            ));
+
+    public static final GTOreDefinition IRON_VEIN_VENUS = create("iron_vein_venus", vein -> vein
+            .clusterSize(30).density(0.3f).weight(40)
+            .layer(GCyRWorldGenLayers.VENUS)
+            .heightRangeUniform(10, 80)
+            .biomes(GCyRTags.IS_VENUS)
+            .veinedVeinGenerator(generator -> generator
+                    .oreBlock(new VeinedVeinGenerator.VeinBlockDefinition(Iron, 4))
+                    .oreBlock(new VeinedVeinGenerator.VeinBlockDefinition(Hematite, 3))
+                    .rareBlock(new VeinedVeinGenerator.VeinBlockDefinition(Gold, 1))
+                    .oreBlock(new VeinedVeinGenerator.VeinBlockDefinition(Pyrite, 3))
+                    .rareBlockChance(0.33f)
+                    .veininessThreshold(5.1f)
+                    .maxRichnessThreshold(5.4f)
+                    .minRichness(0.2f)
+                    .maxRichness(0.5f)
+                    .edgeRoundoffBegin(12)
+            )
+            .surfaceIndicatorGenerator(indicator -> indicator
+                    .surfaceRock(Hematite)
+                    .placement(SurfaceIndicatorGenerator.IndicatorPlacement.ABOVE)
+            ));
+
+    public static final GTOreDefinition MERCURY_VEIN_MERCURY = create("mercury_vein_mercury", vein -> vein
+            .clusterSize(30).density(0.3f).weight(40)
+            .layer(GCyRWorldGenLayers.MERCURY)
+            .heightRangeUniform(10, 80)
+            .biomes(GCyRTags.IS_MERCURY)
+            .veinedVeinGenerator(generator -> generator
+                    .oreBlock(new VeinedVeinGenerator.VeinBlockDefinition(Redstone, 4))
+                    .oreBlock(new VeinedVeinGenerator.VeinBlockDefinition(Cinnabar, 3))
+                    .oreBlock(new VeinedVeinGenerator.VeinBlockDefinition(Cinnabar, 2))
+                    .oreBlock(new VeinedVeinGenerator.VeinBlockDefinition(Ruby, 1))
+                    .rareBlockChance(0.33f)
+                    .veininessThreshold(5.1f)
+                    .maxRichnessThreshold(5.4f)
+                    .minRichness(0.2f)
+                    .maxRichness(0.5f)
+                    .edgeRoundoffBegin(12)
+            )
+            .surfaceIndicatorGenerator(indicator -> indicator
+                    .surfaceRock(Cinnabar)
+                    .placement(SurfaceIndicatorGenerator.IndicatorPlacement.ABOVE)
+            ));
 
     private static GTOreDefinition create(String name, Consumer<GTOreDefinition> config) {
         GTOreDefinition def = GTOres.blankOreDefinition();

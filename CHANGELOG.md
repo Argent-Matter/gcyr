@@ -1,7 +1,12 @@
-- updated to GTCEu 1.1.2.a
-- fix space elevator requiring UEV component
-- fix lithium incompatibility
-- add japanese translation
-- remove fabric version
-- add recipes for launch pad & seat blocks
-- updated some textures
+### ADDITIONS:
+- venus
+- mars
+- added ability to fill up space suit
+
+### FIXES:
+- fixed rocket part recipes
+- fixed rocket takeoff & landing being a buggy mess
+- fixed space suit not working
+
+### CHANGES:
+- updated to GTCEu 1.1.4.a

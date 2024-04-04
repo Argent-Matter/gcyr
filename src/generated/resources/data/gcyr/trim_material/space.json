@@ -1,0 +1,9 @@
+{
+  "asset_name": "space",
+  "description": {
+    "color": "#C5991A",
+    "translate": "trim_material.gcyr.space"
+  },
+  "ingredient": "gcyr:space_fabric",
+  "item_model_index": 1.1
+}
