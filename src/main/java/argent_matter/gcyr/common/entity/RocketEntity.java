@@ -44,6 +44,7 @@ import it.unimi.dsi.fastutil.objects.Object2BooleanMap;
 import it.unimi.dsi.fastutil.objects.Object2BooleanOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
+import net.minecraft.ChatFormatting;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -887,17 +888,18 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
     }
 
     public Component getDisplayThrust() {
+        ChatFormatting style;
         var thrust = getRocketSpeed();
-        String label;
-        if (thrust < 0.01) {
-            label = String.format("§c%.1f§r", thrust);
-        } else if (thrust < 1.01) {
-            label = String.format("§6%.1f§r", thrust);
-        } else {
-            label = String.format("§a%.1f§r", thrust);
-        }
 
-        return Component.translatable("menu.gcyr.rocket.thrust", label);
+        if (thrust < 0.01) {
+            style = ChatFormatting.RED;
+        } else if (thrust < 1.01) {
+            style = ChatFormatting.GOLD;
+        } else {
+            style = ChatFormatting.GREEN;
+        }
+        var thrustComponent = Component.literal(String.format("%.1f", thrust)).withStyle(style);
+        return Component.translatable("menu.gcyr.rocket.thrust", thrustComponent);
     }
 
     public double getRocketSpeed() {
