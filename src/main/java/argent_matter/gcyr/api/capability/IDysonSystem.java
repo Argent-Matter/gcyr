@@ -8,6 +8,8 @@ import net.minecraft.core.BlockPos;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.Map;
+import java.util.Set;
 
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
@@ -15,8 +17,7 @@ public interface IDysonSystem {
     /**
      * @return this solar system's active dyson sphere, or null if none
      */
-    @Nullable
-    DysonSphere activeDysonSphere();
+    Map<BlockPos, DysonSphere> activeDysonSpheres();
 
     boolean isDysonSphereActive();
 

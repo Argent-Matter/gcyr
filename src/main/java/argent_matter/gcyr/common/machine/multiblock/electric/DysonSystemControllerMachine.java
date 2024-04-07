@@ -4,12 +4,19 @@ import argent_matter.gcyr.api.capability.GCyRCapabilityHelper;
 import argent_matter.gcyr.api.capability.IDysonSystem;
 import argent_matter.gcyr.common.data.GCyRParticles;
 import argent_matter.gcyr.config.GCyRConfig;
+import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
+import com.gregtechceu.gtceu.api.machine.multiblock.WorkableMultiblockMachine;
+import com.gregtechceu.gtceu.api.machine.trait.NotifiableEnergyContainer;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.common.data.GTDamageTypes;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
+import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
+import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+import lombok.Getter;
 import net.minecraft.ChatFormatting;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
@@ -30,8 +37,15 @@ import java.util.List;
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class DysonSystemControllerMachine extends WorkableElectricMultiblockMachine {
+    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(DysonSystemControllerMachine.class, WorkableMultiblockMachine.MANAGED_FIELD_HOLDER);
+
+    @Persisted
+    @Getter
+    private final DysonSystemEnergyContainer energyContainer;
+
     public DysonSystemControllerMachine(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
+        this.energyContainer = new DysonSystemEnergyContainer(this, Long.MAX_VALUE, GTValues.V[GTValues.MAX], GTValues.V[GTValues.MAX], GTValues.V[GTValues.MAX], GTValues.V[GTValues.MAX]);
     }
 
     @Override
@@ -40,7 +54,7 @@ public class DysonSystemControllerMachine extends WorkableElectricMultiblockMach
         if (!isRemote()) {
             IDysonSystem system = GCyRCapabilityHelper.getDysonSystem((ServerLevel) this.getLevel());
             if (system == null || !system.isDysonSphereActive()) return;
-            system.activeDysonSphere().setControllerPos(null);
+            system.activeDysonSpheres().get(this.getPos()).setControllerPos(null);
         }
     }
 
@@ -50,8 +64,8 @@ public class DysonSystemControllerMachine extends WorkableElectricMultiblockMach
         if (!isRemote()) {
             IDysonSystem system = GCyRCapabilityHelper.getDysonSystem((ServerLevel) this.getLevel());
             if (system == null) return;
-            if (system.isDysonSphereActive() && system.activeDysonSphere().getControllerPos() == null) {
-                system.activeDysonSphere().setControllerPos(this.getPos());
+            if (system.isDysonSphereActive() && system.activeDysonSpheres().get(this.getPos()).getControllerPos() == null) {
+                system.activeDysonSpheres().get(this.getPos()).setControllerPos(this.getPos());
             } else if (!system.isDysonSphereActive()) {
                 system.addDysonSphere(this.getPos());
             }
@@ -63,7 +77,7 @@ public class DysonSystemControllerMachine extends WorkableElectricMultiblockMach
         if (this.getLevel().dimensionType().hasCeiling()) return null;
         if (recipe.data.contains("gcyr:repair_dyson_sphere")) {
             IDysonSystem system = GCyRCapabilityHelper.getDysonSystem((ServerLevel) this.getLevel());
-            if (system != null && system.isDysonSphereActive() && (!system.activeDysonSphere().isNeedsMaintenance() || !this.getPos().equals(system.activeDysonSphere().getControllerPos()))) return null;
+            if (system != null && system.isDysonSphereActive() && (!system.activeDysonSpheres().get(this.getPos()).isNeedsMaintenance() || !this.getPos().equals(system.activeDysonSpheres().get(this.getPos()).getControllerPos()))) return null;
         }
         return super.getRealRecipe(recipe);
     }
@@ -93,8 +107,8 @@ public class DysonSystemControllerMachine extends WorkableElectricMultiblockMach
         if (system == null) return;
         if (!system.isDysonSphereActive() && recipe.data.contains("gcyr:launch_dyson_sphere")) {
             system.addDysonSphere(this.getPos());
-        } else if (system.isDysonSphereActive() && recipe.data.contains("gcyr:repair_dyson_sphere") && system.activeDysonSphere().getControllerPos().equals(this.getPos())) {
-            system.activeDysonSphere().fixMaintenance();
+        } else if (system.isDysonSphereActive() && recipe.data.contains("gcyr:repair_dyson_sphere") && system.activeDysonSpheres().get(this.getPos()).getControllerPos().equals(this.getPos())) {
+            system.activeDysonSpheres().get(this.getPos()).fixMaintenance();
         }
     }
 
@@ -126,11 +140,11 @@ public class DysonSystemControllerMachine extends WorkableElectricMultiblockMach
             if (system == null) return;
 
             if (system.isDysonSphereActive()) {
-                if (system.activeDysonSphere().isNeedsMaintenance() && !system.activeDysonSphere().isCollapsed()) {
+                if (system.activeDysonSpheres().get(this.getPos()).isNeedsMaintenance() && !system.activeDysonSpheres().get(this.getPos()).isCollapsed()) {
                     textList.add(Component.translatable("menu.gcyr.dyson_sphere.needs_maintenance").withStyle(this.getOffsetTimer() % 10 >= 5 ? ChatFormatting.RED : ChatFormatting.DARK_RED));
-                    textList.add(Component.translatable("menu.gcyr.dyson_sphere.time_since_needed_maintenance", system.activeDysonSphere().getTimeNeededMaintenance()));
-                    textList.add(Component.translatable("menu.gcyr.dyson_sphere.implosion_chance", system.activeDysonSphere().getCollapseChance() * 100.0f));
-                } else if (system.activeDysonSphere().isCollapsed()) {
+                    textList.add(Component.translatable("menu.gcyr.dyson_sphere.time_since_needed_maintenance", system.activeDysonSpheres().get(this.getPos()).getTimeNeededMaintenance()));
+                    textList.add(Component.translatable("menu.gcyr.dyson_sphere.implosion_chance", system.activeDysonSpheres().get(this.getPos()).getCollapseChance() * 100.0f));
+                } else if (system.activeDysonSpheres().get(this.getPos()).isCollapsed()) {
                     textList.add(Component.translatable("menu.gcyr.dyson_sphere.collapsed"));
                 }
             }
@@ -146,6 +160,18 @@ public class DysonSystemControllerMachine extends WorkableElectricMultiblockMach
             } else if (componentData.equals("dbg_delete_sphere")) {
                 GCyRCapabilityHelper.getDysonSystem((ServerLevel) this.getLevel()).disableDysonSphere(this.getPos());
             }
+        }
+    }
+
+    @Override
+    public ManagedFieldHolder getFieldHolder() {
+        return MANAGED_FIELD_HOLDER;
+    }
+
+    public static class DysonSystemEnergyContainer extends NotifiableEnergyContainer {
+
+        public DysonSystemEnergyContainer(MetaMachine machine, long maxCapacity, long maxInputVoltage, long maxInputAmperage, long maxOutputVoltage, long maxOutputAmperage) {
+            super(machine, maxCapacity, maxInputVoltage, maxInputAmperage, maxOutputVoltage, maxOutputAmperage);
         }
     }
 }

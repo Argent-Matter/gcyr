@@ -12,10 +12,7 @@ import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.NbtOps;
-import net.minecraft.nbt.Tag;
+import net.minecraft.nbt.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -47,8 +44,7 @@ public class DysonSystemSavedData extends SavedData implements IDysonSystem {
         return serverLevel.getDataStorage().computeIfAbsent(tag -> new DysonSystemSavedData(serverLevel, tag), () -> new DysonSystemSavedData(serverLevel), GCyR.MOD_ID + "_dyson_systems");
     }
 
-    @Nullable
-    private DysonSphere currentActiveSunBlock;
+    private final Map<BlockPos, DysonSphere> currentActiveDysonSpheres = new HashMap<>();
     private final Long2ObjectMap<Set<DysonSwarmSatellite>> swarmSatellites = new Long2ObjectOpenHashMap<>();
 
     private final ServerLevel level;
@@ -63,14 +59,13 @@ public class DysonSystemSavedData extends SavedData implements IDysonSystem {
     }
 
     @Override
-    @Nullable
-    public DysonSphere activeDysonSphere() {
-        return currentActiveSunBlock;
+    public Map<BlockPos, DysonSphere> activeDysonSpheres() {
+        return currentActiveDysonSpheres;
     }
 
     @Override
     public boolean isDysonSphereActive() {
-        return currentActiveSunBlock != null;
+        return !currentActiveDysonSpheres.isEmpty();
     }
 
     @Override
@@ -80,9 +75,9 @@ public class DysonSystemSavedData extends SavedData implements IDysonSystem {
 
     @Override
     public void addDysonSphere(BlockPos controllerPos) {
-        if (this.currentActiveSunBlock != null) return;
-        this.currentActiveSunBlock = new DysonSphere(controllerPos, this);
-        this.swarmSatellites.keySet().forEach(pos -> this.disableAllDysonSatellites(BlockPos.of(pos)));
+        DysonSphere sphere = new DysonSphere(controllerPos, this);
+        this.currentActiveDysonSpheres.put(controllerPos, sphere);
+        this.swarmSatellites.get(controllerPos.asLong()).forEach(swarmSatellites::remove);
         this.setDirty();
         for (ServerPlayer player : this.level.getServer().getPlayerList().getPlayers()) {
             Planet playerPlanet = PlanetData.getPlanetFromLevel(player.serverLevel().dimension()).orElse(null);
@@ -96,9 +91,9 @@ public class DysonSystemSavedData extends SavedData implements IDysonSystem {
 
     @Override
     public void disableDysonSphere(BlockPos controllerPos) {
-        if (currentActiveSunBlock != null && controllerPos.equals(currentActiveSunBlock.getControllerPos())) {
-            currentActiveSunBlock.setControllerPos(null);
-
+        DysonSphere current = currentActiveDysonSpheres.get(controllerPos);
+        if (current != null) {
+            current.setControllerPos(null);
             this.setDirty();
             for (ServerPlayer player : this.level.getServer().getPlayerList().getPlayers()) {
                 Planet playerPlanet = PlanetData.getPlanetFromLevel(player.serverLevel().dimension()).orElse(null);
@@ -114,6 +109,7 @@ public class DysonSystemSavedData extends SavedData implements IDysonSystem {
     @Override
     public void addDysonSatellite(BlockPos controllerPos, DysonSwarmSatellite satellite) {
         swarmSatellites.computeIfAbsent(controllerPos.asLong(), pos -> new HashSet<>()).add(satellite);
+        satellite.setSwarmController(controllerPos);
         this.setDirty();
     }
 
@@ -125,9 +121,7 @@ public class DysonSystemSavedData extends SavedData implements IDysonSystem {
 
     @Override
     public void tick() {
-        if (this.currentActiveSunBlock != null) {
-            this.currentActiveSunBlock.tick(this.level);
-        }
+        this.currentActiveDysonSpheres.forEach((pos, sphere) -> sphere.tick(this.level));
     }
 
     @Override
@@ -136,10 +130,13 @@ public class DysonSystemSavedData extends SavedData implements IDysonSystem {
     }
 
     public void load(CompoundTag arg) {
-        if (arg.contains("dysonSphere", Tag.TAG_COMPOUND)) {
-            this.currentActiveSunBlock = DysonSphere.load(arg.getCompound("dysonSphere"), this);
-            for (ServerPlayer player : this.level.players()) {
-                GCyRNetworking.NETWORK.sendToPlayer(new PacketSyncDysonSphereStatus(true), player);
+        if (arg.contains("dysonSpheres", Tag.TAG_LIST)) {
+            for (Tag sphere : arg.getList("dysonSpheres", Tag.TAG_COMPOUND)) {
+                BlockPos controllerPos = NbtUtils.readBlockPos(((CompoundTag)sphere).getCompound("controllerPos"));
+                this.currentActiveDysonSpheres.put(controllerPos, DysonSphere.load((CompoundTag) sphere, this));
+                for (ServerPlayer player : this.level.players()) {
+                    GCyRNetworking.NETWORK.sendToPlayer(new PacketSyncDysonSphereStatus(true), player);
+                }
             }
         }
         CompoundTag stationsTag = arg.getCompound("satellites");
@@ -155,11 +152,13 @@ public class DysonSystemSavedData extends SavedData implements IDysonSystem {
 
     @Override
     public CompoundTag save(CompoundTag compoundTag) {
-        if (currentActiveSunBlock != null) {
+        ListTag spheresTag = new ListTag();
+        for (DysonSphere sphere : this.currentActiveDysonSpheres.values()) {
             CompoundTag tag = new CompoundTag();
-            this.currentActiveSunBlock.save(tag);
-            compoundTag.put("dysonSphere", tag);
+            sphere.save(tag);
+            spheresTag.add(tag);
         }
+        compoundTag.put("dysonSpheres", spheresTag);
         CompoundTag tag = new CompoundTag();
         for (Long2ObjectMap.Entry<Set<DysonSwarmSatellite>> entry : swarmSatellites.long2ObjectEntrySet()) {
             ListTag pos = new ListTag();

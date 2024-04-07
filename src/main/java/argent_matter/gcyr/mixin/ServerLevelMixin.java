@@ -19,7 +19,7 @@ public class ServerLevelMixin {
     @Inject(method = "setDayTime", at = @At("HEAD"), cancellable = true)
     public void gcyr$overrideDayTime(long time, CallbackInfo ci) {
         IDysonSystem dysonSystem = GCyRCapabilityHelper.getDysonSystem((ServerLevel) (Object) this);
-        if (dysonSystem != null && dysonSystem.isDysonSphereActive() && !dysonSystem.activeDysonSphere().isCollapsed()) {
+        if (dysonSystem != null && dysonSystem.isDysonSphereActive() && !dysonSystem.activeDysonSpheres().isCollapsed()) {
             long dayTime = this.serverLevelData.getDayTime();
             this.serverLevelData.setDayTime(dayTime + (24000L - (dayTime % 24000L) + 18000L) % 24000L);
             ci.cancel();

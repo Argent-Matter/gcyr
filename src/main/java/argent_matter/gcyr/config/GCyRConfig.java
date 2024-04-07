@@ -32,6 +32,9 @@ public class GCyRConfig {
         @Configurable
         @Configurable.Comment({"Time between laser satellite mining attempts.", "Default: 2"})
         public int laserSatelliteMiningTickStep = 2;
+        @Configurable
+        @Configurable.Comment({"Maximum amount of dyson swarm satellites per solar system", "Default: 1000"})
+        public int maxDysonSatellitesPerSystem = 1000;
     }
 
     public static class ServerConfigs {

@@ -33,6 +33,8 @@ public class LaserSatellite extends Satellite {
     @Override
     public void tickSatellite(Level level) {
         if (isNonWorking()) return;
+        currentMinedY = level.getHeight(Heightmap.Types.WORLD_SURFACE, Mth.floor(this.data.locationInWorld().x()), Mth.floor(this.data.locationInWorld().y()));
+
         if (isMining) {
             if (level.getGameTime() % GCyRConfig.INSTANCE.satellites.laserSatelliteMiningTickStep == 0) {
                 int x = this.data.locationInWorld().x();

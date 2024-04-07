@@ -64,9 +64,10 @@ public abstract class Satellite {
     public abstract void tickSatellite(Level level);
 
     public boolean runSatellite(Level level) {
-        if (jammed || needsRepair) return false;
+        if (isNonWorking()) return false;
         return runSatelliteFunction(level);
     }
+
     public abstract boolean runSatelliteFunction(Level level);
 
     public CompoundTag serializeNBT() {

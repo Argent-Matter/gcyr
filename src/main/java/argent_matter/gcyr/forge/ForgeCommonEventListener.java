@@ -3,7 +3,6 @@ package argent_matter.gcyr.forge;
 import argent_matter.gcyr.GCyR;
 import argent_matter.gcyr.api.capability.GCyRCapabilityHelper;
 import argent_matter.gcyr.api.capability.IDysonSystem;
-import argent_matter.gcyr.common.data.GCyRItems;
 import argent_matter.gcyr.common.data.GCyRNetworking;
 import argent_matter.gcyr.common.item.armor.SpaceSuitArmorItem;
 import argent_matter.gcyr.common.networking.s2c.PacketSyncDysonSphereStatus;
@@ -61,7 +60,7 @@ public class ForgeCommonEventListener {
     public static void playerChangedDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
         if (event.getEntity() instanceof ServerPlayer player) {
             IDysonSystem system = GCyRCapabilityHelper.getDysonSystem(player.serverLevel());
-            if (system != null && system.isDysonSphereActive() && !system.activeDysonSphere().isCollapsed()) {
+            if (system != null && system.isDysonSphereActive() && !system.activeDysonSpheres().isCollapsed()) {
                 GCyRNetworking.NETWORK.sendToPlayer(new PacketSyncDysonSphereStatus(true), player);
             } else {
                 GCyRNetworking.NETWORK.sendToPlayer(new PacketSyncDysonSphereStatus(false), player);
@@ -73,7 +72,7 @@ public class ForgeCommonEventListener {
     public static void entityJoined(EntityJoinLevelEvent event) {
         if (event.getEntity() instanceof ServerPlayer player) {
             IDysonSystem system = GCyRCapabilityHelper.getDysonSystem(player.serverLevel());
-            if (system != null && system.isDysonSphereActive() && !system.activeDysonSphere().isCollapsed()) {
+            if (system != null && system.isDysonSphereActive() && !system.activeDysonSpheres().isCollapsed()) {
                 GCyRNetworking.NETWORK.sendToPlayer(new PacketSyncDysonSphereStatus(true), player);
             } else {
                 GCyRNetworking.NETWORK.sendToPlayer(new PacketSyncDysonSphereStatus(false), player);

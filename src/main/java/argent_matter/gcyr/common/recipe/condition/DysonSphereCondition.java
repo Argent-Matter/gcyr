@@ -31,7 +31,7 @@ public class DysonSphereCondition extends RecipeCondition {
         if (!level.isClientSide) {
             IDysonSystem system = GCyRCapabilityHelper.getDysonSystem((ServerLevel) level);
             if (system == null) return false;
-            return system.isDysonSphereActive() && !system.activeDysonSphere().isCollapsed();
+            return system.isDysonSphereActive() && !system.activeDysonSpheres().isCollapsed();
         }
         return false;
     }
