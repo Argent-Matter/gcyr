@@ -24,11 +24,11 @@ public class GCyRRecipeTypes {
     public static final GTRecipeType DYSON_ENERGY_RECIPES = register("dyson_controller", MULTIBLOCK)
             .setMaxIOSize(8, 0, 0, 0).setEUIO(IO.BOTH)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, LEFT_TO_RIGHT)
-            .setSound(GTSoundEntries.TRICORDER_TOOL);
+            .setSound(GTSoundEntries.PORTABLE_SCANNER);
 
     public static final GTRecipeType SPACE_ELEVATOR_RECIPES = register("space_elevator", MULTIBLOCK).setMaxIOSize(16, 1, 4, 0).setEUIO(IO.IN)
             .setProgressBar(GCyRGuiTextures.PROGRESS_BAR_ROCKET, LEFT_TO_RIGHT)
-            .setSound(GTSoundEntries.TRICORDER_TOOL);
+            .setSound(GTSoundEntries.PORTABLE_SCANNER);
 
     public static final GTRecipeType ROCKET_FUEL_RECIPES = register("rocket_fuel", MULTIBLOCK).setMaxIOSize(0, 0, 1, 0).setEUIO(IO.IN)
             .setProgressBar(GCyRGuiTextures.PROGRESS_BAR_ROCKET, LEFT_TO_RIGHT)
