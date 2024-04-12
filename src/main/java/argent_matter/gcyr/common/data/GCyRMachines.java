@@ -1,7 +1,6 @@
 package argent_matter.gcyr.common.data;
 
 import argent_matter.gcyr.GCyR;
-import argent_matter.gcyr.common.machine.electric.FluidLoaderMachine;
 import argent_matter.gcyr.common.machine.electric.OxygenSpreaderMachine;
 import argent_matter.gcyr.common.machine.multiblock.RocketScannerMachine;
 import argent_matter.gcyr.common.machine.multiblock.SpaceStationPackagerMachine;
@@ -59,15 +58,6 @@ public class GCyRMachines {
                     .blockBuilder(block -> block.tag(GCyRTags.PASSES_FLOOD_FILL))
                     .register(),
             HIGH_TIERS);
-
-    public final static MachineDefinition[] FLUID_LOADER = registerTieredMachines("fluid_loader", FluidLoaderMachine::new,
-            (tier, builder) -> builder
-                    .langValue("%s Fluid Loader".formatted(VNF[tier]))
-                    .rotationState(RotationState.ALL)
-                    .renderer(() -> new TieredHullMachineRenderer(tier, GCyR.id("block/machine/fluid_loader")))
-                    .recipeType(GTRecipeTypes.DUMMY_RECIPES)
-                    .register(),
-            LOW_TIERS);
 
     public static final MachineDefinition ROCKET_SCANNER = REGISTRATE.multiblock("rocket_scanner", RocketScannerMachine::new)
             .langValue("Rocket Scanner")

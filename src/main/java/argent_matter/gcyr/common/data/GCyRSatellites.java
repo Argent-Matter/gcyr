@@ -4,10 +4,7 @@ import argent_matter.gcyr.GCyR;
 import argent_matter.gcyr.api.registries.GCyRRegistries;
 import argent_matter.gcyr.api.space.satellite.Satellite;
 import argent_matter.gcyr.api.space.satellite.SatelliteType;
-import argent_matter.gcyr.common.satellite.DysonSwarmSatellite;
-import argent_matter.gcyr.common.satellite.EmptySatellite;
-import argent_matter.gcyr.common.satellite.GpsSatellite;
-import argent_matter.gcyr.common.satellite.LaserSatellite;
+import argent_matter.gcyr.common.satellite.*;
 import net.minecraft.resources.ResourceLocation;
 
 /**
@@ -19,6 +16,7 @@ public class GCyRSatellites {
 
     public static final SatelliteType<EmptySatellite> EMPTY = register("empty", new SatelliteType<>(EmptySatellite::new, EmptySatellite.CODEC));
     public static final SatelliteType<GpsSatellite> GPS = register("gps", new SatelliteType<>(GpsSatellite::new, GpsSatellite.CODEC));
+    public static final SatelliteType<OreFinderSatellite> ORE_FINDER = register("ore_finder", new SatelliteType<>(OreFinderSatellite::new, OreFinderSatellite.CODEC));
     public static final SatelliteType<LaserSatellite> LASER = register("laser", new SatelliteType<>(LaserSatellite::new, LaserSatellite.CODEC));
     public static final SatelliteType<DysonSwarmSatellite> DYSON_SWARM = register("dyson_swarm", new SatelliteType<>(DysonSwarmSatellite::new, DysonSwarmSatellite.CODEC));
 
