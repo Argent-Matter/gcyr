@@ -1,15 +1,11 @@
 package argent_matter.gcyr.common.item;
 
 import argent_matter.gcyr.api.space.planet.Planet;
-import argent_matter.gcyr.api.space.station.SpaceStation;
 import argent_matter.gcyr.common.data.GCyRItems;
 import argent_matter.gcyr.data.loader.PlanetData;
 import com.gregtechceu.gtceu.api.item.component.IAddInformation;
-import com.gregtechceu.gtceu.api.item.component.IItemComponent;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -24,7 +20,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.UUID;
 
-public class KeyCardBehaviour implements IAddInformation/*, IInteractionItem*/ {
+public class KeyCardBehaviour implements IAddInformation {
 
     @Nullable
     public static UUID getOwner(ItemStack stack) {

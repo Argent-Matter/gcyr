@@ -55,7 +55,7 @@ public class GCyR {
 		GCyRNetworking.init();
 		UIFactory.register(EntityUIFactory.INSTANCE);
 
-		//GCyRSatellites.init();
+		GCyRSatellites.init();
 		GCyREntityDataSerializers.init();
 		GCyRCreativeModeTabs.init();
 		GCyREntities.init();
