@@ -893,7 +893,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         return this.entityData.get(SEAT_POSITIONS);
     }
 
-    public Component getDisplayThrust() {
+    public String getDisplayThrust() {
         ChatFormatting style;
         var thrust = getRocketSpeed();
 
@@ -904,7 +904,8 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         } else {
             style = ChatFormatting.GREEN;
         }
-        return Component.translatable("menu.gcyr.rocket.thrust", style + String.format("%.1f", thrust) + ChatFormatting.RESET);
+        var thrustComponent = Component.literal(String.format("%.1f", thrust)).withStyle(style);
+        return Component.translatable("menu.gcyr.rocket.thrust", thrustComponent).getString();
     }
 
     public double getRocketSpeed() {
