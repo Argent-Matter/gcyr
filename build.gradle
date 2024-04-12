@@ -184,11 +184,19 @@ dependencies {
 }
 
 processResources {
-    inputs.property "version", project.version
-    inputs.property "mod_id", project.mod_id
+    // set up properties for filling into metadata
+    var properties = [
+            "version": version,
+            "mod_id": project.mod_id,
+            "forge_version": forge.versions.forgeShortVersion.get().split("\\.")[0], // only specify major version of forge
+            "minecraft_version": libs.versions.minecraft.get(),
+            "gtceu_version": forge.versions.gtceu.get(),
+            "mod_name": mod_name,
+    ]
+    inputs.properties(properties)
 
     filesMatching("META-INF/mods.toml") {
-        expand "version": project.version
+        expand properties
     }
 }
 
