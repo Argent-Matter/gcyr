@@ -15,7 +15,6 @@ import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 import com.gregtechceu.gtceu.data.recipe.misc.MetaTileEntityLoader;
 import net.minecraft.data.recipes.FinishedRecipe;
-import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.common.Tags;
@@ -163,6 +162,7 @@ public class MiscRecipes {
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GCyR.id("stainless_evaporation_casing"))
                 .inputItems(GTBlocks.CASING_STAINLESS_CLEAN.asStack(1))
                 .inputItems(wireGtDouble, AnnealedCopper, 4)
+                .inputFluids(PolyvinylChloride.getFluid(L * 2))
                 .outputItems(GCyRBlocks.CASING_STAINLESS_EVAPORATION.asStack(1))
                 .duration(30).EUt(VA[HV]).save(provider);
     }
