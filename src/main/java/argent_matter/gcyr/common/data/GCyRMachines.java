@@ -18,19 +18,28 @@ import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.MultiblockMachineDefinition;
+import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
+import com.gregtechceu.gtceu.api.pattern.MultiblockShapeInfo;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
+import com.gregtechceu.gtceu.api.recipe.OverclockingLogic;
 import com.gregtechceu.gtceu.api.registry.registrate.MachineBuilder;
 import com.gregtechceu.gtceu.client.renderer.machine.TieredHullMachineRenderer;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
+import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.config.ConfigHolder;
+import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.DoorBlock;
+import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.function.BiFunction;
 
@@ -38,11 +47,12 @@ import static argent_matter.gcyr.api.registries.GCyRRegistries.REGISTRATE;
 import static argent_matter.gcyr.common.data.GCyRBlocks.*;
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
+import static com.gregtechceu.gtceu.api.pattern.util.RelativeDirection.*;
 import static com.gregtechceu.gtceu.common.data.GCyMBlocks.CASING_ATOMIC;
 import static com.gregtechceu.gtceu.common.data.GTBlocks.*;
 import static com.gregtechceu.gtceu.common.data.GTMachines.POWER_TRANSFORMER;
 
-@SuppressWarnings({"Convert2MethodRef", "FunctionalExpressionCanBeFolded", "unused"})
+@SuppressWarnings({"Convert2MethodRef", "FunctionalExpressionCanBeFolded", "unused", "DataFlowIssue"})
 public class GCyRMachines {
     public final static int[] ELECTRIC_TIERS = GTValues.tiersBetween(LV, GTCEuAPI.isHighTier() ? OpV : UV);
     public final static int[] LOW_TIERS = GTValues.tiersBetween(LV, EV);
@@ -59,11 +69,35 @@ public class GCyRMachines {
                     .register(),
             HIGH_TIERS);
 
+    public static final MachineDefinition EVAPORATION_PLANT = REGISTRATE.multiblock("evaporation_plant", WorkableElectricMultiblockMachine::new)
+            .langValue("Evaporation Tower")
+            .rotationState(RotationState.NON_Y_AXIS)
+            .recipeType(GCyRRecipeTypes.EVAPORATION_RECIPES)
+            .recipeModifier(GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK))
+            .appearanceBlock(CASING_STAINLESS_EVAPORATION)
+            .pattern(definition -> FactoryBlockPattern.start(RIGHT, BACK, UP)
+                    .aisle("YSYY", "YYYY", "YYYY")
+                    .aisle("XXXX", "X##X", "XXXX").setRepeatable(3, 5)
+                    .aisle(" XX ", "X##X", " XX ")
+                    .where('S', Predicates.controller(blocks(definition.getBlock())))
+                    .where('Y', blocks(CASING_STAINLESS_EVAPORATION.get())
+                            .or(Predicates.abilities(PartAbility.INPUT_ENERGY).setMinGlobalLimited(1).setMaxGlobalLimited(2))
+                            .or(Predicates.abilities(PartAbility.IMPORT_FLUIDS).setExactLimit(1)))
+                    .where('X', blocks(CASING_STAINLESS_EVAPORATION.get())
+                            .or(Predicates.abilities(PartAbility.EXPORT_FLUIDS_1X).setMaxLayerLimited(1)))
+                    .where('#', Predicates.air())
+                    .where(' ', Predicates.any())
+                    .build())
+            .partSorter(Comparator.comparingInt(a -> a.self().getPos().getY()))
+            .workableCasingRenderer(GCyR.id("block/casings/solid/machine_casing_stainless_evaporation"),
+                    GTCEu.id("block/multiblock/distillation_tower"), false)
+            .register();
+
     public static final MachineDefinition ROCKET_SCANNER = REGISTRATE.multiblock("rocket_scanner", RocketScannerMachine::new)
             .langValue("Rocket Scanner")
             .rotationState(RotationState.NON_Y_AXIS)
             .tier(GTValues.EV)
-            .pattern((definition) -> FactoryBlockPattern.start()
+            .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("     ", "  K  ", "  K  ", "  K  ", "  K  ", "  K  ")
                     .aisle(" BBB ", "     ", "     ", "     ", "     ", "     ")
                     .aisle(" BBB ", "     ", "     ", "     ", "     ", "     ")
@@ -73,8 +107,7 @@ public class GCyRMachines {
                     .where('B', blocks(LAUNCH_PAD.get()))
                     .where('K', blocks(GTBlocks.MATERIAL_BLOCKS.get(TagPrefix.frameGt, GTMaterials.StainlessSteel).get()))
                     .where(' ', any())
-                    .build()
-            )/*
+                    .build())
             .shapeInfos(definition -> {
                 ArrayList<MultiblockShapeInfo> shapeInfo = new ArrayList<>();
                 MultiblockShapeInfo.ShapeInfoBuilder builder = MultiblockShapeInfo.builder()
@@ -96,7 +129,7 @@ public class GCyRMachines {
                         .where('T', BASIC_FUEL_TANK)
                         .where('C', SEAT).build());
                 return shapeInfo;
-            })*/
+            })
             .workableCasingRenderer(GTCEu.id("block/casings/voltage/ev/side"),
                     GTCEu.id("block/multiblock/assembly_line"), false)
             .register();
@@ -117,9 +150,8 @@ public class GCyRMachines {
                     .where('B', blocks(LAUNCH_PAD.get()))
                     .where('K', blocks(GTBlocks.MATERIAL_BLOCKS.get(TagPrefix.frameGt, GTMaterials.StainlessSteel).get()))
                     .where(' ', any())
-                    .build()
-            )
-            /*.shapeInfos(definition -> {
+                    .build())
+            .shapeInfos(definition -> {
                 ArrayList<MultiblockShapeInfo> shapeInfo = new ArrayList<>();
                 MultiblockShapeInfo.ShapeInfoBuilder builder = MultiblockShapeInfo.builder()
                         .aisle("       ", "   S   ", "       ", "       ", "       ", "       ")
@@ -146,7 +178,7 @@ public class GCyRMachines {
                         .where('G', CASING_TEMPERED_GLASS)
                         .where('C', Blocks.WHITE_CONCRETE).build());
                 return shapeInfo;
-            })*/
+            })
             .workableCasingRenderer(GTCEu.id("block/casings/voltage/luv/side"),
                     GTCEu.id("block/multiblock/assembly_line"), false)
             .register();

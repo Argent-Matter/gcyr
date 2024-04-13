@@ -135,6 +135,12 @@ public class GCyRMaterials {
             .components(Epoxy, 2, SiliconDioxide, 7)
             .buildAndRegister();
 
+    public static final Material Brine = new Material.Builder(GCyR.id("brine"))
+            .liquid()
+            .color(0x9F6B26)
+            .components(Water, 4, Salt, 20, Magnesium, 3, Lithium, 2, Bromine, 1)
+            .buildAndRegister();
+
     //endregion
 
 
