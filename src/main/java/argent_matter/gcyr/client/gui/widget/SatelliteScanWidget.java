@@ -34,7 +34,6 @@ public class SatelliteScanWidget extends WidgetGroup {
     public final OreFinderScannerMachine machine;
     @Getter
     private boolean darkMode = false;
-    private final DraggableScrollableWidgetGroup itemList;
     @OnlyIn(Dist.CLIENT)
     private SatelliteProspectingTexture texture;
     private int playerChunkX;
@@ -54,8 +53,6 @@ public class SatelliteScanWidget extends WidgetGroup {
         int imageHeight = (chunkRadius * 2 - 1) * 16;
         addWidget(new ImageWidget(0, (height - imageHeight) / 2 - 4, imageWidth + 8, imageHeight + 8, GuiTextures.BACKGROUND_INVERSE));
         var group = (WidgetGroup) new WidgetGroup(imageWidth + 10, 0, width - (imageWidth + 10), height).setBackground(GuiTextures.BACKGROUND_INVERSE);
-        group.addWidget(itemList = new DraggableScrollableWidgetGroup(4, 28, group.getSize().width - 8, group.getSize().height - 32)
-                .setYScrollBarWidth(2).setYBarStyle(null, ColorPattern.T_WHITE.rectTexture().setRadius(1)));
         addWidget(group);
     }
 

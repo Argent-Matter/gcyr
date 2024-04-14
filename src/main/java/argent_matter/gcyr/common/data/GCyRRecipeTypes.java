@@ -25,6 +25,10 @@ public class GCyRRecipeTypes {
             .setProgressBar(GuiTextures.PROGRESS_BAR_MACERATE, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.MOTOR);
 
+    public static final GTRecipeType HEAT_EXCHANGER_RECIPES = register("heat_exchanger", ELECTRIC).setMaxIOSize(2, 2, 2, 2).setEUIO(IO.IN)
+            .setProgressBar(GuiTextures.PROGRESS_BAR_MACERATE, LEFT_TO_RIGHT)
+            .setSound(GTSoundEntries.MOTOR);
+
     public static final GTRecipeType DYSON_ENERGY_RECIPES = register("dyson_controller", MULTIBLOCK)
             .setMaxIOSize(8, 0, 0, 0).setEUIO(IO.BOTH)
             .setProgressBar(GuiTextures.PROGRESS_BAR_ARROW_MULTIPLE, LEFT_TO_RIGHT)

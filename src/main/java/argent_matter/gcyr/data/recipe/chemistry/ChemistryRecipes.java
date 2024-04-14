@@ -19,17 +19,64 @@ public class ChemistryRecipes {
     }
 
     private static void bromineProcess(Consumer<FinishedRecipe> provider) {
-        EVAPORATION_RECIPES.recipeBuilder(GCyR.id("brine"))
+        EVAPORATION_RECIPES.recipeBuilder(GCyR.id("brine_evaporation"))
                 .inputFluids(SaltWater.getFluid(20000))
-                .outputFluids(Brine.getFluid(1000))
+                .outputFluids(RawBrine.getFluid(1000))
                 .duration(1000).EUt(VA[HV]).save(provider);
-        CENTRIFUGE_RECIPES.recipeBuilder(GCyR.id("brine_separation"))
-                .inputFluids(Brine.getFluid(1000))
-                .outputItems(dust, Salt, 20)
-                .outputItems(dust, Magnesium, 3)
-                .outputItems(dust, Lithium, 2)
-                .outputFluids(Bromine.getFluid(33))
-                .duration(200).EUt(VA[HV]).save(provider);
+        FLUID_HEATER_RECIPES.recipeBuilder(GCyR.id("brine_heating"))
+                .inputFluids(RawBrine.getFluid(1000))
+                .outputFluids(HotBrine.getFluid(1000))
+                .duration(12000).EUt(VA[HV]);
+
+        // Main chain
+        CHEMICAL_RECIPES.recipeBuilder(GCyR.id("brine_chlorination"))
+                .inputFluids(HotBrine.getFluid(1000))
+                .inputFluids(Chlorine.getFluid(1000))
+                .outputFluids(HotChlorinatedBrominatedBrine.getFluid(2000))
+                .duration(100).EUt(VA[HV]);
+        CHEMICAL_RECIPES.recipeBuilder(GCyR.id("brine_filtration"))
+                .inputFluids(HotChlorinatedBrominatedBrine.getFluid(1000))
+                .inputFluids(Chlorine.getFluid(1000))
+                .inputFluids(Steam.getFluid(1000))
+                .outputFluids(HotAlkalineDebrominatedBrine.getFluid(1000))
+                .outputFluids(BrominatedChlorineVapor.getFluid(2000))
+                .duration(300).EUt(VA[HV]);
+        HEAT_EXCHANGER_RECIPES.recipeBuilder(GCyR.id("brominated_chlorine_vapor_condensation"))
+                .inputFluids(BrominatedChlorineVapor.getFluid(1000))
+                .inputFluids(Water.getFluid(1000))
+                .outputFluids(AcidicBromineSolution.getFluid(1000))
+                .outputFluids(Water.getFluid(1000))
+                .duration(200).EUt(VA[HV]);
+        CHEMICAL_RECIPES.recipeBuilder(GCyR.id("bromine_vapor_concentration"))
+                .inputFluids(AcidicBromineSolution.getFluid(1000))
+                .inputFluids(Steam.getFluid(1000))
+                .outputFluids(ConcentratedBromineSolution.getFluid(1000))
+                .outputFluids(AcidicBromineExhaust.getFluid(1000))
+                .duration(100).EUt(VA[HV]);
+        DISTILLATION_RECIPES.recipeBuilder(GCyR.id("bromine_distillation"))
+                .inputFluids(ConcentratedBromineSolution.getFluid(1000))
+                .outputFluids(Chlorine.getFluid(500))
+                .outputFluids(Bromine.getFluid(1000))
+                .duration(500).EUt(VA[HV]);
+
+        // byproduct loop
+        CHEMICAL_RECIPES.recipeBuilder(GCyR.id("brine_neutralization"))
+                .inputFluids(HotAlkalineDebrominatedBrine.getFluid(3000))
+                .outputFluids(Chlorine.getFluid(1000))
+                .outputFluids(HotDebrominatedBrine.getFluid(2000))
+                .duration(100).EUt(VA[HV]);
+        HEAT_EXCHANGER_RECIPES.recipeBuilder(GCyR.id("debrominated_brine_raw_brine_mixing"))
+                .inputFluids(RawBrine.getFluid(1000))
+                .inputFluids(HotDebrominatedBrine.getFluid(1000))
+                .outputFluids(HotBrine.getFluid(1000))
+                .outputFluids(DebrominatedBrine.getFluid(1000))
+                .duration(200).EUt(VA[HV]);
+        CHEMICAL_RECIPES.recipeBuilder(GCyR.id("acidic_bromine_exhaust_heating"))
+                .inputFluids(AcidicBromineExhaust.getFluid(1000))
+                .inputFluids(HotBrine.getFluid(1000))
+                .outputFluids(HotChlorinatedBrominatedBrine.getFluid(1000))
+                .outputFluids(Steam.getFluid(3000))
+                .duration(100).EUt(VA[HV]);
     }
 
 }

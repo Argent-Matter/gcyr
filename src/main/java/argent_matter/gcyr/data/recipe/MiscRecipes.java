@@ -115,6 +115,7 @@ public class MiscRecipes {
         //region machines
 
         MetaTileEntityLoader.registerMachineRecipe(provider, GCyRMachines.OXYGEN_SPREADER, "PCP", "FHF", "PCP", 'H', HULL, 'P', PUMP, 'F', GTItems.FLUID_FILTER, 'C', CIRCUIT);
+        MetaTileEntityLoader.registerMachineRecipe(provider, GCyRMachines.HEAT_EXCHANGER, "PCP", "DHD", "PCP", 'H', HULL, 'P', PUMP, 'D', VOLTAGE_COIL, 'C', CIRCUIT);
         VanillaRecipeHelper.addShapedRecipe(provider, true, GCyR.id("evaporation_plant"), GCyRMachines.EVAPORATION_PLANT.asStack(), "CBC", "FMF", "CBC", 'M', GTMachines.HULL[HV].asStack(), 'B', new UnificationEntry(wireGtDouble, Kanthal), 'C', CustomTags.HV_CIRCUITS, 'F', GTItems.ELECTRIC_PUMP_HV);
         VanillaRecipeHelper.addShapedRecipe(provider, GCyR.id("rocket_scanner"), GCyRMachines.ROCKET_SCANNER.asStack(), "PCP", "CHC", "SCS", 'H', GTMachines.HULL[EV].asStack(), 'P', GCyRBlocks.LAUNCH_PAD.asStack(), 'C', CustomTags.EV_CIRCUITS, 'S', new UnificationEntry(plate, Titanium));
         VanillaRecipeHelper.addShapedRecipe(provider, GCyR.id("space_station_packager"), GCyRMachines.SPACE_STATION_PACKAGER.asStack(), "PCP", "FHF", "PCP", 'H', GTMachines.HULL[LuV].asStack(), 'P', new UnificationEntry(frameGt, StainlessSteel), 'C', CustomTags.LuV_CIRCUITS, 'F', GTBlocks.PLASTCRETE.asStack());
