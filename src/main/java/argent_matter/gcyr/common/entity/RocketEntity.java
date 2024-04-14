@@ -244,7 +244,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
                 .widget(new SlotWidget(satelliteSlot, 0, 60, 20))
                 .widget(new ButtonWidget(40, 60, 38, 18, new GuiTextureGroup(GuiTextures.BUTTON.copy().setColor(0xFFAA0000), new TextTexture("menu.gcyr.launch")), (clickData) -> this.startRocket()))
                 .widget(new ButtonWidget(40, 40, 38, 18, new GuiTextureGroup(GuiTextures.BUTTON.copy().setColor(0xFFE0B900), new TextTexture("menu.gcyr.rocket.unbuild")), (clickData) -> this.unBuild()))
-                .widget(new LabelWidget(84, 25, this.getDisplayThrust()))
+                .widget(new LabelWidget(84, 25, this.getDisplayThrust().getString()))
                 .widget(UITemplate.bindPlayerInventory(entityPlayer.getInventory(), GuiTextures.SLOT, 7, 84, true))
                 .background(GuiTextures.BACKGROUND);
     }
@@ -426,8 +426,9 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
                 return;
             }
 
-            if (this.fuelTank.getFluidAmount() < computeRequiredFuelAmountForDestination(this.getDestination())) {
-                sendVehicleHasNoFuelMessage(player);
+            long requiredFuel = computeRequiredFuelAmountForDestination(this.getDestination());
+            if (this.fuelTank.getFluidAmount() < requiredFuel) {
+                sendVehicleHasNoFuelMessage(player, this.fuelTank.getFluidAmount(), requiredFuel);
                 return;
             }
 
@@ -899,7 +900,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
             style = ChatFormatting.GREEN;
         }
         var thrustComponent = Component.literal(String.format("%.1f", thrust)).withStyle(style);
-        return Component.translatable("menu.gcyr.rocket.thrust", thrustComponent);
+        return Component.translatable("menu.gcyr.rocket.thrust", style + thrustComponent.getString() + ChatFormatting.RESET);
     }
 
     public double getRocketSpeed() {
@@ -999,9 +1000,9 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         vehicle.yRotO = vehicle.getYRot();
     }
 
-    public static void sendVehicleHasNoFuelMessage(Player player) {
+    public static void sendVehicleHasNoFuelMessage(Player player, long fuel, long required) {
         if (!player.level().isClientSide) {
-            player.displayClientMessage(Component.translatable("message.gcyr.no_fuel"), false);
+            player.displayClientMessage(Component.translatable("message.gcyr.no_fuel", fuel, required), false);
         }
     }
 
