@@ -899,8 +899,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         } else {
             style = ChatFormatting.GREEN;
         }
-        var thrustComponent = Component.literal(String.format("%.1f", thrust)).withStyle(style);
-        return Component.translatable("menu.gcyr.rocket.thrust", style + thrustComponent.getString() + ChatFormatting.RESET);
+        return Component.translatable("menu.gcyr.rocket.thrust", style + String.format("%.1f", thrust) + ChatFormatting.RESET);
     }
 
     public double getRocketSpeed() {

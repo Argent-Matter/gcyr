@@ -8,7 +8,7 @@
 - fixed space suits not being fillable with oxygen
 - fixed rockets not being fillable with fuel
 - fixed fuel tank builder not building a fuel tank, but a rocket motor
-- 
+- kevlar (para-aramid) is now obtainable thanks to brine chain
 
 ### CHANGES:
 - removed fluid loader, use a tank/drum instead for filling spacesuits
