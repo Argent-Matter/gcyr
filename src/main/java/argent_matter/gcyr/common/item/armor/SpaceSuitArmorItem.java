@@ -128,7 +128,7 @@ public class SpaceSuitArmorItem extends ArmorItem {
 
     }
 
-    public UniformInt getTemperatureThreshold() {
+    public static UniformInt getTemperatureThreshold() {
         return UniformInt.of(60, 363);
     }
 
