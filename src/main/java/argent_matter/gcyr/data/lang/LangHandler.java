@@ -93,7 +93,7 @@ public class LangHandler extends com.gregtechceu.gtceu.data.lang.LangHandler {
         provider.add("menu.gcyr.oxygen.false", "Doesn't have oxygen");
 
         // messages
-        provider.add("message.gcyr.no_fuel", "The rocket must be fueled fully.");
+        provider.add("message.gcyr.no_fuel", "The rocket must be fueled fully. Has %s mB fuel, destination requires %s mB.");
         provider.add("message.gcyr.invalid_id", "The rocket must have a valid Planet ID Chip.");
         provider.add("message.gcyr.rocket_not_good_enough", "The rocket doesn't have enough tier %s components to travel to the selected planet.");
         provider.add("message.gcyr.notice_id_changed", "The destination of your Space Station ID chip might have changed. Remember to rewrite the personal destination chip with the new data before setting a new target!");

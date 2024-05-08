@@ -1,7 +1,6 @@
 ### ADDITIONS:
 
 ### FIXES:
-- updated the mod to work with GTCEuM 1.2.0
-    - new recipes coming soon:tm:
+- fixed space crashing when using upgraded non-spacesuit armor
 
 ### CHANGES:

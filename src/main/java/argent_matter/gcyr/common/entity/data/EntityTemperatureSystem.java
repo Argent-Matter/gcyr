@@ -47,7 +47,7 @@ public class EntityTemperatureSystem {
 
         UniformInt temperatureResistance = TEMP_RANGE;
         if (SpaceSuitArmorItem.hasFullSet(entity)) {
-            temperatureResistance = ((SpaceSuitArmorItem) entity.getArmorSlots().iterator().next().getItem()).getTemperatureThreshold();
+            temperatureResistance = SpaceSuitArmorItem.getTemperatureThreshold();
         }
 
         if (temperature > temperatureResistance.getMaxValue() && !entity.fireImmune() && !entity.hasEffect(MobEffects.FIRE_RESISTANCE) && !EntityTemperatureSystem.armourIsHeatResistant(entity)) {
