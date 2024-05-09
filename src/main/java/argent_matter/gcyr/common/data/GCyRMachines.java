@@ -1,6 +1,7 @@
 package argent_matter.gcyr.common.data;
 
 import argent_matter.gcyr.GCyR;
+import argent_matter.gcyr.common.machine.electric.OreFinderScannerMachine;
 import argent_matter.gcyr.common.machine.electric.OxygenSpreaderMachine;
 import argent_matter.gcyr.common.machine.multiblock.RocketScannerMachine;
 import argent_matter.gcyr.common.machine.multiblock.SpaceStationPackagerMachine;
@@ -72,6 +73,14 @@ public class GCyRMachines {
                     .blockBuilder(block -> block.tag(GCyRTags.PASSES_FLOOD_FILL))
                     .register(),
             HIGH_TIERS);
+
+    public final static MachineDefinition SATELLITE_ORE_SCANNER = REGISTRATE.machine("satellite_ore_scanner", (holder) -> new OreFinderScannerMachine(holder, EV))
+            .langValue("Satellite Ore Scanner")
+            .tier(EV)
+            .recipeType(GTRecipeTypes.DUMMY_RECIPES)
+            .rotationState(RotationState.ALL)
+            .renderer(() -> new TieredHullMachineRenderer(EV, GCyR.id("block/machine/satellite_ore_scanner")))
+            .register();
 
 
     public static final MachineDefinition EVAPORATION_PLANT = REGISTRATE.multiblock("evaporation_plant", WorkableElectricMultiblockMachine::new)

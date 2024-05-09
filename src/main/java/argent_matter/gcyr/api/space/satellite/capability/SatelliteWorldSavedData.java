@@ -39,6 +39,7 @@ public class SatelliteWorldSavedData extends SavedData implements ISatelliteHold
 
     public void tickSatellites() {
         getSatellites().forEach(satellite -> satellite.tickSatellite(level));
+        this.setDirty();
     }
 
     @Override
@@ -55,11 +56,13 @@ public class SatelliteWorldSavedData extends SavedData implements ISatelliteHold
     @Override
     public void addSatellite(@Nullable Satellite satellite) {
         if (satellite != null) satellites.add(satellite);
+        this.setDirty();
     }
 
     @Override
     public void destroySatellite(Satellite satellite) {
         satellites.remove(satellite);
+        this.setDirty();
     }
 
     @Override

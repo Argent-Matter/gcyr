@@ -10,20 +10,21 @@ import com.gregtechceu.gtceu.api.machine.TieredEnergyMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IUIMachine;
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
 import com.lowdragmc.lowdraglib.gui.texture.GuiTextureGroup;
+import com.lowdragmc.lowdraglib.gui.widget.DraggableScrollableWidgetGroup;
 import com.lowdragmc.lowdraglib.gui.widget.SwitchWidget;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class OreFinderScannerMachine extends TieredEnergyMachine implements IUIMachine {
-    public static final int MACHINE_RANGE_MULTIPLIER = 16;
+    public static final int MACHINE_RANGE = 6;
     public static final long ENERGY_USAGE = 128;
 
     private final int range;
 
     public OreFinderScannerMachine(IMachineBlockEntity holder, int tier, Object... args) {
         super(holder, tier, args);
-        this.range = this.tier * MACHINE_RANGE_MULTIPLIER;
+        this.range = MACHINE_RANGE;
     }
 
     public void scanOres(BlockState[][][] storage, int chunkX, int chunkZ) {
@@ -33,7 +34,7 @@ public class OreFinderScannerMachine extends TieredEnergyMachine implements IUIM
         }
         if (this.getLevel() instanceof ServerLevel serverLevel) {
             Vec2i centerPos = new Vec2i(chunkX * 16, chunkZ * 16);
-            var satellites = SatelliteWorldSavedData.getOrCreate(serverLevel).getSatellitesNearPos(centerPos, range).stream().filter(OreFinderSatellite.class::isInstance).map(OreFinderSatellite.class::cast).toList();
+            var satellites = SatelliteWorldSavedData.getOrCreate(serverLevel).getSatellitesNearPos(centerPos, range * 16).stream().filter(OreFinderSatellite.class::isInstance).map(OreFinderSatellite.class::cast).toList();
             for (OreFinderSatellite satellite : satellites) {
                 satellite.scan(storage, serverLevel);
             }
@@ -43,9 +44,12 @@ public class OreFinderScannerMachine extends TieredEnergyMachine implements IUIM
     @Override
     public ModularUI createUI(Player entityPlayer) {
         var map = new SatelliteScanWidget(4, 4, 332 - 8, 200 - 8, this.range, 1, this);
+        var draggableGroup = new DraggableScrollableWidgetGroup(4, 4, 332 - 8, 200 - 8);
+        draggableGroup.addWidget(map);
+        draggableGroup.setUseScissor(false);
         return new ModularUI(332, 200, this, entityPlayer)
                 .background(GuiTextures.BACKGROUND)
-                .widget(map)
+                .widget(draggableGroup)
                 .widget(new SwitchWidget(-20, 4, 18, 18, (cd, pressed) -> map.setDarkMode(pressed))
                         .setSupplier(map::isDarkMode)
                         .setTexture(

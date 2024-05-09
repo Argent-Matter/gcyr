@@ -20,7 +20,6 @@ public class OreFinderSatellite extends Satellite {
     public static final Codec<OreFinderSatellite> CODEC = RecordCodecBuilder.create(instance -> Satellite.baseCodec(instance).apply(instance, OreFinderSatellite::new));
     public static final int CELL_SIZE = 32;
 
-    private BlockPos centerPos;
     public OreFinderSatellite(SatelliteData data, ResourceKey<Level> level) {
         super(GCyRSatellites.ORE_FINDER, data, level);
     }
@@ -37,7 +36,7 @@ public class OreFinderSatellite extends Satellite {
     }
 
     public void scan(BlockState[][][] storage, Level level) {
-        LevelChunk chunk = level.getChunkAt(this.centerPos);
+        LevelChunk chunk = level.getChunk(this.data.locationInWorld().x() / 16, this.data.locationInWorld().y() / 16);
 
         BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
         var oreTag = TagUtil.createBlockTag("ores");
@@ -49,7 +48,7 @@ public class OreFinderSatellite extends Satellite {
                 if (z >= storage[x].length) {
                     break;
                 }
-                if (storage[x][z] != null) continue;
+                if (storage[x][z] != null && storage[x][z].length > 0) continue;
                 for (int y = chunk.getMaxBuildHeight() - 1; y >= chunk.getMinBuildHeight(); y--) {
                     pos.set(x, y, z);
                     var state = chunk.getBlockState(pos);
@@ -64,15 +63,10 @@ public class OreFinderSatellite extends Satellite {
 
     @Override
     public CompoundTag serializeExtraData() {
-        CompoundTag tag = new CompoundTag();
-        tag.put("centerPos", NbtUtils.writeBlockPos(this.centerPos));
-        return tag;
+        return new CompoundTag();
     }
 
     @Override
     public void deserializeExtraData(Tag tag, Level level) {
-        if (tag instanceof CompoundTag compoundTag) {
-            this.centerPos = NbtUtils.readBlockPos(compoundTag.getCompound("centerPos"));
-        }
     }
 }

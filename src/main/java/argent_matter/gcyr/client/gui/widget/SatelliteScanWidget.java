@@ -45,6 +45,8 @@ public class SatelliteScanWidget extends DraggableWidgetGroup implements SearchC
     private SatelliteProspectingTexture texture;
     private int centerChunkX;
     private int centerChunkZ;
+    private int centerBlockX;
+    private int centerBlockZ;
     //runtime
     private int chunkIndex = 0;
     private final Queue<PacketSatelliteProspecting> packetQueue = new LinkedBlockingQueue<>();
@@ -74,8 +76,8 @@ public class SatelliteScanWidget extends DraggableWidgetGroup implements SearchC
         super.writeInitialData(buffer);
         buffer.writeVarInt(centerChunkX = gui.entityPlayer.chunkPosition().x);
         buffer.writeVarInt(centerChunkZ = gui.entityPlayer.chunkPosition().z);
-        buffer.writeVarInt(gui.entityPlayer.getBlockX());
-        buffer.writeVarInt(gui.entityPlayer.getBlockZ());
+        buffer.writeVarInt(centerBlockX = gui.entityPlayer.getBlockX());
+        buffer.writeVarInt(centerBlockZ = gui.entityPlayer.getBlockZ());
     }
 
     @Override
@@ -87,7 +89,19 @@ public class SatelliteScanWidget extends DraggableWidgetGroup implements SearchC
                 buffer.readVarInt(),
                 buffer.readVarInt(),
                 buffer.readVarInt(),
-                gui.entityPlayer.getVisualRotationYInDegrees(), chunkRadius, darkMode, this::getItemColor);
+                gui.entityPlayer.getVisualRotationYInDegrees(), chunkRadius, darkMode, this);
+    }
+
+    @Override
+    public void handleClientAction(int id, FriendlyByteBuf buffer) {
+        if (id == -2) {
+            this.centerChunkX = buffer.readVarInt();
+            this.centerChunkZ = buffer.readVarInt();
+            this.centerBlockX = buffer.readVarInt();
+            this.centerBlockZ = buffer.readVarInt();
+        } else {
+            super.handleClientAction(id, buffer);
+        }
     }
 
     public void setDarkMode(boolean mode) {
@@ -149,13 +163,6 @@ public class SatelliteScanWidget extends DraggableWidgetGroup implements SearchC
     public void readUpdateInfo(int id, FriendlyByteBuf buffer) {
         if (id == -1) {
             addPacketToQueue(PacketSatelliteProspecting.readPacketData(buffer));
-        } else if (id == -2) {
-            texture = new SatelliteProspectingTexture(
-                    buffer.readVarInt(),
-                    buffer.readVarInt(),
-                    buffer.readVarInt(),
-                    buffer.readVarInt(),
-                    gui.entityPlayer.getVisualRotationYInDegrees(), chunkRadius, darkMode, this::getItemColor);
         } else {
             super.readUpdateInfo(id, buffer);
         }
@@ -219,7 +226,7 @@ public class SatelliteScanWidget extends DraggableWidgetGroup implements SearchC
 
     public IGuiTexture getItemIcon(BlockState item) {
         return ICON_CACHE.computeIfAbsent(item, state -> {
-            if (TagPrefix.ORES.containsKey(ChemicalHelper.getOrePrefix(state).orElse(null))) {
+            if (ChemicalHelper.getUnificationEntry(state.getBlock()) != null) {
                 var mat = ChemicalHelper.getMaterial(state.getBlock().asItem()).material();
                 if (mat != null) {
                     var list = new ArrayList<ItemStack>();
@@ -236,8 +243,8 @@ public class SatelliteScanWidget extends DraggableWidgetGroup implements SearchC
     }
 
     public int getItemColor(BlockState state) {
-        if (TagPrefix.ORES.containsKey(ChemicalHelper.getOrePrefix(state).orElse(null))) {
-            var mat = ChemicalHelper.getMaterial(state.getBlock().asItem()).material();
+        if (ChemicalHelper.getUnificationEntry(state.getBlock()) != null) {
+            var mat = ChemicalHelper.getUnificationEntry(state.getBlock().asItem()).material;
             if (mat != null) {
                 return mat.getMaterialRGB();
             }
@@ -246,18 +253,18 @@ public class SatelliteScanWidget extends DraggableWidgetGroup implements SearchC
     }
 
     public String getUniqueID(BlockState state) {
-        if (TagPrefix.ORES.containsKey(ChemicalHelper.getOrePrefix(state).orElse(null))) {
-            return "material_" + ChemicalHelper.getMaterial(state.getBlock().asItem()).material().getResourceLocation();
+        if (ChemicalHelper.getUnificationEntry(state.getBlock()) != null) {
+            return "material_" + ChemicalHelper.getUnificationEntry(state.getBlock().asItem()).material.getResourceLocation();
         }
         return state.getBlock().getDescriptionId();
     }
 
     @Override
     public String resultDisplay(BlockState state) {
-        if (TagPrefix.ORES.containsKey(ChemicalHelper.getOrePrefix(state).orElse(null))) {
-            return ChemicalHelper.getMaterial(state.getBlock().asItem()).material().getUnlocalizedName();
+        if (ChemicalHelper.getUnificationEntry(state.getBlock()) != null) {
+            return ChemicalHelper.getUnificationEntry(state.getBlock().asItem()).material.getLocalizedName().getString();
         }
-        return state.getBlock().getDescriptionId();
+        return state.getBlock().getName().getString();
     }
 
     @Override
@@ -279,7 +286,7 @@ public class SatelliteScanWidget extends DraggableWidgetGroup implements SearchC
             var id = getUniqueID(item);
             if (!added.contains(id)) {
                 added.add(id);
-                var localized = LocalizationUtils.format(resultDisplay(item));
+                var localized = resultDisplay(item);
                 if (item.toString().toLowerCase(Locale.ROOT).contains(s.toLowerCase(Locale.ROOT)) || localized.toLowerCase(Locale.ROOT).contains(s.toLowerCase(Locale.ROOT))) {
                     consumer.accept(item);
                 }
@@ -289,14 +296,22 @@ public class SatelliteScanWidget extends DraggableWidgetGroup implements SearchC
 
     @Override
     public boolean dragging(double mouseX, double mouseY, double deltaX, double deltaY) {
-        this.centerChunkX += ((int) deltaX % 16);
-        this.centerChunkZ += ((int) deltaY % 16);
-        writeUpdateInfo(-2, buf -> {
+        this.centerChunkX -= ((int) (deltaX / 2.0) % 16);
+        this.centerChunkZ -= ((int) (deltaY / 2.0) % 16);
+        this.centerBlockX -= (int) (deltaX / 2.0);
+        this.centerBlockZ -= (int) (deltaY / 2.0);
+        texture = new SatelliteProspectingTexture(
+                this.centerChunkX,
+                this.centerChunkZ,
+                this.centerBlockX,
+                this.centerBlockZ,
+                gui.entityPlayer.getVisualRotationYInDegrees(), chunkRadius, darkMode, this);
+        writeClientAction(-2, buf -> {
             buf.writeVarInt(this.centerChunkX);
             buf.writeVarInt(this.centerChunkZ);
-            buf.writeVarInt(this.centerChunkX * 16);
-            buf.writeVarInt(this.centerChunkZ * 16);
+            buf.writeVarInt(this.centerBlockX);
+            buf.writeVarInt(this.centerBlockZ);
         });
-        return super.dragging(mouseX, mouseY, deltaX, deltaY);
+        return false;
     }
 }

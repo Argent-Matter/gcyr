@@ -1,5 +1,6 @@
 package argent_matter.gcyr.client.gui.texture;
 
+import argent_matter.gcyr.client.gui.widget.SatelliteScanWidget;
 import argent_matter.gcyr.common.satellite.OreFinderSatellite;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.lowdragmc.lowdraglib.gui.editor.ColorPattern;
@@ -24,7 +25,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.lang.reflect.Array;
-import java.util.function.Function;
 
 import static com.mojang.blaze3d.vertex.DefaultVertexFormat.POSITION_TEX_COLOR;
 
@@ -41,7 +41,7 @@ public class SatelliteProspectingTexture extends AbstractTexture {
     @Getter
     private final int imageHeight;
     public final BlockState[][][] data;
-    public final Function<BlockState, Integer> colorFunction;
+    public final SatelliteScanWidget widget;
     private final int playerXGui;
     private final int playerYGui;
     private final float direction;
@@ -49,11 +49,11 @@ public class SatelliteProspectingTexture extends AbstractTexture {
     private final int centerChunkZ;
     private final int radius;
 
-    public SatelliteProspectingTexture(int centerChunkX, int centerChunkZ, int posX, int posZ, float direction, int radius, boolean darkMode, Function<BlockState, Integer> colorFunction) {
+    public SatelliteProspectingTexture(int centerChunkX, int centerChunkZ, int posX, int posZ, float direction, int radius, boolean darkMode, SatelliteScanWidget widget) {
         this.darkMode = darkMode;
         this.radius = radius;
         this.data = (BlockState[][][]) Array.newInstance(BlockState.class, (radius * 2 - 1) * OreFinderSatellite.CELL_SIZE, (radius * 2 - 1) * OreFinderSatellite.CELL_SIZE, 0);
-        this.colorFunction = colorFunction;
+        this.widget = widget;
         this.imageWidth = (radius * 2 - 1) * 16;
         this.imageHeight = (radius * 2 - 1) * 16;
         this.centerChunkX = centerChunkX;
@@ -90,8 +90,16 @@ public class SatelliteProspectingTexture extends AbstractTexture {
             return;
         }
 
+        int v = currentRow * OreFinderSatellite.CELL_SIZE;
+        if (v >= OreFinderSatellite.CELL_SIZE || v < 0) {
+            return;
+        }
         for (int x = 0; x < OreFinderSatellite.CELL_SIZE; x++) {
-            System.arraycopy(data[x], 0, data[x + currentColumn * OreFinderSatellite.CELL_SIZE], currentRow * OreFinderSatellite.CELL_SIZE, OreFinderSatellite.CELL_SIZE);
+            int u = x + currentColumn * OreFinderSatellite.CELL_SIZE;
+            if (u >= OreFinderSatellite.CELL_SIZE || u < 0) {
+                continue;
+            }
+            System.arraycopy(data[x], 0, data[u], v, OreFinderSatellite.CELL_SIZE);
         }
         load();
     }
@@ -106,8 +114,8 @@ public class SatelliteProspectingTexture extends AbstractTexture {
                 image.setPixelRGBA(i, j, (darkMode ? ColorPattern.GRAY.color : ColorPattern.WHITE.color));
                 //draw items
                 for (var item : items) {
-                    if (!selected.equals(SELECTED_ALL)) continue;
-                    var color = colorFunction.apply(item);
+                    if (!selected.equals(SELECTED_ALL) && !selected.equals(widget.getUniqueID(item))) continue;
+                    var color = widget.getItemColor(item);
                     image.setPixelRGBA(i, j, combine(255, ColorUtils.blueI(color), ColorUtils.greenI(color), ColorUtils.redI(color)));
                     break;
                 }

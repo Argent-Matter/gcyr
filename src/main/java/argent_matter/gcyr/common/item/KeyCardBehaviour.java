@@ -62,9 +62,9 @@ public class KeyCardBehaviour implements IAddInformation, IItemUIFactory {
     public ModularUI createUI(HeldItemUIFactory.HeldItemHolder holder, Player entityPlayer) {
         return new ModularUI(200, 100, holder, entityPlayer).background(GuiTextures.BACKGROUND)
                 .widget(new IntInputWidget(18, 18, 80, 24, () -> getTargetX(holder.getHeld()), targetX -> setTargetX(holder.getHeld(), targetX)))
-                .widget(new LabelWidget(67, 9, "behaviour.gcyr.keycard.target_x"))
-                .widget(new IntInputWidget(128, 18, 80, 24, () -> getTargetZ(holder.getHeld()), targetX -> setTargetZ(holder.getHeld(), targetX)))
-                .widget(new LabelWidget(195, 9, "behaviour.gcyr.keycard.target_z"));
+                .widget(new LabelWidget(18, 9, "behaviour.gcyr.keycard.target_x"))
+                .widget(new IntInputWidget(98, 18, 80, 24, () -> getTargetZ(holder.getHeld()), targetX -> setTargetZ(holder.getHeld(), targetX)))
+                .widget(new LabelWidget(98, 9, "behaviour.gcyr.keycard.target_z"));
     }
 
     /*

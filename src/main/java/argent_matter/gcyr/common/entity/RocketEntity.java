@@ -1,5 +1,6 @@
 package argent_matter.gcyr.common.entity;
 
+import argent_matter.gcyr.GCyR;
 import argent_matter.gcyr.api.block.IRocketPart;
 import argent_matter.gcyr.api.capability.GCyRCapabilityHelper;
 import argent_matter.gcyr.api.capability.ISpaceStationHolder;
@@ -426,6 +427,9 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
                 this.setDestination(PlanetIdChipBehaviour.getPlanetFromStack(config));
             } else if (GCyRItems.KEYCARD.isIn(config)) {
                 this.setDestination(KeyCardBehaviour.getSavedPlanet(config));
+                if (this.satelliteSlot.getStackInSlot(0).is(GCyRTags.SATELLITES)) {
+                    this.setDestination(PlanetData.getPlanetFromLevel(this.level().dimension()).orElse(PlanetData.getPlanet(GCyR.id("earth"))));
+                }
             }
 
             if (this.partsTier < this.getDestination().rocketTier()) {
@@ -483,7 +487,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         Vec3 delta = this.getDeltaMovement();
         this.setDeltaMovement(delta.add(0, -LivingEntity.DEFAULT_BASE_GRAVITY, 0));
         // braking
-        if ((getControllingPassenger() != null && ((LivingEntityAccessor)getControllingPassenger()).isJumping() || (autoSlowdown && this.level().getGameTime() % 5 == 0)) && consumeFuel()) {
+        if (((getControllingPassenger() != null && ((LivingEntityAccessor)getControllingPassenger()).isJumping()) || (autoSlowdown && this.level().getGameTime() % 2 == 0)) && consumeFuel()) {
             this.setDeltaMovement(delta.x, Math.min(delta.y + 0.05, -0.05), delta.z);
             this.fallDistance *= 0.9f;
             this.spawnParticles();
@@ -518,9 +522,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
 
     private boolean doesDrop(BlockState state, BlockPos pos) {
         if (this.onGround()) {
-
             BlockState state2 = this.level().getBlockState(new BlockPos((int)Math.floor(this.getX()), (int)(this.getY() - 0.2), (int)Math.floor(this.getZ())));
-
             if (!this.level().isEmptyBlock(pos) && (state2.is(GCyRBlocks.LAUNCH_PAD.get()) || !state.is(GCyRBlocks.LAUNCH_PAD.get()))) {
                 this.unBuild();
 
@@ -965,6 +967,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         this.setFuelCapacity(compound.getLong("fuelCapacity"));
         this.fuelTank.setFluid(FluidStack.loadFromTag(compound.getCompound("fuel")));
         this.configSlot.deserializeNBT(compound.getCompound("config"));
+        this.satelliteSlot.deserializeNBT(compound.getCompound("satellite"));
         this.setThrusterCount(compound.getInt("thrusterCount"));
         this.setStartTimer(compound.getInt("startTimer"));
         this.entityData.set(ROCKET_STARTED, compound.getBoolean("isStarted"));
@@ -998,6 +1001,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         fuelTank.getFluid().saveToTag(fuel);
         compound.put("fuel", fuel);
         compound.put("config", this.configSlot.serializeNBT());
+        compound.put("satellite", this.satelliteSlot.serializeNBT());
         compound.putInt("thrusterCount", this.getThrusterCount());
         compound.putInt("startTimer", this.getStartTimer());
         compound.putBoolean("isStarted", this.entityData.get(ROCKET_STARTED));
