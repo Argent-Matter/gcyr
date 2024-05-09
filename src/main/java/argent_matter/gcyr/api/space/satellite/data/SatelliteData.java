@@ -1,13 +1,10 @@
 package argent_matter.gcyr.api.space.satellite.data;
 
-import argent_matter.gcyr.api.space.satellite.Satellite;
 import argent_matter.gcyr.util.Vec2i;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.UUIDUtil;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.ExtraCodecs;
-import net.minecraft.world.phys.Vec2;
 
 import java.util.UUID;
 
@@ -16,9 +13,8 @@ import java.util.UUID;
  * @date 2023/4/15
  * @implNote SatelliteData
  */
-public record SatelliteData(
-        Vec2i locationInWorld, int range, UUID owner) {
-
+public record SatelliteData(Vec2i locationInWorld, int range, UUID owner) {
+    public static final int DEFAULT_RANGE_BLOCKS = 256;
     public static Codec<SatelliteData> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             Vec2i.CODEC.fieldOf("pos").forGetter(SatelliteData::locationInWorld),
             ExtraCodecs.POSITIVE_INT.fieldOf("range").forGetter(SatelliteData::range),
@@ -32,26 +28,4 @@ public record SatelliteData(
     }
 
     public static SatelliteData DEFAULT = new SatelliteData(Vec2i.ZERO, 0, EMPTY_UUID);
-
-    public CompoundTag serializeNBT() {
-        CompoundTag tag = new CompoundTag();
-
-        CompoundTag pos = new CompoundTag();
-        pos.putFloat("x", this.locationInWorld.x());
-        pos.putFloat("y", this.locationInWorld.y());
-        tag.put("pos", pos);
-
-        tag.putInt("range", range);
-
-        tag.putUUID("ownerId", this.owner);
-        return tag;
-    }
-
-    public static SatelliteData deserializeNBT(CompoundTag nbt) {
-        CompoundTag pos = nbt.getCompound("pos");
-        var locationInWorld = new Vec2i(pos.getInt("x"), pos.getInt("y"));
-        int range = nbt.getInt("range");
-        UUID uuid = nbt.getUUID("ownerId");
-        return new SatelliteData(locationInWorld, range, uuid);
-    }
 }

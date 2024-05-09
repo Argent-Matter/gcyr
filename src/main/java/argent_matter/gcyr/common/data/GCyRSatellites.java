@@ -5,7 +5,11 @@ import argent_matter.gcyr.api.registries.GCyRRegistries;
 import argent_matter.gcyr.api.space.satellite.Satellite;
 import argent_matter.gcyr.api.space.satellite.SatelliteType;
 import argent_matter.gcyr.common.satellite.*;
+import com.gregtechceu.gtceu.api.GTCEuAPI;
+import com.gregtechceu.gtceu.api.capability.recipe.RecipeCapability;
+import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.fml.ModLoader;
 
 /**
  * @author Screret
@@ -13,6 +17,10 @@ import net.minecraft.resources.ResourceLocation;
  * @implNote GTSatellites
  */
 public class GCyRSatellites {
+
+    static {
+        GCyRRegistries.SATELLITES.unfreeze();
+    }
 
     public static final SatelliteType<EmptySatellite> EMPTY = register("empty", new SatelliteType<>(EmptySatellite::new, EmptySatellite.CODEC));
     public static final SatelliteType<GpsSatellite> GPS = register("gps", new SatelliteType<>(GpsSatellite::new, GpsSatellite.CODEC));
@@ -28,6 +36,7 @@ public class GCyRSatellites {
     }
 
     public static void init() {
-
+        ModLoader.get().postEvent(new GTCEuAPI.RegisterEvent<>(GCyRRegistries.SATELLITES, (Class<SatelliteType<?>>) (Class<?>) SatelliteType.class));
+        GCyRRegistries.SATELLITES.freeze();
     }
 }

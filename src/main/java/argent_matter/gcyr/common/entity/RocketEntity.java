@@ -5,6 +5,8 @@ import argent_matter.gcyr.api.capability.GCyRCapabilityHelper;
 import argent_matter.gcyr.api.capability.ISpaceStationHolder;
 import argent_matter.gcyr.api.gui.factory.EntityUIFactory;
 import argent_matter.gcyr.api.space.planet.Planet;
+import argent_matter.gcyr.api.space.satellite.capability.SatelliteWorldSavedData;
+import argent_matter.gcyr.api.space.satellite.data.SatelliteData;
 import argent_matter.gcyr.api.space.station.SpaceStation;
 import argent_matter.gcyr.common.block.FuelTankBlock;
 import argent_matter.gcyr.common.block.RocketMotorBlock;
@@ -13,6 +15,7 @@ import argent_matter.gcyr.common.entity.data.EntityOxygenSystem;
 import argent_matter.gcyr.common.entity.data.EntityTemperatureSystem;
 import argent_matter.gcyr.common.item.KeyCardBehaviour;
 import argent_matter.gcyr.common.item.PlanetIdChipBehaviour;
+import argent_matter.gcyr.common.item.SatelliteBehaviour;
 import argent_matter.gcyr.common.item.StationContainerBehaviour;
 import argent_matter.gcyr.config.GCyRConfig;
 import argent_matter.gcyr.data.loader.PlanetData;
@@ -20,11 +23,14 @@ import argent_matter.gcyr.data.recipe.GCyRTags;
 import argent_matter.gcyr.mixin.LivingEntityAccessor;
 import argent_matter.gcyr.util.PlatformUtils;
 import argent_matter.gcyr.util.PosWithState;
+import argent_matter.gcyr.util.Vec2i;
 import com.google.common.collect.Sets;
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.UITemplate;
+import com.gregtechceu.gtceu.api.item.ComponentItem;
+import com.gregtechceu.gtceu.api.item.component.IItemComponent;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
 import com.lowdragmc.lowdraglib.gui.modular.IUIHolder;
@@ -123,6 +129,8 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
     private double speed;
     @Nullable
     private GTRecipe selectedFuelRecipe;
+
+    private UUID launcherPlayerUuid;
 
     private final Set<BlockPos> thrusterPositions = new HashSet<>();
 
@@ -242,7 +250,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
                 .widget(new TankWidget(this.fuelTank, 16, 20, 20, 58, true, true).setBackground(GuiTextures.FLUID_TANK_BACKGROUND).setFillDirection(ProgressTexture.FillDirection.DOWN_TO_UP))
                 .widget(new SlotWidget(configSlot, 0, 40, 20))
                 .widget(new SlotWidget(satelliteSlot, 0, 60, 20))
-                .widget(new ButtonWidget(40, 60, 38, 18, new GuiTextureGroup(GuiTextures.BUTTON.copy().setColor(0xFFAA0000), new TextTexture("menu.gcyr.launch")), (clickData) -> this.startRocket()))
+                .widget(new ButtonWidget(40, 60, 38, 18, new GuiTextureGroup(GuiTextures.BUTTON.copy().setColor(0xFFAA0000), new TextTexture("menu.gcyr.launch")), (clickData) -> this.startRocket(entityPlayer)))
                 .widget(new ButtonWidget(40, 40, 38, 18, new GuiTextureGroup(GuiTextures.BUTTON.copy().setColor(0xFFE0B900), new TextTexture("menu.gcyr.rocket.unbuild")), (clickData) -> this.unBuild()))
                 .widget(new LabelWidget(84, 25, this.getDisplayThrust().getString()))
                 .widget(UITemplate.bindPlayerInventory(entityPlayer.getInventory(), GuiTextures.SLOT, 7, 84, true))
@@ -400,9 +408,11 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         }
     }
 
-    public void startRocket() {
+    public void startRocket(Player startedPlayer) {
         // only start on the server side; ROCKET_STARTED is synced to client if successful
         if (this.isRemote()) return;
+
+        this.launcherPlayerUuid = startedPlayer.getUUID();
 
         // abort if there are no passengers
         Player player = this.getFirstPlayerPassenger();
@@ -577,12 +587,34 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         if (isRemote()) return;
 
         ItemStack configStack = configSlot.getStackInSlot(0);
+        if (GCyRItems.KEYCARD.isIn(configStack) && satelliteSlot.getStackInSlot(0).is(GCyRTags.SATELLITES)) {
+            ItemStack satelliteStack = satelliteSlot.getStackInSlot(0);
+            if (satelliteStack.getItem() instanceof ComponentItem componentItem) {
+                for (IItemComponent component : componentItem.getComponents()) {
+                    if (component instanceof SatelliteBehaviour satellite) {
+                        SatelliteData positionData = new SatelliteData(
+                                new Vec2i(KeyCardBehaviour.getTargetX(configStack), KeyCardBehaviour.getTargetZ(configStack)),
+                                SatelliteData.DEFAULT_RANGE_BLOCKS,
+                                this.launcherPlayerUuid);
+                        SatelliteWorldSavedData.getOrCreate((ServerLevel) this.level()).addSatellite(satellite.getSatelliteType().getFactory().create(positionData, this.level().dimension()));
+                        this.launcherPlayerUuid = null;
+                        this.setDestination(null);
+                        this.destinationIsSpaceStation = false;
+                        this.entityData.set(ROCKET_STARTED, false);
+                        this.setDeltaMovement(0, -0.5, 0);
+                        return;
+                    }
+                }
+            }
+        }
+
         if (this.getDestination() == null && GCyRItems.ID_CHIP.isIn(configStack)) {
             this.setDestination(PlanetIdChipBehaviour.getPlanetFromStack(configStack));
         } else if (GCyRItems.KEYCARD.isIn(configStack) && KeyCardBehaviour.getSavedStation(configStack) != null) {
             this.destinationIsSpaceStation = true;
             // return if no valid station & no station kit
             if (!this.satelliteSlot.getStackInSlot(0).is(GCyRItems.SPACE_STATION_PACKAGE.get()) && GCyRCapabilityHelper.getSpaceStations(this.getServer().getLevel(getDestination().orbitWorld())).getStation(KeyCardBehaviour.getSavedStation(configStack)) == null) {
+                this.launcherPlayerUuid = null;
                 this.setDestination(null);
                 this.destinationIsSpaceStation = false;
                 this.entityData.set(ROCKET_STARTED, false);
@@ -611,6 +643,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         List<Entity> passengers = this.getPassengers();
         Entity newRocket = PlatformUtils.changeDimension(this, destinationLevel);
         if (newRocket == null) {
+            this.launcherPlayerUuid = null;
             this.setDestination(null);
             this.destinationIsSpaceStation = false;
             this.entityData.set(ROCKET_STARTED, false);
@@ -684,6 +717,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         Vec3 delta = this.getDeltaMovement();
         newRocket.setDeltaMovement(delta.x, -0.5, delta.z);
         if (newRocket instanceof RocketEntity rocketEntity) {
+            rocketEntity.launcherPlayerUuid = null;
             rocketEntity.setDestination(null);
             rocketEntity.destinationIsSpaceStation = false;
             if (this.destinationIsSpaceStation) {

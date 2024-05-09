@@ -16,7 +16,6 @@ import com.gregtechceu.gtceu.common.data.GTDamageTypes;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
-import lombok.Getter;
 import net.minecraft.ChatFormatting;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
@@ -40,12 +39,16 @@ public class DysonSystemControllerMachine extends WorkableElectricMultiblockMach
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(DysonSystemControllerMachine.class, WorkableMultiblockMachine.MANAGED_FIELD_HOLDER);
 
     @Persisted
-    @Getter
     private final DysonSystemEnergyContainer energyContainer;
 
     public DysonSystemControllerMachine(IMachineBlockEntity holder, Object... args) {
         super(holder, args);
         this.energyContainer = new DysonSystemEnergyContainer(this, Long.MAX_VALUE, GTValues.V[GTValues.MAX], GTValues.V[GTValues.MAX], GTValues.V[GTValues.MAX], GTValues.V[GTValues.MAX]);
+    }
+
+    // named like this to avoid collision with super method
+    public DysonSystemEnergyContainer energyContainer() {
+        return energyContainer;
     }
 
     @Override

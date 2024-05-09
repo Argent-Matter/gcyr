@@ -40,7 +40,7 @@ public class DysonSwarmSatellite extends Satellite {
         BlockEntity controller = level.getBlockEntity(swarmController);
         if (controller instanceof IMachineBlockEntity machineBE) {
             if (machineBE.getMetaMachine() instanceof DysonSystemControllerMachine swarmMachine) {
-                swarmMachine.getEnergyContainer().addEnergy(10000L);
+                swarmMachine.energyContainer().addEnergy(10000L);
             }
         }
     }

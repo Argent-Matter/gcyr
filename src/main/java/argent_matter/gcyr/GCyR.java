@@ -57,14 +57,13 @@ public class GCyR {
 		GCyRNetworking.init();
 		UIFactory.register(EntityUIFactory.INSTANCE);
 
-		//GCyRSatellites.init();
+		GCyRSatellites.init();
 		GCyREntityDataSerializers.init();
 		GCyRCreativeModeTabs.init();
 		GCyREntities.init();
 		GCyRBlocks.init();
 		GCyRItems.init();
 		GCyRMenus.init();
-		;
 
 		GCyRDatagen.init();
 

@@ -2,7 +2,6 @@ package argent_matter.gcyr.client.gui.texture;
 
 import argent_matter.gcyr.common.satellite.OreFinderSatellite;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
-import com.gregtechceu.gtceu.api.gui.misc.PacketProspecting;
 import com.lowdragmc.lowdraglib.gui.editor.ColorPattern;
 import com.lowdragmc.lowdraglib.gui.util.DrawerHelper;
 import com.lowdragmc.lowdraglib.utils.ColorUtils;
@@ -46,42 +45,42 @@ public class SatelliteProspectingTexture extends AbstractTexture {
     private final int playerXGui;
     private final int playerYGui;
     private final float direction;
-    private final int playerChunkX;
-    private final int playerChunkZ;
+    private final int centerChunkX;
+    private final int centerChunkZ;
     private final int radius;
 
-    public SatelliteProspectingTexture(int playerChunkX, int playerChunkZ, int posX, int posZ, float direction, int radius, boolean darkMode, Function<BlockState, Integer> colorFunction) {
+    public SatelliteProspectingTexture(int centerChunkX, int centerChunkZ, int posX, int posZ, float direction, int radius, boolean darkMode, Function<BlockState, Integer> colorFunction) {
         this.darkMode = darkMode;
         this.radius = radius;
         this.data = (BlockState[][][]) Array.newInstance(BlockState.class, (radius * 2 - 1) * OreFinderSatellite.CELL_SIZE, (radius * 2 - 1) * OreFinderSatellite.CELL_SIZE, 0);
         this.colorFunction = colorFunction;
         this.imageWidth = (radius * 2 - 1) * 16;
         this.imageHeight = (radius * 2 - 1) * 16;
-        this.playerChunkX = playerChunkX;
-        this.playerChunkZ = playerChunkZ;
+        this.centerChunkX = centerChunkX;
+        this.centerChunkZ = centerChunkZ;
         this.direction = (direction + 180) % 360;
-        this.playerXGui = posX - (playerChunkX - this.radius + 1) * 16 + (posX > 0 ? 1 : 0);
-        playerYGui = posZ - (playerChunkZ - this.radius + 1) * 16 + (posX > 0 ? 1 : 0);
+        this.playerXGui = posX - (centerChunkX - this.radius + 1) * 16 + (posX > 0 ? 1 : 0);
+        this.playerYGui = posZ - (centerChunkZ - this.radius + 1) * 16 + (posX > 0 ? 1 : 0);
     }
 
     public void updateTexture(BlockState[][][] data, ChunkPos chunk) {
         int ox;
-        if ((chunk.x > 0 && playerChunkX > 0) || (chunk.x < 0 && playerChunkX < 0)) {
-            ox = Math.abs(Math.abs(chunk.x) - Math.abs(playerChunkX));
+        if ((chunk.x > 0 && centerChunkX > 0) || (chunk.x < 0 && centerChunkX < 0)) {
+            ox = Math.abs(Math.abs(chunk.x) - Math.abs(centerChunkX));
         } else {
-            ox = Math.abs(playerChunkX) + Math.abs(chunk.x);
+            ox = Math.abs(centerChunkX) + Math.abs(chunk.x);
         }
-        if (playerChunkX > chunk.x) {
+        if (centerChunkX > chunk.x) {
             ox = -ox;
         }
 
         int oy;
-        if ((chunk.z > 0 && playerChunkZ > 0) || (chunk.z < 0 && playerChunkZ < 0)) {
-            oy = Math.abs(Math.abs(chunk.z) - Math.abs(playerChunkZ));
+        if ((chunk.z > 0 && centerChunkZ > 0) || (chunk.z < 0 && centerChunkZ < 0)) {
+            oy = Math.abs(Math.abs(chunk.z) - Math.abs(centerChunkZ));
         } else {
-            oy = Math.abs(playerChunkZ) + Math.abs(chunk.z);
+            oy = Math.abs(centerChunkZ) + Math.abs(chunk.z);
         }
-        if (playerChunkZ > chunk.z) {
+        if (centerChunkZ > chunk.z) {
             oy = -oy;
         }
 
@@ -139,8 +138,8 @@ public class SatelliteProspectingTexture extends AbstractTexture {
 
     public void draw(GuiGraphics graphics, int x, int y) {
         if (this.getId() == -1) return;
-        Tesselator tessellator = Tesselator.getInstance();
-        BufferBuilder bufferbuilder = tessellator.getBuilder();
+        Tesselator tesselator = Tesselator.getInstance();
+        BufferBuilder bufferbuilder = tesselator.getBuilder();
         RenderSystem.setShader(GameRenderer::getPositionTexColorShader);
         RenderSystem.setShaderTexture(0, this.getId());
         var matrix4f = graphics.pose().last().pose();
@@ -149,7 +148,7 @@ public class SatelliteProspectingTexture extends AbstractTexture {
         bufferbuilder.vertex(matrix4f, x + imageWidth, y + imageHeight, 0).uv(1, 1).color(-1).endVertex();
         bufferbuilder.vertex(matrix4f, x + imageWidth, y, 0).uv(1, 0).color(-1).endVertex();
         bufferbuilder.vertex(matrix4f, x, y, 0).uv(0, 0).color(-1).endVertex();
-        tessellator.end();
+        tesselator.end();
 
         GuiTextures.UP.copy().setColor(ColorPattern.RED.color).rotate(direction / 2).draw(graphics, 0, 0, x + playerXGui - 20, y + playerYGui - 20, 40, 40);
 

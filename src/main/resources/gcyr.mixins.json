@@ -7,6 +7,7 @@
   "mixins": [
     "EntityBorderMixin",
     "EntityMixin",
+    "GTRegistryMixin",
     "LivingEntityAccessor",
     "LivingEntityMixin",
     "lithium.LithiumEntityCollisions$IterableAccessor",

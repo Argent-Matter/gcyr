@@ -22,7 +22,7 @@ public class PacketLaunchRocket implements IPacket {
     public void execute(IHandlerContext handler) {
         if (!handler.isClient()) {
             if (handler.getPlayer().getVehicle() instanceof RocketEntity rocketEntity) {
-                rocketEntity.startRocket();
+                rocketEntity.startRocket(handler.getPlayer());
             }
         }
     }

@@ -51,11 +51,8 @@ public class LangHandler extends com.gregtechceu.gtceu.data.lang.LangHandler {
         provider.add("gcyr.condition.space", "Requires machine to be in space");
 
         // satellites
-        provider.add("gcyr.satellite.gps", "GPS Satellite");
-        provider.add("gcyr.satellite.laser", "LASER Satellite");
-        provider.add("gcyr.satellite.empty", "Empty Satellite");
-        provider.add("gcyr.satellite.dyson_swarm", "Dyson Swarm Satellite");
-        provider.add("behaviour.satellite.type", "Satellite Type: %s");
+        provider.add("behaviour.gcyr.keycard.target_x", "Target X");
+        provider.add("behaviour.gcyr.keycard.target_z", "Target Z");
 
         provider.add("key.startRocket", "Start RocketEntity");
         provider.add("key.categories.gcyr", "Gregicality Rocketry");

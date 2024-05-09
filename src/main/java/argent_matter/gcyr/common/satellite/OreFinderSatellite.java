@@ -42,7 +42,13 @@ public class OreFinderSatellite extends Satellite {
         BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
         var oreTag = TagUtil.createBlockTag("ores");
         for (int x = 0; x < CELL_SIZE; x++) {
+            if (x >= storage.length) {
+                break;
+            }
             for (int z = 0; z < CELL_SIZE; z++) {
+                if (z >= storage[x].length) {
+                    break;
+                }
                 if (storage[x][z] != null) continue;
                 for (int y = chunk.getMaxBuildHeight() - 1; y >= chunk.getMinBuildHeight(); y--) {
                     pos.set(x, y, z);

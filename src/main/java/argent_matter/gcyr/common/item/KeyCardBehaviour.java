@@ -1,21 +1,19 @@
 package argent_matter.gcyr.common.item;
 
 import argent_matter.gcyr.api.space.planet.Planet;
-import argent_matter.gcyr.api.space.station.SpaceStation;
 import argent_matter.gcyr.common.data.GCyRItems;
 import argent_matter.gcyr.data.loader.PlanetData;
+import com.gregtechceu.gtceu.api.gui.widget.IntInputWidget;
 import com.gregtechceu.gtceu.api.item.component.IAddInformation;
-import com.gregtechceu.gtceu.api.item.component.IItemComponent;
-import net.minecraft.core.registries.Registries;
+import com.gregtechceu.gtceu.api.item.component.IItemUIFactory;
+import com.lowdragmc.lowdraglib.gui.factory.HeldItemUIFactory;
+import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
+import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
@@ -24,18 +22,21 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.UUID;
 
-public class KeyCardBehaviour implements IAddInformation/*, IInteractionItem*/ {
+public class KeyCardBehaviour implements IAddInformation, IItemUIFactory {
+    public static final String OWNER_KEY = "gcyr:key_card_owner";
+    public static final String TARGET_X_KEY = "gcyr:target_x";
+    public static final String TARGET_Z_KEY = "gcyr:target_z";
 
     @Nullable
     public static UUID getOwner(ItemStack stack) {
-        if (stack.hasTag() && stack.getTag().contains("KeyCardOwner", Tag.TAG_INT_ARRAY)) {
-            return stack.getTag().getUUID("KeyCardOwner");
+        if (stack.hasTag() && stack.getTag().contains(OWNER_KEY, Tag.TAG_INT_ARRAY)) {
+            return stack.getTag().getUUID(OWNER_KEY);
         }
         return null;
     }
 
     public static void setOwner(ItemStack stack, LivingEntity entity) {
-        stack.getOrCreateTag().putUUID("KeyCardOwner", entity.getUUID());
+        stack.getOrCreateTag().putUUID(OWNER_KEY, entity.getUUID());
     }
 
     public static void setSavedStation(ItemStack stack, @Nullable Integer stationId, Planet planet) {
@@ -56,14 +57,45 @@ public class KeyCardBehaviour implements IAddInformation/*, IInteractionItem*/ {
         return PlanetData.getPlanet(new ResourceLocation(stack.getOrCreateTag().getString(PlanetIdChipBehaviour.CURRENT_PLANET_KEY)));
     }
 
-    //@Override
+    @Override
+    public ModularUI createUI(HeldItemUIFactory.HeldItemHolder holder, Player entityPlayer) {
+        return new ModularUI(200, 100, holder, entityPlayer)
+                .widget(new IntInputWidget(18, 18, 40, 24, () -> getTargetX(holder.getHeld()), targetX -> setTargetX(holder.getHeld(), targetX)))
+                .widget(new LabelWidget(18, 9, "behaviour.gcyr.keycard.target_x"))
+                .widget(new IntInputWidget(64, 18, 40, 24, () -> getTargetZ(holder.getHeld()), targetX -> setTargetZ(holder.getHeld(), targetX)))
+                .widget(new LabelWidget(64, 9, "behaviour.gcyr.keycard.target_z"));
+    }
+
+    /*
+    @Override
     public InteractionResultHolder<ItemStack> use(Item item, Level level, Player player, InteractionHand usedHand) {
         ItemStack itemStack = player.getItemInHand(usedHand);
-        if (!level.isClientSide && !itemStack.getOrCreateTag().contains("KeyCardOwner", Tag.TAG_INT_ARRAY) && player.isCrouching()) {
+        if (!level.isClientSide && !itemStack.getOrCreateTag().contains(OWNER_KEY, Tag.TAG_INT_ARRAY) && player.isCrouching()) {
             setOwner(itemStack, player);
             return InteractionResultHolder.consume(itemStack);
         }
         return InteractionResultHolder.pass(itemStack);
+    }
+    */
+    
+    public static int getTargetX(ItemStack stack) {
+        if (!GCyRItems.KEYCARD.isIn(stack)) return 0;
+        return stack.getOrCreateTag().getInt(TARGET_X_KEY);
+    }
+
+    public static void setTargetX(ItemStack stack, int targetX) {
+        if (!GCyRItems.KEYCARD.isIn(stack)) return;
+        stack.getOrCreateTag().putInt(TARGET_X_KEY, targetX);
+    }
+
+    public static int getTargetZ(ItemStack stack) {
+        if (!GCyRItems.KEYCARD.isIn(stack)) return 0;
+        return stack.getOrCreateTag().getInt(TARGET_Z_KEY);
+    }
+
+    public static void setTargetZ(ItemStack stack, int targetZ) {
+        if (!GCyRItems.KEYCARD.isIn(stack)) return;
+        stack.getOrCreateTag().putInt(TARGET_Z_KEY, targetZ);
     }
 
     @Override
@@ -76,6 +108,5 @@ public class KeyCardBehaviour implements IAddInformation/*, IInteractionItem*/ {
         if (currentStationId != null) {
             tooltipComponents.add(Component.translatable("metaitem.planet_id_circuit.station", currentStationId));
         }
-
     }
 }
