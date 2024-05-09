@@ -61,7 +61,7 @@
     },
     "continents": "minecraft:overworld/continents",
     "erosion": "minecraft:overworld/erosion",
-    "depth": "gcyr:depth",
+    "depth": "minecraft:overworld/depth",
     "ridges": "minecraft:overworld/ridges",
     "initial_density_without_jaggedness": {
       "type": "minecraft:mul",
@@ -70,7 +70,7 @@
         "type": "minecraft:quarter_negative",
         "argument": {
           "type": "minecraft:mul",
-          "argument1": "gcyr:depth",
+          "argument1": "minecraft:overworld/depth",
           "argument2": {
             "type": "minecraft:cache_2d",
             "argument": "gcyr:factor"
@@ -121,7 +121,7 @@
                           "argument1": "gcyr:sloped_cheese",
                           "argument2": {
                             "type": "minecraft:mul",
-                            "argument1": 5,
+                            "argument1": 3,
                             "argument2": "minecraft:overworld/caves/entrances"
                           }
                         },

@@ -33,7 +33,7 @@ public class SpaceSuitArmorItem extends ArmorItem {
     }
 
     public static <T> LazyOptional<T> getCapability(@Nonnull final ItemStack itemStack, @Nonnull final Capability<T> cap) {
-        if (itemStack.is(Tags.Items.ARMORS_CHESTPLATES) && cap == ForgeCapabilities.FLUID_HANDLER_ITEM) {
+        if (cap == ForgeCapabilities.FLUID_HANDLER_ITEM) {
             return ForgeCapabilities.FLUID_HANDLER_ITEM.orEmpty(cap, LazyOptional.of(() -> new FluidHandlerItemStack(itemStack, Math.toIntExact(SpaceSuitArmorItem.CAPACITY)) {
                 @Override
                 public boolean canFillFluidType(net.minecraftforge.fluids.FluidStack fluid) {
@@ -128,7 +128,7 @@ public class SpaceSuitArmorItem extends ArmorItem {
 
     }
 
-    public UniformInt getTemperatureThreshold() {
+    public static UniformInt getTemperatureThreshold() {
         return UniformInt.of(60, 363);
     }
 

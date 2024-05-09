@@ -26,7 +26,6 @@ public class EmptySatellite extends Satellite {
 
     @Override
     public void tickSatellite(Level level) {
-        if (isNonWorking()) return;
 
     }
 

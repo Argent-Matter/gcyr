@@ -48,6 +48,8 @@ public class  GCyRBlocks {
     public static final BlockEntry<Block> CASING_DYSON_CELL = createCasingBlock("dyson_solar_cell", GCyR.id("block/casings/solid/dyson_solar_cell"));
     public static final BlockEntry<Block> CASING_DYSON_PORT = createCasingBlock("dyson_sphere_maintenance_port", GCyR.id("block/casings/solid/dyson_sphere_maintenance_port"));
 
+    public static final BlockEntry<Block> CASING_STAINLESS_EVAPORATION = createCasingBlock("stainless_evaporation_casing", GCyR.id("block/casings/solid/machine_casing_stainless_evaporation"));
+
     // endregion
 
     // region mercury

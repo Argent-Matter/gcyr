@@ -83,8 +83,8 @@ public class DysonSystemControllerMachine extends WorkableElectricMultiblockMach
     }
 
     @Override
-    public void onWorking() {
-        super.onWorking();
+    public boolean onWorking() {
+        boolean value = super.onWorking();
         Level level = this.getLevel();
         // THE RECEIVER IS A DEADLY LAZER
         Direction frontFacing = this.getFrontFacing();
@@ -94,6 +94,7 @@ public class DysonSystemControllerMachine extends WorkableElectricMultiblockMach
         for (LivingEntity entity : level.getEntitiesOfClass(LivingEntity.class, AABB.ofSize(Vec3.atCenterOf(pos), 3, 512, 3), EntitySelector.LIVING_ENTITY_STILL_ALIVE)) {
             entity.hurt(GTDamageTypes.ELECTRIC.source(level), GCyRConfig.INSTANCE.machine.dysonControllerBeamDamage);
         }
+        return value;
     }
 
     @Override
