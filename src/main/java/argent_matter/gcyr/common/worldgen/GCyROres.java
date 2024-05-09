@@ -2,20 +2,17 @@ package argent_matter.gcyr.common.worldgen;
 
 import argent_matter.gcyr.GCyR;
 import argent_matter.gcyr.data.recipe.GCyRTags;
-import argent_matter.gcyr.mixin.GTOresAccessor;
 import com.gregtechceu.gtceu.api.data.worldgen.GTLayerPattern;
 import com.gregtechceu.gtceu.api.data.worldgen.GTOreDefinition;
 import com.gregtechceu.gtceu.api.data.worldgen.generator.indicators.SurfaceIndicatorGenerator;
 import com.gregtechceu.gtceu.api.data.worldgen.generator.veins.DikeVeinGenerator;
 import com.gregtechceu.gtceu.api.data.worldgen.generator.veins.VeinedVeinGenerator;
 import com.gregtechceu.gtceu.common.data.GTOres;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest;
 
-import java.util.function.Consumer;
-
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
+import static com.gregtechceu.gtceu.common.data.GTOres.create;
 
 @SuppressWarnings("unused")
 public class GCyROres {
@@ -24,7 +21,7 @@ public class GCyROres {
     public static final RuleTest MOON_ORE_REPLACEABLES = new TagMatchTest(GCyRTags.MOON_ORE_REPLACEABLES);
     public static RuleTest[] MOON_RULES = new RuleTest[]{MOON_ORE_REPLACEABLES};
 
-    public static final GTOreDefinition BAUXITE_VEIN_MOON = create("bauxite_vein_moon", vein -> vein
+    public static final GTOreDefinition BAUXITE_VEIN_MOON = create(GCyR.id("bauxite_vein_moon"), vein -> vein
             .clusterSize(30).density(0.3f).weight(40)
             .layer(GCyRWorldGenLayers.MOON)
             .heightRangeUniform(10, 80)
@@ -45,7 +42,7 @@ public class GCyROres {
     public static final RuleTest MARS_ORE_REPLACEABLES = new TagMatchTest(GCyRTags.MARS_ORE_REPLACEABLES);
     public static RuleTest[] MARS_RULES = new RuleTest[]{MARS_ORE_REPLACEABLES};
 
-    public static final GTOreDefinition TUNGSTATE_VEIN_MARS = create("tungstate_vein_mars", vein -> vein
+    public static final GTOreDefinition TUNGSTATE_VEIN_MARS = create(GCyR.id("tungstate_vein_mars"), vein -> vein
             .clusterSize(30).density(0.3f).weight(40)
             .layer(GCyRWorldGenLayers.MARS)
             .heightRangeUniform(10, 80)
@@ -59,7 +56,7 @@ public class GCyROres {
                     .placement(SurfaceIndicatorGenerator.IndicatorPlacement.ABOVE)
             ));
 
-    public static final GTOreDefinition IRON_VEIN = create("iron_vein_mars", vein -> vein
+    public static final GTOreDefinition IRON_VEIN = create(GCyR.id("iron_vein_mars"), vein -> vein
             .clusterSize(30).density(0.3f).weight(40)
             .layer(GCyRWorldGenLayers.MARS)
             .heightRangeUniform(10, 80)
@@ -82,7 +79,7 @@ public class GCyROres {
             ));
 
 
-    public static final GTOreDefinition NICKEL_VEIN_MARS = create("nickel_vein_mars", vein -> vein
+    public static final GTOreDefinition NICKEL_VEIN_MARS = create(GCyR.id("nickel_vein_mars"), vein -> vein
             .clusterSize(30).density(0.3f).weight(40)
             .layer(GCyRWorldGenLayers.MARS)
             .heightRangeUniform(10, 80)
@@ -101,7 +98,7 @@ public class GCyROres {
             ));
 
 
-    public static final GTOreDefinition RARE_EARTH_METAL_VEIN_MARS = create("rare_earth_metal_vein_mars", vein -> vein
+    public static final GTOreDefinition RARE_EARTH_METAL_VEIN_MARS = create(GCyR.id("rare_earth_metal_vein_mars"), vein -> vein
             .clusterSize(30).density(0.3f).weight(40)
             .layer(GCyRWorldGenLayers.MARS)
             .heightRangeUniform(10, 80)
@@ -117,7 +114,7 @@ public class GCyROres {
                     .placement(SurfaceIndicatorGenerator.IndicatorPlacement.ABOVE)
             ));
 
-    public static final GTOreDefinition COPPER_VEIN_MARS = create("copper_vein_mars", vein -> vein
+    public static final GTOreDefinition COPPER_VEIN_MARS = create(GCyR.id("copper_vein_mars"), vein -> vein
             .clusterSize(30).density(0.3f).weight(40)
             .layer(GCyRWorldGenLayers.MARS)
             .heightRangeUniform(10, 80)
@@ -139,7 +136,7 @@ public class GCyROres {
                     .placement(SurfaceIndicatorGenerator.IndicatorPlacement.ABOVE)
             ));
 
-    public static final GTOreDefinition ZINC_VEIN_MARS = create("zinc_vein_mars", vein -> vein
+    public static final GTOreDefinition ZINC_VEIN_MARS = create(GCyR.id("zinc_vein_mars"), vein -> vein
             .clusterSize(30).density(0.3f).weight(40)
             .layer(GCyRWorldGenLayers.MARS)
             .heightRangeUniform(10, 80)
@@ -160,7 +157,7 @@ public class GCyROres {
                     .placement(SurfaceIndicatorGenerator.IndicatorPlacement.ABOVE)
             ));
 
-    public static final GTOreDefinition TUNGSTOTITANATE_VEIN_VENUS = create("tungstotitanate_vein_venus", vein -> vein
+    public static final GTOreDefinition TUNGSTOTITANATE_VEIN_VENUS = create(GCyR.id("tungstotitanate_vein_venus"), vein -> vein
             .clusterSize(30).density(0.3f).weight(40)
             .layer(GCyRWorldGenLayers.VENUS)
             .heightRangeUniform(10, 80)
@@ -175,7 +172,7 @@ public class GCyROres {
                     .placement(SurfaceIndicatorGenerator.IndicatorPlacement.ABOVE)
             ));
 
-    public static final GTOreDefinition SULFUR_VEIN_VENUS = create("sulfurc_vein_venus", vein -> vein
+    public static final GTOreDefinition SULFUR_VEIN_VENUS = create(GCyR.id("sulfurc_vein_venus"), vein -> vein
             .clusterSize(30).density(0.3f).weight(40)
             .layer(GCyRWorldGenLayers.VENUS)
             .heightRangeUniform(10, 80)
@@ -196,7 +193,7 @@ public class GCyROres {
                     .placement(SurfaceIndicatorGenerator.IndicatorPlacement.ABOVE)
             ));
 
-    public static final GTOreDefinition COPPER_VEIN_VENUS = create("copper_vein_venus", vein -> vein
+    public static final GTOreDefinition COPPER_VEIN_VENUS = create(GCyR.id("copper_vein_venus"), vein -> vein
             .clusterSize(30).density(0.3f).weight(40)
             .layer(GCyRWorldGenLayers.VENUS)
             .heightRangeUniform(10, 80)
@@ -218,7 +215,7 @@ public class GCyROres {
                     .placement(SurfaceIndicatorGenerator.IndicatorPlacement.ABOVE)
             ));
 
-    public static final GTOreDefinition IRON_VEIN_VENUS = create("iron_vein_venus", vein -> vein
+    public static final GTOreDefinition IRON_VEIN_VENUS = create(GCyR.id("iron_vein_venus"), vein -> vein
             .clusterSize(30).density(0.3f).weight(40)
             .layer(GCyRWorldGenLayers.VENUS)
             .heightRangeUniform(10, 80)
@@ -240,7 +237,7 @@ public class GCyROres {
                     .placement(SurfaceIndicatorGenerator.IndicatorPlacement.ABOVE)
             ));
 
-    public static final GTOreDefinition MERCURY_VEIN_MERCURY = create("mercury_vein_mercury", vein -> vein
+    public static final GTOreDefinition MERCURY_VEIN_MERCURY = GTOres.create(GCyR.id("mercury_vein_mercury"), vein -> vein
             .clusterSize(30).density(0.3f).weight(40)
             .layer(GCyRWorldGenLayers.MERCURY)
             .heightRangeUniform(10, 80)
@@ -261,17 +258,6 @@ public class GCyROres {
                     .surfaceRock(Cinnabar)
                     .placement(SurfaceIndicatorGenerator.IndicatorPlacement.ABOVE)
             ));
-
-    private static GTOreDefinition create(String name, Consumer<GTOreDefinition> config) {
-        GTOreDefinition def = GTOres.blankOreDefinition();
-        config.accept(def);
-
-        ResourceLocation id = GCyR.id(name);
-        def.register(id);
-        GTOresAccessor.getToReRegister().put(id, def);
-
-        return def;
-    }
 
     public static void init() {
 

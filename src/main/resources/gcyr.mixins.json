@@ -7,8 +7,6 @@
   "mixins": [
     "EntityBorderMixin",
     "EntityMixin",
-    "GTOresAccessor",
-    "GTOresMixin",
     "LivingEntityAccessor",
     "LivingEntityMixin",
     "ServerLevelMixin",
