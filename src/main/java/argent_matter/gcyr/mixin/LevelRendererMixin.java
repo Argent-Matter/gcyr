@@ -31,6 +31,7 @@ public abstract class LevelRendererMixin {
     private Minecraft minecraft;
     @Shadow private int ticks;
 
+    /*
     @ModifyArg(method = "renderSky", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;setShaderTexture(ILnet/minecraft/resources/ResourceLocation;)V"))
     private ResourceLocation gcyr$removeSunMoon(int i, ResourceLocation texture) {
         if (GCyRClient.isDysonSphereActive && texture == SUN_LOCATION) {
@@ -38,6 +39,7 @@ public abstract class LevelRendererMixin {
         }
         return texture;
     }
+    */
 
     @Inject(at = @At("HEAD"), method = "renderSnowAndRain", cancellable = true)
     private void gcyr$renderSnowAndRain(LightTexture manager, float tickDelta, double x, double y, double z, CallbackInfo info) {

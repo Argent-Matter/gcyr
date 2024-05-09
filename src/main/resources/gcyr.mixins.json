@@ -9,13 +9,11 @@
     "EntityMixin",
     "LivingEntityAccessor",
     "LivingEntityMixin",
-    "ServerLevelMixin",
     "lithium.LithiumEntityCollisions$IterableAccessor",
     "lithium.LithiumEntityCollisions$IteratorMixin",
     "lithium.LithiumEntityCollisionsMixin"
   ],
   "client": [
-    "ClientLevelMixin",
     "DimensionSpecialEffectsMixin",
     "LevelRendererAccessor",
     "LevelRendererMixin"

@@ -56,6 +56,7 @@ public class ForgeCommonEventListener {
         event.addListener(new PlanetData());
     }
 
+    /*
     @SubscribeEvent
     public static void playerChangedDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
         if (event.getEntity() instanceof ServerPlayer player) {
@@ -79,6 +80,7 @@ public class ForgeCommonEventListener {
             }
         }
     }
+    */
 
     private static final ThreadLocal<Set<IDysonSystem>> TICKED_SYSTEMS = ThreadLocal.withInitial(HashSet::new);
 

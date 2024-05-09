@@ -9,6 +9,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+/*
 @Mixin(ClientLevel.class)
 public class ClientLevelMixin {
 
@@ -22,6 +23,5 @@ public class ClientLevelMixin {
             ci.cancel();
         }
     }
-
-
 }
+*/

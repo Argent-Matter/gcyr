@@ -20,7 +20,6 @@ public class GCyRNetworking {
         NETWORK.registerC2S(PacketRequestRocketBlocks.class);
 
         NETWORK.registerS2C(PacketReturnPlanetData.class);
-        NETWORK.registerS2C(PacketSyncDysonSphereStatus.class);
     }
 
 }

@@ -73,6 +73,7 @@ public class DysonSystemSavedData extends SavedData implements IDysonSystem {
         return swarmSatellites.values().stream().mapToInt(Collection::size).sum();
     }
 
+
     @Override
     public void addDysonSphere(BlockPos controllerPos) {
         DysonSphere sphere = new DysonSphere(controllerPos, this);
@@ -84,7 +85,7 @@ public class DysonSystemSavedData extends SavedData implements IDysonSystem {
             Planet thisPlanet = PlanetData.getPlanetFromLevel(this.level.dimension()).orElse(null);
             if (playerPlanet == null || thisPlanet == null) continue;
             if (playerPlanet.solarSystem().equals(thisPlanet.solarSystem())) {
-                GCyRNetworking.NETWORK.sendToPlayer(new PacketSyncDysonSphereStatus(false), player);
+                //GCyRNetworking.NETWORK.sendToPlayer(new PacketSyncDysonSphereStatus(false), player);
             }
         }
     }
@@ -100,7 +101,7 @@ public class DysonSystemSavedData extends SavedData implements IDysonSystem {
                 Planet thisPlanet = PlanetData.getPlanetFromLevel(this.level.dimension()).orElse(null);
                 if (playerPlanet == null || thisPlanet == null) continue;
                 if (playerPlanet.solarSystem().equals(thisPlanet.solarSystem())) {
-                    GCyRNetworking.NETWORK.sendToPlayer(new PacketSyncDysonSphereStatus(false), player);
+                    //GCyRNetworking.NETWORK.sendToPlayer(new PacketSyncDysonSphereStatus(false), player);
                 }
             }
         }
@@ -135,7 +136,7 @@ public class DysonSystemSavedData extends SavedData implements IDysonSystem {
                 BlockPos controllerPos = NbtUtils.readBlockPos(((CompoundTag)sphere).getCompound("controllerPos"));
                 this.currentActiveDysonSpheres.put(controllerPos, DysonSphere.load((CompoundTag) sphere, this));
                 for (ServerPlayer player : this.level.players()) {
-                    GCyRNetworking.NETWORK.sendToPlayer(new PacketSyncDysonSphereStatus(true), player);
+                    //GCyRNetworking.NETWORK.sendToPlayer(new PacketSyncDysonSphereStatus(true), player);
                 }
             }
         }

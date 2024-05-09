@@ -5,6 +5,7 @@ import argent_matter.gcyr.common.data.GCyRBlocks;
 import argent_matter.gcyr.common.data.GCyRMaterials;
 import argent_matter.gcyr.common.data.GCyRRecipes;
 import argent_matter.gcyr.common.data.GCyRSoundEntries;
+import argent_matter.gcyr.common.worldgen.GCyROres;
 import argent_matter.gcyr.common.worldgen.GCyRWorldGenLayers;
 import com.gregtechceu.gtceu.api.addon.GTAddon;
 import com.gregtechceu.gtceu.api.addon.IGTAddon;
@@ -84,6 +85,11 @@ public class GCyRGTAddon implements IGTAddon {
     @Override
     public void registerVeinGenerators() {
         IGTAddon.super.registerVeinGenerators();
+    }
+
+    @Override
+    public void registerOreVeins() {
+        GCyROres.init();
     }
 
     @Override
