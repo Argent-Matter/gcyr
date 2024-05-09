@@ -2,8 +2,8 @@ package argent_matter.gcyr.common.satellite;
 
 import argent_matter.gcyr.api.capability.IGpsTracked;
 import argent_matter.gcyr.api.space.satellite.Satellite;
-import argent_matter.gcyr.api.space.satellite.SatelliteType;
 import argent_matter.gcyr.api.space.satellite.data.SatelliteData;
+import argent_matter.gcyr.common.data.GCyRSatellites;
 import argent_matter.gcyr.util.Vec2i;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -34,8 +34,8 @@ public class GpsSatellite extends Satellite {
 
     private Set<Entity> lastTrackedEntities = new HashSet<>();
 
-    public GpsSatellite(SatelliteType<?> type, SatelliteData data, ResourceKey<Level> level) {
-        super(type, data, level);
+    public GpsSatellite(SatelliteData data, ResourceKey<Level> level) {
+        super(GCyRSatellites.GPS, data, level);
     }
 
     @Override

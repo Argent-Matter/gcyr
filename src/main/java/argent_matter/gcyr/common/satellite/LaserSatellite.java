@@ -1,8 +1,8 @@
 package argent_matter.gcyr.common.satellite;
 
 import argent_matter.gcyr.api.space.satellite.Satellite;
-import argent_matter.gcyr.api.space.satellite.SatelliteType;
 import argent_matter.gcyr.api.space.satellite.data.SatelliteData;
+import argent_matter.gcyr.common.data.GCyRSatellites;
 import argent_matter.gcyr.config.GCyRConfig;
 import com.gregtechceu.gtceu.common.data.GTDamageTypes;
 import com.mojang.serialization.Codec;
@@ -26,8 +26,8 @@ public class LaserSatellite extends Satellite {
     private int currentMinedY;
     private boolean isMining = false;
 
-    public LaserSatellite(SatelliteType<?> type, SatelliteData data, ResourceKey<Level> level) {
-        super(type, data, level);
+    public LaserSatellite(SatelliteData data, ResourceKey<Level> level) {
+        super(GCyRSatellites.LASER, data, level);
     }
 
     @Override

@@ -16,6 +16,8 @@ import java.util.function.Supplier;
  * @implNote SatelliteType
  */
 public class SatelliteType<T extends Satellite> {
+    public static final Codec<Satellite> CODEC = GCyRRegistries.SATELLITES.codec().dispatch(Satellite::getType, SatelliteType::getCodec);
+
     @Getter
     private final Supplier<T> defaultInstance;
     @Getter
@@ -25,7 +27,7 @@ public class SatelliteType<T extends Satellite> {
 
     public SatelliteType(SatelliteFactory<T> factory, Codec<T> codec) {
         this.factory = factory;
-        this.defaultInstance = () -> factory.create(this, SatelliteData.DEFAULT, Level.OVERWORLD);
+        this.defaultInstance = () -> factory.create(SatelliteData.DEFAULT, Level.OVERWORLD);
         this.codec = codec;
     }
 
@@ -36,7 +38,7 @@ public class SatelliteType<T extends Satellite> {
 
     @FunctionalInterface
     public interface SatelliteFactory<T extends Satellite> {
-        T create(SatelliteType<?> type, SatelliteData data, ResourceKey<Level> level);
+        T create(SatelliteData data, ResourceKey<Level> level);
     }
 
 }

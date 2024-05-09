@@ -1,8 +1,8 @@
 package argent_matter.gcyr.common.satellite;
 
 import argent_matter.gcyr.api.space.satellite.Satellite;
-import argent_matter.gcyr.api.space.satellite.SatelliteType;
 import argent_matter.gcyr.api.space.satellite.data.SatelliteData;
+import argent_matter.gcyr.common.data.GCyRSatellites;
 import argent_matter.gcyr.common.machine.multiblock.electric.DysonSystemControllerMachine;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.mojang.serialization.Codec;
@@ -28,8 +28,8 @@ public class DysonSwarmSatellite extends Satellite {
     @Setter
     private BlockPos swarmController;
 
-    public DysonSwarmSatellite(SatelliteType<?> type, SatelliteData data, ResourceKey<Level> level) {
-        super(type, data, level);
+    public DysonSwarmSatellite(SatelliteData data, ResourceKey<Level> level) {
+        super(GCyRSatellites.DYSON_SWARM, data, level);
     }
 
     @Override

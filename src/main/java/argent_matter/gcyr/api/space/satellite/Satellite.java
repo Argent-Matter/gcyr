@@ -1,6 +1,6 @@
 package argent_matter.gcyr.api.space.satellite;
 
-import argent_matter.gcyr.api.registries.GCyRRegistries;
+import argent_matter.gcyr.GCyR;
 import argent_matter.gcyr.api.space.satellite.data.SatelliteData;
 import com.mojang.datafixers.Products;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -8,9 +8,9 @@ import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 
 import javax.annotation.Nullable;
@@ -42,9 +42,8 @@ public abstract class Satellite {
         this.level = level;
     }
 
-    public static <S extends Satellite> Products.P3<RecordCodecBuilder.Mu<S>, SatelliteType<?>, SatelliteData, ResourceKey<Level>> baseCodec(RecordCodecBuilder.Instance<S> instance) {
+    public static <S extends Satellite> Products.P2<RecordCodecBuilder.Mu<S>, SatelliteData, ResourceKey<Level>> baseCodec(RecordCodecBuilder.Instance<S> instance) {
         return instance.group(
-                GCyRRegistries.SATELLITES.codec().fieldOf("type").forGetter(Satellite::getType),
                 SatelliteData.CODEC.fieldOf("data").forGetter(Satellite::getData),
                 ResourceKey.codec(Registries.DIMENSION).fieldOf("level").forGetter(Satellite::getLevel)
         );
@@ -71,13 +70,7 @@ public abstract class Satellite {
     public abstract boolean runSatelliteFunction(Level level);
 
     public CompoundTag serializeNBT() {
-        CompoundTag tag = new CompoundTag();
-        tag.putString("id", GCyRRegistries.SATELLITES.getKey(type).toString());
-
-        tag.put("data", this.data.serializeNBT());
-
-        tag.putString("level", this.level.location().toString());
-
+        CompoundTag tag = (CompoundTag) SatelliteType.CODEC.encodeStart(NbtOps.INSTANCE, this).getOrThrow(false, GCyR.LOGGER::error);
         Tag extra = serializeExtraData();
         if (extra != null) tag.put("extra", extra);
         return tag;
@@ -86,16 +79,9 @@ public abstract class Satellite {
     public abstract Tag serializeExtraData();
 
     public static Satellite deserializeNBT(CompoundTag nbt, Level level) {
-        SatelliteType<?> type = GCyRRegistries.SATELLITES.get(new ResourceLocation(nbt.getString("id")));
-        SatelliteType.SatelliteFactory<?> satellite = type.getFactory();
-
-        SatelliteData data = SatelliteData.deserializeNBT(nbt.getCompound("data"));
-
-        ResourceKey<Level> levelResourceKey = ResourceKey.create(Registries.DIMENSION, new ResourceLocation(nbt.getString("level")));
-
-        Satellite sat = satellite.create(type, data, levelResourceKey);
-        if (nbt.contains("extra")) sat.deserializeExtraData(nbt.get("extra"), level);
-        return sat;
+        Satellite satellite = SatelliteType.CODEC.parse(NbtOps.INSTANCE, nbt).getOrThrow(false, GCyR.LOGGER::error);
+        if (nbt.contains("extra")) satellite.deserializeExtraData(nbt.get("extra"), level);
+        return satellite;
     }
 
     public abstract void deserializeExtraData(Tag tag, Level level);
