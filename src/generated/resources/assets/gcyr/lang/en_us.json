@@ -1,5 +1,6 @@
 {
-  "behaviour.satellite.type": "Satellite Type: %s",
+  "behaviour.gcyr.keycard.target_x": "Target X",
+  "behaviour.gcyr.keycard.target_z": "Target Z",
   "block.gcyr.advanced_fuel_tank": "Advanced Fuel Tank",
   "block.gcyr.advanced_rocket_motor": "Advanced Rocket Motor",
   "block.gcyr.aerospace_aluminium_casing": "Aerospace-grade Aluminium Machine Casing",
@@ -64,10 +65,6 @@
   "gcyr.multiblock.rocket.unbuild": "Destroy Rocket",
   "gcyr.multiblock.space_shuttle.launch.0": "Travel to selected Space Station",
   "gcyr.multiblock.space_shuttle.launch.1": "§cRequires ID Chip!",
-  "gcyr.satellite.dyson_swarm": "Dyson Swarm Satellite",
-  "gcyr.satellite.empty": "Empty Satellite",
-  "gcyr.satellite.gps": "GPS Satellite",
-  "gcyr.satellite.laser": "LASER Satellite",
   "gcyr.solar_system": "Sol",
   "item.gcyr.dyson_construction_drone": "Dyson Construction Drone",
   "item.gcyr.dyson_swarm_satellite": "Dyson Swarm Satellite",

@@ -1,5 +1,6 @@
 {
-  "behaviour.satellite.type": "%s :ǝdʎ⟘ ǝʇıןןǝʇɐS",
+  "behaviour.gcyr.keycard.target_x": "X ʇǝbɹɐ⟘",
+  "behaviour.gcyr.keycard.target_z": "Z ʇǝbɹɐ⟘",
   "block.gcyr.advanced_fuel_tank": "ʞuɐ⟘ ןǝnℲ pǝɔuɐʌpⱯ",
   "block.gcyr.advanced_rocket_motor": "ɹoʇoW ʇǝʞɔoᴚ pǝɔuɐʌpⱯ",
   "block.gcyr.aerospace_aluminium_casing": "buısɐƆ ǝuıɥɔɐW ɯnıuıɯnןⱯ ǝpɐɹb-ǝɔɐdsoɹǝⱯ",
@@ -64,10 +65,6 @@
   "gcyr.multiblock.rocket.unbuild": "ʇǝʞɔoᴚ ʎoɹʇsǝᗡ",
   "gcyr.multiblock.space_shuttle.launch.0": "uoıʇɐʇS ǝɔɐdS pǝʇɔǝןǝs oʇ ןǝʌɐɹ⟘",
   "gcyr.multiblock.space_shuttle.launch.1": "¡dıɥƆ ᗡI sǝɹınbǝᴚɔ§",
-  "gcyr.satellite.dyson_swarm": "ǝʇıןןǝʇɐS ɯɹɐʍS uosʎᗡ",
-  "gcyr.satellite.empty": "ǝʇıןןǝʇɐS ʎʇdɯƎ",
-  "gcyr.satellite.gps": "ǝʇıןןǝʇɐS SԀ⅁",
-  "gcyr.satellite.laser": "ǝʇıןןǝʇɐS ᴚƎSⱯꞀ",
   "gcyr.solar_system": "ןoS",
   "item.gcyr.dyson_construction_drone": "ǝuoɹᗡ uoıʇɔnɹʇsuoƆ uosʎᗡ",
   "item.gcyr.dyson_swarm_satellite": "ǝʇıןןǝʇɐS ɯɹɐʍS uosʎᗡ",
