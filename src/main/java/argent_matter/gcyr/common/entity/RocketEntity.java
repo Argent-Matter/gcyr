@@ -131,6 +131,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
     private GTRecipe selectedFuelRecipe;
 
     private UUID launcherPlayerUuid;
+    private boolean autoSlowdown = false;
 
     private final Set<BlockPos> thrusterPositions = new HashSet<>();
 
@@ -414,10 +415,6 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
 
         this.launcherPlayerUuid = startedPlayer.getUUID();
 
-        // abort if there are no passengers
-        Player player = this.getFirstPlayerPassenger();
-        if (player == null) return;
-
         SynchedEntityData data = this.getEntityData();
         ItemStack config = this.configSlot.getStackInSlot(0);
 
@@ -432,13 +429,13 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
             }
 
             if (this.partsTier < this.getDestination().rocketTier()) {
-                sendVehicleNotGoodEnoughMessage(player, this.getDestination().rocketTier());
+                sendVehicleNotGoodEnoughMessage(startedPlayer, this.getDestination().rocketTier());
                 return;
             }
 
             long requiredFuel = computeRequiredFuelAmountForDestination(this.getDestination());
             if (this.fuelTank.getFluidAmount() < requiredFuel) {
-                sendVehicleHasNoFuelMessage(player, this.fuelTank.getFluidAmount(), requiredFuel);
+                sendVehicleHasNoFuelMessage(startedPlayer, this.fuelTank.getFluidAmount(), requiredFuel);
                 return;
             }
 
@@ -453,7 +450,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
             //GCyRSoundEntries.ROCKET.play(this.level(), null, this.getX(), this.getY(), this.getZ(), 1, 1);
             this.level().playSound(null, this, GCyRSoundEntries.ROCKET.getMainEvent(), SoundSource.NEUTRAL, 1, 1);
         } else {
-            sendVehicleHasInvalidIdMessage(player);
+            sendVehicleHasInvalidIdMessage(startedPlayer);
         }
     }
 
@@ -486,7 +483,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         Vec3 delta = this.getDeltaMovement();
         this.setDeltaMovement(delta.add(0, -LivingEntity.DEFAULT_BASE_GRAVITY, 0));
         // braking
-        if (getControllingPassenger() != null && ((LivingEntityAccessor)getControllingPassenger()).isJumping() && consumeFuel()) {
+        if ((getControllingPassenger() != null && ((LivingEntityAccessor)getControllingPassenger()).isJumping() || (autoSlowdown && this.level().getGameTime() % 5 == 0)) && consumeFuel()) {
             this.setDeltaMovement(delta.x, Math.min(delta.y + 0.05, -0.05), delta.z);
             this.fallDistance *= 0.9f;
             this.spawnParticles();
@@ -496,6 +493,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
     @Override
     public boolean causeFallDamage(float fallDistance, float multiplier, DamageSource source) {
         if (level().isClientSide()) return false;
+        this.autoSlowdown = false;
         if (fallDistance > 48 && onGround()) {
             this.level().explode(this, this.getX(), this.getBoundingBox().minY, this.getZ(), 10, EntityOxygenSystem.levelHasOxygen(this.level()), Level.ExplosionInteraction.MOB);
             this.remove(RemovalReason.DISCARDED);
@@ -602,6 +600,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
                         this.destinationIsSpaceStation = false;
                         this.entityData.set(ROCKET_STARTED, false);
                         this.setDeltaMovement(0, -0.5, 0);
+                        this.autoSlowdown = true;
                         return;
                     }
                 }

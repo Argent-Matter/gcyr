@@ -3,6 +3,7 @@ package argent_matter.gcyr.common.item;
 import argent_matter.gcyr.api.space.planet.Planet;
 import argent_matter.gcyr.common.data.GCyRItems;
 import argent_matter.gcyr.data.loader.PlanetData;
+import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.widget.IntInputWidget;
 import com.gregtechceu.gtceu.api.item.component.IAddInformation;
 import com.gregtechceu.gtceu.api.item.component.IItemUIFactory;
@@ -59,11 +60,11 @@ public class KeyCardBehaviour implements IAddInformation, IItemUIFactory {
 
     @Override
     public ModularUI createUI(HeldItemUIFactory.HeldItemHolder holder, Player entityPlayer) {
-        return new ModularUI(200, 100, holder, entityPlayer)
-                .widget(new IntInputWidget(18, 18, 40, 24, () -> getTargetX(holder.getHeld()), targetX -> setTargetX(holder.getHeld(), targetX)))
-                .widget(new LabelWidget(18, 9, "behaviour.gcyr.keycard.target_x"))
-                .widget(new IntInputWidget(64, 18, 40, 24, () -> getTargetZ(holder.getHeld()), targetX -> setTargetZ(holder.getHeld(), targetX)))
-                .widget(new LabelWidget(64, 9, "behaviour.gcyr.keycard.target_z"));
+        return new ModularUI(200, 100, holder, entityPlayer).background(GuiTextures.BACKGROUND)
+                .widget(new IntInputWidget(18, 18, 80, 24, () -> getTargetX(holder.getHeld()), targetX -> setTargetX(holder.getHeld(), targetX)))
+                .widget(new LabelWidget(67, 9, "behaviour.gcyr.keycard.target_x"))
+                .widget(new IntInputWidget(128, 18, 80, 24, () -> getTargetZ(holder.getHeld()), targetX -> setTargetZ(holder.getHeld(), targetX)))
+                .widget(new LabelWidget(195, 9, "behaviour.gcyr.keycard.target_z"));
     }
 
     /*
