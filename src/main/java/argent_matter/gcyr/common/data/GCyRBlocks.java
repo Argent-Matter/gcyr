@@ -58,6 +58,7 @@ public class  GCyRBlocks {
             .initialProperties(() -> Blocks.STONE)
             .properties(properties -> properties.mapColor(MapColor.COLOR_GRAY))
             .blockstate(GCyRModels::randomRotatedModel)
+            .tag(BlockTags.MINEABLE_WITH_PICKAXE)
             .simpleItem()
             .register();
     //endregion
@@ -68,6 +69,7 @@ public class  GCyRBlocks {
             .initialProperties(() -> Blocks.SAND)
             .properties(properties -> properties.mapColor(MapColor.TERRACOTTA_ORANGE))
             .blockstate(GCyRModels::randomRotatedModel)
+            .tag(BlockTags.MINEABLE_WITH_SHOVEL)
             .simpleItem()
             .register();
 
@@ -76,6 +78,7 @@ public class  GCyRBlocks {
             .initialProperties(() -> Blocks.SANDSTONE)
             .properties(properties -> properties.mapColor(MapColor.TERRACOTTA_GRAY))
             .blockstate(GCyRModels::randomRotatedModel)
+            .tag(BlockTags.MINEABLE_WITH_PICKAXE)
             .simpleItem()
             .register();
 
@@ -84,6 +87,7 @@ public class  GCyRBlocks {
             .initialProperties(() -> Blocks.STONE)
             .properties(properties -> properties.mapColor(MapColor.TERRACOTTA_LIGHT_GRAY))
             .blockstate(GCyRModels::randomRotatedModel)
+            .tag(BlockTags.MINEABLE_WITH_PICKAXE)
             .simpleItem()
             .register();
     //endregion
@@ -95,6 +99,7 @@ public class  GCyRBlocks {
             .initialProperties(() -> Blocks.STONE)
             .properties(properties -> properties.mapColor(MapColor.COLOR_LIGHT_GRAY))
             .blockstate(GCyRModels::randomRotatedModel)
+            .tag(BlockTags.MINEABLE_WITH_PICKAXE)
             .simpleItem()
             .register();
 
@@ -102,6 +107,7 @@ public class  GCyRBlocks {
             .block("moon_sand", FallingBlock::new)
             .initialProperties(() -> Blocks.GRAVEL)
             .blockstate(GCyRModels::randomRotatedModel)
+            .tag(BlockTags.MINEABLE_WITH_SHOVEL)
             .simpleItem()
             .register();
     //endregion
@@ -110,6 +116,7 @@ public class  GCyRBlocks {
     public static final BlockEntry<FallingBlock> MARS_REGOLITH = REGISTRATE
             .block("mars_regolith", FallingBlock::new)
             .initialProperties(()  -> Blocks.RED_SAND)
+            .tag(BlockTags.MINEABLE_WITH_SHOVEL)
             .simpleItem()
             .register();
 
@@ -117,6 +124,7 @@ public class  GCyRBlocks {
             .block("martian_rock", Block::new)
             .initialProperties(() -> Blocks.STONE)
             .properties(properties -> properties.mapColor(MapColor.COLOR_RED))
+            .tag(BlockTags.MINEABLE_WITH_PICKAXE)
             .simpleItem()
             .register();
     // endregion
