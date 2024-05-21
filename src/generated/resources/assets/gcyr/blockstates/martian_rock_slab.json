@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "gcyr:block/martian_rock_slab"
+    },
+    "type=double": {
+      "model": "gcyr:block/martian_rock"
+    },
+    "type=top": {
+      "model": "gcyr:block/martian_rock_slab_top"
+    }
+  }
+}

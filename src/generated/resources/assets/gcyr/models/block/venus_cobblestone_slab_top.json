@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab_top",
+  "textures": {
+    "bottom": "gcyr:block/venus_cobblestone",
+    "side": "gcyr:block/venus_cobblestone",
+    "top": "gcyr:block/venus_cobblestone"
+  }
+}

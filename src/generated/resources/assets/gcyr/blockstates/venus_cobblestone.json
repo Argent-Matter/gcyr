@@ -1,0 +1,20 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "gcyr:block/venus_cobblestone"
+      },
+      {
+        "model": "gcyr:block/venus_cobblestone",
+        "y": 180
+      },
+      {
+        "model": "gcyr:block/venus_cobblestone_mirrored"
+      },
+      {
+        "model": "gcyr:block/venus_cobblestone_mirrored",
+        "y": 180
+      }
+    ]
+  }
+}

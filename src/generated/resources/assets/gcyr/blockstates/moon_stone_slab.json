@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "gcyr:block/moon_stone_slab"
+    },
+    "type=double": {
+      "model": "gcyr:block/moon_stone"
+    },
+    "type=top": {
+      "model": "gcyr:block/moon_stone_slab_top"
+    }
+  }
+}

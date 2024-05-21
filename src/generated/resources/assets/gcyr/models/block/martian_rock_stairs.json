@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/stairs",
+  "textures": {
+    "bottom": "gcyr:block/martian_rock",
+    "side": "gcyr:block/martian_rock",
+    "top": "gcyr:block/martian_rock"
+  }
+}

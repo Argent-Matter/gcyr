@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "gcyr:block/martian_cobblestone_slab"
+    },
+    "type=double": {
+      "model": "gcyr:block/martian_cobblestone"
+    },
+    "type=top": {
+      "model": "gcyr:block/martian_cobblestone_slab_top"
+    }
+  }
+}

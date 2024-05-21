@@ -50,85 +50,352 @@ public class  GCyRBlocks {
 
     public static final BlockEntry<Block> CASING_STAINLESS_EVAPORATION = createCasingBlock("stainless_evaporation_casing", GCyR.id("block/casings/solid/machine_casing_stainless_evaporation"));
 
-    // endregion
-
     // region mercury
-    public static final BlockEntry<Block> MERCURY_ROCK = REGISTRATE
+
+    public static final BlockSetType MERCURY_SET = BlockSetType.register(new BlockSetType(GCyR.id("mercury").toString()));
+
+    public static final BlockEntry<Block> MERCURY_COBBLESTONE = REGISTRATE
             .block("mercury_rock", Block::new)
-            .initialProperties(() -> Blocks.STONE)
+            .lang("Cobbled Mercury Rock")
+            .initialProperties(() -> Blocks.COBBLESTONE)
             .properties(properties -> properties.mapColor(MapColor.COLOR_GRAY))
             .blockstate(GCyRModels::randomRotatedModel)
-            .tag(BlockTags.MINEABLE_WITH_PICKAXE)
             .simpleItem()
             .register();
+    public static final BlockEntry<Block> MERCURY_ROCK = REGISTRATE
+            .block("mercury_rock", Block::new)
+            .lang("Mercury Rock")
+            .properties(properties -> properties.mapColor(MapColor.COLOR_GRAY))
+            .blockstate(GCyRModels::randomRotatedModel)
+            .loot((table, block) -> table.dropOther(block, MERCURY_COBBLESTONE.asItem()))
+            .simpleItem()
+            .register();
+
+    public static final BlockEntry<SlabBlock> MERCURY_COBBLESTONE_SLAB = REGISTRATE
+            .block("mercury_cobblestone_slab", SlabBlock::new)
+            .initialProperties(() -> Blocks.COBBLESTONE_SLAB)
+            .lang("Cobbled Mercury Rock Slab")
+            .blockstate((ctx, prov) -> prov.slabBlock(ctx.getEntry(), prov.blockTexture(GCyRBlocks.MERCURY_COBBLESTONE.get()), prov.blockTexture(GCyRBlocks.MERCURY_COBBLESTONE.get())))
+            .tag(BlockTags.SLABS)
+            .item()
+            .tag(ItemTags.SLABS)
+            .build()
+            .register();
+
+    public static final BlockEntry<SlabBlock> MERCURY_ROCK_SLAB = REGISTRATE
+            .block("mercury_rock_slab", SlabBlock::new)
+            .initialProperties(() -> Blocks.STONE_SLAB)
+            .lang("Mercury Rock Slab")
+        .blockstate((ctx, prov) -> prov.slabBlock(ctx.getEntry(), prov.blockTexture(GCyRBlocks.MERCURY_ROCK.get()), prov.blockTexture(GCyRBlocks.MERCURY_ROCK.get())))
+            .tag(BlockTags.SLABS)
+            .item()
+            .tag(ItemTags.SLABS)
+            .build()
+            .register();
+
+    public static final BlockEntry<StairBlock> MERCURY_COBBLESTONE_STAIRS = REGISTRATE
+            .block("cobbled_mercury_rock_stairs", (p) -> new StairBlock(MERCURY_COBBLESTONE::getDefaultState, p))
+            .initialProperties(() -> Blocks.COBBLESTONE_STAIRS)
+            .lang("Cobbled Mercury Rock Stairs")
+            .tag(BlockTags.STAIRS)
+            .blockstate((ctx, prov) -> prov.stairsBlock(ctx.getEntry(), prov.blockTexture(GCyRBlocks.MERCURY_COBBLESTONE.get())))
+            .item()
+            .tag(ItemTags.STAIRS)
+            .build()
+            .register();
+
+    public static final BlockEntry<StairBlock> MERCURY_ROCK_STAIRS = REGISTRATE
+            .block("mercury_rock_stairs", (p) -> new StairBlock(MERCURY_ROCK::getDefaultState, p))
+            .initialProperties(() -> Blocks.STONE_STAIRS)
+            .lang("Mercury Rock Stairs")
+            .tag(BlockTags.STAIRS)
+            .blockstate((ctx, prov) -> prov.stairsBlock(ctx.getEntry(), prov.blockTexture(GCyRBlocks.MERCURY_ROCK.get())))
+            .item()
+            .tag(ItemTags.STAIRS)
+            .build()
+            .register();
+
+    public static final BlockEntry<ButtonBlock> MERCURY_ROCK_BUTTON = REGISTRATE
+            .block("mercury_rock_button", (p) -> new ButtonBlock(p, MERCURY_SET, 30, false))
+            .initialProperties(() -> Blocks.STONE_BUTTON)
+            .lang("Mercury Rock Button")
+            .tag(BlockTags.BUTTONS)
+            .blockstate((ctx, prov) -> prov.buttonBlock(ctx.getEntry(), prov.blockTexture(MERCURY_ROCK.get())))
+            .item()
+            .model((ctx, prov) -> prov.buttonInventory(ctx.getName(), GCyRBlocks.MERCURY_ROCK.getId().withPrefix("block/")))
+            .tag(ItemTags.BUTTONS)
+            .build()
+            .register();
+
     //endregion
 
     //region venus
+
+    public static final BlockSetType VENUS_SET = BlockSetType.register(new BlockSetType(GCyR.id("venus").toString()));
     public static final BlockEntry<FallingBlock> VENUS_SAND = REGISTRATE
             .block("venus_sand", FallingBlock::new)
+            .lang("Venus Sand")
             .initialProperties(() -> Blocks.SAND)
             .properties(properties -> properties.mapColor(MapColor.TERRACOTTA_ORANGE))
             .blockstate(GCyRModels::randomRotatedModel)
-            .tag(BlockTags.MINEABLE_WITH_SHOVEL)
             .simpleItem()
             .register();
 
     public static final BlockEntry<Block> VENUSIAN_REGOLITH = REGISTRATE
             .block("venusian_regolith", Block::new)
+            .lang("Venusian Regolith")
             .initialProperties(() -> Blocks.SANDSTONE)
             .properties(properties -> properties.mapColor(MapColor.TERRACOTTA_GRAY))
             .blockstate(GCyRModels::randomRotatedModel)
-            .tag(BlockTags.MINEABLE_WITH_PICKAXE)
+            .simpleItem()
+            .register();
+
+    public static final BlockEntry<Block> VENUS_COBBLESTONE = REGISTRATE
+            .block("venus_cobblestone", Block::new)
+            .lang("Cobbled Venus Rock")
+            .initialProperties(() -> Blocks.COBBLESTONE)
+            .properties(properties -> properties.mapColor(MapColor.COLOR_GRAY))
+            .blockstate(GCyRModels::randomRotatedModel)
             .simpleItem()
             .register();
 
     public static final BlockEntry<Block> VENUS_ROCK = REGISTRATE
             .block("venus_rock", Block::new)
+            .lang("Venus Rock")
             .initialProperties(() -> Blocks.STONE)
             .properties(properties -> properties.mapColor(MapColor.TERRACOTTA_LIGHT_GRAY))
             .blockstate(GCyRModels::randomRotatedModel)
-            .tag(BlockTags.MINEABLE_WITH_PICKAXE)
+            .loot((table, block) -> table.dropOther(block, VENUS_COBBLESTONE.asItem()))
             .simpleItem()
             .register();
-    //endregion
 
+    public static final BlockEntry<SlabBlock> VENUS_COBBLESTONE_SLAB = REGISTRATE
+            .block("venus_cobblestone_slab", SlabBlock::new)
+            .initialProperties(() -> Blocks.COBBLESTONE_SLAB)
+            .lang("Cobbled Venus Rock Slab")
+            .blockstate((ctx, prov) -> prov.slabBlock(ctx.getEntry(), prov.blockTexture(GCyRBlocks.VENUS_COBBLESTONE.get()), prov.blockTexture(GCyRBlocks.VENUS_COBBLESTONE.get())))
+            .tag(BlockTags.SLABS)
+            .item()
+            .tag(ItemTags.SLABS)
+            .build()
+            .register();
+
+    public static final BlockEntry<SlabBlock> VENUS_ROCK_SLAB = REGISTRATE
+            .block("venus_rock_slab", SlabBlock::new)
+            .initialProperties(() -> Blocks.STONE_SLAB)
+            .lang("Venus Rock Slab")
+            .blockstate((ctx, prov) -> prov.slabBlock(ctx.getEntry(), prov.blockTexture(GCyRBlocks.VENUS_ROCK.get()), prov.blockTexture(GCyRBlocks.VENUS_ROCK.get())))
+            .tag(BlockTags.SLABS)
+            .item()
+            .tag(ItemTags.SLABS)
+            .build()
+            .register();
+
+    public static final BlockEntry<StairBlock> VENUS_COBBLESTONE_STAIRS = REGISTRATE
+            .block("venus_cobblestone_stairs", (p) -> new StairBlock(VENUS_COBBLESTONE::getDefaultState, p))
+            .initialProperties(() -> Blocks.COBBLESTONE_STAIRS)
+            .lang("Cobbled Venus Rock Stairs")
+            .tag(BlockTags.STAIRS)
+            .blockstate((ctx, prov) -> prov.stairsBlock(ctx.getEntry(), prov.blockTexture(GCyRBlocks.VENUS_COBBLESTONE.get())))
+            .item()
+            .tag(ItemTags.STAIRS)
+            .build()
+            .register();
+
+    public static final BlockEntry<StairBlock> VENUS_ROCK_STAIRS = REGISTRATE
+            .block("venus_rock_stairs", (p) -> new StairBlock(VENUS_ROCK::getDefaultState, p))
+            .initialProperties(() -> Blocks.STONE_STAIRS)
+            .lang("Venus Rock Stairs")
+            .tag(BlockTags.STAIRS)
+            .blockstate((ctx, prov) -> prov.stairsBlock(ctx.getEntry(), prov.blockTexture(GCyRBlocks.VENUS_ROCK.get())))
+            .item()
+            .tag(ItemTags.STAIRS)
+            .build()
+            .register();
+
+    public static final BlockEntry<ButtonBlock> VENUS_ROCK_BUTTON = REGISTRATE
+            .block("venus_rock_button", (p) -> new ButtonBlock(p, VENUS_SET, 30, false))
+            .initialProperties(() -> Blocks.STONE_BUTTON)
+            .lang("Venus Rock Button")
+            .tag(BlockTags.BUTTONS)
+            .blockstate((ctx, prov) -> prov.buttonBlock(ctx.getEntry(), prov.blockTexture(VENUS_ROCK.get())))
+            .item()
+            .model((ctx, prov) -> prov.buttonInventory(ctx.getName(), GCyRBlocks.VENUS_ROCK.getId().withPrefix("block/")))
+            .tag(ItemTags.BUTTONS)
+            .build()
+            .register();
 
     // region moon
+
+    public static final BlockSetType MOON_SET = BlockSetType.register(new BlockSetType(GCyR.id("moon").toString()));
+
+    public static final BlockEntry<Block> MOON_COBBLESTONE = REGISTRATE
+            .block("moon_cobblestone", Block::new)
+            .lang("Cobbled Lunar Stone")
+            .initialProperties(() -> Blocks.COBBLESTONE)
+            .properties(properties -> properties.mapColor(MapColor.COLOR_GRAY))
+            .blockstate(GCyRModels::randomRotatedModel)
+            .simpleItem()
+            .register();
     public static final BlockEntry<Block> MOON_STONE = REGISTRATE
             .block("moon_stone", Block::new)
+            .lang("Lunar Stone")
             .initialProperties(() -> Blocks.STONE)
             .properties(properties -> properties.mapColor(MapColor.COLOR_LIGHT_GRAY))
             .blockstate(GCyRModels::randomRotatedModel)
-            .tag(BlockTags.MINEABLE_WITH_PICKAXE)
+            .loot((table, block) -> table.dropOther(block, MOON_COBBLESTONE.asItem()))
             .simpleItem()
             .register();
-
     public static final BlockEntry<FallingBlock> MOON_SAND = REGISTRATE
             .block("moon_sand", FallingBlock::new)
+            .lang("Lunar Sand")
             .initialProperties(() -> Blocks.GRAVEL)
             .blockstate(GCyRModels::randomRotatedModel)
-            .tag(BlockTags.MINEABLE_WITH_SHOVEL)
             .simpleItem()
             .register();
-    //endregion
+
+    public static final BlockEntry<SlabBlock> MOON_COBBLESTONE_SLAB = REGISTRATE
+            .block("moon_cobblestone_slab", SlabBlock::new)
+            .initialProperties(() -> Blocks.COBBLESTONE_SLAB)
+            .lang("Cobbled Lunar Stone Slab")
+            .blockstate((ctx, prov) -> prov.slabBlock(ctx.getEntry(), prov.blockTexture(GCyRBlocks.MOON_COBBLESTONE.get()), prov.blockTexture(GCyRBlocks.MOON_COBBLESTONE.get())))
+            .tag(BlockTags.SLABS)
+            .item()
+            .tag(ItemTags.SLABS)
+            .build()
+            .register();
+
+    public static final BlockEntry<SlabBlock> MOON_STONE_SLAB = REGISTRATE
+            .block("moon_stone_slab", SlabBlock::new)
+            .initialProperties(() -> Blocks.STONE_SLAB)
+            .lang("Lunar Stone Slab")
+            .blockstate((ctx, prov) -> prov.slabBlock(ctx.getEntry(), prov.blockTexture(GCyRBlocks.MOON_STONE.get()), prov.blockTexture(GCyRBlocks.MOON_STONE.get())))
+            .tag(BlockTags.SLABS)
+            .item()
+            .tag(ItemTags.SLABS)
+            .build()
+            .register();
+
+    public static final BlockEntry<StairBlock> MOON_COBBLESTONE_STAIRS = REGISTRATE
+            .block("moon_cobblestone_stairs", (p) -> new StairBlock(MOON_COBBLESTONE::getDefaultState, p))
+        .initialProperties(() -> Blocks.COBBLESTONE_STAIRS)
+            .lang("Cobbled Lunar Stone Stairs")
+            .tag(BlockTags.STAIRS)
+            .blockstate((ctx, prov) -> prov.stairsBlock(ctx.getEntry(), prov.blockTexture(GCyRBlocks.MOON_COBBLESTONE.get())))
+            .item()
+            .tag(ItemTags.STAIRS)
+            .build()
+            .register();
+
+    public static final BlockEntry<StairBlock> MOON_STONE_STAIRS = REGISTRATE
+            .block("moon_stone_stairs", (p) -> new StairBlock(MOON_STONE::getDefaultState, p))
+            .initialProperties(() -> Blocks.STONE_STAIRS)
+            .lang("Lunar Stone Stairs")
+            .tag(BlockTags.STAIRS)
+            .blockstate((ctx, prov) -> prov.stairsBlock(ctx.getEntry(), prov.blockTexture(GCyRBlocks.MOON_STONE.get())))
+            .item()
+            .tag(ItemTags.STAIRS)
+            .build()
+            .register();
+
+    public static final BlockEntry<ButtonBlock> MOON_STONE_BUTTON = REGISTRATE
+            .block("moon_stone_button", (p) -> new ButtonBlock(p, MOON_SET, 30, false))
+            .initialProperties(() -> Blocks.STONE_BUTTON)
+            .lang("Lunar Stone Button")
+            .tag(BlockTags.BUTTONS)
+            .blockstate((ctx, prov) -> prov.buttonBlock(ctx.getEntry(), prov.blockTexture(MOON_STONE.get())))
+            .item()
+            .model((ctx, prov) -> prov.buttonInventory(ctx.getName(), GCyRBlocks.MOON_STONE.getId().withPrefix("block/")))
+            .tag(ItemTags.BUTTONS)
+            .build()
+            .register();
 
     // region mars
+
+    public static final BlockSetType MARS_SET = BlockSetType.register(new BlockSetType(GCyR.id("martian").toString()));
+
     public static final BlockEntry<FallingBlock> MARS_REGOLITH = REGISTRATE
             .block("mars_regolith", FallingBlock::new)
+            .lang("Martian Regolith")
             .initialProperties(()  -> Blocks.RED_SAND)
-            .tag(BlockTags.MINEABLE_WITH_SHOVEL)
+            .simpleItem()
+            .register();
+
+    public static final BlockEntry<Block> MARTIAN_COBBLESTONE = REGISTRATE
+            .block("martian_cobblestone", Block::new)
+            .lang("Cobbled Martian Rock")
+            .initialProperties(() -> Blocks.COBBLESTONE)
+            .properties(properties -> properties.mapColor(MapColor.COLOR_GRAY))
+            .blockstate(GCyRModels::randomRotatedModel)
             .simpleItem()
             .register();
 
     public static final BlockEntry<Block> MARTIAN_ROCK = REGISTRATE
             .block("martian_rock", Block::new)
+            .lang("Martian Rock")
             .initialProperties(() -> Blocks.STONE)
             .properties(properties -> properties.mapColor(MapColor.COLOR_RED))
-            .tag(BlockTags.MINEABLE_WITH_PICKAXE)
+            .loot((table, block) -> table.dropOther(block, MARTIAN_COBBLESTONE.asItem()))
             .simpleItem()
             .register();
-    // endregion
 
+    public static final BlockEntry<SlabBlock> MARTIAN_COBBLESTONE_SLAB = REGISTRATE
+            .block("martian_cobblestone_slab", SlabBlock::new)
+            .initialProperties(() -> Blocks.COBBLESTONE_SLAB)
+            .lang("Cobbled Martian Rock Slab")
+            .blockstate((ctx, prov) -> prov.slabBlock(ctx.getEntry(), prov.blockTexture(GCyRBlocks.MARTIAN_COBBLESTONE.get()), prov.blockTexture(GCyRBlocks.MARTIAN_COBBLESTONE.get())))
+            .tag(BlockTags.SLABS)
+            .item()
+            .tag(ItemTags.SLABS)
+            .build()
+            .register();
+
+    public static final BlockEntry<SlabBlock> MARTIAN_ROCK_SLAB = REGISTRATE
+            .block("martian_rock_slab", SlabBlock::new)
+            .initialProperties(() -> Blocks.STONE_SLAB)
+            .lang("Martian Rock Slab")
+            .blockstate((ctx, prov) -> prov.slabBlock(ctx.getEntry(), prov.blockTexture(GCyRBlocks.MARTIAN_ROCK.get()), prov.blockTexture(GCyRBlocks.MARTIAN_ROCK.get())))
+            .tag(BlockTags.SLABS)
+            .item()
+            .tag(ItemTags.SLABS)
+            .build()
+            .register();
+
+    public static final BlockEntry<StairBlock> MARTIAN_COBBLESTONE_STAIRS = REGISTRATE
+            .block("martian_cobblestone_stairs", (p) -> new StairBlock(MARTIAN_COBBLESTONE::getDefaultState, p))
+            .initialProperties(() -> Blocks.COBBLESTONE_STAIRS)
+            .lang("Cobbled Martian Rock Stairs")
+            .tag(BlockTags.STAIRS)
+            .blockstate((ctx, prov) -> prov.stairsBlock(ctx.getEntry(), prov.blockTexture(GCyRBlocks.MARTIAN_COBBLESTONE.get())))
+            .item()
+            .tag(ItemTags.STAIRS)
+            .build()
+            .register();
+
+    public static final BlockEntry<StairBlock> MARTIAN_ROCK_STAIRS = REGISTRATE
+            .block("martian_rock_stairs", (p) -> new StairBlock(MARTIAN_ROCK::getDefaultState, p))
+            .initialProperties(() -> Blocks.STONE_STAIRS)
+            .lang("Martian Rock Stairs")
+            .tag(BlockTags.STAIRS)
+            .blockstate((ctx, prov) -> prov.stairsBlock(ctx.getEntry(), prov.blockTexture(GCyRBlocks.MARTIAN_ROCK.get())))
+            .item()
+            .tag(ItemTags.STAIRS)
+            .build()
+            .register();
+
+    public static final BlockEntry<ButtonBlock> MARTIAN_ROCK_BUTTON = REGISTRATE
+            .block("martian_rock_button", (p) -> new ButtonBlock(p, MARS_SET, 30, false))
+            .initialProperties(() -> Blocks.STONE_BUTTON)
+            .lang("Martian Rock Button")
+            .tag(BlockTags.BUTTONS)
+            .blockstate((ctx, prov) -> prov.buttonBlock(ctx.getEntry(), prov.blockTexture(MARTIAN_ROCK.get())))
+            .item()
+            .model((ctx, prov) -> prov.buttonInventory(ctx.getName(), GCyRBlocks.MARTIAN_ROCK.getId().withPrefix("block/")))
+            .tag(ItemTags.BUTTONS)
+            .build()
+            .register();
+
+    // erm what the sigma
     public static final BlockEntry<MushroomBlock> PRB_SHROOM = REGISTRATE
             .block("prb_underground_mushroom", (p) -> new MushroomBlock(p, null /*todo fix*/))
             .initialProperties(() -> Blocks.BROWN_MUSHROOM)

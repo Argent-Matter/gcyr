@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "gcyr:block/venus_cobblestone_slab"
+    },
+    "type=double": {
+      "model": "gcyr:block/venus_cobblestone"
+    },
+    "type=top": {
+      "model": "gcyr:block/venus_cobblestone_slab_top"
+    }
+  }
+}
