@@ -209,42 +209,42 @@ public class MiscRecipes {
         );
 
         VanillaRecipeHelper.addShapedRecipe(provider, GCyR.id("venus_cobblestone_stairs"), GCyRBlocks.VENUS_COBBLESTONE_STAIRS.asStack(4),
-                "S", "SS", "SSS",
+                "S  ", "SS ", "SSS",
                 'S', GCyRBlocks.VENUS_COBBLESTONE.asStack()
         );
 
         VanillaRecipeHelper.addShapedRecipe(provider, GCyR.id("venus_rock_stairs"), GCyRBlocks.VENUS_ROCK_STAIRS.asStack(4),
-                "S", "SS", "SSS",
+                "S  ", "SS ", "SSS",
                 'S', GCyRBlocks.VENUS_ROCK.asStack()
         );
 
         VanillaRecipeHelper.addShapedRecipe(provider, GCyR.id("mercury_cobblestone_stairs"), GCyRBlocks.MERCURY_COBBLESTONE_STAIRS.asStack(4),
-                "S", "SS", "SSS",
+                "S  ", "SS ", "SSS",
                 'S', GCyRBlocks.MERCURY_COBBLESTONE.asStack()
         );
 
         VanillaRecipeHelper.addShapedRecipe(provider, GCyR.id("mercury_rock_stairs"), GCyRBlocks.MERCURY_ROCK_STAIRS.asStack(4),
-                "S", "SS", "SSS",
+                "S  ", "SS ", "SSS",
                 'S', GCyRBlocks.MERCURY_ROCK.asStack()
         );
 
         VanillaRecipeHelper.addShapedRecipe(provider, GCyR.id("martian_cobblestone_stairs"), GCyRBlocks.MARTIAN_COBBLESTONE_STAIRS.asStack(4),
-                "S", "SS", "SSS",
+                "S  ", "SS ", "SSS",
                 'S', GCyRBlocks.MARTIAN_COBBLESTONE.asStack()
         );
 
         VanillaRecipeHelper.addShapedRecipe(provider, GCyR.id("martian_rock_stairs"), GCyRBlocks.MARTIAN_ROCK_STAIRS.asStack(4),
-                "S", "SS", "SSS",
+                "S  ", "SS ", "SSS",
                 'S', GCyRBlocks.MARTIAN_ROCK.asStack()
         );
 
         VanillaRecipeHelper.addShapedRecipe(provider, GCyR.id("moon_cobblestone_stairs"), GCyRBlocks.MOON_COBBLESTONE_STAIRS.asStack(4),
-                "S", "SS", "SSS",
+                "S  ", "SS ", "SSS",
                 'S', GCyRBlocks.MOON_COBBLESTONE.asStack()
         );
 
         VanillaRecipeHelper.addShapedRecipe(provider, GCyR.id("moon_stone_stairs"), GCyRBlocks.MOON_STONE_STAIRS.asStack(4),
-                "S", "SS", "SSS",
+                "S  ", "SS ", "SSS",
                 'S', GCyRBlocks.MOON_STONE.asStack()
         );
 
