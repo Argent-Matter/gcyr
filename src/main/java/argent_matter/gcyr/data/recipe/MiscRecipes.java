@@ -7,7 +7,6 @@ import argent_matter.gcyr.common.data.GCyRMachines;
 import argent_matter.gcyr.common.data.GCyRMaterials;
 import argent_matter.gcyr.data.recipe.builder.SmithingSpaceSuitRecipeBuilder;
 import com.gregtechceu.gtceu.api.GTCEuAPI;
-import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.UnificationEntry;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.*;
@@ -167,7 +166,7 @@ public class MiscRecipes {
                 .outputItems(GCyRBlocks.CASING_STAINLESS_EVAPORATION.asStack(1))
                 .duration(30).EUt(VA[HV]).save(provider);
 
-        // Decoration Stuff
+        // region Decoration Stuff
         VanillaRecipeHelper.addShapedRecipe(provider, GCyR.id("venus_cobblestone_slab"), GCyRBlocks.VENUS_COBBLESTONE_SLAB.asStack(3),
                 "SSS",
                 'S', GCyRBlocks.VENUS_COBBLESTONE.asStack()
@@ -178,7 +177,7 @@ public class MiscRecipes {
                 'S', GCyRBlocks.VENUS_ROCK.asStack()
         );
 
-    VanillaRecipeHelper.addShapedRecipe(provider, GCyR.id("mercury_cobblestone_slab"), GCyRBlocks.MERCURY_COBBLESTONE_SLAB.asStack(3),
+        VanillaRecipeHelper.addShapedRecipe(provider, GCyR.id("mercury_cobblestone_slab"), GCyRBlocks.MERCURY_COBBLESTONE_SLAB.asStack(3),
                 "SSS",
                 'S', GCyRBlocks.MERCURY_COBBLESTONE.asStack()
         );
@@ -248,11 +247,12 @@ public class MiscRecipes {
                 'S', GCyRBlocks.MOON_STONE.asStack()
         );
 
-        VanillaRecipeHelper.addShapelessRecipe(provider, "venus_button", GCyRBlocks.VENUS_ROCK_BUTTON.asStack(), GCyRBlocks.VENUS_ROCK_BUTTON.asStack());
+        VanillaRecipeHelper.addShapelessRecipe(provider, "venus_button", GCyRBlocks.VENUS_ROCK_BUTTON.asStack(), GCyRBlocks.VENUS_ROCK.asStack());
         VanillaRecipeHelper.addShapelessRecipe(provider, "mercury_button", GCyRBlocks.MERCURY_ROCK_BUTTON.asStack(), GCyRBlocks.MERCURY_ROCK.asStack());
         VanillaRecipeHelper.addShapelessRecipe(provider, "martian_button", GCyRBlocks.MARTIAN_ROCK_BUTTON.asStack(), GCyRBlocks.MARTIAN_ROCK.asStack());
         VanillaRecipeHelper.addShapelessRecipe(provider, "moon_button", GCyRBlocks.MOON_STONE_BUTTON.asStack(), GCyRBlocks.MOON_STONE.asStack());
 
+        // endregion
     }
 
 }
