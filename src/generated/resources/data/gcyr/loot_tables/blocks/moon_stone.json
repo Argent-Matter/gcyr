@@ -11,7 +11,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "gcyr:moon_stone"
+          "name": "gcyr:moon_cobblestone"
         }
       ],
       "rolls": 1.0

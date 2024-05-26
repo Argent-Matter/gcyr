@@ -1,6 +1,7 @@
 ### ADDITIONS:
+- Added Decoration Blocks
 
 ### FIXES:
-- fixed space crashing when using upgraded non-spacesuit armor
 
 ### CHANGES:
+- updated to GT 1.2.3

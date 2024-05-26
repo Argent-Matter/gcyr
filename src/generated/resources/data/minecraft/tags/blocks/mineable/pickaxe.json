@@ -7,6 +7,11 @@
     "gcyr:dyson_solar_cell",
     "gcyr:dyson_sphere_maintenance_port",
     "gcyr:stainless_evaporation_casing",
+    "gcyr:mercury_rock",
+    "gcyr:venusian_regolith",
+    "gcyr:venus_rock",
+    "gcyr:moon_stone",
+    "gcyr:martian_rock",
     "gcyr:airlock_door",
     "gcyr:launch_pad",
     "gcyr:seat"

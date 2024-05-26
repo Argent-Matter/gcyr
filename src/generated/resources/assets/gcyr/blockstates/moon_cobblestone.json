@@ -1,0 +1,20 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "gcyr:block/moon_cobblestone"
+      },
+      {
+        "model": "gcyr:block/moon_cobblestone",
+        "y": 180
+      },
+      {
+        "model": "gcyr:block/moon_cobblestone_mirrored"
+      },
+      {
+        "model": "gcyr:block/moon_cobblestone_mirrored",
+        "y": 180
+      }
+    ]
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab_top",
+  "textures": {
+    "bottom": "gcyr:block/mercury_rock",
+    "side": "gcyr:block/mercury_rock",
+    "top": "gcyr:block/mercury_rock"
+  }
+}
