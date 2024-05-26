@@ -13,7 +13,7 @@
   "noise": {
     "min_y": -64,
     "height": 384,
-    "size_horizontal": 2,
+    "size_horizontal": 4,
     "size_vertical": 1
   },
   "noise_router": {
@@ -121,7 +121,7 @@
                           "argument1": "gcyr:sloped_cheese",
                           "argument2": {
                             "type": "minecraft:mul",
-                            "argument1": 3,
+                            "argument1": 4,
                             "argument2": "minecraft:overworld/caves/entrances"
                           }
                         },
