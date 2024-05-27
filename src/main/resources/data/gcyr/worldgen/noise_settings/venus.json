@@ -451,7 +451,7 @@
                           "type": "minecraft:noise_threshold",
                           "noise": "gcyr:surface_alt_1",
                           "min_threshold": -100,
-                          "max_threshold": -0.8
+                          "max_threshold": -0.35
                         },
                         "then_run": {
                           "type": "minecraft:sequence",
@@ -490,8 +490,8 @@
                       "if_true": {
                         "type": "minecraft:noise_threshold",
                         "noise": "gcyr:surface_alt_1",
-                        "min_threshold": -0.8,
-                        "max_threshold": -0.3
+                        "min_threshold": -0.35,
+                        "max_threshold": -0.2
                       },
                       "then_run": {
                         "type": "minecraft:sequence",
