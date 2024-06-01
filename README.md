@@ -19,3 +19,7 @@
  - Dyson Sphere(s) (When activated they permanently turn your solar system dark, aka no DayLightCycle + plus the sun and the moon disappears, till you disable it)
  - It adds another Solar System with Exoplanets and Alien Life(NYI)
  - Ability to easily add your own Custom Planets with Datapacks/Kubejs!
+
+## Documentation (WIP):
+
+https://github.com/Argent-Matter/gcyr/issues/32
