@@ -1,7 +1,7 @@
 ### ADDITIONS:
-- 
 
 ### FIXES:
+- Fixed most moon/venus blocks not having any best tool 
 
 ### CHANGES:
-- updated to GT 1.3.0
+- Updated to GT 1.3.0
