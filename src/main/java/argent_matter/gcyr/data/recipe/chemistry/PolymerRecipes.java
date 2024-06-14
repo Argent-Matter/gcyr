@@ -1,6 +1,7 @@
 package argent_matter.gcyr.data.recipe.chemistry;
 
 import argent_matter.gcyr.GCyR;
+import com.gregtechceu.gtceu.common.data.GTMaterials;
 import net.minecraft.data.recipes.FinishedRecipe;
 
 import java.util.function.Consumer;
@@ -19,14 +20,6 @@ public class PolymerRecipes {
 
     public static void kaptonKProcess(Consumer<FinishedRecipe> provider) {
         // Kapton K
-        CHEMICAL_RECIPES.recipeBuilder(GCyR.id("aminophenol"))
-                .inputFluids(Phenol.getFluid(1000))
-                .inputFluids(NitrationMixture.getFluid(1000))
-                .notConsumable(dust, Iron)
-                .outputFluids(AminoPhenol.getFluid(1000))
-                .outputFluids(DilutedSulfuricAcid.getFluid(1000))
-                .duration(300).EUt(VA[HV]).save(provider);
-
         CHEMICAL_RECIPES.recipeBuilder(GCyR.id("chloronitrobenzene"))
                 .inputFluids(Chlorobenzene.getFluid(1000))
                 .inputFluids(NitricAcid.getFluid(1000))

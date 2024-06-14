@@ -27,9 +27,6 @@ public class GCyRMaterials {
         IronMagnetic.addFlags(GENERATE_FOIL);
         TitaniumTungstenCarbide.addFlags(GENERATE_ROD);
         Titanium.setProperty(PropertyKey.ORE, new OreProperty());
-
-        Bromine.setProperty(PropertyKey.FLUID, new FluidProperty());
-        Bromine.getProperty(PropertyKey.FLUID).getStorage().enqueueRegistration(FluidStorageKeys.LIQUID, new FluidBuilder().attribute(FluidAttributes.ACID));
     }
 
     //region first degree mats
@@ -37,18 +34,6 @@ public class GCyRMaterials {
             .dust(1)
             .color(0xF6F1AE)
             .components(Potassium, 1, Chlorine, 1)
-            .buildAndRegister();
-
-    public static final Material PotassiumCarbonate = new Material.Builder(GCyR.id("potassium_carbonate"))
-            .dust(1)
-            .color(0xF6F2C1)
-            .components(Potassium, 2,Carbon, 1, Oxygen, 3)
-            .buildAndRegister();
-
-    public static final Material PotassiumHydroxide = new Material.Builder(GCyR.id("potassium_hydroxide"))
-            .dust(1)
-            .color(0xFF084E)
-            .components(Potassium, 1, Oxygen, 1, Hydrogen, 1)
             .buildAndRegister();
 
     public static final Material Bisalloy400 = new Material.Builder(GCyR.id("bisalloy_400"))
@@ -137,70 +122,6 @@ public class GCyRMaterials {
 
     //endregion
 
-
-    //region bromine chain
-    public static final Material RawBrine = new Material.Builder(GCyR.id("raw_brine"))
-            .liquid()
-            .color(0x9f6b26)
-            .components(Water, 4, Salt, 20, Magnesium, 3, Lithium, 2, Bromine, 1)
-            .flags(DISABLE_DECOMPOSITION)
-            .buildAndRegister();
-    public static final Material HotBrine = new Material.Builder(GCyR.id("hot_brine"))
-            .liquid(320)
-            .color(0xbe6026)
-            .components(Water, 4, Salt, 20, Magnesium, 3, Lithium, 2, Bromine, 1)
-            .flags(DISABLE_DECOMPOSITION)
-            .buildAndRegister();
-    public static final Material HotChlorinatedBrominatedBrine = new Material.Builder(GCyR.id("hot_chlorinated_brominated_brine"))
-            .liquid(320)
-            .color(0xab765d)
-            .components(HotBrine, 1, Chlorine, 1)
-            .flags(DISABLE_DECOMPOSITION)
-            .buildAndRegister();
-    public static final Material DebrominatedBrine = new Material.Builder(GCyR.id("debrominated_brine"))
-            .liquid()
-            .color(0xab8c6d)
-            .components(Water, 4, Salt, 20, Magnesium, 3, Lithium, 2)
-            .flags(DECOMPOSITION_BY_ELECTROLYZING)
-            .buildAndRegister();
-    public static final Material HotDebrominatedBrine = new Material.Builder(GCyR.id("hot_debrominated_brine"))
-            .liquid(320)
-            .color(0xab896d)
-            .components(Water, 4, Salt, 20, Magnesium, 3, Lithium, 2)
-            .flags(DISABLE_DECOMPOSITION)
-            .buildAndRegister();
-    public static final Material HotAlkalineDebrominatedBrine = new Material.Builder(GCyR.id("hot_alkaline_debrominated_brine"))
-            .liquid(320)
-            .color(0xbe8938)
-            .components(HotDebrominatedBrine, 2, Chlorine, 1)
-            .flags(DISABLE_DECOMPOSITION)
-            .buildAndRegister();
-    public static final Material BrominatedChlorineVapor = new Material.Builder(GCyR.id("brominated_chlorine_vapor"))
-            .gas()
-            .color(0xbb9b72)
-            .components(Chlorine, 1, Bromine, 1, Steam, 1)
-            .flags(DISABLE_DECOMPOSITION)
-            .buildAndRegister();
-    public static final Material AcidicBromineSolution = new Material.Builder(GCyR.id("acidic_bromine_solution"))
-            .liquid()
-            .color(0xc49b52)
-            .components(Chlorine, 1, Bromine, 1)
-            .flags(DISABLE_DECOMPOSITION)
-            .buildAndRegister();
-    public static final Material AcidicBromineExhaust = new Material.Builder(GCyR.id("acidic_bromine_exhaust"))
-            .gas()
-            .color(0x8f681e)
-            .components(Steam, 3, Chlorine, 1)
-            .buildAndRegister();
-    public static final Material ConcentratedBromineSolution = new Material.Builder(GCyR.id("concentrated_bromine_solution"))
-            .liquid()
-            .color(0x91481e)
-            .components(Bromine, 2, Chlorine, 1)
-            .flags(DISABLE_DECOMPOSITION)
-            .buildAndRegister();
-    //endregion
-
-
     //region organic chemistry materials
     public static final Material PyromelliticDianhydride = new Material.Builder(GCyR.id("pyrometillic_dianhydride"))
             .dust()
@@ -236,14 +157,6 @@ public class GCyRMaterials {
             .color(0xD9CCBF)
             .components(Oxydianiline, 1, Dimethylformamide, 1)
             .buildAndRegister();
-
-    public static final Material AminoPhenol = new Material.Builder(GCyR.id("aminophenol"))
-            .fluid()
-            .color(0x784421)
-            .flags(DISABLE_DECOMPOSITION)
-            .components(Carbon, 6, Hydrogen, 7, Nitrogen, 1, Oxygen, 1)
-            .buildAndRegister()
-            .setFormula("H2NC6H4OH", true);
 
     public static final Material KaptonK = new Material.Builder(GCyR.id("kapton_k"))
             .polymer(1)
