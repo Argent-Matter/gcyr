@@ -2,6 +2,8 @@ package argent_matter.gcyr.api.space.satellite;
 
 import argent_matter.gcyr.api.registries.GCyRRegistries;
 import argent_matter.gcyr.api.space.satellite.data.SatelliteData;
+import argent_matter.gcyr.common.data.GCyRSatellites;
+import argent_matter.gcyr.common.satellite.EmptySatellite;
 import com.mojang.datafixers.Products;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import lombok.Getter;
@@ -86,11 +88,12 @@ public abstract class Satellite {
 
     public static Satellite deserializeNBT(CompoundTag nbt, Level level) {
         SatelliteType<?> type = GCyRRegistries.SATELLITES.get(new ResourceLocation(nbt.getString("id")));
-        SatelliteType.SatelliteFactory<?> satellite = type.getFactory();
-
         SatelliteData data = SatelliteData.deserializeNBT(nbt.getCompound("data"));
-
         ResourceKey<Level> levelResourceKey = ResourceKey.create(Registries.DIMENSION, new ResourceLocation(nbt.getString("level")));
+        if (type == null) {
+            return new EmptySatellite(GCyRSatellites.EMPTY, data, levelResourceKey);
+        }
+        SatelliteType.SatelliteFactory<?> satellite = type.getFactory();
 
         Satellite sat = satellite.create(type, data, levelResourceKey);
         if (nbt.contains("extra")) sat.deserializeExtraData(nbt.get("extra"), level);

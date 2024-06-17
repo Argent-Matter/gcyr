@@ -15,7 +15,6 @@ import com.gregtechceu.gtceu.api.data.chemical.material.registry.MaterialRegistr
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.RecipeCondition;
-import com.gregtechceu.gtceu.config.ConfigHolder;
 import com.lowdragmc.lowdraglib.gui.factory.UIFactory;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
@@ -52,7 +51,6 @@ public class GCyR {
 	}
 
 	public static void init() {
-		ConfigHolder.init(); // Forcefully init GT config because fabric doesn't allow dependents to load after dependencies
 		GCyRConfig.init();
 		GCyRNetworking.init();
 		UIFactory.register(EntityUIFactory.INSTANCE);
@@ -64,7 +62,6 @@ public class GCyR {
 		GCyRBlocks.init();
 		GCyRItems.init();
 		GCyRMenus.init();
-		;
 
 		GCyRDatagen.init();
 
