@@ -204,7 +204,9 @@ public class PlanetSelectionScreen extends Screen implements MenuAccess<PlanetSe
 
         // All buttons are data-driven; they are created from files in the /planet_data/planets directory.
         List<Planet> planets = new ArrayList<>(PlanetData.planets().values());
-        planets.sort(Comparator.comparing(g -> g.translation().substring(Math.abs(g.translation().indexOf(".text")))));
+        // sort planets based on their orbital period
+        planets.sort(Comparator.comparing(p -> p.daysInYear()));
+
         planets.forEach(planet -> {
             Category galaxyCategory = new Category(planet.galaxy(), Category.GALAXY_CATEGORY);
             Category solarSystemCategory = new Category(planet.solarSystem(), galaxyCategory);
