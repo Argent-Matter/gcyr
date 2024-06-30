@@ -318,10 +318,11 @@ public class PlanetSelectionScreen extends Screen implements MenuAccess<PlanetSe
     public Button createButton(int row, int column, Component label, Category category, int colour, int sizeX, int sizeY, TooltipType tooltip, Planet planetInfo, Consumer<Button> onClick) {
         LinkedList<ExtendedButton> buttons = this.categoryButtons.getOrDefault(category, new LinkedList<>());
 
-        float colorR = (float) ((colour << 16) & 0xFF) / 255.0f;
-        float colorG = (float) ((colour << 8) & 0xFF) / 255.0f;
-        float colorB = (float) (colour & 0xFF) / 255.0f;
-        ExtendedButton button = new ExtendedButton(row, column, sizeX, sizeY, colorR, colorG, colorB, label, onClick::accept, (button1) -> renderButtonTooltip(planetInfo, tooltip, button1));
+        float colourR = (float) ((colour & 0xff0000) >> 16) / 255.0f;
+        float colourG = (float) ((colour & 0x00ff00) >> 8) / 255.0f;
+        float colourB = (float) ((colour & 0x0000ff)) / 255.0f;
+
+        ExtendedButton button = new ExtendedButton(row, column, sizeX, sizeY, colourR, colourG, colourB, label, onClick::accept, (button1) -> renderButtonTooltip(planetInfo, tooltip, button1));
         this.addRenderableWidget(button);
 
         buttons.add(button);
