@@ -99,7 +99,8 @@ public class PolymerRecipes {
                 .inputFluids(Water.getFluid(1000))
                 .outputFluids(HydrobromicAcid.getFluid(1000))
                 .duration(60).EUt(VA[HV]).save(provider);
-        MIXER_RECIPES.recipeBuilder(GCyR.id("co_mn_br_catalyst"))
+
+        LARGE_CHEMICAL_RECIPES.recipeBuilder(GCyR.id("co_mn_br_catalyst"))
                 .inputFluids(CobaltBromide.getFluid(1000))
                 .inputFluids(ManganeseBromide.getFluid(1000))
                 .inputFluids(ManganeseAcetate.getFluid(1000))
