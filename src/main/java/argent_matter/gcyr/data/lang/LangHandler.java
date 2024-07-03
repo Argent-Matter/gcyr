@@ -91,6 +91,7 @@ public class LangHandler extends com.gregtechceu.gtceu.data.lang.LangHandler {
         provider.add("menu.gcyr.temperature", "Temperature");
         provider.add("menu.gcyr.oxygen.true", "Has oxygen");
         provider.add("menu.gcyr.oxygen.false", "Doesn't have oxygen");
+        provider.add("menu.gcyr.rocket_tier", "Tier %d Rocket");
 
         // messages
         provider.add("message.gcyr.no_fuel", "The rocket must be fueled fully. Has %s mB fuel, destination requires %s mB.");
@@ -106,6 +107,7 @@ public class LangHandler extends com.gregtechceu.gtceu.data.lang.LangHandler {
         provider.add("level.gcyr.mercury", "Mercury");
         provider.add("level.gcyr.venus", "Venus");
         provider.add("level.gcyr.mars", "Mars");
+        provider.add("level.gcyr.proxima_centauri_b", "Proxima b");
 
     }
 }

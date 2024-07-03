@@ -341,7 +341,7 @@ public class PlanetSelectionScreen extends Screen implements MenuAccess<PlanetSe
             }
             case CATEGORY -> {
                 textEntries.add(CATEGORY_TEXT.copy().withStyle(ChatFormatting.BLUE).append(": ").append(button.getMessage().copy().withStyle(ChatFormatting.GREEN)));
-                textEntries.add(PROVIDED_TEXT.copy().withStyle(ChatFormatting.BLUE).append(": ").append(Component.translatable("item.gcyr.tier_" + planetInfo.rocketTier() + "_rocket").withStyle(ChatFormatting.AQUA)));
+                textEntries.add(PROVIDED_TEXT.copy().withStyle(ChatFormatting.BLUE).append(": ").append(Component.translatable("menu.gcyr.rocket_tier", planetInfo.rocketTier()).withStyle(ChatFormatting.AQUA)));
             }
             case PLANET -> {
                 textEntries.add(TYPE_TEXT.copy().withStyle(ChatFormatting.BLUE).append(": ").append((planetInfo.parentWorld() == null ? PlanetSelectionScreen.PLANET_TEXT : PlanetSelectionScreen.MOON_TEXT).copy().withStyle(ChatFormatting.AQUA)));
