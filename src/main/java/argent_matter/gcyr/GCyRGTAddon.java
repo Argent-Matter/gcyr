@@ -5,23 +5,20 @@ import argent_matter.gcyr.common.data.GCyRBlocks;
 import argent_matter.gcyr.common.data.GCyRMaterials;
 import argent_matter.gcyr.common.data.GCyRRecipes;
 import argent_matter.gcyr.common.data.GCyRSoundEntries;
+import argent_matter.gcyr.common.worldgen.GCyROres;
 import argent_matter.gcyr.common.worldgen.GCyRWorldGenLayers;
 import com.gregtechceu.gtceu.api.addon.GTAddon;
 import com.gregtechceu.gtceu.api.addon.IGTAddon;
 import com.gregtechceu.gtceu.api.addon.events.MaterialCasingCollectionEvent;
-import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIconType;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
 
 import java.util.function.Consumer;
-
-import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.Conditions.hasOreProperty;
 
 @GTAddon
 public class GCyRGTAddon implements IGTAddon {
@@ -84,6 +81,11 @@ public class GCyRGTAddon implements IGTAddon {
     @Override
     public void registerVeinGenerators() {
         IGTAddon.super.registerVeinGenerators();
+    }
+
+    @Override
+    public void registerOreVeins() {
+        GCyROres.init();
     }
 
     @Override

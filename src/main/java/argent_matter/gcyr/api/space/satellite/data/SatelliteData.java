@@ -43,7 +43,7 @@ public record SatelliteData(
 
         tag.putInt("range", range);
 
-        tag.putUUID("ownerId", this.owner);
+        tag.putUUID("owner", this.owner);
         return tag;
     }
 
@@ -51,7 +51,7 @@ public record SatelliteData(
         CompoundTag pos = nbt.getCompound("pos");
         var locationInWorld = new Vec2i(pos.getInt("x"), pos.getInt("y"));
         int range = nbt.getInt("range");
-        UUID uuid = nbt.getUUID("ownerId");
+        UUID uuid = nbt.getUUID("owner");
         return new SatelliteData(locationInWorld, range, uuid);
     }
 }
