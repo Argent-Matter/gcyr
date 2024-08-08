@@ -3,6 +3,6 @@
   "solar_system": "gcyr:solar_system",
   "texture": "gcyr:textures/sky/venus.png",
   "speed": 225,
-  "scale": 11,
+  "scale": 10,
   "radius": 2.0
 }

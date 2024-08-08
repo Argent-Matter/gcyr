@@ -3,6 +3,6 @@
   "solar_system": "gcyr:solar_system",
   "texture": "gcyr:textures/sky/uranus.png",
   "speed": 1200,
-  "scale": 23,
+  "scale": 25,
   "radius": 7.0
 }

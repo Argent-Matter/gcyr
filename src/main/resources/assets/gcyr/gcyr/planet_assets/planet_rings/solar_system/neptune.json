@@ -3,6 +3,6 @@
   "solar_system": "gcyr:solar_system",
   "texture": "gcyr:textures/sky/neptune.png",
   "speed": 1600,
-  "scale": 18,
+  "scale": 9,
   "radius": 8.0
 }

@@ -3,6 +3,6 @@
   "solar_system": "gcyr:solar_system",
   "texture": "gcyr:textures/sky/saturn.png",
   "speed": 1400,
-  "scale": 30,
+  "scale": 60,
   "radius": 6.0
 }
