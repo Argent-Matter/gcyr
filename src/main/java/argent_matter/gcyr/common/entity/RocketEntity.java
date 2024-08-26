@@ -466,39 +466,18 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         setDeltaMovement(vec.x, speed, vec.z);
     }
 
-    @Override
-    public void setDeltaMovement(Vec3 vec) {
-        super.setDeltaMovement(vec);
-    }
-
     public void fall() {
         if (this.isNoGravity()) return;
         Vec3 delta = this.getDeltaMovement();
-
-        // drag
-        float xRot = this.getXRot() * (float) (Math.PI / 180.0);
-        Vec3 lookAngle = this.getLookAngle();
-        double hyp = Math.sqrt(lookAngle.x * lookAngle.x + lookAngle.z * lookAngle.z);
-        double magnitude = lookAngle.length();
-        double drag = Math.cos(xRot);
-        drag = drag * drag * Math.min(1.0, magnitude / 0.4);
-        delta = delta.add(0, LivingEntity.DEFAULT_BASE_GRAVITY * (-1.0 + drag * 0.75), 0);
-
-        if (delta.y < 0.0 && hyp > 0.0) {
-            double d6 = delta.y * -0.1 * drag;
-            delta = delta.add(0.0, d6, 0.0);
+        if (delta.y > -2.0) {
+            delta = delta.add(0, -LivingEntity.DEFAULT_BASE_GRAVITY, 0);
         }
 
-        if (xRot < 0.0F && hyp > 0.0) {
-            double d10 = magnitude * (double)(-Mth.sin(xRot)) * 0.04;
-            delta = delta.add(0.0, d10 * 3.2, 0.0);
-        }
-
-        this.setDeltaMovement(delta.multiply(0.0, 0.98, 0.0));
+        this.setDeltaMovement(delta);
 
         // braking
         if (getControllingPassenger() != null && ((LivingEntityAccessor)getControllingPassenger()).isJumping() && consumeFuel()) {
-            this.setDeltaMovement(delta.x, Math.min(delta.y + 0.05, -0.05), delta.z);
+            this.setDeltaMovement(delta.x, Math.min(delta.y + 0.05, -0.25), delta.z);
             this.fallDistance *= 0.9f;
             this.spawnParticles();
         }
@@ -508,7 +487,8 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
     public boolean causeFallDamage(float fallDistance, float multiplier, DamageSource source) {
         if (level().isClientSide()) return false;
         if (fallDistance > 48 && onGround()) {
-            this.level().explode(this, this.getX(), this.getBoundingBox().minY, this.getZ(), 10, EntityOxygenSystem.levelHasOxygen(this.level()), Level.ExplosionInteraction.MOB);
+            Vec3 bbCenter = this.getBoundingBox().getCenter();
+            this.level().explode(this, bbCenter.x, this.getBoundingBox().minY, bbCenter.z, 10, EntityOxygenSystem.levelHasOxygen(this.level()), Level.ExplosionInteraction.MOB);
             this.remove(RemovalReason.DISCARDED);
             return true;
         }
