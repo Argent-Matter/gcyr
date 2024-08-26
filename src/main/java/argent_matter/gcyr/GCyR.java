@@ -8,6 +8,7 @@ import argent_matter.gcyr.config.GCyRConfig;
 import argent_matter.gcyr.data.GCyRDatagen;
 import argent_matter.gcyr.data.loader.PlanetResources;
 import com.gregtechceu.gtceu.api.GTCEuAPI;
+import com.gregtechceu.gtceu.api.data.DimensionMarker;
 import com.gregtechceu.gtceu.api.data.chemical.material.event.MaterialEvent;
 import com.gregtechceu.gtceu.api.data.chemical.material.event.MaterialRegistryEvent;
 import com.gregtechceu.gtceu.api.data.chemical.material.event.PostMaterialEvent;
@@ -43,6 +44,7 @@ public class GCyR {
 		bus.addGenericListener(GTRecipeType.class, this::registerRecipeTypes);
 		bus.addGenericListener(Class.class, this::registerRecipeConditions);
 		bus.addGenericListener(MachineDefinition.class, this::registerMachines);
+		bus.addGenericListener(DimensionMarker.class, this::registerDimensionMarkers);
 		GCyRDimensionTypes.register(bus);
 
 		GCyRVanillaRecipeTypes.RECIPE_TYPE_DEFERRED_REGISTER.register(bus);
@@ -100,18 +102,19 @@ public class GCyR {
 		GCyRMaterials.modifyMaterials();
 	}
 
-	@SubscribeEvent
-	public void registerRecipeConditions(GTCEuAPI.RegisterEvent<String, Class<? extends RecipeCondition>> event) {
-		GCyRRecipeConditions.init();
-	}
-
-	@SubscribeEvent
 	public void registerRecipeTypes(GTCEuAPI.RegisterEvent<ResourceLocation, GTRecipeType> event) {
 		GCyRRecipeTypes.init();
 	}
 
-	@SubscribeEvent
+	public void registerRecipeConditions(GTCEuAPI.RegisterEvent<String, Class<? extends RecipeCondition>> event) {
+		GCyRRecipeConditions.init();
+	}
+
 	public void registerMachines(GTCEuAPI.RegisterEvent<ResourceLocation, MachineDefinition> event) {
 		GCyRMachines.init();
+	}
+
+	public void registerDimensionMarkers(GTCEuAPI.RegisterEvent<ResourceLocation, DimensionMarker> event) {
+		GCYRDimensionMarkers.init();
 	}
 }
