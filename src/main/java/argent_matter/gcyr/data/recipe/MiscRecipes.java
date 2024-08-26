@@ -124,19 +124,51 @@ public class MiscRecipes {
         //region rocket parts
 
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GCyR.id("basic_fuel_tank"))
-                .inputItems(GTMachines.TITANIUM_DRUM, 2)
+                .inputItems(GTMachines.STAINLESS_STEEL_DRUM, 2)
                 .inputItems(plate, KaptonK, 6)
-                .inputItems(frameGt, Titanium)
+                .inputItems(frameGt, StainlessSteel)
                 .outputItems(GCyRBlocks.BASIC_FUEL_TANK.asStack(1))
-                .EUt(VA[EV]).duration(300)
+                .EUt(VA[HV]).duration(300)
                 .save(provider);
 
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GCyR.id("basic_rocket_motor"))
+                .inputItems(GTItems.POWER_THRUSTER, 4)
+                .inputItems(plate, KaptonK, 6)
+                .inputItems(frameGt, StainlessSteel)
+                .outputItems(GCyRBlocks.BASIC_ROCKET_MOTOR.asStack(1))
+                .EUt(VA[HV]).duration(300)
+                .save(provider);
+
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GCyR.id("advanced_fuel_tank"))
+                .inputItems(GTMachines.TUNGSTENSTEEL_DRUM, 2)
+                .inputItems(plate, KaptonK, 6)
+                .inputItems(frameGt, TungstenSteel)
+                .outputItems(GCyRBlocks.ADVANCED_FUEL_TANK.asStack(1))
+                .EUt(VA[IV]).duration(300)
+                .save(provider);
+
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GCyR.id("advanced_rocket_motor"))
                 .inputItems(GTItems.POWER_THRUSTER_ADVANCED, 4)
                 .inputItems(plate, KaptonK, 6)
-                .inputItems(frameGt, Titanium)
-                .outputItems(GCyRBlocks.BASIC_ROCKET_MOTOR.asStack(1))
-                .EUt(VA[EV]).duration(300)
+                .inputItems(frameGt, TungstenSteel)
+                .outputItems(GCyRBlocks.ADVANCED_ROCKET_MOTOR.asStack(1))
+                .EUt(VA[IV]).duration(300)
+                .save(provider);
+
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GCyR.id("elite_fuel_tank"))
+                .inputItems(GTMachines.QUANTUM_TANK[ZPM], 2)
+                .inputItems(plate, KaptonK, 6)
+                .inputItems(frameGt, NaquadahAlloy)
+                .outputItems(GCyRBlocks.ELITE_FUEL_TANK.asStack(1))
+                .EUt(VA[ZPM]).duration(300)
+                .save(provider);
+
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GCyR.id("elite_rocket_motor"))
+                .inputItems(GTItems.GRAVITATION_ENGINE, 4)
+                .inputItems(plate, KaptonK, 6)
+                .inputItems(frameGt, NaquadahAlloy)
+                .outputItems(GCyRBlocks.ELITE_ROCKET_MOTOR.asStack(1))
+                .EUt(VA[ZPM]).duration(300)
                 .save(provider);
 
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GCyR.id("launch_pad"))
@@ -156,13 +188,6 @@ public class MiscRecipes {
                 .save(provider);
 
         //endregion
-
-        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GCyR.id("stainless_evaporation_casing"))
-                .inputItems(GTBlocks.CASING_STAINLESS_CLEAN.asStack(1))
-                .inputItems(wireGtDouble, AnnealedCopper, 4)
-                .inputFluids(PolyvinylChloride.getFluid(L * 2))
-                .outputItems(GCyRBlocks.CASING_STAINLESS_EVAPORATION.asStack(1))
-                .duration(30).EUt(VA[HV]).save(provider);
 
         // region Decoration Stuff
         VanillaRecipeHelper.addShapedRecipe(provider, GCyR.id("venus_cobblestone_slab"), GCyRBlocks.VENUS_COBBLESTONE_SLAB.asStack(3),

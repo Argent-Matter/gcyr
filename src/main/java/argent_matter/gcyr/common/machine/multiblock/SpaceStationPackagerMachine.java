@@ -28,6 +28,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 
 import java.util.*;
 
@@ -52,7 +53,6 @@ public class SpaceStationPackagerMachine extends PlatformMultiblockMachine {
         modularUI.widget(new LabelWidget(4, 5, self().getBlockState().getBlock().getDescriptionId()));
 
         WidgetGroup buttons = new WidgetGroup(7, 16, 0, 0);
-        //buttons.addWidget(new ButtonWidget(0, 0, 80, 24, GuiTextures.BUTTON.copy().setColor(0xFFAA0000), this::onBuildButtonClick));
         buttons.addWidget(new ButtonWidget(0, 24+18, 80, 24, GuiTextures.BUTTON.copy().setColor(0xFFAA0000), this::onBuildButtonClick));
         modularUI.widget(buttons);
 
@@ -79,6 +79,7 @@ public class SpaceStationPackagerMachine extends PlatformMultiblockMachine {
         Planet thisPlanet = PlanetData.getPlanetFromLevel(this.getLevel().dimension()).orElse(null);
         if (thisPlanet == null) return;
 
+        boolean isZAxis = this.getFrontFacing().getAxis() == Direction.Axis.Z;
         Direction back = this.getFrontFacing().getOpposite();
         Direction left = this.getFrontFacing().getCounterClockWise();
         Direction right = left.getOpposite();
@@ -90,15 +91,23 @@ public class SpaceStationPackagerMachine extends PlatformMultiblockMachine {
         int startY = current.getY();
         int endY = current.offset(0, hDist, 0).getY();
 
-        int tmp = startX;
-        startX = Math.min(startX, endX);
-        endX = Math.max(tmp, endX);
-        tmp = startY;
-        startY = Math.min(startY, endY);
-        endY = Math.max(tmp, endY);
-        tmp = startZ;
-        startZ = Math.min(startZ, endZ);
-        endZ = Math.max(tmp, endZ);
+        if (isZAxis) {
+            // swap x & z coords if we're on the Z axis
+            int temp = startX;
+            startX = startZ;
+            startZ = temp;
+            temp = endX;
+            endX = endZ;
+            endZ = temp;
+        }
+
+        AABB bounds = new AABB(startX, startY, startZ, endX, endY, endZ);
+        startX = (int) bounds.minX;
+        endX = (int) bounds.maxX;
+        startY = (int) bounds.minY;
+        endY = (int) bounds.maxY;
+        startZ = (int) bounds.minZ;
+        endZ = (int) bounds.maxZ;
 
         boolean allAir = true;
         BlockPos startPos = BlockPos.ZERO;

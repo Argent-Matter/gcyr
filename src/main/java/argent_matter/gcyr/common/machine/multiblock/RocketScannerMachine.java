@@ -24,6 +24,8 @@ import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.HoverEvent;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
@@ -60,20 +62,26 @@ public class RocketScannerMachine extends PlatformMultiblockMachine implements I
         ModularUI modularUI = super.createUI(entityPlayer);
         modularUI.widget(new SlotWidget(configSaveSlot, 0, 149, 83));
         modularUI.widget(new SlotWidget(configLoadSlot, 0, 149, 105));
-        modularUI.widget(new ButtonWidget(129, 83, 18, 18, this::onSaveButtonClick).setButtonTexture(GuiTextures.BUTTON).setHoverTooltips(Component.translatable("menu.gcyr.save_destination_station")));
+        modularUI.widget(new ButtonWidget(129, 83, 18, 18, this::onSaveButtonClick)
+                .setButtonTexture(GuiTextures.BUTTON)
+                .setHoverTooltips(Component.translatable("menu.gcyr.save_destination_station")));
         return modularUI;
     }
 
     @Override
     public void addDisplayText(List<Component> textList) {
         super.addDisplayText(textList);
-        if (!this.isFormed) return;
-
-        if (this.rocketBuilt) {
-            textList.add(ComponentPanelWidget.withButton(Component.translatable("gcyr.multiblock.rocket.unbuild").withStyle(ChatFormatting.RED), "unbuild_rocket"));
-        } else {
-            textList.add(ComponentPanelWidget.withButton(Component.translatable("gcyr.multiblock.rocket.build").withStyle(ChatFormatting.GREEN), "build_rocket"));
+        if (!this.isFormed) {
+            MutableComponent base = Component.translatable("gtceu.multiblock.invalid_structure")
+                    .withStyle(ChatFormatting.RED);
+            Component hover = Component.translatable("gtceu.multiblock.invalid_structure.tooltip")
+                    .withStyle(ChatFormatting.GRAY);
+            textList.add(base
+                    .withStyle(style -> style.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, hover))));
+            return;
         }
+
+        textList.add(ComponentPanelWidget.withButton(Component.translatable("gcyr.multiblock.rocket.build").withStyle(ChatFormatting.GREEN), "build_rocket"));
     }
 
     @Override
@@ -81,8 +89,6 @@ public class RocketScannerMachine extends PlatformMultiblockMachine implements I
         if (!clickData.isRemote) {
             if (componentData.equals("build_rocket")) {
                 setRocketBuilt(true);
-            } else if (componentData.equals("unbuild_rocket")) {
-                setRocketBuilt(false);
             }
         }
     }
@@ -102,11 +108,10 @@ public class RocketScannerMachine extends PlatformMultiblockMachine implements I
     }
 
     public void setRocketBuilt(boolean rocketBuilt) {
-        boolean lastState = this.rocketBuilt;
-        if (lastState == rocketBuilt) return;
         this.rocketBuilt = rocketBuilt && isFormed;
         if (getLevel().isClientSide || !this.isFormed) return;
 
+        boolean isZAxis = this.getFrontFacing().getAxis() == Direction.Axis.Z;
         Direction back = this.getFrontFacing().getOpposite();
         Direction left = this.getFrontFacing().getCounterClockWise();
         Direction right = left.getOpposite();
@@ -118,23 +123,35 @@ public class RocketScannerMachine extends PlatformMultiblockMachine implements I
         int startY = current.getY();
         int endY = current.offset(0, hDist, 0).getY();
 
-        int tmp = startX;
-        startX = Math.min(startX, endX);
-        endX = Math.max(tmp, endX);
-        tmp = startY;
-        startY = Math.min(startY, endY);
-        endY = Math.max(tmp, endY);
-        tmp = startZ;
-        startZ = Math.min(startZ, endZ);
-        endZ = Math.max(tmp, endZ);
+        if (isZAxis) {
+            // swap x & z coords if we're on the Z axis
+            int temp = startX;
+            startX = startZ;
+            startZ = temp;
+            temp = endX;
+            endX = endZ;
+            endZ = temp;
+        }
+
+        AABB bounds = new AABB(startX, startY, startZ, endX, endY, endZ);
+        startX = (int) bounds.minX;
+        endX = (int) bounds.maxX;
+        startY = (int) bounds.minY;
+        endY = (int) bounds.maxY;
+        startZ = (int) bounds.minZ;
+        endZ = (int) bounds.maxZ;
 
         if (this.rocketBuilt) {
-            boolean allAir = true;
-            BlockPos startPos = BlockPos.ZERO;
-            RocketEntity rocket = GCyREntities.ROCKET.create(this.getLevel());
-            rocket.setPos(endX + getFrontFacing().getStepX(), endY, endZ + getFrontFacing().getStepZ());
+            List<RocketEntity> rockets = getLevel().getEntitiesOfClass(RocketEntity.class, bounds);
+            if (!rockets.isEmpty()) {
+                return;
+            }
 
-            Map<BlockPos, BlockState> states = new HashMap<>();
+            boolean allAir = true;
+            BlockPos startPos = new BlockPos(startX, startY, startZ);
+            RocketEntity rocket = GCyREntities.ROCKET.create(this.getLevel());
+
+            LinkedHashMap<BlockPos, BlockState> states = new LinkedHashMap<>();
             for (BlockPos pos : BlockPos.betweenClosed(startX, startY, startZ, endX, endY, endZ)) {
                 BlockState state = this.getLevel().getBlockState(pos);
                 if (state.isAir()) continue;
@@ -153,7 +170,7 @@ public class RocketScannerMachine extends PlatformMultiblockMachine implements I
             states = states.entrySet()
                     .stream()
                     .sorted(Collections.reverseOrder(Map.Entry.comparingByKey()))
-                    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
+                    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e2, LinkedHashMap::new));
             for (Map.Entry<BlockPos, BlockState> entry : states.entrySet()) {
                 BlockPos pos = entry.getKey();
                 BlockState state = entry.getValue();
@@ -162,12 +179,6 @@ public class RocketScannerMachine extends PlatformMultiblockMachine implements I
             }
             rocket.setPos(startPos.getX(), startPos.getY(), startPos.getZ());
             this.getLevel().addFreshEntity(rocket);
-        } else {
-            List<RocketEntity> rockets = getLevel().getEntitiesOfClass(RocketEntity.class, new AABB(startX, startY, startZ, endX, endY, endZ));
-            if (!rockets.isEmpty()) {
-                RocketEntity rocket = rockets.get(0);
-                rocket.unBuild();
-            }
         }
     }
 
