@@ -70,17 +70,20 @@ public class GCYRConfig {
 
     public static class RocketConfigs {
         @Configurable
-        @Configurable.Comment({"How much fuel is required to travel to a moon or back?", "note: this is platform-specific.", "Default: 8 buckets."})
+        @Configurable.Comment({"How much fuel is required to travel to a moon or back?", "Default: 8 buckets."})
         public long moonFuelAmount = 8 * FluidHelper.getBucket();
         @Configurable
-        @Configurable.Comment({"How much fuel is required to travel to a planet in the same solar system?", "note: this is platform-specific.", "Default: 14 buckets."})
+        @Configurable.Comment({"How much fuel is required to travel to a planet in the same solar system?", "Default: 14 buckets."})
         public long solarSystemFuelAmount = 14 * FluidHelper.getBucket();
         @Configurable
-        @Configurable.Comment({"How much fuel is required to travel to a planet in the same galaxy?", "note: this is platform-specific.", "Default: 26 buckets."})
+        @Configurable.Comment({"How much fuel is required to travel to a planet in the same galaxy?", "Default: 26 buckets."})
         public long galaxyFuelAmount = 26 * FluidHelper.getBucket();
         @Configurable
-        @Configurable.Comment({"How much fuel is required to travel to a planet anywhere?", "note: this is platform-specific.", "Default: 48 buckets."})
+        @Configurable.Comment({"How much fuel is required to travel to a planet anywhere?", "Default: 48 buckets."})
         public long anywhereFuelAmount = 48 * FluidHelper.getBucket();
+        @Configurable
+        @Configurable.Comment({"Do rockets explode if landing is executed improperly?", "Default: true."})
+        public boolean doCrashLandingExplosion = true;
     }
 
     public static class ClientConfigs {

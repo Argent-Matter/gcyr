@@ -486,7 +486,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
     @Override
     public boolean causeFallDamage(float fallDistance, float multiplier, DamageSource source) {
         if (level().isClientSide()) return false;
-        if (fallDistance > 48 && onGround()) {
+        if (GCYRConfig.INSTANCE.rocket.doCrashLandingExplosion && fallDistance > 48 && onGround()) {
             Vec3 bbCenter = this.getBoundingBox().getCenter();
             this.level().explode(this, bbCenter.x, this.getBoundingBox().minY, bbCenter.z, 10, EntityOxygenSystem.levelHasOxygen(this.level()), Level.ExplosionInteraction.MOB);
             this.remove(RemovalReason.DISCARDED);
