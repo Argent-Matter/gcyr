@@ -11,7 +11,11 @@ import static argent_matter.gcyr.api.registries.GCYRRegistries.REGISTRATE;
 public class GCYREntities {
     public static EntityEntry<RocketEntity> ROCKET = REGISTRATE.entity("rocket", RocketEntity::new, MobCategory.MISC)
             .renderer(() -> RocketEntityRenderer::new)
-            .properties(b -> b.fireImmune().clientTrackingRange(8).updateInterval(3).setShouldReceiveVelocityUpdates(true).sized(1, 1))
+            .properties(b -> b.fireImmune()
+                    .clientTrackingRange(8)
+                    .updateInterval(3)
+                    .setShouldReceiveVelocityUpdates(true)
+                    .sized(1, 1))
             .register();
 
     public static void init() {

@@ -49,6 +49,7 @@ import it.unimi.dsi.fastutil.objects.Object2BooleanMap;
 import it.unimi.dsi.fastutil.objects.Object2BooleanOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
+import lombok.Getter;
 import net.minecraft.ChatFormatting;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
@@ -60,10 +61,10 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.nbt.Tag;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
-import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -73,6 +74,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
@@ -90,6 +92,8 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.entity.IEntityAdditionalSpawnData;
+import net.minecraftforge.network.NetworkHooks;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -97,7 +101,7 @@ import java.util.*;
 
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
-public class RocketEntity extends Entity implements HasCustomInventoryScreen, IUIHolder, PlayerRideable /*, IManaged, IAutoPersistEntity*/ {
+public class RocketEntity extends Entity implements HasCustomInventoryScreen, IUIHolder, PlayerRideable, IEntityAdditionalSpawnData /*, IManaged, IAutoPersistEntity*/ {
 
     public static final Object2BooleanMap<Fluid> FUEL_CACHE = new Object2BooleanOpenHashMap<>();
 
@@ -132,6 +136,10 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
     private GTRecipe selectedFuelRecipe;
 
     private final Set<BlockPos> thrusterPositions = new HashSet<>();
+
+    @Getter
+    private ThreadLocal<Boolean> hasRequestedBlockSync = ThreadLocal.withInitial(() -> false);
+
 
     public RocketEntity(EntityType<?> entityType, Level level) {
         super(entityType, level);
@@ -236,7 +244,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
             }
 
             player.startRiding(this);
-            return InteractionResult.CONSUME;
+            return result;
         }
 
         return result;
@@ -466,7 +474,28 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
     public void fall() {
         if (this.isNoGravity()) return;
         Vec3 delta = this.getDeltaMovement();
-        this.setDeltaMovement(delta.add(0, -LivingEntity.DEFAULT_BASE_GRAVITY, 0));
+
+        // drag
+        float xRot = this.getXRot() * (float) (Math.PI / 180.0);
+        Vec3 lookAngle = this.getLookAngle();
+        double hyp = Math.sqrt(lookAngle.x * lookAngle.x + lookAngle.z * lookAngle.z);
+        double magnitude = lookAngle.length();
+        double drag = Math.cos(xRot);
+        drag = drag * drag * Math.min(1.0, magnitude / 0.4);
+        delta = delta.add(0, LivingEntity.DEFAULT_BASE_GRAVITY * (-1.0 + drag * 0.75), 0);
+
+        if (delta.y < 0.0 && hyp > 0.0) {
+            double d6 = delta.y * -0.1 * drag;
+            delta = delta.add(0.0, d6, 0.0);
+        }
+
+        if (xRot < 0.0F && hyp > 0.0) {
+            double d10 = magnitude * (double)(-Mth.sin(xRot)) * 0.04;
+            delta = delta.add(0.0, d10 * 3.2, 0.0);
+        }
+
+        this.setDeltaMovement(delta.multiply(0.0, 0.98, 0.0));
+
         // braking
         if (getControllingPassenger() != null && ((LivingEntityAccessor)getControllingPassenger()).isJumping() && consumeFuel()) {
             this.setDeltaMovement(delta.x, Math.min(delta.y + 0.05, -0.05), delta.z);
@@ -838,7 +867,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
 
         blocks.add(state);
 
-        this.entityData.set(POSITIONED_STATES, blocks, true);
+        this.setBlocks(blocks);
         BlockPos pos = state.pos();
         BlockPos size = this.entityData.get(SIZE);
         this.entityData.set(SIZE, new BlockPos(
@@ -881,6 +910,10 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
 
     public List<PosWithState> getBlocks() {
         return this.entityData.get(POSITIONED_STATES);
+    }
+
+    public void setBlocks(List<PosWithState> blocks) {
+        this.entityData.set(POSITIONED_STATES, blocks, true);
     }
 
     public void addSeatPos(BlockPos pos) {
@@ -998,13 +1031,26 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
     public void onSyncedDataUpdated(EntityDataAccessor<?> key) {
         if (POSITIONED_STATES.equals(key) || SIZE.equals(key)) {
             this.setBoundingBox(makeBoundingBox());
+            hasRequestedBlockSync.set(false);
         }
         super.onSyncedDataUpdated(key);
     }
 
     @Override
     public Packet<ClientGamePacketListener> getAddEntityPacket() {
-        return new ClientboundAddEntityPacket(this);
+        return NetworkHooks.getEntitySpawningPacket(this);
+    }
+
+    @Override
+    public void writeSpawnData(FriendlyByteBuf buf) {
+        GCYREntityDataSerializers.POSITIONED_BLOCK_STATE_LIST.write(buf, getBlocks());
+        GCYREntityDataSerializers.BLOCK_POS_LIST.write(buf, getSeatPositions());
+    }
+
+    @Override
+    public void readSpawnData(FriendlyByteBuf buf) {
+        setBlocks(GCYREntityDataSerializers.POSITIONED_BLOCK_STATE_LIST.read(buf));
+        this.entityData.set(SEAT_POSITIONS, GCYREntityDataSerializers.BLOCK_POS_LIST.read(buf));
     }
 
     public static void setEntityRotation(Entity vehicle, float rotation) {

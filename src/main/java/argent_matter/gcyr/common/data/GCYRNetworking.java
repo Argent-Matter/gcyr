@@ -17,7 +17,6 @@ public class GCYRNetworking {
         NETWORK.registerC2S(PacketRequestPlanetData.class);
         NETWORK.registerC2S(PacketSendSelectedDimension.class);
         NETWORK.registerC2S(PacketCreateSpaceStation.class);
-        NETWORK.registerC2S(PacketRequestRocketBlocks.class);
 
         NETWORK.registerS2C(PacketReturnPlanetData.class);
         NETWORK.registerS2C(PacketSyncDysonSphereStatus.class);
