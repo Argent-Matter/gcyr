@@ -1,9 +1,9 @@
 package argent_matter.gcyr.common.recipe.type;
 
-import argent_matter.gcyr.common.data.GCyRItems;
-import argent_matter.gcyr.common.data.GCyRVanillaRecipeTypes;
-import argent_matter.gcyr.common.item.armor.trim.GCyRTrimMaterials;
-import argent_matter.gcyr.common.item.armor.trim.GCyRTrimPatterns;
+import argent_matter.gcyr.common.data.GCYRItems;
+import argent_matter.gcyr.common.data.GCYRVanillaRecipeTypes;
+import argent_matter.gcyr.common.item.armor.trim.GCYRTrimMaterials;
+import argent_matter.gcyr.common.item.armor.trim.GCYRTrimPatterns;
 import com.google.gson.JsonObject;
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
@@ -13,7 +13,6 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.Container;
-import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.armortrim.ArmorTrim;
@@ -58,7 +57,7 @@ public class SmithingSpaceSuitRecipe implements SmithingRecipe {
         ItemStack baseItem = container.getItem(1);
         ItemStack additionItem = container.getItem(2);
         if ((!baseItem.hasTag() || !baseItem.getTag().getBoolean(SPACE_SUIT_ARMOR_KEY)) && this.base.test(baseItem)) {
-            Optional<Holder.Reference<TrimMaterial>> trimMaterial = registryAccess.registryOrThrow(Registries.TRIM_MATERIAL).getHolder(GCyRTrimMaterials.SPACE);
+            Optional<Holder.Reference<TrimMaterial>> trimMaterial = registryAccess.registryOrThrow(Registries.TRIM_MATERIAL).getHolder(GCYRTrimMaterials.SPACE);
             Optional<Holder.Reference<TrimPattern>> trimPattern = TrimPatterns.getFromTemplate(registryAccess, container.getItem(0));
             if (/*trimMaterial.isPresent() && trimPattern.isPresent()*/ true) { // maybe add textures too, idk?
                 ItemStack trimCopied = baseItem.copy();
@@ -96,12 +95,12 @@ public class SmithingSpaceSuitRecipe implements SmithingRecipe {
     @Override
     public ItemStack getResultItem(RegistryAccess registryAccess) {
         ItemStack itemstack = new ItemStack(Items.DIAMOND_CHESTPLATE);
-        Optional<Holder.Reference<TrimPattern>> pattern = registryAccess.registryOrThrow(Registries.TRIM_PATTERN).getHolder(GCyRTrimPatterns.SPACE);
+        Optional<Holder.Reference<TrimPattern>> pattern = registryAccess.registryOrThrow(Registries.TRIM_PATTERN).getHolder(GCYRTrimPatterns.SPACE);
         if (pattern.isPresent()) {
-            Optional<Holder.Reference<TrimMaterial>> material = registryAccess.registryOrThrow(Registries.TRIM_MATERIAL).getHolder(GCyRTrimMaterials.SPACE);
+            Optional<Holder.Reference<TrimMaterial>> material = registryAccess.registryOrThrow(Registries.TRIM_MATERIAL).getHolder(GCYRTrimMaterials.SPACE);
             if (material.isPresent()) {
                 ArmorTrim armortrim = new ArmorTrim(material.get(), pattern.get());
-                setTrim(registryAccess, itemstack, new ItemStack(GCyRItems.SPACE_SUIT_CHEST.get()), armortrim);
+                setTrim(registryAccess, itemstack, new ItemStack(GCYRItems.SPACE_SUIT_CHEST.get()), armortrim);
             }
         }
 
@@ -130,7 +129,7 @@ public class SmithingSpaceSuitRecipe implements SmithingRecipe {
 
     @Override
     public RecipeSerializer<?> getSerializer() {
-        return GCyRVanillaRecipeTypes.SMITHING_SPACESUIT_SERIALIZER.get();
+        return GCYRVanillaRecipeTypes.SMITHING_SPACESUIT_SERIALIZER.get();
     }
 
     @Override

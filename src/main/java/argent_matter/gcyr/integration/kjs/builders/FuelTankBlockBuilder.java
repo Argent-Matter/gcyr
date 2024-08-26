@@ -2,7 +2,7 @@ package argent_matter.gcyr.integration.kjs.builders;
 
 import argent_matter.gcyr.api.block.impl.SimpleFuelTankProperties;
 import argent_matter.gcyr.common.block.FuelTankBlock;
-import argent_matter.gcyr.common.data.GCyRBlocks;
+import argent_matter.gcyr.common.data.GCYRBlocks;
 import dev.latvian.mods.kubejs.block.BlockBuilder;
 import lombok.Setter;
 import lombok.experimental.Accessors;
@@ -26,7 +26,7 @@ public class FuelTankBlockBuilder extends BlockBuilder {
     public Block createObject() {
         SimpleFuelTankProperties fuelTankProperties = new SimpleFuelTankProperties(this.typeId, tier, fuelStorage);
         FuelTankBlock result = new FuelTankBlock(this.createProperties(), fuelTankProperties);
-        GCyRBlocks.ALL_FUEL_TANKS.put(fuelTankProperties, () -> result);
+        GCYRBlocks.ALL_FUEL_TANKS.put(fuelTankProperties, () -> result);
         return result;
     }
 }

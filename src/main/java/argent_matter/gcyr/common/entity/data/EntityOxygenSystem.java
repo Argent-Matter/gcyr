@@ -1,11 +1,11 @@
 package argent_matter.gcyr.common.entity.data;
 
 
-import argent_matter.gcyr.GCyR;
+import argent_matter.gcyr.GCYR;
 import argent_matter.gcyr.common.item.armor.SpaceSuitArmorItem;
-import argent_matter.gcyr.config.GCyRConfig;
+import argent_matter.gcyr.config.GCYRConfig;
 import argent_matter.gcyr.data.loader.PlanetData;
-import argent_matter.gcyr.data.recipe.GCyRTags;
+import argent_matter.gcyr.data.recipe.GCYRTags;
 import com.google.common.collect.Table;
 import com.google.common.collect.Tables;
 import net.minecraft.core.BlockPos;
@@ -58,14 +58,14 @@ public class EntityOxygenSystem {
     }
 
     public static void oxygenTick(LivingEntity entity, ServerLevel level) {
-        if (!GCyRConfig.INSTANCE.server.enableOxygen) {
+        if (!GCYRConfig.INSTANCE.server.enableOxygen) {
             return;
         }
         if (entity.isInvertedHealAndHarm()) {
             return;
         }
 
-        if (entity.getType().is(GCyRTags.IGNORE_OXYGEN)) {
+        if (entity.getType().is(GCYRTags.IGNORE_OXYGEN)) {
             return;
         }
 
@@ -84,8 +84,8 @@ public class EntityOxygenSystem {
         if (!entityHasOxygen) {
             if (hasOxygenatedSpaceSuit) {
                 consumeOxygen(entity);
-            } else if (!StreamSupport.stream(entity.getArmorSlots().spliterator(), false).allMatch(stack -> stack.is(GCyRTags.SPACESUIT_ARMOR))) {
-                entity.hurt(level.damageSources().drown(), GCyRConfig.INSTANCE.server.oxygenDamage);
+            } else if (!StreamSupport.stream(entity.getArmorSlots().spliterator(), false).allMatch(stack -> stack.is(GCYRTags.SPACESUIT_ARMOR))) {
+                entity.hurt(level.damageSources().drown(), GCYRConfig.INSTANCE.server.oxygenDamage);
                 entity.setAirSupply(-40);
             }
         }
@@ -160,7 +160,7 @@ public class EntityOxygenSystem {
                 }
             }
         } catch (UnsupportedOperationException e) {
-            GCyR.LOGGER.error("Error deoxygenizing blocks");
+            GCYR.LOGGER.error("Error deoxygenizing blocks");
             e.printStackTrace();
         }
     }

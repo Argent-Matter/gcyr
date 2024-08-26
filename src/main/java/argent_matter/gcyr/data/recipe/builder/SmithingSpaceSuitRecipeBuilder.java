@@ -1,7 +1,7 @@
 package argent_matter.gcyr.data.recipe.builder;
 
 
-import argent_matter.gcyr.common.data.GCyRVanillaRecipeTypes;
+import argent_matter.gcyr.common.data.GCYRVanillaRecipeTypes;
 import com.google.gson.JsonObject;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
@@ -25,7 +25,7 @@ public class SmithingSpaceSuitRecipeBuilder {
     }
 
     public static SmithingSpaceSuitRecipeBuilder smithingSpacesuit(Ingredient template, Ingredient base, Ingredient addition) {
-        return new SmithingSpaceSuitRecipeBuilder(GCyRVanillaRecipeTypes.SMITHING_SPACESUIT_SERIALIZER.get(), template, base, addition);
+        return new SmithingSpaceSuitRecipeBuilder(GCYRVanillaRecipeTypes.SMITHING_SPACESUIT_SERIALIZER.get(), template, base, addition);
     }
 
     public void save(Consumer<FinishedRecipe> recipeConsumer, ResourceLocation location) {

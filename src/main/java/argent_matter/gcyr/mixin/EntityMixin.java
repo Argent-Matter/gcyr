@@ -1,34 +1,20 @@
 package argent_matter.gcyr.mixin;
 
-import argent_matter.gcyr.api.capability.GCyRCapabilityHelper;
-import argent_matter.gcyr.api.capability.ISpaceStationHolder;
 import argent_matter.gcyr.api.space.planet.Planet;
-import argent_matter.gcyr.api.space.station.SpaceStation;
 import argent_matter.gcyr.api.syncdata.entity.IAutoPersistEntity;
 import argent_matter.gcyr.api.syncdata.entity.IManagedEntity;
 import argent_matter.gcyr.data.loader.PlanetData;
 import argent_matter.gcyr.util.PlatformUtils;
-import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.lowdragmc.lowdraglib.syncdata.blockentity.IAutoPersistBlockEntity;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.protocol.game.ClientboundSetBorderCenterPacket;
-import net.minecraft.network.protocol.game.ClientboundSetBorderSizePacket;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.border.WorldBorder;
-import net.minecraft.world.phys.AABB;
-import net.minecraft.world.phys.Vec3;
-import net.minecraft.world.phys.shapes.VoxelShape;
-import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-
-import java.util.List;
 
 @Mixin(Entity.class)
 public abstract class EntityMixin {

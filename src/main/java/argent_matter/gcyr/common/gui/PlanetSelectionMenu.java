@@ -1,7 +1,7 @@
 package argent_matter.gcyr.common.gui;
 
-import argent_matter.gcyr.GCyRClient;
-import argent_matter.gcyr.common.data.GCyRMenus;
+import argent_matter.gcyr.GCYRClient;
+import argent_matter.gcyr.common.data.GCYRMenus;
 import argent_matter.gcyr.data.loader.PlanetData;
 import lombok.Getter;
 import net.minecraft.network.FriendlyByteBuf;
@@ -18,12 +18,12 @@ public class PlanetSelectionMenu extends AbstractContainerMenu {
         this(syncId, player);
         if (player.level().isClientSide) {
             PlanetData.readPlanetData(buf);
-            GCyRClient.hasUpdatedPlanets = true;
+            GCYRClient.hasUpdatedPlanets = true;
         }
     }
 
     public PlanetSelectionMenu(int syncId, Player player) {
-        super(GCyRMenus.PLANET_SELECTION.get(), syncId);
+        super(GCYRMenus.PLANET_SELECTION.get(), syncId);
         this.player = player;
     }
 

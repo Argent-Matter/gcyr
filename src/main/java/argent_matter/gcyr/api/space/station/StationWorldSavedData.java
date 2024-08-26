@@ -1,6 +1,6 @@
 package argent_matter.gcyr.api.space.station;
 
-import argent_matter.gcyr.GCyR;
+import argent_matter.gcyr.GCYR;
 import argent_matter.gcyr.api.capability.ISpaceStationHolder;
 import argent_matter.gcyr.api.space.planet.Planet;
 import argent_matter.gcyr.common.worldgen.SpaceLevelSource;
@@ -35,7 +35,7 @@ public class StationWorldSavedData extends SavedData implements ISpaceStationHol
             ServerLevel orbit = serverLevel.getServer().getLevel(planet.orbitWorld());
             return getOrCreate(orbit);
         }
-        return serverLevel.getDataStorage().computeIfAbsent(tag -> new StationWorldSavedData(serverLevel, tag), () -> new StationWorldSavedData(serverLevel), GCyR.MOD_ID + "_space_stations");
+        return serverLevel.getDataStorage().computeIfAbsent(tag -> new StationWorldSavedData(serverLevel, tag), () -> new StationWorldSavedData(serverLevel), GCYR.MOD_ID + "_space_stations");
     }
 
     private final Int2ObjectMap<SpaceStation> stations = new Int2ObjectLinkedOpenHashMap<>(1);

@@ -1,7 +1,7 @@
 package argent_matter.gcyr.api.space.station;
 
 import argent_matter.gcyr.api.space.planet.Planet;
-import argent_matter.gcyr.config.GCyRConfig;
+import argent_matter.gcyr.config.GCYRConfig;
 import argent_matter.gcyr.util.Vec2i;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -13,7 +13,7 @@ import net.minecraft.world.level.border.WorldBorder;
 public class SpaceStation {
 
     public static final int ID_MAX = 31, ID_EMPTY = Integer.MIN_VALUE;
-    public static final int BLOCK_MULTIPLIER = GCyRConfig.INSTANCE.server.spaceStationMaxSize;
+    public static final int BLOCK_MULTIPLIER = GCYRConfig.INSTANCE.server.spaceStationMaxSize;
     public static final int SIZE_BLOCKS = BLOCK_MULTIPLIER * BLOCK_MULTIPLIER;
 
     public static final Codec<SpaceStation> CODEC = RecordCodecBuilder.create(instance -> instance.group(

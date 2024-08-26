@@ -1,9 +1,9 @@
 package argent_matter.gcyr.common.machine.multiblock;
 
-import argent_matter.gcyr.api.capability.GCyRCapabilityHelper;
+import argent_matter.gcyr.api.capability.GCYRCapabilityHelper;
 import argent_matter.gcyr.api.capability.ISpaceStationHolder;
 import argent_matter.gcyr.api.space.planet.Planet;
-import argent_matter.gcyr.common.data.GCyRItems;
+import argent_matter.gcyr.common.data.GCYRItems;
 import argent_matter.gcyr.common.item.KeyCardBehaviour;
 import argent_matter.gcyr.common.item.StationContainerBehaviour;
 import argent_matter.gcyr.data.loader.PlanetData;
@@ -42,7 +42,7 @@ public class SpaceStationPackagerMachine extends PlatformMultiblockMachine {
     public SpaceStationPackagerMachine(IMachineBlockEntity holder) {
         super(holder);
         this.packageSlot = new ItemStackTransfer(1);
-        this.packageSlot.setFilter(GCyRItems.SPACE_STATION_PACKAGE::isIn);
+        this.packageSlot.setFilter(GCYRItems.SPACE_STATION_PACKAGE::isIn);
         this.keycardSlot = new ItemStackTransfer(1);
         this.outputSlots = new ItemStackTransfer(2);
     }
@@ -70,11 +70,11 @@ public class SpaceStationPackagerMachine extends PlatformMultiblockMachine {
     private void onBuildButtonClick(ClickData data) {
         if (getLevel().isClientSide || !this.isFormed) return;
         if (!outputSlots.getStackInSlot(0).isEmpty() || !outputSlots.getStackInSlot(1).isEmpty()
-                || !GCyRItems.SPACE_STATION_PACKAGE.isIn(packageSlot.getStackInSlot(0))
-                || !GCyRItems.ID_CHIP.isIn(keycardSlot.getStackInSlot(0))) {
+                || !GCYRItems.SPACE_STATION_PACKAGE.isIn(packageSlot.getStackInSlot(0))
+                || !GCYRItems.ID_CHIP.isIn(keycardSlot.getStackInSlot(0))) {
             return;
         }
-        ISpaceStationHolder spaceStationHolder = GCyRCapabilityHelper.getSpaceStations((ServerLevel) this.getLevel());
+        ISpaceStationHolder spaceStationHolder = GCYRCapabilityHelper.getSpaceStations((ServerLevel) this.getLevel());
         if (spaceStationHolder == null) return;
         Planet thisPlanet = PlanetData.getPlanetFromLevel(this.getLevel().dimension()).orElse(null);
         if (thisPlanet == null) return;
@@ -135,11 +135,11 @@ public class SpaceStationPackagerMachine extends PlatformMultiblockMachine {
         }
 
         packageSlot.setStackInSlot(0, ItemStack.EMPTY);
-        ItemStack packageStack = GCyRItems.SPACE_STATION_PACKAGE.asStack();
+        ItemStack packageStack = GCYRItems.SPACE_STATION_PACKAGE.asStack();
         StationContainerBehaviour.setSatelliteBlocks(packageStack, blocks);
         outputSlots.setStackInSlot(0, packageStack);
 
-        ItemStack keycardStack = GCyRItems.KEYCARD.asStack();
+        ItemStack keycardStack = GCYRItems.KEYCARD.asStack();
         KeyCardBehaviour.setSavedStation(keycardStack, spaceStationHolder.allocateStation(thisPlanet).getFirst(), thisPlanet);
         outputSlots.setStackInSlot(1, keycardStack);
     }

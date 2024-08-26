@@ -1,6 +1,6 @@
 package argent_matter.gcyr.common.recipe.condition;
 
-import argent_matter.gcyr.api.capability.GCyRCapabilityHelper;
+import argent_matter.gcyr.api.capability.GCYRCapabilityHelper;
 import argent_matter.gcyr.api.capability.IDysonSystem;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
@@ -29,7 +29,7 @@ public class DysonSphereCondition extends RecipeCondition {
     public boolean test(@NotNull GTRecipe recipe, @NotNull RecipeLogic recipeLogic) {
         Level level = recipeLogic.getMachine().getLevel();
         if (!level.isClientSide) {
-            IDysonSystem system = GCyRCapabilityHelper.getDysonSystem((ServerLevel) level);
+            IDysonSystem system = GCYRCapabilityHelper.getDysonSystem((ServerLevel) level);
             if (system == null) return false;
             return system.isDysonSphereActive() && !system.activeDysonSphere().isCollapsed();
         }

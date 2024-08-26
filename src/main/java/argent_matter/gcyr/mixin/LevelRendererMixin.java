@@ -33,7 +33,7 @@ public abstract class LevelRendererMixin {
             ),
             at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/vertex/BufferUploader;drawWithShader(Lcom/mojang/blaze3d/vertex/BufferBuilder$RenderedBuffer;)V"))
     private boolean gcyr$removeSunMoon(BufferBuilder.RenderedBuffer buffer, PoseStack poseStack, Matrix4f projectionMatrix, float partialTick, Camera camera, boolean bl, Runnable skyFogSetup) {
-        if (GCyRClient.isDysonSphereActive) {
+        if (GCYRClient.isDysonSphereActive) {
             buffer.release();
             return false;
         }

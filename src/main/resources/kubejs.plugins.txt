@@ -1,1 +1,1 @@
-argent_matter.gcyr.integration.kjs.GCyRKubeJSPlugin
+argent_matter.gcyr.integration.kjs.GCYRKubeJSPlugin

@@ -1,6 +1,6 @@
 package argent_matter.gcyr.common.machine.multiblock;
 
-import argent_matter.gcyr.common.data.GCyRBlocks;
+import argent_matter.gcyr.common.data.GCYRBlocks;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IDisplayUIMachine;
@@ -95,7 +95,7 @@ public class PlatformMultiblockMachine extends MultiblockControllerMachine imple
      * @return if a block is a valid wall block at pos moved in direction
      */
     public boolean isBlockEdge(@Nonnull Level world, @Nonnull BlockPos.MutableBlockPos pos, @Nonnull Direction direction) {
-        return world.getBlockState(pos.move(direction)).is(GCyRBlocks.LAUNCH_PAD.get()) && !world.getBlockState(pos.relative(direction, 1)).is(GCyRBlocks.LAUNCH_PAD.get());
+        return world.getBlockState(pos.move(direction)).is(GCYRBlocks.LAUNCH_PAD.get()) && !world.getBlockState(pos.relative(direction, 1)).is(GCYRBlocks.LAUNCH_PAD.get());
     }
 
     /**
@@ -177,7 +177,7 @@ public class PlatformMultiblockMachine extends MultiblockControllerMachine imple
                 .aisle(center).setRepeatable(bDist)
                 .aisle(front)
                 .where('S', Predicates.controller(Predicates.blocks(this.getDefinition().get())))
-                .where('B', blocks(GCyRBlocks.LAUNCH_PAD.get()))
+                .where('B', blocks(GCYRBlocks.LAUNCH_PAD.get()))
                 .where('K', towerPredicate)
                 .where(' ', any())
                 .build();

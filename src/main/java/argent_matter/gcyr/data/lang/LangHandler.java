@@ -1,13 +1,8 @@
 package argent_matter.gcyr.data.lang;
 
-import argent_matter.gcyr.common.data.GCyRMaterials;
-import com.gregtechceu.gtceu.api.data.chemical.material.Material;
+import argent_matter.gcyr.common.data.GCYRMaterials;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.tterrag.registrate.providers.RegistrateLangProvider;
-
-import java.util.Set;
-
-import static com.gregtechceu.gtceu.utils.FormattingUtil.toEnglishName;
 
 public class LangHandler extends com.gregtechceu.gtceu.data.lang.LangHandler {
 
@@ -19,12 +14,12 @@ public class LangHandler extends com.gregtechceu.gtceu.data.lang.LangHandler {
         provider.add("tagprefix.mercury", TagPrefix.get("mercury").langValue());
 
         // materials
-        replace(provider, GCyRMaterials.Bisalloy400.getUnlocalizedName(), "Bisalloy-400");
-        replace(provider, GCyRMaterials.CoMnBrCatalyst.getUnlocalizedName(), "Co-Mn-Br Catalyst");
-        replace(provider, GCyRMaterials.ParaPhenylenediamine.getUnlocalizedName(), "Para-Phenylenediamine");
-        replace(provider, GCyRMaterials.ParaAramid.getUnlocalizedName(), "Para-Aramid");
-        replace(provider, GCyRMaterials.ParaXylene.getUnlocalizedName(), "Para-Xylene");
-        replace(provider, GCyRMaterials.BisTrichloromethylBenzene.getUnlocalizedName(), "Bis(trichloromethyl)benzene");
+        replace(provider, GCYRMaterials.Bisalloy400.getUnlocalizedName(), "Bisalloy-400");
+        replace(provider, GCYRMaterials.CoMnBrCatalyst.getUnlocalizedName(), "Co-Mn-Br Catalyst");
+        replace(provider, GCYRMaterials.ParaPhenylenediamine.getUnlocalizedName(), "Para-Phenylenediamine");
+        replace(provider, GCYRMaterials.ParaAramid.getUnlocalizedName(), "Para-Aramid");
+        replace(provider, GCYRMaterials.ParaXylene.getUnlocalizedName(), "Para-Xylene");
+        replace(provider, GCYRMaterials.BisTrichloromethylBenzene.getUnlocalizedName(), "Bis(trichloromethyl)benzene");
 
         // blocks
         replace(provider, "block.gcyr.aerospace_aluminium_casing", "Aerospace-grade Aluminium Machine Casing");

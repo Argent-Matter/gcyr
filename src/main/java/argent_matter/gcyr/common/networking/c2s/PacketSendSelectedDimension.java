@@ -1,6 +1,6 @@
 package argent_matter.gcyr.common.networking.c2s;
 
-import argent_matter.gcyr.common.data.GCyRItems;
+import argent_matter.gcyr.common.data.GCYRItems;
 import argent_matter.gcyr.common.item.PlanetIdChipBehaviour;
 import com.lowdragmc.lowdraglib.networking.IHandlerContext;
 import com.lowdragmc.lowdraglib.networking.IPacket;
@@ -29,7 +29,7 @@ public class PacketSendSelectedDimension implements IPacket {
     public void execute(IHandlerContext handler) {
         if (!handler.isClient() && dimensionId != null) {
             ItemStack handItem = handler.getPlayer().getItemInHand(handler.getPlayer().getUsedItemHand());
-            if (handItem.is(GCyRItems.ID_CHIP.get())) {
+            if (handItem.is(GCYRItems.ID_CHIP.get())) {
                 handItem.getOrCreateTag().putString(PlanetIdChipBehaviour.CURRENT_PLANET_KEY, dimensionId.toString());
                 handItem.getTag().remove(PlanetIdChipBehaviour.CURRENT_STATION_KEY);
             }

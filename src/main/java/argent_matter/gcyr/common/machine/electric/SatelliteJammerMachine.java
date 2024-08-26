@@ -1,7 +1,7 @@
 package argent_matter.gcyr.common.machine.electric;
 
-import argent_matter.gcyr.api.capability.GCyRCapabilityHelper;
-import argent_matter.gcyr.api.gui.widget.GCyRGuiTextures;
+import argent_matter.gcyr.api.capability.GCYRCapabilityHelper;
+import argent_matter.gcyr.api.gui.widget.GCYRGuiTextures;
 import argent_matter.gcyr.api.space.satellite.Satellite;
 import argent_matter.gcyr.util.Vec2i;
 import com.gregtechceu.gtceu.api.GTValues;
@@ -79,7 +79,7 @@ public class SatelliteJammerMachine extends TieredEnergyMachine implements ICont
     protected void jamSatellites() {
         if (!this.getLevel().isClientSide) {
             BlockPos myPos = this.getPos();
-            List<Satellite> toJam = GCyRCapabilityHelper.getSatellites((ServerLevel) this.getLevel()).getSatellitesNearPos(new Vec2i(myPos.getX(), myPos.getZ()), range);
+            List<Satellite> toJam = GCYRCapabilityHelper.getSatellites((ServerLevel) this.getLevel()).getSatellitesNearPos(new Vec2i(myPos.getX(), myPos.getZ()), range);
 
             if (toJam.size() > 0) {
                 List<Satellite> copy = new ArrayList<>(lastJammed);
@@ -129,7 +129,7 @@ public class SatelliteJammerMachine extends TieredEnergyMachine implements ICont
                 .background(GuiTextures.BACKGROUND)
                 .widget(screen)
                 .widget(new ToggleButtonWidget(7, 113, 18, 18,
-                        GCyRGuiTextures.BUTTON_ENABLED, this::isWorkingEnabled, this::setWorkingEnabled)
+                        GCYRGuiTextures.BUTTON_ENABLED, this::isWorkingEnabled, this::setWorkingEnabled)
                         .setShouldUseBaseBackground()
                         .setTooltipText("behaviour.soft_hammer"))
                 .widget(UITemplate.bindPlayerInventory(entityPlayer.getInventory(), GuiTextures.SLOT, 7, 84, true));

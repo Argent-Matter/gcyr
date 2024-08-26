@@ -3,7 +3,7 @@ package argent_matter.gcyr.common.satellite;
 import argent_matter.gcyr.api.space.satellite.Satellite;
 import argent_matter.gcyr.api.space.satellite.SatelliteType;
 import argent_matter.gcyr.api.space.satellite.data.SatelliteData;
-import argent_matter.gcyr.config.GCyRConfig;
+import argent_matter.gcyr.config.GCYRConfig;
 import com.gregtechceu.gtceu.common.data.GTDamageTypes;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -34,7 +34,7 @@ public class LaserSatellite extends Satellite {
     public void tickSatellite(Level level) {
         if (isNonWorking()) return;
         if (isMining) {
-            if (level.getGameTime() % GCyRConfig.INSTANCE.satellites.laserSatelliteMiningTickStep == 0) {
+            if (level.getGameTime() % GCYRConfig.INSTANCE.satellites.laserSatelliteMiningTickStep == 0) {
                 int x = this.data.locationInWorld().x();
                 int z = this.data.locationInWorld().y();
                 for (int i = x - 1; i < x + 1; ++x) {
@@ -44,7 +44,7 @@ public class LaserSatellite extends Satellite {
                 }
 
                 var entities = level.getEntities(EntityTypeTest.forClass(LivingEntity.class), new AABB(x - 1, currentMinedY - 1, z - 1, x + 1, currentMinedY + 1, z + 1), EntitySelector.NO_CREATIVE_OR_SPECTATOR);
-                entities.forEach(entity -> entity.hurt(GTDamageTypes.RADIATION.source(level), GCyRConfig.INSTANCE.satellites.laserSatelliteDamagePerTickStep));
+                entities.forEach(entity -> entity.hurt(GTDamageTypes.RADIATION.source(level), GCYRConfig.INSTANCE.satellites.laserSatelliteDamagePerTickStep));
             }
         }
 

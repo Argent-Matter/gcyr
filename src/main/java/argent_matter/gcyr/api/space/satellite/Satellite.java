@@ -1,8 +1,8 @@
 package argent_matter.gcyr.api.space.satellite;
 
-import argent_matter.gcyr.api.registries.GCyRRegistries;
+import argent_matter.gcyr.api.registries.GCYRRegistries;
 import argent_matter.gcyr.api.space.satellite.data.SatelliteData;
-import argent_matter.gcyr.common.data.GCyRSatellites;
+import argent_matter.gcyr.common.data.GCYRSatellites;
 import argent_matter.gcyr.common.satellite.EmptySatellite;
 import com.mojang.datafixers.Products;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -46,7 +46,7 @@ public abstract class Satellite {
 
     public static <S extends Satellite> Products.P3<RecordCodecBuilder.Mu<S>, SatelliteType<?>, SatelliteData, ResourceKey<Level>> baseCodec(RecordCodecBuilder.Instance<S> instance) {
         return instance.group(
-                GCyRRegistries.SATELLITES.codec().fieldOf("type").forGetter(Satellite::getType),
+                GCYRRegistries.SATELLITES.codec().fieldOf("type").forGetter(Satellite::getType),
                 SatelliteData.CODEC.fieldOf("data").forGetter(Satellite::getData),
                 ResourceKey.codec(Registries.DIMENSION).fieldOf("level").forGetter(Satellite::getLevel)
         );
@@ -73,7 +73,7 @@ public abstract class Satellite {
 
     public CompoundTag serializeNBT() {
         CompoundTag tag = new CompoundTag();
-        tag.putString("id", GCyRRegistries.SATELLITES.getKey(type).toString());
+        tag.putString("id", GCYRRegistries.SATELLITES.getKey(type).toString());
 
         tag.put("data", this.data.serializeNBT());
 
@@ -87,11 +87,11 @@ public abstract class Satellite {
     public abstract Tag serializeExtraData();
 
     public static Satellite deserializeNBT(CompoundTag nbt, Level level) {
-        SatelliteType<?> type = GCyRRegistries.SATELLITES.get(new ResourceLocation(nbt.getString("id")));
+        SatelliteType<?> type = GCYRRegistries.SATELLITES.get(new ResourceLocation(nbt.getString("id")));
         SatelliteData data = SatelliteData.deserializeNBT(nbt.getCompound("data"));
         ResourceKey<Level> levelResourceKey = ResourceKey.create(Registries.DIMENSION, new ResourceLocation(nbt.getString("level")));
         if (type == null) {
-            return new EmptySatellite(GCyRSatellites.EMPTY, data, levelResourceKey);
+            return new EmptySatellite(GCYRSatellites.EMPTY, data, levelResourceKey);
         }
         SatelliteType.SatelliteFactory<?> satellite = type.getFactory();
 

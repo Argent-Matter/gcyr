@@ -1,6 +1,6 @@
 package argent_matter.gcyr.util;
 
-import argent_matter.gcyr.api.capability.GCyRCapabilityHelper;
+import argent_matter.gcyr.api.capability.GCYRCapabilityHelper;
 import argent_matter.gcyr.api.capability.ISpaceStationHolder;
 import argent_matter.gcyr.api.space.station.SpaceStation;
 import argent_matter.gcyr.data.loader.PlanetData;
@@ -21,7 +21,7 @@ public class MixinHelpers {
         if (entity != null && entity.level() instanceof ServerLevel serverLevel) {
             if (PlanetData.isOrbitLevel(serverLevel.dimension())) {
                 // default to normal world border if somehow not on a space station dimension
-                ISpaceStationHolder spaceStationHolder = GCyRCapabilityHelper.getSpaceStations(serverLevel);
+                ISpaceStationHolder spaceStationHolder = GCYRCapabilityHelper.getSpaceStations(serverLevel);
                 if (spaceStationHolder == null) return original;
 
                 // get nearest space station

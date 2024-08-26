@@ -1,6 +1,6 @@
 package argent_matter.gcyr.api.space.satellite;
 
-import argent_matter.gcyr.api.registries.GCyRRegistries;
+import argent_matter.gcyr.api.registries.GCYRRegistries;
 import argent_matter.gcyr.api.space.satellite.data.SatelliteData;
 import com.mojang.serialization.Codec;
 import lombok.Getter;
@@ -30,7 +30,7 @@ public class SatelliteType<T extends Satellite> {
     }
 
     public String toLangString() {
-        ResourceLocation id = GCyRRegistries.SATELLITES.getKey(this);
+        ResourceLocation id = GCYRRegistries.SATELLITES.getKey(this);
         return id.getNamespace() + ".satellite." + id.getPath();
     }
 

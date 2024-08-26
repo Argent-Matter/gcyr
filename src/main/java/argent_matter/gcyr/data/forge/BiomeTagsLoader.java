@@ -1,8 +1,8 @@
 package argent_matter.gcyr.data.forge;
 
-import argent_matter.gcyr.GCyR;
-import argent_matter.gcyr.common.data.GCyRBiomes;
-import argent_matter.gcyr.data.recipe.GCyRTags;
+import argent_matter.gcyr.GCYR;
+import argent_matter.gcyr.common.data.GCYRBiomes;
+import argent_matter.gcyr.data.recipe.GCYRTags;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.BiomeTagsProvider;
@@ -14,15 +14,15 @@ import java.util.concurrent.CompletableFuture;
 public class BiomeTagsLoader extends BiomeTagsProvider {
 
     public BiomeTagsLoader(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> registries, @Nullable ExistingFileHelper existingFileHelper) {
-        super(packOutput, registries, GCyR.MOD_ID, existingFileHelper);
+        super(packOutput, registries, GCYR.MOD_ID, existingFileHelper);
     }
 
     @Override
     protected void addTags(HolderLookup.Provider provider) {
-        tag(GCyRTags.IS_SPACE).addOptional(GCyRBiomes.SPACE.location());
-        tag(GCyRTags.IS_MOON).addOptional(GCyRBiomes.MOON.location());
-        tag(GCyRTags.IS_MERCURY).addOptional(GCyRBiomes.MERCURY_DELTAS.location());
-        tag(GCyRTags.IS_MARS).addOptional(GCyRBiomes.MARTIAN_CANYON_CREEK.location()).addOptional(GCyRBiomes.MARTIAN_WASTELANDS.location()).addOptional(GCyRBiomes.MARTIAN_POLAR_CAPS.location());
-        tag(GCyRTags.IS_VENUS).addOptional(GCyRBiomes.VENUS_ERODED_PLAINS.location()).addOptional(GCyRBiomes.VENUS_ERODED_PLAINS.location());
+        tag(GCYRTags.IS_SPACE).addOptional(GCYRBiomes.SPACE.location());
+        tag(GCYRTags.IS_MOON).addOptional(GCYRBiomes.MOON.location());
+        tag(GCYRTags.IS_MERCURY).addOptional(GCYRBiomes.MERCURY_DELTAS.location());
+        tag(GCYRTags.IS_MARS).addOptional(GCYRBiomes.MARTIAN_CANYON_CREEK.location()).addOptional(GCYRBiomes.MARTIAN_WASTELANDS.location()).addOptional(GCYRBiomes.MARTIAN_POLAR_CAPS.location());
+        tag(GCYRTags.IS_VENUS).addOptional(GCYRBiomes.VENUS_ERODED_PLAINS.location()).addOptional(GCYRBiomes.VENUS_ERODED_PLAINS.location());
     }
 }

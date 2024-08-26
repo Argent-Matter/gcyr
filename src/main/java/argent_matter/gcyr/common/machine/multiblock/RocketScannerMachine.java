@@ -1,8 +1,8 @@
 package argent_matter.gcyr.common.machine.multiblock;
 
 import argent_matter.gcyr.api.space.planet.Planet;
-import argent_matter.gcyr.common.data.GCyREntities;
-import argent_matter.gcyr.common.data.GCyRItems;
+import argent_matter.gcyr.common.data.GCYREntities;
+import argent_matter.gcyr.common.data.GCYRItems;
 import argent_matter.gcyr.common.entity.RocketEntity;
 import argent_matter.gcyr.common.item.KeyCardBehaviour;
 import argent_matter.gcyr.common.item.PlanetIdChipBehaviour;
@@ -51,10 +51,10 @@ public class RocketScannerMachine extends PlatformMultiblockMachine implements I
     public RocketScannerMachine(IMachineBlockEntity holder) {
         super(holder);
         this.configSaveSlot = new ItemStackTransfer(1);
-        this.configSaveSlot.setFilter(GCyRItems.ID_CHIP::isIn);
+        this.configSaveSlot.setFilter(GCYRItems.ID_CHIP::isIn);
 
         this.configLoadSlot = new ItemStackTransfer(1);
-        this.configLoadSlot.setFilter(GCyRItems.KEYCARD::isIn);
+        this.configLoadSlot.setFilter(GCYRItems.KEYCARD::isIn);
     }
 
     @Override
@@ -97,11 +97,11 @@ public class RocketScannerMachine extends PlatformMultiblockMachine implements I
         if (data.isRemote) return;
 
         ItemStack saveStack = this.configSaveSlot.getStackInSlot(0);
-        if (GCyRItems.ID_CHIP.isIn(saveStack)) {
+        if (GCYRItems.ID_CHIP.isIn(saveStack)) {
             Planet planet = PlanetIdChipBehaviour.getPlanetFromStack(saveStack);
             if (planet == null) return;
 
-            ItemStack keyCardStack = GCyRItems.KEYCARD.asStack(1);
+            ItemStack keyCardStack = GCYRItems.KEYCARD.asStack(1);
             KeyCardBehaviour.setSavedStation(keyCardStack, PlanetIdChipBehaviour.getSpaceStationId(saveStack), planet);
             this.configLoadSlot.setStackInSlot(0, keyCardStack);
         }
@@ -149,7 +149,7 @@ public class RocketScannerMachine extends PlatformMultiblockMachine implements I
 
             boolean allAir = true;
             BlockPos startPos = new BlockPos(startX, startY, startZ);
-            RocketEntity rocket = GCyREntities.ROCKET.create(this.getLevel());
+            RocketEntity rocket = GCYREntities.ROCKET.create(this.getLevel());
 
             LinkedHashMap<BlockPos, BlockState> states = new LinkedHashMap<>();
             for (BlockPos pos : BlockPos.betweenClosed(startX, startY, startZ, endX, endY, endZ)) {

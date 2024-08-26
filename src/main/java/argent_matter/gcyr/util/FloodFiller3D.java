@@ -1,7 +1,7 @@
 package argent_matter.gcyr.util;
 
-import argent_matter.gcyr.config.GCyRConfig;
-import argent_matter.gcyr.data.recipe.GCyRTags;
+import argent_matter.gcyr.config.GCYRConfig;
+import argent_matter.gcyr.data.recipe.GCYRTags;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -24,7 +24,7 @@ public class FloodFiller3D {
         queue.add(Pair.of(start, startFacing));
 
         while (!queue.isEmpty()) {
-            if (positions.size() >= GCyRConfig.INSTANCE.server.maxOxygenatedBlockChecks) break;
+            if (positions.size() >= GCYRConfig.INSTANCE.server.maxOxygenatedBlockChecks) break;
 
             var iterator = queue.iterator();
             var pair = iterator.next();
@@ -36,9 +36,9 @@ public class FloodFiller3D {
             /*if (runAdditionalChecks(level, state, pos)) {
                 continue;
             } else */{
-                if (state.is(GCyRTags.BLOCKS_FLOOD_FILL)) continue;
+                if (state.is(GCYRTags.BLOCKS_FLOOD_FILL)) continue;
                 VoxelShape collisionShape = state.getCollisionShape(level, pos);
-                if (!state.isAir() && !state.is(GCyRTags.PASSES_FLOOD_FILL) && !collisionShape.isEmpty() && isSideSolid(collisionShape, pair.getSecond(), state) && (isFaceSturdy(collisionShape, pair.getSecond(), state) || isFaceSturdy(collisionShape, pair.getSecond().getOpposite(), state))) {
+                if (!state.isAir() && !state.is(GCYRTags.PASSES_FLOOD_FILL) && !collisionShape.isEmpty() && isSideSolid(collisionShape, pair.getSecond(), state) && (isFaceSturdy(collisionShape, pair.getSecond(), state) || isFaceSturdy(collisionShape, pair.getSecond().getOpposite(), state))) {
                     continue;
                 }
             }

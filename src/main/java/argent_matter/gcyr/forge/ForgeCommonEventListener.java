@@ -1,10 +1,9 @@
 package argent_matter.gcyr.forge;
 
-import argent_matter.gcyr.GCyR;
-import argent_matter.gcyr.api.capability.GCyRCapabilityHelper;
+import argent_matter.gcyr.GCYR;
+import argent_matter.gcyr.api.capability.GCYRCapabilityHelper;
 import argent_matter.gcyr.api.capability.IDysonSystem;
-import argent_matter.gcyr.common.data.GCyRItems;
-import argent_matter.gcyr.common.data.GCyRNetworking;
+import argent_matter.gcyr.common.data.GCYRNetworking;
 import argent_matter.gcyr.common.item.armor.SpaceSuitArmorItem;
 import argent_matter.gcyr.common.networking.s2c.PacketSyncDysonSphereStatus;
 import argent_matter.gcyr.common.recipe.type.SmithingSpaceSuitRecipe;
@@ -36,14 +35,14 @@ import org.jetbrains.annotations.Nullable;
 import java.util.HashSet;
 import java.util.Set;
 
-@Mod.EventBusSubscriber(modid = GCyR.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
+@Mod.EventBusSubscriber(modid = GCYR.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ForgeCommonEventListener {
 
     @SubscribeEvent
     public static void registerItemStackCapabilities(AttachCapabilitiesEvent<ItemStack> event) {
         final ItemStack itemStack = event.getObject();
         if (itemStack.is(Tags.Items.ARMORS_CHESTPLATES) && (itemStack.getItem() instanceof SpaceSuitArmorItem || itemStack.hasTag() && itemStack.getTag().getBoolean(SmithingSpaceSuitRecipe.SPACE_SUIT_ARMOR_KEY))) {
-            event.addCapability(GCyR.id("spacesuit"), new ICapabilityProvider() {
+            event.addCapability(GCYR.id("spacesuit"), new ICapabilityProvider() {
                 @Override
                 public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> capability, @Nullable Direction arg) {
                     return SpaceSuitArmorItem.getCapability(itemStack, capability);
@@ -60,11 +59,11 @@ public class ForgeCommonEventListener {
     @SubscribeEvent
     public static void playerChangedDimension(PlayerEvent.PlayerChangedDimensionEvent event) {
         if (event.getEntity() instanceof ServerPlayer player) {
-            IDysonSystem system = GCyRCapabilityHelper.getDysonSystem(player.serverLevel());
+            IDysonSystem system = GCYRCapabilityHelper.getDysonSystem(player.serverLevel());
             if (system != null && system.isDysonSphereActive() && !system.activeDysonSphere().isCollapsed()) {
-                GCyRNetworking.NETWORK.sendToPlayer(new PacketSyncDysonSphereStatus(true), player);
+                GCYRNetworking.NETWORK.sendToPlayer(new PacketSyncDysonSphereStatus(true), player);
             } else {
-                GCyRNetworking.NETWORK.sendToPlayer(new PacketSyncDysonSphereStatus(false), player);
+                GCYRNetworking.NETWORK.sendToPlayer(new PacketSyncDysonSphereStatus(false), player);
             }
         }
     }
@@ -72,11 +71,11 @@ public class ForgeCommonEventListener {
     @SubscribeEvent
     public static void entityJoined(EntityJoinLevelEvent event) {
         if (event.getEntity() instanceof ServerPlayer player) {
-            IDysonSystem system = GCyRCapabilityHelper.getDysonSystem(player.serverLevel());
+            IDysonSystem system = GCYRCapabilityHelper.getDysonSystem(player.serverLevel());
             if (system != null && system.isDysonSphereActive() && !system.activeDysonSphere().isCollapsed()) {
-                GCyRNetworking.NETWORK.sendToPlayer(new PacketSyncDysonSphereStatus(true), player);
+                GCYRNetworking.NETWORK.sendToPlayer(new PacketSyncDysonSphereStatus(true), player);
             } else {
-                GCyRNetworking.NETWORK.sendToPlayer(new PacketSyncDysonSphereStatus(false), player);
+                GCYRNetworking.NETWORK.sendToPlayer(new PacketSyncDysonSphereStatus(false), player);
             }
         }
     }
@@ -89,11 +88,11 @@ public class ForgeCommonEventListener {
 
         if (event.phase == TickEvent.Phase.START) {
             if (!level.dimensionType().hasCeiling()) {
-                var sat = GCyRCapabilityHelper.getSatellites(level);
+                var sat = GCYRCapabilityHelper.getSatellites(level);
                 if (sat != null) sat.tickSatellites();
             }
 
-            IDysonSystem system = GCyRCapabilityHelper.getDysonSystem(level);
+            IDysonSystem system = GCYRCapabilityHelper.getDysonSystem(level);
             if (system == null || TICKED_SYSTEMS.get().contains(system)) return;
             system.tick();
         } else {

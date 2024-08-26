@@ -1,6 +1,6 @@
 package argent_matter.gcyr.common.networking.c2s;
 
-import argent_matter.gcyr.common.data.GCyRNetworking;
+import argent_matter.gcyr.common.data.GCYRNetworking;
 import argent_matter.gcyr.common.networking.s2c.PacketReturnPlanetData;
 import com.lowdragmc.lowdraglib.networking.IHandlerContext;
 import com.lowdragmc.lowdraglib.networking.IPacket;
@@ -22,7 +22,7 @@ public class PacketRequestPlanetData implements IPacket {
     @Override
     public void execute(IHandlerContext handler) {
         if (!handler.isClient()) {
-            GCyRNetworking.NETWORK.sendToPlayer(new PacketReturnPlanetData(), handler.getPlayer());
+            GCYRNetworking.NETWORK.sendToPlayer(new PacketReturnPlanetData(), handler.getPlayer());
         }
     }
 

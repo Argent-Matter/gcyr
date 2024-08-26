@@ -1,10 +1,10 @@
 package argent_matter.gcyr.api.space.dyson;
 
-import argent_matter.gcyr.GCyR;
+import argent_matter.gcyr.GCYR;
 import argent_matter.gcyr.api.capability.IDysonSystem;
 import argent_matter.gcyr.api.space.planet.Planet;
-import argent_matter.gcyr.common.data.GCyRNetworking;
-import argent_matter.gcyr.common.data.GCyRSatellites;
+import argent_matter.gcyr.common.data.GCYRNetworking;
+import argent_matter.gcyr.common.data.GCYRSatellites;
 import argent_matter.gcyr.common.networking.s2c.PacketSyncDysonSphereStatus;
 import argent_matter.gcyr.common.satellite.DysonSwarmSatellite;
 import argent_matter.gcyr.data.loader.PlanetData;
@@ -44,7 +44,7 @@ public class DysonSystemSavedData extends SavedData implements IDysonSystem {
     }
 
     private static DysonSystemSavedData internalGetOrCreate(ServerLevel serverLevel) {
-        return serverLevel.getDataStorage().computeIfAbsent(tag -> new DysonSystemSavedData(serverLevel, tag), () -> new DysonSystemSavedData(serverLevel), GCyR.MOD_ID + "_dyson_systems");
+        return serverLevel.getDataStorage().computeIfAbsent(tag -> new DysonSystemSavedData(serverLevel, tag), () -> new DysonSystemSavedData(serverLevel), GCYR.MOD_ID + "_dyson_systems");
     }
 
     @Nullable
@@ -89,7 +89,7 @@ public class DysonSystemSavedData extends SavedData implements IDysonSystem {
             Planet thisPlanet = PlanetData.getPlanetFromLevel(this.level.dimension()).orElse(null);
             if (playerPlanet == null || thisPlanet == null) continue;
             if (playerPlanet.solarSystem().equals(thisPlanet.solarSystem())) {
-                GCyRNetworking.NETWORK.sendToPlayer(new PacketSyncDysonSphereStatus(false), player);
+                GCYRNetworking.NETWORK.sendToPlayer(new PacketSyncDysonSphereStatus(false), player);
             }
         }
     }
@@ -105,7 +105,7 @@ public class DysonSystemSavedData extends SavedData implements IDysonSystem {
                 Planet thisPlanet = PlanetData.getPlanetFromLevel(this.level.dimension()).orElse(null);
                 if (playerPlanet == null || thisPlanet == null) continue;
                 if (playerPlanet.solarSystem().equals(thisPlanet.solarSystem())) {
-                    GCyRNetworking.NETWORK.sendToPlayer(new PacketSyncDysonSphereStatus(false), player);
+                    GCYRNetworking.NETWORK.sendToPlayer(new PacketSyncDysonSphereStatus(false), player);
                 }
             }
         }
@@ -139,7 +139,7 @@ public class DysonSystemSavedData extends SavedData implements IDysonSystem {
         if (arg.contains("dysonSphere", Tag.TAG_COMPOUND)) {
             this.currentActiveSunBlock = DysonSphere.load(arg.getCompound("dysonSphere"), this);
             for (ServerPlayer player : this.level.players()) {
-                GCyRNetworking.NETWORK.sendToPlayer(new PacketSyncDysonSphereStatus(true), player);
+                GCYRNetworking.NETWORK.sendToPlayer(new PacketSyncDysonSphereStatus(true), player);
             }
         }
         CompoundTag stationsTag = arg.getCompound("satellites");
@@ -147,7 +147,7 @@ public class DysonSystemSavedData extends SavedData implements IDysonSystem {
             ListTag tag = stationsTag.getList(name, Tag.TAG_COMPOUND);
             long pos = Long.parseLong(name);
             for (int i = 0; i < tag.size(); ++i) {
-                DysonSwarmSatellite satellite = GCyRSatellites.DYSON_SWARM.getCodec().parse(NbtOps.INSTANCE, tag.getCompound(i)).getOrThrow(false, GCyR.LOGGER::error);
+                DysonSwarmSatellite satellite = GCYRSatellites.DYSON_SWARM.getCodec().parse(NbtOps.INSTANCE, tag.getCompound(i)).getOrThrow(false, GCYR.LOGGER::error);
                 swarmSatellites.computeIfAbsent(pos, $ -> new HashSet<>()).add(satellite);
             }
         }
@@ -164,7 +164,7 @@ public class DysonSystemSavedData extends SavedData implements IDysonSystem {
         for (Long2ObjectMap.Entry<Set<DysonSwarmSatellite>> entry : swarmSatellites.long2ObjectEntrySet()) {
             ListTag pos = new ListTag();
             for (DysonSwarmSatellite satellite : entry.getValue()) {
-                Tag station = GCyRSatellites.DYSON_SWARM.getCodec().encodeStart(NbtOps.INSTANCE, satellite).result().orElseThrow();
+                Tag station = GCYRSatellites.DYSON_SWARM.getCodec().encodeStart(NbtOps.INSTANCE, satellite).result().orElseThrow();
                 pos.add(station);
             }
             tag.put(Long.toString(entry.getLongKey()), pos);

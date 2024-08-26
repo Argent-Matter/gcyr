@@ -1,11 +1,11 @@
 package argent_matter.gcyr.data.loader;
 
-import argent_matter.gcyr.GCyR;
-import argent_matter.gcyr.GCyRClient;
+import argent_matter.gcyr.GCYR;
+import argent_matter.gcyr.GCYRClient;
 import argent_matter.gcyr.api.space.planet.Planet;
-import argent_matter.gcyr.common.data.GCyRNetworking;
+import argent_matter.gcyr.common.data.GCYRNetworking;
 import argent_matter.gcyr.common.networking.c2s.PacketRequestPlanetData;
-import argent_matter.gcyr.util.GCyRValues;
+import argent_matter.gcyr.util.GCYRValues;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.google.gson.Gson;
@@ -54,7 +54,7 @@ public class PlanetData extends SimpleJsonResourceReloadListener {
 
         for (Map.Entry<ResourceLocation, JsonElement> entry : objects.entrySet()) {
             JsonObject jsonObject = GsonHelper.convertToJsonObject(entry.getValue(), "planet");
-            Planet newPlanet = Planet.DIRECT_CODEC.parse(JsonOps.INSTANCE, jsonObject).getOrThrow(false, GCyR.LOGGER::error);
+            Planet newPlanet = Planet.DIRECT_CODEC.parse(JsonOps.INSTANCE, jsonObject).getOrThrow(false, GCYR.LOGGER::error);
             planets.entrySet().removeIf(planet -> planet.getValue().level().equals(newPlanet.level()));
             planets.put(entry.getKey(), newPlanet);
         }
@@ -93,7 +93,7 @@ public class PlanetData extends SimpleJsonResourceReloadListener {
         CompoundTag nbt = new CompoundTag();
         for (var entry : PLANETS.entrySet()) {
             nbt.put(entry.getKey().toString(), Planet.DIRECT_CODEC.encodeStart(NbtOps.INSTANCE, entry.getValue())
-                    .getOrThrow(false, GCyR.LOGGER::error));
+                    .getOrThrow(false, GCYR.LOGGER::error));
         }
         buf.writeNbt(nbt);
     }
@@ -112,7 +112,7 @@ public class PlanetData extends SimpleJsonResourceReloadListener {
             }
             PlanetData.updatePlanets(planets);
         } catch (Exception e) {
-            GCyR.LOGGER.error("Failed to parse planet data!");
+            GCYR.LOGGER.error("Failed to parse planet data!");
             e.printStackTrace();
             PlanetData.updatePlanets(Map.of());
         }
@@ -157,9 +157,9 @@ public class PlanetData extends SimpleJsonResourceReloadListener {
     }
 
     public static boolean isPlanetLevel(Level level) {
-        if (level.isClientSide && !GCyRClient.hasUpdatedPlanets) {
-            GCyRNetworking.NETWORK.sendToServer(new PacketRequestPlanetData());
-            GCyRClient.hasUpdatedPlanets = true;
+        if (level.isClientSide && !GCYRClient.hasUpdatedPlanets) {
+            GCYRNetworking.NETWORK.sendToServer(new PacketRequestPlanetData());
+            GCYRClient.hasUpdatedPlanets = true;
         }
         return PLANET_LEVELS.contains(level.dimension());
     }
@@ -182,7 +182,7 @@ public class PlanetData extends SimpleJsonResourceReloadListener {
      */
     public static float getWorldTemperature(Level level) {
         if (isOrbitLevel(level.dimension())) {
-            return GCyRValues.ORBIT_TEMPERATURE;
+            return GCYRValues.ORBIT_TEMPERATURE;
         }
         return PlanetData.getPlanetFromLevel(level.dimension()).map(Planet::temperature).orElse(293.0f);
     }

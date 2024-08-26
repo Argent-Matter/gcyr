@@ -1,6 +1,6 @@
 package argent_matter.gcyr.api.space.satellite.capability;
 
-import argent_matter.gcyr.GCyR;
+import argent_matter.gcyr.GCYR;
 import argent_matter.gcyr.api.capability.ISatelliteHolder;
 import argent_matter.gcyr.api.space.satellite.Satellite;
 import argent_matter.gcyr.util.Vec2i;
@@ -21,7 +21,7 @@ public class SatelliteWorldSavedData extends SavedData implements ISatelliteHold
     @Nullable
     public static SatelliteWorldSavedData getOrCreate(ServerLevel serverLevel) {
         if (serverLevel.dimensionType().hasCeiling()) return null;
-        return serverLevel.getDataStorage().computeIfAbsent(tag -> new SatelliteWorldSavedData(serverLevel, tag), () -> new SatelliteWorldSavedData(serverLevel), GCyR.MOD_ID + "_satellites");
+        return serverLevel.getDataStorage().computeIfAbsent(tag -> new SatelliteWorldSavedData(serverLevel, tag), () -> new SatelliteWorldSavedData(serverLevel), GCYR.MOD_ID + "_satellites");
     }
 
     @Getter

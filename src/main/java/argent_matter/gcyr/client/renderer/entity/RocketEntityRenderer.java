@@ -1,6 +1,6 @@
 package argent_matter.gcyr.client.renderer.entity;
 
-import argent_matter.gcyr.common.data.GCyRNetworking;
+import argent_matter.gcyr.common.data.GCYRNetworking;
 import argent_matter.gcyr.common.entity.RocketEntity;
 import argent_matter.gcyr.common.networking.c2s.PacketRequestRocketBlocks;
 import argent_matter.gcyr.util.PosWithState;
@@ -36,7 +36,7 @@ public class RocketEntityRenderer extends EntityRenderer<RocketEntity> {
     @Override
     public void render(RocketEntity entity, float entityYaw, float partialTick, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
         if (entity.getBlocks().isEmpty()) {
-            GCyRNetworking.NETWORK.sendToServer(new PacketRequestRocketBlocks(entity.getId()));
+            GCYRNetworking.NETWORK.sendToServer(new PacketRequestRocketBlocks(entity.getId()));
             super.render(entity, entityYaw, partialTick, poseStack, buffer, packedLight);
             return;
         }

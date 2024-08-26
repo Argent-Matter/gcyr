@@ -1,23 +1,23 @@
 package argent_matter.gcyr.common.gui;
 
-import argent_matter.gcyr.GCyR;
+import argent_matter.gcyr.GCYR;
 import argent_matter.gcyr.common.item.armor.SpaceSuitArmorItem;
-import argent_matter.gcyr.config.GCyRConfig;
+import argent_matter.gcyr.config.GCYRConfig;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.gui.overlay.ForgeGui;
 import net.minecraftforge.client.gui.overlay.IGuiOverlay;
 
 public class EntityOxygenHUD implements IGuiOverlay {
-    public static final ResourceLocation GUI_TEXTURE = GCyR.id("textures/gui/oxygen_bar.png");
+    public static final ResourceLocation GUI_TEXTURE = GCYR.id("textures/gui/oxygen_bar.png");
 
     @Override
     public void render(ForgeGui gui, GuiGraphics graphics, float partialTick, int screenWidth, int screenHeight) {
         if (!gui.getMinecraft().options.hideGui) {
             if (SpaceSuitArmorItem.hasFullSet(gui.getMinecraft().player)) {
                 gui.setupOverlayRenderState(true, false);
-                int x = GCyRConfig.INSTANCE.client.oxygenBarX;
-                int y = screenHeight - GCyRConfig.INSTANCE.client.oxygenBarY;
+                int x = GCYRConfig.INSTANCE.client.oxygenBarX;
+                int y = screenHeight - GCYRConfig.INSTANCE.client.oxygenBarY;
                 graphics.blit(GUI_TEXTURE, x, y, 0, 0, 64, 16, 64, 32);
 
                 long oxygenAmount = SpaceSuitArmorItem.oxygenAmount(gui.getMinecraft().player);

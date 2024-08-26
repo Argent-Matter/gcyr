@@ -1,19 +1,17 @@
 package argent_matter.gcyr.common.worldgen;
 
-import argent_matter.gcyr.common.data.GCyRBiomes;
+import argent_matter.gcyr.common.data.GCYRBiomes;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
-import net.minecraft.core.SectionPos;
 import net.minecraft.resources.RegistryOps;
 import net.minecraft.server.level.WorldGenRegion;
 import net.minecraft.world.level.*;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.BiomeManager;
 import net.minecraft.world.level.biome.FixedBiomeSource;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.ChunkGenerator;
@@ -31,7 +29,7 @@ import java.util.concurrent.Executor;
 @ParametersAreNonnullByDefault
 public class SpaceLevelSource extends ChunkGenerator {
     public static final Codec<SpaceLevelSource> CODEC = RecordCodecBuilder.create(
-            instance -> instance.group(RegistryOps.retrieveElement(GCyRBiomes.SPACE)).apply(instance, instance.stable(SpaceLevelSource::new))
+            instance -> instance.group(RegistryOps.retrieveElement(GCYRBiomes.SPACE)).apply(instance, instance.stable(SpaceLevelSource::new))
     );
 
     public static final int PLATFORM_HEIGHT = 63;

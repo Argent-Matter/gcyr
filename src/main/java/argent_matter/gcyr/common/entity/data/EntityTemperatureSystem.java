@@ -1,9 +1,9 @@
 package argent_matter.gcyr.common.entity.data;
 
 import argent_matter.gcyr.common.item.armor.SpaceSuitArmorItem;
-import argent_matter.gcyr.config.GCyRConfig;
+import argent_matter.gcyr.config.GCYRConfig;
 import argent_matter.gcyr.data.loader.PlanetData;
-import argent_matter.gcyr.data.recipe.GCyRTags;
+import argent_matter.gcyr.data.recipe.GCYRTags;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
@@ -25,7 +25,7 @@ public class EntityTemperatureSystem {
 
 
     public static void temperatureTick(LivingEntity entity, ServerLevel level) {
-        if (!GCyRConfig.INSTANCE.server.enableOxygen) {
+        if (!GCYRConfig.INSTANCE.server.enableOxygen) {
             return;
         }
         if (!entity.getType().equals(EntityType.SKELETON)) {
@@ -33,7 +33,7 @@ public class EntityTemperatureSystem {
                 return;
             }
 
-            if (entity.getType().is(GCyRTags.IGNORE_TEMPERATURE)) {
+            if (entity.getType().is(GCYRTags.IGNORE_TEMPERATURE)) {
                 return;
             }
         }
@@ -58,12 +58,12 @@ public class EntityTemperatureSystem {
     }
 
     private static void burnEntity(LivingEntity entity) {
-        entity.hurt(entity.damageSources().onFire(), GCyRConfig.INSTANCE.server.heatDamage);
+        entity.hurt(entity.damageSources().onFire(), GCYRConfig.INSTANCE.server.heatDamage);
         entity.setSecondsOnFire(10);
     }
 
     private static void freezeEntity(LivingEntity entity, ServerLevel level) {
-        entity.hurt(entity.damageSources().freeze(), GCyRConfig.INSTANCE.server.freezeDamage);
+        entity.hurt(entity.damageSources().freeze(), GCYRConfig.INSTANCE.server.freezeDamage);
         entity.setTicksFrozen(Math.min(entity.getTicksRequiredToFreeze() + 20, entity.getTicksFrozen() + 5 * 10));
         RandomSource random = entity.level().getRandom();
         level.addParticle(ParticleTypes.SNOWFLAKE, entity.getX(), entity.getY() + 1, entity.getZ(), Mth.randomBetween(random, -1.0f, 1.0f) * 0.083333336f, 0.05, (double) Mth.randomBetween(random, -1.0f, 1.0f) * 0.083333336);
@@ -75,11 +75,11 @@ public class EntityTemperatureSystem {
     }
 
     public static boolean armourIsFreezeResistant(LivingEntity entity) {
-        return StreamSupport.stream(entity.getArmorSlots().spliterator(), false).allMatch(s -> s.is(GCyRTags.FREEZE_RESISTANT));
+        return StreamSupport.stream(entity.getArmorSlots().spliterator(), false).allMatch(s -> s.is(GCYRTags.FREEZE_RESISTANT));
     }
 
     public static boolean armourIsHeatResistant(LivingEntity entity) {
-        return StreamSupport.stream(entity.getArmorSlots().spliterator(), false).allMatch(s -> s.is(GCyRTags.HEAT_RESISTANT));
+        return StreamSupport.stream(entity.getArmorSlots().spliterator(), false).allMatch(s -> s.is(GCYRTags.HEAT_RESISTANT));
     }
 }
 

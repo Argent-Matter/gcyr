@@ -2,8 +2,8 @@ package argent_matter.gcyr.common.item;
 
 import argent_matter.gcyr.api.space.planet.Planet;
 import argent_matter.gcyr.api.space.station.SpaceStation;
-import argent_matter.gcyr.common.data.GCyRItems;
-import argent_matter.gcyr.common.data.GCyRMenus;
+import argent_matter.gcyr.common.data.GCYRItems;
+import argent_matter.gcyr.common.data.GCYRMenus;
 import argent_matter.gcyr.data.loader.PlanetData;
 import com.gregtechceu.gtceu.api.item.component.IAddInformation;
 import com.gregtechceu.gtceu.api.item.component.IInteractionItem;
@@ -32,20 +32,20 @@ public class PlanetIdChipBehaviour implements IInteractionItem, IAddInformation 
     public InteractionResultHolder<ItemStack> use(Item item, Level level, Player player, InteractionHand usedHand) {
         ItemStack heldItem = player.getItemInHand(usedHand);
         if (player instanceof ServerPlayer serverPlayer) {
-            GCyRMenus.PLANET_SELECTION.open(serverPlayer, Component.translatable("gui.gcyr.planet_selector"), PlanetData::writePlanetData);
+            GCYRMenus.PLANET_SELECTION.open(serverPlayer, Component.translatable("gui.gcyr.planet_selector"), PlanetData::writePlanetData);
             return InteractionResultHolder.consume(heldItem);
         }
         return InteractionResultHolder.pass(heldItem);
     }
 
     public static void setSpaceStation(ItemStack held, int stationId) {
-        if (!GCyRItems.ID_CHIP.isIn(held) || stationId == SpaceStation.ID_EMPTY) return;
+        if (!GCYRItems.ID_CHIP.isIn(held) || stationId == SpaceStation.ID_EMPTY) return;
         held.getOrCreateTag().putInt(CURRENT_STATION_KEY, stationId);
     }
 
     @Nullable
     public static Integer getSpaceStationId(ItemStack held) {
-        if (!GCyRItems.ID_CHIP.isIn(held) || !held.getOrCreateTag().contains(CURRENT_STATION_KEY, Tag.TAG_INT)) return null;
+        if (!GCYRItems.ID_CHIP.isIn(held) || !held.getOrCreateTag().contains(CURRENT_STATION_KEY, Tag.TAG_INT)) return null;
         return held.getOrCreateTag().getInt(CURRENT_STATION_KEY);
     }
 

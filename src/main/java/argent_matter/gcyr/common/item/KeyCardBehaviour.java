@@ -1,7 +1,7 @@
 package argent_matter.gcyr.common.item;
 
 import argent_matter.gcyr.api.space.planet.Planet;
-import argent_matter.gcyr.common.data.GCyRItems;
+import argent_matter.gcyr.common.data.GCYRItems;
 import argent_matter.gcyr.data.loader.PlanetData;
 import com.gregtechceu.gtceu.api.item.component.IAddInformation;
 import net.minecraft.nbt.Tag;
@@ -35,20 +35,20 @@ public class KeyCardBehaviour implements IAddInformation {
     }
 
     public static void setSavedStation(ItemStack stack, @Nullable Integer stationId, Planet planet) {
-        if (!GCyRItems.KEYCARD.isIn(stack)) return;
+        if (!GCYRItems.KEYCARD.isIn(stack)) return;
         if (stationId == null) return;
         stack.getOrCreateTag().putInt(PlanetIdChipBehaviour.CURRENT_STATION_KEY, stationId);
         stack.getTag().putString(PlanetIdChipBehaviour.CURRENT_PLANET_KEY, PlanetData.getPlanetId(planet).toString());
     }
 
     public static Integer getSavedStation(ItemStack stack) {
-        if (!GCyRItems.KEYCARD.isIn(stack)) return null;
+        if (!GCYRItems.KEYCARD.isIn(stack)) return null;
         return stack.getOrCreateTag().getInt(PlanetIdChipBehaviour.CURRENT_STATION_KEY);
     }
 
     @Nullable
     public static Planet getSavedPlanet(ItemStack stack) {
-        if (!GCyRItems.KEYCARD.isIn(stack)) return null;
+        if (!GCYRItems.KEYCARD.isIn(stack)) return null;
         return PlanetData.getPlanet(new ResourceLocation(stack.getOrCreateTag().getString(PlanetIdChipBehaviour.CURRENT_PLANET_KEY)));
     }
 

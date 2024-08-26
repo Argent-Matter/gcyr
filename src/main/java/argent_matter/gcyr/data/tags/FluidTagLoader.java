@@ -1,15 +1,14 @@
 package argent_matter.gcyr.data.tags;
 
-import argent_matter.gcyr.data.recipe.GCyRTags;
+import argent_matter.gcyr.data.recipe.GCYRTags;
 import com.tterrag.registrate.providers.RegistrateTagsProvider;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.TagBuilder;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.material.Fluid;
 
 public class FluidTagLoader {
     public static void init(RegistrateTagsProvider<Fluid> provider) {
-        createFluid(provider, GCyRTags.VEHICLE_FUELS, "gtceu:rocket_fuel");
+        createFluid(provider, GCYRTags.VEHICLE_FUELS, "gtceu:rocket_fuel");
     }
 
     private static void createFluid(RegistrateTagsProvider<Fluid> provider, TagKey<Fluid> tagKey, String... rls) {

@@ -1,7 +1,7 @@
 package argent_matter.gcyr.common.data;
 
-import argent_matter.gcyr.GCyR;
-import argent_matter.gcyr.api.registries.GCyRRegistries;
+import argent_matter.gcyr.GCYR;
+import argent_matter.gcyr.api.registries.GCYRRegistries;
 import com.gregtechceu.gtceu.api.data.DimensionMarker;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.tterrag.registrate.util.entry.BlockEntry;
@@ -18,17 +18,17 @@ public class GCYRDimensionMarkers {
     public static final BlockEntry<Block> MERCURY_MARKER = createMarker("mercury");
     public static final BlockEntry<Block> VENUS_MARKER = createMarker("venus");
 
-    public static final DimensionMarker LUNA = createAndRegister(GCyR.id("luna"), 1,
+    public static final DimensionMarker LUNA = createAndRegister(GCYR.id("luna"), 1,
             () -> LUNA_MARKER, null);
-    public static final DimensionMarker MARS = createAndRegister(GCyR.id("mars"), 2,
+    public static final DimensionMarker MARS = createAndRegister(GCYR.id("mars"), 2,
             () -> MARS_MARKER, null);
-    public static final DimensionMarker MERCURY = createAndRegister(GCyR.id("mercury"), 2,
+    public static final DimensionMarker MERCURY = createAndRegister(GCYR.id("mercury"), 2,
             () -> MERCURY_MARKER, null);
-    public static final DimensionMarker VENUS = createAndRegister(GCyR.id("venus"), 2,
+    public static final DimensionMarker VENUS = createAndRegister(GCYR.id("venus"), 2,
             () -> VENUS_MARKER, null);
 
     private static BlockEntry<Block> createMarker(String name) {
-        return GCyRRegistries.REGISTRATE.block("%s_marker".formatted(name), Block::new)
+        return GCYRRegistries.REGISTRATE.block("%s_marker".formatted(name), Block::new)
                 .lang(FormattingUtil.toEnglishName(name))
                 .blockstate((ctx, prov) -> prov.simpleBlock(ctx.get(), prov.models().cube(ctx.getName(),
                                 prov.modLoc("block/dim_markers/%s/down".formatted(name)),
