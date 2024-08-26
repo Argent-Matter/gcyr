@@ -57,6 +57,13 @@ public class MiscRecipes {
                 .outputFluids(FiberGlass.getFluid(250))
                 .duration(200).EUt(VA[EV]).save(provider);
 
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GCYR.id("space_station_package"))
+                .inputItems(plate, PolyvinylChloride, 8)
+                .inputItems(plate, Paper, 32)
+                .inputFluids(Glue.getFluid(4000))
+                .outputItems(GCYRItems.SPACE_STATION_PACKAGE.asStack(1))
+                .duration(100).EUt(VA[HV]).save(provider);
+
         //region Spacesuit
 
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GCYR.id("space_fabric"))
