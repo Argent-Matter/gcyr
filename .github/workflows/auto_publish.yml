@@ -18,7 +18,7 @@ on:
         type: boolean
         default: false
       publishCurseForgeAndModrinth:
-        description: 'whether publish to the curseforge and modrinth'
+        description: 'whether publish to curseforge and modrinth'
         required: true
         type: boolean
         default: true
@@ -81,7 +81,7 @@ jobs:
             build/libs/!(*-@(dev|sources|javadoc|dev-shadow)).jar
             build/libs/*-@(dev|sources|javadoc|dev-shadow).jar
 
-          name: GCyR ${{ steps.var.outputs.version }}
+          name: GCYR ${{ steps.var.outputs.version }}
           version: mc${{ steps.var.outputs.version }}
           version-type: ${{ inputs.releaseType }}
           changelog-file: CHANGELOG.*
