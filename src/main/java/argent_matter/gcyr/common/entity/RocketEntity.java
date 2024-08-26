@@ -74,7 +74,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
@@ -735,7 +734,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
 
     private void buildSpaceStation(ItemStack stack, BlockPos origin) {
         if (!GCYRItems.SPACE_STATION_PACKAGE.isIn(stack)) return;
-        Set<PosWithState> blocks = StationContainerBehaviour.getSatelliteBlocks(stack);
+        Set<PosWithState> blocks = StationContainerBehaviour.getStationBlocks(stack);
         if (blocks == null || blocks.isEmpty()) return;
 
         boolean start = true;

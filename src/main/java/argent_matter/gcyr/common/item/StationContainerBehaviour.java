@@ -24,7 +24,7 @@ public class StationContainerBehaviour implements IAddInformation {
     private static final String SATELLITE_BLOCKS_KEY = "gcyr:satellite_blocks";
 
     @Nullable
-    public static Set<PosWithState> getSatelliteBlocks(ItemStack stack) {
+    public static Set<PosWithState> getStationBlocks(ItemStack stack) {
         if (!GCYRItems.SPACE_STATION_PACKAGE.isIn(stack)) return null;
         if (!stack.hasTag() || !stack.getTag().contains(SATELLITE_BLOCKS_KEY, Tag.TAG_LIST)) return null;
 
@@ -36,7 +36,7 @@ public class StationContainerBehaviour implements IAddInformation {
         return states;
     }
 
-    public static void setSatelliteBlocks(ItemStack stack, Set<PosWithState> blocks) {
+    public static void setStationBlocks(ItemStack stack, Set<PosWithState> blocks) {
         if (!GCYRItems.SPACE_STATION_PACKAGE.isIn(stack)) return;
         if (stack.hasTag() && stack.getTag().contains(SATELLITE_BLOCKS_KEY, Tag.TAG_LIST)) return;
 

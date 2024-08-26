@@ -12,6 +12,8 @@ import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.UITemplate;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
+import com.lowdragmc.lowdraglib.gui.texture.GuiTextureGroup;
+import com.lowdragmc.lowdraglib.gui.texture.TextTexture;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.ButtonWidget;
 import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
@@ -23,6 +25,7 @@ import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import lombok.Getter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -53,12 +56,16 @@ public class SpaceStationPackagerMachine extends PlatformMultiblockMachine {
         modularUI.widget(new LabelWidget(4, 5, self().getBlockState().getBlock().getDescriptionId()));
 
         WidgetGroup buttons = new WidgetGroup(7, 16, 0, 0);
-        buttons.addWidget(new ButtonWidget(0, 24+18, 80, 24, GuiTextures.BUTTON.copy().setColor(0xFFAA0000), this::onBuildButtonClick));
+        buttons.addWidget(new ButtonWidget(0, 24+18, 80, 24,
+                new GuiTextureGroup(GuiTextures.BUTTON.copy().setColor(0xFFAA0000), new TextTexture("gcyr.multiblock.space_station.pack")),
+                this::onBuildButtonClick));
         modularUI.widget(buttons);
 
         WidgetGroup slots = new WidgetGroup(128, 24, 0, 0);
-        slots.addWidget(new SlotWidget(packageSlot, 0, 0, 0));
-        slots.addWidget(new SlotWidget(keycardSlot, 0, 18, 0));
+        slots.addWidget(new SlotWidget(packageSlot, 0, 0, 0)
+                .setHoverTooltips(Component.translatable("gcyr.multiblock.space_station.package_slot.tooltip")));
+        slots.addWidget(new SlotWidget(keycardSlot, 0, 18, 0)
+                .setHoverTooltips(Component.translatable("gcyr.multiblock.space_station.keycard_slot.tooltip")));
         slots.addWidget(new SlotWidget(outputSlots, 0, 0, 22, true, false));
         slots.addWidget(new SlotWidget(outputSlots, 1, 18, 22, true, false));
         modularUI.widget(slots);
@@ -136,7 +143,7 @@ public class SpaceStationPackagerMachine extends PlatformMultiblockMachine {
 
         packageSlot.setStackInSlot(0, ItemStack.EMPTY);
         ItemStack packageStack = GCYRItems.SPACE_STATION_PACKAGE.asStack();
-        StationContainerBehaviour.setSatelliteBlocks(packageStack, blocks);
+        StationContainerBehaviour.setStationBlocks(packageStack, blocks);
         outputSlots.setStackInSlot(0, packageStack);
 
         ItemStack keycardStack = GCYRItems.KEYCARD.asStack();
