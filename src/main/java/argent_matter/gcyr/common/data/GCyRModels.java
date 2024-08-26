@@ -7,6 +7,7 @@ import argent_matter.gcyr.common.block.RocketMotorBlock;
 import com.tterrag.registrate.providers.DataGenContext;
 import com.tterrag.registrate.providers.RegistrateBlockstateProvider;
 import com.tterrag.registrate.providers.RegistrateItemModelProvider;
+import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -20,7 +21,9 @@ public class GCyRModels {
 
     public static void rocketMotorModel(DataGenContext<Block, RocketMotorBlock> ctx, RegistrateBlockstateProvider prov, IRocketMotorType type) {
         prov.simpleBlock(ctx.getEntry(), prov.models().cubeBottomTop("%s_rocket_motor".formatted(type.getSerializedName()),
-                GCyR.id("block/casings/%s_rocket_motor/rocket_motor_side".formatted(type.getSerializedName())), GCyR.id("block/casings/%s_rocket_motor/rocket_motor_bottom".formatted(type.getSerializedName())), GCyR.id("block/casings/%s_rocket_motor/rocket_motor_top".formatted(type.getSerializedName()))
+                GCyR.id("block/casings/%s_rocket_motor/rocket_motor_side".formatted(type.getSerializedName())),
+                GCyR.id("block/casings/%s_rocket_motor/rocket_motor_bottom".formatted(type.getSerializedName())),
+                GCyR.id("block/casings/%s_rocket_motor/rocket_motor_top".formatted(type.getSerializedName()))
         ));
     }
 
@@ -65,4 +68,12 @@ public class GCyRModels {
     public static void blockTextureGeneratedModel(DataGenContext<Item, ? extends Item> ctx, RegistrateItemModelProvider prov) {
         prov.generated(ctx::getEntry, prov.modLoc("block/" + ctx.getName()));
     }
+
+    public static NonNullBiConsumer<DataGenContext<Block, Block>, RegistrateBlockstateProvider> cubeAllModel(String name,
+                                                                                                             ResourceLocation texture) {
+        return (ctx, prov) -> {
+            prov.simpleBlock(ctx.getEntry(), prov.models().cubeAll(name, texture));
+        };
+    }
+
 }

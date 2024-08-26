@@ -20,6 +20,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
@@ -28,6 +29,7 @@ import net.minecraft.world.level.material.MapColor;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiFunction;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 import static argent_matter.gcyr.api.registries.GCyRRegistries.REGISTRATE;
@@ -464,36 +466,20 @@ public class  GCyRBlocks {
     // endregion
 
     private static BlockEntry<Block> createCasingBlock(String name, ResourceLocation texture) {
-        return createCasingBlock(name, RendererBlock::new, texture, () -> Blocks.IRON_BLOCK, () -> RenderType::cutoutMipped);
+        return createCasingBlock(name, Block::new, texture, () -> Blocks.IRON_BLOCK, () -> RenderType::cutoutMipped);
     }
 
     private static BlockEntry<Block> createGlassCasingBlock(String name, ResourceLocation texture, Supplier<Supplier<RenderType>> type) {
-        return createCasingBlock(name, RendererGlassBlock::new, texture, () -> Blocks.GLASS, type);
+        return createCasingBlock(name, GlassBlock::new, texture, () -> Blocks.GLASS, type);
     }
 
-    private static BlockEntry<Block> createCasingBlock(String name, BiFunction<BlockBehaviour.Properties, IRenderer, ? extends RendererBlock> blockSupplier, ResourceLocation texture, NonNullSupplier<? extends Block> properties, Supplier<Supplier<RenderType>> type) {
-        return REGISTRATE.block(name, p -> (Block) blockSupplier.apply(p,
-                        Platform.isClient() ? new TextureOverrideRenderer(new ResourceLocation("block/cube_all"),
-                                Map.of("all", texture)) : null))
+    private static BlockEntry<Block> createCasingBlock(String name, Function<BlockBehaviour.Properties, ? extends Block> blockSupplier, ResourceLocation texture, NonNullSupplier<? extends Block> properties, Supplier<Supplier<RenderType>> type) {
+        return REGISTRATE.block(name, p -> (Block) blockSupplier.apply(p))
                 .initialProperties(properties)
                 .addLayer(type)
-                .blockstate(NonNullBiConsumer.noop())
+                .blockstate(GCyRModels.cubeAllModel(name, texture))
                 .tag(GCyRTags.MINEABLE_WITH_WRENCH, BlockTags.MINEABLE_WITH_PICKAXE)
-                .item(RendererBlockItem::new)
-                .model(NonNullBiConsumer.noop())
-                .build()
-                .register();
-    }
-
-    private static BlockEntry<Block> createBottomTopCasingBlock(String name, BiFunction<BlockBehaviour.Properties, IRenderer, ? extends RendererBlock> blockSupplier, ResourceLocation sideTexture, ResourceLocation topTexture, ResourceLocation bottomTexture, NonNullSupplier<? extends Block> properties, Supplier<Supplier<RenderType>> type) {
-        return REGISTRATE.block(name, p -> (Block) blockSupplier.apply(p,
-                        Platform.isClient() ? new TextureOverrideRenderer(new ResourceLocation("block/cube_bottom_top"),
-                                Map.of("side", sideTexture, "top", topTexture, "bottom", bottomTexture)) : null))
-                .initialProperties(properties)
-                .addLayer(type)
-                .blockstate(NonNullBiConsumer.noop())
-                .tag(GCyRTags.MINEABLE_WITH_WRENCH, BlockTags.MINEABLE_WITH_PICKAXE)
-                .item(RendererBlockItem::new)
+                .item(BlockItem::new)
                 .model(NonNullBiConsumer.noop())
                 .build()
                 .register();
@@ -511,15 +497,15 @@ public class  GCyRBlocks {
         return block;
     }
 
-    private static BlockEntry<RocketMotorBlock> createRocketMotor(IRocketMotorType properties) {
-        BlockEntry<RocketMotorBlock> block = REGISTRATE.block("%s_rocket_motor".formatted(properties.getSerializedName()), (p) -> new RocketMotorBlock(p, properties))
+    private static BlockEntry<RocketMotorBlock> createRocketMotor(IRocketMotorType type) {
+        BlockEntry<RocketMotorBlock> block = REGISTRATE.block("%s_rocket_motor".formatted(type.getSerializedName()), (p) -> new RocketMotorBlock(p, type))
                 .initialProperties(() -> Blocks.IRON_BLOCK)
-                .lang("%s Rocket Motor".formatted(FormattingUtil.toEnglishName(properties.getSerializedName())))
-                .blockstate((ctx, prov) -> GCyRModels.rocketMotorModel(ctx, prov, properties))
+                .lang("%s Rocket Motor".formatted(FormattingUtil.toEnglishName(type.getSerializedName())))
+                .blockstate((ctx, prov) -> GCyRModels.rocketMotorModel(ctx, prov, type))
                 .tag(GCyRTags.MINEABLE_WITH_WRENCH)
                 .simpleItem()
                 .register();
-        ALL_ROCKET_MOTORS.put(properties, block);
+        ALL_ROCKET_MOTORS.put(type, block);
         return block;
     }
 

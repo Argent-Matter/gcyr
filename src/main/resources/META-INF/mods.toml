@@ -29,7 +29,7 @@ issueTrackerURL="https://github.com/argent-matter/gcyr/issues"
    # A file name (in the root of the mod JAR) containing a logo for display
    logoFile="icon.png" #optional
    # A text field displayed in the mod UI
-   #credits="Thanks for this example mod goes to Java" #optional
+   credits="Thanks to advanced rocketry for the idea." #optional
    # A text field displayed in the mod UI
    authors="screret,NemEzanevem,voltaic" #optional
    # Display Test controls the display for your mod in the server connection screen
@@ -42,7 +42,7 @@ issueTrackerURL="https://github.com/argent-matter/gcyr/issues"
 
    # The description text for the mod (multi line!) (#mandatory)
    description='''
-   A space addon for GregTechCEu
+   A space addon for GTM
    '''
    # A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
    [[dependencies.${mod_id}]] #optional
