@@ -68,6 +68,9 @@ public class LangHandler extends com.gregtechceu.gtceu.data.lang.LangHandler {
         provider.add("menu.gcyr.save_destination_station", "Save Space Station ID to keycard");
         provider.add("gcyr.multiblock.rocket.build", "Scan Rocket");
         provider.add("gcyr.multiblock.rocket.unbuild", "Destroy Rocket");
+        provider.add("gcyr.multiblock.space_station.pack", "Pack station");
+        provider.add("gcyr.multiblock.space_station.package_slot.tooltip", "Space Station Package here");
+        provider.add("gcyr.multiblock.space_station.keycard_slot.tooltip", "Configured keycard here");
 
         provider.add("menu.gcyr.catalog", "Catalog");
         provider.add("menu.gcyr.back", "Back");

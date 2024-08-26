@@ -5,7 +5,7 @@ import argent_matter.gcyr.api.registries.GCYRRegistries;
 import com.gregtechceu.gtceu.api.data.DimensionMarker;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.tterrag.registrate.util.entry.BlockEntry;
-import net.minecraft.client.renderer.block.model.BlockModel;
+import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
 import net.minecraft.world.level.block.Block;
 
 import static com.gregtechceu.gtceu.common.data.GTDimensionMarkers.createAndRegister;
@@ -30,16 +30,20 @@ public class GCYRDimensionMarkers {
     private static BlockEntry<Block> createMarker(String name) {
         return GCYRRegistries.REGISTRATE.block("%s_marker".formatted(name), Block::new)
                 .lang(FormattingUtil.toEnglishName(name))
-                .blockstate((ctx, prov) -> prov.simpleBlock(ctx.get(), prov.models().cube(ctx.getName(),
-                                prov.modLoc("block/dim_markers/%s/down".formatted(name)),
-                                prov.modLoc("block/dim_markers/%s/up".formatted(name)),
-                                prov.modLoc("block/dim_markers/%s/north".formatted(name)),
-                                prov.modLoc("block/dim_markers/%s/south".formatted(name)),
-                                prov.modLoc("block/dim_markers/%s/east".formatted(name)),
-                                prov.modLoc("block/dim_markers/%s/west".formatted(name)))
-                        .texture("particle", "#north")
-                        .guiLight(BlockModel.GuiLight.FRONT)))
-                .simpleItem()
+                .blockstate(NonNullBiConsumer.noop())
+                // TODO textures
+                //.blockstate((ctx, prov) -> prov.simpleBlock(ctx.get(), prov.models().cube(ctx.getName(),
+                //                prov.modLoc("block/dim_markers/%s/down".formatted(name)),
+                //                prov.modLoc("block/dim_markers/%s/up".formatted(name)),
+                //                prov.modLoc("block/dim_markers/%s/north".formatted(name)),
+                //                prov.modLoc("block/dim_markers/%s/south".formatted(name)),
+                //                prov.modLoc("block/dim_markers/%s/east".formatted(name)),
+                //                prov.modLoc("block/dim_markers/%s/west".formatted(name)))
+                //        .texture("particle", "#north")
+                //        .guiLight(BlockModel.GuiLight.FRONT)))
+                .item()
+                .model(NonNullBiConsumer.noop())
+                .build()
                 .register();
     }
 
