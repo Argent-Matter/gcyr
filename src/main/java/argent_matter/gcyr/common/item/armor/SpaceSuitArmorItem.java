@@ -2,6 +2,7 @@ package argent_matter.gcyr.common.item.armor;
 
 import argent_matter.gcyr.common.recipe.type.SmithingSpaceSuitRecipe;
 import argent_matter.gcyr.data.recipe.GCyRTags;
+import com.google.common.primitives.Ints;
 import com.lowdragmc.lowdraglib.misc.ItemStackTransfer;
 import com.lowdragmc.lowdraglib.side.fluid.FluidHelper;
 import com.lowdragmc.lowdraglib.side.fluid.FluidStack;
@@ -26,7 +27,7 @@ import javax.annotation.Nonnull;
 import java.util.List;
 
 public class SpaceSuitArmorItem extends ArmorItem {
-    public static final long CAPACITY = (int) (16 * FluidHelper.getBucket());
+    public static final long CAPACITY = 16 * FluidHelper.getBucket();
 
     public SpaceSuitArmorItem(ArmorItem.Type type, Properties properties) {
         super(GCyRArmorMaterials.SPACE, type, properties);
@@ -34,10 +35,10 @@ public class SpaceSuitArmorItem extends ArmorItem {
 
     public static <T> LazyOptional<T> getCapability(@Nonnull final ItemStack itemStack, @Nonnull final Capability<T> cap) {
         if (cap == ForgeCapabilities.FLUID_HANDLER_ITEM) {
-            return ForgeCapabilities.FLUID_HANDLER_ITEM.orEmpty(cap, LazyOptional.of(() -> new FluidHandlerItemStack(itemStack, Math.toIntExact(SpaceSuitArmorItem.CAPACITY)) {
+            return ForgeCapabilities.FLUID_HANDLER_ITEM.orEmpty(cap, LazyOptional.of(() -> new FluidHandlerItemStack(itemStack, Ints.saturatedCast(SpaceSuitArmorItem.CAPACITY)) {
                 @Override
                 public boolean canFillFluidType(net.minecraftforge.fluids.FluidStack fluid) {
-                    return fluid.getFluid().defaultFluidState().is(GCyRTags.OXYGEN);
+                    return fluid.getFluid().builtInRegistryHolder().is(GCyRTags.OXYGEN);
                 }
             }));
         }

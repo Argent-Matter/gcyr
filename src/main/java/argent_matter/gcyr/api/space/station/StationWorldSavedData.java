@@ -79,7 +79,7 @@ public class StationWorldSavedData extends SavedData implements ISpaceStationHol
     @Override
     public SpaceStation getStation(@Nullable Integer id) {
         if (id == null) return null;
-        return stations.get(id);
+        return stations.get(id.intValue());
     }
 
     @Nullable

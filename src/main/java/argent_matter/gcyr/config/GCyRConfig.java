@@ -53,6 +53,11 @@ public class GCyRConfig {
         @Configurable
         @Configurable.Comment({"The temperature in space.", "Default: -270.0"})
         public float spaceTemperature = -270.0F;
+        @Configurable
+        @Configurable.Comment({"The Maximum size of a single space station.",
+                "DO NOT CHANGE AFTER LOADING THE SPACE STATION WORLD, THAT WILL BREAK THE WORLD BORDER",
+                "Default: 512"})
+        public int spaceStationMaxSize = 512;
     }
 
 
