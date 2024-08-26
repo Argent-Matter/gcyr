@@ -37,6 +37,8 @@ public class RocketEntityRenderer extends EntityRenderer<RocketEntity> {
     public void render(RocketEntity entity, float entityYaw, float partialTick, PoseStack poseStack, MultiBufferSource buffer, int packedLight) {
         if (entity.getBlocks().isEmpty()) {
             GCyRNetworking.NETWORK.sendToServer(new PacketRequestRocketBlocks(entity.getId()));
+            super.render(entity, entityYaw, partialTick, poseStack, buffer, packedLight);
+            return;
         }
 
         poseStack.pushPose();
