@@ -1,9 +1,7 @@
 package argent_matter.gcyr.util;
 
-import argent_matter.gcyr.api.space.station.SpaceStation;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.core.BlockPos;
 import org.jetbrains.annotations.NotNull;
 
 public record Vec2i(int x, int y) implements Comparable<Vec2i> {
@@ -19,12 +17,6 @@ public record Vec2i(int x, int y) implements Comparable<Vec2i> {
     public int distanceToSqr(Vec2i other) {
         int f = other.x - this.x;
         int g = other.y - this.y;
-        return f * f + g * g;
-    }
-
-    public int distanceToBlockSqr(BlockPos other) {
-        int f = other.getX() - (this.x * SpaceStation.BLOCK_MULTIPLIER - (SpaceStation.BLOCK_MULTIPLIER / 2));
-        int g = other.getZ() - (this.y * SpaceStation.BLOCK_MULTIPLIER - (SpaceStation.BLOCK_MULTIPLIER / 2));
         return f * f + g * g;
     }
 

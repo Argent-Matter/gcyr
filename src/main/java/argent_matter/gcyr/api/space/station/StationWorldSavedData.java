@@ -92,12 +92,11 @@ public class StationWorldSavedData extends SavedData implements ISpaceStationHol
 
     @Override
     public List<Integer> getStationsNearPos(Vec2i position, int range) {
-        return stations.int2ObjectEntrySet().stream().filter(obj -> obj.getValue().position().distanceToSqr(position) <= range * range).sorted(Map.Entry.comparingByKey()).map(Int2ObjectMap.Entry::getIntKey).collect(Collectors.toList());
-    }
-
-    @Override
-    public List<Integer> getStationsNearWorldPos(BlockPos position, int range) {
-        return stations.int2ObjectEntrySet().stream().filter(obj -> obj.getValue().position().distanceToBlockSqr(position) <= range * range).sorted(Map.Entry.comparingByKey()).map(Int2ObjectMap.Entry::getIntKey).collect(Collectors.toList());
+        return stations.int2ObjectEntrySet().stream()
+                .filter(obj -> obj.getValue().position().distanceToSqr(position) <= range * range)
+                .sorted(Map.Entry.comparingByKey())
+                .map(Int2ObjectMap.Entry::getIntKey)
+                .collect(Collectors.toList());
     }
 
     @Override
