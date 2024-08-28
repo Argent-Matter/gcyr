@@ -6,7 +6,7 @@ import argent_matter.gcyr.common.satellite.OreFinderSatellite;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.misc.PacketProspecting;
 import com.gregtechceu.gtceu.api.item.ComponentItem;
-import com.gregtechceu.gtceu.common.item.ProspectorScannerBehavior;
+import com.gregtechceu.gtceu.common.item.behavior.ProspectorScannerBehavior;
 import com.lowdragmc.lowdraglib.gui.editor.ColorPattern;
 import com.lowdragmc.lowdraglib.gui.util.DrawerHelper;
 import com.lowdragmc.lowdraglib.gui.widget.*;
@@ -14,13 +14,14 @@ import com.mojang.datafixers.util.Pair;
 import lombok.Getter;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -57,7 +58,7 @@ public class SatelliteScanWidget extends WidgetGroup {
     }
 
     @Override
-    public void writeInitialData(FriendlyByteBuf buffer) {
+    public void writeInitialData(RegistryFriendlyByteBuf buffer) {
         super.writeInitialData(buffer);
         buffer.writeVarInt(playerChunkX = gui.entityPlayer.chunkPosition().x);
         buffer.writeVarInt(playerChunkZ = gui.entityPlayer.chunkPosition().z);
@@ -67,7 +68,7 @@ public class SatelliteScanWidget extends WidgetGroup {
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void readInitialData(FriendlyByteBuf buffer) {
+    public void readInitialData(RegistryFriendlyByteBuf buffer) {
         super.readInitialData(buffer);
         texture = new SatelliteProspectingTexture(
                 buffer.readVarInt(),
@@ -128,7 +129,7 @@ public class SatelliteScanWidget extends WidgetGroup {
 
     @OnlyIn(Dist.CLIENT)
     @Override
-    public void readUpdateInfo(int id, FriendlyByteBuf buffer) {
+    public void readUpdateInfo(int id, RegistryFriendlyByteBuf buffer) {
         if (id == -1) {
             //addPacketToQueue(PacketProspecting.readPacketData(mode, buffer));
         } else {

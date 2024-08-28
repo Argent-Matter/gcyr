@@ -90,6 +90,7 @@ jobs:
             forge
           game-versions: |
             ${{ github.ref_name }}
+            1.21.1
           dependencies: |
             gtceu{modrinth:7tG215v7}{curseforge:890405}
           game-version-filter: none

@@ -3,10 +3,10 @@ package argent_matter.gcyr.common.machine.electric;
 import argent_matter.gcyr.api.space.satellite.capability.SatelliteWorldSavedData;
 import argent_matter.gcyr.common.satellite.OreFinderSatellite;
 import argent_matter.gcyr.util.Vec2i;
-import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.TieredEnergyMachine;
-import com.gregtechceu.gtceu.common.data.GTMaterials;
+import com.gregtechceu.gtceu.api.material.ChemicalHelper;
+import com.gregtechceu.gtceu.data.material.GTMaterials;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -54,7 +54,7 @@ public class OreFinderScannerMachine extends TieredEnergyMachine {
                 return mat.getMaterialRGB();
             }
         }
-        return BuiltInRegistries.BLOCK.get(new ResourceLocation(itemName)).defaultMapColor().col;
+        return BuiltInRegistries.BLOCK.get(ResourceLocation.parse(itemName)).defaultMapColor().col;
     }
 
 }

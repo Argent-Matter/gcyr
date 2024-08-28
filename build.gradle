@@ -1,112 +1,30 @@
 plugins {
-    alias libs.plugins.architectury
-    alias libs.plugins.architectury.loom apply false
-    alias libs.plugins.vineFlower apply false // VineFlower, a better decompiler
-    alias libs.plugins.machete // automatic jar compressing on build
-    alias libs.plugins.shadow
+    id 'java-library'
+    id 'eclipse'
+    id 'idea'
+    id 'maven-publish'
+    alias libs.plugins.moddevgradle
 }
 
-apply plugin: "dev.architectury.loom"
-//apply plugin: "io.github.juuxel.loom-vineflower"
-apply plugin: "java"
-apply plugin: "architectury-plugin"
-apply plugin: "maven-publish"
-
-archivesBaseName = "${project.name}-${libs.versions.minecraft.get()}"
-group = properties.maven_group
-
-// Formats the mod version to include the loader, Minecraft version, and build number (if present)
-String buildNumber = System.getenv("GITHUB_ACTION_NUMBER")
-version = "${mod_version}" + (buildNumber != null ? "-build_${System.getenv("GITHUB_RUN_NUMBER")}" : "")
-
-
-tasks.withType(JavaCompile).configureEach {
-    options.encoding = "UTF-8"
-    options.release.set 17
+tasks.named('wrapper', Wrapper).configure {
+    // Define wrapper values here so as to not have to always do so when updating gradlew.properties.
+    // Switching this to Wrapper.DistributionType.ALL will download the full gradle sources that comes with
+    // documentation attached on cursor hover of gradle classes and methods. However, this comes with increased
+    // file size for Gradle. If you do switch this to ALL, run the Gradle wrapper task twice afterwards.
+    // (Verify by checking gradle/wrapper/gradle-wrapper.properties to see if distributionUrl now points to `-all`)
+    distributionType = Wrapper.DistributionType.BIN
 }
 
-java {
-    withSourcesJar()
-}
-
-def mod_id = properties.mod_id
-
-architectury {
-    platformSetupLoomIde()
-    forge()
-    minecraft = libs.versions.minecraft
-}
-
-static def isJetBrainsRuntime() {
-    return System.getProperty('java.vm.vendor').contains('JetBrains')
-}
-
-loom {
-    accessWidenerPath = file("src/main/resources/${mod_id}.accesswidener")
-    silentMojangMappingsLicense()
-
-    forge {
-        mixinConfig(
-                "${mod_id}.mixins.json",
-        )
-
-        convertAccessWideners = true
-        extraAccessWideners.add loom.accessWidenerPath.get().asFile.name
-
-        dataGen{
-            mod(mod_id)
-        }
-    }
-
-    runConfigs.named("data").configure {
-        programArg("--existing=" + file("src/main/resources").absolutePath)
-        programArgs("--client", "--server")
-    }
-
-    if (isJetBrainsRuntime()) {
-        runs {
-            client {
-                vmArgs '-XX:+AllowEnhancedClassRedefinition'
-                vmArgs '-XX:HotswapAgent=fatjar'
-            }
-        }
-    }
-}
-
-configurations {
-    common
-    shadowCommon // Don't use shadow from the shadow plugin because we don't want IDEA to index this.
-    compileClasspath.extendsFrom common
-    runtimeClasspath.extendsFrom common
-    developmentForge.extendsFrom common
-}
+version = mod_version
+group = maven_group
 
 repositories {
-    mavenLocal()
-    // mavens for Forge-exclusives
-    maven { url = "https://api.modrinth.com/maven" } // Jade
-    maven { url = "https://maven.theillusivec4.top/" } // Curios
-    maven { // Create Forge and Registrate Forge
-        url = "https://maven.tterrag.com/"
-        content {
-            includeGroup("com.tterrag.registrate")
-            includeGroup("com.simibubi.create")
-        }
+    flatDir {
+        dir "libs"
     }
-    maven { url = "https://maven.parchmentmc.org" } // Parchment mappings
-    maven { url = "https://maven.quiltmc.org/repository/release" } // Quilt Mappings
-    maven { // TOP
-        url "https://maven.k-4u.nl"
-    }
-    maven {
-        // saps.dev Maven (KubeJS and Rhino)
-        url = "https://maven.saps.dev/minecraft"
-        content {
-            includeGroup "dev.latvian.mods"
-        }
-    }
-    mavenLocal()
     mavenCentral()
+    maven { url = "https://api.modrinth.com/maven" } // LazyDFU, Jade
+    maven { url = "https://maven.terraformersmc.com/releases/" } // Mod Menu, EMI
     maven { url = "https://maven.shedaniel.me/" } // Cloth Config, REI
     maven {
         url "https://cursemaven.com"
@@ -118,114 +36,203 @@ repositories {
         name = "Jared's maven"
         url = "https://maven.blamejared.com/"
     } // JEI
-    maven { url 'https://jitpack.io' } // MixinExtras
     maven {
         // location of a maven mirror for JEI files, as a fallback
         name = "ModMaven"
         url = "https://modmaven.dev"
     } // JEI mirror, AE2
     maven { url = "https://maven.parchmentmc.org" } // Parchment mappings
-    maven { url = "https://maven.quiltmc.org/repository/release/" } // Quilt Mappings
+    maven { url = "https://maven.quiltmc.org/repository/release" } // Quilt Mappings
     maven { url = "https://maven.firstdarkdev.xyz/snapshots" } // LDLib
-    maven {
-        name = "redlance"
-        url = "https://repo.constructlegacy.ru/public"
+    maven { // Flywheel
+        url = "https://maven.tterrag.com/"
+        content {
+            // need to be specific here due to version overlaps
+            includeGroup("com.jozufozu.flywheel")
+            includeGroup("com.tterrag.registrate")
+            includeGroup("com.simibubi.create")
+        }
+    }
+    maven { url = "https://maven.theillusivec4.top/" } // Curios
+    maven { // TOP
+        url "https://maven.k-4u.nl"
     }
     maven {
-        name = "mixin"
-        url = "https://repo.spongepowered.org/repository/maven-public/"
+        // saps.dev Maven (KubeJS and Rhino)
+        url = "https://maven.saps.dev/minecraft"
+        content {
+            includeGroup "dev.latvian.mods"
+        }
+    }
+    maven { url = "https://maven.jamieswhiteshirt.com/libs-release" } // Reach Entity Attributes
+    maven { url 'https://jitpack.io' } // Mixin Extras, Fabric ASM
+    maven { url = "https://maven.ithundxr.dev/snapshots" } // Registrate Fork
+}
+
+
+base {
+    archivesName = mod_id
+}
+
+// Mojang ships Java 21 to end users starting in 1.20.5, so mods should target Java 21.
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+
+neoForge {
+    // Specify the version of NeoForge to use.
+    version = forge.versions.neoForge.get()
+
+    parchment {
+        mappingsVersion = project.parchment_mappings_version
+        minecraftVersion = project.parchment_minecraft_version
+    }
+
+    // This line is optional. Access Transformers are automatically detected
+    // accessTransformers = project.files('src/main/resources/META-INF/accesstransformer.cfg')
+
+    // Default run configurations.
+    // These can be tweaked, removed, or duplicated as needed.
+    runs {
+        client {
+            client()
+
+            // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
+            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+        }
+
+        server {
+            server()
+            programArgument '--nogui'
+            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+        }
+
+        // This run config launches GameTestServer and runs all registered gametests, then exits.
+        // By default, the server will crash when no gametests are provided.
+        // The gametest system is also enabled by default for other run configs under the /test command.
+        gameTestServer {
+            type = "gameTestServer"
+            systemProperty 'neoforge.enabledGameTestNamespaces', project.mod_id
+        }
+
+        data {
+            data()
+
+            // example of overriding the workingDirectory set in configureEach above, uncomment if you want to use it
+            // gameDirectory = project.file('run-data')
+
+            // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
+            programArguments.addAll '--mod', project.mod_id, '--all', '--output', file('src/generated/resources/').getAbsolutePath(), '--existing', file('src/main/resources/').getAbsolutePath()
+        }
+
+        // applies to all the run configs above
+        configureEach {
+            // Recommended logging data for a userdev environment
+            // The markers can be added/remove as needed separated by commas.
+            // "SCAN": For mods scan.
+            // "REGISTRIES": For firing of registry events.
+            // "REGISTRYDUMP": For getting the contents of all registries.
+            systemProperty 'forge.logging.markers', 'REGISTRIES'
+
+            // Recommended logging level for the console
+            // You can set various levels here.
+            // Please read: https://stackoverflow.com/questions/2031163/when-to-use-the-different-log-levels
+            logLevel = org.slf4j.event.Level.DEBUG
+        }
+    }
+
+    mods {
+        // define mod <-> source bindings
+        // these are used to tell the game which sources are for which mod
+        // mostly optional in a single mod project
+        // but multi mod projects should define one per mod
+        "${mod_id}" {
+            sourceSet(sourceSets.main)
+        }
     }
 }
 
+// Include resources generated by data generators.
+sourceSets.main.resources { srcDir 'src/generated/resources' }
+
+// Sets up a dependency configuration called 'localRuntime'.
+// This configuration should be used instead of 'runtimeOnly' to declare
+// a dependency that will be present for runtime testing but that is
+// "optional", meaning it will not be pulled by dependents of this mod.
+configurations {
+    runtimeClasspath.extendsFrom localRuntime
+}
+
 dependencies {
-    minecraft libs.minecraft
-    forge forge.minecraftForge
-
-    // The following line declares the mojmap mappings, you may use other mappings as well
-    mappings loom.layered {
-        it.mappings("org.quiltmc:quilt-mappings:${libs.versions.minecraft.get()}+build.${libs.versions.quiltMappings.get()}:intermediary-v2")
-        it.parchment("org.parchmentmc.data:parchment-${libs.versions.minecraft.get()}:${libs.versions.parchment.get()}@zip")
-        it.officialMojangMappings { nameSyntheticMembers = false }
-    }
-
     // LDLib
-    modImplementation(forge.gtceu.forge) { transitive = false }
-    modImplementation(forge.ldlib.forge) { transitive = false }
+    implementation(forge.gtceu.forge) { transitive = false }
+    implementation(forge.ldlib.neoforge) { transitive = false }
 
     // Registrate
-    modImplementation("com.tterrag.registrate:Registrate:${forge.versions.registrate.get()}")
+    implementation("com.tterrag.registrate:Registrate:${forge.versions.registrate.get()}")
 
-    // REI
-    modCompileOnly forge.rei.plugin
-    modCompileOnly forge.rei.api
-    modImplementation forge.rei.forge
+    runtimeOnly forge.emi
 
     // TOP
-    modCompileOnly(forge.theoneprobe) { transitive = false }
+    compileOnly(forge.theoneprobe) { transitive = false }
 
     // KJS
-    modImplementation forge.kubejs.forge
+    implementation forge.kubejs
 
     // Configuration
-    modImplementation(forge.configuration)
-
-    // Mixin Extras
-    implementation(annotationProcessor("io.github.llamalad7:mixinextras-common:${forge.versions.mixinExtras.get()}"))
-    api("io.github.llamalad7:mixinextras-forge:${forge.versions.mixinExtras.get()}")
-    // apply a newer mixin AP to fix an issue with building the Lithium mixins
-    implementation(annotationProcessor("org.spongepowered:mixin:${libs.versions.mixin.get()}:processor"))
+    implementation(forge.configuration)
 
     // lombok
     compileOnly 'org.projectlombok:lombok:1.18.24'
     annotationProcessor 'org.projectlombok:lombok:1.18.24'
 
     // testing mods
-    modCompileOnly forge.radium
+    compileOnly forge.radium
 }
 
-processResources {
-    // set up properties for filling into metadata
-    var properties = [
-            "version": version,
-            "mod_id": project.mod_id,
-            "forge_version": forge.versions.forgeShortVersion.get().split("\\.")[0], // only specify major version of forge
-            "minecraft_version": libs.versions.minecraft.get(),
-            "gtceu_version": forge.versions.gtceu.get(),
-            "mod_name": mod_name,
+// This block of code expands all declared replace properties in the specified resource targets.
+// A missing property will result in an error. Properties are expanded using ${} Groovy notation.
+var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {
+    var replaceProperties = [
+            minecraft_version      : libs.versions.minecraft.get(),
+            gtceu_version          : forge.versions.gtceu.get(),
+            mod_name               : mod_name,
+            neo_version            : forge.versions.neoForge.get(),
+            loader_version_range   : loader_version_range,
+            mod_id                 : mod_id,
+            mod_version            : mod_version,
     ]
-    inputs.properties(properties)
-
-    filesMatching("META-INF/mods.toml") {
-        expand properties
-    }
+    inputs.properties replaceProperties
+    expand replaceProperties
+    from "src/main/templates"
+    into "build/generated/sources/modMetadata"
 }
+// Include the output of "generateModMetadata" as an input directory for the build
+// this works with both building through Gradle and the IDE.
+sourceSets.main.resources.srcDir generateModMetadata
+// To avoid having to run "generateModMetadata" manually, make it run on every project reload
+neoForge.ideSyncTask generateModMetadata
 
-remapJar {
-    inputFile.set jar.archiveFile
-    dependsOn(":optimizeOutputsOfJar")
-    archiveClassifier.set(null)
-}
-
-jar {
-    archiveClassifier.set("dev")
-}
-
-components.java {
-    withVariantsFromConfiguration(project.configurations.shadowRuntimeElements) {
-        skip()
-    }
-}
-
+// Example configuration to allow publishing using the maven-publish plugin
 publishing {
     publications {
-        mavenForge(MavenPublication) {
-            artifactId = archivesBaseName
+        register('mavenJava', MavenPublication) {
             from components.java
         }
     }
-
-    // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
     repositories {
-        // Add repositories to publish to here.
+        maven {
+            url "file://${project.projectDir}/repo"
+        }
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
+}
+
+// IDEA no longer automatically downloads sources/javadoc jars for dependencies, so we need to explicitly enable the behavior.
+idea {
+    module {
+        downloadSources = true
+        downloadJavadoc = true
     }
 }

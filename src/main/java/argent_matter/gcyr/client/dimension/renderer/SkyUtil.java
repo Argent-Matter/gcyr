@@ -17,6 +17,7 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.material.FogType;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
@@ -30,7 +31,7 @@ public class SkyUtil {
         return Math.max(scale, 0.5f);
     }
 
-    public static void preRender(ClientLevel level, LevelRenderer levelRenderer, Camera camera, Matrix4f projectionMatrix, BufferBuilder bufferBuilder, int sunsetAngle, PoseStack poseStack, float tickDelta) {
+    public static void preRender(ClientLevel level, LevelRenderer levelRenderer, Camera camera, Matrix4f projectionMatrix, Tesselator tesselator, int sunsetAngle, PoseStack poseStack, float tickDelta) {
         // Render colours.
         Vec3 vec3d = level.getSkyColor(camera.getPosition(), tickDelta);
         float f = (float) vec3d.x();
@@ -47,7 +48,7 @@ public class SkyUtil {
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
 
-        renderColouring(bufferBuilder, poseStack, level, tickDelta, level.getTimeOfDay(tickDelta), sunsetAngle);
+        renderColouring(tesselator, poseStack, level, tickDelta, level.getTimeOfDay(tickDelta), sunsetAngle);
         RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
     }
@@ -97,7 +98,7 @@ public class SkyUtil {
     }
 
     // For rendering textures in the sky
-    public static void render(PoseStack poseStack, BufferBuilder bufferBuilder, ResourceLocation texture, int colour, Vector3f rotation, float scale, boolean blending) {
+    public static void render(PoseStack poseStack, Tesselator tesselator, ResourceLocation texture, int colour, Vector3f rotation, float scale, boolean blending) {
         startRendering(poseStack, rotation);
         RenderSystem.setShader(GameRenderer::getPositionTexColorShader);
 
@@ -111,19 +112,20 @@ public class SkyUtil {
 
         Matrix4f positionMatrix = poseStack.last().pose();
         RenderSystem.setShaderTexture(0, texture);
-        bufferBuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX_COLOR);
-        bufferBuilder.vertex(positionMatrix, -scale, 100.0f, -scale).uv(1.0f, 0.0f).color(colour >> 16 & 0xFF, colour >> 8 & 0xFF, colour & 0xFF, 255).endVertex();
-        bufferBuilder.vertex(positionMatrix, scale, 100.0f, -scale).uv(0.0f, 0.0f).color(colour >> 16 & 0xFF, colour >> 8 & 0xFF, colour & 0xFF, 255).endVertex();
-        bufferBuilder.vertex(positionMatrix, scale, 100.0f, scale).uv(0.0f, 1.0f).color(colour >> 16 & 0xFF, colour >> 8 & 0xFF, colour & 0xFF, 255).endVertex();
-        bufferBuilder.vertex(positionMatrix, -scale, 100.0f, scale).uv(1.0f, 1.0f).color(colour >> 16 & 0xFF, colour >> 8 & 0xFF, colour & 0xFF, 255).endVertex();
-        BufferUploader.drawWithShader(bufferBuilder.end());
+        BufferBuilder bufferBuilder = tesselator.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX_COLOR);
+        bufferBuilder.addVertex(positionMatrix, -scale, 100.0f, -scale).setUv(1.0f, 0.0f).setColor(colour >> 16 & 0xFF, colour >> 8 & 0xFF, colour & 0xFF, 255);
+        bufferBuilder.addVertex(positionMatrix, scale, 100.0f, -scale).setUv(0.0f, 0.0f).setColor(colour >> 16 & 0xFF, colour >> 8 & 0xFF, colour & 0xFF, 255);
+        bufferBuilder.addVertex(positionMatrix, scale, 100.0f, scale).setUv(0.0f, 1.0f).setColor(colour >> 16 & 0xFF, colour >> 8 & 0xFF, colour & 0xFF, 255);
+        bufferBuilder.addVertex(positionMatrix, -scale, 100.0f, scale).setUv(1.0f, 1.0f).setColor(colour >> 16 & 0xFF, colour >> 8 & 0xFF, colour & 0xFF, 255);
+        BufferUploader.drawWithShader(bufferBuilder.buildOrThrow());
 
         endRendering(poseStack);
     }
 
-    public static BufferBuilder.RenderedBuffer renderStars(BufferBuilder buffer, int stars, boolean colouredStars) {
+    @Nullable
+    public static MeshData renderStars(Tesselator tesselator, int stars, boolean colouredStars) {
         RenderSystem.setShader(GameRenderer::getPositionColorShader);
-        buffer.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
+        BufferBuilder buffer = tesselator.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
         StarInformation info = StarInformation.STAR_CACHE.apply(/*LevelSeed.getSeed()*/0L, stars);
         for (int i = 0; i < stars; ++i) {
             Vector3f vec3f = info.getParam1(i);
@@ -158,10 +160,10 @@ public class SkyUtil {
                 float ae = aa * -r;
 
                 int colour = info.getColour(i, v, colouredStars);
-                buffer.vertex(j + ae * n - ac * o, k + aa * q, l + ac * n + ae * o).color(colour >> 16 & 0xFF, colour >> 8 & 0xFF, colour & 0xFF, colour >> 24 & 0xFF).endVertex();
+                buffer.addVertex(j + ae * n - ac * o, k + aa * q, l + ac * n + ae * o).setColor(colour >> 16 & 0xFF, colour >> 8 & 0xFF, colour & 0xFF, colour >> 24 & 0xFF);
             }
         }
-        return buffer.end();
+        return buffer.build();
     }
 
     // Custom blue sunset and sunrise
@@ -183,7 +185,7 @@ public class SkyUtil {
         }
     }
 
-    public static void renderColouring(BufferBuilder bufferBuilder, PoseStack poseStack, ClientLevel level, float tickDelta, float timeOfDay, int sunsetAngle) {
+    public static void renderColouring(Tesselator tesselator, PoseStack poseStack, ClientLevel level, float tickDelta, float timeOfDay, int sunsetAngle) {
         float[] fogColours = level.effects().getSunriseColor(timeOfDay, tickDelta);
         if (fogColours == null) return;
 
@@ -196,16 +198,16 @@ public class SkyUtil {
         poseStack.mulPose(Axis.ZP.rotationDegrees(90.0f));
 
         Matrix4f matrix4f = poseStack.last().pose();
-        bufferBuilder.begin(VertexFormat.Mode.TRIANGLE_FAN, DefaultVertexFormat.POSITION_COLOR);
-        bufferBuilder.vertex(matrix4f, 0.0f, 100.0f, 0.0f).color(fogColours[0], fogColours[1], fogColours[2], fogColours[3]).endVertex();
+        BufferBuilder bufferBuilder = tesselator.begin(VertexFormat.Mode.TRIANGLE_FAN, DefaultVertexFormat.POSITION_COLOR);
+        bufferBuilder.addVertex(matrix4f, 0.0f, 100.0f, 0.0f).setColor(fogColours[0], fogColours[1], fogColours[2], fogColours[3]);
 
         for (int i = 0; i <= 16; ++i) {
             float o = (float) i * Mth.TWO_PI / 16.0f;
             float cosine = Mth.cos(o);
-            bufferBuilder.vertex(matrix4f, Mth.sin(o) * 120.0f, cosine * 120.0f, -cosine * 40.0f * fogColours[3]).color(fogColours[0], fogColours[1], fogColours[2], 0.0f).endVertex();
+            bufferBuilder.addVertex(matrix4f, Mth.sin(o) * 120.0f, cosine * 120.0f, -cosine * 40.0f * fogColours[3]).setColor(fogColours[0], fogColours[1], fogColours[2], 0.0f);
         }
 
-        BufferUploader.drawWithShader(bufferBuilder.end());
+        BufferUploader.drawWithShader(bufferBuilder.buildOrThrow());
         poseStack.popPose();
     }
 }
