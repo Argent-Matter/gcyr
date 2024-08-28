@@ -1,4 +1,4 @@
-package argent_matter.gcyr.common.item;
+package argent_matter.gcyr.common.item.behaviour;
 
 import com.gregtechceu.gtceu.api.cover.filter.FluidFilter;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;

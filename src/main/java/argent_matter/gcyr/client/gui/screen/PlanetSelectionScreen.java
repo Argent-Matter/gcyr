@@ -38,6 +38,7 @@ import net.neoforged.api.distmarker.OnlyIn;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.*;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 @OnlyIn(Dist.CLIENT)
 @MethodsReturnNonnullByDefault
@@ -108,8 +109,8 @@ public class PlanetSelectionScreen extends Screen implements MenuAccess<PlanetSe
         RenderSystem.enableBlend();
     }
 
-    private void renderBackground(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
-        super.renderBackground(guiGraphics);
+    public void renderBackground(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
+        super.renderBackground(guiGraphics, mouseX, mouseY, delta);
 
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
@@ -229,16 +230,14 @@ public class PlanetSelectionScreen extends Screen implements MenuAccess<PlanetSe
 
         // Scroll bar
         this.scrollBar = new Button(SCROLL_BAR_X, minScrollY, 4, 8, Component.nullToEmpty(""), pressed -> {
-        }, Button.DEFAULT_NARRATION) {
+        }, Supplier::get) {
             @Override
-            public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
-                if (this.visible) {
-                    RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
-                    RenderSystem.enableBlend();
-                    RenderSystem.defaultBlendFunc();
-                    RenderSystem.enableDepthTest();
-                    guiGraphics.blit(SCROLL_BAR, this.getX(), this.getY(), 0, 0, this.width, this.height, this.width, this.height);
-                }
+            public void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
+                RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
+                RenderSystem.enableBlend();
+                RenderSystem.defaultBlendFunc();
+                RenderSystem.enableDepthTest();
+                guiGraphics.blit(SCROLL_BAR, this.getX(), this.getY(), 0, 0, this.width, this.height, this.width, this.height);
             }
         };
         this.addRenderableWidget(this.scrollBar);

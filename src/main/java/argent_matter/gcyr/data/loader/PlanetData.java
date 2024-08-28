@@ -24,6 +24,7 @@ import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.level.Level;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -54,7 +55,7 @@ public class PlanetData extends SimpleJsonResourceReloadListener {
 
         for (Map.Entry<ResourceLocation, JsonElement> entry : objects.entrySet()) {
             JsonObject jsonObject = GsonHelper.convertToJsonObject(entry.getValue(), "planet");
-            Planet newPlanet = Planet.DIRECT_CODEC.parse(JsonOps.INSTANCE, jsonObject).getOrThrow(false, GCYR.LOGGER::error);
+            Planet newPlanet = Planet.DIRECT_CODEC.parse(JsonOps.INSTANCE, jsonObject).getOrThrow();
             planets.entrySet().removeIf(planet -> planet.getValue().level().equals(newPlanet.level()));
             planets.put(entry.getKey(), newPlanet);
         }
@@ -92,8 +93,7 @@ public class PlanetData extends SimpleJsonResourceReloadListener {
     public static void writePlanetData(FriendlyByteBuf buf) {
         CompoundTag nbt = new CompoundTag();
         for (var entry : PLANETS.entrySet()) {
-            nbt.put(entry.getKey().toString(), Planet.DIRECT_CODEC.encodeStart(NbtOps.INSTANCE, entry.getValue())
-                    .getOrThrow(false, GCYR.LOGGER::error));
+            nbt.put(entry.getKey().toString(), Planet.DIRECT_CODEC.encodeStart(NbtOps.INSTANCE, entry.getValue()).getOrThrow());
         }
         buf.writeNbt(nbt);
     }
@@ -158,7 +158,7 @@ public class PlanetData extends SimpleJsonResourceReloadListener {
 
     public static boolean isPlanetLevel(Level level) {
         if (level.isClientSide && !GCYRClient.hasUpdatedPlanets) {
-            GCYRNetworking.NETWORK.sendToServer(new PacketRequestPlanetData());
+            PacketDistributor.sendToServer(new PacketRequestPlanetData());
             GCYRClient.hasUpdatedPlanets = true;
         }
         return PLANET_LEVELS.contains(level.dimension());

@@ -1,34 +1,48 @@
 package argent_matter.gcyr.common.networking.c2s;
 
+import argent_matter.gcyr.GCYR;
 import argent_matter.gcyr.common.data.GCYRItems;
-import argent_matter.gcyr.common.item.PlanetIdChipBehaviour;
-import com.lowdragmc.lowdraglib.networking.IHandlerContext;
-import com.lowdragmc.lowdraglib.networking.IPacket;
+import argent_matter.gcyr.common.entity.RocketEntity;
+import argent_matter.gcyr.common.item.behaviour.PlanetIdChipBehaviour;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.neoforged.neoforge.network.handling.IPayloadContext;
 
-@NoArgsConstructor
 @AllArgsConstructor
-public class PacketSendSelectedDimension implements IPacket {
+public class PacketSendSelectedDimension implements CustomPacketPayload {
 
     private ResourceLocation dimensionId;
 
-    @Override
-    public void encode(FriendlyByteBuf buf) {
+
+    public static final CustomPacketPayload.Type<PacketSendSelectedDimension> TYPE = new CustomPacketPayload.Type<>(GCYR.id("send_selected_dimension"));
+    public static final StreamCodec<RegistryFriendlyByteBuf, PacketSendSelectedDimension> CODEC = StreamCodec.ofMember(PacketSendSelectedDimension::encode, PacketSendSelectedDimension::decode);
+
+    public void encode(RegistryFriendlyByteBuf buf) {
         buf.writeResourceLocation(dimensionId);
     }
 
-    @Override
-    public void decode(FriendlyByteBuf buf) {
-        this.dimensionId = buf.readResourceLocation();
+    public static PacketSendSelectedDimension decode(RegistryFriendlyByteBuf buf) {
+        return new PacketSendSelectedDimension(buf.readResourceLocation());
     }
 
-    public void execute(IHandlerContext handler) {
-        if (!handler.isClient() && dimensionId != null) {
-            ItemStack handItem = handler.getPlayer().getItemInHand(handler.getPlayer().getUsedItemHand());
+    public static void execute(PacketLaunchRocket packet, IPayloadContext handler) {
+        if (handler.player().getVehicle() instanceof RocketEntity rocketEntity) {
+            rocketEntity.startRocket();
+        }
+    }
+
+    @Override
+    public Type<? extends CustomPacketPayload> type() {
+        return TYPE;
+    }
+
+    public static void execute(PacketSendSelectedDimension packet, IPayloadContext handler) {
+        if (packet.dimensionId != null) {
+            ItemStack handItem = handler.player().getItemInHand(handler.player().getUsedItemHand());
             if (handItem.is(GCYRItems.ID_CHIP.get())) {
                 handItem.getOrCreateTag().putString(PlanetIdChipBehaviour.CURRENT_PLANET_KEY, dimensionId.toString());
                 handItem.getTag().remove(PlanetIdChipBehaviour.CURRENT_STATION_KEY);

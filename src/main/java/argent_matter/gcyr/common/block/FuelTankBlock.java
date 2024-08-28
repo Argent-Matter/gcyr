@@ -32,9 +32,9 @@ public class FuelTankBlock extends RotatedPillarBlock implements IRocketPart {
         @Getter
         private final int tier;
         @Getter
-        private final long fuelStorage;
+        private final int fuelStorage;
 
-        FuelTankProperties(String serializedName, int tier, long fuelStorage) {
+        FuelTankProperties(String serializedName, int tier, int fuelStorage) {
             this.tier = tier;
             this.fuelStorage = fuelStorage;
             this.serializedName = serializedName;

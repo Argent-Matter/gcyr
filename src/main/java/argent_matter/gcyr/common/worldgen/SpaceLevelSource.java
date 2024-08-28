@@ -1,7 +1,7 @@
 package argent_matter.gcyr.common.worldgen;
 
 import argent_matter.gcyr.common.data.GCYRBiomes;
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
@@ -28,7 +28,7 @@ import java.util.concurrent.Executor;
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
 public class SpaceLevelSource extends ChunkGenerator {
-    public static final Codec<SpaceLevelSource> CODEC = RecordCodecBuilder.create(
+    public static final MapCodec<SpaceLevelSource> CODEC = RecordCodecBuilder.mapCodec(
             instance -> instance.group(RegistryOps.retrieveElement(GCYRBiomes.SPACE)).apply(instance, instance.stable(SpaceLevelSource::new))
     );
 
@@ -39,7 +39,7 @@ public class SpaceLevelSource extends ChunkGenerator {
     }
 
     @Override
-    protected Codec<? extends ChunkGenerator> codec() {
+    protected MapCodec<? extends ChunkGenerator> codec() {
         return CODEC;
     }
 
@@ -64,7 +64,7 @@ public class SpaceLevelSource extends ChunkGenerator {
     }
 
     @Override
-    public CompletableFuture<ChunkAccess> fillFromNoise(Executor executor, Blender blender, RandomState random, StructureManager structureManager, ChunkAccess chunk) {
+    public CompletableFuture<ChunkAccess> fillFromNoise(Blender blender, RandomState randomState, StructureManager structureManager, ChunkAccess chunk) {
         return CompletableFuture.completedFuture(chunk);
     }
 

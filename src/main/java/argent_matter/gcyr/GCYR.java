@@ -8,23 +8,20 @@ import argent_matter.gcyr.config.GCYRConfig;
 import argent_matter.gcyr.data.GCYRDatagen;
 import argent_matter.gcyr.data.loader.PlanetResources;
 import com.gregtechceu.gtceu.api.GTCEuAPI;
-import com.gregtechceu.gtceu.api.data.DimensionMarker;
-import com.gregtechceu.gtceu.api.data.chemical.material.event.MaterialEvent;
-import com.gregtechceu.gtceu.api.data.chemical.material.event.MaterialRegistryEvent;
-import com.gregtechceu.gtceu.api.data.chemical.material.event.PostMaterialEvent;
-import com.gregtechceu.gtceu.api.data.chemical.material.registry.MaterialRegistry;
-import com.gregtechceu.gtceu.api.machine.MachineDefinition;
-import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
-import com.gregtechceu.gtceu.api.recipe.RecipeCondition;
+import com.gregtechceu.gtceu.api.material.material.event.MaterialEvent;
+import com.gregtechceu.gtceu.api.material.material.event.MaterialRegistryEvent;
+import com.gregtechceu.gtceu.api.material.material.event.PostMaterialEvent;
+import com.gregtechceu.gtceu.api.material.material.registry.MaterialRegistry;
+import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import com.lowdragmc.lowdraglib.gui.factory.UIFactory;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
-import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.loading.FMLEnvironment;
+import net.neoforged.neoforge.client.event.RegisterClientReloadListenersEvent;
+import net.neoforged.neoforge.client.event.RegisterGuiLayersEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,20 +33,22 @@ public class GCYR {
 	public static final Logger LOGGER = LoggerFactory.getLogger(NAME);
 	public static MaterialRegistry MATERIAL_REGISTRY;
 
-	public GCYR() {
+	public static IEventBus modBus;
+
+	public GCYR(IEventBus bus) {
 		GCYR.init();
-		var bus = FMLJavaModLoadingContext.get().getModEventBus();
+		modBus = bus;
 		bus.register(this);
 
-		bus.addGenericListener(GTRecipeType.class, this::registerRecipeTypes);
-		bus.addGenericListener(Class.class, this::registerRecipeConditions);
-		bus.addGenericListener(MachineDefinition.class, this::registerMachines);
-		bus.addGenericListener(DimensionMarker.class, this::registerDimensionMarkers);
 		GCYRDimensionTypes.register(bus);
+		GCYREntityDataSerializers.register(bus);
+		GCYRDataComponents.register(bus);
 
 		GCYRVanillaRecipeTypes.RECIPE_TYPE_DEFERRED_REGISTER.register(bus);
 
-		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> GCYRClient::init);
+		if (FMLEnvironment.dist == Dist.CLIENT) {
+			GCYRClient.init();
+		}
 	}
 
 	public static void init() {
@@ -58,7 +57,6 @@ public class GCYR {
 		UIFactory.register(EntityUIFactory.INSTANCE);
 
 		GCYRSatellites.init();
-		GCYREntityDataSerializers.init();
 		GCYRCreativeModeTabs.init();
 		GCYREntities.init();
 		GCYRBlocks.init();
@@ -67,18 +65,18 @@ public class GCYR {
 
 		GCYRDatagen.init();
 
-		GCYRRegistries.REGISTRATE.registerRegistrate();
+		GCYRRegistries.REGISTRATE.registerRegistrate(modBus);
 		GCYRDimensionTypes.init();
 		GCYRParticles.init();
 	}
 
 	public static ResourceLocation id(String path) {
-		return new ResourceLocation(MOD_ID, path);
+		return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
 	}
 
 	@SubscribeEvent
-	public void registerGuiOverlays(RegisterGuiOverlaysEvent event) {
-		event.registerBelowAll("oxygen_tank", new EntityOxygenHUD());
+	public void registerGuiOverlays(RegisterGuiLayersEvent event) {
+		event.registerBelowAll(GCYR.id("oxygen_tank"), new EntityOxygenHUD());
 	}
 
 
@@ -102,19 +100,11 @@ public class GCYR {
 		GCYRMaterials.modifyMaterials();
 	}
 
-	public void registerRecipeTypes(GTCEuAPI.RegisterEvent<ResourceLocation, GTRecipeType> event) {
-		GCYRRecipeTypes.init();
-	}
-
-	public void registerRecipeConditions(GTCEuAPI.RegisterEvent<String, Class<? extends RecipeCondition>> event) {
-		GCYRRecipeConditions.init();
-	}
-
-	public void registerMachines(GTCEuAPI.RegisterEvent<ResourceLocation, MachineDefinition> event) {
-		GCYRMachines.init();
-	}
-
-	public void registerDimensionMarkers(GTCEuAPI.RegisterEvent<ResourceLocation, DimensionMarker> event) {
-		GCYRDimensionMarkers.init();
+	@SubscribeEvent
+	public void gtRegister(GTCEuAPI.RegisterEvent event) {
+		event.register(GTRegistries.RECIPE_TYPES, GCYRRecipeTypes::init);
+		event.register(GTRegistries.RECIPE_CONDITIONS, GCYRRecipeConditions::init);
+		event.register(GTRegistries.MACHINES, GCYRMachines::init);
+		event.register(GTRegistries.DIMENSION_MARKERS, GCYRDimensionMarkers::init);
 	}
 }

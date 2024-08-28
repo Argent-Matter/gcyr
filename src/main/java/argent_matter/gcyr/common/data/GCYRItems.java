@@ -1,9 +1,9 @@
 package argent_matter.gcyr.common.data;
 
 import argent_matter.gcyr.GCYR;
-import argent_matter.gcyr.common.item.*;
 import argent_matter.gcyr.common.item.armor.SpaceSuitArmorItem;
 import argent_matter.gcyr.common.item.armor.trim.GCYRTrimPatterns;
+import argent_matter.gcyr.common.item.behaviour.*;
 import argent_matter.gcyr.data.recipe.GCYRTags;
 import com.gregtechceu.gtceu.api.item.ComponentItem;
 import com.gregtechceu.gtceu.api.item.component.IItemComponent;
