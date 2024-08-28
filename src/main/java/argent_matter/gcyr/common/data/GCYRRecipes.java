@@ -3,13 +3,11 @@ package argent_matter.gcyr.common.data;
 import argent_matter.gcyr.data.recipe.*;
 import argent_matter.gcyr.data.recipe.chemistry.ChemistryRecipes;
 import argent_matter.gcyr.data.recipe.chemistry.PolymerRecipes;
-import net.minecraft.data.recipes.FinishedRecipe;
-
-import java.util.function.Consumer;
+import net.minecraft.data.recipes.RecipeOutput;
 
 public class GCYRRecipes {
 
-    public static void init(Consumer<FinishedRecipe> provider) {
+    public static void init(RecipeOutput provider) {
         OxygenSpreaderRecipeLoader.init(provider);
         DysonSphereRecipeLoader.init(provider);
         PolymerRecipes.init(provider);

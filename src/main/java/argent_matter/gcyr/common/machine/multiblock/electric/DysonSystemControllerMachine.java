@@ -8,7 +8,7 @@ import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
-import com.gregtechceu.gtceu.common.data.GTDamageTypes;
+import com.gregtechceu.gtceu.data.damagesource.GTDamageTypes;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import net.minecraft.ChatFormatting;
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -19,6 +19,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -59,9 +60,9 @@ public class DysonSystemControllerMachine extends WorkableElectricMultiblockMach
     }
 
     @Override
-    protected @Nullable GTRecipe getRealRecipe(GTRecipe recipe) {
+    protected @Nullable RecipeHolder<GTRecipe> getRealRecipe(RecipeHolder<GTRecipe> recipe) {
         if (this.getLevel().dimensionType().hasCeiling()) return null;
-        if (recipe.data.contains("gcyr:repair_dyson_sphere")) {
+        if (recipe.value().data.contains("gcyr:repair_dyson_sphere")) {
             IDysonSystem system = GCYRCapabilityHelper.getDysonSystem((ServerLevel) this.getLevel());
             if (system != null && system.isDysonSphereActive() && (!system.activeDysonSphere().isNeedsMaintenance() || !this.getPos().equals(system.activeDysonSphere().getControllerPos()))) return null;
         }
@@ -86,15 +87,15 @@ public class DysonSystemControllerMachine extends WorkableElectricMultiblockMach
     @Override
     public void afterWorking() {
         super.afterWorking();
-        GTRecipe recipe = this.getRecipeLogic().getLastRecipe();
+        RecipeHolder<GTRecipe> recipe = this.getRecipeLogic().getLastRecipe();
         if (recipe == null || this.isRemote()) return;
-        if (recipe.getInputContents(ItemRecipeCapability.CAP).isEmpty()) return; // assume the recipe is a dyson launch or repair if it has item inputs.
+        if (recipe.value().getInputContents(ItemRecipeCapability.CAP).isEmpty()) return; // assume the recipe is a dyson launch or repair if it has item inputs.
 
         IDysonSystem system = GCYRCapabilityHelper.getDysonSystem((ServerLevel) this.getLevel());
         if (system == null) return;
-        if (!system.isDysonSphereActive() && recipe.data.contains("gcyr:launch_dyson_sphere")) {
+        if (!system.isDysonSphereActive() && recipe.value().data.contains("gcyr:launch_dyson_sphere")) {
             system.addDysonSphere(this.getPos());
-        } else if (system.isDysonSphereActive() && recipe.data.contains("gcyr:repair_dyson_sphere") && system.activeDysonSphere().getControllerPos().equals(this.getPos())) {
+        } else if (system.isDysonSphereActive() && recipe.value().data.contains("gcyr:repair_dyson_sphere") && system.activeDysonSphere().getControllerPos().equals(this.getPos())) {
             system.activeDysonSphere().fixMaintenance();
         }
     }

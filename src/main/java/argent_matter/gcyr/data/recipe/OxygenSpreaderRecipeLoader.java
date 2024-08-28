@@ -1,17 +1,17 @@
 package argent_matter.gcyr.data.recipe;
 
 import argent_matter.gcyr.GCYR;
-import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.data.recipes.RecipeOutput;
 
 import java.util.function.Consumer;
 
 import static argent_matter.gcyr.common.data.GCYRRecipeTypes.OXYGEN_SPREADER_RECIPES;
-import static com.gregtechceu.gtceu.common.data.GTMaterials.Air;
-import static com.gregtechceu.gtceu.common.data.GTMaterials.Oxygen;
+import static com.gregtechceu.gtceu.data.material.GTMaterials.Air;
+import static com.gregtechceu.gtceu.data.material.GTMaterials.Oxygen;
 
 public class OxygenSpreaderRecipeLoader {
 
-    public static void init(Consumer<FinishedRecipe> provider) {
+    public static void init(RecipeOutput provider) {
         OXYGEN_SPREADER_RECIPES.recipeBuilder(GCYR.id("oxygen_10l"))
                 .circuitMeta(1)
                 .inputFluids(Oxygen.getFluid(750))

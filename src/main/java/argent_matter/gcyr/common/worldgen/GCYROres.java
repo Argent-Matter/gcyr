@@ -2,16 +2,16 @@ package argent_matter.gcyr.common.worldgen;
 
 import argent_matter.gcyr.GCYR;
 import argent_matter.gcyr.data.recipe.GCYRTags;
-import com.gregtechceu.gtceu.api.data.worldgen.GTLayerPattern;
-import com.gregtechceu.gtceu.api.data.worldgen.GTOreDefinition;
-import com.gregtechceu.gtceu.api.data.worldgen.generator.indicators.SurfaceIndicatorGenerator;
-import com.gregtechceu.gtceu.api.data.worldgen.generator.veins.DikeVeinGenerator;
-import com.gregtechceu.gtceu.api.data.worldgen.generator.veins.VeinedVeinGenerator;
+import com.gregtechceu.gtceu.api.worldgen.GTLayerPattern;
+import com.gregtechceu.gtceu.api.worldgen.GTOreDefinition;
+import com.gregtechceu.gtceu.api.worldgen.generator.indicators.SurfaceIndicatorGenerator;
+import com.gregtechceu.gtceu.api.worldgen.generator.veins.DikeVeinGenerator;
+import com.gregtechceu.gtceu.api.worldgen.generator.veins.VeinedVeinGenerator;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest;
 
-import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
-import static com.gregtechceu.gtceu.common.data.GTOres.create;
+import static com.gregtechceu.gtceu.data.material.GTMaterials.*;
+import static com.gregtechceu.gtceu.data.worldgen.GTOres.create;
 
 @SuppressWarnings("unused")
 public class GCYROres {

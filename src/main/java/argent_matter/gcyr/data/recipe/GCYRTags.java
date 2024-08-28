@@ -1,7 +1,7 @@
 package argent_matter.gcyr.data.recipe;
 
 import argent_matter.gcyr.api.data.tag.GCYRTagUtil;
-import com.gregtechceu.gtceu.api.data.tag.TagUtil;
+import com.gregtechceu.gtceu.api.tag.TagUtil;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;

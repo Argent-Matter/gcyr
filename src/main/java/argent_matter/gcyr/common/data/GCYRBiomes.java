@@ -3,7 +3,7 @@ package argent_matter.gcyr.common.data;
 import argent_matter.gcyr.GCYR;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.worldgen.BootstapContext;
+import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.sounds.Music;
 import net.minecraft.util.Mth;
@@ -24,7 +24,7 @@ public class GCYRBiomes {
     public static final ResourceKey<Biome> VENUS_BARREN_PLAINS = ResourceKey.create(Registries.BIOME, GCYR.id("venus_barren_plains"));
 
 
-    public static void bootstrap(BootstapContext<Biome> ctx) {
+    public static void bootstrap(BootstrapContext<Biome> ctx) {
         ctx.register(SPACE, space(ctx.lookup(Registries.PLACED_FEATURE), ctx.lookup(Registries.CONFIGURED_CARVER)));
     }
 

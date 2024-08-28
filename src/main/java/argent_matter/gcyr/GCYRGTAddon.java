@@ -10,9 +10,9 @@ import argent_matter.gcyr.common.worldgen.GCYRWorldGenLayers;
 import com.gregtechceu.gtceu.api.addon.GTAddon;
 import com.gregtechceu.gtceu.api.addon.IGTAddon;
 import com.gregtechceu.gtceu.api.addon.events.MaterialCasingCollectionEvent;
-import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;
-import net.minecraft.data.recipes.FinishedRecipe;
+import com.gregtechceu.gtceu.api.tag.TagPrefix;
+import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -53,20 +53,11 @@ public class GCYRGTAddon implements IGTAddon {
                 .registerOre(() -> GCYRBlocks.MERCURY_ROCK.orElse(Blocks.STONE).defaultBlockState(), null, BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GRAY).requiresCorrectToolForDrops().strength(3.0F, 3.0F), GCYR.id("block/moon_stone"));
     }
 
-    @Override
-    public void registerElements() {
-        IGTAddon.super.registerElements();
-    }
-
-    @Override
-    public void registerSounds() {
-        GCYRSoundEntries.init();
-    }
-
-    @Override
-    public void registerCovers() {
-        IGTAddon.super.registerCovers();
-    }
+    // TODO
+    //@Override
+    //public void registerSounds() {
+    //    GCYRSoundEntries.init();
+    //}
 
     @Override
     public void registerWorldgenLayers() {
@@ -83,10 +74,11 @@ public class GCYRGTAddon implements IGTAddon {
         IGTAddon.super.registerVeinGenerators();
     }
 
-    @Override
-    public void registerOreVeins() {
-        GCYROres.init();
-    }
+    // TODO
+    //@Override
+    //public void registerOreVeins() {
+    //    GCYROres.init();
+    //}
 
     @Override
     public void collectMaterialCasings(MaterialCasingCollectionEvent event) {
@@ -94,7 +86,7 @@ public class GCYRGTAddon implements IGTAddon {
     }
 
     @Override
-    public void addRecipes(Consumer<FinishedRecipe> provider) {
+    public void addRecipes(RecipeOutput provider) {
         GCYRRecipes.init(provider);
     }
 }

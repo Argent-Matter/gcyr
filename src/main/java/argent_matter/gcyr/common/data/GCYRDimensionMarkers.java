@@ -2,13 +2,13 @@ package argent_matter.gcyr.common.data;
 
 import argent_matter.gcyr.GCYR;
 import argent_matter.gcyr.api.registries.GCYRRegistries;
-import com.gregtechceu.gtceu.api.data.DimensionMarker;
+import com.gregtechceu.gtceu.api.worldgen.DimensionMarker;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
 import net.minecraft.world.level.block.Block;
 
-import static com.gregtechceu.gtceu.common.data.GTDimensionMarkers.createAndRegister;
+import static com.gregtechceu.gtceu.data.worldgen.GTDimensionMarkers.createAndRegister;
 
 @SuppressWarnings("unused")
 public class GCYRDimensionMarkers {

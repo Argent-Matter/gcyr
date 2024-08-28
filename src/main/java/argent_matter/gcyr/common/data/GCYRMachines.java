@@ -10,25 +10,26 @@ import argent_matter.gcyr.data.recipe.GCYRTags;
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.GTValues;
+import com.gregtechceu.gtceu.api.RotationState;
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
-import com.gregtechceu.gtceu.api.data.RotationState;
-import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
-import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.*;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
-import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
-import com.gregtechceu.gtceu.api.pattern.MultiblockShapeInfo;
-import com.gregtechceu.gtceu.api.pattern.Predicates;
+import com.gregtechceu.gtceu.api.material.ChemicalHelper;
+import com.gregtechceu.gtceu.api.multiblock.FactoryBlockPattern;
+import com.gregtechceu.gtceu.api.multiblock.MultiblockShapeInfo;
+import com.gregtechceu.gtceu.api.multiblock.Predicates;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.OverclockingLogic;
 import com.gregtechceu.gtceu.api.registry.registrate.MachineBuilder;
+import com.gregtechceu.gtceu.api.tag.TagPrefix;
 import com.gregtechceu.gtceu.client.renderer.machine.TieredHullMachineRenderer;
-import com.gregtechceu.gtceu.common.data.GTBlocks;
-import com.gregtechceu.gtceu.common.data.GTMaterials;
-import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
-import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.config.ConfigHolder;
+import com.gregtechceu.gtceu.data.block.GTBlocks;
+import com.gregtechceu.gtceu.data.material.GTMaterials;
+import com.gregtechceu.gtceu.data.recipe.GTRecipeModifiers;
+import com.gregtechceu.gtceu.data.recipe.GTRecipeTypes;
 import com.lowdragmc.lowdraglib.side.fluid.FluidHelper;
+import it.unimi.dsi.fastutil.ints.Int2IntFunction;
 import it.unimi.dsi.fastutil.ints.Int2LongFunction;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -43,10 +44,10 @@ import java.util.function.BiFunction;
 import static argent_matter.gcyr.api.registries.GCYRRegistries.REGISTRATE;
 import static argent_matter.gcyr.common.data.GCYRBlocks.*;
 import static com.gregtechceu.gtceu.api.GTValues.*;
-import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
-import static com.gregtechceu.gtceu.common.data.GCyMBlocks.CASING_ATOMIC;
-import static com.gregtechceu.gtceu.common.data.GTBlocks.*;
-import static com.gregtechceu.gtceu.common.data.GTMachines.POWER_TRANSFORMER;
+import static com.gregtechceu.gtceu.api.multiblock.Predicates.*;
+import static com.gregtechceu.gtceu.data.block.GCyMBlocks.*;
+import static com.gregtechceu.gtceu.data.block.GTBlocks.*;
+import static com.gregtechceu.gtceu.data.machine.GTMachines.*;
 import static com.gregtechceu.gtceu.utils.FormattingUtil.toEnglishName;
 
 @SuppressWarnings({"Convert2MethodRef", "FunctionalExpressionCanBeFolded", "unused", "DataFlowIssue"})
@@ -54,7 +55,7 @@ public class GCYRMachines {
     public final static int[] ELECTRIC_TIERS = GTValues.tiersBetween(LV, GTCEuAPI.isHighTier() ? OpV : UV);
     public final static int[] LOW_TIERS = GTValues.tiersBetween(LV, EV);
     public final static int[] HIGH_TIERS = GTValues.tiersBetween(IV, GTCEuAPI.isHighTier() ? OpV : UHV);
-    public static final Int2LongFunction defaultTankSizeFunction = tier -> (tier <= GTValues.LV ? 8 : tier == GTValues.MV ? 12 : tier == GTValues.HV ? 16 : tier == GTValues.EV ? 32 : 64) * FluidHelper.getBucket();
+    public static final Int2IntFunction defaultTankSizeFunction = tier -> (tier <= GTValues.LV ? 8 : tier == GTValues.MV ? 12 : tier == GTValues.HV ? 16 : tier == GTValues.EV ? 32 : 64) * FluidHelper.getBucket();
 
 
     public final static MachineDefinition[] OXYGEN_SPREADER = registerTieredMachines("oxygen_spreader", OxygenSpreaderMachine::new,
@@ -241,7 +242,7 @@ public class GCYRMachines {
                     .aisle("XXX", "XXX", "XXX")
                     .aisle("XXX", "X#X", "XXX")
                     .aisle("XXX", "XSX", "XXX")
-                    .where('S', Predicates.controller(blocks(definition.getBlock())))
+                    .where('S', controller(blocks(definition.getBlock())))
                     .where('X', blocks(CASING_ALUMINIUM_FROSTPROOF.get()).setMinGlobalLimited(14)
                             .or(Predicates.autoAbilities(definition.getRecipeTypes())))
                     .where('#', Predicates.air())
@@ -253,7 +254,7 @@ public class GCYRMachines {
 
     public static MachineDefinition[] registerSimpleMachines(String name,
                                                              GTRecipeType recipeType,
-                                                             Int2LongFunction tankScalingFunction,
+                                                             Int2IntFunction tankScalingFunction,
                                                              int... tiers) {
         return registerTieredMachines(name, (holder, tier) -> new SimpleTieredMachine(holder, tier, tankScalingFunction), (tier, builder) -> builder
                 .langValue("%s %s %s".formatted(VLVH[tier], toEnglishName(name), VLVT[tier]))
@@ -267,7 +268,7 @@ public class GCYRMachines {
                 .register(), tiers);
     }
 
-    public static MachineDefinition[] registerSimpleMachines(String name, GTRecipeType recipeType, Int2LongFunction tankScalingFunction) {
+    public static MachineDefinition[] registerSimpleMachines(String name, GTRecipeType recipeType, Int2IntFunction tankScalingFunction) {
         return registerSimpleMachines(name, recipeType, tankScalingFunction, ELECTRIC_TIERS);
     }
 

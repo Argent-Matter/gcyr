@@ -4,7 +4,7 @@ import argent_matter.gcyr.api.space.satellite.Satellite;
 import argent_matter.gcyr.api.space.satellite.SatelliteType;
 import argent_matter.gcyr.api.space.satellite.data.SatelliteData;
 import argent_matter.gcyr.config.GCYRConfig;
-import com.gregtechceu.gtceu.common.data.GTDamageTypes;
+import com.gregtechceu.gtceu.data.damagesource.GTDamageTypes;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;

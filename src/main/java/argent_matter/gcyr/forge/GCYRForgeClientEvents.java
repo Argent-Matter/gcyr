@@ -3,14 +3,14 @@ package argent_matter.gcyr.forge;
 import argent_matter.gcyr.GCYR;
 import argent_matter.gcyr.client.data.GCYRParticleProviders;
 import argent_matter.gcyr.client.dimension.ClientModSkies;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.RegisterDimensionSpecialEffectsEvent;
-import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.client.event.RegisterDimensionSpecialEffectsEvent;
+import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 
 @SuppressWarnings("unused")
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = GCYR.MOD_ID, value = Dist.CLIENT)
+@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD, modid = GCYR.MOD_ID, value = Dist.CLIENT)
 public class GCYRForgeClientEvents {
 
     @SubscribeEvent

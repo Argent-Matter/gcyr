@@ -9,12 +9,12 @@ import argent_matter.gcyr.common.item.behaviour.PlanetIdChipBehaviour;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IDisplayUIMachine;
+import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.ButtonWidget;
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.SlotWidget;
-import com.lowdragmc.lowdraglib.misc.ItemStackTransfer;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
@@ -46,14 +46,14 @@ public class RocketScannerMachine extends PlatformMultiblockMachine implements I
     private boolean rocketBuilt;
     @Getter
     @Persisted
-    private final ItemStackTransfer configSaveSlot, configLoadSlot;
+    private final CustomItemStackHandler configSaveSlot, configLoadSlot;
 
     public RocketScannerMachine(IMachineBlockEntity holder) {
         super(holder);
-        this.configSaveSlot = new ItemStackTransfer(1);
+        this.configSaveSlot = new CustomItemStackHandler(1);
         this.configSaveSlot.setFilter(GCYRItems.ID_CHIP::isIn);
 
-        this.configLoadSlot = new ItemStackTransfer(1);
+        this.configLoadSlot = new CustomItemStackHandler(1);
         this.configLoadSlot.setFilter(GCYRItems.KEYCARD::isIn);
     }
 

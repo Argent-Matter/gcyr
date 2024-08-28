@@ -1,15 +1,11 @@
 package argent_matter.gcyr.data.recipe.builder;
 
-
 import argent_matter.gcyr.common.data.GCYRVanillaRecipeTypes;
-import com.google.gson.JsonObject;
-import net.minecraft.data.recipes.FinishedRecipe;
+import argent_matter.gcyr.common.recipe.type.SmithingSpaceSuitRecipe;
+import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-
-import javax.annotation.Nullable;
-import java.util.function.Consumer;
 
 public class SmithingSpaceSuitRecipeBuilder {
     private final Ingredient template;
@@ -28,45 +24,9 @@ public class SmithingSpaceSuitRecipeBuilder {
         return new SmithingSpaceSuitRecipeBuilder(GCYRVanillaRecipeTypes.SMITHING_SPACESUIT_SERIALIZER.get(), template, base, addition);
     }
 
-    public void save(Consumer<FinishedRecipe> recipeConsumer, ResourceLocation location) {
-        recipeConsumer.accept(
-                new SmithingSpaceSuitRecipeBuilder.Result(location, this.type, this.template, this.base, this.addition));
-    }
-
-    public record Result(
-            ResourceLocation id,
-            RecipeSerializer<?> type,
-            Ingredient template,
-            Ingredient base,
-            Ingredient addition
-    ) implements FinishedRecipe {
-        @Override
-        public void serializeRecipeData(JsonObject json) {
-            json.add("template", this.template.toJson());
-            json.add("base", this.base.toJson());
-            json.add("addition", this.addition.toJson());
-        }
-
-        @Override
-        public ResourceLocation getId() {
-            return this.id;
-        }
-
-        @Override
-        public RecipeSerializer<?> getType() {
-            return this.type;
-        }
-
-        @Nullable
-        @Override
-        public JsonObject serializeAdvancement() {
-            return null;
-        }
-
-        @Nullable
-        @Override
-        public ResourceLocation getAdvancementId() {
-            return null;
-        }
+    public void save(RecipeOutput recipeConsumer, ResourceLocation location) {
+        recipeConsumer.accept(location,
+                new SmithingSpaceSuitRecipe(this.template, this.base, this.addition),
+                null);
     }
 }

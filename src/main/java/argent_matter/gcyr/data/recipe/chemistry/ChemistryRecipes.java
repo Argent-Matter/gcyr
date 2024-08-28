@@ -1,12 +1,10 @@
 package argent_matter.gcyr.data.recipe.chemistry;
 
-import net.minecraft.data.recipes.FinishedRecipe;
-
-import java.util.function.Consumer;
+import net.minecraft.data.recipes.RecipeOutput;
 
 public class ChemistryRecipes {
 
-    public static void init(Consumer<FinishedRecipe> provider) {
+    public static void init(RecipeOutput provider) {
 
     }
 

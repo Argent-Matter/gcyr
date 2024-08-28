@@ -2,8 +2,8 @@ package argent_matter.gcyr.common.worldgen;
 
 import argent_matter.gcyr.GCYR;
 import argent_matter.gcyr.common.data.GCYRBlocks;
-import com.gregtechceu.gtceu.api.data.worldgen.IWorldGenLayer;
-import com.gregtechceu.gtceu.api.data.worldgen.SimpleWorldGenLayer;
+import com.gregtechceu.gtceu.api.worldgen.IWorldGenLayer;
+import com.gregtechceu.gtceu.api.worldgen.SimpleWorldGenLayer;
 import net.minecraft.world.level.levelgen.structure.templatesystem.BlockMatchTest;
 
 import java.util.Set;

@@ -2,6 +2,8 @@ package argent_matter.gcyr.mixin;
 
 
 import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.MeshData;
+import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexBuffer;
 import net.minecraft.client.CloudStatus;
 import net.minecraft.client.renderer.LevelRenderer;
@@ -68,5 +70,5 @@ public interface LevelRendererAccessor {
     float[] getRainSizeZ();
 
     @Invoker
-    BufferBuilder.RenderedBuffer invokeBuildClouds(BufferBuilder builder, double x, double y, double z, Vec3 color);
+    MeshData invokeBuildClouds(Tesselator builder, double x, double y, double z, Vec3 color);
 }

@@ -7,22 +7,22 @@ import argent_matter.gcyr.common.data.GCYRMaterials;
 import argent_matter.gcyr.common.recipe.condition.DysonSphereCondition;
 import argent_matter.gcyr.common.recipe.condition.OrbitCondition;
 import com.gregtechceu.gtceu.api.GTCEuAPI;
-import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
-import com.gregtechceu.gtceu.common.data.GTMachines;
-import com.gregtechceu.gtceu.common.data.GTMaterials;
+import com.gregtechceu.gtceu.api.tag.TagPrefix;
+import com.gregtechceu.gtceu.data.machine.GTMachines;
+import com.gregtechceu.gtceu.data.material.GTMaterials;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
-import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.data.recipes.RecipeOutput;
 
 import java.util.function.Consumer;
 
 import static argent_matter.gcyr.common.data.GCYRRecipeTypes.DYSON_ENERGY_RECIPES;
 import static argent_matter.gcyr.common.data.GCYRRecipeTypes.SPACE_ELEVATOR_RECIPES;
 import static com.gregtechceu.gtceu.api.GTValues.*;
-import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.ASSEMBLY_LINE_RECIPES;
+import static com.gregtechceu.gtceu.data.recipe.GTRecipeTypes.ASSEMBLY_LINE_RECIPES;
 
 public class DysonSphereRecipeLoader {
 
-    public static void init(Consumer<FinishedRecipe> provider) {
+    public static void init(RecipeOutput provider) {
         SPACE_ELEVATOR_RECIPES.recipeBuilder(GCYR.id("dyson_sphere_casing"))
                 .inputItems(TagPrefix.plate, GCYRMaterials.Bisalloy400, 32)
                 .inputItems(TagPrefix.frameGt, GTMaterials.NaquadahAlloy, 12)

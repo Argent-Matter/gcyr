@@ -2,18 +2,17 @@ package argent_matter.gcyr.common.data;
 
 import argent_matter.gcyr.GCYR;
 import com.gregtechceu.gtceu.api.GTValues;
-import com.gregtechceu.gtceu.api.data.chemical.material.Material;
-import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags;
-import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIconSet;
-import com.gregtechceu.gtceu.api.data.chemical.material.properties.*;
-import com.gregtechceu.gtceu.api.fluids.FluidBuilder;
-import com.gregtechceu.gtceu.api.fluids.attribute.FluidAttributes;
-import com.gregtechceu.gtceu.api.fluids.store.FluidStorageKeys;
+import com.gregtechceu.gtceu.api.fluid.FluidBuilder;
+import com.gregtechceu.gtceu.api.fluid.attribute.FluidAttributes;
+import com.gregtechceu.gtceu.api.fluid.store.FluidStorageKeys;
+import com.gregtechceu.gtceu.api.material.material.Material;
+import com.gregtechceu.gtceu.api.material.material.info.MaterialFlags;
+import com.gregtechceu.gtceu.api.material.material.info.MaterialIconSet;
+import com.gregtechceu.gtceu.api.material.material.properties.*;
 
-import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags.*;
-import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags.GENERATE_PLATE;
-import static com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialIconSet.SHINY;
-import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
+import static com.gregtechceu.gtceu.api.material.material.info.MaterialFlags.*;
+import static com.gregtechceu.gtceu.api.material.material.info.MaterialIconSet.SHINY;
+import static com.gregtechceu.gtceu.data.material.GTMaterials.*;
 
 @SuppressWarnings("unused")
 public class GCYRMaterials {

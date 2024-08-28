@@ -5,17 +5,17 @@ import argent_matter.gcyr.util.FloodFiller3D;
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.SimpleTieredMachine;
-import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
 import com.lowdragmc.lowdraglib.side.fluid.FluidHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.DustParticleOptions;
+import net.neoforged.neoforge.fluids.crafting.FluidIngredient;
 import org.joml.Vector3f;
 
 import java.util.Set;
 
 public class OxygenSpreaderMachine extends SimpleTieredMachine {
 
-    public static long tankScalingFunction(int tier) {
+    public static int tankScalingFunction(int tier) {
         return tier * 4 * FluidHelper.getBucket();
     }
 
@@ -30,7 +30,7 @@ public class OxygenSpreaderMachine extends SimpleTieredMachine {
     }
 
     public boolean canDistribute(int oxygenBlocks) {
-        return ((FluidIngredient)recipeLogic.getLastRecipe().getInputContents(FluidRecipeCapability.CAP).get(0).content).getAmount() / FluidHelper.getBucket() >= oxygenBlocks;
+        return ((FluidIngredient)recipeLogic.getLastRecipe().value().getInputContents(FluidRecipeCapability.CAP).get(0).content).getStacks()[0].getAmount() / FluidHelper.getBucket() >= oxygenBlocks;
     }
 
     public void runAlgorithm() {

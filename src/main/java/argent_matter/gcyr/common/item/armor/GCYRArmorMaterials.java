@@ -1,57 +1,33 @@
 package argent_matter.gcyr.common.item.armor;
 
+import argent_matter.gcyr.GCYR;
 import argent_matter.gcyr.common.data.GCYRItems;
-import lombok.Getter;
-import net.minecraft.sounds.SoundEvent;
+import net.minecraft.Util;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.util.LazyLoadedValue;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredRegister;
 
-import java.util.function.Supplier;
+import java.util.EnumMap;
+import java.util.List;
 
-public enum GCYRArmorMaterials implements ArmorMaterial {
-    SPACE("gcyr:space", 5, new int[]{3, 6, 8, 3}, 5, SoundEvents.ARMOR_EQUIP_DIAMOND, 0, 0, () -> Ingredient.of(GCYRItems.SPACE_FABRIC.get()));
+public class GCYRArmorMaterials {
+    public static final DeferredRegister<ArmorMaterial> ARMOR_MATERIALS = DeferredRegister.create(Registries.ARMOR_MATERIAL, GCYR.MOD_ID);
 
-    private static final int[] HEALTH_PER_SLOT = new int[]{13, 15, 16, 11};
-    @Getter
-    private final String name;
-    @Getter
-    private final int durabilityMultiplier;
-    private final int[] slotProtections;
-    @Getter
-    private final int enchantmentValue;
-    @Getter
-    private final SoundEvent equipSound;
-    @Getter
-    private final float toughness;
-    @Getter
-    private final float knockbackResistance;
-    private final LazyLoadedValue<Ingredient> repairIngredient;
+    public static final DeferredHolder<ArmorMaterial, ArmorMaterial> SPACE = ARMOR_MATERIALS.register("space", () -> new ArmorMaterial(Util.make(new EnumMap<>(ArmorItem.Type.class), map -> {
+        map.put(ArmorItem.Type.BOOTS, 3);
+        map.put(ArmorItem.Type.LEGGINGS, 6);
+        map.put(ArmorItem.Type.CHESTPLATE, 8);
+        map.put(ArmorItem.Type.HELMET, 3);
+        map.put(ArmorItem.Type.BODY, 8);
+    }), 5, SoundEvents.ARMOR_EQUIP_DIAMOND, () -> Ingredient.of(GCYRItems.SPACE_FABRIC.get()), List.of(new ArmorMaterial.Layer(GCYR.id("space"))), 0, 0));
 
-    GCYRArmorMaterials(String name, int durabilityMultiplier, int[] slotProtections, int enchantmentValue, SoundEvent equipSound, float toughness, float knockbackResistance, Supplier<Ingredient> repairIngredient) {
-        this.name = name;
-        this.durabilityMultiplier = durabilityMultiplier;
-        this.slotProtections = slotProtections;
-        this.enchantmentValue = enchantmentValue;
-        this.equipSound = equipSound;
-        this.toughness = toughness;
-        this.knockbackResistance = knockbackResistance;
-        this.repairIngredient = new LazyLoadedValue<>(repairIngredient);
-    }
 
-    @Override
-    public int getDurabilityForType(ArmorItem.Type type) {
-        return HEALTH_PER_SLOT[type.getSlot().getIndex()] * this.durabilityMultiplier;
-    }
-
-    @Override
-    public int getDefenseForType(ArmorItem.Type type) {
-        return this.slotProtections[type.getSlot().getIndex()];
-    }
-
-    public Ingredient getRepairIngredient() {
-        return repairIngredient.get();
+    public static void register(IEventBus modBus) {
+        ARMOR_MATERIALS.register(modBus);
     }
 }

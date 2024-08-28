@@ -11,6 +11,7 @@ import argent_matter.gcyr.util.PosWithState;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.UITemplate;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
 import com.lowdragmc.lowdraglib.gui.texture.GuiTextureGroup;
 import com.lowdragmc.lowdraglib.gui.texture.TextTexture;
@@ -19,7 +20,6 @@ import com.lowdragmc.lowdraglib.gui.widget.ButtonWidget;
 import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.SlotWidget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
-import com.lowdragmc.lowdraglib.misc.ItemStackTransfer;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 import lombok.Getter;
@@ -40,14 +40,14 @@ public class SpaceStationPackagerMachine extends PlatformMultiblockMachine {
 
     @Getter
     @Persisted
-    private final ItemStackTransfer packageSlot, keycardSlot, outputSlots;
+    private final CustomItemStackHandler packageSlot, keycardSlot, outputSlots;
 
     public SpaceStationPackagerMachine(IMachineBlockEntity holder) {
         super(holder);
-        this.packageSlot = new ItemStackTransfer(1);
+        this.packageSlot = new CustomItemStackHandler(1);
         this.packageSlot.setFilter(GCYRItems.SPACE_STATION_PACKAGE::isIn);
-        this.keycardSlot = new ItemStackTransfer(1);
-        this.outputSlots = new ItemStackTransfer(2);
+        this.keycardSlot = new CustomItemStackHandler(1);
+        this.outputSlots = new CustomItemStackHandler(2);
     }
 
     @Override
