@@ -30,15 +30,28 @@ public class GCYRBiomes {
 
     public static Biome space(HolderGetter<PlacedFeature> placedFeatures, HolderGetter<ConfiguredWorldCarver<?>> worldCarvers) {
         BiomeGenerationSettings.Builder builder = new BiomeGenerationSettings.Builder(placedFeatures, worldCarvers);
-        return biome(0.0f, 0.5F, 0.5F, new MobSpawnSettings.Builder(), builder, null);
+        return biome(0.0f, 0.5F, false, new MobSpawnSettings.Builder(), builder, null);
     }
 
-    private static Biome biome(float downfall, float temp, float rainfall, MobSpawnSettings.Builder spawn, BiomeGenerationSettings.Builder gen, @Nullable Music music) {
-        return biome(downfall, temp, rainfall, 4159204, 329011, spawn, gen, music);
+    private static Biome biome(float downfall, float temp, boolean hasRain, MobSpawnSettings.Builder spawn, BiomeGenerationSettings.Builder gen, @Nullable Music music) {
+        return biome(downfall, temp, hasRain, 4159204, 329011, spawn, gen, music);
     }
 
-    private static Biome biome(float downfall, float temp, float rainfall, int waterColor, int waterFogColor, MobSpawnSettings.Builder mobSpawning, BiomeGenerationSettings.Builder generation, @Nullable Music music) {
-        return new Biome.BiomeBuilder().downfall(downfall).temperature(temp).downfall(rainfall).specialEffects((new BiomeSpecialEffects.Builder()).waterColor(waterColor).waterFogColor(waterFogColor).fogColor(12638463).skyColor(calculateSkyColor(temp)).backgroundMusic(music).build()).mobSpawnSettings(mobSpawning.build()).generationSettings(generation.build()).build();
+    private static Biome biome(float downfall, float temp, boolean hasRain, int waterColor, int waterFogColor, MobSpawnSettings.Builder mobSpawning, BiomeGenerationSettings.Builder generation, @Nullable Music music) {
+        return new Biome.BiomeBuilder()
+                .downfall(downfall)
+                .temperature(temp)
+                .hasPrecipitation(hasRain)
+                .specialEffects(new BiomeSpecialEffects.Builder()
+                        .waterColor(waterColor)
+                        .waterFogColor(waterFogColor)
+                        .fogColor(12638463)
+                        .skyColor(calculateSkyColor(temp))
+                        .backgroundMusic(music)
+                        .build())
+                .mobSpawnSettings(mobSpawning.build())
+                .generationSettings(generation.build())
+                .build();
     }
 
     protected static int calculateSkyColor(float temperature) {

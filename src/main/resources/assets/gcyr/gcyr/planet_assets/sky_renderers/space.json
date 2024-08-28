@@ -1,0 +1,29 @@
+{
+  "world": "gcyr:overworld_orbit",
+  "stars": {
+    "fancy_count": 16000,
+    "fast_count": 8000,
+    "colored_stars": true,
+    "daylight_visible": true
+  },
+  "sunset_color": "none",
+  "dimension_effects": {
+    "type": "none"
+  },
+  "cloud_effects": "none",
+  "weather_effects": "none",
+  "horizon_angle": 0,
+  "sky_objects": [
+    {
+      "texture": "gcyr:textures/sky/earth.png",
+      "blending": true,
+      "render_type": "dynamic",
+      "scale": 90.0,
+      "rotation": [
+        0.0,
+        -90.0,
+        0.0
+      ]
+    }
+  ]
+}

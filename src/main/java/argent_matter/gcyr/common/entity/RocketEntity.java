@@ -136,9 +136,6 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
 
     private final Set<BlockPos> thrusterPositions = new HashSet<>();
 
-    @Getter
-    private ThreadLocal<Boolean> hasRequestedBlockSync = ThreadLocal.withInitial(() -> false);
-
 
     public RocketEntity(EntityType<?> entityType, Level level) {
         super(entityType, level);
@@ -458,7 +455,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
     // movement must happen both server + client side
     public void flightMovement() {
         var vec = getDeltaMovement();
-        if (speed < getRocketSpeed()-0.01) {
+        if (speed < getRocketSpeed() - 0.01) {
             speed += 0.05;
         }
 
@@ -871,13 +868,21 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
 
             // resolve average tier of used motors
             this.motorTiersTotal += rocketMotorBlock.getTier();
-            this.motorTier = this.motorTiersTotal / this.partCounts.object2IntEntrySet().stream().filter(p -> p.getKey() instanceof RocketMotorBlock).map(Map.Entry::getValue).reduce(0, Integer::sum);
+            this.motorTier = this.motorTiersTotal / this.partCounts.object2IntEntrySet()
+                    .stream()
+                    .filter(p -> p.getKey() instanceof RocketMotorBlock)
+                    .map(Map.Entry::getValue)
+                    .reduce(0, Integer::sum);
         } else if (block instanceof FuelTankBlock fuelTankBlock) {
             this.setFuelCapacity(this.getFuelCapacity() + fuelTankBlock.getTankProperties().getFuelStorage());
 
             // resolve average tier of used fuel tanks
             this.fuelTankTiersTotal += fuelTankBlock.getTier();
-            this.fuelTankTier = this.fuelTankTiersTotal / this.partCounts.object2IntEntrySet().stream().filter(p -> p.getKey() instanceof FuelTankBlock).map(Map.Entry::getValue).reduce(0, Integer::sum);
+            this.fuelTankTier = this.fuelTankTiersTotal / this.partCounts.object2IntEntrySet()
+                    .stream()
+                    .filter(p -> p.getKey() instanceof FuelTankBlock)
+                    .map(Map.Entry::getValue)
+                    .reduce(0, Integer::sum);
         } else if (state.state().is(GCYRBlocks.SEAT.get())) {
             this.addSeatPos(pos);
         }
@@ -1010,7 +1015,6 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
     public void onSyncedDataUpdated(EntityDataAccessor<?> key) {
         if (POSITIONED_STATES.equals(key) || SIZE.equals(key)) {
             this.setBoundingBox(makeBoundingBox());
-            hasRequestedBlockSync.set(false);
         }
         super.onSyncedDataUpdated(key);
     }
