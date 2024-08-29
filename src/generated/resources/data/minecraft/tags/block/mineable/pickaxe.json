@@ -1,12 +1,10 @@
 {
   "values": [
-    "gcyr:aerospace_aluminium_casing",
     "gcyr:beam_receiver",
     "gcyr:space_elevator_support",
     "gcyr:dyson_sphere_casing",
     "gcyr:dyson_solar_cell",
     "gcyr:dyson_sphere_maintenance_port",
-    "gcyr:stainless_evaporation_casing",
     "gcyr:mercury_rock",
     "gcyr:mercury_cobblestone_slab",
     "gcyr:mercury_rock_slab",

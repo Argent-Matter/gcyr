@@ -502,7 +502,7 @@ public class PlanetSelectionScreen extends Screen implements MenuAccess<PlanetSe
     }
 
     public static void addRotatingTexture(PlanetSelectionScreen screen, GuiGraphics guiGraphics, int x, int y, int width, int height, ResourceLocation texture, float speed) {
-        int scale = Minecraft.getInstance().getWindow().getGuiScaledHeight() / 400;
+        double scale = Minecraft.getInstance().getWindow().getGuiScaledHeight() / 400.0;
 
         x *= scale;
         y *= scale;
