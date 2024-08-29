@@ -8,14 +8,12 @@ import argent_matter.gcyr.common.block.RocketMotorBlock;
 import argent_matter.gcyr.data.recipe.GCYRTags;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 import com.tterrag.registrate.util.entry.BlockEntry;
-import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
 import com.tterrag.registrate.util.nullness.NonNullSupplier;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.ColorRGBA;
-import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
@@ -32,19 +30,16 @@ import static argent_matter.gcyr.api.registries.GCYRRegistries.REGISTRATE;
 public class GCYRBlocks {
 
     static {
-        REGISTRATE.creativeModeTab(() -> GCYRCreativeModeTabs.GCYR);
+        REGISTRATE.defaultCreativeTab(GCYRCreativeModeTabs.GCYR.getKey());
     }
 
     // region casings
-    public static final BlockEntry<Block> CASING_ALUMINIUM_AEROSPACE = createCasingBlock("aerospace_aluminium_casing", GCYR.id("block/casings/solid/machine_casing_aerospace"));
     public static final BlockEntry<Block> CASING_BEAM_RECEIVER = createCasingBlock("beam_receiver", GCYR.id("block/casings/solid/beam_receiver"));
     public static final BlockEntry<Block> CASING_SUPPORT = createCasingBlock("space_elevator_support", GCYR.id("block/casings/solid/space_elevator_support"));
 
     public static final BlockEntry<Block> CASING_DYSON_SPHERE = createCasingBlock("dyson_sphere_casing", GCYR.id("block/casings/solid/dyson_sphere"));
     public static final BlockEntry<Block> CASING_DYSON_CELL = createCasingBlock("dyson_solar_cell", GCYR.id("block/casings/solid/dyson_solar_cell"));
     public static final BlockEntry<Block> CASING_DYSON_PORT = createCasingBlock("dyson_sphere_maintenance_port", GCYR.id("block/casings/solid/dyson_sphere_maintenance_port"));
-
-    public static final BlockEntry<Block> CASING_STAINLESS_EVAPORATION = createCasingBlock("stainless_evaporation_casing", GCYR.id("block/casings/solid/machine_casing_stainless_evaporation"));
 
     // region mercury
 
@@ -473,9 +468,7 @@ public class GCYRBlocks {
                 .addLayer(type)
                 .blockstate(GCYRModels.cubeAllModel(name, texture))
                 .tag(GCYRTags.MINEABLE_WITH_WRENCH, BlockTags.MINEABLE_WITH_PICKAXE)
-                .item(BlockItem::new)
-                .model(NonNullBiConsumer.noop())
-                .build()
+                .simpleItem()
                 .register();
     }
 

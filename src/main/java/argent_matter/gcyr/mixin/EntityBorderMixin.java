@@ -16,8 +16,8 @@ import java.util.List;
 
 @Mixin(Entity.class)
 public class EntityBorderMixin {
-    @ModifyExpressionValue(method = "collideBoundingBox", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;getWorldBorder()Lnet/minecraft/world/level/border/WorldBorder;"))
-    private static WorldBorder gcyr$modifySpaceStationBorder(WorldBorder value, @Nullable Entity entity, Vec3 vec, AABB collisionBox, Level level, List<VoxelShape> potentialHits) {
+    @ModifyExpressionValue(method = "collectColliders", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;getWorldBorder()Lnet/minecraft/world/level/border/WorldBorder;"))
+    private static WorldBorder gcyr$modifySpaceStationBorder(WorldBorder value, @Nullable Entity entity, Level level, List<VoxelShape> potentialHits, AABB collisionBox) {
         return MixinHelpers.modifySpaceStationBorder(value, entity);
     }
 }

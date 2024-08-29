@@ -7,24 +7,40 @@ import argent_matter.gcyr.common.data.GCYRMaterials;
 import argent_matter.gcyr.common.recipe.condition.DysonSphereCondition;
 import argent_matter.gcyr.common.recipe.condition.OrbitCondition;
 import com.gregtechceu.gtceu.api.GTCEuAPI;
+import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.tag.TagPrefix;
 import com.gregtechceu.gtceu.data.machine.GTMachines;
 import com.gregtechceu.gtceu.data.material.GTMaterials;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
+import com.gregtechceu.gtceu.data.recipe.GCyMRecipeTypes;
 import net.minecraft.data.recipes.RecipeOutput;
 
-import java.util.function.Consumer;
-
+import static argent_matter.gcyr.common.data.GCYRMaterials.*;
 import static argent_matter.gcyr.common.data.GCYRRecipeTypes.DYSON_ENERGY_RECIPES;
 import static argent_matter.gcyr.common.data.GCYRRecipeTypes.SPACE_ELEVATOR_RECIPES;
 import static com.gregtechceu.gtceu.api.GTValues.*;
+import static com.gregtechceu.gtceu.api.tag.TagPrefix.dust;
+import static com.gregtechceu.gtceu.data.material.GTMaterials.*;
 import static com.gregtechceu.gtceu.data.recipe.GTRecipeTypes.ASSEMBLY_LINE_RECIPES;
+import static com.gregtechceu.gtceu.data.recipe.GTRecipeTypes.MIXER_RECIPES;
 
 public class DysonSphereRecipeLoader {
 
     public static void init(RecipeOutput provider) {
+
+        MIXER_RECIPES.recipeBuilder("bisalloy_400")
+                .inputItems(dust, Carbon, 3)
+                .inputItems(dust, Manganese, 4)
+                .inputItems(dust, Silicon, 2)
+                .inputItems(dust, Chromium, 3)
+                .inputItems(dust, Molybdenum, 1)
+                .inputItems(dust, Iron, 11)
+                .outputItems(dust, Bisalloy400, 24)
+                .duration(140).EUt(VA[IV])
+                .save(provider);
+
         SPACE_ELEVATOR_RECIPES.recipeBuilder(GCYR.id("dyson_sphere_casing"))
-                .inputItems(TagPrefix.plate, GCYRMaterials.Bisalloy400, 32)
+                .inputItems(TagPrefix.plate, Bisalloy400, 32)
                 .inputItems(TagPrefix.frameGt, GTMaterials.NaquadahAlloy, 12)
                 .inputItems(TagPrefix.plateDense, GTMaterials.RhodiumPlatedPalladium, 48)
                 .inputItems(TagPrefix.rod, GTMaterials.TitaniumTungstenCarbide, 12)

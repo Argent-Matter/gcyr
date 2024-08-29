@@ -53,23 +53,25 @@ public abstract class LevelRendererMixin {
     }
 
     @Inject(at = @At("HEAD"), method = "renderClouds", cancellable = true)
-    private void gcyr$renderClouds(PoseStack matrices, Matrix4f matrix4f, float tickDelta, double cameraX, double cameraY, double cameraZ, CallbackInfo info) {
+    private void gcyr$renderClouds(PoseStack poseStack, Matrix4f frustumMatrix, Matrix4f projectionMatrix, float partialTick, double camX, double camY, double camZ, CallbackInfo ci) {
         if (this.minecraft.level != null) {
             DimensionSpecialEffects effects = DimensionEffects.forType(this.level.dimensionType());
             if (effects instanceof DimensionRenderer dimensionRenderer && dimensionRenderer.shouldRenderClouds()) {
-                dimensionRenderer.renderClouds(level, ticks, tickDelta, matrices, cameraX, cameraY, cameraZ, matrix4f);
-                info.cancel();
+                dimensionRenderer.renderClouds(level, ticks, partialTick, poseStack, camX, camY, camZ, projectionMatrix);
+                ci.cancel();
             }
         }
     }
 
     @Inject(at = @At(value = "INVOKE", target = "Ljava/lang/Runnable;run()V", shift = At.Shift.AFTER, ordinal = 0, remap = false), method = "renderSky", cancellable = true)
-    private void gcyr$renderSky(PoseStack matrices, Matrix4f matrix4f, float tickDelta, Camera camera, boolean isFoggy, Runnable setupFog, CallbackInfo info) {
+    private void gcyr$renderSky(Matrix4f frustumMatrix, Matrix4f projectionMatrix, float partialTick, Camera camera, boolean isFoggy, Runnable skyFogSetup, CallbackInfo ci) {
         if (this.minecraft.level != null) {
             DimensionSpecialEffects effects = DimensionEffects.forType(this.level.dimensionType());
             if (effects instanceof DimensionRenderer dimensionRenderer && dimensionRenderer.shouldRenderSky()) {
-                dimensionRenderer.renderSky(this.level, this.ticks, tickDelta, matrices, camera, matrix4f, isFoggy, setupFog);
-                info.cancel();
+                PoseStack poseStack = new PoseStack();
+                poseStack.mulPose(frustumMatrix);
+                dimensionRenderer.renderSky(this.level, this.ticks, partialTick, poseStack, camera, projectionMatrix, isFoggy, skyFogSetup);
+                ci.cancel();
             }
         }
     }

@@ -45,7 +45,10 @@ public class GCYR {
 	public static final Logger LOGGER = LoggerFactory.getLogger(NAME);
 	public static MaterialRegistry MATERIAL_REGISTRY;
 
+	private static IEventBus modBus;
+
 	public GCYR(IEventBus bus) {
+		modBus = bus;
 		GCYR.init(bus);
 		bus.register(this);
 
@@ -111,7 +114,7 @@ public class GCYR {
 
 	@SubscribeEvent
 	public void gtRegister(GTCEuAPI.RegisterEvent event) {
-		event.register(GTRegistries.RECIPE_TYPES, GCYRRecipeTypes::init);
+		event.register(GTRegistries.RECIPE_TYPES, () -> GCYRRecipeTypes.register(modBus));
 		event.register(GTRegistries.RECIPE_CONDITIONS, GCYRRecipeConditions::init);
 		event.register(GTRegistries.MACHINES, GCYRMachines::init);
 		event.register(GTRegistries.DIMENSION_MARKERS, GCYRDimensionMarkers::init);

@@ -36,7 +36,7 @@ public class GCYRMaterials {
             .buildAndRegister();
 
     public static final Material Bisalloy400 = new Material.Builder(GCYR.id("bisalloy_400"))
-            .ingot(5).fluid()
+            .ingot(5).liquid()
             .color(0x0ca819)
             .components(Carbon, 3, Manganese, 4, Silicon, 2, Chromium, 3, Molybdenum, 1, Iron, 11)
             .flags(MaterialFlags.GENERATE_PLATE, MaterialFlags.GENERATE_ROD, MaterialFlags.GENERATE_LONG_ROD, MaterialFlags.GENERATE_GEAR, MaterialFlags.GENERATE_FRAME)

@@ -12,6 +12,7 @@ loaderVersion="${loader_version_range}" #mandatory This is typically bumped ever
 license="GNU LGPL 3.0"
 # A URL to refer people to when problems occur with this mod
 issueTrackerURL="https://github.com/argent-matter/gcyr/issues"
+
 # A list of mods - how many allowed here is determined by the individual mod loader
 [[mods]] #mandatory
    # The modid of the mod
@@ -27,7 +28,7 @@ issueTrackerURL="https://github.com/argent-matter/gcyr/issues"
    # A URL for the "homepage" for this mod, displayed in the mod UI
    displayURL="https://modrinth.com/mod/gcyr"
    # A file name (in the root of the mod JAR) containing a logo for display
-   logoFile= "../../resources/icon.png" #optional
+   logoFile= "icon.png" #optional
    # A text field displayed in the mod UI
    credits="Thanks to advanced rocketry for the idea." #optional
    # A text field displayed in the mod UI
@@ -44,6 +45,9 @@ issueTrackerURL="https://github.com/argent-matter/gcyr/issues"
    description='''
    A space addon for GTM
    '''
+   # The [[mixins]] block allows you to declare your mixin config to FML so that it gets loaded.
+   [[mixins]]
+   config="${mod_id}.mixins.json"
    # A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
    [[dependencies.${mod_id}]] #optional
       # the modid of the dependency

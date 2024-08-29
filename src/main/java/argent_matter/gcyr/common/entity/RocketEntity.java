@@ -210,7 +210,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
                 this.flightMovement();
                 this.goToDestination();
             }
-        } else if (!started) {
+        } else if (!started && !onGround()) {
             this.fall();
         }
 
@@ -478,7 +478,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         this.setDeltaMovement(delta);
 
         // braking
-        if (getControllingPassenger() != null && ((LivingEntityAccessor)getControllingPassenger()).isJumping() && consumeFuel()) {
+        if (getControllingPassenger() != null && ((LivingEntityAccessor) getControllingPassenger()).isJumping() && consumeFuel()) {
             this.setDeltaMovement(delta.x, Math.min(delta.y + 0.05, -0.25), delta.z);
             this.fallDistance *= 0.9f;
             this.spawnParticles();
