@@ -34,6 +34,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.level.Level;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.*;
@@ -293,7 +294,7 @@ public class PlanetSelectionScreen extends Screen implements MenuAccess<PlanetSe
         createTeleportButton(row, label, category, colour, sizeX, sizeY, TooltipType.SPACE_STATION, planet, press -> {
             if (minecraft != null && minecraft.player != null) {
                 selectPlanet(planet);
-                GCYRNetworking.NETWORK.sendToServer(new PacketCreateSpaceStation());
+                PacketDistributor.sendToServer(new PacketCreateSpaceStation());
             }
         });
     }
@@ -301,7 +302,7 @@ public class PlanetSelectionScreen extends Screen implements MenuAccess<PlanetSe
     public void selectPlanet(Planet planet) {
         this.minecraft.player.closeContainer();
         // Tell the server to teleport the player after the button has been pressed.
-        GCYRNetworking.NETWORK.sendToServer(new PacketSendSelectedDimension(planet.level().location()));
+        PacketDistributor.sendToServer(new PacketSendSelectedDimension(planet.level().location()));
     }
 
     public Button createButton(Component label, Category category, int colour, int sizeX, int sizeY, TooltipType tooltip, Planet planetInfo, Consumer<Button> onClick) {
@@ -376,7 +377,7 @@ public class PlanetSelectionScreen extends Screen implements MenuAccess<PlanetSe
     }
 
     @Override
-    public boolean mouseScrolled(double mouseX, double mouseY, double amount) {
+    public boolean mouseScrolled(double mouseX, double mouseY, double scrollX, double scrollY) {
         // Simple scrollbar.
         for (Map.Entry<Category, LinkedList<ExtendedButton>> entry : this.categoryButtons.entrySet()) {
             if (this.currentCategory.equals(entry.getKey())) {
@@ -398,14 +399,14 @@ public class PlanetSelectionScreen extends Screen implements MenuAccess<PlanetSe
                     final int referencePoint = backButton.getY();
                     int minThreshold = this.height / 2 - 35;
                     int maxThreshold = (this.height / 2 - 38) - (overflowButtons * (isLargePage ? 7 : 21));
-                    int sensitivity = (int) (SCROLL_SENSITIVITY * amount);
+                    int sensitivity = (int) (SCROLL_SENSITIVITY * scrollY);
 
                     // Lock the scroll to the min and max thresholds.
-                    if (amount > 0) {
+                    if (scrollY > 0) {
                         if (referencePoint >= minThreshold) {
                             sensitivity = 0;
                         }
-                    } else if (amount < 0) {
+                    } else if (scrollY < 0) {
                         if (referencePoint <= maxThreshold) {
                             sensitivity = 0;
                         }
@@ -435,7 +436,7 @@ public class PlanetSelectionScreen extends Screen implements MenuAccess<PlanetSe
             }
         }
 
-        return super.mouseScrolled(mouseX, mouseY, amount);
+        return super.mouseScrolled(mouseX, mouseY, scrollX, scrollY);
     }
 
     public void resetButtonScroll() {
@@ -501,8 +502,7 @@ public class PlanetSelectionScreen extends Screen implements MenuAccess<PlanetSe
     }
 
     public static void addRotatingTexture(PlanetSelectionScreen screen, GuiGraphics guiGraphics, int x, int y, int width, int height, ResourceLocation texture, float speed) {
-
-        double scale = Minecraft.getInstance().getWindow().getGuiScaledHeight() / 400.0;
+        int scale = Minecraft.getInstance().getWindow().getGuiScaledHeight() / 400;
 
         x *= scale;
         y *= scale;
@@ -523,8 +523,7 @@ public class PlanetSelectionScreen extends Screen implements MenuAccess<PlanetSe
     }
 
     public static void drawCircle(double x, double y, double radius, int sides, int ringColour) {
-        Tesselator tessellator = Tesselator.getInstance();
-        BufferBuilder bufferBuilder = tessellator.getBuilder();
+        Tesselator tesselator = Tesselator.getInstance();
         RenderSystem.setShader(GameRenderer::getPositionColorShader);
 
         double scale = Minecraft.getInstance().getWindow().getGuiScaledHeight() / 400.0;
@@ -532,15 +531,14 @@ public class PlanetSelectionScreen extends Screen implements MenuAccess<PlanetSe
 
         double width = radius - 0.6;
         for (double i = width; i < radius - 0.5 + 1; i += 0.1) {
-            bufferBuilder.begin(VertexFormat.Mode.DEBUG_LINE_STRIP, DefaultVertexFormat.POSITION_COLOR);
+            BufferBuilder bufferBuilder = tesselator.begin(VertexFormat.Mode.DEBUG_LINE_STRIP, DefaultVertexFormat.POSITION_COLOR);
             for (int j = 0; j <= sides; j++) {
                 double angle = (Math.PI * 2 * j / sides) + Math.toRadians(180);
                 //noinspection PointlessBitwiseExpression
-                bufferBuilder.vertex(x + Math.sin(angle) * i, y + Math.cos(angle) * i, 0)
-                        .color((ringColour >> 16) & 0xFF, (ringColour >> 8) & 0xFF, (ringColour >> 0) & 0xFF, (ringColour >> 24) & 0xFF)
-                        .endVertex();
+                bufferBuilder.addVertex((float) (x + Math.sin(angle) * i), (float) (y + Math.cos(angle) * i), 0)
+                        .setColor((ringColour >> 16) & 0xFF, (ringColour >> 8) & 0xFF, (ringColour >> 0) & 0xFF, (ringColour >> 24) & 0xFF);
             }
-            tessellator.end();
+            BufferUploader.drawWithShader(bufferBuilder.buildOrThrow());
         }
     }
 }

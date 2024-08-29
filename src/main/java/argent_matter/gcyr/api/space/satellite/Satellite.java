@@ -87,9 +87,9 @@ public abstract class Satellite {
     public abstract Tag serializeExtraData();
 
     public static Satellite deserializeNBT(CompoundTag nbt, Level level) {
-        SatelliteType<?> type = GCYRRegistries.SATELLITES.get(new ResourceLocation(nbt.getString("id")));
+        SatelliteType<?> type = GCYRRegistries.SATELLITES.get(ResourceLocation.parse(nbt.getString("id")));
         SatelliteData data = SatelliteData.deserializeNBT(nbt.getCompound("data"));
-        ResourceKey<Level> levelResourceKey = ResourceKey.create(Registries.DIMENSION, new ResourceLocation(nbt.getString("level")));
+        ResourceKey<Level> levelResourceKey = ResourceKey.create(Registries.DIMENSION, ResourceLocation.parse(nbt.getString("level")));
         if (type == null) {
             return new EmptySatellite(GCYRSatellites.EMPTY, data, levelResourceKey);
         }

@@ -5,6 +5,7 @@ import argent_matter.gcyr.api.capability.ISatelliteHolder;
 import argent_matter.gcyr.api.space.satellite.Satellite;
 import argent_matter.gcyr.util.Vec2i;
 import lombok.Getter;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
@@ -21,7 +22,7 @@ public class SatelliteWorldSavedData extends SavedData implements ISatelliteHold
     @Nullable
     public static SatelliteWorldSavedData getOrCreate(ServerLevel serverLevel) {
         if (serverLevel.dimensionType().hasCeiling()) return null;
-        return serverLevel.getDataStorage().computeIfAbsent(tag -> new SatelliteWorldSavedData(serverLevel, tag), () -> new SatelliteWorldSavedData(serverLevel), GCYR.MOD_ID + "_satellites");
+        return serverLevel.getDataStorage().computeIfAbsent(new SavedData.Factory<>(() -> new SatelliteWorldSavedData(serverLevel), (tag, registries) -> new SatelliteWorldSavedData(serverLevel, tag)), GCYR.MOD_ID + "_satellites");
     }
 
     @Getter
@@ -63,7 +64,7 @@ public class SatelliteWorldSavedData extends SavedData implements ISatelliteHold
     }
 
     @Override
-    public CompoundTag save(CompoundTag compoundTag) {
+    public CompoundTag save(CompoundTag compoundTag, HolderLookup.Provider registries) {
         ListTag tag = new ListTag();
         for (Satellite satellite : satellites) {
             tag.add(satellite.serializeNBT());

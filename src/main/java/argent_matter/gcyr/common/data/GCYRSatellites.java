@@ -18,10 +18,6 @@ public class GCYRSatellites {
         GCYRRegistries.SATELLITES.unfreeze();
     }
 
-    static {
-        GCyRRegistries.SATELLITES.unfreeze();
-    }
-
     public static final SatelliteType<EmptySatellite> EMPTY = register("empty", new SatelliteType<>(EmptySatellite::new, EmptySatellite.CODEC));
     public static final SatelliteType<GpsSatellite> GPS = register("gps", new SatelliteType<>(GpsSatellite::new, GpsSatellite.CODEC));
     public static final SatelliteType<OreFinderSatellite> ORE_FINDER = register("ore_finder", new SatelliteType<>(OreFinderSatellite::new, OreFinderSatellite.CODEC));

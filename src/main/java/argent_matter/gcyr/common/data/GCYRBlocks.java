@@ -14,6 +14,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.util.ColorRGBA;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -91,7 +92,7 @@ public class GCYRBlocks {
             .register();
 
     public static final BlockEntry<StairBlock> MERCURY_COBBLESTONE_STAIRS = REGISTRATE
-            .block("cobbled_mercury_rock_stairs", (p) -> new StairBlock(MERCURY_COBBLESTONE::getDefaultState, p))
+            .block("cobbled_mercury_rock_stairs", (p) -> new StairBlock(MERCURY_COBBLESTONE.getDefaultState(), p))
             .initialProperties(() -> Blocks.COBBLESTONE_STAIRS)
             .lang("Cobbled Mercury Rock Stairs")
             .tag(BlockTags.STAIRS, BlockTags.MINEABLE_WITH_PICKAXE)
@@ -102,7 +103,7 @@ public class GCYRBlocks {
             .register();
 
     public static final BlockEntry<StairBlock> MERCURY_ROCK_STAIRS = REGISTRATE
-            .block("mercury_rock_stairs", (p) -> new StairBlock(MERCURY_ROCK::getDefaultState, p))
+            .block("mercury_rock_stairs", (p) -> new StairBlock(MERCURY_ROCK.getDefaultState(), p))
             .initialProperties(() -> Blocks.STONE_STAIRS)
             .lang("Mercury Rock Stairs")
             .tag(BlockTags.STAIRS, BlockTags.MINEABLE_WITH_PICKAXE)
@@ -113,7 +114,7 @@ public class GCYRBlocks {
             .register();
 
     public static final BlockEntry<ButtonBlock> MERCURY_ROCK_BUTTON = REGISTRATE
-            .block("mercury_rock_button", (p) -> new ButtonBlock(p, MERCURY_SET, 30, false))
+            .block("mercury_rock_button", (p) -> new ButtonBlock(MERCURY_SET, 30, p))
             .initialProperties(() -> Blocks.STONE_BUTTON)
             .lang("Mercury Rock Button")
             .tag(BlockTags.BUTTONS, BlockTags.MINEABLE_WITH_PICKAXE)
@@ -129,8 +130,8 @@ public class GCYRBlocks {
     //region venus
 
     public static final BlockSetType VENUS_SET = BlockSetType.register(new BlockSetType(GCYR.id("venus").toString()));
-    public static final BlockEntry<FallingBlock> VENUS_SAND = REGISTRATE
-            .block("venus_sand", FallingBlock::new)
+    public static final BlockEntry<ColoredFallingBlock> VENUS_SAND = REGISTRATE
+            .block("venus_sand", p -> new ColoredFallingBlock(new ColorRGBA(0x9F5224), p))
             .lang("Venus Sand")
             .initialProperties(() -> Blocks.SAND)
             .properties(properties -> properties.mapColor(MapColor.TERRACOTTA_ORANGE))
@@ -193,7 +194,7 @@ public class GCYRBlocks {
             .register();
 
     public static final BlockEntry<StairBlock> VENUS_COBBLESTONE_STAIRS = REGISTRATE
-            .block("venus_cobblestone_stairs", (p) -> new StairBlock(VENUS_COBBLESTONE::getDefaultState, p))
+            .block("venus_cobblestone_stairs", (p) -> new StairBlock(VENUS_COBBLESTONE.getDefaultState(), p))
             .initialProperties(() -> Blocks.COBBLESTONE_STAIRS)
             .lang("Cobbled Venus Rock Stairs")
             .tag(BlockTags.STAIRS, BlockTags.MINEABLE_WITH_PICKAXE)
@@ -204,7 +205,7 @@ public class GCYRBlocks {
             .register();
 
     public static final BlockEntry<StairBlock> VENUS_ROCK_STAIRS = REGISTRATE
-            .block("venus_rock_stairs", (p) -> new StairBlock(VENUS_ROCK::getDefaultState, p))
+            .block("venus_rock_stairs", (p) -> new StairBlock(VENUS_ROCK.getDefaultState(), p))
             .initialProperties(() -> Blocks.STONE_STAIRS)
             .lang("Venus Rock Stairs")
             .tag(BlockTags.STAIRS, BlockTags.MINEABLE_WITH_PICKAXE)
@@ -215,7 +216,7 @@ public class GCYRBlocks {
             .register();
 
     public static final BlockEntry<ButtonBlock> VENUS_ROCK_BUTTON = REGISTRATE
-            .block("venus_rock_button", (p) -> new ButtonBlock(p, VENUS_SET, 30, false))
+            .block("venus_rock_button", (p) -> new ButtonBlock(VENUS_SET, 30, p))
             .initialProperties(() -> Blocks.STONE_BUTTON)
             .lang("Venus Rock Button")
             .tag(BlockTags.BUTTONS, BlockTags.MINEABLE_WITH_PICKAXE)
@@ -249,8 +250,8 @@ public class GCYRBlocks {
             .loot((table, block) -> table.dropOther(block, MOON_COBBLESTONE.asItem()))
             .simpleItem()
             .register();
-    public static final BlockEntry<FallingBlock> MOON_SAND = REGISTRATE
-            .block("moon_sand", FallingBlock::new)
+    public static final BlockEntry<ColoredFallingBlock> MOON_SAND = REGISTRATE
+            .block("moon_sand", p -> new ColoredFallingBlock(new ColorRGBA(0x909090), p))
             .lang("Lunar Sand")
             .initialProperties(() -> Blocks.GRAVEL)
             .tag(BlockTags.MINEABLE_WITH_SHOVEL)
@@ -281,7 +282,7 @@ public class GCYRBlocks {
             .register();
 
     public static final BlockEntry<StairBlock> MOON_COBBLESTONE_STAIRS = REGISTRATE
-            .block("moon_cobblestone_stairs", (p) -> new StairBlock(MOON_COBBLESTONE::getDefaultState, p))
+            .block("moon_cobblestone_stairs", (p) -> new StairBlock(MOON_COBBLESTONE.getDefaultState(), p))
         .initialProperties(() -> Blocks.COBBLESTONE_STAIRS)
             .lang("Cobbled Lunar Stone Stairs")
             .tag(BlockTags.STAIRS, BlockTags.MINEABLE_WITH_PICKAXE)
@@ -292,7 +293,7 @@ public class GCYRBlocks {
             .register();
 
     public static final BlockEntry<StairBlock> MOON_STONE_STAIRS = REGISTRATE
-            .block("moon_stone_stairs", (p) -> new StairBlock(MOON_STONE::getDefaultState, p))
+            .block("moon_stone_stairs", (p) -> new StairBlock(MOON_STONE.getDefaultState(), p))
             .initialProperties(() -> Blocks.STONE_STAIRS)
             .lang("Lunar Stone Stairs")
             .tag(BlockTags.STAIRS, BlockTags.MINEABLE_WITH_PICKAXE)
@@ -303,7 +304,7 @@ public class GCYRBlocks {
             .register();
 
     public static final BlockEntry<ButtonBlock> MOON_STONE_BUTTON = REGISTRATE
-            .block("moon_stone_button", (p) -> new ButtonBlock(p, MOON_SET, 30, false))
+            .block("moon_stone_button", (p) -> new ButtonBlock(MOON_SET, 30, p))
             .initialProperties(() -> Blocks.STONE_BUTTON)
             .lang("Lunar Stone Button")
             .tag(BlockTags.BUTTONS, BlockTags.MINEABLE_WITH_PICKAXE)
@@ -318,8 +319,8 @@ public class GCYRBlocks {
 
     public static final BlockSetType MARS_SET = BlockSetType.register(new BlockSetType(GCYR.id("martian").toString()));
 
-    public static final BlockEntry<FallingBlock> MARS_REGOLITH = REGISTRATE
-            .block("mars_regolith", FallingBlock::new)
+    public static final BlockEntry<ColoredFallingBlock> MARS_REGOLITH = REGISTRATE
+            .block("mars_regolith", p -> new ColoredFallingBlock(new ColorRGBA(0xD87F33), p))
             .lang("Martian Regolith")
             .initialProperties(()  -> Blocks.RED_SAND)
             .tag(BlockTags.MINEABLE_WITH_PICKAXE)
@@ -369,7 +370,7 @@ public class GCYRBlocks {
             .register();
 
     public static final BlockEntry<StairBlock> MARTIAN_COBBLESTONE_STAIRS = REGISTRATE
-            .block("martian_cobblestone_stairs", (p) -> new StairBlock(MARTIAN_COBBLESTONE::getDefaultState, p))
+            .block("martian_cobblestone_stairs", (p) -> new StairBlock(MARTIAN_COBBLESTONE.getDefaultState(), p))
             .initialProperties(() -> Blocks.COBBLESTONE_STAIRS)
             .lang("Cobbled Martian Rock Stairs")
             .tag(BlockTags.STAIRS, BlockTags.MINEABLE_WITH_PICKAXE)
@@ -380,7 +381,7 @@ public class GCYRBlocks {
             .register();
 
     public static final BlockEntry<StairBlock> MARTIAN_ROCK_STAIRS = REGISTRATE
-            .block("martian_rock_stairs", (p) -> new StairBlock(MARTIAN_ROCK::getDefaultState, p))
+            .block("martian_rock_stairs", (p) -> new StairBlock(MARTIAN_ROCK.getDefaultState(), p))
             .initialProperties(() -> Blocks.STONE_STAIRS)
             .lang("Martian Rock Stairs")
             .tag(BlockTags.STAIRS, BlockTags.MINEABLE_WITH_PICKAXE)
@@ -391,7 +392,7 @@ public class GCYRBlocks {
             .register();
 
     public static final BlockEntry<ButtonBlock> MARTIAN_ROCK_BUTTON = REGISTRATE
-            .block("martian_rock_button", (p) -> new ButtonBlock(p, MARS_SET, 30, false))
+            .block("martian_rock_button", (p) -> new ButtonBlock(MARS_SET, 30, p))
             .initialProperties(() -> Blocks.STONE_BUTTON)
             .lang("Martian Rock Button")
             .tag(BlockTags.BUTTONS, BlockTags.MINEABLE_WITH_PICKAXE)
@@ -404,7 +405,7 @@ public class GCYRBlocks {
 
     // erm what the sigma
     public static final BlockEntry<MushroomBlock> PRB_SHROOM = REGISTRATE
-            .block("prb_underground_mushroom", (p) -> new MushroomBlock(p, null /*todo fix*/))
+            .block("prb_underground_mushroom", (p) -> new MushroomBlock(null /*todo fix*/, p))
             .initialProperties(() -> Blocks.BROWN_MUSHROOM)
             .properties(p -> p.mapColor(MapColor.COLOR_CYAN))
             .addLayer(() -> RenderType::cutout)
@@ -421,7 +422,7 @@ public class GCYRBlocks {
     public static final BlockEntry<RocketMotorBlock> ELITE_ROCKET_MOTOR = createRocketMotor(RocketMotorBlock.RocketMotorType.ELITE);
 
     public static final BlockEntry<DoorBlock> AIRLOCK_DOOR = REGISTRATE
-            .block("airlock_door", properties -> new DoorBlock(properties, BlockSetType.IRON))
+            .block("airlock_door", p -> new DoorBlock(BlockSetType.IRON, p))
             .initialProperties(() -> Blocks.IRON_BLOCK)
             .lang("Airlock Door")
             .properties(p -> p.strength(4.0F, 6.0F))
@@ -463,7 +464,7 @@ public class GCYRBlocks {
     }
 
     private static BlockEntry<Block> createGlassCasingBlock(String name, ResourceLocation texture, Supplier<Supplier<RenderType>> type) {
-        return createCasingBlock(name, GlassBlock::new, texture, () -> Blocks.GLASS, type);
+        return createCasingBlock(name, TransparentBlock::new, texture, () -> Blocks.GLASS, type);
     }
 
     private static BlockEntry<Block> createCasingBlock(String name, Function<BlockBehaviour.Properties, ? extends Block> blockSupplier, ResourceLocation texture, NonNullSupplier<? extends Block> properties, Supplier<Supplier<RenderType>> type) {

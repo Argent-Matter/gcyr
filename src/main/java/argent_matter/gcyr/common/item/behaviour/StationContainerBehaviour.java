@@ -1,12 +1,17 @@
 package argent_matter.gcyr.common.item.behaviour;
 
+import argent_matter.gcyr.common.data.GCYRDataComponents;
 import argent_matter.gcyr.common.data.GCYRItems;
 import argent_matter.gcyr.util.PosWithState;
 import com.gregtechceu.gtceu.api.item.component.IAddInformation;
+import com.mojang.serialization.Codec;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -22,35 +27,23 @@ import java.util.Set;
 @MethodsReturnNonnullByDefault
 public class StationContainerBehaviour implements IAddInformation {
 
+    public static final Codec<List<PosWithState>> CODEC = PosWithState.CODEC.listOf();
+    public static final StreamCodec<RegistryFriendlyByteBuf, List<PosWithState>> STREAM_CODEC = PosWithState.STREAM_CODEC.apply(ByteBufCodecs.list());
+
     private static final String SATELLITE_BLOCKS_KEY = "gcyr:satellite_blocks";
 
     @Nullable
-    public static Set<PosWithState> getStationBlocks(ItemStack stack) {
-        if (!GCYRItems.SPACE_STATION_PACKAGE.isIn(stack)) return null;
-        if (!stack.hasTag() || !stack.getTag().contains(SATELLITE_BLOCKS_KEY, Tag.TAG_LIST)) return null;
-
-        Set<PosWithState> states = new HashSet<>();
-        ListTag blocks = stack.getOrCreateTag().getList(SATELLITE_BLOCKS_KEY, Tag.TAG_COMPOUND);
-        for (int i = 0; i < blocks.size(); ++i) {
-            states.add(PosWithState.readFromTag(blocks.getCompound(i)));
-        }
-        return states;
+    public static List<PosWithState> getStationBlocks(ItemStack stack) {
+        return stack.get(GCYRDataComponents.SPACE_STATION_BLOCKS);
     }
 
-    public static void setStationBlocks(ItemStack stack, Set<PosWithState> blocks) {
-        if (!GCYRItems.SPACE_STATION_PACKAGE.isIn(stack)) return;
-        if (stack.hasTag() && stack.getTag().contains(SATELLITE_BLOCKS_KEY, Tag.TAG_LIST)) return;
-
-        ListTag blockTag = new ListTag();
-        for (PosWithState state : blocks) {
-            blockTag.add(state.writeToTag());
-        }
-        stack.getOrCreateTag().put(SATELLITE_BLOCKS_KEY, blockTag);
+    public static void setStationBlocks(ItemStack stack, List<PosWithState> blocks) {
+        stack.set(GCYRDataComponents.SPACE_STATION_BLOCKS, blocks);
     }
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Item.TooltipContext level, List<Component> tooltipComponents, TooltipFlag isAdvanced) {
-        if (!GCYRItems.SPACE_STATION_PACKAGE.isIn(stack) || !stack.hasTag() || !stack.getTag().contains(SATELLITE_BLOCKS_KEY, Tag.TAG_LIST)) return;
+        if (!stack.has(GCYRDataComponents.SPACE_STATION_BLOCKS)) return;
 
         tooltipComponents.add(Component.translatable("metaitem.gcyr.satellite_package.has_satellite"));
     }

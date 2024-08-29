@@ -2,8 +2,10 @@ package argent_matter.gcyr.common.item.behaviour;
 
 import argent_matter.gcyr.api.space.planet.Planet;
 import argent_matter.gcyr.api.space.station.SpaceStation;
+import argent_matter.gcyr.common.data.GCYRDataComponents;
 import argent_matter.gcyr.common.data.GCYRItems;
 import argent_matter.gcyr.common.data.GCYRMenus;
+import argent_matter.gcyr.common.item.component.IdChip;
 import argent_matter.gcyr.data.loader.PlanetData;
 import com.gregtechceu.gtceu.api.item.component.IAddInformation;
 import com.gregtechceu.gtceu.api.item.component.IInteractionItem;
@@ -25,33 +27,34 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class PlanetIdChipBehaviour implements IInteractionItem, IAddInformation {
-    public static final String CURRENT_STATION_KEY = "gcyr:current_station";
-    public static final String CURRENT_PLANET_KEY = "gcyr:current_planet";
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Item item, Level level, Player player, InteractionHand usedHand) {
-        ItemStack heldItem = player.getItemInHand(usedHand);
+    public InteractionResultHolder<ItemStack> use(ItemStack item, Level level, Player player, InteractionHand usedHand) {
         if (player instanceof ServerPlayer serverPlayer) {
             GCYRMenus.PLANET_SELECTION.open(serverPlayer, Component.translatable("gui.gcyr.planet_selector"), PlanetData::writePlanetData);
-            return InteractionResultHolder.consume(heldItem);
+            return InteractionResultHolder.consume(item);
         }
-        return InteractionResultHolder.pass(heldItem);
+        return InteractionResultHolder.pass(item);
     }
 
     public static void setSpaceStation(ItemStack held, int stationId) {
-        if (!GCYRItems.ID_CHIP.isIn(held) || stationId == SpaceStation.ID_EMPTY) return;
-        held.getOrCreateTag().putInt(CURRENT_STATION_KEY, stationId);
+        if (stationId == SpaceStation.ID_EMPTY) return;
+        held.update(GCYRDataComponents.ID_CHIP, IdChip.EMPTY, chip -> chip.updateStation(stationId));
     }
 
     @Nullable
     public static Integer getSpaceStationId(ItemStack held) {
-        if (!GCYRItems.ID_CHIP.isIn(held) || !held.getOrCreateTag().contains(CURRENT_STATION_KEY, Tag.TAG_INT)) return null;
-        return held.getOrCreateTag().getInt(CURRENT_STATION_KEY);
+        IdChip chip = held.get(GCYRDataComponents.ID_CHIP);
+        if (chip == null || !chip.hasStation()) return null;
+        return chip.currentStation();
     }
 
     @Nullable
     public static Planet getPlanetFromStack(ItemStack stack) {
-        return PlanetData.getPlanetFromLevelOrOrbit(ResourceKey.create(Registries.DIMENSION, new ResourceLocation(stack.getOrCreateTag().getString(CURRENT_PLANET_KEY)))).orElse(null);
+        if (!stack.has(GCYRDataComponents.ID_CHIP)) {
+            return null;
+        }
+        return PlanetData.getPlanetFromLevelOrOrbit(ResourceKey.create(Registries.DIMENSION, stack.get(GCYRDataComponents.ID_CHIP).currentPlanet())).orElse(null);
     }
 
     @Override

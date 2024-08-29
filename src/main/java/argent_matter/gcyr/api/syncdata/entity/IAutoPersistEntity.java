@@ -1,6 +1,7 @@
 package argent_matter.gcyr.api.syncdata.entity;
 
 import com.google.common.base.Strings;
+import com.lowdragmc.lowdraglib.Platform;
 import com.lowdragmc.lowdraglib.syncdata.accessor.IManagedAccessor;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedKey;
 import com.lowdragmc.lowdraglib.syncdata.managed.IRef;
@@ -23,7 +24,7 @@ public interface IAutoPersistEntity extends IManagedEntity {
                 key = fieldKey.getName();
             }
 
-            Tag nbt = fieldKey.readPersistedField(persistedField);
+            Tag nbt = fieldKey.readPersistedField(persistedField, Platform.getFrozenRegistry());
             if (nbt != null) {
                 TagUtils.setTagExtended(tag, key, nbt);
             }
@@ -34,7 +35,7 @@ public interface IAutoPersistEntity extends IManagedEntity {
 
     default void loadManagedPersistentData(CompoundTag tag) {
         IRef[] refs = this.getRootStorage().getPersistedFields();
-        IManagedAccessor.writePersistedFields(tag, refs);
+        IManagedAccessor.writePersistedFields(tag, refs, Platform.getFrozenRegistry());
         this.loadCustomPersistedData(tag);
     }
 

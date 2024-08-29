@@ -20,7 +20,7 @@ public class FluidTagLoader {
     }
 
     private static ResourceLocation rl(String name) {
-        return new ResourceLocation(name);
+        return ResourceLocation.parse(name);
     }
 
 }

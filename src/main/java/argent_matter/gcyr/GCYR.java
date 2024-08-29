@@ -6,6 +6,7 @@ import argent_matter.gcyr.common.data.*;
 import argent_matter.gcyr.common.gui.EntityOxygenHUD;
 import argent_matter.gcyr.common.item.armor.GCYRArmorMaterials;
 import argent_matter.gcyr.common.item.armor.SpaceSuitArmorItem;
+import argent_matter.gcyr.common.worldgen.GCYROres;
 import argent_matter.gcyr.config.GCYRConfig;
 import argent_matter.gcyr.data.GCYRDatagen;
 import argent_matter.gcyr.data.loader.PlanetResources;
@@ -44,17 +45,15 @@ public class GCYR {
 	public static final Logger LOGGER = LoggerFactory.getLogger(NAME);
 	public static MaterialRegistry MATERIAL_REGISTRY;
 
-	public static IEventBus modBus;
-
 	public GCYR(IEventBus bus) {
-		GCYR.init();
-		modBus = bus;
+		GCYR.init(bus);
 		bus.register(this);
 
 		GCYRDimensionTypes.register(bus);
 		GCYREntityDataSerializers.register(bus);
 		GCYRDataComponents.register(bus);
 		GCYRArmorMaterials.register(bus);
+		GCYRParticles.register(bus);
 
 		GCYRVanillaRecipeTypes.RECIPE_TYPE_DEFERRED_REGISTER.register(bus);
 
@@ -63,7 +62,7 @@ public class GCYR {
 		}
 	}
 
-	public static void init() {
+	public static void init(IEventBus modBus) {
 		GCYRConfig.init();
 		UIFactory.register(EntityUIFactory.INSTANCE);
 
@@ -78,7 +77,6 @@ public class GCYR {
 
 		GCYRRegistries.REGISTRATE.registerRegistrate(modBus);
 		GCYRDimensionTypes.init();
-		GCYRParticles.init();
 	}
 
 	public static ResourceLocation id(String path) {
@@ -117,6 +115,8 @@ public class GCYR {
 		event.register(GTRegistries.RECIPE_CONDITIONS, GCYRRecipeConditions::init);
 		event.register(GTRegistries.MACHINES, GCYRMachines::init);
 		event.register(GTRegistries.DIMENSION_MARKERS, GCYRDimensionMarkers::init);
+		event.register(GTRegistries.SOUNDS, GCYRSoundEntries::init);
+		event.register(GTRegistries.ORE_VEINS, GCYROres::init);
 	}
 
 	@SubscribeEvent

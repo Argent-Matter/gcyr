@@ -10,6 +10,7 @@ import com.mojang.blaze3d.platform.NativeImage;
 import com.mojang.blaze3d.platform.TextureUtil;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.BufferUploader;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import lombok.Getter;
@@ -139,17 +140,16 @@ public class SatelliteProspectingTexture extends AbstractTexture {
 
     public void draw(GuiGraphics graphics, int x, int y) {
         if (this.getId() == -1) return;
-        Tesselator tessellator = Tesselator.getInstance();
-        BufferBuilder bufferbuilder = tessellator.getBuilder();
+        Tesselator tesselator = Tesselator.getInstance();
         RenderSystem.setShader(GameRenderer::getPositionTexColorShader);
         RenderSystem.setShaderTexture(0, this.getId());
         var matrix4f = graphics.pose().last().pose();
-        bufferbuilder.begin(VertexFormat.Mode.QUADS, POSITION_TEX_COLOR);
-        bufferbuilder.vertex(matrix4f, x, y + imageHeight, 0).uv(0, 1).color(-1).endVertex();
-        bufferbuilder.vertex(matrix4f, x + imageWidth, y + imageHeight, 0).uv(1, 1).color(-1).endVertex();
-        bufferbuilder.vertex(matrix4f, x + imageWidth, y, 0).uv(1, 0).color(-1).endVertex();
-        bufferbuilder.vertex(matrix4f, x, y, 0).uv(0, 0).color(-1).endVertex();
-        tessellator.end();
+        BufferBuilder bufferbuilder = tesselator.begin(VertexFormat.Mode.QUADS, POSITION_TEX_COLOR);
+        bufferbuilder.addVertex(matrix4f, x, y + imageHeight, 0).setUv(0, 1).setColor(-1);
+        bufferbuilder.addVertex(matrix4f, x + imageWidth, y + imageHeight, 0).setUv(1, 1).setColor(-1);
+        bufferbuilder.addVertex(matrix4f, x + imageWidth, y, 0).setUv(1, 0).setColor(-1);
+        bufferbuilder.addVertex(matrix4f, x, y, 0).setUv(0, 0).setColor(-1);
+        BufferUploader.drawWithShader(bufferbuilder.buildOrThrow());
 
         GuiTextures.UP.copy().setColor(ColorPattern.RED.color).rotate(direction / 2).draw(graphics, 0, 0, x + playerXGui - 20, y + playerYGui - 20, 40, 40);
 

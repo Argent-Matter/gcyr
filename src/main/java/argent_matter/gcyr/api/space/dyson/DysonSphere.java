@@ -100,7 +100,7 @@ public class DysonSphere {
     }
 
     public static DysonSphere load(CompoundTag tag, IDysonSystem system) {
-        BlockPos controllerPos = tag.contains("controllerPos", Tag.TAG_COMPOUND) ? NbtUtils.readBlockPos(tag.getCompound("controllerPos")) : null;
+        BlockPos controllerPos = NbtUtils.readBlockPos(tag, "controllerPos").orElse(null);
         boolean needsMaintenance = tag.getBoolean("needsMaintenance");
         boolean collapsed = tag.getBoolean("collapsed");
         int timeActive = tag.getInt("timeActive");

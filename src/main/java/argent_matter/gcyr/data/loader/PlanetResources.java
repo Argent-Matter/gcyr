@@ -42,7 +42,7 @@ public class PlanetResources implements ResourceManagerReloadListener {
                     JsonObject jsonObject = GsonHelper.fromJson(GSON, reader, JsonObject.class);
 
                     if (jsonObject != null) {
-                        skyRenderers.add(PlanetSkyRenderer.CODEC.parse(JsonOps.INSTANCE, jsonObject).getOrThrow(false, GCYR.LOGGER::error));
+                        skyRenderers.add(PlanetSkyRenderer.CODEC.parse(JsonOps.INSTANCE, jsonObject).getOrThrow());
                     }
                 }
             } catch (Exception e) {
@@ -59,7 +59,7 @@ public class PlanetResources implements ResourceManagerReloadListener {
                     JsonObject jsonObject = GsonHelper.fromJson(GSON, reader, JsonObject.class);
 
                     if (jsonObject != null) {
-                        solarSystems.add(SolarSystem.CODEC.parse(JsonOps.INSTANCE, jsonObject).getOrThrow(false, GCYR.LOGGER::error));
+                        solarSystems.add(SolarSystem.CODEC.parse(JsonOps.INSTANCE, jsonObject).getOrThrow());
                     }
                 }
             } catch (Exception e) {
@@ -75,7 +75,7 @@ public class PlanetResources implements ResourceManagerReloadListener {
                     JsonObject jsonObject = GsonHelper.fromJson(GSON, reader, JsonObject.class);
 
                     if (jsonObject != null) {
-                        planetRings.add(PlanetRing.CODEC.parse(JsonOps.INSTANCE, jsonObject).getOrThrow(false, GCYR.LOGGER::error));
+                        planetRings.add(PlanetRing.CODEC.parse(JsonOps.INSTANCE, jsonObject).getOrThrow());
                     }
                 }
             } catch (Exception e) {
@@ -92,7 +92,7 @@ public class PlanetResources implements ResourceManagerReloadListener {
                     JsonObject jsonObject = GsonHelper.fromJson(GSON, reader, JsonObject.class);
 
                     if (jsonObject != null) {
-                        galaxies.add(Galaxy.CODEC.parse(JsonOps.INSTANCE, jsonObject).getOrThrow(false, GCYR.LOGGER::error));
+                        galaxies.add(Galaxy.CODEC.parse(JsonOps.INSTANCE, jsonObject).getOrThrow());
                     }
                 }
             } catch (Exception e) {

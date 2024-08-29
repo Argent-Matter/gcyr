@@ -17,9 +17,9 @@ issueTrackerURL="https://github.com/argent-matter/gcyr/issues"
    # The modid of the mod
    modId="${mod_id}" #mandatory
    # The version number of the mod - there's a few well known ${} variables useable here or just hardcode it
-   # ${version} will substitute the value of the Implementation-Version as read from the mod's JAR file metadata
+   # ${mod_version} will substitute the value of the Implementation-Version as read from the mod's JAR file metadata
    # see the associated build.gradle script for how to populate this completely automatically during a build
-   version="${version}" #mandatory
+   version="${mod_version}" #mandatory
    # A display name for the mod
    displayName="${mod_name}" #mandatory
    # A URL to query for updates for this mod. See the JSON update specification <here>
@@ -27,7 +27,7 @@ issueTrackerURL="https://github.com/argent-matter/gcyr/issues"
    # A URL for the "homepage" for this mod, displayed in the mod UI
    displayURL="https://modrinth.com/mod/gcyr"
    # A file name (in the root of the mod JAR) containing a logo for display
-   logoFile="icon.png" #optional
+   logoFile= "../../resources/icon.png" #optional
    # A text field displayed in the mod UI
    credits="Thanks to advanced rocketry for the idea." #optional
    # A text field displayed in the mod UI
@@ -47,9 +47,11 @@ issueTrackerURL="https://github.com/argent-matter/gcyr/issues"
    # A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
    [[dependencies.${mod_id}]] #optional
       # the modid of the dependency
-      modId="forge" #mandatory
-      # Does this dependency have to exist - if not, ordering below must be specified
-      mandatory=true #mandatory
+      modId="neoforge" #mandatory
+      # The type of the dependency. Can be one of "required", "optional", "incompatible" or "discouraged" (case insensitive).
+      # 'required' requires the mod to exist, 'optional' does not
+      # 'incompatible' will prevent the game from loading when the mod exists, and 'discouraged' will show a warning
+      type="required" #mandatory
       # The version range of the dependency
       versionRange="[${neo_version},)" #mandatory
       # An ordering relationship for the dependency - BEFORE or AFTER required if the relationship is not mandatory
@@ -59,14 +61,14 @@ issueTrackerURL="https://github.com/argent-matter/gcyr/issues"
    # Here's another dependency
    [[dependencies.${mod_id}]]
       modId="minecraft"
-      mandatory=true
+      type="required"
       # This version range declares a minimum of the current minecraft version up to but not including the next major version
       versionRange="${minecraft_version}"
       ordering="NONE"
       side="BOTH"
    [[dependencies.${mod_id}]]
       modId="gtceu"
-      mandatory=true
+      type="required"
       versionRange="[${gtceu_version},)"
       ordering="AFTER"
       side="BOTH"

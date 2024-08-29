@@ -59,7 +59,7 @@ public class EntityTemperatureSystem {
 
     private static void burnEntity(LivingEntity entity) {
         entity.hurt(entity.damageSources().onFire(), GCYRConfig.INSTANCE.server.heatDamage);
-        entity.setSecondsOnFire(10);
+        entity.setRemainingFireTicks(10);
     }
 
     private static void freezeEntity(LivingEntity entity, ServerLevel level) {

@@ -1,8 +1,9 @@
 package argent_matter.gcyr.forge;
 
 import argent_matter.gcyr.GCYR;
-import argent_matter.gcyr.client.data.GCYRParticleProviders;
 import argent_matter.gcyr.client.dimension.ClientModSkies;
+import argent_matter.gcyr.client.particle.DysonBeamParticle;
+import argent_matter.gcyr.common.data.GCYRParticles;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -15,8 +16,7 @@ public class GCYRForgeClientEvents {
 
     @SubscribeEvent
     public static void registerParticles(RegisterParticleProvidersEvent event) {
-        GCYRParticleProviders.init();
-        GCYRParticleProviders.PARTICLES.forEach(event::registerSpriteSet);
+        event.registerSpriteSet(GCYRParticles.DYSON_BEAM.get(), DysonBeamParticle.Provider::new);
     }
 
     @SubscribeEvent

@@ -1,9 +1,12 @@
 package argent_matter.gcyr.common.networking.c2s;
 
 import argent_matter.gcyr.GCYR;
+import argent_matter.gcyr.common.data.GCYRDataComponents;
 import argent_matter.gcyr.common.data.GCYRItems;
 import argent_matter.gcyr.common.entity.RocketEntity;
 import argent_matter.gcyr.common.item.behaviour.PlanetIdChipBehaviour;
+import argent_matter.gcyr.common.item.component.IdChip;
+import argent_matter.gcyr.data.loader.PlanetData;
 import lombok.AllArgsConstructor;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
@@ -44,8 +47,7 @@ public class PacketSendSelectedDimension implements CustomPacketPayload {
         if (packet.dimensionId != null) {
             ItemStack handItem = handler.player().getItemInHand(handler.player().getUsedItemHand());
             if (handItem.is(GCYRItems.ID_CHIP.get())) {
-                handItem.getOrCreateTag().putString(PlanetIdChipBehaviour.CURRENT_PLANET_KEY, dimensionId.toString());
-                handItem.getTag().remove(PlanetIdChipBehaviour.CURRENT_STATION_KEY);
+                handItem.set(GCYRDataComponents.ID_CHIP, new IdChip(Integer.MIN_VALUE, packet.dimensionId));
             }
         }
     }

@@ -119,7 +119,7 @@ public class SpaceStationPackagerMachine extends PlatformMultiblockMachine {
         boolean allAir = true;
         BlockPos startPos = BlockPos.ZERO;
 
-        Set<PosWithState> blocks = new HashSet<>();
+        List<PosWithState> blocks = new ArrayList<>();
         Map<BlockPos, BlockState> states = new HashMap<>();
         for (BlockPos pos : BlockPos.betweenClosed(startX, startY, startZ, endX, endY, endZ)) {
             BlockState state = this.getLevel().getBlockState(pos);

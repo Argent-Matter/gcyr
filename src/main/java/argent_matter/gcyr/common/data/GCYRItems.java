@@ -4,6 +4,7 @@ import argent_matter.gcyr.GCYR;
 import argent_matter.gcyr.common.item.armor.SpaceSuitArmorItem;
 import argent_matter.gcyr.common.item.armor.trim.GCYRTrimPatterns;
 import argent_matter.gcyr.common.item.behaviour.*;
+import argent_matter.gcyr.common.item.component.IdChip;
 import argent_matter.gcyr.data.recipe.GCYRTags;
 import com.gregtechceu.gtceu.api.item.ComponentItem;
 import com.gregtechceu.gtceu.api.item.component.IItemComponent;
@@ -39,7 +40,7 @@ public class GCYRItems {
 
     public static final ItemEntry<ComponentItem> ID_CHIP = REGISTRATE.item("id_chip", ComponentItem::create)
             .lang("Magnet-strip Identification Chip")
-            .properties(p -> p.stacksTo(1))
+            .properties(p -> p.stacksTo(1).component(GCYRDataComponents.ID_CHIP, IdChip.EMPTY))
             .onRegister(attach(new PlanetIdChipBehaviour()))
             .defaultModel()
             .register();

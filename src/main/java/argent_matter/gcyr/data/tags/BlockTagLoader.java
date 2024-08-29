@@ -23,7 +23,7 @@ public class BlockTagLoader {
     }
 
     public static ResourceLocation rl(String name) {
-        return new ResourceLocation(name);
+        return ResourceLocation.parse(name);
     }
 
 }

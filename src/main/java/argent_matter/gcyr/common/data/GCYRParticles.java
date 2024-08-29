@@ -1,20 +1,20 @@
 package argent_matter.gcyr.common.data;
 
 import argent_matter.gcyr.GCYR;
+import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.core.registries.Registries;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredRegister;
 
 public class GCYRParticles {
 
-    public static final SimpleParticleType DYSON_BEAM = register(GCYR.id("dyson_beam"), new SimpleParticleType(true));
+    public static final DeferredRegister<ParticleType<?>> PARTICLE_TYPES = DeferredRegister.create(Registries.PARTICLE_TYPE, GCYR.MOD_ID);
 
-    public static void init() {
+    public static final DeferredHolder<ParticleType<?>, SimpleParticleType> DYSON_BEAM = PARTICLE_TYPES.register("dyson_beam", () -> new SimpleParticleType(true));
 
-    }
-
-    public static SimpleParticleType register(ResourceLocation id, SimpleParticleType particleType) {
-        BuiltInRegistries.PARTICLE_TYPE.register(id, particleType);
-        return particleType;
+    public static void register(IEventBus modBus) {
+        PARTICLE_TYPES.register(modBus);
     }
 }

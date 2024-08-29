@@ -1,5 +1,7 @@
 package argent_matter.gcyr.util;
 
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -20,6 +22,11 @@ public record PosWithState(BlockPos pos, BlockState state) {
             BlockPos.STREAM_CODEC, PosWithState::pos,
             ByteBufCodecs.fromCodec(BlockState.CODEC), PosWithState::state,
             PosWithState::new);
+
+    public static final Codec<PosWithState> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+            BlockPos.CODEC.fieldOf("pos").forGetter(PosWithState::pos),
+            BlockState.CODEC.fieldOf("state").forGetter(PosWithState::state)
+    ).apply(instance, PosWithState::new));
 
     public static PosWithState readFromTag(CompoundTag tag) {
         BlockPos pos = NbtUtils.readBlockPos(tag, "pos").orElse(BlockPos.ZERO);

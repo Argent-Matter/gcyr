@@ -1,12 +1,12 @@
 package argent_matter.gcyr.common.item.behaviour;
 
 import argent_matter.gcyr.api.space.planet.Planet;
+import argent_matter.gcyr.common.data.GCYRDataComponents;
 import argent_matter.gcyr.common.data.GCYRItems;
+import argent_matter.gcyr.common.item.component.IdChip;
 import argent_matter.gcyr.data.loader.PlanetData;
 import com.gregtechceu.gtceu.api.item.component.IAddInformation;
-import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
@@ -15,8 +15,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nullable;
 import java.util.List;
 import java.util.UUID;
 
@@ -24,38 +24,41 @@ public class KeyCardBehaviour implements IAddInformation {
 
     @Nullable
     public static UUID getOwner(ItemStack stack) {
-        if (stack.hasTag() && stack.getTag().contains("KeyCardOwner", Tag.TAG_INT_ARRAY)) {
-            return stack.getTag().getUUID("KeyCardOwner");
-        }
-        return null;
+        return stack.get(GCYRDataComponents.KEYCARD);
     }
 
     public static void setOwner(ItemStack stack, LivingEntity entity) {
-        stack.getOrCreateTag().putUUID("KeyCardOwner", entity.getUUID());
+        stack.set(GCYRDataComponents.KEYCARD, entity.getUUID());
     }
 
     public static void setSavedStation(ItemStack stack, @Nullable Integer stationId, Planet planet) {
         if (!GCYRItems.KEYCARD.isIn(stack)) return;
         if (stationId == null) return;
-        stack.getOrCreateTag().putInt(PlanetIdChipBehaviour.CURRENT_STATION_KEY, stationId);
-        stack.getTag().putString(PlanetIdChipBehaviour.CURRENT_PLANET_KEY, PlanetData.getPlanetId(planet).toString());
+        stack.set(GCYRDataComponents.ID_CHIP, new IdChip(stationId, planet.orbitWorld().location()));
     }
 
+    @Nullable
     public static Integer getSavedStation(ItemStack stack) {
-        if (!GCYRItems.KEYCARD.isIn(stack)) return null;
-        return stack.getOrCreateTag().getInt(PlanetIdChipBehaviour.CURRENT_STATION_KEY);
+        IdChip idChip = stack.get(GCYRDataComponents.ID_CHIP);
+        if (idChip == null || idChip.currentStation() == Integer.MIN_VALUE) {
+            return null;
+        }
+        return idChip.currentStation();
     }
 
     @Nullable
     public static Planet getSavedPlanet(ItemStack stack) {
-        if (!GCYRItems.KEYCARD.isIn(stack)) return null;
-        return PlanetData.getPlanet(new ResourceLocation(stack.getOrCreateTag().getString(PlanetIdChipBehaviour.CURRENT_PLANET_KEY)));
+        IdChip idChip = stack.get(GCYRDataComponents.ID_CHIP);
+        if (idChip == null) {
+            return null;
+        }
+        return PlanetData.getPlanet(idChip.currentPlanet());
     }
 
     //@Override
     public InteractionResultHolder<ItemStack> use(Item item, Level level, Player player, InteractionHand usedHand) {
         ItemStack itemStack = player.getItemInHand(usedHand);
-        if (!level.isClientSide && !itemStack.getOrCreateTag().contains("KeyCardOwner", Tag.TAG_INT_ARRAY) && player.isCrouching()) {
+        if (!level.isClientSide && !itemStack.has(GCYRDataComponents.KEYCARD) && player.isCrouching()) {
             setOwner(itemStack, player);
             return InteractionResultHolder.consume(itemStack);
         }

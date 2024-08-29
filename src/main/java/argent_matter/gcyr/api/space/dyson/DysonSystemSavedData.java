@@ -12,6 +12,7 @@ import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtOps;
@@ -19,7 +20,9 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.world.level.saveddata.SavedData;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -44,7 +47,7 @@ public class DysonSystemSavedData extends SavedData implements IDysonSystem {
     }
 
     private static DysonSystemSavedData internalGetOrCreate(ServerLevel serverLevel) {
-        return serverLevel.getDataStorage().computeIfAbsent(tag -> new DysonSystemSavedData(serverLevel, tag), () -> new DysonSystemSavedData(serverLevel), GCYR.MOD_ID + "_dyson_systems");
+        return serverLevel.getDataStorage().computeIfAbsent(new SavedData.Factory<>(() -> new DysonSystemSavedData(serverLevel), (tag, registries) -> new DysonSystemSavedData(serverLevel, tag)), GCYR.MOD_ID + "_dyson_systems");
     }
 
     @Nullable
@@ -89,7 +92,7 @@ public class DysonSystemSavedData extends SavedData implements IDysonSystem {
             Planet thisPlanet = PlanetData.getPlanetFromLevel(this.level.dimension()).orElse(null);
             if (playerPlanet == null || thisPlanet == null) continue;
             if (playerPlanet.solarSystem().equals(thisPlanet.solarSystem())) {
-                GCYRNetworking.NETWORK.sendToPlayer(new PacketSyncDysonSphereStatus(false), player);
+                PacketDistributor.sendToPlayer(player, new PacketSyncDysonSphereStatus(false));
             }
         }
     }
@@ -105,7 +108,7 @@ public class DysonSystemSavedData extends SavedData implements IDysonSystem {
                 Planet thisPlanet = PlanetData.getPlanetFromLevel(this.level.dimension()).orElse(null);
                 if (playerPlanet == null || thisPlanet == null) continue;
                 if (playerPlanet.solarSystem().equals(thisPlanet.solarSystem())) {
-                    GCYRNetworking.NETWORK.sendToPlayer(new PacketSyncDysonSphereStatus(false), player);
+                    PacketDistributor.sendToPlayer(player, new PacketSyncDysonSphereStatus(false));
                 }
             }
         }
@@ -139,7 +142,7 @@ public class DysonSystemSavedData extends SavedData implements IDysonSystem {
         if (arg.contains("dysonSphere", Tag.TAG_COMPOUND)) {
             this.currentActiveSunBlock = DysonSphere.load(arg.getCompound("dysonSphere"), this);
             for (ServerPlayer player : this.level.players()) {
-                GCYRNetworking.NETWORK.sendToPlayer(new PacketSyncDysonSphereStatus(true), player);
+                PacketDistributor.sendToPlayer(player, new PacketSyncDysonSphereStatus(true));
             }
         }
         CompoundTag stationsTag = arg.getCompound("satellites");
@@ -147,14 +150,14 @@ public class DysonSystemSavedData extends SavedData implements IDysonSystem {
             ListTag tag = stationsTag.getList(name, Tag.TAG_COMPOUND);
             long pos = Long.parseLong(name);
             for (int i = 0; i < tag.size(); ++i) {
-                DysonSwarmSatellite satellite = GCYRSatellites.DYSON_SWARM.getCodec().parse(NbtOps.INSTANCE, tag.getCompound(i)).getOrThrow(false, GCYR.LOGGER::error);
+                DysonSwarmSatellite satellite = GCYRSatellites.DYSON_SWARM.getCodec().parse(NbtOps.INSTANCE, tag.getCompound(i)).getOrThrow();
                 swarmSatellites.computeIfAbsent(pos, $ -> new HashSet<>()).add(satellite);
             }
         }
     }
 
     @Override
-    public CompoundTag save(CompoundTag compoundTag) {
+    public CompoundTag save(CompoundTag compoundTag, HolderLookup.Provider registries) {
         if (currentActiveSunBlock != null) {
             CompoundTag tag = new CompoundTag();
             this.currentActiveSunBlock.save(tag);

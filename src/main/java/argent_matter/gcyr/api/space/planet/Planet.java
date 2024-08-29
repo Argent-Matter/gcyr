@@ -5,8 +5,10 @@ import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
@@ -49,6 +51,10 @@ public record Planet(String translation, ResourceLocation galaxy, ResourceLocati
             ID_CODEC,
             DIRECT_CODEC
     ).xmap(either -> either.map(Function.identity(), Function.identity()), Either::left);
+
+    public static final StreamCodec<ByteBuf, Planet> STREAM_CODEC = StreamCodec.of(
+            (buffer, value) -> ResourceLocation.STREAM_CODEC.encode(buffer, PlanetData.getPlanetId(value)),
+            buffer -> PlanetData.getPlanet(ResourceLocation.STREAM_CODEC.decode(buffer)));
 
     public Planet(String translation, ResourceLocation galaxy, ResourceLocation solarSystem, ResourceKey<Level> level, ResourceKey<Level> orbitWorld, Optional<ResourceKey<Level>> parentWorld, int rocketTier, float gravity, boolean hasAtmosphere, int daysInYear, float temperature, long solarPower, boolean hasOxygen, int buttonColor) {
         this(translation, galaxy, solarSystem, level, orbitWorld, parentWorld.orElse(null), rocketTier, gravity, hasAtmosphere, daysInYear, temperature, solarPower, hasOxygen, buttonColor);

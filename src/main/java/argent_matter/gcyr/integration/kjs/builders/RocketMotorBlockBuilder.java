@@ -1,7 +1,7 @@
 package argent_matter.gcyr.integration.kjs.builders;
 
-import argent_matter.gcyr.api.block.impl.SimpleFuelTankProperties;
-import argent_matter.gcyr.common.block.FuelTankBlock;
+import argent_matter.gcyr.api.block.impl.SimpleRocketMotorType;
+import argent_matter.gcyr.common.block.RocketMotorBlock;
 import argent_matter.gcyr.common.data.GCYRBlocks;
 import dev.latvian.mods.kubejs.block.BlockBuilder;
 import lombok.Setter;
@@ -14,7 +14,9 @@ public class RocketMotorBlockBuilder extends BlockBuilder {
     @Setter
     public transient int tier = 0;
     @Setter
-    public transient long fuelStorage = 0;
+    public transient int maxCarryWeight = 0;
+    @Setter
+    public transient int motorCount = 0;
     @Setter
     public transient String typeId = "";
 
@@ -24,9 +26,9 @@ public class RocketMotorBlockBuilder extends BlockBuilder {
 
     @Override
     public Block createObject() {
-        SimpleFuelTankProperties fuelTankProperties = new SimpleFuelTankProperties(this.typeId, tier, fuelStorage);
-        FuelTankBlock result = new FuelTankBlock(this.createProperties(), fuelTankProperties);
-        GCYRBlocks.ALL_FUEL_TANKS.put(fuelTankProperties, () -> result);
+        SimpleRocketMotorType fuelTankProperties = new SimpleRocketMotorType(this.typeId, tier, maxCarryWeight, motorCount);
+        RocketMotorBlock result = new RocketMotorBlock(this.createProperties(), fuelTankProperties);
+        GCYRBlocks.ALL_ROCKET_MOTORS.put(fuelTankProperties, () -> result);
         return result;
     }
 }

@@ -10,6 +10,7 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectLinkedOpenHashMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.Tag;
@@ -35,7 +36,7 @@ public class StationWorldSavedData extends SavedData implements ISpaceStationHol
             ServerLevel orbit = serverLevel.getServer().getLevel(planet.orbitWorld());
             return getOrCreate(orbit);
         }
-        return serverLevel.getDataStorage().computeIfAbsent(tag -> new StationWorldSavedData(serverLevel, tag), () -> new StationWorldSavedData(serverLevel), GCYR.MOD_ID + "_space_stations");
+        return serverLevel.getDataStorage().computeIfAbsent(new SavedData.Factory<>(() -> new StationWorldSavedData(serverLevel), (tag, registries) -> new StationWorldSavedData(serverLevel, tag)), GCYR.MOD_ID + "_space_stations");
     }
 
     private final Int2ObjectMap<SpaceStation> stations = new Int2ObjectLinkedOpenHashMap<>(1);
@@ -135,7 +136,7 @@ public class StationWorldSavedData extends SavedData implements ISpaceStationHol
     }
 
     @Override
-    public CompoundTag save(CompoundTag compoundTag) {
+    public CompoundTag save(CompoundTag compoundTag, HolderLookup.Provider registries) {
         CompoundTag tag = new CompoundTag();
         for (Int2ObjectMap.Entry<SpaceStation> entry : stations.int2ObjectEntrySet()) {
             Tag station = SpaceStation.CODEC.encodeStart(NbtOps.INSTANCE, entry.getValue()).result().orElseThrow();

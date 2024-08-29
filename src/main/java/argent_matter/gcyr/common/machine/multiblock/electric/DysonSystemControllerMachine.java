@@ -113,7 +113,7 @@ public class DysonSystemControllerMachine extends WorkableElectricMultiblockMach
             double x = pos.getX() + 0.5;
             double z = pos.getZ() + 0.5;
             for (int y = pos.getY(); y < 512; y += 2) {
-                level.addAlwaysVisibleParticle(GCYRParticles.DYSON_BEAM, true, x, y, z, 0, 0, 0);
+                level.addAlwaysVisibleParticle(GCYRParticles.DYSON_BEAM.get(), true, x, y, z, 0, 0, 0);
             }
         }
     }
