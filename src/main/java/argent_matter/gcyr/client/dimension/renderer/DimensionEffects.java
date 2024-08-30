@@ -23,7 +23,7 @@ public class DimensionEffects extends DimensionSpecialEffects implements Dimensi
 
     @Override
     public Vec3 getBrightnessDependentFogColor(Vec3 color, float sunHeight) {
-        if (renderer.effects().type().equals(PlanetSkyRenderer.DimensionEffectType.COLORED_HORIZON)) {
+        if (renderer.effects().type() == PlanetSkyRenderer.DimensionEffectType.COLORED_HORIZON) {
             int colour = renderer.effects().colour();
             return new Vec3((colour >> 16 & 0xFF) / 255.0f, (colour >> 8 & 0xFF) / 255.0f, (colour & 0xFF) / 255.0f);
         }

@@ -1,5 +1,6 @@
 package argent_matter.gcyr.client.dimension.renderer;
 
+import argent_matter.gcyr.GCYRClient;
 import argent_matter.gcyr.api.space.planet.PlanetSkyRenderer;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
@@ -12,13 +13,17 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.FogRenderer;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.resources.ResourceLocation;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
 import java.util.List;
+import java.util.Optional;
 
 public class ModSkyRenderer {
 
+    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
+    private final Optional<ResourceLocation> skyShaderLocation;
     private final PlanetSkyRenderer.StarsRenderer starsRenderer;
     private final List<PlanetSkyRenderer.SkyObject> skyObjects;
     private final int horizonAngle;
@@ -28,6 +33,7 @@ public class ModSkyRenderer {
     private int starsCount;
 
     public ModSkyRenderer(PlanetSkyRenderer skyRenderer) {
+        this.skyShaderLocation = skyRenderer.skyShaderLocation();
         this.starsRenderer = skyRenderer.starsRenderer();
         this.skyObjects = skyRenderer.skyObjects();
         this.horizonAngle = skyRenderer.horizonAngle();
@@ -48,6 +54,12 @@ public class ModSkyRenderer {
         }
 
         SkyUtil.preRender(level, minecraft.levelRenderer, camera, projectionMatrix, bufferBuilder, horizonAngle, poseStack, tickDelta);
+
+        skyShaderLocation.ifPresent(shaderId -> {
+            if (GCYRClient.skyShaders.containsKey(shaderId)) {
+                RenderSystem.setShader(() -> GCYRClient.skyShaders.get(shaderId));
+            }
+        });
 
         // Stars
         if (this.starsRenderer.fastStars() > 0) {
