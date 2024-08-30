@@ -1,24 +1,67 @@
-#version 150
+#version 330
 
-uniform sampler2D Sampler0;
+#moj_import <fog.glsl>
+#moj_import <gcyr:utils.glsl>
 
-uniform mat4 IViewRotMat;
+uniform mat4 ProjMat;
 uniform mat4 ModelViewMat;
-uniform float GameTime;
-uniform vec3 Light0_Direction;
+uniform vec4 ColorModulator;
+uniform float FogStart;
+uniform float FogEnd;
+uniform vec4 FogColor;
 
-in vec2 texCoord0;
+uniform float GameTime;
+uniform vec2 ScreenSize;
+uniform vec3 Light0_Direction;
+uniform vec3 Light1_Direction;
+
 in vec3 ViewPos;
+in float vertexDistance;
+in vec2 texCoord0;
 
 out vec4 fragColor;
 
-
-int frameCounter = int(fract(GameTime * 1200.));
-float frameTimeCounter = fract(GameTime * 1200. * 6.);
+int frameCounter = int(fract(GameTime * 1200. * 60.));
+float frameTimeCounter = GameTime * 1200.;
 const float PI = 3.14159265359;
 
-float BlueNoise(const float ir){
-    return fract(texelFetch(Sampler0, ivec2(gl_FragCoord.xy)%64, 0).x + ir * (frameCounter % 64));
+float near = 0.1;
+float far  = 1000.0;
+float LinearizeDepth(float depth)
+{
+    float z = depth * 2.0 - 1.0;
+    return (near * far) / (far + near - z * (far - near));
+}
+
+// Inspired by Job van der Zwan’s research https://observablehq.com/@jobleonard/pseudo-blue-noise
+// and NuSan’s shader https://www.shadertoy.com/view/7lV3Ry
+// JavaScript version at https://observablehq.com/@fil/pseudoblue
+// The x and y axes are separated for better randomness
+// 1 / 307 == 0.003257328990228013
+// 1 / 499 == 0.002004008016032064
+int xmix(int x, int y) {
+    return int(float((x * 212281 + y * 384817) & 0x5555555) * 0.003257328990228013);
+}
+int ymix(int x, int y) {
+    return int(float((x * 484829 + y * 112279) & 0x5555555) * 0.002004008016032064);
+}
+
+const int s = 8;
+
+float BlueNoise(int x, int y) {
+    int v = 0;
+    int a;
+    int b;
+    for (int i = 0; i < s; ++i) {
+        a = x;
+        b = y;
+        x = x >> 1;
+        y = y >> 1;
+        a = 1 & (a ^ xmix(x, y));
+        b = 1 & (b ^ ymix(x, y));
+        v = (v << 2) | (a + (b << 1) + 1) % 4;
+    }
+    return float(v) / float(1 << (s << 1));
 }
 
 float saturate(float x){
@@ -105,7 +148,8 @@ float Calculate3DNoise(vec3 position){
     vec3 b = curve(fract(position));
 
     vec2 uv = 17.0 * p.z + p.xy + b.xy;
-    vec2 rg = texture(Sampler0, (uv + 0.5) / 64.0).zy;
+    uv = (uv + 0.5) / 64.0 * 10.;
+    vec2 rg = vec2(BlueNoise(int(uv.x), int(uv.y)), BlueNoise(int(p.z), int(p.x)));
 
     return mix(rg.x, rg.y, b.z);
 }
@@ -120,7 +164,7 @@ float CalculateCloudFBM(vec3 position, vec3 shift){
     float alpha = 0.5;
 
     for (int i = 0; i < octaves; i++) {
-        accum += alpha * Calculate3DNoise(position);
+        accum += alpha * 0.5 * curve(fract(position)).z; //Calculate3DNoise(position);
         position = (position + shift) * octScale;
         alpha *= octAlpha;
     }
@@ -134,23 +178,23 @@ float pcurve(float x, float a, float b){
 }
 
 void main(){
-    fragColor = vec4(0.0);
+    fragColor = linear_fog(ColorModulator, vertexDistance, FogStart, FogEnd, FogColor);
 
-    vec3 worldPos = mat3(IViewRotMat) * ViewPos;
+    vec3 worldPos = getWorldMat(Light0_Direction, Light1_Direction) * ViewPos;
     vec3 worldDir = normalize(worldPos);
 
     const float steps = 50.0;
     const float rSteps = 1.0 / steps;
     const float stepLength = 0.2;
 
-    const float discRadius = 2.25;
-    const float discWidth = 3.5;
-    const float discInner = discRadius - discWidth * 0.5;
-    const float discOuter = discRadius + discWidth * 0.5;
+    const float discRadius = 40.;
+    const float discWidth = 39.5;
+    const float discInner = discRadius - discWidth;
+    const float discOuter = discRadius + discWidth;
 
-    float noise = BlueNoise(1.61803398);
+    float noise = 0.2343424;//BlueNoise(16398, -13398);
 
-    vec3 eye = -Light0_Direction * 8.0;
+    vec3 eye = Light0_Direction * 4.0;
     vec3 rayPos = eye + worldDir * 3.0;
 
     mat3 rotation = RotateMatrix(0.1, 0.0, -0.35);
