@@ -18,7 +18,7 @@ public record PlanetSkyRenderer(ResourceKey<Level> dimension, Optional<ResourceL
                                 PlanetSkyRenderer.StarsRenderer starsRenderer,
                                 PlanetSkyRenderer.DimensionEffects effects,
                                 PlanetSkyRenderer.CloudEffects cloudEffects,
-                                PlanetSkyRenderer.WeatherEffects weatherEffects, int horizonAngle,
+                                PlanetSkyRenderer.WeatherEffects weatherEffects, int horizonAngle, boolean doFullSky,
                                 List<SkyObject> skyObjects) {
 
     public static final Codec<PlanetSkyRenderer> CODEC = RecordCodecBuilder.create(instance -> instance.group(
@@ -29,6 +29,7 @@ public record PlanetSkyRenderer(ResourceKey<Level> dimension, Optional<ResourceL
             CloudEffects.CODEC.fieldOf("cloud_effects").forGetter(PlanetSkyRenderer::cloudEffects),
             WeatherEffects.CODEC.fieldOf("weather_effects").forGetter(PlanetSkyRenderer::weatherEffects),
             Codec.INT.fieldOf("horizon_angle").forGetter(PlanetSkyRenderer::horizonAngle),
+            Codec.BOOL.optionalFieldOf("full_sky", false).forGetter(PlanetSkyRenderer::doFullSky),
             SkyObject.CODEC.listOf().fieldOf("sky_objects").forGetter(PlanetSkyRenderer::skyObjects)
     ).apply(instance, PlanetSkyRenderer::new));
 

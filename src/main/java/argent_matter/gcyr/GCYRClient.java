@@ -4,6 +4,7 @@ import argent_matter.gcyr.api.space.planet.Galaxy;
 import argent_matter.gcyr.api.space.planet.PlanetRing;
 import argent_matter.gcyr.api.space.planet.PlanetSkyRenderer;
 import argent_matter.gcyr.api.space.planet.SolarSystem;
+import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.resources.ResourceLocation;
 
@@ -11,9 +12,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Supplier;
 
 public class GCYRClient {
+
+    public static VertexFormat.Mode MODE_QUAD_STRIP = null;
 
     public static boolean isDysonSphereActive = false;
 

@@ -2,8 +2,8 @@
   "world": "gcyr:black_hole_orbit",
   "custom_shader": "gcyr:black_hole",
   "stars": {
-    "fancy_count": 0,
-    "fast_count": 0,
+    "fancy_count": 13000,
+    "fast_count": 6000,
     "colored_stars": true,
     "daylight_visible": true
   },
@@ -14,6 +14,7 @@
   "cloud_effects": "none",
   "weather_effects": "none",
   "horizon_angle": -90,
+  "full_sky": true,
   "sky_objects": [
     {
       "texture": "gcyr:textures/sky/sun.png",

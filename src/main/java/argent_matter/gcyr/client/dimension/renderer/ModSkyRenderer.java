@@ -25,6 +25,7 @@ public class ModSkyRenderer {
 
     @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
     private final Optional<ResourceLocation> skyShaderLocation;
+    private final boolean doFullSky;
     private final PlanetSkyRenderer.StarsRenderer starsRenderer;
     private final List<PlanetSkyRenderer.SkyObject> skyObjects;
     private final int horizonAngle;
@@ -35,6 +36,7 @@ public class ModSkyRenderer {
 
     public ModSkyRenderer(PlanetSkyRenderer skyRenderer) {
         this.skyShaderLocation = skyRenderer.skyShaderLocation();
+        this.doFullSky = skyRenderer.doFullSky();
         this.starsRenderer = skyRenderer.starsRenderer();
         this.skyObjects = skyRenderer.skyObjects();
         this.horizonAngle = skyRenderer.horizonAngle();
@@ -56,10 +58,12 @@ public class ModSkyRenderer {
 
         ShaderInstance lastShader = RenderSystem.getShader();
         skyShaderLocation.ifPresent(shaderId -> {
-            RenderSystem.setShader(() -> GCYRClient.skyShaders.get(shaderId));
+            if (GCYRClient.skyShaders.get(shaderId) != null) {
+                RenderSystem.setShader(() -> GCYRClient.skyShaders.get(shaderId));
+            }
         });
 
-        SkyUtil.preRender(level, minecraft.levelRenderer, camera, projectionMatrix, bufferBuilder, horizonAngle, poseStack, tickDelta);
+        SkyUtil.preRender(level, minecraft.levelRenderer, camera, projectionMatrix, bufferBuilder, horizonAngle, poseStack, tickDelta, doFullSky);
 
         RenderSystem.setShader(() -> lastShader);
 

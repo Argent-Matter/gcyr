@@ -1,29 +1,30 @@
 {
-  "required": true,
-  "minVersion": "0.8",
-  "package": "argent_matter.gcyr.mixin",
-  "compatibilityLevel": "JAVA_17",
-  "plugin": "argent_matter.gcyr.mixin.GCYRMixinPlugin",
-  "mixins": [
-    "EntityBorderMixin",
-    "EntityMixin",
-    "LivingEntityAccessor",
-    "LivingEntityMixin",
-    "RegisterClientReloadListenersEventAccessor",
-    "ReloadableResourceManagerAccessor",
-    "ServerLevelMixin",
-    "lithium.LithiumEntityCollisions$IterableAccessor",
-    "lithium.LithiumEntityCollisions$IteratorMixin",
-    "lithium.LithiumEntityCollisionsMixin"
-  ],
-  "client": [
-    "ClientLevelMixin",
-    "DimensionSpecialEffectsMixin",
-    "LevelRendererAccessor",
-    "LevelRendererMixin"
-  ],
-  "injectors": {
-    "defaultRequire": 1,
-    "maxShiftBy": 2
+    "required": true,
+    "minVersion": "0.8",
+    "package": "argent_matter.gcyr.mixin",
+    "compatibilityLevel": "JAVA_17",
+    "plugin": "argent_matter.gcyr.mixin.GCYRMixinPlugin",
+    "mixins": [
+        "EntityBorderMixin",
+        "EntityMixin",
+        "LivingEntityAccessor",
+        "LivingEntityMixin",
+        "RegisterClientReloadListenersEventAccessor",
+        "ReloadableResourceManagerAccessor",
+        "ServerLevelMixin",
+        "lithium.LithiumEntityCollisions$IterableAccessor",
+        "lithium.LithiumEntityCollisions$IteratorMixin",
+        "lithium.LithiumEntityCollisionsMixin"
+    ],
+    "client": [
+        "ClientLevelMixin",
+        "DimensionSpecialEffectsMixin",
+        "LevelRendererAccessor",
+        "LevelRendererMixin",
+        "VertexFormatModeMixin"
+    ],
+    "injectors": {
+        "defaultRequire": 1,
+        "maxShiftBy": 2
   }
 }
