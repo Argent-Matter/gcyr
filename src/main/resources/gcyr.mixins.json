@@ -9,6 +9,8 @@
     "EntityMixin",
     "LivingEntityAccessor",
     "LivingEntityMixin",
+    "RegisterClientReloadListenersEventAccessor",
+    "ReloadableResourceManagerAccessor",
     "ServerLevelMixin",
     "lithium.LithiumEntityCollisions$IterableAccessor",
     "lithium.LithiumEntityCollisions$IteratorMixin",

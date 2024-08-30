@@ -13,6 +13,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.FogRenderer;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.resources.ResourceLocation;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
@@ -53,13 +54,14 @@ public class ModSkyRenderer {
             return;
         }
 
+        ShaderInstance lastShader = RenderSystem.getShader();
+        skyShaderLocation.ifPresent(shaderId -> {
+            RenderSystem.setShader(() -> GCYRClient.skyShaders.get(shaderId));
+        });
+
         SkyUtil.preRender(level, minecraft.levelRenderer, camera, projectionMatrix, bufferBuilder, horizonAngle, poseStack, tickDelta);
 
-        skyShaderLocation.ifPresent(shaderId -> {
-            if (GCYRClient.skyShaders.containsKey(shaderId)) {
-                RenderSystem.setShader(() -> GCYRClient.skyShaders.get(shaderId));
-            }
-        });
+        RenderSystem.setShader(() -> lastShader);
 
         // Stars
         if (this.starsRenderer.fastStars() > 0) {

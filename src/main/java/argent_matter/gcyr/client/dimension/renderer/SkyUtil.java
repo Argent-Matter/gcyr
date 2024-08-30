@@ -33,13 +33,13 @@ public class SkyUtil {
     public static void preRender(ClientLevel level, LevelRenderer levelRenderer, Camera camera, Matrix4f projectionMatrix, BufferBuilder bufferBuilder, int sunsetAngle, PoseStack poseStack, float tickDelta) {
         // Render colours.
         Vec3 vec3d = level.getSkyColor(camera.getPosition(), tickDelta);
-        float f = (float) vec3d.x();
+        float r = (float) vec3d.x();
         float g = (float) vec3d.y();
-        float h = (float) vec3d.z();
+        float b = (float) vec3d.z();
         FogRenderer.levelFogColor();
         RenderSystem.depthMask(false);
 
-        RenderSystem.setShaderColor(f, g, h, 1.0f);
+        RenderSystem.setShaderColor(r, g, b, 1.0f);
         VertexBuffer skyBuffer = ((LevelRendererAccessor) levelRenderer).getSkyBuffer();
         skyBuffer.bind();
         skyBuffer.drawWithShader(poseStack.last().pose(), projectionMatrix, RenderSystem.getShader());

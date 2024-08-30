@@ -7,6 +7,8 @@ import argent_matter.gcyr.common.gui.EntityOxygenHUD;
 import argent_matter.gcyr.config.GCYRConfig;
 import argent_matter.gcyr.data.GCYRDatagen;
 import argent_matter.gcyr.data.loader.PlanetResources;
+import argent_matter.gcyr.mixin.RegisterClientReloadListenersEventAccessor;
+import argent_matter.gcyr.mixin.ReloadableResourceManagerAccessor;
 import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.data.DimensionMarker;
 import com.gregtechceu.gtceu.api.data.chemical.material.event.MaterialEvent;
@@ -84,7 +86,10 @@ public class GCYR {
 
 	@SubscribeEvent
 	public void registerClientReloadListeners(RegisterClientReloadListenersEvent event) {
-		event.registerReloadListener(PlanetResources.INSTANCE);
+		// insert the resource loader into the first index forcefully, so we can load our data before shaders are loaded.
+		ReloadableResourceManagerAccessor manager = (ReloadableResourceManagerAccessor)
+				((RegisterClientReloadListenersEventAccessor) event).getResourceManager();
+		manager.getListeners().add(0, PlanetResources.INSTANCE);
 	}
 
 	@SubscribeEvent

@@ -119,10 +119,10 @@ public class PlanetResources implements ResourceManagerReloadListener {
     }
 
     @SubscribeEvent
-    public void shaderRegistry(RegisterShadersEvent event) {
+    public static void shaderRegistry(RegisterShadersEvent event) {
         for (var entry : GCYRClient.skyShaders.entrySet()) {
             try {
-                ShaderInstance shader = new ShaderInstance(event.getResourceProvider(), entry.getKey(), DefaultVertexFormat.POSITION_TEX_COLOR);
+                ShaderInstance shader = new ShaderInstance(event.getResourceProvider(), entry.getKey(), DefaultVertexFormat.POSITION);
                 event.registerShader(shader, entry::setValue);
             } catch (IOException e) {
                 throw new RuntimeException("Failed to register shader with id " + entry.getKey(), e);
