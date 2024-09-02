@@ -5,6 +5,7 @@ import argent_matter.gcyr.data.loader.PlanetData;
 import argent_matter.gcyr.util.PosWithState;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.syncher.EntityDataSerializer;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -42,13 +43,20 @@ public class GCYREntityDataSerializers {
         public void write(FriendlyByteBuf friendlyByteBuf, PosWithState posState) {
             EntityDataSerializers.BLOCK_POS.write(friendlyByteBuf, posState.pos());
             EntityDataSerializers.BLOCK_STATE.write(friendlyByteBuf, posState.state());
+            if (posState.entityTag() != null) {
+                EntityDataSerializers.COMPOUND_TAG.write(friendlyByteBuf, posState.entityTag());
+            }
         }
 
         @Override
         public PosWithState read(FriendlyByteBuf friendlyByteBuf) {
             BlockPos pos = EntityDataSerializers.BLOCK_POS.read(friendlyByteBuf);
             BlockState state = EntityDataSerializers.BLOCK_STATE.read(friendlyByteBuf);
-            return new PosWithState(pos, state);
+            CompoundTag tag = null;
+            if (friendlyByteBuf.readBoolean()) {
+                tag = EntityDataSerializers.COMPOUND_TAG.read(friendlyByteBuf);
+            }
+            return new PosWithState(pos, state, tag);
         }
 
         @Override

@@ -22,16 +22,20 @@ import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.misc.ItemStackTransfer;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+import com.mojang.datafixers.util.Pair;
 import lombok.Getter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
@@ -120,13 +124,19 @@ public class SpaceStationPackagerMachine extends PlatformMultiblockMachine {
         BlockPos startPos = BlockPos.ZERO;
 
         Set<PosWithState> blocks = new HashSet<>();
-        Map<BlockPos, BlockState> states = new HashMap<>();
+        LinkedHashMap<BlockPos, Pair<BlockState, CompoundTag>> states = new LinkedHashMap<>();
         for (BlockPos pos : BlockPos.betweenClosed(startX, startY, startZ, endX, endY, endZ)) {
             BlockState state = this.getLevel().getBlockState(pos);
             if (state.isAir()) continue;
             else if (allAir) startPos = pos.immutable();
             allAir = false;
-            states.put(pos.immutable(), state);
+
+            CompoundTag entityTag = null;
+            BlockEntity entity = this.getLevel().getBlockEntity(pos);
+            if (entity != null) {
+                entityTag = entity.saveWithId();
+            }
+            states.put(pos.immutable(), Pair.of(state, entityTag));
             if (startPos.compareTo(pos) < 0) startPos = new BlockPos(
                     Math.min(startPos.getX(), pos.getX()),
                     Math.min(startPos.getY(), pos.getY()),
@@ -134,10 +144,11 @@ public class SpaceStationPackagerMachine extends PlatformMultiblockMachine {
         }
         if (allAir) return;
 
-        for (Map.Entry<BlockPos, BlockState> entry : states.entrySet()) {
+        for (var entry : states.entrySet()) {
             BlockPos pos = entry.getKey();
-            BlockState state = entry.getValue();
-            blocks.add(new PosWithState(pos.subtract(startPos), state));
+            BlockState state = entry.getValue().getFirst();
+            @Nullable CompoundTag entityTag = entry.getValue().getSecond();
+            blocks.add(new PosWithState(pos.subtract(startPos), state, entityTag));
             getLevel().setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
         }
 

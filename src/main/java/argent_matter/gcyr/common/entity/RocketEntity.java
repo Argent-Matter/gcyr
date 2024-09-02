@@ -85,6 +85,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.dimension.DimensionType;
 import net.minecraft.world.level.material.Fluid;
@@ -484,8 +485,8 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         if (level().isClientSide()) return false;
         if (GCYRConfig.INSTANCE.rocket.doCrashLandingExplosion && fallDistance > 48 && onGround()) {
             Vec3 bbCenter = this.getBoundingBox().getCenter();
+            this.unBuild();
             this.level().explode(this, bbCenter.x, this.getBoundingBox().minY, bbCenter.z, 10, EntityOxygenSystem.levelHasOxygen(this.level()), Level.ExplosionInteraction.MOB);
-            this.remove(RemovalReason.DISCARDED);
             return true;
         }
         return false;
@@ -724,6 +725,11 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
                 continue;
             }
             this.level().setBlock(offset, state.state(), Block.UPDATE_ALL);
+            if (state.entityTag() == null) continue;
+            BlockEntity blockEntity = level().getBlockEntity(offset);
+            if (blockEntity != null) {
+                blockEntity.load(state.entityTag());
+            }
         }
 
         this.remove(RemovalReason.DISCARDED);
@@ -754,6 +760,11 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
                 continue;
             }
             this.level().setBlock(offset, state.state(), Block.UPDATE_ALL);
+            if (state.entityTag() == null) continue;
+            BlockEntity blockEntity = level().getBlockEntity(offset);
+            if (blockEntity != null) {
+                blockEntity.load(state.entityTag());
+            }
         }
     }
 
@@ -822,8 +833,8 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         this.entityData.set(START_TIMER, timer);
     }
 
-    public void addBlock(BlockPos pos, BlockState state) {
-        this.addBlock(new PosWithState(pos, state));
+    public void addBlock(BlockPos pos, BlockState state, @Nullable CompoundTag entityTag) {
+        this.addBlock(new PosWithState(pos, state, entityTag));
     }
 
     public void setDestination(@Nullable Planet destination) {

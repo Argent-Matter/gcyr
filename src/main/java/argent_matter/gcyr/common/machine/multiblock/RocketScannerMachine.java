@@ -18,20 +18,25 @@ import com.lowdragmc.lowdraglib.misc.ItemStackTransfer;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+import com.mojang.datafixers.util.Pair;
 import lombok.Getter;
 import net.minecraft.ChatFormatting;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
+import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -107,6 +112,7 @@ public class RocketScannerMachine extends PlatformMultiblockMachine implements I
         }
     }
 
+    @SuppressWarnings("DataFlowIssue")
     public void setRocketBuilt(boolean rocketBuilt) {
         this.rocketBuilt = rocketBuilt && isFormed;
         if (getLevel().isClientSide || !this.isFormed) return;
@@ -151,13 +157,19 @@ public class RocketScannerMachine extends PlatformMultiblockMachine implements I
             BlockPos startPos = new BlockPos(startX, startY, startZ);
             RocketEntity rocket = GCYREntities.ROCKET.create(this.getLevel());
 
-            LinkedHashMap<BlockPos, BlockState> states = new LinkedHashMap<>();
+            LinkedHashMap<BlockPos, Pair<BlockState, CompoundTag>> states = new LinkedHashMap<>();
             for (BlockPos pos : BlockPos.betweenClosed(startX, startY, startZ, endX, endY, endZ)) {
                 BlockState state = this.getLevel().getBlockState(pos);
                 if (state.isAir()) continue;
                 else if (allAir) startPos = pos.immutable();
                 allAir = false;
-                states.put(pos.immutable(), state);
+
+                CompoundTag entityTag = null;
+                BlockEntity entity = this.getLevel().getBlockEntity(pos);
+                if (entity != null) {
+                    entityTag = entity.saveWithId();
+                }
+                states.put(pos.immutable(), Pair.of(state, entityTag));
                 if (startPos.compareTo(pos) < 0) startPos = new BlockPos(
                         Math.min(startPos.getX(), pos.getX()),
                         Math.min(startPos.getY(), pos.getY()),
@@ -171,10 +183,11 @@ public class RocketScannerMachine extends PlatformMultiblockMachine implements I
                     .stream()
                     .sorted(Collections.reverseOrder(Map.Entry.comparingByKey()))
                     .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e2, LinkedHashMap::new));
-            for (Map.Entry<BlockPos, BlockState> entry : states.entrySet()) {
+            for (var entry : states.entrySet()) {
                 BlockPos pos = entry.getKey();
-                BlockState state = entry.getValue();
-                rocket.addBlock(pos.subtract(startPos), state);
+                BlockState state = entry.getValue().getFirst();
+                @Nullable CompoundTag entityTag = entry.getValue().getSecond();
+                rocket.addBlock(pos.subtract(startPos), state, entityTag);
                 getLevel().setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
             }
             rocket.setPos(startPos.getX(), startPos.getY(), startPos.getZ());
