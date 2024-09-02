@@ -49,17 +49,14 @@ import it.unimi.dsi.fastutil.objects.Object2BooleanMap;
 import it.unimi.dsi.fastutil.objects.Object2BooleanOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
-import lombok.Getter;
 import net.minecraft.ChatFormatting;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.NbtUtils;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
@@ -125,8 +122,6 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
     private final ItemStackTransfer configSlot, satelliteSlot;
     private boolean destinationIsSpaceStation;
     private final Object2IntMap<IRocketPart> partCounts = new Object2IntOpenHashMap<>();
-    @Nullable
-    private GlobalPos lastPos;
     private boolean returnToStart;
     private SatelliteType<?> satelliteToLaunch;
     private int motorTiersTotal, fuelTankTiersTotal;
@@ -339,12 +334,18 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
             for (BlockPos pos : this.thrusterPositions) {
                 if (this.getStartTimer() >= 200) {
                     for (ServerPlayer p : serverLevel.getServer().getPlayerList().getPlayers()) {
-                        serverLevel.sendParticles(p, ParticleTypes.FLAME, true, this.getX() - vec.x + pos.getX() + 0.5, this.getY() - vec.y - 2.2 + pos.getY() + 0.5, this.getZ() - vec.z + pos.getZ() + 0.5, 20, 0.1, 0.1, 0.1, 0.001);
-                        serverLevel.sendParticles(p, ParticleTypes.LARGE_SMOKE, true, this.getX() - vec.x + pos.getX() + 0.5, this.getY() - vec.y - 3.2 + pos.getY() + 0.5, this.getZ() - vec.z + pos.getZ() + 0.5, 10, 0.1, 0.1, 0.1, 0.04);
+                        serverLevel.sendParticles(p, ParticleTypes.FLAME, true,
+                                this.getX() - vec.x + pos.getX() + 0.5, this.getY() - vec.y - 2.2 + pos.getY() + 0.5, this.getZ() - vec.z + pos.getZ() + 0.5,
+                                20, 0.1, 0.1, 0.1, 0.001);
+                        serverLevel.sendParticles(p, ParticleTypes.LARGE_SMOKE, true,
+                                this.getX() - vec.x + pos.getX() + 0.5, this.getY() - vec.y - 3.2 + pos.getY() + 0.5, this.getZ() - vec.z + pos.getZ() + 0.5,
+                                10, 0.1, 0.1, 0.1, 0.04);
                     }
                 } else {
                     for (ServerPlayer p : serverLevel.getServer().getPlayerList().getPlayers()) {
-                        serverLevel.sendParticles(p, ParticleTypes.CAMPFIRE_COSY_SMOKE, true, this.getX() - vec.x + pos.getX() + 0.5, this.getY() - vec.y - 0.1 + pos.getY() + 0.5, this.getZ() - vec.z + pos.getZ() + 0.5, 6, 0.1, 0.1, 0.1, 0.023);
+                        serverLevel.sendParticles(p, ParticleTypes.CAMPFIRE_COSY_SMOKE, true,
+                                this.getX() - vec.x + pos.getX() + 0.5, this.getY() - vec.y - 0.1 + pos.getY() + 0.5, this.getZ() - vec.z + pos.getZ() + 0.5,
+                                6, 0.1, 0.1, 0.1, 0.023);
                     }
                 }
             }
@@ -469,7 +470,6 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         if (delta.y > -2.0) {
             delta = delta.add(0, -LivingEntity.DEFAULT_BASE_GRAVITY, 0);
         }
-
         this.setDeltaMovement(delta);
 
         // braking
@@ -565,6 +565,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         return false;
     }
 
+    @SuppressWarnings("DataFlowIssue")
     private void goToDestination() {
         if (getY() < 600) return;
         this.speed = 0.0;
@@ -593,6 +594,8 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
             }
         }
         ResourceKey<Level> destinationDim = this.destinationIsSpaceStation ? getDestination().orbitWorld() : getDestination().level();
+
+        // Go to a random valid planet if rocket doesn't have enough fuel to get to actual destination somehow.
         if (this.fuelTank.drain(computeRequiredFuelAmountForDestination(this.getDestination()) / 3, true).isEmpty()) {
             List<Planet> validPlanets = new ArrayList<>();
             for (Planet planet : PlanetData.planets().values()) {
@@ -604,10 +607,14 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
             destinationDim = destPlanet.level();
         }
 
-        final ServerLevel destinationLevel = this.getServer().getLevel(destinationDim);
+        final ServerLevel destinationLevel;
         BlockPos destinationPos = null;
-        if (lastPos != null && lastPos.dimension().equals(destinationDim)) {
-            destinationPos = lastPos.pos();
+        GlobalPos destinationData = PlanetIdChipBehaviour.getSavedPosition(configStack);
+        if (destinationData != null) {
+            destinationLevel = this.getServer().getLevel(destinationData.dimension());
+            destinationPos = destinationData.pos();
+        } else {
+            destinationLevel = this.getServer().getLevel(destinationDim);
         }
 
         List<Entity> passengers = this.getPassengers();
@@ -671,8 +678,8 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
                 });
             }
 
-            BlockPos stationPos = stations.getStationWorldPos(stationId);
             if (destinationPos == null) {
+                BlockPos stationPos = stations.getStationWorldPos(stationId);
                 destinationPos = new BlockPos(stationPos.getX(), (int) pos.y, stationPos.getZ());
             }
 
@@ -691,11 +698,6 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         Vec3 delta = this.getDeltaMovement();
         newRocket.setDeltaMovement(delta.x, -0.5, delta.z);
         if (newRocket instanceof RocketEntity rocketEntity) {
-            if (this.destinationIsSpaceStation) {
-                rocketEntity.lastPos = GlobalPos.of(destinationDim, this.getOnPos());
-            } else {
-                rocketEntity.lastPos = null;
-            }
             rocketEntity.setDestination(null);
             rocketEntity.destinationIsSpaceStation = false;
             rocketEntity.entityData.set(ROCKET_STARTED, false);
@@ -980,13 +982,6 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         if (compound.contains("recipeDuration")) {
             this.setRecipeDuration(compound.getInt("recipeDuration"));
         }
-
-        if (compound.contains("lastPos")) {
-            CompoundTag tag = compound.getCompound("lastPos");
-            BlockPos pos = NbtUtils.readBlockPos(tag.getCompound("pos"));
-            ResourceKey<Level> level = ResourceKey.create(Registries.DIMENSION, new ResourceLocation(tag.getString("level")));
-            this.lastPos = GlobalPos.of(level, pos);
-        }
     }
 
     @Override
@@ -1013,13 +1008,6 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         compound.putInt("weight", this.getWeight());
         if (this.getDestination() != null) compound.putString("destination", PlanetData.getPlanetId(getDestination()).toString());
         if (this.selectedFuelRecipe != null) compound.putString("selectedFuelRecipe", selectedFuelRecipe.id.toString());
-
-        if (this.lastPos != null) {
-            CompoundTag tag = new CompoundTag();
-            tag.put("pos", NbtUtils.writeBlockPos(this.lastPos.pos()));
-            tag.putString("level", this.lastPos.dimension().location().toString());
-            compound.put("lastPos", tag);
-        }
     }
 
     @Override

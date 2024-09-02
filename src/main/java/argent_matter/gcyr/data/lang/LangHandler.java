@@ -31,6 +31,7 @@ public class LangHandler extends com.gregtechceu.gtceu.data.lang.LangHandler {
         // items
         provider.add("metaitem.planet_id_circuit.id", "Currently selected planet: ");
         provider.add("metaitem.planet_id_circuit.station", "To in-orbit space station (ID: %s)");
+        provider.add("metaitem.planet_id_circuit.pos", "Target Position: (%s,%s,%s)");
         provider.add("item.gcyr.smithing_template.space_upgrade.ingredients", "Space Fabric");
         provider.add("item.gcyr.smithing_template.space_upgrade.additions_slot_description", "Add Space Suit Part");
         provider.add("trim_material.gcyr.space", "Space Suit");
@@ -65,7 +66,7 @@ public class LangHandler extends com.gregtechceu.gtceu.data.lang.LangHandler {
         provider.add("menu.gcyr.rocket.unbuild", "UNBUILD");
         provider.add("menu.gcyr.rocket.thrust", "Thrust: %s m/s");
 
-        provider.add("menu.gcyr.save_destination_station", "Save Space Station ID to keycard");
+        provider.add("menu.gcyr.save_destination_position", "Save Launch platform position to ID Chip");
         provider.add("gcyr.multiblock.rocket.build", "Scan Rocket");
         provider.add("gcyr.multiblock.rocket.unbuild", "Destroy Rocket");
         provider.add("gcyr.multiblock.space_station.pack", "Pack station");

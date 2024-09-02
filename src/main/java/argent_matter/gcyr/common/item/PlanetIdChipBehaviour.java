@@ -7,7 +7,10 @@ import argent_matter.gcyr.common.data.GCYRMenus;
 import argent_matter.gcyr.data.loader.PlanetData;
 import com.gregtechceu.gtceu.api.item.component.IAddInformation;
 import com.gregtechceu.gtceu.api.item.component.IInteractionItem;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.GlobalPos;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.nbt.NbtUtils;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
@@ -27,6 +30,7 @@ import java.util.List;
 public class PlanetIdChipBehaviour implements IInteractionItem, IAddInformation {
     public static final String CURRENT_STATION_KEY = "gcyr:current_station";
     public static final String CURRENT_PLANET_KEY = "gcyr:current_planet";
+    public static final String CURRENT_POS_KEY = "gcyr:current_position";
 
     @Override
     public InteractionResultHolder<ItemStack> use(Item item, Level level, Player player, InteractionHand usedHand) {
@@ -54,6 +58,21 @@ public class PlanetIdChipBehaviour implements IInteractionItem, IAddInformation 
         return PlanetData.getPlanetFromLevelOrOrbit(ResourceKey.create(Registries.DIMENSION, new ResourceLocation(stack.getOrCreateTag().getString(CURRENT_PLANET_KEY)))).orElse(null);
     }
 
+    public static void setSavedPosition(ItemStack stack, ResourceKey<Level> level, BlockPos pos) {
+        if (!GCYRItems.ID_CHIP.isIn(stack)) return;
+        stack.getOrCreateTag().putString(CURRENT_PLANET_KEY, level.location().toString());
+        stack.getTag().put(CURRENT_POS_KEY, NbtUtils.writeBlockPos(pos));
+    }
+
+    @Nullable
+    public static GlobalPos getSavedPosition(ItemStack stack) {
+        if (!GCYRItems.ID_CHIP.isIn(stack)) return null;
+        if (!stack.hasTag() || !stack.getOrCreateTag().contains(CURRENT_POS_KEY)) return null;
+        ResourceLocation currentLevel = new ResourceLocation(stack.getTag().getString(CURRENT_PLANET_KEY));
+        return GlobalPos.of(ResourceKey.create(Registries.DIMENSION, currentLevel),
+                NbtUtils.readBlockPos(stack.getTag().getCompound(CURRENT_POS_KEY)));
+    }
+
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltipComponents, TooltipFlag isAdvanced) {
         Planet currentTarget = getPlanetFromStack(stack);
@@ -64,6 +83,11 @@ public class PlanetIdChipBehaviour implements IInteractionItem, IAddInformation 
         if (currentStationId != null) {
             tooltipComponents.add(Component.translatable("metaitem.planet_id_circuit.station", currentStationId));
         }
-
+        BlockPos currentTargetPos = !stack.hasTag() || !stack.getTag().contains(CURRENT_POS_KEY) ? null :
+                NbtUtils.readBlockPos(stack.getTag().getCompound(CURRENT_POS_KEY));
+        if (currentTargetPos != null) {
+            tooltipComponents.add(Component.translatable("metaitem.planet_id_circuit.pos",
+                    currentTargetPos.getX(), currentTargetPos.getY(), currentTargetPos.getZ()));
+        }
     }
 }

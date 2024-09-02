@@ -5,8 +5,8 @@ import argent_matter.gcyr.api.capability.ISpaceStationHolder;
 import argent_matter.gcyr.api.space.planet.Planet;
 import argent_matter.gcyr.common.data.GCYRItems;
 import argent_matter.gcyr.common.item.KeyCardBehaviour;
+import argent_matter.gcyr.common.item.PlanetIdChipBehaviour;
 import argent_matter.gcyr.common.item.StationContainerBehaviour;
-import argent_matter.gcyr.data.loader.PlanetData;
 import argent_matter.gcyr.util.PosWithState;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.UITemplate;
@@ -37,7 +37,9 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.Set;
 
 public class SpaceStationPackagerMachine extends PlatformMultiblockMachine {
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(SpaceStationPackagerMachine.class, PlatformMultiblockMachine.MANAGED_FIELD_HOLDER);
@@ -91,27 +93,15 @@ public class SpaceStationPackagerMachine extends PlatformMultiblockMachine {
         Planet targetPlanet = PlanetIdChipBehaviour.getPlanetFromStack(idChip);
         if (targetPlanet == null) return;
 
-        boolean isZAxis = this.getFrontFacing().getAxis() == Direction.Axis.Z;
         Direction back = this.getFrontFacing().getOpposite();
         Direction left = this.getFrontFacing().getCounterClockWise();
-        Direction right = left.getOpposite();
         BlockPos current = getPos().relative(back, 1);
-        int startX = current.get(back.getAxis());
-        int endX = current.relative(back, bDist - 1).get(back.getAxis());
-        int startZ = current.relative(left, lDist).get(left.getAxis());
-        int endZ = current.relative(right, rDist).get(right.getAxis());
+        int startX = current.getX();
+        int endX = current.relative(back, bDist - 1).getX();
+        int startZ = current.relative(left, lDist).getZ();
+        int endZ = current.relative(left.getOpposite(), rDist).getZ();
         int startY = current.getY();
         int endY = current.offset(0, hDist, 0).getY();
-
-        if (isZAxis) {
-            // swap x & z coords if we're on the Z axis
-            int temp = startX;
-            startX = startZ;
-            startZ = temp;
-            temp = endX;
-            endX = endZ;
-            endZ = temp;
-        }
 
         AABB bounds = new AABB(startX, startY, startZ, endX, endY, endZ);
         startX = (int) bounds.minX;
