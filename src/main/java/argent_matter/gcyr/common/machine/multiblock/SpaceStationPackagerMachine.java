@@ -87,8 +87,9 @@ public class SpaceStationPackagerMachine extends PlatformMultiblockMachine {
         }
         ISpaceStationHolder spaceStationHolder = GCYRCapabilityHelper.getSpaceStations((ServerLevel) this.getLevel());
         if (spaceStationHolder == null) return;
-        Planet thisPlanet = PlanetData.getPlanetFromLevel(this.getLevel().dimension()).orElse(null);
-        if (thisPlanet == null) return;
+        ItemStack idChip = keycardSlot.getStackInSlot(0);
+        Planet targetPlanet = PlanetIdChipBehaviour.getPlanetFromStack(idChip);
+        if (targetPlanet == null) return;
 
         boolean isZAxis = this.getFrontFacing().getAxis() == Direction.Axis.Z;
         Direction back = this.getFrontFacing().getOpposite();
@@ -158,7 +159,7 @@ public class SpaceStationPackagerMachine extends PlatformMultiblockMachine {
         outputSlots.setStackInSlot(0, packageStack);
 
         ItemStack keycardStack = GCYRItems.KEYCARD.asStack();
-        KeyCardBehaviour.setSavedStation(keycardStack, spaceStationHolder.allocateStation(thisPlanet).getFirst(), thisPlanet);
+        KeyCardBehaviour.setSavedStation(keycardStack, spaceStationHolder.allocateStation(targetPlanet).getFirst(), targetPlanet);
         outputSlots.setStackInSlot(1, keycardStack);
     }
 
