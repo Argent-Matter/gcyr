@@ -3,7 +3,7 @@ name: auto-build
 on:
   push:
     branches:
-      - '1.20.1'
+      - '1.21'
 
 jobs:
   build:
@@ -18,7 +18,7 @@ jobs:
 
       - uses: actions/setup-java@v3
         with:
-          java-version: '17'
+          java-version: '21'
           distribution: 'adopt'
 
       - name: Validate Gradle wrapper
@@ -35,7 +35,7 @@ jobs:
       - name: Get Version
         id: var
         run: |
-          MESSAGE=$(ls build/libs/* | grep sources.jar -v | grep shadow.jar -v | awk -F 'gcyr-forge-|.jar' '{print $2}')
+          MESSAGE=$(ls build/libs/* | grep sources.jar -v | grep shadow.jar -v | awk -F 'gcyr-|.jar' '{print $2}')
           echo version=$MESSAGE >> $GITHUB_OUTPUT
 
       - name: release

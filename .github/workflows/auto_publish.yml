@@ -36,7 +36,7 @@ jobs:
 
       - uses: actions/setup-java@v3
         with:
-          java-version: '17'
+          java-version: '21'
           distribution: 'adopt'
 
       - name: Validate Gradle wrapper
@@ -95,7 +95,7 @@ jobs:
             gtceu{modrinth:7tG215v7}{curseforge:890405}
           game-version-filter: none
           java: |
-            17
+            21
           retry-attempts: 2
           retry-delay: 10000
           fail-mode: fail
