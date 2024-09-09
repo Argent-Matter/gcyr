@@ -1,17 +1,14 @@
 ### ADDITIONS:
-- added config option for space station maximum size
-- added config option for rocket crash explosions
-- added GT 1.3.1 dimension marker blocks (no textures yet though, sorry!)
-- added text to space station packager GUI
+- added a (currently unused) black hole skybox shader (does NOT work with optifine shaders)
 
 ### FIXES:
-- fixed the rocket scanner not working when facing north/south
-- fixed the space station packager not working when facing north/south
-- fixed rockets desyncing (no blocks, can't sit in seats) when leaving the area and coming back
+- fixed space having clouds & rain
+- fixed rockets deleting all block entity data from placed BEs, they now store it instead
 
 ### CHANGES:
-- Updated to GT 1.4.0
-- made rockets fall slower
+- made sky renderers independent of the dimension type, instead being based on the dimension ID itself
+- made space station packagers save the ID chip's destination planet to the keycard instead of always sending the rocket to the planet the packager is on
+- made rockets able to be sent to a specific location via button & slot in rocket scanner GUI
 
 ## WIP Documentation!:
 
