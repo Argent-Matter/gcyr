@@ -34,7 +34,7 @@ public class KeyCardBehaviour implements IAddInformation {
     public static void setSavedStation(ItemStack stack, @Nullable Integer stationId, Planet planet) {
         if (!GCYRItems.KEYCARD.isIn(stack)) return;
         if (stationId == null) return;
-        stack.set(GCYRDataComponents.ID_CHIP, new IdChip(stationId, planet.orbitWorld().location()));
+        stack.set(GCYRDataComponents.ID_CHIP, new IdChip(stationId, planet.orbitWorld().location(), null));
     }
 
     @Nullable

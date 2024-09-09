@@ -2,32 +2,34 @@ package argent_matter.gcyr.api.space.planet;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.Vec3;
 import org.joml.Vector3f;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
-public record PlanetSkyRenderer(ResourceKey<Level> dimension, PlanetSkyRenderer.StarsRenderer starsRenderer,
+public record PlanetSkyRenderer(ResourceKey<Level> dimension, Optional<ResourceLocation> skyShaderLocation,
+                                PlanetSkyRenderer.StarsRenderer starsRenderer,
                                 PlanetSkyRenderer.DimensionEffects effects,
                                 PlanetSkyRenderer.CloudEffects cloudEffects,
-                                PlanetSkyRenderer.WeatherEffects weatherEffects, int horizonAngle,
+                                PlanetSkyRenderer.WeatherEffects weatherEffects, int horizonAngle, boolean doFullSky,
                                 List<SkyObject> skyObjects) {
 
     public static final Codec<PlanetSkyRenderer> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             ResourceKey.codec(Registries.DIMENSION).fieldOf("world").forGetter(PlanetSkyRenderer::dimension),
+            ResourceLocation.CODEC.optionalFieldOf("custom_shader").forGetter(PlanetSkyRenderer::skyShaderLocation),
             StarsRenderer.CODEC.fieldOf("stars").forGetter(PlanetSkyRenderer::starsRenderer),
             DimensionEffects.CODEC.fieldOf("dimension_effects").forGetter(PlanetSkyRenderer::effects),
             CloudEffects.CODEC.fieldOf("cloud_effects").forGetter(PlanetSkyRenderer::cloudEffects),
             WeatherEffects.CODEC.fieldOf("weather_effects").forGetter(PlanetSkyRenderer::weatherEffects),
             Codec.INT.fieldOf("horizon_angle").forGetter(PlanetSkyRenderer::horizonAngle),
+            Codec.BOOL.optionalFieldOf("full_sky", false).forGetter(PlanetSkyRenderer::doFullSky),
             SkyObject.CODEC.listOf().fieldOf("sky_objects").forGetter(PlanetSkyRenderer::skyObjects)
     ).apply(instance, PlanetSkyRenderer::new));
 

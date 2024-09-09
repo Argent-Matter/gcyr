@@ -1,5 +1,6 @@
 package argent_matter.gcyr.mixin;
 
+import argent_matter.gcyr.client.dimension.ClientModSkies;
 import argent_matter.gcyr.client.dimension.renderer.DimensionEffects;
 import argent_matter.gcyr.client.dimension.renderer.DimensionRenderer;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -44,7 +45,7 @@ public abstract class LevelRendererMixin {
     @Inject(at = @At("HEAD"), method = "renderSnowAndRain", cancellable = true)
     private void gcyr$renderSnowAndRain(LightTexture manager, float tickDelta, double x, double y, double z, CallbackInfo info) {
         if (this.minecraft.level != null) {
-            DimensionSpecialEffects effects = DimensionEffects.forType(this.level.dimensionType());
+            DimensionSpecialEffects effects = ClientModSkies.DIMENSION_SPECIAL_EFFECTS.get(this.level.dimension().location());
             if (effects instanceof DimensionRenderer dimensionRenderer && dimensionRenderer.shouldRenderSnowAndRain()) {
                 dimensionRenderer.renderSnowAndRain(this.level, this.ticks, tickDelta, manager, x, y, z);
                 info.cancel();
@@ -55,7 +56,7 @@ public abstract class LevelRendererMixin {
     @Inject(at = @At("HEAD"), method = "renderClouds", cancellable = true)
     private void gcyr$renderClouds(PoseStack poseStack, Matrix4f frustumMatrix, Matrix4f projectionMatrix, float partialTick, double camX, double camY, double camZ, CallbackInfo ci) {
         if (this.minecraft.level != null) {
-            DimensionSpecialEffects effects = DimensionEffects.forType(this.level.dimensionType());
+            DimensionSpecialEffects effects = ClientModSkies.DIMENSION_SPECIAL_EFFECTS.get(this.level.dimension().location());
             if (effects instanceof DimensionRenderer dimensionRenderer && dimensionRenderer.shouldRenderClouds()) {
                 dimensionRenderer.renderClouds(level, ticks, partialTick, poseStack, camX, camY, camZ, projectionMatrix);
                 ci.cancel();
@@ -66,7 +67,7 @@ public abstract class LevelRendererMixin {
     @Inject(at = @At(value = "INVOKE", target = "Ljava/lang/Runnable;run()V", shift = At.Shift.AFTER, ordinal = 0, remap = false), method = "renderSky", cancellable = true)
     private void gcyr$renderSky(Matrix4f frustumMatrix, Matrix4f projectionMatrix, float partialTick, Camera camera, boolean isFoggy, Runnable skyFogSetup, CallbackInfo ci) {
         if (this.minecraft.level != null) {
-            DimensionSpecialEffects effects = DimensionEffects.forType(this.level.dimensionType());
+            DimensionSpecialEffects effects = ClientModSkies.DIMENSION_SPECIAL_EFFECTS.get(this.level.dimension().location());
             if (effects instanceof DimensionRenderer dimensionRenderer && dimensionRenderer.shouldRenderSky()) {
                 PoseStack poseStack = new PoseStack();
                 poseStack.mulPose(frustumMatrix);

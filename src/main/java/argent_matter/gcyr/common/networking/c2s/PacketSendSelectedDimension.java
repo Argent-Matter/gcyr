@@ -47,7 +47,7 @@ public class PacketSendSelectedDimension implements CustomPacketPayload {
         if (packet.dimensionId != null) {
             ItemStack handItem = handler.player().getItemInHand(handler.player().getUsedItemHand());
             if (handItem.is(GCYRItems.ID_CHIP.get())) {
-                handItem.set(GCYRDataComponents.ID_CHIP, new IdChip(Integer.MIN_VALUE, packet.dimensionId));
+                handItem.set(GCYRDataComponents.ID_CHIP, new IdChip(Integer.MIN_VALUE, packet.dimensionId, null));
             }
         }
     }

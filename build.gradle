@@ -1,3 +1,5 @@
+import org.gradle.internal.jvm.Jvm
+
 plugins {
     id 'java-library'
     id 'eclipse'
@@ -186,6 +188,31 @@ dependencies {
 
     // testing mods
     compileOnly forge.radium
+}
+
+tasks.register("run + RenderDoc", Exec.class) {
+    var javaHome = Jvm.current().javaHome
+
+    commandLine = [
+            "C:\\Program Files\\RenderDoc\\renderdoccmd.exe",
+            "capture",
+            "--opt-api-validation", // Remove if you don't want api validation
+            "--opt-api-validation-unmute", // Remove if you don't want api validation
+            "--opt-hook-children",
+            "--wait-for-exit",
+            "--working-dir",
+            ".",
+            "$javaHome/bin/java.exe",
+            "-Xmx64m",
+            "-Xms64m",
+            //"-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=*:5005", // Uncomment for remote debug
+            "-Dorg.gradle.appname=gradlew",
+            "-Dorg.gradle.java.home=$javaHome",
+            "-classpath",
+            "./gradle/wrapper/gradle-wrapper.jar",
+            "org.gradle.wrapper.GradleWrapperMain",
+            "runClient",
+    ]
 }
 
 // This block of code expands all declared replace properties in the specified resource targets.

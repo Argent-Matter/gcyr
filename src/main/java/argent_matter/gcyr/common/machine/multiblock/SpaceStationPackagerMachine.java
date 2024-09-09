@@ -5,6 +5,8 @@ import argent_matter.gcyr.api.capability.ISpaceStationHolder;
 import argent_matter.gcyr.api.space.planet.Planet;
 import argent_matter.gcyr.common.data.GCYRItems;
 import argent_matter.gcyr.common.item.behaviour.KeyCardBehaviour;
+import argent_matter.gcyr.common.item.behaviour.PlanetIdChipBehaviour;
+import argent_matter.gcyr.common.item.behaviour.StationContainerBehaviour;
 import argent_matter.gcyr.common.item.behaviour.StationContainerBehaviour;
 import argent_matter.gcyr.data.loader.PlanetData;
 import argent_matter.gcyr.util.PosWithState;
@@ -22,16 +24,20 @@ import com.lowdragmc.lowdraglib.gui.widget.SlotWidget;
 import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+import com.mojang.datafixers.util.Pair;
 import lombok.Getter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
@@ -83,30 +89,19 @@ public class SpaceStationPackagerMachine extends PlatformMultiblockMachine {
         }
         ISpaceStationHolder spaceStationHolder = GCYRCapabilityHelper.getSpaceStations((ServerLevel) this.getLevel());
         if (spaceStationHolder == null) return;
-        Planet thisPlanet = PlanetData.getPlanetFromLevel(this.getLevel().dimension()).orElse(null);
-        if (thisPlanet == null) return;
+        ItemStack idChip = keycardSlot.getStackInSlot(0);
+        Planet targetPlanet = PlanetIdChipBehaviour.getPlanetFromStack(idChip);
+        if (targetPlanet == null) return;
 
-        boolean isZAxis = this.getFrontFacing().getAxis() == Direction.Axis.Z;
         Direction back = this.getFrontFacing().getOpposite();
         Direction left = this.getFrontFacing().getCounterClockWise();
-        Direction right = left.getOpposite();
         BlockPos current = getPos().relative(back, 1);
-        int startX = current.get(back.getAxis());
-        int endX = current.relative(back, bDist - 1).get(back.getAxis());
-        int startZ = current.relative(left, lDist).get(left.getAxis());
-        int endZ = current.relative(right, rDist).get(right.getAxis());
+        int startX = current.getX();
+        int endX = current.relative(back, bDist - 1).getX();
+        int startZ = current.relative(left, lDist).getZ();
+        int endZ = current.relative(left.getOpposite(), rDist).getZ();
         int startY = current.getY();
         int endY = current.offset(0, hDist, 0).getY();
-
-        if (isZAxis) {
-            // swap x & z coords if we're on the Z axis
-            int temp = startX;
-            startX = startZ;
-            startZ = temp;
-            temp = endX;
-            endX = endZ;
-            endZ = temp;
-        }
 
         AABB bounds = new AABB(startX, startY, startZ, endX, endY, endZ);
         startX = (int) bounds.minX;
@@ -120,13 +115,19 @@ public class SpaceStationPackagerMachine extends PlatformMultiblockMachine {
         BlockPos startPos = BlockPos.ZERO;
 
         List<PosWithState> blocks = new ArrayList<>();
-        Map<BlockPos, BlockState> states = new HashMap<>();
+        LinkedHashMap<BlockPos, Pair<BlockState, CompoundTag>> states = new LinkedHashMap<>();
         for (BlockPos pos : BlockPos.betweenClosed(startX, startY, startZ, endX, endY, endZ)) {
             BlockState state = this.getLevel().getBlockState(pos);
             if (state.isAir()) continue;
             else if (allAir) startPos = pos.immutable();
             allAir = false;
-            states.put(pos.immutable(), state);
+
+            CompoundTag entityTag = null;
+            BlockEntity entity = this.getLevel().getBlockEntity(pos);
+            if (entity != null) {
+                entityTag = entity.saveWithId(this.getLevel().registryAccess());
+            }
+            states.put(pos.immutable(), Pair.of(state, entityTag));
             if (startPos.compareTo(pos) < 0) startPos = new BlockPos(
                     Math.min(startPos.getX(), pos.getX()),
                     Math.min(startPos.getY(), pos.getY()),
@@ -134,10 +135,11 @@ public class SpaceStationPackagerMachine extends PlatformMultiblockMachine {
         }
         if (allAir) return;
 
-        for (Map.Entry<BlockPos, BlockState> entry : states.entrySet()) {
+        for (var entry : states.entrySet()) {
             BlockPos pos = entry.getKey();
-            BlockState state = entry.getValue();
-            blocks.add(new PosWithState(pos.subtract(startPos), state));
+            BlockState state = entry.getValue().getFirst();
+            @Nullable CompoundTag entityTag = entry.getValue().getSecond();
+            blocks.add(new PosWithState(pos.subtract(startPos), state, Optional.ofNullable(entityTag)));
             getLevel().setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
         }
 
@@ -147,7 +149,7 @@ public class SpaceStationPackagerMachine extends PlatformMultiblockMachine {
         outputSlots.setStackInSlot(0, packageStack);
 
         ItemStack keycardStack = GCYRItems.KEYCARD.asStack();
-        KeyCardBehaviour.setSavedStation(keycardStack, spaceStationHolder.allocateStation(thisPlanet).getFirst(), thisPlanet);
+        KeyCardBehaviour.setSavedStation(keycardStack, spaceStationHolder.allocateStation(targetPlanet).getFirst(), targetPlanet);
         outputSlots.setStackInSlot(1, keycardStack);
     }
 

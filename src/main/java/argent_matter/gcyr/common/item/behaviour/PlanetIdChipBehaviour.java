@@ -9,7 +9,10 @@ import argent_matter.gcyr.common.item.component.IdChip;
 import argent_matter.gcyr.data.loader.PlanetData;
 import com.gregtechceu.gtceu.api.item.component.IAddInformation;
 import com.gregtechceu.gtceu.api.item.component.IInteractionItem;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.GlobalPos;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.nbt.NbtUtils;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
@@ -57,6 +60,18 @@ public class PlanetIdChipBehaviour implements IInteractionItem, IAddInformation 
         return PlanetData.getPlanetFromLevelOrOrbit(ResourceKey.create(Registries.DIMENSION, stack.get(GCYRDataComponents.ID_CHIP).currentPlanet())).orElse(null);
     }
 
+    public static void setSavedPosition(ItemStack stack, ResourceKey<Level> level, BlockPos pos) {
+        stack.update(GCYRDataComponents.ID_CHIP, IdChip.EMPTY, chip -> chip.updatePlanet(level.location()).updatePos(pos));
+    }
+
+    @Nullable
+    public static GlobalPos getSavedPosition(ItemStack stack) {
+        if (!stack.has(GCYRDataComponents.ID_CHIP)) return null;
+        IdChip idChip = stack.get(GCYRDataComponents.ID_CHIP);
+        ResourceLocation currentLevel = idChip.currentPlanet();
+        return GlobalPos.of(ResourceKey.create(Registries.DIMENSION, currentLevel), idChip.currentPos());
+    }
+
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Item.TooltipContext level, List<Component> tooltipComponents, TooltipFlag isAdvanced) {
         Planet currentTarget = getPlanetFromStack(stack);
@@ -67,6 +82,10 @@ public class PlanetIdChipBehaviour implements IInteractionItem, IAddInformation 
         if (currentStationId != null) {
             tooltipComponents.add(Component.translatable("metaitem.planet_id_circuit.station", currentStationId));
         }
-
+        BlockPos currentTargetPos = !stack.has(GCYRDataComponents.ID_CHIP) ? null : stack.get(GCYRDataComponents.ID_CHIP).currentPos();
+        if (currentTargetPos != null) {
+            tooltipComponents.add(Component.translatable("metaitem.planet_id_circuit.pos",
+                    currentTargetPos.getX(), currentTargetPos.getY(), currentTargetPos.getZ()));
+        }
     }
 }

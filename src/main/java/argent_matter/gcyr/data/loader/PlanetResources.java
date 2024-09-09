@@ -10,18 +10,24 @@ import argent_matter.gcyr.client.dimension.ClientModSkies;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.serialization.JsonOps;
+import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import net.minecraft.util.GsonHelper;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.neoforge.client.event.RegisterShadersEvent;
 
+import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
+@EventBusSubscriber(modid = GCYR.MOD_ID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.MOD)
 public class PlanetResources implements ResourceManagerReloadListener {
     public static final PlanetResources INSTANCE = new PlanetResources();
 
@@ -30,6 +36,7 @@ public class PlanetResources implements ResourceManagerReloadListener {
     @Override
     public void onResourceManagerReload(ResourceManager manager) {
         List<PlanetSkyRenderer> skyRenderers = new ArrayList<>();
+        Map<ResourceLocation, ShaderInstance> skyShaders = new HashMap<>();
         List<SolarSystem> solarSystems = new ArrayList<>();
         List<PlanetRing> planetRings = new ArrayList<>();
         List<Galaxy> galaxies = new ArrayList<>();
@@ -42,12 +49,15 @@ public class PlanetResources implements ResourceManagerReloadListener {
                     JsonObject jsonObject = GsonHelper.fromJson(GSON, reader, JsonObject.class);
 
                     if (jsonObject != null) {
-                        skyRenderers.add(PlanetSkyRenderer.CODEC.parse(JsonOps.INSTANCE, jsonObject).getOrThrow());
+                        PlanetSkyRenderer renderer = PlanetSkyRenderer.CODEC.parse(JsonOps.INSTANCE, jsonObject).getOrThrow();
+                        if (renderer.skyShaderLocation().isPresent()) {
+                            skyShaders.put(renderer.skyShaderLocation().get(), null);
+                        }
+                        skyRenderers.add(renderer);
                     }
                 }
             } catch (Exception e) {
-                GCYR.LOGGER.error("Failed to load Gregicality Rocketry sky rendering assets from: \"" + id.toString() + "\"", e);
-                e.printStackTrace();
+                GCYR.LOGGER.error("Failed to load Gregicality Rocketry sky rendering assets from: \"{}\"", id.toString(), e);
             }
         }
 
@@ -63,8 +73,7 @@ public class PlanetResources implements ResourceManagerReloadListener {
                     }
                 }
             } catch (Exception e) {
-                GCYR.LOGGER.error("Failed to load Gregicality Rocketry solar system assets from: \"" + id.toString() + "\"", e);
-                e.printStackTrace();
+                GCYR.LOGGER.error("Failed to load Gregicality Rocketry solar system assets from: \"{}\"", id.toString(), e);
             }
         }
 
@@ -79,8 +88,7 @@ public class PlanetResources implements ResourceManagerReloadListener {
                     }
                 }
             } catch (Exception e) {
-                GCYR.LOGGER.error("Failed to load Gregicality Rocketry planet ring assets from: \"" + id.toString() + "\"", e);
-                e.printStackTrace();
+                GCYR.LOGGER.error("Failed to load Gregicality Rocketry planet ring assets from: \"{}\"", id.toString(), e);
             }
         }
 
@@ -96,17 +104,29 @@ public class PlanetResources implements ResourceManagerReloadListener {
                     }
                 }
             } catch (Exception e) {
-                GCYR.LOGGER.error("Failed to load Gregicality Rocketry galaxy assets from: \"" + id.toString() + "\"", e);
-                e.printStackTrace();
+                GCYR.LOGGER.error("Failed to load Gregicality Rocketry galaxy assets from: \"{}\"", id.toString(), e);
             }
         }
 
         solarSystems.sort(Comparator.comparing(SolarSystem::solarSystem));
         galaxies.sort(Comparator.comparing(Galaxy::galaxy));
         GCYRClient.skyRenderers = skyRenderers;
+        GCYRClient.skyShaders = skyShaders;
         GCYRClient.solarSystems = solarSystems;
         GCYRClient.planetRings = planetRings;
         GCYRClient.galaxies = galaxies;
         ClientModSkies.register();
+    }
+
+    @SubscribeEvent
+    public static void shaderRegistry(RegisterShadersEvent event) {
+        for (var entry : GCYRClient.skyShaders.entrySet()) {
+            try {
+                ShaderInstance shader = new ShaderInstance(event.getResourceProvider(), entry.getKey(), DefaultVertexFormat.POSITION);
+                event.registerShader(shader, entry::setValue);
+            } catch (IOException e) {
+                throw new RuntimeException("Failed to register shader with id " + entry.getKey(), e);
+            }
+        }
     }
 }

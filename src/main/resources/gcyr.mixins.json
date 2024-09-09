@@ -9,6 +9,8 @@
         "EntityMixin",
         "LivingEntityAccessor",
         "LivingEntityMixin",
+        "RegisterClientReloadListenersEventAccessor",
+        "ReloadableResourceManagerAccessor",
         "ServerLevelMixin",
         "lithium.LithiumEntityCollisions$IterableAccessor",
         "lithium.LithiumEntityCollisions$IteratorMixin",
@@ -19,7 +21,8 @@
         "ClientLevelMixin",
         "DimensionSpecialEffectsMixin",
         "LevelRendererAccessor",
-        "LevelRendererMixin"
+        "LevelRendererMixin",
+        "VertexFormatModeMixin"
     ],
     "injectors": {
         "defaultRequire": 1,

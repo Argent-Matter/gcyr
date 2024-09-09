@@ -67,11 +67,7 @@ public class GCYREntityDataSerializers {
 
         @Override
         public List<PosWithState> copy(List<PosWithState> value) {
-            ArrayList<PosWithState> newValue = new ArrayList<>();
-            for (PosWithState val : value) {
-                newValue.add(new PosWithState(val.pos(), val.state()));
-            }
-            return newValue;
+            return new ArrayList<>(value);
         }
     });
 

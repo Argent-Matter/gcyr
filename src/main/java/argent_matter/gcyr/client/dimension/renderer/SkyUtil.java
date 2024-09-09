@@ -1,5 +1,6 @@
 package argent_matter.gcyr.client.dimension.renderer;
 
+import argent_matter.gcyr.GCYRClient;
 import argent_matter.gcyr.mixin.LevelRendererAccessor;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -23,6 +24,50 @@ import org.joml.Vector3f;
 
 public class SkyUtil {
 
+    private static VertexBuffer customSkyBuffer;
+
+    static {
+        Tesselator tesselator = Tesselator.getInstance();
+        BufferBuilder bufferbuilder = tesselator.begin(GCYRClient.MODE_QUAD_STRIP, DefaultVertexFormat.POSITION);
+        if (customSkyBuffer != null) {
+            customSkyBuffer.close();
+        }
+
+        customSkyBuffer = new VertexBuffer(VertexBuffer.Usage.STATIC);
+        MeshData buffer = buildSkyDisc(bufferbuilder);
+        customSkyBuffer.bind();
+        customSkyBuffer.upload(buffer);
+        VertexBuffer.unbind();
+    }
+
+    private static MeshData buildSkyDisc(BufferBuilder builder) {
+        float radius = 128;
+        RenderSystem.setShader(GameRenderer::getPositionShader);
+
+        int stacks = 6;
+        int slices = 12;
+        for(int i = 0; i <= stacks; i++) {
+            float lat0 = Mth.PI * (-0.5f + (float) (i - 1) / stacks);
+            float z0 = Mth.sin(lat0);
+            float zr0 = Mth.cos(lat0);
+
+            float lat1 = Mth.PI * (-0.5f + (float) i / stacks);
+            float z1 = Mth.sin(lat1);
+            float zr1 = Mth.cos(lat1);
+
+            for(int j = 0; j <= slices; j++) {
+                float lng = 2 * Mth.PI * (float) (j - 1) / slices;
+                float x = Mth.cos(lng);
+                float y = Mth.sin(lng);
+
+                builder.addVertex(radius * x * zr0, radius * y * zr0, radius * z0);
+                builder.addVertex(radius * x * zr1, radius * y * zr1, radius * z1);
+            }
+        }
+
+        return builder.build();
+    }
+
     // Scales the planet as you fall closer to it.
     public static float getScale() {
         Minecraft minecraft = Minecraft.getInstance();
@@ -31,17 +76,17 @@ public class SkyUtil {
         return Math.max(scale, 0.5f);
     }
 
-    public static void preRender(ClientLevel level, LevelRenderer levelRenderer, Camera camera, Matrix4f projectionMatrix, Tesselator tesselator, int sunsetAngle, PoseStack poseStack, float tickDelta) {
+    public static void preRender(ClientLevel level, LevelRenderer levelRenderer, Camera camera, Matrix4f projectionMatrix, Tesselator tesselator, int sunsetAngle, PoseStack poseStack, float tickDelta, boolean doFullSky) {
         // Render colours.
         Vec3 vec3d = level.getSkyColor(camera.getPosition(), tickDelta);
-        float f = (float) vec3d.x();
+        float r = (float) vec3d.x();
         float g = (float) vec3d.y();
-        float h = (float) vec3d.z();
+        float b = (float) vec3d.z();
         FogRenderer.levelFogColor();
         RenderSystem.depthMask(false);
 
-        RenderSystem.setShaderColor(f, g, h, 1.0f);
-        VertexBuffer skyBuffer = ((LevelRendererAccessor) levelRenderer).getSkyBuffer();
+        RenderSystem.setShaderColor(r, g, b, 1.0f);
+        VertexBuffer skyBuffer = doFullSky ? customSkyBuffer : ((LevelRendererAccessor) levelRenderer).getSkyBuffer();
         skyBuffer.bind();
         skyBuffer.drawWithShader(poseStack.last().pose(), projectionMatrix, RenderSystem.getShader());
         VertexBuffer.unbind();
