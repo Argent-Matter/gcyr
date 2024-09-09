@@ -15,5 +15,5 @@ void main() {
     gl_Position = ProjMat * ModelViewMat * vec4(Position, 1.0);
     ViewPos = Position;
 
-    vertexDistance = fog_distance(ModelViewMat, Position, FogShape);
+    vertexDistance = fog_distance(Position, FogShape);
 }

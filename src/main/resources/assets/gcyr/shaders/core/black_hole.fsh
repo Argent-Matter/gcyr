@@ -11,9 +11,7 @@ uniform float FogEnd;
 uniform vec4 FogColor;
 
 uniform float GameTime;
-uniform vec2 ScreenSize;
 uniform vec3 Light0_Direction;
-uniform vec3 Light1_Direction;
 
 in vec3 ViewPos;
 in float vertexDistance;
@@ -21,8 +19,6 @@ in vec2 texCoord0;
 
 out vec4 fragColor;
 
-int frameCounter = int(fract(GameTime * 1200. * 60.));
-float frameTimeCounter = GameTime * 1200.;
 const float PI = 3.14159265359;
 
 float near = 0.1;
@@ -180,7 +176,7 @@ float pcurve(float x, float a, float b){
 void main(){
     fragColor = linear_fog(ColorModulator, vertexDistance, FogStart, FogEnd, FogColor);
 
-    vec3 worldPos = getWorldMat(Light0_Direction, Light1_Direction) * ViewPos;
+    vec3 worldPos = ViewPos;
     vec3 worldDir = normalize(worldPos);
 
     const float steps = 50.0;
@@ -240,7 +236,7 @@ void main(){
             if (density > 0.0001){
                 vec3 discCoord = vec3(r, p * (1.0 - radialGradient * 0.5), h * 0.1) * 3.5;
 
-                float fbm = CalculateCloudFBM(discCoord, frameTimeCounter * vec3(0.1, 0.07, 0.0));
+                float fbm = CalculateCloudFBM(discCoord, (GameTime * 1200.) * vec3(0.1, 0.07, 0.0));
                 float fbm2 = fbm * fbm;
                 density *= fbm2 * fbm2 * fbm;
                 density *= dr;
