@@ -17,7 +17,7 @@ public class GCYRTagUtil {
 
     public static <T> TagKey<T> createTag(ResourceKey<? extends Registry<T>> registry, String path, boolean vanilla) {
         if (vanilla) return optionalTag(registry, ResourceLocation.withDefaultNamespace(path));
-        return optionalTag(registry, ResourceLocation.fromNamespaceAndPath("forge", path));
+        return optionalTag(registry, ResourceLocation.fromNamespaceAndPath("c", path));
     }
 
     public static <T> TagKey<T> createModTag(ResourceKey<? extends Registry<T>> registry, String path) {
