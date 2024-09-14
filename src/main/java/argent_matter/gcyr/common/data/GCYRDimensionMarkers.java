@@ -13,6 +13,10 @@ import static com.gregtechceu.gtceu.common.data.GTDimensionMarkers.createAndRegi
 @SuppressWarnings("unused")
 public class GCYRDimensionMarkers {
 
+    static {
+        GCYRRegistries.REGISTRATE.creativeModeTab(() -> null);
+    }
+
     public static final BlockEntry<Block> LUNA_MARKER = createMarker("luna");
     public static final BlockEntry<Block> MARS_MARKER = createMarker("mars");
     public static final BlockEntry<Block> MERCURY_MARKER = createMarker("mercury");
