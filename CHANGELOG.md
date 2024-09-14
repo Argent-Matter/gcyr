@@ -1,10 +1,9 @@
 ### ADDITIONS:
 
 ### FIXES:
-- fix black hole shader on 1.21
-- fix neoforge tags
 
 ### CHANGES:
+- updated to GT 1.4.1
 
 ## WIP Documentation!:
 

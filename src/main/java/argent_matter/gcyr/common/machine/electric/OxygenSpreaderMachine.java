@@ -8,7 +8,7 @@ import com.gregtechceu.gtceu.api.machine.SimpleTieredMachine;
 import com.lowdragmc.lowdraglib.side.fluid.FluidHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.DustParticleOptions;
-import net.neoforged.neoforge.fluids.crafting.FluidIngredient;
+import net.neoforged.neoforge.fluids.crafting.SizedFluidIngredient;
 import org.joml.Vector3f;
 
 import java.util.Set;
@@ -30,7 +30,8 @@ public class OxygenSpreaderMachine extends SimpleTieredMachine {
     }
 
     public boolean canDistribute(int oxygenBlocks) {
-        return ((FluidIngredient)recipeLogic.getLastRecipe().value().getInputContents(FluidRecipeCapability.CAP).get(0).content).getStacks()[0].getAmount() / FluidHelper.getBucket() >= oxygenBlocks;
+        return ((SizedFluidIngredient)recipeLogic.getLastRecipe().getInputContents(FluidRecipeCapability.CAP).getFirst().content)
+                .getFluids()[0].getAmount() / FluidHelper.getBucket() >= oxygenBlocks;
     }
 
     public void runAlgorithm() {

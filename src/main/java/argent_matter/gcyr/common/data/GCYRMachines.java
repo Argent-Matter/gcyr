@@ -30,7 +30,6 @@ import com.gregtechceu.gtceu.data.recipe.GTRecipeModifiers;
 import com.gregtechceu.gtceu.data.recipe.GTRecipeTypes;
 import com.lowdragmc.lowdraglib.side.fluid.FluidHelper;
 import it.unimi.dsi.fastutil.ints.Int2IntFunction;
-import it.unimi.dsi.fastutil.ints.Int2LongFunction;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.Blocks;
@@ -61,6 +60,7 @@ public class GCYRMachines {
     public final static MachineDefinition[] OXYGEN_SPREADER = registerTieredMachines("oxygen_spreader", OxygenSpreaderMachine::new,
             (tier, builder) -> builder
                     .langValue("%s Oxygen Spreader".formatted(VNF[tier]))
+                    .editableUI(SimpleTieredMachine.EDITABLE_UI_CREATOR.apply(GCYR.id("oxygen_spreader"), GCYRRecipeTypes.OXYGEN_SPREADER_RECIPES))
                     .rotationState(RotationState.NON_Y_AXIS)
                     .renderer(() -> new TieredHullMachineRenderer(tier, GCYR.id("block/machine/oxygen_spreader")))
                     .recipeType(GCYRRecipeTypes.OXYGEN_SPREADER_RECIPES)
@@ -258,11 +258,11 @@ public class GCYRMachines {
                                                              int... tiers) {
         return registerTieredMachines(name, (holder, tier) -> new SimpleTieredMachine(holder, tier, tankScalingFunction), (tier, builder) -> builder
                 .langValue("%s %s %s".formatted(VLVH[tier], toEnglishName(name), VLVT[tier]))
-                .editableUI(SimpleTieredMachine.EDITABLE_UI_CREATOR.apply(GTCEu.id(name), recipeType))
+                .editableUI(SimpleTieredMachine.EDITABLE_UI_CREATOR.apply(GCYR.id(name), recipeType))
                 .rotationState(RotationState.NON_Y_AXIS)
                 .recipeType(recipeType)
                 .recipeModifier(GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK))
-                .workableTieredHullRenderer(GTCEu.id("block/machines/" + name))
+                .workableTieredHullRenderer(GCYR.id("block/machines/" + name))
                 .tooltips(workableTiered(tier, GTValues.V[tier], GTValues.V[tier] * 64, recipeType, tankScalingFunction.apply(tier), true))
                 .compassNode(name)
                 .register(), tiers);

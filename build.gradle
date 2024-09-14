@@ -64,6 +64,7 @@ repositories {
         url = "https://maven.saps.dev/minecraft"
         content {
             includeGroup "dev.latvian.mods"
+            includeGroup "dev.latvian.apps"
         }
     }
     maven { url = "https://maven.jamieswhiteshirt.com/libs-release" } // Reach Entity Attributes
@@ -165,11 +166,11 @@ configurations {
 
 dependencies {
     // LDLib
-    implementation(forge.gtceu.forge) { transitive = false }
+    implementation(forge.gtceu.forge)
     implementation(forge.ldlib.neoforge) { transitive = false }
 
     // Registrate
-    implementation("com.tterrag.registrate:Registrate:${forge.versions.registrate.get()}")
+    //implementation("com.tterrag.registrate:Registrate:${forge.versions.registrate.get()}")
 
     runtimeOnly forge.emi
 

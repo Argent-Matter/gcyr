@@ -17,13 +17,12 @@ dependencyResolutionManagement {
     versionCatalogs {
         // Minecraft Version
         def minecraftVersionVeryOld = "1.20.1"
-        def minecraftVersionOld = "1.21"
         def minecraftVersion = "1.21.1"
 
         // Mod Dependencies Versions
         // Common
-        def emiVersion = "1.1.11"
-        def kjsVersion = "2100.7.0-build.120"
+        def emiVersion = "1.1.13"
+        def kjsVersion = "2101.7.0-build.171"
 
         // NeoForge
         def neoForgeVersion = "21.1.4"
@@ -36,7 +35,7 @@ dependencyResolutionManagement {
         // Libs
         def parchmentVersion = "2024.07.28" // https://parchmentmc.org/docs/getting-started
         def configurationVersion = "5573796"
-        def gtCeuVersion = "1.4.0"
+        def gtCeuVersion = "1.4.1"
         def ldLibVersion = "1.0.27.a"
         def moddevgradleVersion = "2.0.15-beta"
 
@@ -53,7 +52,7 @@ dependencyResolutionManagement {
             def registrate = version("registrate", registrateForgeVersion)
             library("registrate", "com.tterrag.registrate", "Registrate").versionRef(registrate)
 
-            def emi = version("emi", emiVersion + "+" + minecraftVersionOld)
+            def emi = version("emi", emiVersion + "+" + minecraftVersion)
             library("emi", "dev.emi", "emi-neoforge").versionRef(emi)
 
             def theoneprobe = version("theoneprobe", topForgeVersion)
@@ -73,7 +72,6 @@ dependencyResolutionManagement {
             version("parchment", parchmentVersion)
 
             version("minecraft", minecraftVersion)
-            version("minecraftOld", minecraftVersionOld)
             version("minecraftVeryOld", minecraftVersionVeryOld)
 
             def neogradle = version("moddevgradle", moddevgradleVersion)
