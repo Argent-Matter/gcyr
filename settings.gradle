@@ -18,7 +18,7 @@ dependencyResolutionManagement {
 
         // Mod Dependencies Versions
         // Common
-        def reiVersion = "12.1.725"
+        def emiVersion = "1.1.13"
         def kjsVersion = "2001.6.4-build.120"
 
         // Forge
@@ -36,8 +36,8 @@ dependencyResolutionManagement {
         def vineFlowerVersion = "1.+"
         def macheteVersion = "1.+"
         def configurationVersion = "2.2.0"
-        def gtCeuVersion = "1.4.1+patch.2"
-        def ldLibVersion = "1.0.27.b"
+        def gtCeuVersion = "1.4.2"
+        def ldLibVersion = "1.0.28.b"
         def mixinExtrasVersion = "0.2.0"
         def mixinVersion = "0.8.6-SNAPSHOT"
 
@@ -52,10 +52,8 @@ dependencyResolutionManagement {
             def registrate = version("registrate", registrateForgeVersion)
             library("registrate", "com.tterrag.registrate", "Registrate").versionRef(registrate)
 
-            def rei = version("rei", reiVersion)
-            library("rei-plugin", "me.shedaniel", "RoughlyEnoughItems-default-plugin-forge").versionRef(rei)
-            library("rei-api", "me.shedaniel", "RoughlyEnoughItems-api-forge").versionRef(rei)
-            library("rei-forge", "me.shedaniel", "RoughlyEnoughItems-forge").versionRef(rei)
+            def emi = version("emi", emiVersion + "+" + minecraftVersion)
+            library("emi", "dev.emi", "emi-forge").versionRef(emi)
 
             def theoneprobe = version("theoneprobe", topForgeVersion)
             library("theoneprobe", "mcjty.theoneprobe", "theoneprobe").versionRef(theoneprobe)

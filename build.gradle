@@ -85,9 +85,18 @@ configurations {
 
 repositories {
     mavenLocal()
+
+    maven {
+        name = 'GTCEu Maven'
+        url = 'https://maven.gtceu.com'
+        content {
+            includeGroup 'com.gregtechceu.gtceu'
+        }
+    }
     // mavens for Forge-exclusives
     maven { url = "https://api.modrinth.com/maven" } // Jade
     maven { url = "https://maven.theillusivec4.top/" } // Curios
+    maven { url = "https://maven.terraformersmc.com/releases/" } // Mod Menu, EMI
     maven { // Create Forge and Registrate Forge
         url = "https://maven.tterrag.com/"
         content {
@@ -158,9 +167,7 @@ dependencies {
     modImplementation("com.tterrag.registrate:Registrate:${forge.versions.registrate.get()}")
 
     // REI
-    modCompileOnly forge.rei.plugin
-    modCompileOnly forge.rei.api
-    modImplementation forge.rei.forge
+    modImplementation forge.emi
 
     // TOP
     modCompileOnly(forge.theoneprobe) { transitive = false }

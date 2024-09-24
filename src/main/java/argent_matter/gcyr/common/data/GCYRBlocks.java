@@ -402,7 +402,6 @@ public class GCYRBlocks {
             .build()
             .register();
 
-    // erm what the sigma
     public static final BlockEntry<MushroomBlock> PRB_SHROOM = REGISTRATE
             .block("prb_underground_mushroom", (p) -> new MushroomBlock(p, null /*todo fix*/))
             .initialProperties(() -> Blocks.BROWN_MUSHROOM)

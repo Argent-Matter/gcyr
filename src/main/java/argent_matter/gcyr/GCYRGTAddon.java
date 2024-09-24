@@ -50,7 +50,7 @@ public class GCYRGTAddon implements IGTAddon {
                 .registerOre(() -> GCYRBlocks.VENUS_ROCK.orElse(Blocks.DEEPSLATE).defaultBlockState(), null, BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_ORANGE).requiresCorrectToolForDrops().strength(3.0F, 3.0F), GCYR.id("block/venus_rock"));
         TagPrefix.oreTagPrefix("mercury", BlockTags.MINEABLE_WITH_PICKAXE)
                 .langValue("Mercury %s Ore")
-                .registerOre(() -> GCYRBlocks.MERCURY_ROCK.orElse(Blocks.STONE).defaultBlockState(), null, BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GRAY).requiresCorrectToolForDrops().strength(3.0F, 3.0F), GCYR.id("block/moon_stone"));
+                .registerOre(() -> GCYRBlocks.MERCURY_ROCK.orElse(Blocks.STONE).defaultBlockState(), null, BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GRAY).requiresCorrectToolForDrops().strength(3.0F, 3.0F), GCYR.id("block/mercury_rock"));
     }
 
     @Override

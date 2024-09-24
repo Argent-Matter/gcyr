@@ -18,6 +18,7 @@ import com.gregtechceu.gtceu.api.data.chemical.material.registry.MaterialRegistr
 import com.gregtechceu.gtceu.api.machine.MachineDefinition;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.RecipeCondition;
+import com.gregtechceu.gtceu.api.recipe.condition.RecipeConditionType;
 import com.lowdragmc.lowdraglib.gui.factory.UIFactory;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
@@ -44,7 +45,7 @@ public class GCYR {
 		bus.register(this);
 
 		bus.addGenericListener(GTRecipeType.class, this::registerRecipeTypes);
-		bus.addGenericListener(Class.class, this::registerRecipeConditions);
+		bus.addGenericListener(RecipeConditionType.class, this::registerRecipeConditions);
 		bus.addGenericListener(MachineDefinition.class, this::registerMachines);
 		bus.addGenericListener(DimensionMarker.class, this::registerDimensionMarkers);
 		GCYRDimensionTypes.register(bus);
@@ -111,7 +112,7 @@ public class GCYR {
 		GCYRRecipeTypes.init();
 	}
 
-	public void registerRecipeConditions(GTCEuAPI.RegisterEvent<String, Class<? extends RecipeCondition>> event) {
+	public void registerRecipeConditions(GTCEuAPI.RegisterEvent<String, RecipeConditionType<?>> event) {
 		GCYRRecipeConditions.init();
 	}
 
