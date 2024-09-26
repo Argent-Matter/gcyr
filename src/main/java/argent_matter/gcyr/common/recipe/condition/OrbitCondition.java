@@ -18,11 +18,11 @@ import org.jetbrains.annotations.NotNull;
 
 @NoArgsConstructor
 public class OrbitCondition extends RecipeCondition {
-    public final static OrbitCondition INSTANCE = new OrbitCondition();
 
     public static final MapCodec<OrbitCondition> CODEC = RecordCodecBuilder.mapCodec((instance) -> {
         return RecipeCondition.isReverse(instance).apply(instance, OrbitCondition::new);
     });
+    public final static OrbitCondition INSTANCE = new OrbitCondition();
 
     public OrbitCondition(boolean isReverse) {
         super(isReverse);

@@ -17,11 +17,11 @@ import org.jetbrains.annotations.NotNull;
 
 @NoArgsConstructor
 public class DysonSphereCondition extends RecipeCondition {
-    public final static DysonSphereCondition INSTANCE = new DysonSphereCondition();
 
     public static final MapCodec<DysonSphereCondition> CODEC = RecordCodecBuilder.mapCodec((instance) -> {
         return RecipeCondition.isReverse(instance).apply(instance, DysonSphereCondition::new);
     });
+    public final static DysonSphereCondition INSTANCE = new DysonSphereCondition();
 
     public DysonSphereCondition(boolean isReverse) {
         super(isReverse);

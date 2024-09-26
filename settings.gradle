@@ -35,8 +35,8 @@ dependencyResolutionManagement {
         // Libs
         def parchmentVersion = "2024.07.28" // https://parchmentmc.org/docs/getting-started
         def configurationVersion = "5573796"
-        def gtCeuVersion = "1.4.1"
-        def ldLibVersion = "1.0.27.a"
+        def gtCeuVersion = "1.4.4"
+        def ldLibVersion = "1.0.28.c"
         def moddevgradleVersion = "2.0.15-beta"
 
         forge {
