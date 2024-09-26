@@ -3,7 +3,7 @@
 ### FIXES:
 
 ### CHANGES:
-- updated to GT 1.4.2
+- updated to GT 1.4.4
 
 ## WIP Documentation!:
 
