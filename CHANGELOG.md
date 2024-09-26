@@ -1,6 +1,7 @@
 ### ADDITIONS:
 
 ### FIXES:
+- fixed server crash
 
 ### CHANGES:
 - updated to GT 1.4.4

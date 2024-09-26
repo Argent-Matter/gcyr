@@ -18,6 +18,7 @@ import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public class KeyCardBehaviour implements IAddInformation {
@@ -34,7 +35,7 @@ public class KeyCardBehaviour implements IAddInformation {
     public static void setSavedStation(ItemStack stack, @Nullable Integer stationId, Planet planet) {
         if (!GCYRItems.KEYCARD.isIn(stack)) return;
         if (stationId == null) return;
-        stack.set(GCYRDataComponents.ID_CHIP, new IdChip(stationId, planet.orbitWorld().location(), null));
+        stack.set(GCYRDataComponents.ID_CHIP, new IdChip(stationId, Optional.of(planet.orbitWorld().location()), Optional.empty()));
     }
 
     @Nullable
@@ -52,7 +53,7 @@ public class KeyCardBehaviour implements IAddInformation {
         if (idChip == null) {
             return null;
         }
-        return PlanetData.getPlanet(idChip.currentPlanet());
+        return PlanetData.getPlanet(idChip.currentPlanet().orElse(null));
     }
 
     //@Override

@@ -57,7 +57,9 @@ public class PlanetIdChipBehaviour implements IInteractionItem, IAddInformation 
         if (!stack.has(GCYRDataComponents.ID_CHIP)) {
             return null;
         }
-        return PlanetData.getPlanetFromLevelOrOrbit(ResourceKey.create(Registries.DIMENSION, stack.get(GCYRDataComponents.ID_CHIP).currentPlanet())).orElse(null);
+        return PlanetData.getPlanetFromLevelOrOrbit(ResourceKey.create(Registries.DIMENSION,
+                        stack.get(GCYRDataComponents.ID_CHIP).currentPlanet().orElse(null)))
+                .orElse(null);
     }
 
     public static void setSavedPosition(ItemStack stack, ResourceKey<Level> level, BlockPos pos) {
@@ -68,8 +70,9 @@ public class PlanetIdChipBehaviour implements IInteractionItem, IAddInformation 
     public static GlobalPos getSavedPosition(ItemStack stack) {
         if (!stack.has(GCYRDataComponents.ID_CHIP)) return null;
         IdChip idChip = stack.get(GCYRDataComponents.ID_CHIP);
-        ResourceLocation currentLevel = idChip.currentPlanet();
-        return GlobalPos.of(ResourceKey.create(Registries.DIMENSION, currentLevel), idChip.currentPos());
+        if (idChip.currentPos().isEmpty()) return null;
+        ResourceLocation currentLevel = idChip.currentPlanet().orElse(null);
+        return GlobalPos.of(ResourceKey.create(Registries.DIMENSION, currentLevel), idChip.currentPos().get());
     }
 
     @Override
@@ -82,7 +85,7 @@ public class PlanetIdChipBehaviour implements IInteractionItem, IAddInformation 
         if (currentStationId != null) {
             tooltipComponents.add(Component.translatable("metaitem.planet_id_circuit.station", currentStationId));
         }
-        BlockPos currentTargetPos = !stack.has(GCYRDataComponents.ID_CHIP) ? null : stack.get(GCYRDataComponents.ID_CHIP).currentPos();
+        BlockPos currentTargetPos = !stack.has(GCYRDataComponents.ID_CHIP) ? null : stack.get(GCYRDataComponents.ID_CHIP).currentPos().orElse(null);
         if (currentTargetPos != null) {
             tooltipComponents.add(Component.translatable("metaitem.planet_id_circuit.pos",
                     currentTargetPos.getX(), currentTargetPos.getY(), currentTargetPos.getZ()));

@@ -89,12 +89,6 @@ public class GCYR {
 	}
 
 	@SubscribeEvent
-	public void registerGuiOverlays(RegisterGuiLayersEvent event) {
-		event.registerBelowAll(GCYR.id("oxygen_tank"), new EntityOxygenHUD());
-	}
-
-
-	@SubscribeEvent
 	public void registerClientReloadListeners(RegisterClientReloadListenersEvent event) {
 		// insert the resource loader into the first index forcefully, so we can load our data before shaders are loaded.
 		ReloadableResourceManagerAccessor manager = (ReloadableResourceManagerAccessor)

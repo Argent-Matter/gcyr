@@ -4,9 +4,7 @@ import argent_matter.gcyr.GCYR;
 import argent_matter.gcyr.common.data.GCYRDataComponents;
 import argent_matter.gcyr.common.data.GCYRItems;
 import argent_matter.gcyr.common.entity.RocketEntity;
-import argent_matter.gcyr.common.item.behaviour.PlanetIdChipBehaviour;
 import argent_matter.gcyr.common.item.component.IdChip;
-import argent_matter.gcyr.data.loader.PlanetData;
 import lombok.AllArgsConstructor;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
@@ -14,6 +12,8 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
+
+import java.util.Optional;
 
 @AllArgsConstructor
 public class PacketSendSelectedDimension implements CustomPacketPayload {
@@ -47,7 +47,7 @@ public class PacketSendSelectedDimension implements CustomPacketPayload {
         if (packet.dimensionId != null) {
             ItemStack handItem = handler.player().getItemInHand(handler.player().getUsedItemHand());
             if (handItem.is(GCYRItems.ID_CHIP.get())) {
-                handItem.set(GCYRDataComponents.ID_CHIP, new IdChip(Integer.MIN_VALUE, packet.dimensionId, null));
+                handItem.set(GCYRDataComponents.ID_CHIP, new IdChip(Integer.MIN_VALUE, Optional.of(packet.dimensionId), Optional.empty()));
             }
         }
     }
