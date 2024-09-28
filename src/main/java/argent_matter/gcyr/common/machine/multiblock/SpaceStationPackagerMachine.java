@@ -93,15 +93,26 @@ public class SpaceStationPackagerMachine extends PlatformMultiblockMachine {
         Planet targetPlanet = PlanetIdChipBehaviour.getPlanetFromStack(idChip);
         if (targetPlanet == null) return;
 
-        boolean isNegative = this.getFrontFacing().getAxisDirection() == Direction.AxisDirection.NEGATIVE;
         Direction back = this.getFrontFacing().getOpposite();
+        Direction left = this.getFrontFacing().getCounterClockWise();
+        Direction right = left.getOpposite();
         BlockPos current = getPos().relative(back, 1);
-        int startX = current.getX() + (isNegative ? -1 : 1);
-        int endX = current.getX() + (isNegative ? (bDist - 1) : -(bDist - 1));
-        int startZ = current.getZ() + (isNegative ? (lDist + 1) : -(lDist + 1));
-        int endZ = current.getZ() - (isNegative ? (rDist - 1) : -(rDist - 1));
+        int startX = current.get(back.getAxis());
+        int endX = current.relative(back, bDist - 1).get(back.getAxis());
+        int startZ = current.relative(left, lDist).get(left.getAxis());
+        int endZ = current.relative(right, rDist).get(right.getAxis());
         int startY = current.getY();
-        int endY = current.getY() + hDist;
+        int endY = current.offset(0, hDist, 0).getY();
+
+        if (this.getFrontFacing().getAxis() == Direction.Axis.Z) {
+            // swap x & z coords if we're on the Z axis
+            int temp = startX;
+            startX = startZ;
+            startZ = temp;
+            temp = endX;
+            endX = endZ;
+            endZ = temp;
+        }
 
         AABB bounds = new AABB(startX, startY, startZ, endX, endY, endZ);
         startX = (int) bounds.minX;
