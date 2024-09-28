@@ -10,6 +10,7 @@ import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -25,7 +26,7 @@ public record PosWithState(BlockPos pos, BlockState state, Optional<CompoundTag>
 
     public static final StreamCodec<RegistryFriendlyByteBuf, PosWithState> STREAM_CODEC = StreamCodec.composite(
             BlockPos.STREAM_CODEC, PosWithState::pos,
-            ByteBufCodecs.fromCodec(BlockState.CODEC), PosWithState::state,
+            ByteBufCodecs.idMapper(Block.BLOCK_STATE_REGISTRY), PosWithState::state,
             ByteBufCodecs.OPTIONAL_COMPOUND_TAG, PosWithState::entityTag,
             PosWithState::new);
 

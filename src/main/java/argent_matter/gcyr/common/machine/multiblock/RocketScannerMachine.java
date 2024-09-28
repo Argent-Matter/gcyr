@@ -116,15 +116,15 @@ public class RocketScannerMachine extends PlatformMultiblockMachine implements I
         this.rocketBuilt = rocketBuilt && isFormed;
         if (getLevel().isClientSide || !this.isFormed) return;
 
+        boolean isNegative = this.getFrontFacing().getAxisDirection() == Direction.AxisDirection.NEGATIVE;
         Direction back = this.getFrontFacing().getOpposite();
-        Direction left = this.getFrontFacing().getCounterClockWise();
         BlockPos current = getPos().relative(back, 1);
-        int startX = current.getX();
-        int endX = current.relative(back, bDist - 1).getX();
-        int startZ = current.relative(left, lDist).getZ();
-        int endZ = current.relative(left.getOpposite(), rDist).getZ();
+        int startX = current.getX() + (isNegative ? -1 : 1);
+        int endX = current.getX() - (isNegative ? -(bDist - 1) : (bDist - 1));
+        int startZ = current.getZ() - (isNegative ? -(lDist + 1) : (lDist + 1));
+        int endZ = current.getZ() - (isNegative ? (rDist - 1) : -(rDist - 1));
         int startY = current.getY();
-        int endY = current.offset(0, hDist, 0).getY();
+        int endY = current.getY() + hDist;
 
         AABB bounds = new AABB(startX, startY, startZ, endX, endY, endZ);
         startX = (int) bounds.minX;
