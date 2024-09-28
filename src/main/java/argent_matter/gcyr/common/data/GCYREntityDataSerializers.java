@@ -44,7 +44,10 @@ public class GCYREntityDataSerializers {
             EntityDataSerializers.BLOCK_POS.write(friendlyByteBuf, posState.pos());
             EntityDataSerializers.BLOCK_STATE.write(friendlyByteBuf, posState.state());
             if (posState.entityTag() != null) {
+                friendlyByteBuf.writeBoolean(true);
                 EntityDataSerializers.COMPOUND_TAG.write(friendlyByteBuf, posState.entityTag());
+            } else {
+                friendlyByteBuf.writeBoolean(false);
             }
         }
 

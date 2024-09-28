@@ -1,6 +1,7 @@
 ### ADDITIONS:
 
 ### FIXES:
+- Fixed rocket synchronization
 
 ### CHANGES:
 - updated to GT 1.4.4
