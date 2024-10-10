@@ -1,0 +1,28 @@
+{
+  "values": [
+    "gcyr:bisalloy_400_bucket",
+    "gcyr:molten_bisalloy_400_bucket",
+    "gcyr:chromic_acid_bucket",
+    "gcyr:trinaquadalloy_bucket",
+    "gcyr:molten_trinaquadalloy_bucket",
+    "gcyr:cobalt_bromide_bucket",
+    "gcyr:manganese_bromide_bucket",
+    "gcyr:manganese_acetate_bucket",
+    "gcyr:hydrobromic_acid_bucket",
+    "gcyr:co_mn_br_catalyst_bucket",
+    "gcyr:fiberglass_bucket",
+    "gcyr:pyrometillic_dianhydride_bucket",
+    "gcyr:durene_bucket",
+    "gcyr:dimethylformamide_bucket",
+    "gcyr:oxydianiline_bucket",
+    "gcyr:oxydianiline_sludge_bucket",
+    "gcyr:kapton_k_bucket",
+    "gcyr:para_xylene_bucket",
+    "gcyr:bis_trichloromethyl_benzene_bucket",
+    "gcyr:therephthalic_acid_bucket",
+    "gcyr:terephthaloyl_chloride_bucket",
+    "gcyr:nitroaniline_bucket",
+    "gcyr:para_phenylenediamine_bucket",
+    "gcyr:para_aramid_bucket"
+  ]
+}

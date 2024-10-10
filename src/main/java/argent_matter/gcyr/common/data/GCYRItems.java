@@ -7,7 +7,9 @@ import argent_matter.gcyr.common.item.armor.trim.GCYRTrimPatterns;
 import argent_matter.gcyr.data.recipe.GCYRTags;
 import com.gregtechceu.gtceu.api.item.ComponentItem;
 import com.gregtechceu.gtceu.api.item.component.IItemComponent;
+import com.tterrag.registrate.providers.ProviderType;
 import com.tterrag.registrate.util.entry.ItemEntry;
+import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
 import com.tterrag.registrate.util.nullness.NonNullConsumer;
 import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
@@ -132,6 +134,7 @@ public class GCYRItems {
                             Component.translatable(Util.makeDescriptionId("item", GCYR.id("smithing_template.space_upgrade.additions_slot_description"))),
                             SmithingTemplateItem.createTrimmableArmorIconList(),
                             SmithingTemplateItem.createTrimmableArmorIconList()))
+            .setData(ProviderType.LANG, NonNullBiConsumer.noop())
             .register();
 
     // endregion
