@@ -35,3 +35,12 @@ Though the main idea is the concept of a portal to go around the fact that only 
 Likely would be in a lagrange point in space because “such portals wont work within the gravity well of earth”. With that in mind the station itself would stay the same but just adding some sort of portal projector multiblock to the mix
 
 """
+
+"""
+
+Dyson swarms are the actual star power a player will construct. they'll be built by launching satellites with mirrors to orbit the sun (TODO how? cannon maybe?) and then beaming that energy back to your planet of choice via mirrors.
+The satellites will be controlled by the satellite controller on a space station (TODO IMPLEMENT) and "aimed" to the planet you want to have power on (must be in the same solar system)
+at the collection station, an otherwise normal but larger solar panel facility will be used for collecting the power.
+
+https://www.youtube.com/watch?v=pP44EPBMb8A
+"""
