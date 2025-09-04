@@ -8,13 +8,13 @@ import com.tterrag.registrate.util.entry.BlockEntry;
 import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
 import net.minecraft.world.level.block.Block;
 
-import static com.gregtechceu.gtceu.data.worldgen.GTDimensionMarkers.createAndRegister;
+import static com.gregtechceu.gtceu.data.misc.GTDimensionMarkers.createAndRegister;
 
 @SuppressWarnings("unused")
 public class GCYRDimensionMarkers {
 
     static {
-        GCYRRegistries.REGISTRATE.creativeModeTab(() -> null);
+        GCYRRegistries.REGISTRATE.creativeModeTab(null);
     }
 
     public static final BlockEntry<Block> LUNA_MARKER = createMarker("luna");

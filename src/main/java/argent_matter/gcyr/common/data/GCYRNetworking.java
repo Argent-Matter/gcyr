@@ -11,7 +11,6 @@ import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 
 @EventBusSubscriber(modid = GCYR.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
 public class GCYRNetworking {
-
     @SubscribeEvent
     public static void registerPayloads(RegisterPayloadHandlersEvent event) {
         PayloadRegistrar registar = event.registrar(GCYR.MOD_ID);

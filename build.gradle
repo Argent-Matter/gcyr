@@ -37,6 +37,25 @@ repositories {
     maven { url = "https://maven.terraformersmc.com/releases/" } // Mod Menu, EMI
     maven { url = "https://maven.shedaniel.me/" } // Cloth Config, REI
     maven {
+        url "https://maven.latvian.dev/releases"
+        content {
+            includeGroup "dev.latvian.mods"
+            includeGroup "dev.latvian.apps"
+        }
+    }
+
+    maven {
+        url 'https://jitpack.io'
+        content {
+            includeGroup "com.github.rtyley"
+        }
+    }
+
+    maven {
+        name 'Configuration'
+        url 'https://api.repsy.io/mvn/toma/public/'
+    }
+    maven {
         url "https://cursemaven.com"
         content {
             includeGroup "curse.maven"

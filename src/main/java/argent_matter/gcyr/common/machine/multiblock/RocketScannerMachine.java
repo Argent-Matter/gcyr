@@ -65,7 +65,7 @@ public class RocketScannerMachine extends PlatformMultiblockMachine implements I
     public ModularUI createUI(Player entityPlayer) {
         ModularUI modularUI = super.createUI(entityPlayer);
         modularUI.registerCloseListener(() -> {
-            Block.popResource(getLevel(), getPos(), posSaveSlot.getStackInSlot(0));
+            net.minecraft.world.level.block.Block.popResource(getLevel(), getPos(), posSaveSlot.getStackInSlot(0));
         });
         modularUI.widget(new SlotWidget(posSaveSlot, 0, 149, 105));
         modularUI.widget(new ButtonWidget(129, 105, 18, 18, this::onSaveButtonClick)

@@ -5,6 +5,7 @@ import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IDisplayUIMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.MultiblockControllerMachine;
 import com.gregtechceu.gtceu.api.machine.multiblock.PartAbility;
+import com.gregtechceu.gtceu.api.material.ChemicalHelper;
 import com.gregtechceu.gtceu.api.multiblock.BlockPattern;
 import com.gregtechceu.gtceu.api.multiblock.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.multiblock.Predicates;
@@ -105,7 +106,7 @@ public class PlatformMultiblockMachine extends MultiblockControllerMachine imple
      * @return if a block is a valid floor block at pos moved in direction
      */
     public boolean isBlockTowerEnd(@Nonnull Level world, @Nonnull BlockPos.MutableBlockPos pos, @Nonnull Direction direction) {
-        return world.getBlockState(pos.move(Direction.UP, 1)).is(GTBlocks.MATERIAL_BLOCKS.get(TagPrefix.frameGt, GTMaterials.StainlessSteel).get()) && !world.getBlockState(pos.relative(Direction.UP, 1)).is(GTBlocks.MATERIAL_BLOCKS.get(TagPrefix.frameGt, GTMaterials.StainlessSteel).get());
+        return world.getBlockState(pos.move(Direction.UP, 1)).is(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.StainlessSteel)) && !world.getBlockState(pos.relative(Direction.UP, 1)).is(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.StainlessSteel));
     }
 
     @Override
@@ -167,7 +168,7 @@ public class PlatformMultiblockMachine extends MultiblockControllerMachine imple
         front[0] = emptyBuilder.toString();
         front[1] = controllerBuilder.toString();
 
-        TraceabilityPredicate towerPredicate = blocks(GTBlocks.MATERIAL_BLOCKS.get(TagPrefix.frameGt, GTMaterials.StainlessSteel).get());
+        TraceabilityPredicate towerPredicate = blocks(ChemicalHelper.getBlock(TagPrefix.frameGt, GTMaterials.StainlessSteel));
         TraceabilityPredicate basePredicate = Predicates.autoAbilities(true, false, false)
                 .or(abilities(PartAbility.INPUT_ENERGY).setMinGlobalLimited(1).setMaxGlobalLimited(3));
 

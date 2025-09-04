@@ -8,10 +8,14 @@ import com.gregtechceu.gtceu.data.damagesource.GTDamageTypes;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.Mth;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
@@ -44,7 +48,9 @@ public class LaserSatellite extends Satellite {
                 }
 
                 var entities = level.getEntities(EntityTypeTest.forClass(LivingEntity.class), new AABB(x - 1, currentMinedY - 1, z - 1, x + 1, currentMinedY + 1, z + 1), EntitySelector.NO_CREATIVE_OR_SPECTATOR);
-                entities.forEach(entity -> entity.hurt(GTDamageTypes.RADIATION.source(level), GCYRConfig.INSTANCE.satellites.laserSatelliteDamagePerTickStep));
+
+                Holder<DamageType> type = level.registryAccess().holderOrThrow(GTDamageTypes.RADIATION);
+                entities.forEach(entity -> entity.hurt(new DamageSource(type), GCYRConfig.INSTANCE.satellites.laserSatelliteDamagePerTickStep));
             }
         }
 

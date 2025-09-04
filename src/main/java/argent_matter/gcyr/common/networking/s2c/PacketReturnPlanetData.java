@@ -2,9 +2,7 @@ package argent_matter.gcyr.common.networking.s2c;
 
 import argent_matter.gcyr.GCYR;
 import argent_matter.gcyr.GCYRClient;
-import argent_matter.gcyr.common.networking.c2s.PacketRequestPlanetData;
 import argent_matter.gcyr.data.loader.PlanetData;
-import com.lowdragmc.lowdraglib.networking.IPacket;
 import lombok.NoArgsConstructor;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;

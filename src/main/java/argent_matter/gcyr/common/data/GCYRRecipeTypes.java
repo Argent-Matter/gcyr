@@ -49,7 +49,6 @@ public class GCYRRecipeTypes {
         RECIPE_SERIALIZERS.register(name, () -> serializer);
         //noinspection UnstableApiUsage
         recipeType.setSerializer(serializer);
-        GTRegistries.RECIPE_TYPES.register(recipeType.registryName, recipeType);
         return recipeType;
     }
 

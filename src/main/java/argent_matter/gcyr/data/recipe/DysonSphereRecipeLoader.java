@@ -3,16 +3,13 @@ package argent_matter.gcyr.data.recipe;
 import argent_matter.gcyr.GCYR;
 import argent_matter.gcyr.common.data.GCYRBlocks;
 import argent_matter.gcyr.common.data.GCYRItems;
-import argent_matter.gcyr.common.data.GCYRMaterials;
 import argent_matter.gcyr.common.recipe.condition.DysonSphereCondition;
 import argent_matter.gcyr.common.recipe.condition.OrbitCondition;
 import com.gregtechceu.gtceu.api.GTCEuAPI;
-import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.tag.TagPrefix;
 import com.gregtechceu.gtceu.data.machine.GTMachines;
 import com.gregtechceu.gtceu.data.material.GTMaterials;
-import com.gregtechceu.gtceu.data.recipe.CustomTags;
-import com.gregtechceu.gtceu.data.recipe.GCyMRecipeTypes;
+import com.gregtechceu.gtceu.data.tag.CustomTags;
 import net.minecraft.data.recipes.RecipeOutput;
 
 import static argent_matter.gcyr.common.data.GCYRMaterials.*;

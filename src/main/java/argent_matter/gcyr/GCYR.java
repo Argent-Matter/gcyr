@@ -3,22 +3,17 @@ package argent_matter.gcyr;
 import argent_matter.gcyr.api.gui.factory.EntityUIFactory;
 import argent_matter.gcyr.api.registries.GCYRRegistries;
 import argent_matter.gcyr.common.data.*;
-import argent_matter.gcyr.common.gui.EntityOxygenHUD;
 import argent_matter.gcyr.common.item.armor.GCYRArmorMaterials;
 import argent_matter.gcyr.common.item.armor.SpaceSuitArmorItem;
-import argent_matter.gcyr.common.worldgen.GCYROres;
+import argent_matter.gcyr.common.data.GCYROres;
 import argent_matter.gcyr.config.GCYRConfig;
 import argent_matter.gcyr.data.GCYRDatagen;
 import argent_matter.gcyr.data.loader.PlanetResources;
 import argent_matter.gcyr.data.recipe.GCYRTags;
 import argent_matter.gcyr.mixin.RegisterClientReloadListenersEventAccessor;
 import argent_matter.gcyr.mixin.ReloadableResourceManagerAccessor;
-import com.gregtechceu.gtceu.api.GTCEuAPI;
-import com.gregtechceu.gtceu.api.material.material.event.MaterialEvent;
-import com.gregtechceu.gtceu.api.material.material.event.MaterialRegistryEvent;
 import com.gregtechceu.gtceu.api.material.material.event.PostMaterialEvent;
 import com.gregtechceu.gtceu.api.material.material.registry.MaterialRegistry;
-import com.gregtechceu.gtceu.api.misc.forge.FilteredFluidHandlerItemStack;
 import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import com.lowdragmc.lowdraglib.gui.factory.UIFactory;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -33,7 +28,6 @@ import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.client.event.RegisterClientReloadListenersEvent;
-import net.neoforged.neoforge.client.event.RegisterGuiLayersEvent;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.templates.FluidHandlerItemStack;
 import org.slf4j.Logger;
@@ -59,6 +53,7 @@ public class GCYR {
 		GCYRDataComponents.register(bus);
 		GCYRArmorMaterials.register(bus);
 		GCYRParticles.register(bus);
+		GCYRRecipeTypes.register(bus);
 
 		GCYRVanillaRecipeTypes.RECIPE_TYPE_DEFERRED_REGISTER.register(bus);
 
@@ -71,7 +66,7 @@ public class GCYR {
 		GCYRConfig.init();
 		UIFactory.register(EntityUIFactory.INSTANCE);
 
-		GCYRSatellites.init();
+		GCYRSatellites.init(modBus);
 		GCYRCreativeModeTabs.init();
 		GCYREntities.init();
 		GCYRBlocks.init();
@@ -80,7 +75,7 @@ public class GCYR {
 
 		GCYRDatagen.init();
 
-		GCYRRegistries.REGISTRATE.registerRegistrate(modBus);
+		GCYRRegistries.REGISTRATE.registerEventListeners(modBus);
 		GCYRDimensionTypes.init();
 	}
 
@@ -97,12 +92,7 @@ public class GCYR {
 	}
 
 	@SubscribeEvent
-	public void registerMaterialRegistry(MaterialRegistryEvent event) {
-		MATERIAL_REGISTRY = GTCEuAPI.materialManager.createRegistry(GCYR.MOD_ID);
-	}
-
-	@SubscribeEvent
-	public void registerMaterials(MaterialEvent event) {
+	public void registerMaterials(PostMaterialEvent event) {
 		GCYRMaterials.init();
 	}
 
@@ -111,15 +101,16 @@ public class GCYR {
 		GCYRMaterials.modifyMaterials();
 	}
 
+	/* Changed from 1.20 idk whats the current impl now tbf
 	@SubscribeEvent
-	public void gtRegister(GTCEuAPI.RegisterEvent event) {
-		event.register(GTRegistries.RECIPE_TYPES, () -> GCYRRecipeTypes.register(modBus));
+	public void gtRegister(? event) {
 		event.register(GTRegistries.RECIPE_CONDITIONS, GCYRRecipeConditions::init);
 		event.register(GTRegistries.MACHINES, GCYRMachines::init);
 		event.register(GTRegistries.DIMENSION_MARKERS, GCYRDimensionMarkers::init);
 		event.register(GTRegistries.SOUNDS, GCYRSoundEntries::init);
-		event.register(GTRegistries.ORE_VEINS, GCYROres::init);
+		event.register(GTRegistries.ORE_VEIN_REGISTRY, GCYROres::init);
 	}
+	*/
 
 	@SubscribeEvent
 	public void registerCapabilities(RegisterCapabilitiesEvent event) {

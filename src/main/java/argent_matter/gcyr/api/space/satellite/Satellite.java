@@ -46,7 +46,7 @@ public abstract class Satellite {
 
     public static <S extends Satellite> Products.P3<RecordCodecBuilder.Mu<S>, SatelliteType<?>, SatelliteData, ResourceKey<Level>> baseCodec(RecordCodecBuilder.Instance<S> instance) {
         return instance.group(
-                GCYRRegistries.SATELLITES.codec().fieldOf("type").forGetter(Satellite::getType),
+                GCYRRegistries.SATELLITES.byNameCodec().fieldOf("type").forGetter(Satellite::getType),
                 SatelliteData.CODEC.fieldOf("data").forGetter(Satellite::getData),
                 ResourceKey.codec(Registries.DIMENSION).fieldOf("level").forGetter(Satellite::getLevel)
         );
@@ -91,7 +91,7 @@ public abstract class Satellite {
         SatelliteData data = SatelliteData.deserializeNBT(nbt.getCompound("data"));
         ResourceKey<Level> levelResourceKey = ResourceKey.create(Registries.DIMENSION, ResourceLocation.parse(nbt.getString("level")));
         if (type == null) {
-            return new EmptySatellite(GCYRSatellites.EMPTY, data, levelResourceKey);
+            return new EmptySatellite(GCYRSatellites.EMPTY.get(), data, levelResourceKey);
         }
         SatelliteType.SatelliteFactory<?> satellite = type.getFactory();
 

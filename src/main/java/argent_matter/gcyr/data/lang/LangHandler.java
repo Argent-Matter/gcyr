@@ -4,7 +4,7 @@ import argent_matter.gcyr.common.data.GCYRMaterials;
 import com.gregtechceu.gtceu.api.tag.TagPrefix;
 import com.tterrag.registrate.providers.RegistrateLangProvider;
 
-public class LangHandler extends com.gregtechceu.gtceu.data.lang.LangHandler {
+public class LangHandler extends com.gregtechceu.gtceu.data.datagen.lang.LangHandler {
 
     public static void init(RegistrateLangProvider provider) {
         // tag prefixes

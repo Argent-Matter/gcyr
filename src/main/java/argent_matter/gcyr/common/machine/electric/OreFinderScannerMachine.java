@@ -42,9 +42,9 @@ public class OreFinderScannerMachine extends TieredEnergyMachine {
     public int getItemColor(BlockState state) {
         var itemName = BLOCK_CACHE.computeIfAbsent(state, blockState -> {
             var name = BuiltInRegistries.BLOCK.getKey(blockState.getBlock()).toString();
-            var entry = ChemicalHelper.getUnificationEntry(blockState.getBlock());
-            if (entry != null && entry.material != null) {
-                name = "material_" + entry.material;
+            var entry = ChemicalHelper.getMaterialEntry(blockState.getBlock());
+            if (entry != null && entry.material() != null) {
+                name = "material_" + entry.material();
             }
             return name;
         });

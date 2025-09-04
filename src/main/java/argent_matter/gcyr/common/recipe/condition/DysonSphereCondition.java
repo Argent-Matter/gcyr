@@ -4,9 +4,9 @@ import argent_matter.gcyr.api.capability.GCYRCapabilityHelper;
 import argent_matter.gcyr.api.capability.IDysonSystem;
 import argent_matter.gcyr.common.data.GCYRRecipeConditions;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
-import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.condition.RecipeCondition;
 import com.gregtechceu.gtceu.api.recipe.condition.RecipeConditionType;
+import com.gregtechceu.gtceu.api.recipe.kind.GTRecipe;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import lombok.NoArgsConstructor;
@@ -16,7 +16,7 @@ import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
 @NoArgsConstructor
-public class DysonSphereCondition extends RecipeCondition {
+public class DysonSphereCondition extends RecipeCondition<DysonSphereCondition> {
 
     public static final MapCodec<DysonSphereCondition> CODEC = RecordCodecBuilder.mapCodec((instance) -> {
         return RecipeCondition.isReverse(instance).apply(instance, DysonSphereCondition::new);
@@ -28,7 +28,7 @@ public class DysonSphereCondition extends RecipeCondition {
     }
 
     @Override
-    public RecipeConditionType<?> getType() {
+    public RecipeConditionType<DysonSphereCondition> getType() {
         return GCYRRecipeConditions.DYSON_SPHERE;
     }
 
@@ -38,7 +38,7 @@ public class DysonSphereCondition extends RecipeCondition {
     }
 
     @Override
-    public boolean test(@NotNull GTRecipe recipe, @NotNull RecipeLogic recipeLogic) {
+    public boolean testCondition(@NotNull GTRecipe recipe, @NotNull RecipeLogic recipeLogic) {
         Level level = recipeLogic.getMachine().getLevel();
         if (!level.isClientSide) {
             IDysonSystem system = GCYRCapabilityHelper.getDysonSystem((ServerLevel) level);

@@ -5,9 +5,9 @@ import argent_matter.gcyr.common.data.GCYRRecipeConditions;
 import argent_matter.gcyr.common.networking.c2s.PacketRequestPlanetData;
 import argent_matter.gcyr.data.loader.PlanetData;
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
-import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.condition.RecipeCondition;
 import com.gregtechceu.gtceu.api.recipe.condition.RecipeConditionType;
+import com.gregtechceu.gtceu.api.recipe.kind.GTRecipe;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import lombok.NoArgsConstructor;
@@ -17,7 +17,7 @@ import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
 
 @NoArgsConstructor
-public class OrbitCondition extends RecipeCondition {
+public class OrbitCondition extends RecipeCondition<OrbitCondition> {
 
     public static final MapCodec<OrbitCondition> CODEC = RecordCodecBuilder.mapCodec((instance) -> {
         return RecipeCondition.isReverse(instance).apply(instance, OrbitCondition::new);
@@ -29,7 +29,7 @@ public class OrbitCondition extends RecipeCondition {
     }
 
     @Override
-    public RecipeConditionType<?> getType() {
+    public RecipeConditionType<OrbitCondition> getType() {
         return GCYRRecipeConditions.ORBIT;
     }
 
@@ -39,7 +39,7 @@ public class OrbitCondition extends RecipeCondition {
     }
 
     @Override
-    public boolean test(@NotNull GTRecipe recipe, @NotNull RecipeLogic recipeLogic) {
+    public boolean testCondition(@NotNull GTRecipe recipe, @NotNull RecipeLogic recipeLogic) {
         Level level = recipeLogic.getMachine().getLevel();
         if (level.isClientSide && !GCYRClient.hasUpdatedPlanets) {
             PacketDistributor.sendToServer(new PacketRequestPlanetData());

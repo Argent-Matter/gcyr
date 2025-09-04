@@ -21,23 +21,24 @@ dependencyResolutionManagement {
 
         // Mod Dependencies Versions
         // Common
-        def emiVersion = "1.1.13"
-        def kjsVersion = "2101.7.0-build.171"
+        def emiVersion = "1.1.22"
+        def kjsVersion = "2101.7.2-build.254"
+        def tinyjavaVersion = "1.0.0-build.26"
 
         // NeoForge
-        def neoForgeVersion = "21.1.4"
-        def registrateForgeVersion = "MC1.21-1.3.0+16"
+        def neoForgeVersion = "21.1.206"
+        def registrateForgeVersion = "MC1.21-1.3.11"
         def topForgeVersion = "1.20.4_neo-11.0.0-1"
 
         // Forge
         def radiumVersion = "0.12.6"
 
         // Libs
-        def parchmentVersion = "2024.07.28" // https://parchmentmc.org/docs/getting-started
-        def configurationVersion = "5573796"
-        def gtCeuVersion = "1.4.4"
-        def ldLibVersion = "1.0.28.d"
-        def moddevgradleVersion = "2.0.15-beta"
+        def parchmentVersion = "2024.11.17" // https://parchmentmc.org/docs/getting-started
+        def configurationVersion = "5774720"
+        def gtCeuVersion = "7.1.0-SNAPSHOT"
+        def ldLibVersion = "1.0.35.a"
+        def moddevgradleVersion = "2.0.107"
 
         forge {
             def neoForge = version("neoForge", "${neoForgeVersion}")
@@ -60,6 +61,10 @@ dependencyResolutionManagement {
 
             def kubejs = version("kubejs", kjsVersion)
             library("kubejs", "dev.latvian.mods", "kubejs-neoforge").versionRef(kubejs)
+
+            def tinyjava = version("tinyjava", tinyjavaVersion)
+            library("tinyjava", "dev.latvian.apps", "tiny-java-server").versionRef(tinyjava)
+
 
             def configuration = version("configuration", configurationVersion)
             library("configuration", "curse.maven", "configuration-444699").versionRef(configuration)

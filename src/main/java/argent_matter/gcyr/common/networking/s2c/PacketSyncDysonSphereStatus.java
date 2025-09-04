@@ -2,14 +2,9 @@ package argent_matter.gcyr.common.networking.s2c;
 
 import argent_matter.gcyr.GCYR;
 import argent_matter.gcyr.GCYRClient;
-import argent_matter.gcyr.common.networking.c2s.PacketSendSelectedDimension;
-import com.lowdragmc.lowdraglib.networking.IHandlerContext;
-import com.lowdragmc.lowdraglib.networking.IPacket;
 import io.netty.buffer.ByteBuf;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.neoforged.neoforge.network.handling.IPayloadContext;

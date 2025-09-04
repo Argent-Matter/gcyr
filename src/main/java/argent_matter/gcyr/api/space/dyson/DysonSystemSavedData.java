@@ -3,7 +3,6 @@ package argent_matter.gcyr.api.space.dyson;
 import argent_matter.gcyr.GCYR;
 import argent_matter.gcyr.api.capability.IDysonSystem;
 import argent_matter.gcyr.api.space.planet.Planet;
-import argent_matter.gcyr.common.data.GCYRNetworking;
 import argent_matter.gcyr.common.data.GCYRSatellites;
 import argent_matter.gcyr.common.networking.s2c.PacketSyncDysonSphereStatus;
 import argent_matter.gcyr.common.satellite.DysonSwarmSatellite;
@@ -150,7 +149,7 @@ public class DysonSystemSavedData extends SavedData implements IDysonSystem {
             ListTag tag = stationsTag.getList(name, Tag.TAG_COMPOUND);
             long pos = Long.parseLong(name);
             for (int i = 0; i < tag.size(); ++i) {
-                DysonSwarmSatellite satellite = GCYRSatellites.DYSON_SWARM.getCodec().parse(NbtOps.INSTANCE, tag.getCompound(i)).getOrThrow();
+                DysonSwarmSatellite satellite = GCYRSatellites.DYSON_SWARM.get().getCodec().parse(NbtOps.INSTANCE, tag.getCompound(i)).getOrThrow();
                 swarmSatellites.computeIfAbsent(pos, $ -> new HashSet<>()).add(satellite);
             }
         }
@@ -167,7 +166,7 @@ public class DysonSystemSavedData extends SavedData implements IDysonSystem {
         for (Long2ObjectMap.Entry<Set<DysonSwarmSatellite>> entry : swarmSatellites.long2ObjectEntrySet()) {
             ListTag pos = new ListTag();
             for (DysonSwarmSatellite satellite : entry.getValue()) {
-                Tag station = GCYRSatellites.DYSON_SWARM.getCodec().encodeStart(NbtOps.INSTANCE, satellite).result().orElseThrow();
+                Tag station = GCYRSatellites.DYSON_SWARM.get().getCodec().encodeStart(NbtOps.INSTANCE, satellite).result().orElseThrow();
                 pos.add(station);
             }
             tag.put(Long.toString(entry.getLongKey()), pos);

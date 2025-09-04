@@ -7,7 +7,7 @@ import argent_matter.gcyr.config.GCYRConfig;
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.multiblock.WorkableElectricMultiblockMachine;
-import com.gregtechceu.gtceu.api.recipe.GTRecipe;
+import com.gregtechceu.gtceu.api.recipe.kind.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.logic.OCParams;
 import com.gregtechceu.gtceu.api.recipe.logic.OCResult;
 import com.gregtechceu.gtceu.data.damagesource.GTDamageTypes;
@@ -19,6 +19,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntitySelector;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
@@ -62,13 +63,13 @@ public class DysonSystemControllerMachine extends WorkableElectricMultiblockMach
     }
 
     @Override
-    protected @Nullable GTRecipe getRealRecipe(GTRecipe recipe, @NotNull OCParams params, @NotNull OCResult result) {
+    protected @Nullable GTRecipe getRealRecipe(GTRecipe recipe) {
         if (this.getLevel().dimensionType().hasCeiling()) return null;
         if (recipe.data.contains("gcyr:repair_dyson_sphere")) {
             IDysonSystem system = GCYRCapabilityHelper.getDysonSystem((ServerLevel) this.getLevel());
             if (system != null && system.isDysonSphereActive() && (!system.activeDysonSphere().isNeedsMaintenance() || !this.getPos().equals(system.activeDysonSphere().getControllerPos()))) return null;
         }
-        return super.getRealRecipe(recipe, params, result);
+        return super.getRealRecipe(recipe);
     }
 
     @Override
@@ -81,7 +82,8 @@ public class DysonSystemControllerMachine extends WorkableElectricMultiblockMach
         Direction rightFacing = frontFacing.getClockWise();
         BlockPos pos = this.getPos().mutable().move(backFacing, 4).move(rightFacing, 1).move(0, 7 + 256 /*pre offset up by half distance*/, 0).immutable();
         for (LivingEntity entity : level.getEntitiesOfClass(LivingEntity.class, AABB.ofSize(Vec3.atCenterOf(pos), 3, 512, 3), EntitySelector.LIVING_ENTITY_STILL_ALIVE)) {
-            entity.hurt(GTDamageTypes.ELECTRIC.source(level), GCYRConfig.INSTANCE.machine.dysonControllerBeamDamage);
+            DamageSource source = new DamageSource(level.registryAccess().holderOrThrow(GTDamageTypes.ELECTRIC));
+            entity.hurt(source, GCYRConfig.INSTANCE.machine.dysonControllerBeamDamage);
         }
         return value;
     }

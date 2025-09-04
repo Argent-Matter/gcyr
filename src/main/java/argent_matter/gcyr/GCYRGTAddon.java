@@ -16,24 +16,25 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
 
-@GTAddon
+@GTAddon(GCYR.MOD_ID)
 public class GCYRGTAddon implements IGTAddon {
     @Override
     public GTRegistrate getRegistrate() {
         return GCYRRegistries.REGISTRATE;
     }
 
+    /**
+     * This runs after GTCEu has set up it's content. Set up GT loading-dependent (but NOT ones dependent on
+     *
+     * @apiNote DO NOT REGISTER ANY OF YOUR OWN CONTENT HERE, AS IF YOU DO, IT'LL REGISTER AS IF GTCEu REGISTERED IT
+     * AND YOUR DATAGEN AND EVENTS WILL <b><i>NOT</i></b> WORK AS EXPECTED, IF AT ALL.
+     */
     @Override
-    public void initializeAddon() {
+    public void gtInitComplete() {
 
     }
 
-    @Override
-    public String addonModId() {
-        return GCYR.MOD_ID;
-    }
-
-    @Override
+    // Prob should be made with a DeferredRegister but idrk
     public void registerTagPrefixes() {
         TagPrefix.oreTagPrefix("moon", BlockTags.MINEABLE_WITH_PICKAXE)
                 .langValue("Moon %s Ore")

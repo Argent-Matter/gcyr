@@ -28,21 +28,20 @@ import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.UITemplate;
+import com.gregtechceu.gtceu.api.gui.widget.SlotWidget;
+import com.gregtechceu.gtceu.api.gui.widget.TankWidget;
 import com.gregtechceu.gtceu.api.item.ComponentItem;
 import com.gregtechceu.gtceu.api.item.component.IItemComponent;
-import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
+import com.gregtechceu.gtceu.api.recipe.kind.GTRecipe;
 import com.gregtechceu.gtceu.api.transfer.fluid.CustomFluidTank;
 import com.gregtechceu.gtceu.api.transfer.item.CustomItemStackHandler;
-import com.lowdragmc.lowdraglib.gui.modular.IUIHolder;
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
 import com.lowdragmc.lowdraglib.gui.texture.GuiTextureGroup;
 import com.lowdragmc.lowdraglib.gui.texture.ProgressTexture;
 import com.lowdragmc.lowdraglib.gui.texture.TextTexture;
 import com.lowdragmc.lowdraglib.gui.widget.ButtonWidget;
 import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
-import com.lowdragmc.lowdraglib.gui.widget.SlotWidget;
-import com.lowdragmc.lowdraglib.gui.widget.TankWidget;
 import com.mojang.datafixers.util.Pair;
 import it.unimi.dsi.fastutil.objects.Object2BooleanMap;
 import it.unimi.dsi.fastutil.objects.Object2BooleanOpenHashMap;
@@ -83,7 +82,6 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.dimension.DimensionType;
@@ -101,7 +99,7 @@ import java.util.*;
 
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
-public class RocketEntity extends Entity implements HasCustomInventoryScreen, IUIHolder, PlayerRideable, IEntityWithComplexSpawn /*, IManaged, IAutoPersistEntity*/ {
+public class RocketEntity extends Entity implements HasCustomInventoryScreen, com.lowdragmc.lowdraglib.gui.modular.IUIHolder, PlayerRideable, IEntityWithComplexSpawn /*, IManaged, IAutoPersistEntity*/ {
 
     public static final Object2BooleanMap<Fluid> FUEL_CACHE = new Object2BooleanOpenHashMap<>();
 
@@ -143,9 +141,8 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         this.satelliteSlot = new CustomItemStackHandler(1);
         this.satelliteSlot.setFilter(stack -> GCYRItems.SPACE_STATION_PACKAGE.isIn(stack) || stack.is(GCYRTags.SATELLITES));
 
-        this.fuelTank = new CustomFluidTank(0, fluid -> FUEL_CACHE.computeIfAbsent(fluid.getFluid(), f -> {
-            return this.getServer().getRecipeManager().getAllRecipesFor(GCYRRecipeTypes.ROCKET_FUEL_RECIPES).stream().anyMatch(recipe -> {
-                if (RecipeHelper.getInputEUt(recipe.value()) > motorTier) return false; // don't allow > motor tier fuels to be used.
+        this.fuelTank = new CustomFluidTank(0, fluid -> FUEL_CACHE.computeIfAbsent(fluid.getFluid(), f -> {return this.getServer().getRecipeManager().getAllRecipesFor(GCYRRecipeTypes.ROCKET_FUEL_RECIPES).stream().anyMatch(recipe -> {
+                if (RecipeHelper.getRealEUt(recipe.value()).voltage() > motorTier) return false; // don't allow > motor tier fuels to be used.
 
                 var list = recipe.value().inputs.getOrDefault(FluidRecipeCapability.CAP, Collections.emptyList());
                 if (!list.isEmpty()) {
@@ -719,7 +716,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
                 this.spawnAtLocation(state.state().getBlock().asItem());
                 continue;
             }
-            this.level().setBlock(offset, state.state(), Block.UPDATE_ALL);
+            this.level().setBlock(offset, state.state(), net.minecraft.world.level.block.Block.UPDATE_ALL);
             if (state.entityTag().isEmpty()) continue;
             BlockEntity blockEntity = level().getBlockEntity(offset);
             if (blockEntity != null) {
@@ -754,7 +751,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
                 this.spawnAtLocation(state.state().getBlock().asItem());
                 continue;
             }
-            this.level().setBlock(offset, state.state(), Block.UPDATE_ALL);
+            this.level().setBlock(offset, state.state(), net.minecraft.world.level.block.Block.UPDATE_ALL);
             if (state.entityTag().isEmpty()) continue;
             BlockEntity blockEntity = level().getBlockEntity(offset);
             if (blockEntity != null) {
@@ -857,7 +854,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
                         Math.max(size.getY(), pos.getY()),
                         Math.max(size.getZ(), pos.getZ())
         ));
-        Block block = state.state().getBlock();
+        net.minecraft.world.level.block.Block block = state.state().getBlock();
         float destroyTime = block.defaultDestroyTime();
         if (destroyTime > 0) {
             this.setWeight(this.getWeight() + (int) (destroyTime / 2.5f));
