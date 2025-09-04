@@ -17,5 +17,6 @@ public class GCYRRegistries {
     }
 
     public static final ResourceKey<Registry<SatelliteType<?>>> SATELLITE_KEY = ResourceKey.createRegistryKey(GCYR.id("satellite"));
+
     public static final Registry<SatelliteType<?>> SATELLITES = new RegistryBuilder<>(SATELLITE_KEY).sync(true).create();
 }

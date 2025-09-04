@@ -590,7 +590,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, co
             for (IItemComponent component : componentItem.getComponents()) {
                 if (component instanceof SatelliteItemBehaviour satelliteItem) {
                     this.returnToStart = true;
-                    this.satelliteToLaunch = satelliteItem.type;
+                    this.satelliteToLaunch = satelliteItem.getType();
                 }
             }
         }

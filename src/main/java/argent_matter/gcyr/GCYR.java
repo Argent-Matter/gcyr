@@ -5,16 +5,13 @@ import argent_matter.gcyr.api.registries.GCYRRegistries;
 import argent_matter.gcyr.common.data.*;
 import argent_matter.gcyr.common.item.armor.GCYRArmorMaterials;
 import argent_matter.gcyr.common.item.armor.SpaceSuitArmorItem;
-import argent_matter.gcyr.common.data.GCYROres;
 import argent_matter.gcyr.config.GCYRConfig;
 import argent_matter.gcyr.data.GCYRDatagen;
 import argent_matter.gcyr.data.loader.PlanetResources;
 import argent_matter.gcyr.data.recipe.GCYRTags;
 import argent_matter.gcyr.mixin.RegisterClientReloadListenersEventAccessor;
 import argent_matter.gcyr.mixin.ReloadableResourceManagerAccessor;
-import com.gregtechceu.gtceu.api.material.material.event.PostMaterialEvent;
 import com.gregtechceu.gtceu.api.material.material.registry.MaterialRegistry;
-import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import com.lowdragmc.lowdraglib.gui.factory.UIFactory;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -23,6 +20,7 @@ import net.minecraft.world.item.Item;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.capabilities.Capabilities;
@@ -30,6 +28,8 @@ import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.client.event.RegisterClientReloadListenersEvent;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.templates.FluidHandlerItemStack;
+import net.neoforged.neoforge.registries.NewRegistryEvent;
+import net.neoforged.neoforge.registries.RegisterEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,10 +43,13 @@ public class GCYR {
 
 	private static IEventBus modBus;
 
-	public GCYR(IEventBus bus) {
+	public GCYR(IEventBus bus, ModContainer container) {
 		modBus = bus;
-		GCYR.init(bus);
 		bus.register(this);
+
+		bus.addListener(this::registerRegistries);
+		GCYRRegistries.REGISTRATE.registerEventListeners(modBus);
+		GCYRSatellites.SATELLITES.register(bus);
 
 		GCYRDimensionTypes.register(bus);
 		GCYREntityDataSerializers.register(bus);
@@ -54,29 +57,21 @@ public class GCYR {
 		GCYRArmorMaterials.register(bus);
 		GCYRParticles.register(bus);
 		GCYRRecipeTypes.register(bus);
-
 		GCYRVanillaRecipeTypes.RECIPE_TYPE_DEFERRED_REGISTER.register(bus);
 
-		if (FMLEnvironment.dist == Dist.CLIENT) {
-			GCYRClient.init();
-		}
-	}
-
-	public static void init(IEventBus modBus) {
 		GCYRConfig.init();
 		UIFactory.register(EntityUIFactory.INSTANCE);
-
-		GCYRSatellites.init(modBus);
 		GCYRCreativeModeTabs.init();
 		GCYREntities.init();
 		GCYRBlocks.init();
 		GCYRItems.init();
 		GCYRMenus.init();
-
 		GCYRDatagen.init();
-
-		GCYRRegistries.REGISTRATE.registerEventListeners(modBus);
 		GCYRDimensionTypes.init();
+
+		if (FMLEnvironment.dist == Dist.CLIENT) {
+			GCYRClient.init();
+		}
 	}
 
 	public static ResourceLocation id(String path) {
@@ -92,13 +87,12 @@ public class GCYR {
 	}
 
 	@SubscribeEvent
-	public void registerMaterials(PostMaterialEvent event) {
-		GCYRMaterials.init();
+	public void modifyMaterials(RegisterEvent event) {
+		GCYRMaterials.initAndModify();
 	}
 
-	@SubscribeEvent
-	public void modifyMaterials(PostMaterialEvent event) {
-		GCYRMaterials.modifyMaterials();
+	public void registerRegistries(NewRegistryEvent event) {
+		event.register(GCYRRegistries.SATELLITES);
 	}
 
 	/* Changed from 1.20 idk whats the current impl now tbf

@@ -16,16 +16,11 @@ import static com.gregtechceu.gtceu.data.material.GTMaterials.*;
 
 @SuppressWarnings("unused")
 public class GCYRMaterials {
-
-    public static void init() {
-
-    }
-
-    public static void modifyMaterials() {
+    public static void initAndModify() {
         // Add flags to base GT materials
         IronMagnetic.addFlags(GENERATE_FOIL);
         TitaniumTungstenCarbide.addFlags(GENERATE_ROD);
-        Titanium.setProperty(PropertyKey.ORE, new OreProperty());
+        // Titanium.setProperty(PropertyKey.ORE, new OreProperty());
     }
 
     //region first degree mats
