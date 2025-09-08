@@ -22,7 +22,6 @@ import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.OverclockingLogic;
 import com.gregtechceu.gtceu.api.registry.registrate.MachineBuilder;
-import com.gregtechceu.gtceu.client.renderer.machine.TieredHullMachineRenderer;
 import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
@@ -63,7 +62,7 @@ public class GCYRMachines {
             (tier, builder) -> builder
                     .langValue("%s Oxygen Spreader".formatted(VNF[tier]))
                     .rotationState(RotationState.NON_Y_AXIS)
-                    .renderer(() -> new TieredHullMachineRenderer(tier, GCYR.id("block/machine/oxygen_spreader")))
+                    .tieredHullModel(GCYR.id("block/machine/oxygen_spreader"))
                     .recipeType(GCYRRecipeTypes.OXYGEN_SPREADER_RECIPES)
                     .tooltips(workableTiered(tier, GTValues.V[tier], GTValues.V[tier] * 64, GCYRRecipeTypes.OXYGEN_SPREADER_RECIPES, OxygenSpreaderMachine.tankScalingFunction(tier), true))
                     .blockBuilder(block -> block.tag(GCYRTags.PASSES_FLOOD_FILL))
@@ -109,8 +108,8 @@ public class GCYRMachines {
                         .where('C', SEAT).build());
                 return shapeInfo;
             })
-            .workableCasingRenderer(GTCEu.id("block/casings/voltage/ev/side"),
-                    GTCEu.id("block/multiblock/assembly_line"), false)
+            .workableCasingModel(GTCEu.id("block/casings/voltage/ev/side"),
+                    GTCEu.id("block/multiblock/assembly_line"))
             .register();
 
     public static final MachineDefinition SPACE_STATION_PACKAGER = REGISTRATE.multiblock("space_station_packager", SpaceStationPackagerMachine::new)
@@ -160,8 +159,8 @@ public class GCYRMachines {
                         .where('C', Blocks.WHITE_CONCRETE).build());
                 return shapeInfo;
             })
-            .workableCasingRenderer(GTCEu.id("block/casings/voltage/luv/side"),
-                    GTCEu.id("block/multiblock/assembly_line"), false)
+            .workableCasingModel(GTCEu.id("block/casings/voltage/luv/side"),
+                    GTCEu.id("block/multiblock/assembly_line"))
             .register();
 
     public static final MultiblockMachineDefinition DYSON_SYSTEM_CONTROLLER = REGISTRATE.multiblock("dyson_system_controller", DysonSystemControllerMachine::new)
@@ -187,8 +186,8 @@ public class GCYRMachines {
                     .where('T', blocks(POWER_TRANSFORMER[GTValues.UV].getBlock()))
                     .where(' ', any())
                     .build())
-            .workableCasingRenderer(GTCEu.id("block/casings/gcym/atomic_casing"),
-                    GTCEu.id("block/multiblock/assembly_line"), false)
+            .workableCasingModel(GTCEu.id("block/casings/gcym/atomic_casing"),
+                    GTCEu.id("block/multiblock/assembly_line"))
             .register();
 
     public static final MultiblockMachineDefinition SPACE_ELEVATOR = REGISTRATE.multiblock("space_elevator", WorkableElectricMultiblockMachine::new)
@@ -231,8 +230,8 @@ public class GCYRMachines {
                     .where('B', blocks(CASING_BEAM_RECEIVER.get()))
                     .where('W', blocks(FUSION_GLASS.get()))
                     .build())
-            .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_robust_tungstensteel"),
-                    GTCEu.id("block/multiblock/assembly_line"), false)
+            .workableCasingModel(GTCEu.id("block/casings/solid/machine_casing_robust_tungstensteel"),
+                    GTCEu.id("block/multiblock/assembly_line"))
             .register();
 
     public static final MultiblockMachineDefinition DRONE_HANGAR = REGISTRATE.multiblock("drone_hangar", DroneHangarMachine::new)
@@ -248,8 +247,8 @@ public class GCYRMachines {
                             .or(Predicates.autoAbilities(definition.getRecipeTypes())))
                     .where('#', Predicates.air())
                     .build())
-            .workableCasingRenderer(GTCEu.id("block/casings/solid/machine_casing_frost_proof"),
-                    GTCEu.id("block/multiblock/vacuum_freezer"), false)
+            .workableCasingModel(GTCEu.id("block/casings/solid/machine_casing_frost_proof"),
+                    GTCEu.id("block/multiblock/vacuum_freezer"))
             .register();
 
 
@@ -263,7 +262,7 @@ public class GCYRMachines {
                 .rotationState(RotationState.NON_Y_AXIS)
                 .recipeType(recipeType)
                 .recipeModifier(GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK))
-                .workableTieredHullRenderer(GTCEu.id("block/machines/" + name))
+                .workableTieredHullModel(GTCEu.id("block/machines/" + name))
                 .tooltips(workableTiered(tier, GTValues.V[tier], GTValues.V[tier] * 64, recipeType, tankScalingFunction.apply(tier), true))
                 .register(), tiers);
     }

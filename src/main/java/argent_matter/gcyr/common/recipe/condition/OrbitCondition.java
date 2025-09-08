@@ -27,7 +27,7 @@ public class OrbitCondition extends RecipeCondition {
     }
 
     @Override
-    public RecipeConditionType<?> getType() {
+    public RecipeConditionType<OrbitCondition> getType() {
         return GCYRRecipeConditions.ORBIT;
     }
 
@@ -37,7 +37,7 @@ public class OrbitCondition extends RecipeCondition {
     }
 
     @Override
-    public boolean test(@NotNull GTRecipe recipe, @NotNull RecipeLogic recipeLogic) {
+    public boolean testCondition(@NotNull GTRecipe recipe, @NotNull RecipeLogic recipeLogic) {
         Level level = recipeLogic.getMachine().getLevel();
         if (level.isClientSide && !GCYRClient.hasUpdatedPlanets) {
             GCYRNetworking.NETWORK.sendToServer(new PacketRequestPlanetData());

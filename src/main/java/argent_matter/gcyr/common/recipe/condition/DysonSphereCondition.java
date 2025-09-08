@@ -37,7 +37,7 @@ public class DysonSphereCondition extends RecipeCondition {
     }
 
     @Override
-    public boolean test(@NotNull GTRecipe recipe, @NotNull RecipeLogic recipeLogic) {
+    public boolean testCondition(@NotNull GTRecipe recipe, @NotNull RecipeLogic recipeLogic) {
         Level level = recipeLogic.getMachine().getLevel();
         if (!level.isClientSide) {
             IDysonSystem system = GCYRCapabilityHelper.getDysonSystem((ServerLevel) level);

@@ -7,9 +7,11 @@ import argent_matter.gcyr.common.data.GCYRMachines;
 import argent_matter.gcyr.common.data.GCYRMaterials;
 import argent_matter.gcyr.data.recipe.builder.SmithingSpaceSuitRecipeBuilder;
 import com.gregtechceu.gtceu.api.GTCEuAPI;
-import com.gregtechceu.gtceu.api.data.chemical.material.stack.UnificationEntry;
+import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
+import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.*;
+import com.gregtechceu.gtceu.common.machine.electric.HullMachine;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
 import com.gregtechceu.gtceu.data.recipe.misc.MetaTileEntityLoader;
@@ -25,14 +27,15 @@ import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 import static com.gregtechceu.gtceu.data.recipe.CraftingComponent.*;
+import static com.gregtechceu.gtceu.data.recipe.GTCraftingComponents.*;
 
 public class MiscRecipes {
     public static void init(Consumer<FinishedRecipe> provider) {
         VanillaRecipeHelper.addShapedRecipe(provider, true, GCYR.id("casing_atomic"),
                 GCYMBlocks.CASING_ATOMIC.asStack(2),
                 "PhP", "PFP", "PwP",
-                'P', new UnificationEntry(TagPrefix.plateDouble, GCYRMaterials.Trinaquadalloy),
-                'F', new UnificationEntry(TagPrefix.frameGt, GTMaterials.NaquadahAlloy));
+                'P', new MaterialEntry(TagPrefix.plateDouble, GCYRMaterials.Trinaquadalloy),
+                'F', new MaterialEntry(TagPrefix.frameGt, GTMaterials.NaquadahAlloy));
 
         GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GCYR.id("casing_atomic"))
                 .inputItems(TagPrefix.plateDouble, GCYRMaterials.Trinaquadalloy, 6)
@@ -42,13 +45,13 @@ public class MiscRecipes {
                 .duration(50).EUt(16).save(provider);
 
         VanillaRecipeHelper.addShapelessRecipe(provider, GCYR.id("id_chip"), GCYRItems.ID_CHIP.asStack(),
-                new UnificationEntry(foil, IronMagnetic),
-                new UnificationEntry(plate, Polyethylene)
+                new MaterialEntry(foil, IronMagnetic),
+                new MaterialEntry(plate, Polyethylene)
         );
 
         VanillaRecipeHelper.addShapedRecipe(provider, GCYR.id("photovoltaic_cell"), GCYRItems.PHOTOVOLTAIC_CELL.asStack(),
                 "WVW", "VGV", "CVC",
-                'W', GTItems.NAQUADAH_WAFER.asStack(), 'G', GTBlocks.CASING_TEMPERED_GLASS.asStack(), 'C', CustomTags.LuV_CIRCUITS, 'V', new UnificationEntry(wireFine, Gold)
+                'W', GTItems.NAQUADAH_WAFER.asStack(), 'G', GTBlocks.CASING_TEMPERED_GLASS.asStack(), 'C', CustomTags.LuV_CIRCUITS, 'V', new MaterialEntry(wireFine, Gold)
         );
 
         GTRecipeTypes.CHEMICAL_BATH_RECIPES.recipeBuilder(GCYR.id("fiberglass"))
@@ -76,7 +79,7 @@ public class MiscRecipes {
 
         VanillaRecipeHelper.addShapedRecipe(provider, GCYR.id("space_helmet"), GCYRItems.SPACE_SUIT_HELMET.asStack(),
                 "SFS", "FFF", "SCS",
-                'S', GCYRItems.SPACE_FABRIC.asStack(), 'F', new UnificationEntry(foil, Gold), 'C', CustomTags.EV_CIRCUITS
+                'S', GCYRItems.SPACE_FABRIC.asStack(), 'F', new MaterialEntry(foil, Gold), 'C', CustomTags.EV_CIRCUITS
         );
         VanillaRecipeHelper.addShapedRecipe(provider, GCYR.id("space_chest"), GCYRItems.SPACE_SUIT_CHEST.asStack(),
                 "STS", "SCS", "SCS",
@@ -121,10 +124,10 @@ public class MiscRecipes {
         //region machines
 
         MetaTileEntityLoader.registerMachineRecipe(provider, GCYRMachines.OXYGEN_SPREADER, "PCP", "FHF", "PCP", 'H', HULL, 'P', PUMP, 'F', GTItems.FLUID_FILTER, 'C', CIRCUIT);
-        VanillaRecipeHelper.addShapedRecipe(provider, GCYR.id("rocket_scanner"), GCYRMachines.ROCKET_SCANNER.asStack(), "PCP", "CHC", "SCS", 'H', GTMachines.HULL[EV].asStack(), 'P', GCYRBlocks.LAUNCH_PAD.asStack(), 'C', CustomTags.EV_CIRCUITS, 'S', new UnificationEntry(plate, Titanium));
-        VanillaRecipeHelper.addShapedRecipe(provider, GCYR.id("space_station_packager"), GCYRMachines.SPACE_STATION_PACKAGER.asStack(), "PCP", "FHF", "PCP", 'H', GTMachines.HULL[LuV].asStack(), 'P', new UnificationEntry(frameGt, StainlessSteel), 'C', CustomTags.LuV_CIRCUITS, 'F', GTBlocks.PLASTCRETE.asStack());
-        VanillaRecipeHelper.addShapedRecipe(provider, GCYR.id("dyson_system_controller"), GCYRMachines.DYSON_SYSTEM_CONTROLLER.asStack(), "PCP", "FHF", "PCP", 'H', GTMachines.HULL[UHV].asStack(), 'P', new UnificationEntry(plate, Darmstadtium), 'C', CustomTags.UHV_CIRCUITS, 'F', GCYMBlocks.CASING_ATOMIC.asStack());
-        VanillaRecipeHelper.addShapedRecipe(provider, GCYR.id("space_elevator"), GCYRMachines.SPACE_ELEVATOR.asStack(), "FFF", "PHP", "PCP", 'H', GTCEuAPI.isHighTier() ? GTMachines.HULL[UEV].asStack() : GTMachines.HULL[UHV].asStack(), 'F', new UnificationEntry(plateDense, Trinaquadalloy), 'C', CustomTags.UHV_CIRCUITS, 'P', GTBlocks.CASING_TUNGSTENSTEEL_ROBUST.asStack());
+        VanillaRecipeHelper.addShapedRecipe(provider, GCYR.id("rocket_scanner"), GCYRMachines.ROCKET_SCANNER.asStack(), "PCP", "CHC", "SCS", 'H', GTMachines.HULL[EV].asStack(), 'P', GCYRBlocks.LAUNCH_PAD.asStack(), 'C', CustomTags.EV_CIRCUITS, 'S', new MaterialEntry(plate, Titanium));
+        VanillaRecipeHelper.addShapedRecipe(provider, GCYR.id("space_station_packager"), GCYRMachines.SPACE_STATION_PACKAGER.asStack(), "PCP", "FHF", "PCP", 'H', GTMachines.HULL[LuV].asStack(), 'P', new MaterialEntry(frameGt, StainlessSteel), 'C', CustomTags.LuV_CIRCUITS, 'F', GTBlocks.PLASTCRETE.asStack());
+        VanillaRecipeHelper.addShapedRecipe(provider, GCYR.id("dyson_system_controller"), GCYRMachines.DYSON_SYSTEM_CONTROLLER.asStack(), "PCP", "FHF", "PCP", 'H', GTMachines.HULL[UHV].asStack(), 'P', new MaterialEntry(plate, Darmstadtium), 'C', CustomTags.UHV_CIRCUITS, 'F', GCYMBlocks.CASING_ATOMIC.asStack());
+        VanillaRecipeHelper.addShapedRecipe(provider, GCYR.id("space_elevator"), GCYRMachines.SPACE_ELEVATOR.asStack(), "FFF", "PHP", "PCP", 'H', GTCEuAPI.isHighTier() ? GTMachines.HULL[UEV].asStack() : GTMachines.HULL[UHV].asStack(), 'F', new MaterialEntry(plateDense, Trinaquadalloy), 'C', CustomTags.UHV_CIRCUITS, 'P', GTBlocks.CASING_TUNGSTENSTEEL_ROBUST.asStack());
 
         //endregion
 

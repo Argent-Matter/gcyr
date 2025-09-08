@@ -143,7 +143,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
 
         this.fuelTank = new CustomFluidTank(0, fluid -> FUEL_CACHE.computeIfAbsent(fluid.getFluid(), f-> {
             return this.getServer().getRecipeManager().getAllRecipesFor(GCYRRecipeTypes.ROCKET_FUEL_RECIPES).stream().anyMatch(recipe -> {
-                if (RecipeHelper.getInputEUt(recipe) > motorTier)
+                if (RecipeHelper.getRecipeEUtTier(recipe) > motorTier)
                     return false; // don't allow > motor tier fuels to be used.
 
                 var list = recipe.inputs.getOrDefault(FluidRecipeCapability.CAP, Collections.emptyList());
