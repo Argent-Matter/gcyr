@@ -3,8 +3,9 @@
 ### FIXES:
 
 ### CHANGES:
-- updated to GT 1.6.1
-- Removed uses of Bromine
+- Finally Updating to GT Modern 7.1.4 
+- bump up version
+- new content coming soon :3
 
 ## WIP Documentation!:
 

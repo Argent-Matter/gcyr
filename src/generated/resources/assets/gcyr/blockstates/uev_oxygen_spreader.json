@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "gcyr:block/machine/uev_oxygen_spreader",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "gcyr:block/machine/uev_oxygen_spreader"
+    },
+    "facing=south": {
+      "model": "gcyr:block/machine/uev_oxygen_spreader",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "gcyr:block/machine/uev_oxygen_spreader",
+      "y": 270
+    }
+  }
+}

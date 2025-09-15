@@ -22,13 +22,11 @@ import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeType;
 import com.gregtechceu.gtceu.api.recipe.OverclockingLogic;
 import com.gregtechceu.gtceu.api.registry.registrate.MachineBuilder;
-import com.gregtechceu.gtceu.common.data.GTBlocks;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.config.ConfigHolder;
 import it.unimi.dsi.fastutil.ints.Int2IntFunction;
-import it.unimi.dsi.fastutil.ints.Int2LongFunction;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.Blocks;
@@ -57,17 +55,17 @@ public class GCYRMachines {
     public final static int[] HIGH_TIERS = GTValues.tiersBetween(IV, GTCEuAPI.isHighTier() ? OpV : UHV);
     public static final Int2IntFunction defaultTankSizeFunction = tier -> (tier <= GTValues.LV ? 8 : tier == GTValues.MV ? 12 : tier == GTValues.HV ? 16 : tier == GTValues.EV ? 32 : 64) * FluidType.BUCKET_VOLUME;
 
-
     public final static MachineDefinition[] OXYGEN_SPREADER = registerTieredMachines("oxygen_spreader", OxygenSpreaderMachine::new,
             (tier, builder) -> builder
                     .langValue("%s Oxygen Spreader".formatted(VNF[tier]))
                     .rotationState(RotationState.NON_Y_AXIS)
-                    .tieredHullModel(GCYR.id("block/machine/oxygen_spreader"))
+                    .workableTieredHullModel(GCYR.id("block/machines/oxygen_spreader"))
                     .recipeType(GCYRRecipeTypes.OXYGEN_SPREADER_RECIPES)
                     .tooltips(workableTiered(tier, GTValues.V[tier], GTValues.V[tier] * 64, GCYRRecipeTypes.OXYGEN_SPREADER_RECIPES, OxygenSpreaderMachine.tankScalingFunction(tier), true))
                     .blockBuilder(block -> block.tag(GCYRTags.PASSES_FLOOD_FILL))
                     .register(),
             HIGH_TIERS);
+
 
     public static final MachineDefinition ROCKET_SCANNER = REGISTRATE.multiblock("rocket_scanner", RocketScannerMachine::new)
             .langValue("Rocket Scanner")

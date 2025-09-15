@@ -62,6 +62,7 @@ loom {
 
     runConfigs.named("data").configure {
         programArg("--existing=" + file("src/main/resources").absolutePath)
+        programArgs("--existing-mod", "gtceu")
         programArgs("--client", "--server")
     }
 
