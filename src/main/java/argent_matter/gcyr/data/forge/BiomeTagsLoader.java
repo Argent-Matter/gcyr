@@ -20,9 +20,9 @@ public class BiomeTagsLoader extends BiomeTagsProvider {
     @Override
     protected void addTags(HolderLookup.Provider provider) {
         tag(GCYRTags.IS_SPACE).addOptional(GCYRBiomes.SPACE.location());
-        tag(GCYRTags.IS_MOON).addOptional(GCYRBiomes.MOON.location());
+        tag(GCYRTags.IS_MOON).addOptional(GCYRBiomes.LUNAR_PLAINS.location()).addOptional(GCYRBiomes.LUNAR_MARE.location());
         tag(GCYRTags.IS_MERCURY).addOptional(GCYRBiomes.MERCURY_DELTAS.location());
         tag(GCYRTags.IS_MARS).addOptional(GCYRBiomes.MARTIAN_CANYON_CREEK.location()).addOptional(GCYRBiomes.MARTIAN_WASTELANDS.location()).addOptional(GCYRBiomes.MARTIAN_POLAR_CAPS.location());
-        tag(GCYRTags.IS_VENUS).addOptional(GCYRBiomes.VENUS_ERODED_PLAINS.location()).addOptional(GCYRBiomes.VENUS_ERODED_PLAINS.location());
+        tag(GCYRTags.IS_VENUS).addOptional(GCYRBiomes.VENUS_ERODED_PLAINS.location()).addOptional(GCYRBiomes.VENUS_BARREN_PLAINS.location());
     }
 }

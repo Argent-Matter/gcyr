@@ -14,14 +14,16 @@ import org.jetbrains.annotations.Nullable;
 
 public class GCYRBiomes {
     public static final ResourceKey<Biome> SPACE = ResourceKey.create(Registries.BIOME, GCYR.id("space"));
-    public static final ResourceKey<Biome> MOON = ResourceKey.create(Registries.BIOME, GCYR.id("moon"));
+    public static final ResourceKey<Biome> LUNAR_PLAINS = ResourceKey.create(Registries.BIOME, GCYR.id("lunar_plains"));
+    public static final ResourceKey<Biome> LUNAR_MARE = ResourceKey.create(Registries.BIOME, GCYR.id("lunar_mare"));
     public static final ResourceKey<Biome> VENUS_ERODED_PLAINS = ResourceKey.create(Registries.BIOME, GCYR.id("venus_eroded_plains"));
+    public static final ResourceKey<Biome> VENUS_BARREN_PLAINS = ResourceKey.create(Registries.BIOME, GCYR.id("venus_barren_plains"));
     public static final ResourceKey<Biome> MARTIAN_CANYON_CREEK = ResourceKey.create(Registries.BIOME, GCYR.id("martian_canyon_creek"));
     public static final ResourceKey<Biome> MARTIAN_POLAR_CAPS = ResourceKey.create(Registries.BIOME, GCYR.id("martian_polar_caps"));
     public static final ResourceKey<Biome> MARTIAN_WASTELANDS = ResourceKey.create(Registries.BIOME, GCYR.id("martian_wastelands"));
     public static final ResourceKey<Biome> MERCURY_DELTAS = ResourceKey.create(Registries.BIOME, GCYR.id("mercury_deltas"));
 
-    public static final ResourceKey<Biome> VENUS_BARREN_PLAINS = ResourceKey.create(Registries.BIOME, GCYR.id("venus_barren_plains"));
+
 
 
     public static void bootstrap(BootstapContext<Biome> ctx) {

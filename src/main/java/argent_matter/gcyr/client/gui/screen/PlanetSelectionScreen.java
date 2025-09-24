@@ -103,7 +103,7 @@ public class PlanetSelectionScreen extends Screen implements MenuAccess<PlanetSe
     }
 
     private void drawBackground(GuiGraphics guiGraphics) {
-        guiGraphics.fill(0, 0, this.width, this.height, 0xff000419);
+        guiGraphics.fill(0, 0, this.width, this.height, 0xFF0A0A19);
         RenderSystem.enableBlend();
     }
 

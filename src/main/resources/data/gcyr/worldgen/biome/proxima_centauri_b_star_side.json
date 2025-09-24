@@ -1,0 +1,33 @@
+{
+  "temperature": 2,
+  "downfall": 0,
+  "has_precipitation": false,
+  "temperature_modifier": "none",
+  "creature_spawn_probability": 0,
+  "effects": {
+    "sky_color": 734520,
+    "fog_color": 804422,
+    "water_color": 1778989,
+    "water_fog_color": 1711907,
+    "grass_color": 2514311,
+    "foliage_color": 2514311
+  },
+  "spawners": {},
+  "spawn_costs": {},
+  "carvers": {
+    "air": [
+      "minecraft:cave",
+      "minecraft:cave_extra_underground",
+      "minecraft:canyon"
+    ]
+  },
+  "features": [
+    [
+    ],
+    [
+      "minecraft:large_dripstone",
+      "minecraft:dripstone_cluster",
+      "minecraft:pointed_dripstone"
+    ]
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "galaxy": "gcyr:milky_way",
+  "solar_system": "gcyr:proxima_centauri",
+  "sun": "gcyr:textures/sky/proxima_centauri_menu.png",
+  "sun_scale": 80,
+  "button_color": 10765045,
+  "ring_color": 13576610
+}

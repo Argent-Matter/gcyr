@@ -17,5 +17,6 @@ public record Category(ResourceLocation id, Category parent) {
     public static final Category MARS_CATEGORY = new Category(GCYR.id("mars"), SOLAR_SYSTEM_CATEGORY);
     public static final Category VENUS_CATEGORY = new Category(GCYR.id("venus"), SOLAR_SYSTEM_CATEGORY);
     public static final Category MERCURY_CATEGORY = new Category(GCYR.id("mercury"), SOLAR_SYSTEM_CATEGORY);
+    public static final Category PROXIMA_CENTAURI_B_CATEGORY = new Category(GCYR.id("proxima_centauri_b"), SOLAR_SYSTEM_CATEGORY);
     public static final Category PROXIMA_CENTAURI_CATEGORY = new Category(GCYR.id("proxima_centauri"), MILKY_WAY_CATEGORY);
 }

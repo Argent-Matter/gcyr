@@ -1,0 +1,51 @@
+{
+  "world": "gcyr:proxima_centauri_b",
+  "stars": {
+    "fancy_count": 4000,
+    "fast_count": 4000,
+    "colored_stars": true,
+    "daylight_visible": true
+  },
+  "sunset_color": "none",
+  "dimension_effects": {
+    "type": "none"
+  },
+  "cloud_effects": "vanilla",
+  "weather_effects": "none",
+  "horizon_angle": 0,
+  "sky_objects": [
+    {
+      "texture": "gcyr:textures/sky/proxima_centauri.png",
+      "blending": true,
+      "render_type": "static",
+      "scale": 20.0,
+      "rotation": [
+        75.0,
+        -90.0,
+        0.0
+      ]
+    },
+    {
+      "texture": "gcyr:textures/sky/alpha_centauri_a.png",
+      "blending": true,
+      "render_type": "dynamic",
+      "scale": 10,
+      "rotation": [
+        115.0,
+       160.0,
+        0.0
+      ]
+    },
+    {
+      "texture": "gcyr:textures/sky/alpha_centauri_b.png",
+      "blending": true,
+      "render_type": "dynamic",
+      "scale": 4,
+      "rotation": [
+        140.0,
+        211.0,
+        0.0
+      ]
+    }
+  ]
+}

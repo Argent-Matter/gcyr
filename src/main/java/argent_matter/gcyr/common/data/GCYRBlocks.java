@@ -249,13 +249,24 @@ public class GCYRBlocks {
             .loot((table, block) -> table.dropOther(block, MOON_COBBLESTONE.asItem()))
             .simpleItem()
             .register();
+    public static final BlockEntry<Block> LUNAR_MARE_REGOLITH = REGISTRATE
+            .block("lunar_mare_regolith", Block::new)
+            .lang("Lunar Mare Regolith")
+            .initialProperties(() -> Blocks.STONE)
+            .properties(properties -> properties.mapColor(MapColor.COLOR_LIGHT_GRAY))
+            .tag(BlockTags.MINEABLE_WITH_PICKAXE)
+            .blockstate(GCYRModels::randomRotatedModel)
+            .simpleItem()
+            .register();
     public static final BlockEntry<FallingBlock> MOON_SAND = REGISTRATE
             .block("moon_sand", FallingBlock::new)
             .lang("Lunar Sand")
             .initialProperties(() -> Blocks.GRAVEL)
             .tag(BlockTags.MINEABLE_WITH_SHOVEL)
-            .blockstate(GCYRModels::randomRotatedModel)
-            .simpleItem()
+            .blockstate(NonNullBiConsumer.noop())
+            .item()
+            .model(NonNullBiConsumer.noop())
+            .build()
             .register();
 
     public static final BlockEntry<SlabBlock> MOON_COBBLESTONE_SLAB = REGISTRATE
@@ -405,13 +416,72 @@ public class GCYRBlocks {
     public static final BlockEntry<MushroomBlock> PRB_SHROOM = REGISTRATE
             .block("prb_underground_mushroom", (p) -> new MushroomBlock(p, null /*todo fix*/))
             .initialProperties(() -> Blocks.BROWN_MUSHROOM)
-            .properties(p -> p.mapColor(MapColor.COLOR_CYAN))
+            .properties(p -> p.mapColor(MapColor.COLOR_LIGHT_GRAY).lightLevel((arg) -> {
+                return 11;
+            }))
             .addLayer(() -> RenderType::cutout)
             .blockstate(GCYRModels::crossModel)
             .item()
             .model(GCYRModels::blockTextureGeneratedModel)
             .build()
             .register();
+
+    public static final BlockEntry<MushroomBlock> PRB_BULB = REGISTRATE
+            .block("prb_underground_bulb", (p) -> new MushroomBlock(p, null))
+            .initialProperties(() -> Blocks.BROWN_MUSHROOM)
+            .properties(p -> p.mapColor(MapColor.COLOR_LIGHT_GRAY).lightLevel((arg) -> {
+                return 1;
+            }))
+            .addLayer(() -> RenderType::cutout)
+            .blockstate(GCYRModels::crossModel)
+            .item()
+            .model(GCYRModels::blockTextureGeneratedModel)
+            .build()
+            .register();
+
+    // region proxima centauri b
+
+    public static final BlockEntry<Block> PROXIMA_CENTAURI_B_REGOLITH = REGISTRATE
+            .block("proxima_centauri_b_regolith", Block::new)
+            .lang("Proxima Centauri B Regolith")
+            .initialProperties(() -> Blocks.DEEPSLATE)
+            .properties(properties -> properties.mapColor(MapColor.TERRACOTTA_BLACK))
+            .tag(BlockTags.MINEABLE_WITH_PICKAXE)
+            .blockstate(GCYRModels::randomRotatedModel)
+            .simpleItem()
+            .register();
+
+    public static final BlockEntry<Block> PROXIMA_CENTAURI_B_TURF = REGISTRATE
+            .block("proxima_centauri_b_turf", Block::new)
+            .lang("Proxima Centauri B Turf")
+            .initialProperties(() -> Blocks.SANDSTONE)
+            .properties(properties -> properties.mapColor(MapColor.SAND))
+            .tag(BlockTags.MINEABLE_WITH_PICKAXE)
+            .blockstate(GCYRModels::randomRotatedModel)
+            .simpleItem()
+            .register();
+
+    public static final BlockEntry<Block> PROXIMA_CENTAURI_B_HARDENED_TURF = REGISTRATE
+            .block("proxima_centauri_b_hardened_turf", Block::new)
+            .lang("Proxima Centauri B Hardened Turf")
+            .initialProperties(() -> Blocks.TERRACOTTA)
+            .properties(properties -> properties.mapColor(MapColor.TERRACOTTA_WHITE))
+            .tag(BlockTags.MINEABLE_WITH_PICKAXE)
+            .blockstate(GCYRModels::randomRotatedModel)
+            .simpleItem()
+            .register();
+
+    public static final BlockEntry<Block> PROXIMA_CENTAURI_B_GRASSY_TURF = REGISTRATE
+            .block("proxima_centauri_b_grassy_turf", Block::new)
+            .lang("Proxima Centauri B Grassy Turf")
+            .initialProperties(() -> Blocks.TERRACOTTA)
+            .properties(properties -> properties.mapColor(MapColor.TERRACOTTA_LIGHT_BLUE))
+            .tag(BlockTags.MINEABLE_WITH_PICKAXE)
+            .blockstate(GCYRModels::randomRotatedModel)
+            .simpleItem()
+            .register();
+
+
 
     // region rocket stuff
     public static final Map<IRocketMotorType, Supplier<RocketMotorBlock>> ALL_ROCKET_MOTORS = new HashMap<>();

@@ -18,7 +18,7 @@
       "texture": "gcyr:textures/sky/sun.png",
       "blending": true,
       "render_type": "dynamic",
-      "scale": 30.0,
+      "scale": 40.0,
       "rotation": [
         0.0,
         -90.0,
@@ -29,7 +29,7 @@
       "texture": "gcyr:textures/sky/earth.png",
       "blending": false,
       "render_type": "static",
-      "scale": 9.0,
+      "scale": 13.0,
       "rotation": [
         30.0,
         0.0,
@@ -40,7 +40,7 @@
       "texture": "gcyr:textures/sky/light.png",
       "blending": true,
       "render_type": "static",
-      "scale": 25.0,
+      "scale": 30.0,
       "color": 8438015,
       "rotation": [
         30.0,

@@ -4,8 +4,39 @@
     "type": "minecraft:noise",
     "settings": "gcyr:luna",
     "biome_source": {
-      "type": "minecraft:fixed",
-      "biome": "gcyr:moon"
+      "type": "minecraft:multi_noise",
+      "biomes": [
+        {
+          "biome": "gcyr:lunar_mare",
+          "parameters": {
+            "temperature": 0,
+            "humidity": 0,
+            "continentalness": 0,
+            "erosion": [
+              0.35,
+              1
+            ],
+            "weirdness": 0,
+            "depth": 0,
+            "offset": 0
+          }
+        },
+        {
+          "biome": "gcyr:lunar_plains",
+          "parameters": {
+            "temperature": 0,
+            "humidity": 0,
+            "continentalness": 0,
+            "erosion": [
+              -1,
+              -0.35
+            ],
+            "weirdness": 0,
+            "depth": 0,
+            "offset": 0
+          }
+        }
+      ]
     }
   }
 }

@@ -58,6 +58,10 @@ public class GCYRGTAddon implements IGTAddon {
         TagPrefix.oreTagPrefix("mercury", BlockTags.MINEABLE_WITH_PICKAXE)
                 .langValue("Mercury %s Ore")
                 .registerOre(() -> GCYRBlocks.MERCURY_ROCK.orElse(Blocks.STONE).defaultBlockState(), null, BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GRAY).requiresCorrectToolForDrops().strength(3.0F, 3.0F), GCYR.id("block/mercury_rock"));
+        TagPrefix.oreTagPrefix("proxima_centauri_b", BlockTags.MINEABLE_WITH_PICKAXE)
+                .langValue("Proxima Centauri B %s Ore")
+                .registerOre(() -> GCYRBlocks.MERCURY_ROCK.orElse(Blocks.STONE).defaultBlockState(), null, BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GRAY).requiresCorrectToolForDrops().strength(3.0F, 3.0F), GCYR.id("block/mercury_rock"));
+
     }
 
     @Override

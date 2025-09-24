@@ -1,0 +1,8 @@
+{
+  "galaxy": "gcyr:milky_way",
+  "solar_system": "gcyr:proxima_centauri",
+  "texture": "gcyr:textures/sky/proxima_centauri_b.png",
+  "speed": 150,
+  "scale": 10,
+  "radius": 4
+}
