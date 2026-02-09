@@ -275,7 +275,7 @@ public class GCYRMachines {
     
     public static MachineDefinition[] registerTieredMachines(String name,
                                                              BiFunction<IMachineBlockEntity, Integer, MetaMachine> factory,
-                                                             BiFunction<Integer, MachineBuilder<MachineDefinition>, MachineDefinition> builder,
+                                                             BiFunction<Integer, MachineBuilder<MachineDefinition, ?>, MachineDefinition> builder,
                                                              int... tiers) {
         MachineDefinition[] definitions = new MachineDefinition[tiers.length];
         for (int i = 0; i < tiers.length; i++) {

@@ -17,7 +17,7 @@ import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
 @NoArgsConstructor
-public class DysonSphereCondition extends RecipeCondition {
+public class DysonSphereCondition extends RecipeCondition<DysonSphereCondition> {
 
     public static final Codec<DysonSphereCondition> CODEC = RecordCodecBuilder.create(instance -> RecipeCondition.isReverse(instance).apply(instance, DysonSphereCondition::new));
     public final static DysonSphereCondition INSTANCE = new DysonSphereCondition();
@@ -27,7 +27,7 @@ public class DysonSphereCondition extends RecipeCondition {
     }
 
     @Override
-    public RecipeConditionType<?> getType() {
+    public RecipeConditionType<DysonSphereCondition> getType() {
         return GCYRRecipeConditions.DYSON_SPHERE;
     }
 
@@ -48,7 +48,7 @@ public class DysonSphereCondition extends RecipeCondition {
     }
 
     @Override
-    public RecipeCondition createTemplate() {
+    public DysonSphereCondition createTemplate() {
         return new DysonSphereCondition();
     }
 }
