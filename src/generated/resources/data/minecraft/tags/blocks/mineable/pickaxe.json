@@ -23,6 +23,7 @@
     "gcyr:venus_rock_button",
     "gcyr:moon_cobblestone",
     "gcyr:moon_stone",
+    "gcyr:lunar_mare_regolith",
     "gcyr:moon_cobblestone_slab",
     "gcyr:moon_stone_slab",
     "gcyr:moon_cobblestone_stairs",
@@ -36,6 +37,10 @@
     "gcyr:martian_cobblestone_stairs",
     "gcyr:martian_rock_stairs",
     "gcyr:martian_rock_button",
+    "gcyr:proxima_centauri_b_regolith",
+    "gcyr:proxima_centauri_b_turf",
+    "gcyr:proxima_centauri_b_hardened_turf",
+    "gcyr:proxima_centauri_b_grassy_turf",
     "gcyr:airlock_door",
     "gcyr:launch_pad",
     "gcyr:seat"

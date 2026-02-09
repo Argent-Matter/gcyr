@@ -17,7 +17,7 @@ import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
 @NoArgsConstructor
-public class OrbitCondition extends RecipeCondition {
+public class OrbitCondition extends RecipeCondition<OrbitCondition> {
 
     public static final Codec<OrbitCondition> CODEC = RecordCodecBuilder.create(instance -> RecipeCondition.isReverse(instance).apply(instance, OrbitCondition::new));
     public final static OrbitCondition INSTANCE = new OrbitCondition();
@@ -47,7 +47,7 @@ public class OrbitCondition extends RecipeCondition {
     }
 
     @Override
-    public RecipeCondition createTemplate() {
+    public OrbitCondition createTemplate() {
         return new OrbitCondition();
     }
 }

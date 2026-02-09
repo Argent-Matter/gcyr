@@ -1,0 +1,20 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "gcyr:block/proxima_centauri_b_grassy_turf"
+      },
+      {
+        "model": "gcyr:block/proxima_centauri_b_grassy_turf",
+        "y": 180
+      },
+      {
+        "model": "gcyr:block/proxima_centauri_b_grassy_turf_mirrored"
+      },
+      {
+        "model": "gcyr:block/proxima_centauri_b_grassy_turf_mirrored",
+        "y": 180
+      }
+    ]
+  }
+}

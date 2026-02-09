@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "gcyr:proxima_centauri_b_regolith"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "gcyr:blocks/proxima_centauri_b_regolith"
+}

@@ -29,6 +29,9 @@ tasks.withType(JavaCompile).configureEach {
 
 java {
     withSourcesJar()
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
 }
 
 def mod_id = properties.mod_id
@@ -195,8 +198,8 @@ dependencies {
     implementation(annotationProcessor("org.spongepowered:mixin:${libs.versions.mixin.get()}:processor"))
 
     // lombok
-    compileOnly 'org.projectlombok:lombok:1.18.24'
-    annotationProcessor 'org.projectlombok:lombok:1.18.24'
+    compileOnly 'org.projectlombok:lombok:1.18.36'
+    annotationProcessor 'org.projectlombok:lombok:1.18.36'
 
     // testing mods
     modCompileOnly forge.radium
