@@ -1,7 +1,11 @@
 {
   "values": [
     {
-      "id": "gcyr:moon",
+      "id": "gcyr:lunar_plains",
+      "required": false
+    },
+    {
+      "id": "gcyr:lunar_mare",
       "required": false
     }
   ]
