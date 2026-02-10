@@ -64,7 +64,7 @@ public class RocketScannerMachine extends PlatformMultiblockMachine implements I
     public ModularUI createUI(Player entityPlayer) {
         ModularUI modularUI = super.createUI(entityPlayer);
         modularUI.registerCloseListener(() -> {
-            Block.popResource(getLevel(), getPos(), posSaveSlot.getStackInSlot(0));
+            Block.popResource(getLevel(), getPos(), posSaveSlot.getStackInSlot(0).copyAndClear());
         });
         modularUI.widget(new SlotWidget(posSaveSlot, 0, 149, 105));
         modularUI.widget(new ButtonWidget(129, 105, 18, 18, this::onSaveButtonClick)
