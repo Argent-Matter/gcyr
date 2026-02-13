@@ -1,0 +1,64 @@
+
+String suffix = System.getenv("VERSION_SUFFIX")
+String version_toml = "$version" + (suffix ? "+$suffix" : "")
+
+tasks.register('printVersion') {
+    doLast {
+        println mod_version
+    }
+}
+
+if (project == rootProject) {
+// Create run-folders for non-client configs to avoid pollution of dev envs
+    tasks.matching { it.name.startsWith('prepare') }.configureEach {
+        doFirst {
+            mkdir('runs')
+            mkdir('runs/client')
+            mkdir('runs/clean_client')
+            mkdir('runs/server')
+            mkdir('runs/clean_server')
+            mkdir('runs/gametest')
+            mkdir('runs/data')
+        }
+    }
+
+// This block of code expands all declared replace properties in the specified resource targets.
+// A missing property will result in an error. Properties are expanded using ${} Groovy notation.
+    var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {
+        var forgeVersion = libs.versions.forge.get()
+        forgeVersion = forgeVersion.substring(0, forgeVersion.lastIndexOf('.'))
+
+        var replaceProperties = [
+                version             : version_toml,
+                mod_id              : project.properties.mod_id,
+                mod_license         : project.properties.mod_license,
+                mod_name            : project.properties.mod_name,
+                mod_description     : project.properties.mod_description,
+                mod_authors         : project.properties.mod_authors,
+                mod_credits         : project.properties.mod_credits,
+                mod_url             : project.properties.mod_url,
+                mod_issue_tracker   : project.properties.mod_issue_tracker,
+                minecraft_version   : libs.versions.minecraft.get(),
+                loader_version      : libs.versions.loader.get(),
+                forge_version       : forgeVersion,
+                kjs_version         : deps.versions.kubejs.get().split("\\.")[0], // only specify major version of kjs
+                emi_version         : deps.versions.emi.get(),
+                jade_version        : deps.versions.jade.get(),
+        ]
+        inputs.properties replaceProperties
+        expand replaceProperties
+        from "$projectDir/src/main/templates"
+        into "$projectDir/build/generated/sources/modMetadata"
+    }
+// Include the output of "generateModMetadata" as an input directory for the build
+// this works with both building through Gradle and the IDE.
+    sourceSets.main.resources.srcDir generateModMetadata
+// To avoid having to run "generateModMetadata" manually, make it run on every project reload
+    legacyForge.ideSyncTask generateModMetadata
+
+// exclude all the branding assets from the jar EXCEPT the main logo
+    processResources {
+        exclude ".cache"
+        exclude "logo_assets"
+    }
+}

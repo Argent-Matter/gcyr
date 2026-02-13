@@ -1,0 +1,71 @@
+repositories {
+    mavenLocal()
+    mavenCentral()
+
+    maven { // GTM
+        name = 'GTCEu Maven'
+        url = 'https://maven.gtceu.com'
+        content {
+            includeGroup 'com.gregtechceu.gtceu'
+        }
+    }
+
+    maven { // LDLib
+        url = "https://maven.firstdarkdev.xyz/snapshots"
+    }
+
+    maven { // Configuration
+        name = 'Configuration'
+        url = 'https://api.repsy.io/mvn/toma/public/'
+    }
+
+    maven { // JEI
+        name = "Jared's Maven"
+        url = "https://maven.blamejared.com/"
+    }
+
+    maven { // JEI mirror, AE2
+        name = "ModMaven"
+        url = "https://modmaven.dev/"
+    }
+
+    exclusiveContent { // KubeJS and Rhino
+        forRepository { maven { url = "https://maven.latvian.dev/releases" } }
+        filter {
+            includeGroup("dev.latvian.mods")
+            includeGroup("dev.latvian.apps")
+        }
+    }
+
+    exclusiveContent { // Modrinth Maven
+        forRepository { maven { url = "https://api.modrinth.com/maven/" } }
+        filter { includeGroup("maven.modrinth") }
+    }
+
+    exclusiveContent { // Curseforge Maven
+        forRepository { maven { url = "https://cursemaven.com/" } }
+        filter { includeGroup("curse.maven") }
+    }
+
+    exclusiveContent { // terraformers - EMI
+        forRepository { maven { url = "https://maven.terraformersmc.com/releases/" } }
+        filter { includeGroup("dev.emi") }
+    }
+
+    exclusiveContent { // shedaniel - architectury
+        forRepository { maven { url = "https://maven.shedaniel.me/" } }
+        filter {
+            includeGroup("dev.architectury")
+        }
+    }
+
+    exclusiveContent { // Curios
+        forRepository { maven { url = "https://maven.theillusivec4.top/" } }
+        filter { includeGroup('top.theillusivec4.curios') }
+    }
+
+    exclusiveContent { // Radium
+        forRepository { maven { url = "https://repo.constructlegacy.ru/public" } }
+        filter { includeGroup('me.jellysquid.mods') }
+    }
+}

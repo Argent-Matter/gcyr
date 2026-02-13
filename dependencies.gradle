@@ -1,0 +1,46 @@
+dependencies {
+    compileOnly(libs.jetbrains.annotations)
+
+    // GregTech
+    implementation(deps.gtceu)
+    implementation(deps.ldlib)
+    implementation(deps.registrate)
+
+    // Configuration
+    implementation(deps.configuration)
+
+    // Mixin (& Extras)
+    annotationProcessor(variantOf(libs.mixin) { classifier("processor") })
+    compileOnly(annotationProcessor(deps.mixinExtras.common.get()))
+    jarJar(api(deps.mixinExtras.forge.get())).version {
+        require("[${deps.versions.mixinExtras.get()},)")
+    }
+
+    // Recipe Viewers
+    compileOnly(deps.bundles.jei)
+    compileOnly(deps.emi)
+
+    // Curios
+    compileOnly(variantOf(deps.curios) { classifier("api") })
+
+    // WAILA-likes
+    compileOnly(deps.jade)
+
+    // KJS
+    compileOnly(deps.bundles.kjs)
+
+    // Standard runtime mods //
+    localRuntime(deps.jade)
+    localRuntime(deps.curios)
+
+    // Runtime Recipe Viewers //
+    localRuntime(deps.emi)
+
+    // Testing
+    compileOnly(deps.radium)
+
+    //////////////////////////////////////////////////////
+    // Runtime mods for dev testing with unclean client //
+    //////////////////////////////////////////////////////
+    extraLocalRuntime(deps.bundles.kjs)
+}
