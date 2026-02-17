@@ -27,7 +27,7 @@ issueTrackerURL="https://github.com/argent-matter/gcyr/issues"
    # A URL for the "homepage" for this mod, displayed in the mod UI
    displayURL="https://modrinth.com/mod/gcyr"
    # A file name (in the root of the mod JAR) containing a logo for display
-   logoFile="icon.png" #optional
+   logoFile= "../../resources/icon.png" #optional
    # A text field displayed in the mod UI
    credits="The Original Idea/Inspration: Advanced Rocketry" #optional
    # A text field displayed in the mod UI
