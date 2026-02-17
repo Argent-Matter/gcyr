@@ -41,6 +41,7 @@ if (project == rootProject) {
                 minecraft_version   : libs.versions.minecraft.get(),
                 loader_version      : libs.versions.loader.get(),
                 forge_version       : forgeVersion,
+                gtceu_version       : deps.versions.gtceu.get(),
                 kjs_version         : deps.versions.kubejs.get().split("\\.")[0], // only specify major version of kjs
                 emi_version         : deps.versions.emi.get(),
                 jade_version        : deps.versions.jade.get(),
