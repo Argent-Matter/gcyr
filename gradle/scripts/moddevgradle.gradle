@@ -160,7 +160,7 @@ legacyForge {
             // "REGISTRYDUMP": For getting the contents of all registries.
             systemProperty 'forge.logging.markers', 'REGISTRIES'
             // Enable assertions for our classes in dev environment
-            jvmArgument('-ea:dev.screret...')
+            jvmArgument('-ea:argent_matter...')
 
             // Recommended logging level for the console
             // You can set various levels here.
