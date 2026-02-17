@@ -2,8 +2,8 @@ dependencies {
     compileOnly(libs.jetbrains.annotations)
 
     // GregTech
-    implementation(deps.gtceu)
-    implementation(deps.ldlib)
+    implementation(deps.gtceu) { transitive = false }
+    implementation(deps.ldlib) { transitive = false }
     implementation(deps.registrate)
 
     // Configuration
