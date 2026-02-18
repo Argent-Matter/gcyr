@@ -61,6 +61,7 @@ legacyForge {
 
             gameDirectory.set(file('runs/client'))
             systemProperty('neoforge.enabledGameTestNamespaces', project.mod_id)
+            jvmArgument("-XX:+AllowEnhancedClassRedefinition")
         }
 
         client2 {
@@ -71,6 +72,7 @@ legacyForge {
             gameDirectory.set(file('runs/client'))
             programArguments.addAll('--username', 'JuiceyBeans', '--uuid', 'd7dfa467-51b9-4beb-9a40-24ec2c2b8759')
             systemProperty('neoforge.enabledGameTestNamespaces', project.mod_id)
+            jvmArgument("-XX:+AllowEnhancedClassRedefinition")
         }
 
         server {
@@ -81,6 +83,7 @@ legacyForge {
             gameDirectory.set(file('runs/server'))
             programArguments.addAll('--nogui', '--world', 'world-extra')
             systemProperty('neoforge.enabledGameTestNamespaces', project.mod_id)
+            jvmArgument("-XX:+AllowEnhancedClassRedefinition")
         }
 
         // Client with MOTM, Curios, EMI, Jade
@@ -91,6 +94,7 @@ legacyForge {
 
             gameDirectory.set(file('runs/clean_client'))
             systemProperty('neoforge.enabledGameTestNamespaces', project.mod_id)
+            jvmArgument("-XX:+AllowEnhancedClassRedefinition")
         }
 
         cleanServer {
