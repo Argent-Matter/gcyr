@@ -5,7 +5,7 @@ ldlib = "1.0.40.b"
 registrate = "MC1.20-1.3.11"
 
 # Configuration
-configuration = "5840405"
+configuration = "2.2.0"
 
 # Mixin Extras
 mixinExtras = "0.5.0-rc.3"
@@ -35,7 +35,7 @@ ldlib               = { module = "com.lowdragmc.ldlib:ldlib-forge-1.20.1", versi
 registrate          = { module = "com.tterrag.registrate:Registrate", version.ref = "registrate" }
 
 # Configuration
-configuration       = { module = "curse.maven:configuration-444699", version.ref = "configuration" }
+configuration       = { module = "dev.toma.configuration:configuration-forge-1.20.1", version.ref = "configuration" }
 
 # Mixin Extras
 

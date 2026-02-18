@@ -1,5 +1,4 @@
 repositories {
-    mavenLocal()
     mavenCentral()
 
     maven { // GTM
@@ -67,5 +66,14 @@ repositories {
     exclusiveContent { // Radium
         forRepository { maven { url = "https://repo.constructlegacy.ru/public" } }
         filter { includeGroup('me.jellysquid.mods') }
+    }
+
+    maven {
+        name 'Configuration'
+        url 'https://api.repsy.io/mvn/toma/public/'
+    }
+    maven {
+        name 'Configuration backup maven'
+        url 'https://repo.repsy.io/mvn/toma/public/'
     }
 }

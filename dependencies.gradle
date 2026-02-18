@@ -1,5 +1,5 @@
 dependencies {
-    modCompileOnly(libs.jetbrains.annotations)
+    compileOnly(libs.jetbrains.annotations)
 
     // GregTech
     modImplementation(deps.gtceu) { transitive = false }
@@ -11,7 +11,7 @@ dependencies {
 
     // Mixin (& Extras)
     annotationProcessor(variantOf(libs.mixin) { classifier("processor") })
-    modCompileOnly(annotationProcessor(deps.mixinExtras.common.get()))
+    compileOnly(annotationProcessor(deps.mixinExtras.common.get()))
 
     // Recipe Viewers
     modCompileOnly(deps.bundles.jei)

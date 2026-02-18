@@ -1,7 +1,7 @@
 [versions]
 minecraft = "1.20.1"
 forge = "47.4.10"
-loader = "4"
+loader = "47"
 parchment = "2023.09.03" # https://parchmentmc.org/docs/getting-started
 shadow = "9.3.0"
 spotless = "7.0.4"

@@ -35,21 +35,11 @@ legacyForge {
         // define mod <-> source bindings
         "${project.properties.mod_id}" {
             sourceSet(sourceSets.main)
-            if (project == rootProject) {
-                sourceSet(sourceSets.client)
-                sourceSet(sourceSets.test)
-                sourceSet(sourceSets.extra)
-                sourceSet(sourceSets.clientExtra)
-            }
+            sourceSet(sourceSets.client)
+            sourceSet(sourceSets.test)
+            sourceSet(sourceSets.extra)
+            sourceSet(sourceSets.clientExtra)
         }
-    }
-
-    if (project != rootProject) {
-        // only add the run configurations to the root project, remove them from subprojects
-        runs {
-            removeIf { true }
-        }
-        return
     }
     // Default run configurations.
     // These can be tweaked, removed, or duplicated as needed.
@@ -60,7 +50,7 @@ legacyForge {
             ideName = "Client 1"
 
             gameDirectory.set(file('runs/client'))
-            systemProperty('neoforge.enabledGameTestNamespaces', project.mod_id)
+            systemProperty('forge.enabledGameTestNamespaces', project.mod_id)
         }
 
         client2 {
@@ -70,7 +60,7 @@ legacyForge {
 
             gameDirectory.set(file('runs/client'))
             programArguments.addAll('--username', 'JuiceyBeans', '--uuid', 'd7dfa467-51b9-4beb-9a40-24ec2c2b8759')
-            systemProperty('neoforge.enabledGameTestNamespaces', project.mod_id)
+            systemProperty('forge.enabledGameTestNamespaces', project.mod_id)
         }
 
         server {
@@ -80,7 +70,7 @@ legacyForge {
 
             gameDirectory.set(file('runs/server'))
             programArguments.addAll('--nogui', '--world', 'world-extra')
-            systemProperty('neoforge.enabledGameTestNamespaces', project.mod_id)
+            systemProperty('forge.enabledGameTestNamespaces', project.mod_id)
         }
 
         // Client with MOTM, Curios, EMI, Jade
@@ -90,7 +80,7 @@ legacyForge {
             ideName = "Clean Client"
 
             gameDirectory.set(file('runs/clean_client'))
-            systemProperty('neoforge.enabledGameTestNamespaces', project.mod_id)
+            systemProperty('forge.enabledGameTestNamespaces', project.mod_id)
         }
 
         cleanServer {
@@ -100,7 +90,7 @@ legacyForge {
 
             gameDirectory.set(file('runs/clean_server'))
             programArgument '--nogui'
-            systemProperty('neoforge.enabledGameTestNamespaces', project.mod_id)
+            systemProperty('forge.enabledGameTestNamespaces', project.mod_id)
         }
 
         // This run config launches GameTestServer and runs all registered gametests, then exits.
@@ -112,7 +102,7 @@ legacyForge {
             ideName = "Game Tests"
 
             gameDirectory.set(file('runs/gametest'))
-            systemProperty('neoforge.enabledGameTestNamespaces', project.mod_id)
+            systemProperty('forge.enabledGameTestNamespaces', project.mod_id)
             environment('TEST', 'true')
         }
 
@@ -140,7 +130,7 @@ legacyForge {
 
                 gameDirectory.set(file('runs/clean_client'))
                 programArguments.addAll('--username', 'screret', '--uuid', '1184eb79-5831-4f7d-b8f4-3a46fccf7a1d')
-                systemProperty('neoforge.enabledGameTestNamespaces', project.mod_id)
+                systemProperty('forge.enabledGameTestNamespaces', project.mod_id)
 
                 systemProperty("neoforge.rendernurse.renderdoc.library", renderDocPath)
                 if(OperatingSystem.current().isLinux()) {
