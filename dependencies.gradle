@@ -1,46 +1,43 @@
 dependencies {
-    compileOnly(libs.jetbrains.annotations)
+    modCompileOnly(libs.jetbrains.annotations)
 
     // GregTech
-    implementation(deps.gtceu) { transitive = false }
-    implementation(deps.ldlib) { transitive = false }
-    implementation(deps.registrate)
+    modImplementation(deps.gtceu) { transitive = false }
+    modImplementation(deps.ldlib) { transitive = false }
+    modImplementation(deps.registrate)
 
     // Configuration
-    implementation(deps.configuration)
+    modImplementation(deps.configuration)
 
     // Mixin (& Extras)
     annotationProcessor(variantOf(libs.mixin) { classifier("processor") })
-    compileOnly(annotationProcessor(deps.mixinExtras.common.get()))
-    jarJar(api(deps.mixinExtras.forge.get())).version {
-        require("[${deps.versions.mixinExtras.get()},)")
-    }
+    modCompileOnly(annotationProcessor(deps.mixinExtras.common.get()))
 
     // Recipe Viewers
-    compileOnly(deps.bundles.jei)
-    compileOnly(deps.emi)
+    modCompileOnly(deps.bundles.jei)
+    modCompileOnly(deps.emi)
 
     // Curios
-    compileOnly(variantOf(deps.curios) { classifier("api") })
+    modCompileOnly(variantOf(deps.curios) { classifier("api") })
 
     // WAILA-likes
-    compileOnly(deps.jade)
+    modCompileOnly(deps.jade)
 
     // KJS
-    compileOnly(deps.bundles.kjs)
+    modCompileOnly(deps.bundles.kjs)
 
     // Standard runtime mods //
-    localRuntime(deps.jade)
-    localRuntime(deps.curios)
+    modLocalRuntime(deps.jade)
+    modLocalRuntime(deps.curios)
 
     // Runtime Recipe Viewers //
-    localRuntime(deps.emi)
+    modLocalRuntime(deps.emi)
 
     // Testing
-    compileOnly(deps.radium)
+    modCompileOnly(deps.radium)
 
     //////////////////////////////////////////////////////
     // Runtime mods for dev testing with unclean client //
     //////////////////////////////////////////////////////
-    extraLocalRuntime(deps.bundles.kjs)
+    modExtraLocalRuntime(deps.bundles.kjs)
 }

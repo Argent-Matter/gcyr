@@ -65,6 +65,35 @@ configurations {
     }
 }
 
+afterEvaluate {
+    allprojects {
+        tasks.withType(JavaCompile).configureEach {
+            options.encoding = "UTF-8"
+            options.compilerArgs << "-Xlint:-removal"
+            options.compilerArgs << "-Aquiet=true" // Suppress mixin notes
+        }
+
+        lombok {
+            version = "1.18.38"
+        }
+    }
+
+    configurations {
+        // same as above but for the modRuntimeOnly configurations
+        modClientRuntimeOnly.canBeResolved = false
+        modExtraRuntimeOnly.canBeResolved = false
+        modClientExtraRuntimeOnly.canBeResolved = false
+    }
+}
+
+obfuscation {
+    createRemappingConfiguration(configurations.localRuntime)
+    createRemappingConfiguration(configurations.clientLocalRuntime)
+
+    createRemappingConfiguration(configurations.extraLocalRuntime)
+    createRemappingConfiguration(configurations.clientExtraLocalRuntime)
+}
+
 apply from: "$rootDir/gradle/scripts/jars.gradle"
 apply from: "$rootDir/gradle/scripts/moddevgradle.gradle"
 apply from: "$rootDir/gradle/scripts/repositories.gradle"
@@ -72,16 +101,3 @@ apply from: "$projectDir/dependencies.gradle"
 apply from: "$rootDir/gradle/scripts/resources.gradle"
 apply from: "$rootDir/gradle/scripts/publishing.gradle"
 apply from: "$rootDir/gradle/scripts/spotless.gradle"
-
-afterEvaluate {
-    allprojects {
-        tasks.withType(JavaCompile).configureEach {
-            options.encoding = "UTF-8"
-            options.compilerArgs << "-Xlint:-removal"
-        }
-
-        lombok {
-            version = "1.18.38"
-        }
-    }
-}
