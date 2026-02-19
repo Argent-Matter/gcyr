@@ -11,7 +11,7 @@ loaderVersion="${forge_version}" #mandatory This is typically bumped every Minec
 # Review your options at https://choosealicense.com/. All rights reserved is the default copyright stance, and is thus the default here.
 license="GNU LGPL 3.0"
 # A URL to refer people to when problems occur with this mod
-issueTrackerURL="https://github.com/argent-matter/gcyr/issues"
+issueTrackerURL="${mod_issue_tracker}"
 # A list of mods - how many allowed here is determined by the individual mod loader
 [[mods]] #mandatory
    # The modid of the mod
@@ -25,13 +25,13 @@ issueTrackerURL="https://github.com/argent-matter/gcyr/issues"
    # A URL to query for updates for this mod. See the JSON update specification <here>
    #updateJSONURL="http://myurl.me/" #optional
    # A URL for the "homepage" for this mod, displayed in the mod UI
-   displayURL="https://modrinth.com/mod/gcyr"
+   displayURL="${mod_url}"
    # A file name (in the root of the mod JAR) containing a logo for display
-   logoFile="icon.png" #optional
+   logoFile= "icon.png" #optional
    # A text field displayed in the mod UI
-   credits="The Original Idea/Inspration: Advanced Rocketry" #optional
+   credits="${mod_credits}" #optional
    # A text field displayed in the mod UI
-   authors="Original Developer: screret - Current Developers - JustReclipse NemEzanevem - Worldgen Dev: zvoltaic" #optional
+   authors="${mod_authors}" #optional
    # Display Test controls the display for your mod in the server connection screen
    # MATCH_VERSION means that your mod will cause a red X if the versions on client and server differ. This is the default behaviour and should be what you choose if you have server and client elements to your mod.
    # IGNORE_SERVER_VERSION means that your mod will not cause a red X if it's present on the server but not on the client. This is what you should use if you're a server only mod.
@@ -41,9 +41,8 @@ issueTrackerURL="https://github.com/argent-matter/gcyr/issues"
    #displayTest="MATCH_VERSION" # MATCH_VERSION is the default if nothing is specified (#optional)
 
    # The description text for the mod (multi line!) (#mandatory)
-   description='''
-   A space addon for GTM
-   '''
+   description='''${mod_description}'''
+
    # A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.
    [[dependencies.${mod_id}]] #optional
       # the modid of the dependency
