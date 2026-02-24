@@ -265,7 +265,7 @@ public class GCYRBlocks {
             .tag(BlockTags.MINEABLE_WITH_SHOVEL)
             .blockstate(NonNullBiConsumer.noop())
             .item()
-            .model(NonNullBiConsumer.noop())
+            //.model((ctx, prov) -> prov.blockItem(GCYRBlocks.MOON_SAND))
             .build()
             .register();
 
@@ -542,7 +542,6 @@ public class GCYRBlocks {
                 .blockstate(GCYRModels.cubeAllModel(name, texture))
                 .tag(GCYRTags.MINEABLE_WITH_WRENCH, BlockTags.MINEABLE_WITH_PICKAXE)
                 .item(BlockItem::new)
-                .model(NonNullBiConsumer.noop())
                 .build()
                 .register();
     }
