@@ -10,6 +10,7 @@ import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.level.Level;
 import org.joml.Vector3f;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
@@ -30,7 +31,7 @@ public record PlanetSkyRenderer(ResourceKey<Level> dimension, Optional<ResourceL
             WeatherEffects.CODEC.fieldOf("weather_effects").forGetter(PlanetSkyRenderer::weatherEffects),
             Codec.INT.fieldOf("horizon_angle").forGetter(PlanetSkyRenderer::horizonAngle),
             Codec.BOOL.optionalFieldOf("full_sky", false).forGetter(PlanetSkyRenderer::doFullSky),
-            SkyObject.CODEC.listOf().fieldOf("sky_objects").forGetter(PlanetSkyRenderer::skyObjects)
+            SkyObject.CODEC.listOf().optionalFieldOf("sky_objects", Collections.emptyList()).forGetter(PlanetSkyRenderer::skyObjects)
     ).apply(instance, PlanetSkyRenderer::new));
 
 
