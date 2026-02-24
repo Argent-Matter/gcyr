@@ -265,7 +265,6 @@ public class GCYRBlocks {
             .tag(BlockTags.MINEABLE_WITH_SHOVEL)
             .blockstate(NonNullBiConsumer.noop())
             .item()
-            //.model((ctx, prov) -> prov.blockItem(GCYRBlocks.MOON_SAND))
             .build()
             .register();
 
