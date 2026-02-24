@@ -4,6 +4,7 @@ import argent_matter.gcyr.api.block.IRocketPart;
 import argent_matter.gcyr.api.capability.GCYRCapabilityHelper;
 import argent_matter.gcyr.api.capability.ISpaceStationHolder;
 import argent_matter.gcyr.api.gui.factory.EntityUIFactory;
+import argent_matter.gcyr.api.gui.widget.GCYRGuiTextures;
 import argent_matter.gcyr.api.registries.GCYRRegistries;
 import argent_matter.gcyr.api.space.planet.Planet;
 import argent_matter.gcyr.api.space.satellite.SatelliteType;
@@ -249,11 +250,12 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         return new ModularUI(176, 166, this, entityPlayer)
                 .widget(new LabelWidget(7, 7, this.getDisplayName().getString()))
                 .widget(new TankWidget(this.fuelTank, 16, 20, 20, 58, true, true).setBackground(GuiTextures.FLUID_TANK_BACKGROUND).setFillDirection(ProgressTexture.FillDirection.DOWN_TO_UP))
-                .widget(new SlotWidget(configSlot, 0, 40, 20))
-                .widget(new SlotWidget(satelliteSlot, 0, 60, 20))
+                .widget(new SlotWidget(configSlot, 0, 40, 20).setOverlay(GCYRGuiTextures.CONFIG_SLOT_OVERLAY))
+                .widget(new SlotWidget(satelliteSlot, 0, 60, 20).setOverlay(GCYRGuiTextures.SATELLITE_SLOT_OVERLAY))
                 .widget(new ButtonWidget(40, 60, 38, 18, new GuiTextureGroup(GuiTextures.BUTTON.copy().setColor(0xFFAA0000), new TextTexture("menu.gcyr.launch")), (clickData) -> this.startRocket()))
                 .widget(new ButtonWidget(40, 40, 38, 18, new GuiTextureGroup(GuiTextures.BUTTON.copy().setColor(0xFFE0B900), new TextTexture("menu.gcyr.rocket.unbuild")), (clickData) -> this.unBuild()))
-                .widget(new LabelWidget(84, 25, this.getDisplayThrust()))
+                .widget(new LabelWidget(84, 20, Component.translatable("menu.gcyr.rocket_tier", this.partsTier)))
+                .widget(new LabelWidget(84, 30, this.getDisplayThrust()))
                 .widget(UITemplate.bindPlayerInventory(entityPlayer.getInventory(), GuiTextures.SLOT, 7, 84, true))
                 .background(GuiTextures.BACKGROUND);
     }
