@@ -166,6 +166,7 @@
   "menu.gcyr.space_station": "Space Station",
   "menu.gcyr.temperature": "Temperature",
   "menu.gcyr.type": "Type",
+  "message.gcyr.already_at_destination": "Already at destination specified by ID!",
   "message.gcyr.invalid_id": "The rocket must have a valid Planet ID Chip.",
   "message.gcyr.no_fuel": "The rocket must be fueled fully. Has %s mB fuel, destination requires %s mB.",
   "message.gcyr.notice_id_changed": "The destination of your Space Station ID chip might have changed. Remember to rewrite the personal destination chip with the new data before setting a new target!",

@@ -437,7 +437,10 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
             }
 
             // if the destination is the same as the current location, don't start
-            if (!destinationIsSpaceStation && this.level().dimension() == this.getDestination().level()) return;
+            if (!destinationIsSpaceStation && this.level().dimension() == this.getDestination().level()) {
+                sendVehicleAtDestinationAlreadyMessage(player);
+                return;
+            }
 
             data.set(RocketEntity.ROCKET_STARTED, true);
             //GCYRSoundEntries.ROCKET.play(this.level(), null, this.getX(), this.getY(), this.getZ(), 1, 1);
@@ -1058,6 +1061,12 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
     public static void sendVehicleNotGoodEnoughMessage(Player player, int planetTier) {
         if (!player.level().isClientSide) {
             player.displayClientMessage(Component.translatable("message.gcyr.rocket_not_good_enough", planetTier), false);
+        }
+    }
+
+    public static void sendVehicleAtDestinationAlreadyMessage(Player player) {
+        if (!player.level().isClientSide) {
+            player.displayClientMessage(Component.translatable("message.gcyr.already_at_destination"), false);
         }
     }
 
