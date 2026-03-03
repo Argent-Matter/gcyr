@@ -7,8 +7,11 @@ import argent_matter.gcyr.api.space.planet.Planet;
 import argent_matter.gcyr.api.space.planet.PlanetRing;
 import argent_matter.gcyr.api.space.planet.SolarSystem;
 import argent_matter.gcyr.client.gui.Category;
+import argent_matter.gcyr.common.data.GCYRItems;
 import argent_matter.gcyr.common.data.GCYRNetworking;
 import argent_matter.gcyr.common.gui.PlanetSelectionMenu;
+import argent_matter.gcyr.common.item.PlanetFilter;
+import argent_matter.gcyr.common.item.PlanetIdChipBehaviour;
 import argent_matter.gcyr.common.networking.c2s.PacketCreateSpaceStation;
 import argent_matter.gcyr.common.networking.c2s.PacketSendSelectedDimension;
 import argent_matter.gcyr.data.loader.PlanetData;
@@ -30,7 +33,10 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.util.Mth;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -205,6 +211,13 @@ public class PlanetSelectionScreen extends Screen implements MenuAccess<PlanetSe
         // sort planets based on their orbital period
         planets.sort(Comparator.comparing(p -> p.daysInYear()));
 
+        PlanetFilter filter = getActiveChipFilter();
+        if (!filter.isEmpty()) {
+            Set<ResourceLocation> allowed = new HashSet<>(filter.apply(
+                    planets.stream().map(p -> p.level().location()).toList()));
+            planets.removeIf(p -> !allowed.contains(p.level().location()));
+        }
+
         planets.forEach(planet -> {
             Category galaxyCategory = new Category(planet.galaxy(), Category.GALAXY_CATEGORY);
             Category solarSystemCategory = new Category(planet.solarSystem(), galaxyCategory);
@@ -246,6 +259,17 @@ public class PlanetSelectionScreen extends Screen implements MenuAccess<PlanetSe
     @Override
     public boolean isPauseScreen() {
         return true;
+    }
+
+    private PlanetFilter getActiveChipFilter() {
+        Player player = this.menu.getPlayer();
+        for (InteractionHand hand : InteractionHand.values()) {
+            ItemStack stack = player.getItemInHand(hand);
+            if (GCYRItems.ID_CHIP.isIn(stack)) {
+                return PlanetIdChipBehaviour.getFilter(stack);
+            }
+        }
+        return PlanetFilter.EMPTY;
     }
 
     public void onNavigationButtonClick(Category target) {
