@@ -3,12 +3,12 @@ package argent_matter.gcyr.common.machine.multiblock;
 import argent_matter.gcyr.common.data.GCYREntities;
 import argent_matter.gcyr.common.data.GCYRItems;
 import argent_matter.gcyr.common.entity.RocketEntity;
-import argent_matter.gcyr.common.item.KeyCardBehaviour;
 import argent_matter.gcyr.common.item.PlanetIdChipBehaviour;
+
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
-import com.gregtechceu.gtceu.api.machine.MetaMachine;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IDisplayUIMachine;
+
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 import com.lowdragmc.lowdraglib.gui.widget.ButtonWidget;
@@ -18,8 +18,7 @@ import com.lowdragmc.lowdraglib.misc.ItemStackTransfer;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
-import com.mojang.datafixers.util.Pair;
-import lombok.Getter;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
@@ -38,17 +37,24 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
+import com.mojang.datafixers.util.Pair;
+import lombok.Getter;
+
 import java.util.*;
 import java.util.stream.Collectors;
+
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class RocketScannerMachine extends PlatformMultiblockMachine implements IDisplayUIMachine {
-    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(RocketScannerMachine.class, PlatformMultiblockMachine.MANAGED_FIELD_HOLDER);
 
-    @Persisted @DescSynced
+    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(RocketScannerMachine.class,
+            PlatformMultiblockMachine.MANAGED_FIELD_HOLDER);
+
+    @Persisted
+    @DescSynced
     @Getter
     private boolean rocketBuilt;
     @Getter
@@ -86,7 +92,9 @@ public class RocketScannerMachine extends PlatformMultiblockMachine implements I
             return;
         }
 
-        textList.add(ComponentPanelWidget.withButton(Component.translatable("gcyr.multiblock.rocket.build").withStyle(ChatFormatting.GREEN), "build_rocket"));
+        textList.add(ComponentPanelWidget.withButton(
+                Component.translatable("gcyr.multiblock.rocket.build").withStyle(ChatFormatting.GREEN),
+                "build_rocket"));
     }
 
     @Override
@@ -179,11 +187,13 @@ public class RocketScannerMachine extends PlatformMultiblockMachine implements I
             states = states.entrySet()
                     .stream()
                     .sorted(Collections.reverseOrder(Map.Entry.comparingByKey()))
-                    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e2, LinkedHashMap::new));
+                    .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e2,
+                            LinkedHashMap::new));
             for (var entry : states.entrySet()) {
                 BlockPos pos = entry.getKey();
                 BlockState state = entry.getValue().getFirst();
-                @Nullable CompoundTag entityTag = entry.getValue().getSecond();
+                @Nullable
+                CompoundTag entityTag = entry.getValue().getSecond();
                 rocket.addBlock(pos.subtract(startPos), state, entityTag);
                 getLevel().setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
             }

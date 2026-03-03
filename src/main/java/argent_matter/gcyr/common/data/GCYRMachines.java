@@ -7,6 +7,7 @@ import argent_matter.gcyr.common.machine.multiblock.SpaceStationPackagerMachine;
 import argent_matter.gcyr.common.machine.multiblock.electric.DroneHangarMachine;
 import argent_matter.gcyr.common.machine.multiblock.electric.DysonSystemControllerMachine;
 import argent_matter.gcyr.data.recipe.GCYRTags;
+
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.GTValues;
@@ -26,13 +27,16 @@ import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.common.data.GTRecipeModifiers;
 import com.gregtechceu.gtceu.common.data.GTRecipeTypes;
 import com.gregtechceu.gtceu.config.ConfigHolder;
-import it.unimi.dsi.fastutil.ints.Int2IntFunction;
+
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
+
 import net.minecraftforge.fluids.FluidType;
+
+import it.unimi.dsi.fastutil.ints.Int2IntFunction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,30 +48,37 @@ import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 import static com.gregtechceu.gtceu.common.data.GCYMBlocks.CASING_ATOMIC;
 import static com.gregtechceu.gtceu.common.data.GTBlocks.*;
-import static com.gregtechceu.gtceu.common.data.GTMaterialBlocks.MATERIAL_BLOCKS;
 import static com.gregtechceu.gtceu.common.data.GTMachines.POWER_TRANSFORMER;
+import static com.gregtechceu.gtceu.common.data.GTMaterialBlocks.MATERIAL_BLOCKS;
 import static com.gregtechceu.gtceu.utils.FormattingUtil.toEnglishName;
 
-@SuppressWarnings({"Convert2MethodRef", "FunctionalExpressionCanBeFolded", "unused", "DataFlowIssue"})
+@SuppressWarnings({ "Convert2MethodRef", "FunctionalExpressionCanBeFolded", "unused", "DataFlowIssue" })
 public class GCYRMachines {
+
     public final static int[] ELECTRIC_TIERS = GTValues.tiersBetween(LV, GTCEuAPI.isHighTier() ? OpV : UV);
     public final static int[] LOW_TIERS = GTValues.tiersBetween(LV, EV);
     public final static int[] HIGH_TIERS = GTValues.tiersBetween(IV, GTCEuAPI.isHighTier() ? OpV : UHV);
-    public static final Int2IntFunction defaultTankSizeFunction = tier -> (tier <= GTValues.LV ? 8 : tier == GTValues.MV ? 12 : tier == GTValues.HV ? 16 : tier == GTValues.EV ? 32 : 64) * FluidType.BUCKET_VOLUME;
+    public static final Int2IntFunction defaultTankSizeFunction = tier -> (tier <= GTValues.LV ? 8 :
+            tier == GTValues.MV ? 12 : tier == GTValues.HV ? 16 : tier == GTValues.EV ? 32 : 64) *
+            FluidType.BUCKET_VOLUME;
 
-    public final static MachineDefinition[] OXYGEN_SPREADER = registerTieredMachines("oxygen_spreader", OxygenSpreaderMachine::new,
+    public final static MachineDefinition[] OXYGEN_SPREADER = registerTieredMachines("oxygen_spreader",
+            OxygenSpreaderMachine::new,
             (tier, builder) -> builder
                     .langValue("%s Oxygen Spreader".formatted(VNF[tier]))
                     .rotationState(RotationState.NON_Y_AXIS)
                     .workableTieredHullModel(GCYR.id("block/machines/oxygen_spreader"))
                     .recipeType(GCYRRecipeTypes.OXYGEN_SPREADER_RECIPES)
-                    .tooltips(workableTiered(tier, GTValues.V[tier], GTValues.V[tier] * 64, GCYRRecipeTypes.OXYGEN_SPREADER_RECIPES, OxygenSpreaderMachine.tankScalingFunction(tier), true))
+                    .tooltips(workableTiered(tier, GTValues.V[tier], GTValues.V[tier] * 64,
+                            GCYRRecipeTypes.OXYGEN_SPREADER_RECIPES, OxygenSpreaderMachine.tankScalingFunction(tier),
+                            true))
                     .blockBuilder(block -> block.tag(GCYRTags.PASSES_FLOOD_FILL))
                     .register(),
             HIGH_TIERS);
 
-
-    public static final MachineDefinition ROCKET_SCANNER = REGISTRATE.multiblock("rocket_scanner", RocketScannerMachine::new)
+    // spotless:off
+    public static final MachineDefinition ROCKET_SCANNER = REGISTRATE
+            .multiblock("rocket_scanner", RocketScannerMachine::new)
             .langValue("Rocket Scanner")
             .rotationState(RotationState.NON_Y_AXIS)
             .allowFlip(false)
@@ -110,7 +121,8 @@ public class GCYRMachines {
                     GTCEu.id("block/multiblock/assembly_line"))
             .register();
 
-    public static final MachineDefinition SPACE_STATION_PACKAGER = REGISTRATE.multiblock("space_station_packager", SpaceStationPackagerMachine::new)
+    public static final MachineDefinition SPACE_STATION_PACKAGER = REGISTRATE
+            .multiblock("space_station_packager", SpaceStationPackagerMachine::new)
             .langValue("Space Station Packager")
             .rotationState(RotationState.NON_Y_AXIS)
             .allowFlip(false)
@@ -232,7 +244,8 @@ public class GCYRMachines {
                     GTCEu.id("block/multiblock/assembly_line"))
             .register();
 
-    public static final MultiblockMachineDefinition DRONE_HANGAR = REGISTRATE.multiblock("drone_hangar", DroneHangarMachine::new)
+    public static final MultiblockMachineDefinition DRONE_HANGAR = REGISTRATE
+            .multiblock("drone_hangar", DroneHangarMachine::new)
             .rotationState(RotationState.NON_Y_AXIS)
             .recipeType(GTRecipeTypes.VACUUM_RECIPES)
             .appearanceBlock(() -> CASING_ALUMINIUM_FROSTPROOF.get())
@@ -250,29 +263,35 @@ public class GCYRMachines {
             .register();
 
 
+    // spotless:on
     public static MachineDefinition[] registerSimpleMachines(String name,
                                                              GTRecipeType recipeType,
                                                              Int2IntFunction tankScalingFunction,
                                                              int... tiers) {
-        return registerTieredMachines(name, (holder, tier) -> new SimpleTieredMachine(holder, tier, tankScalingFunction), (tier, builder) -> builder
-                .langValue("%s %s %s".formatted(VLVH[tier], toEnglishName(name), VLVT[tier]))
-                .editableUI(SimpleTieredMachine.EDITABLE_UI_CREATOR.apply(GTCEu.id(name), recipeType))
-                .rotationState(RotationState.NON_Y_AXIS)
-                .recipeType(recipeType)
-                .recipeModifier(GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK))
-                .workableTieredHullModel(GTCEu.id("block/machines/" + name))
-                .tooltips(workableTiered(tier, GTValues.V[tier], GTValues.V[tier] * 64, recipeType, tankScalingFunction.apply(tier), true))
-                .register(), tiers);
+        return registerTieredMachines(name,
+                (holder, tier) -> new SimpleTieredMachine(holder, tier, tankScalingFunction), (tier, builder) -> builder
+                        .langValue("%s %s %s".formatted(VLVH[tier], toEnglishName(name), VLVT[tier]))
+                        .editableUI(SimpleTieredMachine.EDITABLE_UI_CREATOR.apply(GTCEu.id(name), recipeType))
+                        .rotationState(RotationState.NON_Y_AXIS)
+                        .recipeType(recipeType)
+                        .recipeModifier(
+                                GTRecipeModifiers.ELECTRIC_OVERCLOCK.apply(OverclockingLogic.NON_PERFECT_OVERCLOCK))
+                        .workableTieredHullModel(GTCEu.id("block/machines/" + name))
+                        .tooltips(workableTiered(tier, GTValues.V[tier], GTValues.V[tier] * 64, recipeType,
+                                tankScalingFunction.apply(tier), true))
+                        .register(),
+                tiers);
     }
 
-    public static MachineDefinition[] registerSimpleMachines(String name, GTRecipeType recipeType, Int2IntFunction tankScalingFunction) {
+    public static MachineDefinition[] registerSimpleMachines(String name, GTRecipeType recipeType,
+                                                             Int2IntFunction tankScalingFunction) {
         return registerSimpleMachines(name, recipeType, tankScalingFunction, ELECTRIC_TIERS);
     }
 
     public static MachineDefinition[] registerSimpleMachines(String name, GTRecipeType recipeType) {
         return registerSimpleMachines(name, recipeType, defaultTankSizeFunction);
     }
-    
+
     public static MachineDefinition[] registerTieredMachines(String name,
                                                              BiFunction<IMachineBlockEntity, Integer, MetaMachine> factory,
                                                              BiFunction<Integer, MachineBuilder<MachineDefinition, ?>, MachineDefinition> builder,
@@ -280,7 +299,8 @@ public class GCYRMachines {
         MachineDefinition[] definitions = new MachineDefinition[tiers.length];
         for (int i = 0; i < tiers.length; i++) {
             int tier = tiers[i];
-            var register =  REGISTRATE.machine(GTValues.VN[tier].toLowerCase() + "_" + name, holder -> factory.apply(holder, tier))
+            var register = REGISTRATE
+                    .machine(GTValues.VN[tier].toLowerCase() + "_" + name, holder -> factory.apply(holder, tier))
                     .tier(tier);
             definitions[i] = builder.apply(tier, register);
         }
@@ -293,17 +313,20 @@ public class GCYRMachines {
         return null;
     }
 
-    public static Component[] workableTiered(int tier, long voltage, long energyCapacity, GTRecipeType recipeType, long tankCapacity, boolean input) {
+    public static Component[] workableTiered(int tier, long voltage, long energyCapacity, GTRecipeType recipeType,
+                                             long tankCapacity, boolean input) {
         List<Component> tooltipComponents = new ArrayList<>();
-        tooltipComponents.add(input ? Component.translatable("gtceu.universal.tooltip.voltage_in", voltage, GTValues.VNF[tier]) :
-                Component.translatable("gtceu.universal.tooltip.voltage_out", voltage, GTValues.VNF[tier]));
-        tooltipComponents.add(Component.translatable("gtceu.universal.tooltip.energy_storage_capacity", energyCapacity));
-        if (recipeType.getMaxInputs(FluidRecipeCapability.CAP) > 0 || recipeType.getMaxOutputs(FluidRecipeCapability.CAP) > 0)
-            tooltipComponents.add(Component.translatable("gtceu.universal.tooltip.fluid_storage_capacity", tankCapacity));
+        tooltipComponents
+                .add(input ? Component.translatable("gtceu.universal.tooltip.voltage_in", voltage, GTValues.VNF[tier]) :
+                        Component.translatable("gtceu.universal.tooltip.voltage_out", voltage, GTValues.VNF[tier]));
+        tooltipComponents
+                .add(Component.translatable("gtceu.universal.tooltip.energy_storage_capacity", energyCapacity));
+        if (recipeType.getMaxInputs(FluidRecipeCapability.CAP) > 0 ||
+                recipeType.getMaxOutputs(FluidRecipeCapability.CAP) > 0)
+            tooltipComponents
+                    .add(Component.translatable("gtceu.universal.tooltip.fluid_storage_capacity", tankCapacity));
         return tooltipComponents.toArray(Component[]::new);
     }
 
-    public static void init() {
-
-    }
+    public static void init() {}
 }

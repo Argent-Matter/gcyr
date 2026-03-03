@@ -4,6 +4,7 @@ import argent_matter.gcyr.common.item.armor.SpaceSuitArmorItem;
 import argent_matter.gcyr.config.GCYRConfig;
 import argent_matter.gcyr.data.loader.PlanetData;
 import argent_matter.gcyr.data.recipe.GCYRTags;
+
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
@@ -16,13 +17,14 @@ import net.minecraft.world.entity.monster.Skeleton;
 
 import java.util.stream.StreamSupport;
 
-
 /**
- * Proudly copied from <a href="https://github.com/terrarium-earth/Ad-Astra/blob/1.19/common/src/main/java/earth/terrarium/ad_astra/common/entity/system/EntityTemperatureSystem.java">Ad Astra</a>
+ * Proudly copied from <a href=
+ * "https://github.com/terrarium-earth/Ad-Astra/blob/1.19/common/src/main/java/earth/terrarium/ad_astra/common/entity/system/EntityTemperatureSystem.java">
+ * Ad Astra</a>
  */
 public class EntityTemperatureSystem {
-    public static final UniformInt TEMP_RANGE = UniformInt.of(213, 333);
 
+    public static final UniformInt TEMP_RANGE = UniformInt.of(213, 333);
 
     public static void temperatureTick(LivingEntity entity, ServerLevel level) {
         if (!GCYRConfig.INSTANCE.server.enableOxygen) {
@@ -40,7 +42,8 @@ public class EntityTemperatureSystem {
 
         float temperature = PlanetData.getWorldTemperature(level);
 
-        // Normal temperature when inside an oxygen bubble. This should probably be changed so that a separate machine is required to manage temperature.
+        // Normal temperature when inside an oxygen bubble. This should probably be changed so that a separate machine
+        // is required to manage temperature.
         if (EntityOxygenSystem.inDistributorBubble(level, entity.blockPosition())) {
             temperature = 293.0f;
         }
@@ -50,11 +53,14 @@ public class EntityTemperatureSystem {
             temperatureResistance = SpaceSuitArmorItem.getTemperatureThreshold();
         }
 
-        if (temperature > temperatureResistance.getMaxValue() && !entity.fireImmune() && !entity.hasEffect(MobEffects.FIRE_RESISTANCE) && !EntityTemperatureSystem.armourIsHeatResistant(entity)) {
+        if (temperature > temperatureResistance.getMaxValue() && !entity.fireImmune() &&
+                !entity.hasEffect(MobEffects.FIRE_RESISTANCE) &&
+                !EntityTemperatureSystem.armourIsHeatResistant(entity)) {
             burnEntity(entity);
-        } else if (temperature < temperatureResistance.getMinValue() && !EntityTemperatureSystem.armourIsFreezeResistant(entity)) {
-            freezeEntity(entity, level);
-        }
+        } else if (temperature < temperatureResistance.getMinValue() &&
+                !EntityTemperatureSystem.armourIsFreezeResistant(entity)) {
+                    freezeEntity(entity, level);
+                }
     }
 
     private static void burnEntity(LivingEntity entity) {
@@ -66,7 +72,9 @@ public class EntityTemperatureSystem {
         entity.hurt(entity.damageSources().freeze(), GCYRConfig.INSTANCE.server.freezeDamage);
         entity.setTicksFrozen(Math.min(entity.getTicksRequiredToFreeze() + 20, entity.getTicksFrozen() + 5 * 10));
         RandomSource random = entity.level().getRandom();
-        level.addParticle(ParticleTypes.SNOWFLAKE, entity.getX(), entity.getY() + 1, entity.getZ(), Mth.randomBetween(random, -1.0f, 1.0f) * 0.083333336f, 0.05, (double) Mth.randomBetween(random, -1.0f, 1.0f) * 0.083333336);
+        level.addParticle(ParticleTypes.SNOWFLAKE, entity.getX(), entity.getY() + 1, entity.getZ(),
+                Mth.randomBetween(random, -1.0f, 1.0f) * 0.083333336f, 0.05,
+                (double) Mth.randomBetween(random, -1.0f, 1.0f) * 0.083333336);
 
         // Turn skeletons into strays
         if (entity instanceof Skeleton skeleton) {
@@ -75,11 +83,12 @@ public class EntityTemperatureSystem {
     }
 
     public static boolean armourIsFreezeResistant(LivingEntity entity) {
-        return StreamSupport.stream(entity.getArmorSlots().spliterator(), false).allMatch(s -> s.is(GCYRTags.FREEZE_RESISTANT));
+        return StreamSupport.stream(entity.getArmorSlots().spliterator(), false)
+                .allMatch(s -> s.is(GCYRTags.FREEZE_RESISTANT));
     }
 
     public static boolean armourIsHeatResistant(LivingEntity entity) {
-        return StreamSupport.stream(entity.getArmorSlots().spliterator(), false).allMatch(s -> s.is(GCYRTags.HEAT_RESISTANT));
+        return StreamSupport.stream(entity.getArmorSlots().spliterator(), false)
+                .allMatch(s -> s.is(GCYRTags.HEAT_RESISTANT));
     }
 }
-

@@ -2,13 +2,15 @@ package argent_matter.gcyr.common.data;
 
 import argent_matter.gcyr.client.renderer.entity.RocketEntityRenderer;
 import argent_matter.gcyr.common.entity.RocketEntity;
-import com.tterrag.registrate.util.entry.EntityEntry;
+
 import net.minecraft.world.entity.MobCategory;
+
+import com.tterrag.registrate.util.entry.EntityEntry;
 
 import static argent_matter.gcyr.api.registries.GCYRRegistries.REGISTRATE;
 
-
 public class GCYREntities {
+
     public static EntityEntry<RocketEntity> ROCKET = REGISTRATE.entity("rocket", RocketEntity::new, MobCategory.MISC)
             .renderer(() -> RocketEntityRenderer::new)
             .properties(b -> b.fireImmune()
@@ -18,7 +20,5 @@ public class GCYREntities {
                     .sized(1, 1))
             .register();
 
-    public static void init() {
-
-    }
+    public static void init() {}
 }

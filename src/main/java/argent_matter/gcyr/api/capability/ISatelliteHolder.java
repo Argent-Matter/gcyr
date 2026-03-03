@@ -3,10 +3,10 @@ package argent_matter.gcyr.api.capability;
 import argent_matter.gcyr.api.space.satellite.Satellite;
 import argent_matter.gcyr.api.space.satellite.SatelliteType;
 import argent_matter.gcyr.util.Vec2i;
-import net.minecraft.world.phys.Vec2;
+
+import java.util.List;
 
 import javax.annotation.Nullable;
-import java.util.List;
 
 public interface ISatelliteHolder {
 
@@ -48,7 +48,7 @@ public interface ISatelliteHolder {
     /**
      *
      * @param position position that is searched around
-     * @param range range that is searched
+     * @param range    range that is searched
      * @return all satellites in area, sorted by distance (smallest first)
      */
     @Nullable

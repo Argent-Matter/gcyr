@@ -2,6 +2,7 @@ package argent_matter.gcyr.common.item.armor.trim;
 
 import argent_matter.gcyr.GCYR;
 import argent_matter.gcyr.common.data.GCYRItems;
+
 import net.minecraft.Util;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -19,13 +20,12 @@ public class GCYRTrimPatterns {
         register(ctx, GCYRItems.SPACE_UPGRADE_SMITHING_TEMPLATE.get(), SPACE);
     }
 
-    private static void register(BootstapContext<TrimPattern> context, Item templateItem, ResourceKey<TrimPattern> trimPatternKey) {
+    private static void register(BootstapContext<TrimPattern> context, Item templateItem,
+                                 ResourceKey<TrimPattern> trimPatternKey) {
         TrimPattern trimPattern = new TrimPattern(
                 trimPatternKey.location(),
                 BuiltInRegistries.ITEM.wrapAsHolder(templateItem),
-                Component.translatable(Util.makeDescriptionId("trim_pattern", trimPatternKey.location()))
-        );
+                Component.translatable(Util.makeDescriptionId("trim_pattern", trimPatternKey.location())));
         context.register(trimPatternKey, trimPattern);
     }
-
 }

@@ -3,12 +3,14 @@ package argent_matter.gcyr.common.satellite;
 import argent_matter.gcyr.api.space.satellite.Satellite;
 import argent_matter.gcyr.api.space.satellite.SatelliteType;
 import argent_matter.gcyr.api.space.satellite.data.SatelliteData;
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
+
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.dimension.DimensionType;
+
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+
 import org.jetbrains.annotations.Nullable;
 
 /**
@@ -17,7 +19,9 @@ import org.jetbrains.annotations.Nullable;
  * @implNote DysonSwarmSatellite
  */
 public class DysonSwarmSatellite extends Satellite {
-    public static final Codec<DysonSwarmSatellite> CODEC = RecordCodecBuilder.create(instance -> Satellite.baseCodec(instance).apply(instance, DysonSwarmSatellite::new));
+
+    public static final Codec<DysonSwarmSatellite> CODEC = RecordCodecBuilder
+            .create(instance -> Satellite.baseCodec(instance).apply(instance, DysonSwarmSatellite::new));
 
     public DysonSwarmSatellite(SatelliteType<?> type, SatelliteData data, ResourceKey<Level> level) {
         super(type, data, level);
@@ -26,7 +30,6 @@ public class DysonSwarmSatellite extends Satellite {
     @Override
     public void tickSatellite(Level level) {
         if (isNonWorking()) return;
-
     }
 
     @Override
@@ -41,7 +44,5 @@ public class DysonSwarmSatellite extends Satellite {
     }
 
     @Override
-    public void deserializeExtraData(Tag tag, Level level) {
-
-    }
+    public void deserializeExtraData(Tag tag, Level level) {}
 }

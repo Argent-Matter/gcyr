@@ -1,7 +1,7 @@
 package argent_matter.gcyr.common.item.armor;
 
 import argent_matter.gcyr.common.data.GCYRItems;
-import lombok.Getter;
+
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.LazyLoadedValue;
@@ -9,12 +9,16 @@ import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.crafting.Ingredient;
 
+import lombok.Getter;
+
 import java.util.function.Supplier;
 
 public enum GCYRArmorMaterials implements ArmorMaterial {
-    SPACE("gcyr:space", 5, new int[]{3, 6, 8, 3}, 5, SoundEvents.ARMOR_EQUIP_DIAMOND, 0, 0, () -> Ingredient.of(GCYRItems.SPACE_FABRIC.get()));
 
-    private static final int[] HEALTH_PER_SLOT = new int[]{13, 15, 16, 11};
+    SPACE("gcyr:space", 5, new int[] { 3, 6, 8, 3 }, 5, SoundEvents.ARMOR_EQUIP_DIAMOND, 0, 0,
+            () -> Ingredient.of(GCYRItems.SPACE_FABRIC.get()));
+
+    private static final int[] HEALTH_PER_SLOT = new int[] { 13, 15, 16, 11 };
     @Getter
     private final String name;
     @Getter
@@ -30,7 +34,9 @@ public enum GCYRArmorMaterials implements ArmorMaterial {
     private final float knockbackResistance;
     private final LazyLoadedValue<Ingredient> repairIngredient;
 
-    GCYRArmorMaterials(String name, int durabilityMultiplier, int[] slotProtections, int enchantmentValue, SoundEvent equipSound, float toughness, float knockbackResistance, Supplier<Ingredient> repairIngredient) {
+    GCYRArmorMaterials(String name, int durabilityMultiplier, int[] slotProtections, int enchantmentValue,
+                       SoundEvent equipSound, float toughness, float knockbackResistance,
+                       Supplier<Ingredient> repairIngredient) {
         this.name = name;
         this.durabilityMultiplier = durabilityMultiplier;
         this.slotProtections = slotProtections;

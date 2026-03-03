@@ -3,16 +3,17 @@ package argent_matter.gcyr.api.capability;
 import argent_matter.gcyr.api.space.planet.Planet;
 import argent_matter.gcyr.api.space.station.SpaceStation;
 import argent_matter.gcyr.util.Vec2i;
-import com.mojang.datafixers.util.Pair;
-import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
+
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.phys.Vec2;
+
+import com.mojang.datafixers.util.Pair;
+import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
+
+import java.util.List;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.List;
-import java.util.Set;
 
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
@@ -51,17 +52,20 @@ public interface ISpaceStationHolder {
     /**
      *
      * @param position position that is searched around
-     * @param range range that is searched
+     * @param range    range that is searched
      * @return all satellites in area, sorted by distance (smallest first)
      */
     List<Integer> getStationsNearPos(Vec2i position, int range);
 
     default List<Integer> getStationsNearWorldPos(BlockPos pos, int range) {
-        return getStationsNearPos(new Vec2i(pos.getX() / SpaceStation.BLOCK_MULTIPLIER, pos.getZ() / SpaceStation.BLOCK_MULTIPLIER), range / SpaceStation.BLOCK_MULTIPLIER);
+        return getStationsNearPos(
+                new Vec2i(pos.getX() / SpaceStation.BLOCK_MULTIPLIER, pos.getZ() / SpaceStation.BLOCK_MULTIPLIER),
+                range / SpaceStation.BLOCK_MULTIPLIER);
     }
 
     /**
      * Allocates (& saves) a new station to this space station holder.
+     * 
      * @param orbitPlanet the planet this new station will orbit.
      * @return a {@link Pair} containing 1. the new station's id, 2. the new station object.
      */

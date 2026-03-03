@@ -1,6 +1,7 @@
 package argent_matter.gcyr.api.block.impl;
 
 import argent_matter.gcyr.api.block.IRocketMotorType;
+
 import lombok.Getter;
 
 public class SimpleRocketMotorType implements IRocketMotorType {

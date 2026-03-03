@@ -2,19 +2,21 @@ package argent_matter.gcyr.client.dimension.renderer;
 
 import net.minecraft.Util;
 import net.minecraft.util.Mth;
+
 import org.joml.Vector3f;
 
 import java.util.Random;
 import java.util.function.BiFunction;
 
 public class StarInformation {
+
     public static final int BASE_COLOUR = 0xFFFFFFFF;
-    public static final int[] STAR_COLOURS = new int[]{
-        BASE_COLOUR,
-        0xFFCCEEFF,
-        0xFFCC99FF,
-        0xFFFF99FF,
-        0xFFFFCC66
+    public static final int[] STAR_COLOURS = new int[] {
+            BASE_COLOUR,
+            0xFFCCEEFF,
+            0xFFCC99FF,
+            0xFFFF99FF,
+            0xFFFFCC66
     };
     public static final BiFunction<Long, Integer, StarInformation> STAR_CACHE = Util.memoize(StarInformation::new);
     private final Vector3f[] param1;

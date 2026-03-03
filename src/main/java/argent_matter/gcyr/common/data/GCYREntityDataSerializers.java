@@ -3,6 +3,7 @@ package argent_matter.gcyr.common.data;
 import argent_matter.gcyr.api.space.planet.Planet;
 import argent_matter.gcyr.data.loader.PlanetData;
 import argent_matter.gcyr.util.PosWithState;
+
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -11,17 +12,21 @@ import net.minecraft.network.syncher.EntityDataSerializer;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.world.level.block.state.BlockState;
 
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
 public class GCYREntityDataSerializers {
-    public static final EntityDataSerializer<Long> LONG = EntityDataSerializer.simple(FriendlyByteBuf::writeVarLong, FriendlyByteBuf::readVarLong);
+
+    public static final EntityDataSerializer<Long> LONG = EntityDataSerializer.simple(FriendlyByteBuf::writeVarLong,
+            FriendlyByteBuf::readVarLong);
 
     public static final EntityDataSerializer<List<BlockPos>> BLOCK_POS_LIST = new EntityDataSerializer<>() {
+
         @Override
         public void write(FriendlyByteBuf buffer, List<BlockPos> value) {
             buffer.writeCollection(value, EntityDataSerializers.BLOCK_POS::write);
@@ -39,6 +44,7 @@ public class GCYREntityDataSerializers {
     };
 
     public static final EntityDataSerializer<PosWithState> POSITIONED_BLOCK_STATE = new EntityDataSerializer<>() {
+
         @Override
         public void write(FriendlyByteBuf friendlyByteBuf, PosWithState posState) {
             EntityDataSerializers.BLOCK_POS.write(friendlyByteBuf, posState.pos());
@@ -69,6 +75,7 @@ public class GCYREntityDataSerializers {
     };
 
     public static final EntityDataSerializer<List<PosWithState>> POSITIONED_BLOCK_STATE_LIST = new EntityDataSerializer<>() {
+
         @Override
         public void write(FriendlyByteBuf buffer, List<PosWithState> value) {
             buffer.writeCollection(value, POSITIONED_BLOCK_STATE::write);
@@ -86,6 +93,7 @@ public class GCYREntityDataSerializers {
     };
 
     public static final EntityDataSerializer<Optional<Planet>> PLANET = new EntityDataSerializer.ForValueType<>() {
+
         @Override
         public void write(FriendlyByteBuf buffer, Optional<Planet> value) {
             if (value.isPresent()) {
@@ -98,10 +106,10 @@ public class GCYREntityDataSerializers {
 
         @Override
         public Optional<Planet> read(FriendlyByteBuf buffer) {
-            return buffer.readBoolean() ? Optional.of(PlanetData.getPlanet(buffer.readResourceLocation())) : Optional.empty();
+            return buffer.readBoolean() ? Optional.of(PlanetData.getPlanet(buffer.readResourceLocation())) :
+                    Optional.empty();
         }
     };
-
 
     public static void init() {
         EntityDataSerializers.registerSerializer(LONG);

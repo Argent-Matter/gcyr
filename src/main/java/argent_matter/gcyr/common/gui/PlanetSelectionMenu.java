@@ -3,11 +3,13 @@ package argent_matter.gcyr.common.gui;
 import argent_matter.gcyr.GCYRClient;
 import argent_matter.gcyr.common.data.GCYRMenus;
 import argent_matter.gcyr.data.loader.PlanetData;
-import lombok.Getter;
+
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
+
+import lombok.Getter;
 
 public class PlanetSelectionMenu extends AbstractContainerMenu {
 

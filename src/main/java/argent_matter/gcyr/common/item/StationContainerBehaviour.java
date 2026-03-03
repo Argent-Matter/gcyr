@@ -2,7 +2,9 @@ package argent_matter.gcyr.common.item;
 
 import argent_matter.gcyr.common.data.GCYRItems;
 import argent_matter.gcyr.util.PosWithState;
+
 import com.gregtechceu.gtceu.api.item.component.IAddInformation;
+
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
@@ -10,12 +12,14 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
@@ -48,8 +52,11 @@ public class StationContainerBehaviour implements IAddInformation {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltipComponents, TooltipFlag isAdvanced) {
-        if (!GCYRItems.SPACE_STATION_PACKAGE.isIn(stack) || !stack.hasTag() || !stack.getTag().contains(SATELLITE_BLOCKS_KEY, Tag.TAG_LIST)) return;
+    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltipComponents,
+                                TooltipFlag isAdvanced) {
+        if (!GCYRItems.SPACE_STATION_PACKAGE.isIn(stack) || !stack.hasTag() ||
+                !stack.getTag().contains(SATELLITE_BLOCKS_KEY, Tag.TAG_LIST))
+            return;
 
         tooltipComponents.add(Component.translatable("metaitem.gcyr.satellite_package.has_satellite"));
     }

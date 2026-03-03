@@ -3,12 +3,15 @@ package argent_matter.gcyr.common.gui;
 import argent_matter.gcyr.GCYR;
 import argent_matter.gcyr.common.item.armor.SpaceSuitArmorItem;
 import argent_matter.gcyr.config.GCYRConfig;
+
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
+
 import net.minecraftforge.client.gui.overlay.ForgeGui;
 import net.minecraftforge.client.gui.overlay.IGuiOverlay;
 
 public class EntityOxygenHUD implements IGuiOverlay {
+
     public static final ResourceLocation GUI_TEXTURE = GCYR.id("textures/gui/oxygen_bar.png");
 
     @Override

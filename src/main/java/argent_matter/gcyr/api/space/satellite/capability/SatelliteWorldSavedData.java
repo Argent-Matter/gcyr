@@ -4,24 +4,29 @@ import argent_matter.gcyr.GCYR;
 import argent_matter.gcyr.api.capability.ISatelliteHolder;
 import argent_matter.gcyr.api.space.satellite.Satellite;
 import argent_matter.gcyr.util.Vec2i;
-import lombok.Getter;
+
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.saveddata.SavedData;
 
-import javax.annotation.Nullable;
+import lombok.Getter;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.annotation.Nullable;
+
 public class SatelliteWorldSavedData extends SavedData implements ISatelliteHolder {
+
     @Nullable
     public static SatelliteWorldSavedData getOrCreate(ServerLevel serverLevel) {
         if (serverLevel.dimensionType().hasCeiling()) return null;
-        return serverLevel.getDataStorage().computeIfAbsent(tag -> new SatelliteWorldSavedData(serverLevel, tag), () -> new SatelliteWorldSavedData(serverLevel), GCYR.MOD_ID + "_satellites");
+        return serverLevel.getDataStorage().computeIfAbsent(tag -> new SatelliteWorldSavedData(serverLevel, tag),
+                () -> new SatelliteWorldSavedData(serverLevel), GCYR.MOD_ID + "_satellites");
     }
 
     @Getter
@@ -43,13 +48,18 @@ public class SatelliteWorldSavedData extends SavedData implements ISatelliteHold
 
     @Override
     public Satellite getClosestSatellite(Vec2i position) {
-        return satellites.stream().min(Comparator.comparingDouble(obj -> obj.getData().locationInWorld().distanceToSqr(position))).orElse(null);
+        return satellites.stream()
+                .min(Comparator.comparingDouble(obj -> obj.getData().locationInWorld().distanceToSqr(position)))
+                .orElse(null);
     }
 
     @Nullable
     @Override
     public List<Satellite> getSatellitesNearPos(Vec2i position, int range) {
-        return satellites.stream().filter(sat -> sat.getData().locationInWorld().distanceToSqr(position) <= range * range).sorted(Comparator.comparingDouble(sat -> sat.getData().locationInWorld().distanceToSqr(position))).collect(Collectors.toList());
+        return satellites.stream()
+                .filter(sat -> sat.getData().locationInWorld().distanceToSqr(position) <= range * range)
+                .sorted(Comparator.comparingDouble(sat -> sat.getData().locationInWorld().distanceToSqr(position)))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -77,5 +87,4 @@ public class SatelliteWorldSavedData extends SavedData implements ISatelliteHold
             satellites.add(Satellite.deserializeNBT((CompoundTag) tag, level));
         }
     }
-
 }

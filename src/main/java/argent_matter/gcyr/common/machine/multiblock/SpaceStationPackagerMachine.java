@@ -8,9 +8,11 @@ import argent_matter.gcyr.common.item.KeyCardBehaviour;
 import argent_matter.gcyr.common.item.PlanetIdChipBehaviour;
 import argent_matter.gcyr.common.item.StationContainerBehaviour;
 import argent_matter.gcyr.util.PosWithState;
+
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.UITemplate;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
+
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
 import com.lowdragmc.lowdraglib.gui.texture.GuiTextureGroup;
 import com.lowdragmc.lowdraglib.gui.texture.TextTexture;
@@ -22,8 +24,7 @@ import com.lowdragmc.lowdraglib.gui.widget.WidgetGroup;
 import com.lowdragmc.lowdraglib.misc.ItemStackTransfer;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
-import com.mojang.datafixers.util.Pair;
-import lombok.Getter;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -35,14 +36,20 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
-import org.jetbrains.annotations.Nullable;
+
+import com.mojang.datafixers.util.Pair;
+import lombok.Getter;
 
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Set;
 
+import org.jetbrains.annotations.Nullable;
+
 public class SpaceStationPackagerMachine extends PlatformMultiblockMachine {
-    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(SpaceStationPackagerMachine.class, PlatformMultiblockMachine.MANAGED_FIELD_HOLDER);
+
+    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
+            SpaceStationPackagerMachine.class, PlatformMultiblockMachine.MANAGED_FIELD_HOLDER);
 
     @Getter
     @Persisted
@@ -62,8 +69,9 @@ public class SpaceStationPackagerMachine extends PlatformMultiblockMachine {
         modularUI.widget(new LabelWidget(4, 5, self().getBlockState().getBlock().getDescriptionId()));
 
         WidgetGroup buttons = new WidgetGroup(7, 16, 0, 0);
-        buttons.addWidget(new ButtonWidget(0, 24+18, 80, 24,
-                new GuiTextureGroup(GuiTextures.BUTTON.copy().setColor(0xFFAA0000), new TextTexture("gcyr.multiblock.space_station.pack")),
+        buttons.addWidget(new ButtonWidget(0, 24 + 18, 80, 24,
+                new GuiTextureGroup(GuiTextures.BUTTON.copy().setColor(0xFFAA0000),
+                        new TextTexture("gcyr.multiblock.space_station.pack")),
                 this::onBuildButtonClick));
         modularUI.widget(buttons);
 
@@ -82,9 +90,9 @@ public class SpaceStationPackagerMachine extends PlatformMultiblockMachine {
 
     private void onBuildButtonClick(ClickData data) {
         if (getLevel().isClientSide || !this.isFormed) return;
-        if (!outputSlots.getStackInSlot(0).isEmpty() || !outputSlots.getStackInSlot(1).isEmpty()
-                || !GCYRItems.SPACE_STATION_PACKAGE.isIn(packageSlot.getStackInSlot(0))
-                || !GCYRItems.ID_CHIP.isIn(keycardSlot.getStackInSlot(0))) {
+        if (!outputSlots.getStackInSlot(0).isEmpty() || !outputSlots.getStackInSlot(1).isEmpty() ||
+                !GCYRItems.SPACE_STATION_PACKAGE.isIn(packageSlot.getStackInSlot(0)) ||
+                !GCYRItems.ID_CHIP.isIn(keycardSlot.getStackInSlot(0))) {
             return;
         }
         ISpaceStationHolder spaceStationHolder = GCYRCapabilityHelper.getSpaceStations((ServerLevel) this.getLevel());
@@ -149,7 +157,8 @@ public class SpaceStationPackagerMachine extends PlatformMultiblockMachine {
         for (var entry : states.entrySet()) {
             BlockPos pos = entry.getKey();
             BlockState state = entry.getValue().getFirst();
-            @Nullable CompoundTag entityTag = entry.getValue().getSecond();
+            @Nullable
+            CompoundTag entityTag = entry.getValue().getSecond();
             blocks.add(new PosWithState(pos.subtract(startPos), state, entityTag));
             getLevel().setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
         }
@@ -160,7 +169,8 @@ public class SpaceStationPackagerMachine extends PlatformMultiblockMachine {
         outputSlots.setStackInSlot(0, packageStack);
 
         ItemStack keycardStack = GCYRItems.KEYCARD.asStack();
-        KeyCardBehaviour.setSavedStation(keycardStack, spaceStationHolder.allocateStation(targetPlanet).getFirst(), targetPlanet);
+        KeyCardBehaviour.setSavedStation(keycardStack, spaceStationHolder.allocateStation(targetPlanet).getFirst(),
+                targetPlanet);
         outputSlots.setStackInSlot(1, keycardStack);
     }
 

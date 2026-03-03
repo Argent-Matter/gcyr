@@ -1,6 +1,7 @@
 package argent_matter.gcyr.data.recipe.chemistry;
 
 import argent_matter.gcyr.GCYR;
+
 import net.minecraft.data.recipes.FinishedRecipe;
 
 import java.util.function.Consumer;
@@ -69,7 +70,8 @@ public class PolymerRecipes {
 
         // Kapton E coming soon:tm:
         /*
-         * ortho-Xylene, 3 Oxygen, Palladium (Cata (consumed)) -> biphenyltetracarboxylic acid dianhydride (BPDA) (C16H6O6), 3 Water (heater), Hydrogen (skips a step: Phthalic Anhydride (C6H4(CO)2O))
+         * ortho-Xylene, 3 Oxygen, Palladium (Cata (consumed)) -> biphenyltetracarboxylic acid dianhydride (BPDA)
+         * (C16H6O6), 3 Water (heater), Hydrogen (skips a step: Phthalic Anhydride (C6H4(CO)2O))
          *
          */
 

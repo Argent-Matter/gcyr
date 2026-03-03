@@ -5,8 +5,10 @@ import argent_matter.gcyr.api.space.station.SpaceStation;
 import argent_matter.gcyr.common.data.GCYRItems;
 import argent_matter.gcyr.common.data.GCYRMenus;
 import argent_matter.gcyr.data.loader.PlanetData;
+
 import com.gregtechceu.gtceu.api.item.component.IAddInformation;
 import com.gregtechceu.gtceu.api.item.component.IInteractionItem;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.core.registries.Registries;
@@ -23,11 +25,13 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
+import org.jetbrains.annotations.Nullable;
+
 public class PlanetIdChipBehaviour implements IInteractionItem, IAddInformation {
+
     public static final String CURRENT_STATION_KEY = "gcyr:current_station";
     public static final String CURRENT_PLANET_KEY = "gcyr:current_planet";
     public static final String CURRENT_POS_KEY = "gcyr:current_position";
@@ -36,7 +40,8 @@ public class PlanetIdChipBehaviour implements IInteractionItem, IAddInformation 
     public InteractionResultHolder<ItemStack> use(Item item, Level level, Player player, InteractionHand usedHand) {
         ItemStack heldItem = player.getItemInHand(usedHand);
         if (player instanceof ServerPlayer serverPlayer) {
-            GCYRMenus.PLANET_SELECTION.open(serverPlayer, Component.translatable("gui.gcyr.planet_selector"), PlanetData::writePlanetData);
+            GCYRMenus.PLANET_SELECTION.open(serverPlayer, Component.translatable("gui.gcyr.planet_selector"),
+                    PlanetData::writePlanetData);
             return InteractionResultHolder.consume(heldItem);
         }
         return InteractionResultHolder.pass(heldItem);
@@ -49,13 +54,15 @@ public class PlanetIdChipBehaviour implements IInteractionItem, IAddInformation 
 
     @Nullable
     public static Integer getSpaceStationId(ItemStack held) {
-        if (!GCYRItems.ID_CHIP.isIn(held) || !held.getOrCreateTag().contains(CURRENT_STATION_KEY, Tag.TAG_INT)) return null;
+        if (!GCYRItems.ID_CHIP.isIn(held) || !held.getOrCreateTag().contains(CURRENT_STATION_KEY, Tag.TAG_INT))
+            return null;
         return held.getOrCreateTag().getInt(CURRENT_STATION_KEY);
     }
 
     @Nullable
     public static Planet getPlanetFromStack(ItemStack stack) {
-        return PlanetData.getPlanetFromLevelOrOrbit(ResourceKey.create(Registries.DIMENSION, new ResourceLocation(stack.getOrCreateTag().getString(CURRENT_PLANET_KEY)))).orElse(null);
+        return PlanetData.getPlanetFromLevelOrOrbit(ResourceKey.create(Registries.DIMENSION,
+                new ResourceLocation(stack.getOrCreateTag().getString(CURRENT_PLANET_KEY)))).orElse(null);
     }
 
     public static void setSavedPosition(ItemStack stack, ResourceKey<Level> level, BlockPos pos) {
@@ -74,10 +81,12 @@ public class PlanetIdChipBehaviour implements IInteractionItem, IAddInformation 
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltipComponents, TooltipFlag isAdvanced) {
+    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltipComponents,
+                                TooltipFlag isAdvanced) {
         Planet currentTarget = getPlanetFromStack(stack);
         if (currentTarget != null) {
-            tooltipComponents.add(Component.translatable("metaitem.planet_id_circuit.id").append(Component.translatable(currentTarget.translation())));
+            tooltipComponents.add(Component.translatable("metaitem.planet_id_circuit.id")
+                    .append(Component.translatable(currentTarget.translation())));
         }
         Integer currentStationId = getSpaceStationId(stack);
         if (currentStationId != null) {

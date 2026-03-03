@@ -4,6 +4,7 @@ import argent_matter.gcyr.GCYR;
 import argent_matter.gcyr.common.networking.c2s.*;
 import argent_matter.gcyr.common.networking.s2c.PacketReturnPlanetData;
 import argent_matter.gcyr.common.networking.s2c.PacketSyncDysonSphereStatus;
+
 import com.lowdragmc.lowdraglib.networking.INetworking;
 
 import static com.lowdragmc.lowdraglib.networking.LDLNetworking.createNetworking;
@@ -21,5 +22,4 @@ public class GCYRNetworking {
         NETWORK.registerS2C(PacketReturnPlanetData.class);
         NETWORK.registerS2C(PacketSyncDysonSphereStatus.class);
     }
-
 }

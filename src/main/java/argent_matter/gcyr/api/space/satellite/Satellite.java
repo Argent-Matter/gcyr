@@ -4,16 +4,18 @@ import argent_matter.gcyr.api.registries.GCYRRegistries;
 import argent_matter.gcyr.api.space.satellite.data.SatelliteData;
 import argent_matter.gcyr.common.data.GCYRSatellites;
 import argent_matter.gcyr.common.satellite.EmptySatellite;
-import com.mojang.datafixers.Products;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
-import lombok.Getter;
-import lombok.Setter;
+
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
+
+import com.mojang.datafixers.Products;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.annotation.Nullable;
 
@@ -23,7 +25,7 @@ import javax.annotation.Nullable;
  * @implNote Satellite
  */
 public abstract class Satellite {
-    //public static EmptySatellite EMPTY = GTSatellites.EMPTY.getDefaultInstance();
+    // public static EmptySatellite EMPTY = GTSatellites.EMPTY.getDefaultInstance();
 
     @Getter
     protected SatelliteData data;
@@ -44,12 +46,12 @@ public abstract class Satellite {
         this.level = level;
     }
 
-    public static <S extends Satellite> Products.P3<RecordCodecBuilder.Mu<S>, SatelliteType<?>, SatelliteData, ResourceKey<Level>> baseCodec(RecordCodecBuilder.Instance<S> instance) {
+    public static <
+            S extends Satellite> Products.P3<RecordCodecBuilder.Mu<S>, SatelliteType<?>, SatelliteData, ResourceKey<Level>> baseCodec(RecordCodecBuilder.Instance<S> instance) {
         return instance.group(
                 GCYRRegistries.SATELLITES.codec().fieldOf("type").forGetter(Satellite::getType),
                 SatelliteData.CODEC.fieldOf("data").forGetter(Satellite::getData),
-                ResourceKey.codec(Registries.DIMENSION).fieldOf("level").forGetter(Satellite::getLevel)
-        );
+                ResourceKey.codec(Registries.DIMENSION).fieldOf("level").forGetter(Satellite::getLevel));
     }
 
     public Satellite copy() {
@@ -69,6 +71,7 @@ public abstract class Satellite {
         if (jammed || needsRepair) return false;
         return runSatelliteFunction(level);
     }
+
     public abstract boolean runSatelliteFunction(Level level);
 
     public CompoundTag serializeNBT() {
@@ -83,13 +86,15 @@ public abstract class Satellite {
         if (extra != null) tag.put("extra", extra);
         return tag;
     }
+
     @Nullable
     public abstract Tag serializeExtraData();
 
     public static Satellite deserializeNBT(CompoundTag nbt, Level level) {
         SatelliteType<?> type = GCYRRegistries.SATELLITES.get(new ResourceLocation(nbt.getString("id")));
         SatelliteData data = SatelliteData.deserializeNBT(nbt.getCompound("data"));
-        ResourceKey<Level> levelResourceKey = ResourceKey.create(Registries.DIMENSION, new ResourceLocation(nbt.getString("level")));
+        ResourceKey<Level> levelResourceKey = ResourceKey.create(Registries.DIMENSION,
+                new ResourceLocation(nbt.getString("level")));
         if (type == null) {
             return new EmptySatellite(GCYRSatellites.EMPTY, data, levelResourceKey);
         }

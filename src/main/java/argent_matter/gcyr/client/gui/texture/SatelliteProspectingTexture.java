@@ -1,18 +1,13 @@
 package argent_matter.gcyr.client.gui.texture;
 
 import argent_matter.gcyr.common.satellite.OreFinderSatellite;
+
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
-import com.gregtechceu.gtceu.api.gui.misc.PacketProspecting;
+
 import com.lowdragmc.lowdraglib.gui.editor.ColorPattern;
 import com.lowdragmc.lowdraglib.gui.util.DrawerHelper;
 import com.lowdragmc.lowdraglib.utils.ColorUtils;
-import com.mojang.blaze3d.platform.NativeImage;
-import com.mojang.blaze3d.platform.TextureUtil;
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.BufferBuilder;
-import com.mojang.blaze3d.vertex.Tesselator;
-import com.mojang.blaze3d.vertex.VertexFormat;
-import lombok.Getter;
+
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
@@ -20,12 +15,22 @@ import net.minecraft.client.renderer.texture.AbstractTexture;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.block.state.BlockState;
+
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
-import javax.annotation.ParametersAreNonnullByDefault;
+import com.mojang.blaze3d.platform.NativeImage;
+import com.mojang.blaze3d.platform.TextureUtil;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.Tesselator;
+import com.mojang.blaze3d.vertex.VertexFormat;
+import lombok.Getter;
+
 import java.lang.reflect.Array;
 import java.util.function.Function;
+
+import javax.annotation.ParametersAreNonnullByDefault;
 
 import static com.mojang.blaze3d.vertex.DefaultVertexFormat.POSITION_TEX_COLOR;
 
@@ -33,6 +38,7 @@ import static com.mojang.blaze3d.vertex.DefaultVertexFormat.POSITION_TEX_COLOR;
 @MethodsReturnNonnullByDefault
 @OnlyIn(Dist.CLIENT)
 public class SatelliteProspectingTexture extends AbstractTexture {
+
     public static final String SELECTED_ALL = "[all]";
     @Getter
     private String selected = SELECTED_ALL;
@@ -50,10 +56,12 @@ public class SatelliteProspectingTexture extends AbstractTexture {
     private final int playerChunkZ;
     private final int radius;
 
-    public SatelliteProspectingTexture(int playerChunkX, int playerChunkZ, int posX, int posZ, float direction, int radius, boolean darkMode, Function<BlockState, Integer> colorFunction) {
+    public SatelliteProspectingTexture(int playerChunkX, int playerChunkZ, int posX, int posZ, float direction,
+                                       int radius, boolean darkMode, Function<BlockState, Integer> colorFunction) {
         this.darkMode = darkMode;
         this.radius = radius;
-        this.data = (BlockState[][][]) Array.newInstance(BlockState.class, (radius * 2 - 1) * OreFinderSatellite.CELL_SIZE, (radius * 2 - 1) * OreFinderSatellite.CELL_SIZE, 0);
+        this.data = (BlockState[][][]) Array.newInstance(BlockState.class,
+                (radius * 2 - 1) * OreFinderSatellite.CELL_SIZE, (radius * 2 - 1) * OreFinderSatellite.CELL_SIZE, 0);
         this.colorFunction = colorFunction;
         this.imageWidth = (radius * 2 - 1) * 16;
         this.imageHeight = (radius * 2 - 1) * 16;
@@ -92,7 +100,8 @@ public class SatelliteProspectingTexture extends AbstractTexture {
         }
 
         for (int x = 0; x < OreFinderSatellite.CELL_SIZE; x++) {
-            System.arraycopy(data[x], 0, data[x + currentColumn * OreFinderSatellite.CELL_SIZE], currentRow * OreFinderSatellite.CELL_SIZE, OreFinderSatellite.CELL_SIZE);
+            System.arraycopy(data[x], 0, data[x + currentColumn * OreFinderSatellite.CELL_SIZE],
+                    currentRow * OreFinderSatellite.CELL_SIZE, OreFinderSatellite.CELL_SIZE);
         }
         load();
     }
@@ -105,11 +114,12 @@ public class SatelliteProspectingTexture extends AbstractTexture {
                 var items = this.data[i * OreFinderSatellite.CELL_SIZE / 16][j * OreFinderSatellite.CELL_SIZE / 16];
                 // draw bg
                 image.setPixelRGBA(i, j, (darkMode ? ColorPattern.GRAY.color : ColorPattern.WHITE.color));
-                //draw items
+                // draw items
                 for (var item : items) {
                     if (!selected.equals(SELECTED_ALL)) continue;
                     var color = colorFunction.apply(item);
-                    image.setPixelRGBA(i, j, combine(255, ColorUtils.blueI(color), ColorUtils.greenI(color), ColorUtils.redI(color)));
+                    image.setPixelRGBA(i, j,
+                            combine(255, ColorUtils.blueI(color), ColorUtils.greenI(color), ColorUtils.redI(color)));
                     break;
                 }
                 // draw grid
@@ -151,15 +161,16 @@ public class SatelliteProspectingTexture extends AbstractTexture {
         bufferbuilder.vertex(matrix4f, x, y, 0).uv(0, 0).color(-1).endVertex();
         tessellator.end();
 
-        GuiTextures.UP.copy().setColor(ColorPattern.RED.color).rotate(direction / 2).draw(graphics, 0, 0, x + playerXGui - 20, y + playerYGui - 20, 40, 40);
+        GuiTextures.UP.copy().setColor(ColorPattern.RED.color).rotate(direction / 2).draw(graphics, 0, 0,
+                x + playerXGui - 20, y + playerYGui - 20, 40, 40);
 
-        //draw red vertical line
+        // draw red vertical line
         if (playerXGui % 16 > 7 || playerXGui % 16 == 0) {
             DrawerHelper.drawSolidRect(graphics, x + playerXGui - 1, y, 1, imageHeight, ColorPattern.RED.color);
         } else {
             DrawerHelper.drawSolidRect(graphics, x + playerXGui, y, 1, imageHeight, ColorPattern.RED.color);
         }
-        //draw red horizontal line
+        // draw red horizontal line
         if (playerYGui % 16 > 7 || playerYGui % 16 == 0) {
             DrawerHelper.drawSolidRect(graphics, x, y + playerYGui - 1, imageWidth, 1, ColorPattern.RED.color);
         } else {
@@ -168,9 +179,7 @@ public class SatelliteProspectingTexture extends AbstractTexture {
     }
 
     @Override
-    public void load(ResourceManager resourceManager) {
-
-    }
+    public void load(ResourceManager resourceManager) {}
 
     public void setDarkMode(boolean darkMode) {
         if (this.darkMode != darkMode) {

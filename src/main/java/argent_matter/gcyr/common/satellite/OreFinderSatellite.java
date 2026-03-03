@@ -3,12 +3,10 @@ package argent_matter.gcyr.common.satellite;
 import argent_matter.gcyr.api.space.satellite.Satellite;
 import argent_matter.gcyr.api.space.satellite.SatelliteType;
 import argent_matter.gcyr.api.space.satellite.data.SatelliteData;
-import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
+
 import com.gregtechceu.gtceu.api.data.tag.TagUtil;
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
+
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.nbt.Tag;
@@ -16,16 +14,19 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.LevelChunk;
+
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import org.apache.commons.lang3.ArrayUtils;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class OreFinderSatellite extends Satellite {
-    public static final Codec<OreFinderSatellite> CODEC = RecordCodecBuilder.create(instance -> Satellite.baseCodec(instance).apply(instance, OreFinderSatellite::new));
+
+    public static final Codec<OreFinderSatellite> CODEC = RecordCodecBuilder
+            .create(instance -> Satellite.baseCodec(instance).apply(instance, OreFinderSatellite::new));
     public static final int CELL_SIZE = 32;
 
     private BlockPos centerPos;
+
     public OreFinderSatellite(SatelliteType<?> type, SatelliteData data, ResourceKey<Level> level) {
         super(type, data, level);
     }
@@ -33,7 +34,6 @@ public class OreFinderSatellite extends Satellite {
     @Override
     public void tickSatellite(Level level) {
         if (isNonWorking()) return;
-
     }
 
     @Override
@@ -58,7 +58,6 @@ public class OreFinderSatellite extends Satellite {
                 }
             }
         }
-
     }
 
     @Override

@@ -1,14 +1,17 @@
 package argent_matter.gcyr.api.space.dyson;
 
 import argent_matter.gcyr.api.capability.IDysonSystem;
+
 import com.gregtechceu.gtceu.api.GTValues;
-import lombok.Getter;
-import lombok.Setter;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.nbt.Tag;
 import net.minecraft.server.level.ServerLevel;
+
+import lombok.Getter;
+import lombok.Setter;
 
 public class DysonSphere {
 
@@ -19,11 +22,13 @@ public class DysonSphere {
 
     @Getter
     private BlockPos controllerPos;
-    @Getter @Setter
+    @Getter
+    @Setter
     private int timeActive = 0, timeNeededMaintenance = 0;
     @Getter
     private boolean needsMaintenance;
-    @Getter @Setter
+    @Getter
+    @Setter
     private boolean collapsed;
 
     public DysonSphere(BlockPos controllerPos, IDysonSystem system) {
@@ -100,7 +105,8 @@ public class DysonSphere {
     }
 
     public static DysonSphere load(CompoundTag tag, IDysonSystem system) {
-        BlockPos controllerPos = tag.contains("controllerPos", Tag.TAG_COMPOUND) ? NbtUtils.readBlockPos(tag.getCompound("controllerPos")) : null;
+        BlockPos controllerPos = tag.contains("controllerPos", Tag.TAG_COMPOUND) ?
+                NbtUtils.readBlockPos(tag.getCompound("controllerPos")) : null;
         boolean needsMaintenance = tag.getBoolean("needsMaintenance");
         boolean collapsed = tag.getBoolean("collapsed");
         int timeActive = tag.getInt("timeActive");

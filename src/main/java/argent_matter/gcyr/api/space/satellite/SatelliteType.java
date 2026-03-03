@@ -2,11 +2,13 @@ package argent_matter.gcyr.api.space.satellite;
 
 import argent_matter.gcyr.api.registries.GCYRRegistries;
 import argent_matter.gcyr.api.space.satellite.data.SatelliteData;
-import com.mojang.serialization.Codec;
-import lombok.Getter;
+
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
+
+import com.mojang.serialization.Codec;
+import lombok.Getter;
 
 import java.util.function.Supplier;
 
@@ -16,6 +18,7 @@ import java.util.function.Supplier;
  * @implNote SatelliteType
  */
 public class SatelliteType<T extends Satellite> {
+
     @Getter
     private final Supplier<T> defaultInstance;
     @Getter
@@ -36,7 +39,7 @@ public class SatelliteType<T extends Satellite> {
 
     @FunctionalInterface
     public interface SatelliteFactory<T extends Satellite> {
+
         T create(SatelliteType<?> type, SatelliteData data, ResourceKey<Level> level);
     }
-
 }

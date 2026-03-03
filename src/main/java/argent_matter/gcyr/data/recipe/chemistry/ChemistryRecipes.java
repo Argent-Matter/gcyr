@@ -6,8 +6,5 @@ import java.util.function.Consumer;
 
 public class ChemistryRecipes {
 
-    public static void init(Consumer<FinishedRecipe> provider) {
-
-    }
-
+    public static void init(Consumer<FinishedRecipe> provider) {}
 }

@@ -3,7 +3,9 @@ package argent_matter.gcyr.common.item;
 import argent_matter.gcyr.api.space.planet.Planet;
 import argent_matter.gcyr.common.data.GCYRItems;
 import argent_matter.gcyr.data.loader.PlanetData;
+
 import com.gregtechceu.gtceu.api.item.component.IAddInformation;
+
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -16,9 +18,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 
-import javax.annotation.Nullable;
 import java.util.List;
 import java.util.UUID;
+
+import javax.annotation.Nullable;
 
 public class KeyCardBehaviour implements IAddInformation {
 
@@ -49,13 +52,15 @@ public class KeyCardBehaviour implements IAddInformation {
     @Nullable
     public static Planet getSavedPlanet(ItemStack stack) {
         if (!GCYRItems.KEYCARD.isIn(stack)) return null;
-        return PlanetData.getPlanet(new ResourceLocation(stack.getOrCreateTag().getString(PlanetIdChipBehaviour.CURRENT_PLANET_KEY)));
+        return PlanetData.getPlanet(
+                new ResourceLocation(stack.getOrCreateTag().getString(PlanetIdChipBehaviour.CURRENT_PLANET_KEY)));
     }
 
-    //@Override
+    // @Override
     public InteractionResultHolder<ItemStack> use(Item item, Level level, Player player, InteractionHand usedHand) {
         ItemStack itemStack = player.getItemInHand(usedHand);
-        if (!level.isClientSide && !itemStack.getOrCreateTag().contains("KeyCardOwner", Tag.TAG_INT_ARRAY) && player.isCrouching()) {
+        if (!level.isClientSide && !itemStack.getOrCreateTag().contains("KeyCardOwner", Tag.TAG_INT_ARRAY) &&
+                player.isCrouching()) {
             setOwner(itemStack, player);
             return InteractionResultHolder.consume(itemStack);
         }
@@ -63,15 +68,16 @@ public class KeyCardBehaviour implements IAddInformation {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltipComponents, TooltipFlag isAdvanced) {
+    public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltipComponents,
+                                TooltipFlag isAdvanced) {
         Planet currentTarget = getSavedPlanet(stack);
         if (currentTarget != null) {
-            tooltipComponents.add(Component.translatable("metaitem.planet_id_circuit.id").append(Component.translatable(currentTarget.translation())));
+            tooltipComponents.add(Component.translatable("metaitem.planet_id_circuit.id")
+                    .append(Component.translatable(currentTarget.translation())));
         }
         Integer currentStationId = getSavedStation(stack);
         if (currentStationId != null) {
             tooltipComponents.add(Component.translatable("metaitem.planet_id_circuit.station", currentStationId));
         }
-
     }
 }

@@ -1,7 +1,9 @@
 package argent_matter.gcyr.data.recipe;
 
 import argent_matter.gcyr.api.data.tag.GCYRTagUtil;
+
 import com.gregtechceu.gtceu.api.data.tag.TagUtil;
+
 import net.minecraft.core.registries.Registries;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
@@ -11,6 +13,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluid;
 
 public class GCYRTags {
+
     // Item
     public static final TagKey<Item> SATELLITES = GCYRTagUtil.createModItemTag("satellites");
     public static final TagKey<Item> SPACESUIT_ARMOR = GCYRTagUtil.createModItemTag("is_spacesuit");
@@ -37,6 +40,8 @@ public class GCYRTags {
     public static final TagKey<Biome> IS_VENUS = GCYRTagUtil.createModTag(Registries.BIOME, "is_venus");
 
     // Entity
-    public static final TagKey<EntityType<?>> IGNORE_OXYGEN = GCYRTagUtil.createModTag(Registries.ENTITY_TYPE, "ignore_oxygen");
-    public static final TagKey<EntityType<?>> IGNORE_TEMPERATURE = GCYRTagUtil.createModTag(Registries.ENTITY_TYPE, "ignore_temperature");
+    public static final TagKey<EntityType<?>> IGNORE_OXYGEN = GCYRTagUtil.createModTag(Registries.ENTITY_TYPE,
+            "ignore_oxygen");
+    public static final TagKey<EntityType<?>> IGNORE_TEMPERATURE = GCYRTagUtil.createModTag(Registries.ENTITY_TYPE,
+            "ignore_temperature");
 }

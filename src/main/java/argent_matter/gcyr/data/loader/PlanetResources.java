@@ -7,21 +7,24 @@ import argent_matter.gcyr.api.space.planet.PlanetRing;
 import argent_matter.gcyr.api.space.planet.PlanetSkyRenderer;
 import argent_matter.gcyr.api.space.planet.SolarSystem;
 import argent_matter.gcyr.client.dimension.ClientModSkies;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.serialization.JsonOps;
+
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import net.minecraft.util.GsonHelper;
+
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RegisterShadersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.serialization.JsonOps;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -29,6 +32,7 @@ import java.util.*;
 
 @Mod.EventBusSubscriber(modid = GCYR.MOD_ID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class PlanetResources implements ResourceManagerReloadListener {
+
     public static final PlanetResources INSTANCE = new PlanetResources();
 
     public static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().setLenient().create();
@@ -42,14 +46,16 @@ public class PlanetResources implements ResourceManagerReloadListener {
         List<Galaxy> galaxies = new ArrayList<>();
 
         // Sky Renderers
-        for (ResourceLocation id : manager.listResources("gcyr/planet_assets/sky_renderers", path -> path.getPath().endsWith(".json")).keySet()) {
+        for (ResourceLocation id : manager
+                .listResources("gcyr/planet_assets/sky_renderers", path -> path.getPath().endsWith(".json")).keySet()) {
             try {
                 for (Resource resource : manager.getResourceStack(id)) {
                     InputStreamReader reader = new InputStreamReader(resource.open());
                     JsonObject jsonObject = GsonHelper.fromJson(GSON, reader, JsonObject.class);
 
                     if (jsonObject != null) {
-                        PlanetSkyRenderer renderer = PlanetSkyRenderer.CODEC.parse(JsonOps.INSTANCE, jsonObject).getOrThrow(false, GCYR.LOGGER::error);
+                        PlanetSkyRenderer renderer = PlanetSkyRenderer.CODEC.parse(JsonOps.INSTANCE, jsonObject)
+                                .getOrThrow(false, GCYR.LOGGER::error);
                         if (renderer.skyShaderLocation().isPresent()) {
                             skyShaders.put(renderer.skyShaderLocation().get(), null);
                         }
@@ -57,50 +63,59 @@ public class PlanetResources implements ResourceManagerReloadListener {
                     }
                 }
             } catch (Exception e) {
-                GCYR.LOGGER.error("Failed to load Gregicality Rocketry sky rendering assets from: \"{}\"", id.toString(), e);
+                GCYR.LOGGER.error("Failed to load Gregicality Rocketry sky rendering assets from: \"{}\"",
+                        id.toString(), e);
             }
         }
 
         // Solar Systems
-        for (ResourceLocation id : manager.listResources("gcyr/planet_assets/solar_systems", path -> path.getPath().endsWith(".json")).keySet()) {
+        for (ResourceLocation id : manager
+                .listResources("gcyr/planet_assets/solar_systems", path -> path.getPath().endsWith(".json")).keySet()) {
             try {
                 for (Resource resource : manager.getResourceStack(id)) {
                     InputStreamReader reader = new InputStreamReader(resource.open());
                     JsonObject jsonObject = GsonHelper.fromJson(GSON, reader, JsonObject.class);
 
                     if (jsonObject != null) {
-                        solarSystems.add(SolarSystem.CODEC.parse(JsonOps.INSTANCE, jsonObject).getOrThrow(false, GCYR.LOGGER::error));
+                        solarSystems.add(SolarSystem.CODEC.parse(JsonOps.INSTANCE, jsonObject).getOrThrow(false,
+                                GCYR.LOGGER::error));
                     }
                 }
             } catch (Exception e) {
-                GCYR.LOGGER.error("Failed to load Gregicality Rocketry solar system assets from: \"{}\"", id.toString(), e);
+                GCYR.LOGGER.error("Failed to load Gregicality Rocketry solar system assets from: \"{}\"", id.toString(),
+                        e);
             }
         }
 
-        for (ResourceLocation id : manager.listResources("gcyr/planet_assets/planet_rings", path -> path.getPath().endsWith(".json")).keySet()) {
+        for (ResourceLocation id : manager
+                .listResources("gcyr/planet_assets/planet_rings", path -> path.getPath().endsWith(".json")).keySet()) {
             try {
                 for (Resource resource : manager.getResourceStack(id)) {
                     InputStreamReader reader = new InputStreamReader(resource.open());
                     JsonObject jsonObject = GsonHelper.fromJson(GSON, reader, JsonObject.class);
 
                     if (jsonObject != null) {
-                        planetRings.add(PlanetRing.CODEC.parse(JsonOps.INSTANCE, jsonObject).getOrThrow(false, GCYR.LOGGER::error));
+                        planetRings.add(PlanetRing.CODEC.parse(JsonOps.INSTANCE, jsonObject).getOrThrow(false,
+                                GCYR.LOGGER::error));
                     }
                 }
             } catch (Exception e) {
-                GCYR.LOGGER.error("Failed to load Gregicality Rocketry planet ring assets from: \"{}\"", id.toString(), e);
+                GCYR.LOGGER.error("Failed to load Gregicality Rocketry planet ring assets from: \"{}\"", id.toString(),
+                        e);
             }
         }
 
         // Galaxies
-        for (ResourceLocation id : manager.listResources("gcyr/planet_assets/galaxies", path -> path.getPath().endsWith(".json")).keySet()) {
+        for (ResourceLocation id : manager
+                .listResources("gcyr/planet_assets/galaxies", path -> path.getPath().endsWith(".json")).keySet()) {
             try {
                 for (Resource resource : manager.getResourceStack(id)) {
                     InputStreamReader reader = new InputStreamReader(resource.open());
                     JsonObject jsonObject = GsonHelper.fromJson(GSON, reader, JsonObject.class);
 
                     if (jsonObject != null) {
-                        galaxies.add(Galaxy.CODEC.parse(JsonOps.INSTANCE, jsonObject).getOrThrow(false, GCYR.LOGGER::error));
+                        galaxies.add(
+                                Galaxy.CODEC.parse(JsonOps.INSTANCE, jsonObject).getOrThrow(false, GCYR.LOGGER::error));
                     }
                 }
             } catch (Exception e) {
@@ -122,7 +137,8 @@ public class PlanetResources implements ResourceManagerReloadListener {
     public static void shaderRegistry(RegisterShadersEvent event) {
         for (var entry : GCYRClient.skyShaders.entrySet()) {
             try {
-                ShaderInstance shader = new ShaderInstance(event.getResourceProvider(), entry.getKey(), DefaultVertexFormat.POSITION);
+                ShaderInstance shader = new ShaderInstance(event.getResourceProvider(), entry.getKey(),
+                        DefaultVertexFormat.POSITION);
                 event.registerShader(shader, entry::setValue);
             } catch (IOException e) {
                 throw new RuntimeException("Failed to register shader with id " + entry.getKey(), e);

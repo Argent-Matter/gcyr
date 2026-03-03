@@ -4,15 +4,17 @@ import argent_matter.gcyr.api.capability.GCYRCapabilityHelper;
 import argent_matter.gcyr.api.capability.ISpaceStationHolder;
 import argent_matter.gcyr.api.space.station.SpaceStation;
 import argent_matter.gcyr.data.loader.PlanetData;
+
 import net.minecraft.network.protocol.game.ClientboundSetBorderCenterPacket;
 import net.minecraft.network.protocol.game.ClientboundSetBorderSizePacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.border.WorldBorder;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
+
+import org.jetbrains.annotations.Nullable;
 
 public class MixinHelpers {
 
@@ -25,7 +27,8 @@ public class MixinHelpers {
                 if (spaceStationHolder == null) return original;
 
                 // get nearest space station
-                List<Integer> stationIds = spaceStationHolder.getStationsNearWorldPos(entity.blockPosition(), SpaceStation.BLOCK_MULTIPLIER / 2);
+                List<Integer> stationIds = spaceStationHolder.getStationsNearWorldPos(entity.blockPosition(),
+                        SpaceStation.BLOCK_MULTIPLIER / 2);
                 if (!stationIds.isEmpty()) {
                     int nearest = stationIds.get(0);
                     SpaceStation station = spaceStationHolder.getStation(nearest);
@@ -49,6 +52,5 @@ public class MixinHelpers {
 
         }
         return original;
-
     }
 }
