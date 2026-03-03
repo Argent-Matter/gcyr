@@ -60,7 +60,7 @@ jobs:
         name: Get Version
         id: var
         run: |
-          MESSAGE=$(ls build/libs/* | grep sources.jar -v | grep shadow.jar -v | awk -F 'gcyr-|.jar' '{print $2}')
+          MESSAGE=$(ls build/libs/* | grep sources.jar -v | awk -F 'gcyr-|.jar' '{print $2}')
           echo version=$MESSAGE >> $GITHUB_OUTPUT
 
       - if: ${{ inputs.publishCurseForgeAndModrinth }}
@@ -78,8 +78,8 @@ jobs:
           curseforge-token: ${{ secrets.CURSEFORGE_TOKEN }}
 
           files: |
-            build/libs/!(*-@(dev|sources|javadoc|dev-shadow)).jar
-            build/libs/*-@(dev|sources|javadoc|dev-shadow).jar
+            build/libs/!(*-@(dev|sources|javadoc)).jar
+            build/libs/*-@(dev|sources|javadoc).jar
 
           name: GCYR ${{ steps.var.outputs.version }}
           version: mc${{ steps.var.outputs.version }}
