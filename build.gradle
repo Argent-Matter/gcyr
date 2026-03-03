@@ -5,9 +5,9 @@ plugins {
     id 'maven-publish'
 
     alias libs.plugins.modDevGradle
-    alias libs.plugins.spotless
+    //alias libs.plugins.spotless
     alias libs.plugins.lombok
-    alias libs.plugins.shadow
+    //alias libs.plugins.shadow
 }
 
 group = project.properties.maven_group
@@ -100,4 +100,5 @@ apply from: "$rootDir/gradle/scripts/repositories.gradle"
 apply from: "$projectDir/dependencies.gradle"
 apply from: "$rootDir/gradle/scripts/resources.gradle"
 apply from: "$rootDir/gradle/scripts/publishing.gradle"
-apply from: "$rootDir/gradle/scripts/spotless.gradle"
+// apply from: "$rootDir/gradle/scripts/spotless.gradle"
+
