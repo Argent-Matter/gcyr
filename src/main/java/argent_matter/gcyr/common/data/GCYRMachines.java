@@ -261,8 +261,7 @@ public class GCYRMachines {
             .workableCasingModel(GTCEu.id("block/casings/solid/machine_casing_frost_proof"),
                     GTCEu.id("block/multiblock/vacuum_freezer"))
             .register();
-
-
+    
     // spotless:on
     public static MachineDefinition[] registerSimpleMachines(String name,
                                                              GTRecipeType recipeType,
