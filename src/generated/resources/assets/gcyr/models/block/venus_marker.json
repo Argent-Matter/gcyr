@@ -1,0 +1,13 @@
+{
+  "parent": "minecraft:block/cube",
+  "gui_light": "front",
+  "textures": {
+    "down": "gcyr:block/dim_markers/venus/down",
+    "east": "gcyr:block/dim_markers/venus/east",
+    "north": "gcyr:block/dim_markers/venus/north",
+    "particle": "#north",
+    "south": "gcyr:block/dim_markers/venus/south",
+    "up": "gcyr:block/dim_markers/venus/up",
+    "west": "gcyr:block/dim_markers/venus/west"
+  }
+}
