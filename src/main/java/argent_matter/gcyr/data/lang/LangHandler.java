@@ -101,6 +101,8 @@ public class LangHandler extends com.gregtechceu.gtceu.data.lang.LangHandler {
         // planets (from resources/data/gcyr/gcyr/planets)
         provider.add("gcyr.solar_system", "Sol");
         provider.add("gcyr.alpha_centauri", "Alpha Centauri");
+        provider.add("gcyr.proxima_centauri", "Proxima Centauri");
+        provider.add("gcyr.milky_way", "Milky Way");
         provider.add("level.overworld", "Earth");
         provider.add("level.gcyr.moon", "Moon");
         provider.add("level.gcyr.mercury", "Mercury");
