@@ -35,7 +35,7 @@ jobs:
       - name: Get Version
         id: var
         run: |
-          MESSAGE=$(ls build/libs/* | grep sources.jar -v | grep shadow.jar -v | awk -F 'gcyr-|.jar' '{print $2}')
+          MESSAGE=$(ls build/libs/* | grep sources.jar -v | awk -F 'gcyr-|.jar' '{print $2}')
           echo version=$MESSAGE >> $GITHUB_OUTPUT
 
       - name: release
@@ -44,4 +44,4 @@ jobs:
           github-tag: ${{ steps.var.outputs.version }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
           files: |
-            build/libs/!(*-@(dev|sources|javadoc|dev-shadow)).jar
+            build/libs/!(*-@(dev|sources|javadoc)).jar
