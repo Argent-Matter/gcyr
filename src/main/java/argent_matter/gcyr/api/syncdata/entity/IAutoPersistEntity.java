@@ -1,20 +1,23 @@
 package argent_matter.gcyr.api.syncdata.entity;
 
-import com.google.common.base.Strings;
 import com.lowdragmc.lowdraglib.syncdata.accessor.IManagedAccessor;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedKey;
 import com.lowdragmc.lowdraglib.syncdata.managed.IRef;
 import com.lowdragmc.lowdraglib.utils.TagUtils;
+
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 
+import com.google.common.base.Strings;
+
 public interface IAutoPersistEntity extends IManagedEntity {
+
     default void saveManagedPersistentData(CompoundTag tag) {
         IRef[] persistedFields = this.getRootStorage().getPersistedFields();
         IRef[] copy = persistedFields;
         int length = persistedFields.length;
 
-        for(int i = 0; i < length; ++i) {
+        for (int i = 0; i < length; ++i) {
             IRef persistedField = copy[i];
             ManagedKey fieldKey = persistedField.getKey();
 
@@ -38,10 +41,7 @@ public interface IAutoPersistEntity extends IManagedEntity {
         this.loadCustomPersistedData(tag);
     }
 
-    default void saveCustomPersistedData(CompoundTag tag) {
-    }
+    default void saveCustomPersistedData(CompoundTag tag) {}
 
-    default void loadCustomPersistedData(CompoundTag tag) {
-    }
+    default void loadCustomPersistedData(CompoundTag tag) {}
 }
-

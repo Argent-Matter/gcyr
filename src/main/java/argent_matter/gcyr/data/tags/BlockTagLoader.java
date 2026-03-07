@@ -1,10 +1,12 @@
 package argent_matter.gcyr.data.tags;
 
 import argent_matter.gcyr.data.recipe.GCYRTags;
-import com.tterrag.registrate.providers.RegistrateTagsProvider;
+
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
+
+import com.tterrag.registrate.providers.RegistrateTagsProvider;
 
 public class BlockTagLoader {
 
@@ -25,5 +27,4 @@ public class BlockTagLoader {
     public static ResourceLocation rl(String name) {
         return new ResourceLocation(name);
     }
-
 }

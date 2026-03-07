@@ -2,8 +2,6 @@ package argent_matter.gcyr.api.block;
 
 import net.minecraft.util.StringRepresentable;
 
-import javax.annotation.Nonnull;
-
 public interface IFuelTankProperties extends StringRepresentable {
 
     /**

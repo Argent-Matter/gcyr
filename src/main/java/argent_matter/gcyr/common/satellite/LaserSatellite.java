@@ -4,9 +4,9 @@ import argent_matter.gcyr.api.space.satellite.Satellite;
 import argent_matter.gcyr.api.space.satellite.SatelliteType;
 import argent_matter.gcyr.api.space.satellite.data.SatelliteData;
 import argent_matter.gcyr.config.GCYRConfig;
+
 import com.gregtechceu.gtceu.common.data.GTDamageTypes;
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
@@ -20,8 +20,13 @@ import net.minecraft.world.level.entity.EntityTypeTest;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.phys.AABB;
 
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+
 public class LaserSatellite extends Satellite {
-    public static final Codec<LaserSatellite> CODEC = RecordCodecBuilder.create(instance -> Satellite.baseCodec(instance).apply(instance, LaserSatellite::new));
+
+    public static final Codec<LaserSatellite> CODEC = RecordCodecBuilder
+            .create(instance -> Satellite.baseCodec(instance).apply(instance, LaserSatellite::new));
 
     private int currentMinedY;
     private boolean isMining = false;
@@ -43,16 +48,19 @@ public class LaserSatellite extends Satellite {
                     }
                 }
 
-                var entities = level.getEntities(EntityTypeTest.forClass(LivingEntity.class), new AABB(x - 1, currentMinedY - 1, z - 1, x + 1, currentMinedY + 1, z + 1), EntitySelector.NO_CREATIVE_OR_SPECTATOR);
-                entities.forEach(entity -> entity.hurt(GTDamageTypes.RADIATION.source(level), GCYRConfig.INSTANCE.satellites.laserSatelliteDamagePerTickStep));
+                var entities = level.getEntities(EntityTypeTest.forClass(LivingEntity.class),
+                        new AABB(x - 1, currentMinedY - 1, z - 1, x + 1, currentMinedY + 1, z + 1),
+                        EntitySelector.NO_CREATIVE_OR_SPECTATOR);
+                entities.forEach(entity -> entity.hurt(GTDamageTypes.RADIATION.source(level),
+                        GCYRConfig.INSTANCE.satellites.laserSatelliteDamagePerTickStep));
             }
         }
-
     }
 
     @Override
     public boolean runSatelliteFunction(Level level) {
-        currentMinedY = level.getHeight(Heightmap.Types.WORLD_SURFACE, Mth.floor(this.data.locationInWorld().x()), Mth.floor(this.data.locationInWorld().y()));
+        currentMinedY = level.getHeight(Heightmap.Types.WORLD_SURFACE, Mth.floor(this.data.locationInWorld().x()),
+                Mth.floor(this.data.locationInWorld().y()));
         isMining = true;
         return true;
     }

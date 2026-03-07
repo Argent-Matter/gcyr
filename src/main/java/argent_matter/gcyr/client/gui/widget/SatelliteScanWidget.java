@@ -3,15 +3,14 @@ package argent_matter.gcyr.client.gui.widget;
 import argent_matter.gcyr.client.gui.texture.SatelliteProspectingTexture;
 import argent_matter.gcyr.common.machine.electric.OreFinderScannerMachine;
 import argent_matter.gcyr.common.satellite.OreFinderSatellite;
+
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
-import com.gregtechceu.gtceu.api.gui.misc.PacketProspecting;
 import com.gregtechceu.gtceu.api.item.ComponentItem;
 import com.gregtechceu.gtceu.common.item.ProspectorScannerBehavior;
-import com.lowdragmc.lowdraglib.gui.editor.ColorPattern;
+
 import com.lowdragmc.lowdraglib.gui.util.DrawerHelper;
 import com.lowdragmc.lowdraglib.gui.widget.*;
-import com.mojang.datafixers.util.Pair;
-import lombok.Getter;
+
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
@@ -19,16 +18,22 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.block.state.BlockState;
+
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import org.jetbrains.annotations.NotNull;
+
+import com.mojang.datafixers.util.Pair;
+import lombok.Getter;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import org.jetbrains.annotations.NotNull;
+
 public class SatelliteScanWidget extends WidgetGroup {
+
     private final int chunkRadius;
     private final int scanTick;
     public final OreFinderScannerMachine machine;
@@ -38,21 +43,24 @@ public class SatelliteScanWidget extends WidgetGroup {
     private SatelliteProspectingTexture texture;
     private int playerChunkX;
     private int playerChunkZ;
-    //runtime
+    // runtime
     private int chunkIndex = 0;
     private final Queue<Pair<BlockState[][][], ChunkPos>> packetQueue = new LinkedBlockingQueue<>();
     private final Set<Object> items = new CopyOnWriteArraySet<>();
     private final Map<String, SelectableWidgetGroup> selectedMap = new ConcurrentHashMap<>();
 
-    public SatelliteScanWidget(int xPosition, int yPosition, int width, int height, int chunkRadius, int scanTick, OreFinderScannerMachine machine) {
+    public SatelliteScanWidget(int xPosition, int yPosition, int width, int height, int chunkRadius, int scanTick,
+                               OreFinderScannerMachine machine) {
         super(xPosition, yPosition, width, height);
         this.chunkRadius = chunkRadius;
         this.scanTick = scanTick;
         this.machine = machine;
         int imageWidth = (chunkRadius * 2 - 1) * 16;
         int imageHeight = (chunkRadius * 2 - 1) * 16;
-        addWidget(new ImageWidget(0, (height - imageHeight) / 2 - 4, imageWidth + 8, imageHeight + 8, GuiTextures.BACKGROUND_INVERSE));
-        var group = (WidgetGroup) new WidgetGroup(imageWidth + 10, 0, width - (imageWidth + 10), height).setBackground(GuiTextures.BACKGROUND_INVERSE);
+        addWidget(new ImageWidget(0, (height - imageHeight) / 2 - 4, imageWidth + 8, imageHeight + 8,
+                GuiTextures.BACKGROUND_INVERSE));
+        var group = (WidgetGroup) new WidgetGroup(imageWidth + 10, 0, width - (imageWidth + 10), height)
+                .setBackground(GuiTextures.BACKGROUND_INVERSE);
         addWidget(group);
     }
 
@@ -111,7 +119,7 @@ public class SatelliteScanWidget extends WidgetGroup {
             var chunk = world.getChunk(playerChunkX + ox, playerChunkZ + oz);
             BlockState[][][] data = new BlockState[OreFinderSatellite.CELL_SIZE][OreFinderSatellite.CELL_SIZE][0];
             machine.scanOres(data);
-            //writeUpdateInfo(-1, packet::writePacketData);
+            // writeUpdateInfo(-1, packet::writePacketData);
             chunkIndex++;
         }
         var held = player.getItemInHand(InteractionHand.MAIN_HAND);
@@ -130,7 +138,7 @@ public class SatelliteScanWidget extends WidgetGroup {
     @Override
     public void readUpdateInfo(int id, FriendlyByteBuf buffer) {
         if (id == -1) {
-            //addPacketToQueue(PacketProspecting.readPacketData(mode, buffer));
+            // addPacketToQueue(PacketProspecting.readPacketData(mode, buffer));
         } else {
             super.readUpdateInfo(id, buffer);
         }
@@ -150,7 +158,6 @@ public class SatelliteScanWidget extends WidgetGroup {
         }
     }
 
-
     @OnlyIn(Dist.CLIENT)
     private void addPacketToQueue(Pair<BlockState[][][], ChunkPos> packet) {
         packetQueue.add(packet);
@@ -162,7 +169,7 @@ public class SatelliteScanWidget extends WidgetGroup {
         super.drawInBackground(graphics, mouseX, mouseY, partialTicks);
         var position = getPosition();
         var size = getSize();
-        //draw background
+        // draw background
         var x = position.x + 3;
         var y = position.y + (size.getHeight() - texture.getImageHeight()) / 2 - 1;
         texture.draw(graphics, x, y);
@@ -170,7 +177,7 @@ public class SatelliteScanWidget extends WidgetGroup {
         int cZ = (mouseY - y) / 16;
         if (cX >= 0 && cZ >= 0 && cX < chunkRadius * 2 - 1 && cZ < chunkRadius * 2 - 1) {
             // draw hover layer
-            DrawerHelper.drawSolidRect(graphics, cX * 16 + x, cZ * 16 + y, 16, 16,0x4B6C6C6C);
+            DrawerHelper.drawSolidRect(graphics, cX * 16 + x, cZ * 16 + y, 16, 16, 0x4B6C6C6C);
         }
     }
 

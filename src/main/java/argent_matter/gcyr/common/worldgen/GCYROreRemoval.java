@@ -1,3 +1,6 @@
+// Remove the spotless lines if this class is ever uncommented
+// spotless:off
+
 /*package argent_matter.gcyr.common.worldgen;
 
 import com.gregtechceu.gtceu.GTCEu;
@@ -27,11 +30,11 @@ public class GCYROreRemoval {
         ));
     }
 
-    public static void AAAAAAA {
+    public static void init() {
         for (ResourceLocation id : VeinsRemoved) {
             GTRegistries.ORE_VEINS.remove(id);
         }
     }
-}
+}*/
 
- */
+// spotless:on

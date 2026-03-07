@@ -4,6 +4,7 @@ import argent_matter.gcyr.api.capability.GCYRCapabilityHelper;
 import argent_matter.gcyr.api.gui.widget.GCYRGuiTextures;
 import argent_matter.gcyr.api.space.satellite.Satellite;
 import argent_matter.gcyr.util.Vec2i;
+
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.IControllable;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
@@ -12,6 +13,7 @@ import com.gregtechceu.gtceu.api.gui.widget.ToggleButtonWidget;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.TieredEnergyMachine;
 import com.gregtechceu.gtceu.api.machine.feature.IUIMachine;
+
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
 import com.lowdragmc.lowdraglib.gui.widget.ComponentPanelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.DraggableScrollableWidgetGroup;
@@ -19,18 +21,21 @@ import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
 import com.lowdragmc.lowdraglib.syncdata.annotation.DescSynced;
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
-import lombok.Getter;
-import lombok.Setter;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class SatelliteJammerMachine extends TieredEnergyMachine implements IControllable, IUIMachine {
+
     public static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(SatelliteJammerMachine.class);
     public static final int MACHINE_RANGE_MULTIPLIER = 24;
 
@@ -79,7 +84,8 @@ public class SatelliteJammerMachine extends TieredEnergyMachine implements ICont
     protected void jamSatellites() {
         if (!this.getLevel().isClientSide) {
             BlockPos myPos = this.getPos();
-            List<Satellite> toJam = GCYRCapabilityHelper.getSatellites((ServerLevel) this.getLevel()).getSatellitesNearPos(new Vec2i(myPos.getX(), myPos.getZ()), range);
+            List<Satellite> toJam = GCYRCapabilityHelper.getSatellites((ServerLevel) this.getLevel())
+                    .getSatellitesNearPos(new Vec2i(myPos.getX(), myPos.getZ()), range);
 
             if (toJam.size() > 0) {
                 List<Satellite> copy = new ArrayList<>(lastJammed);
@@ -98,7 +104,6 @@ public class SatelliteJammerMachine extends TieredEnergyMachine implements ICont
                 }
             }
         }
-
     }
 
     private void addDisplayText(List<Component> textList) {
@@ -108,7 +113,11 @@ public class SatelliteJammerMachine extends TieredEnergyMachine implements ICont
             textList.add(Component.translatable("gtceu.multiblock.running"));
 
             for (Satellite sat : lastJammed.subList(0, lastJammedCount >= 10 ? 10 : lastJammedCount)) {
-                textList.add(Component.translatable("gcyr.machine.satellite_jammer.jammed", Component.translatable(sat.getType().toLangString())).append(Component.translatable("gcyr.machine.satellite_jammer.position", vec2ToString(sat.getData().locationInWorld())))
+                textList.add(Component
+                        .translatable("gcyr.machine.satellite_jammer.jammed",
+                                Component.translatable(sat.getType().toLangString()))
+                        .append(Component.translatable("gcyr.machine.satellite_jammer.position",
+                                vec2ToString(sat.getData().locationInWorld())))
                         .withStyle(ChatFormatting.GREEN));
             }
         }

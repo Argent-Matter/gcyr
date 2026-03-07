@@ -8,8 +8,7 @@ import argent_matter.gcyr.common.data.GCYRSatellites;
 import argent_matter.gcyr.common.networking.s2c.PacketSyncDysonSphereStatus;
 import argent_matter.gcyr.common.satellite.DysonSwarmSatellite;
 import argent_matter.gcyr.data.loader.PlanetData;
-import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
-import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
+
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -21,18 +20,24 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.saveddata.SavedData;
 
+import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
+import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
+
+import java.util.*;
+
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.*;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class DysonSystemSavedData extends SavedData implements IDysonSystem {
+
     @Nullable
     public static DysonSystemSavedData getOrCreate(ServerLevel originLevel) {
         if (originLevel.dimensionType().hasCeiling()) return null;
 
-        ResourceLocation solarSystem = PlanetData.getPlanetFromLevelOrOrbit(originLevel.dimension()).map(Planet::solarSystem).orElse(null);
+        ResourceLocation solarSystem = PlanetData.getPlanetFromLevelOrOrbit(originLevel.dimension())
+                .map(Planet::solarSystem).orElse(null);
         if (solarSystem == null) return null; // A planet definition is required.
 
         List<Planet> planets = PlanetData.getSolarSystemPlanets(solarSystem);
@@ -44,7 +49,8 @@ public class DysonSystemSavedData extends SavedData implements IDysonSystem {
     }
 
     private static DysonSystemSavedData internalGetOrCreate(ServerLevel serverLevel) {
-        return serverLevel.getDataStorage().computeIfAbsent(tag -> new DysonSystemSavedData(serverLevel, tag), () -> new DysonSystemSavedData(serverLevel), GCYR.MOD_ID + "_dyson_systems");
+        return serverLevel.getDataStorage().computeIfAbsent(tag -> new DysonSystemSavedData(serverLevel, tag),
+                () -> new DysonSystemSavedData(serverLevel), GCYR.MOD_ID + "_dyson_systems");
     }
 
     @Nullable
@@ -147,7 +153,8 @@ public class DysonSystemSavedData extends SavedData implements IDysonSystem {
             ListTag tag = stationsTag.getList(name, Tag.TAG_COMPOUND);
             long pos = Long.parseLong(name);
             for (int i = 0; i < tag.size(); ++i) {
-                DysonSwarmSatellite satellite = GCYRSatellites.DYSON_SWARM.getCodec().parse(NbtOps.INSTANCE, tag.getCompound(i)).getOrThrow(false, GCYR.LOGGER::error);
+                DysonSwarmSatellite satellite = GCYRSatellites.DYSON_SWARM.getCodec()
+                        .parse(NbtOps.INSTANCE, tag.getCompound(i)).getOrThrow(false, GCYR.LOGGER::error);
                 swarmSatellites.computeIfAbsent(pos, $ -> new HashSet<>()).add(satellite);
             }
         }
@@ -164,7 +171,8 @@ public class DysonSystemSavedData extends SavedData implements IDysonSystem {
         for (Long2ObjectMap.Entry<Set<DysonSwarmSatellite>> entry : swarmSatellites.long2ObjectEntrySet()) {
             ListTag pos = new ListTag();
             for (DysonSwarmSatellite satellite : entry.getValue()) {
-                Tag station = GCYRSatellites.DYSON_SWARM.getCodec().encodeStart(NbtOps.INSTANCE, satellite).result().orElseThrow();
+                Tag station = GCYRSatellites.DYSON_SWARM.getCodec().encodeStart(NbtOps.INSTANCE, satellite).result()
+                        .orElseThrow();
                 pos.add(station);
             }
             tag.put(Long.toString(entry.getLongKey()), pos);

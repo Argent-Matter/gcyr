@@ -6,34 +6,38 @@ import argent_matter.gcyr.api.space.planet.Planet;
 import argent_matter.gcyr.common.data.GCYRItems;
 import argent_matter.gcyr.common.item.PlanetIdChipBehaviour;
 import argent_matter.gcyr.data.loader.PlanetData;
+
 import com.lowdragmc.lowdraglib.networking.IHandlerContext;
 import com.lowdragmc.lowdraglib.networking.IPacket;
-import lombok.NoArgsConstructor;
+
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
 
+import lombok.NoArgsConstructor;
+
 @NoArgsConstructor
 public class PacketCreateSpaceStation implements IPacket {
-    @Override
-    public void encode(FriendlyByteBuf buf) {
-    }
 
     @Override
-    public void decode(FriendlyByteBuf buf) {
-    }
+    public void encode(FriendlyByteBuf buf) {}
+
+    @Override
+    public void decode(FriendlyByteBuf buf) {}
 
     @Override
     public void execute(IHandlerContext handler) {
         if (handler.getLevel() instanceof ServerLevel serverLevel) {
-            ISpaceStationHolder holder = GCYRCapabilityHelper.getSpaceStations(serverLevel.getServer().getLevel(PlanetData.getPlanetFromLevelOrOrbit(serverLevel.dimension()).map(Planet::orbitWorld).orElse(null)));
+            ISpaceStationHolder holder = GCYRCapabilityHelper
+                    .getSpaceStations(serverLevel.getServer().getLevel(PlanetData
+                            .getPlanetFromLevelOrOrbit(serverLevel.dimension()).map(Planet::orbitWorld).orElse(null)));
             if (holder == null) return;
 
             ItemStack held = handler.getPlayer().getItemInHand(handler.getPlayer().getUsedItemHand());
             if (GCYRItems.ID_CHIP.isIn(held)) {
-                PlanetIdChipBehaviour.setSpaceStation(held, holder.allocateStation(PlanetIdChipBehaviour.getPlanetFromStack(held)).getFirst());
+                PlanetIdChipBehaviour.setSpaceStation(held,
+                        holder.allocateStation(PlanetIdChipBehaviour.getPlanetFromStack(held)).getFirst());
             }
         }
     }
-
 }

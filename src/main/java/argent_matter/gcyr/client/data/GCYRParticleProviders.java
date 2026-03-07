@@ -2,6 +2,7 @@ package argent_matter.gcyr.client.data;
 
 import argent_matter.gcyr.client.particle.DysonBeamParticle;
 import argent_matter.gcyr.common.data.GCYRParticles;
+
 import net.minecraft.client.particle.ParticleEngine;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;

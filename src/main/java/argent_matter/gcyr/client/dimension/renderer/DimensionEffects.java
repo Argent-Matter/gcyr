@@ -1,16 +1,19 @@
 package argent_matter.gcyr.client.dimension.renderer;
 
 import argent_matter.gcyr.api.space.planet.PlanetSkyRenderer;
-import com.mojang.blaze3d.vertex.PoseStack;
-import lombok.Getter;
+
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.DimensionSpecialEffects;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.world.phys.Vec3;
+
+import com.mojang.blaze3d.vertex.PoseStack;
+import lombok.Getter;
 import org.joml.Matrix4f;
 
 public class DimensionEffects extends DimensionSpecialEffects implements DimensionRenderer {
+
     @Getter
     private final PlanetSkyRenderer renderer;
     private final ModSkyRenderer skyRenderer;
@@ -38,14 +41,16 @@ public class DimensionEffects extends DimensionSpecialEffects implements Dimensi
     @Override
     public float[] getSunriseColor(float skyAngle, float tickDelta) {
         PlanetSkyRenderer.DimensionEffectType type = renderer.effects().type();
-        if (type == PlanetSkyRenderer.DimensionEffectType.FOGGY_REVERSED || type == PlanetSkyRenderer.DimensionEffectType.NONE) {
+        if (type == PlanetSkyRenderer.DimensionEffectType.FOGGY_REVERSED ||
+                type == PlanetSkyRenderer.DimensionEffectType.NONE) {
             return null;
         }
         return super.getSunriseColor(skyAngle, tickDelta);
     }
 
     @Override
-    public boolean renderClouds(ClientLevel level, int ticks, float tickDelta, PoseStack poseStack, double cameraX, double cameraY, double cameraZ, Matrix4f projectionMatrix) {
+    public boolean renderClouds(ClientLevel level, int ticks, float tickDelta, PoseStack poseStack, double cameraX,
+                                double cameraY, double cameraZ, Matrix4f projectionMatrix) {
         return switch (renderer.cloudEffects()) {
             case NONE -> true;
             case VANILLA -> false;
@@ -58,7 +63,8 @@ public class DimensionEffects extends DimensionSpecialEffects implements Dimensi
     }
 
     @Override
-    public boolean renderSky(ClientLevel level, int ticks, float tickDelta, PoseStack poseStack, Camera camera, Matrix4f projectionMatrix, boolean foggy, Runnable setupFog) {
+    public boolean renderSky(ClientLevel level, int ticks, float tickDelta, PoseStack poseStack, Camera camera,
+                             Matrix4f projectionMatrix, boolean foggy, Runnable setupFog) {
         setupFog.run();
         skyRenderer.render(level, ticks, tickDelta, poseStack, camera, projectionMatrix, foggy);
         return true;
@@ -70,7 +76,8 @@ public class DimensionEffects extends DimensionSpecialEffects implements Dimensi
     }
 
     @Override
-    public boolean renderSnowAndRain(ClientLevel level, int ticks, float tickDelta, LightTexture manager, double cameraX, double cameraY, double cameraZ) {
+    public boolean renderSnowAndRain(ClientLevel level, int ticks, float tickDelta, LightTexture manager,
+                                     double cameraX, double cameraY, double cameraZ) {
         return switch (renderer.weatherEffects()) {
             case NONE -> true;
             case VANILLA -> false;
