@@ -6,13 +6,7 @@ import argent_matter.gcyr.api.space.planet.Planet;
 import argent_matter.gcyr.common.data.GCYRNetworking;
 import argent_matter.gcyr.common.networking.c2s.PacketRequestPlanetData;
 import argent_matter.gcyr.util.GCYRValues;
-import com.google.common.collect.BiMap;
-import com.google.common.collect.HashBiMap;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.mojang.serialization.JsonOps;
+
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
@@ -25,9 +19,18 @@ import net.minecraft.util.GsonHelper;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.level.Level;
 
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.mojang.serialization.JsonOps;
+
+import java.util.*;
+
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.*;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
@@ -48,13 +51,15 @@ public class PlanetData extends SimpleJsonResourceReloadListener {
     }
 
     @Override
-    protected void apply(Map<ResourceLocation, JsonElement> objects, ResourceManager resourceManager, ProfilerFiller profiler) {
+    protected void apply(Map<ResourceLocation, JsonElement> objects, ResourceManager resourceManager,
+                         ProfilerFiller profiler) {
         profiler.push("Gregicality Rocketry Planet Deserialization");
         Map<ResourceLocation, Planet> planets = new HashMap<>();
 
         for (Map.Entry<ResourceLocation, JsonElement> entry : objects.entrySet()) {
             JsonObject jsonObject = GsonHelper.convertToJsonObject(entry.getValue(), "planet");
-            Planet newPlanet = Planet.DIRECT_CODEC.parse(JsonOps.INSTANCE, jsonObject).getOrThrow(false, GCYR.LOGGER::error);
+            Planet newPlanet = Planet.DIRECT_CODEC.parse(JsonOps.INSTANCE, jsonObject).getOrThrow(false,
+                    GCYR.LOGGER::error);
             planets.entrySet().removeIf(planet -> planet.getValue().level().equals(newPlanet.level()));
             planets.put(entry.getKey(), newPlanet);
         }
@@ -108,7 +113,8 @@ public class PlanetData extends SimpleJsonResourceReloadListener {
 
             Map<ResourceLocation, Planet> planets = new HashMap<>();
             for (String key : nbt.getAllKeys()) {
-                planets.put(ResourceLocation.tryParse(key), Planet.DIRECT_CODEC.parse(NbtOps.INSTANCE, nbt.getCompound(key)).result().orElseThrow());
+                planets.put(ResourceLocation.tryParse(key),
+                        Planet.DIRECT_CODEC.parse(NbtOps.INSTANCE, nbt.getCompound(key)).result().orElseThrow());
             }
             PlanetData.updatePlanets(planets);
         } catch (Exception e) {

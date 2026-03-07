@@ -1,9 +1,10 @@
 package argent_matter.gcyr.mixin.lithium;
 
 import argent_matter.gcyr.util.MixinHelpers;
-import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
-import net.minecraft.world.entity.Entity;
+
 import net.minecraft.world.level.border.WorldBorder;
+
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -30,7 +31,10 @@ public class LithiumEntityCollisions$IteratorMixin {
         }
     }
 
-    @ModifyExpressionValue(method = "computeNext", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;getWorldBorder()Lnet/minecraft/world/level/border/WorldBorder;", remap = true))
+    @ModifyExpressionValue(method = "computeNext",
+                           at = @At(value = "INVOKE",
+                                    target = "Lnet/minecraft/world/level/Level;getWorldBorder()Lnet/minecraft/world/level/border/WorldBorder;",
+                                    remap = true))
     private WorldBorder gcyr$modifySpaceStationBorder(WorldBorder value) {
         return MixinHelpers.modifySpaceStationBorder(value, gcyr$this.getEntity());
     }

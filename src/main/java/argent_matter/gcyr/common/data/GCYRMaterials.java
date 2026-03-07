@@ -1,6 +1,7 @@
 package argent_matter.gcyr.common.data;
 
 import argent_matter.gcyr.GCYR;
+
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.data.chemical.material.Material;
 import com.gregtechceu.gtceu.api.data.chemical.material.info.MaterialFlags;
@@ -19,9 +20,7 @@ import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
 @SuppressWarnings("unused")
 public class GCYRMaterials {
 
-    public static void init() {
-
-    }
+    public static void init() {}
 
     public static void modifyMaterials() {
         // Add flags to base GT materials
@@ -29,10 +28,11 @@ public class GCYRMaterials {
         TitaniumTungstenCarbide.addFlags(GENERATE_ROD);
         Titanium.setProperty(PropertyKey.ORE, new OreProperty());
 
-        GTMaterials.Hydrogen.getProperty(PropertyKey.FLUID).enqueueRegistration(FluidStorageKeys.PLASMA, new FluidBuilder());
+        GTMaterials.Hydrogen.getProperty(PropertyKey.FLUID).enqueueRegistration(FluidStorageKeys.PLASMA,
+                new FluidBuilder());
     }
 
-    //region first degree mats
+    // region first degree mats
     public static final Material PotassiumChloride = new Material.Builder(GCYR.id("potassium_chloride"))
             .dust(1)
             .color(0xF6F1AE)
@@ -43,7 +43,8 @@ public class GCYRMaterials {
             .ingot(5).fluid()
             .color(0x0ca819)
             .components(Carbon, 3, Manganese, 4, Silicon, 2, Chromium, 3, Molybdenum, 1, Iron, 11)
-            .flags(MaterialFlags.GENERATE_PLATE, MaterialFlags.GENERATE_ROD, MaterialFlags.GENERATE_LONG_ROD, MaterialFlags.GENERATE_GEAR, MaterialFlags.GENERATE_FRAME)
+            .flags(MaterialFlags.GENERATE_PLATE, MaterialFlags.GENERATE_ROD, MaterialFlags.GENERATE_LONG_ROD,
+                    MaterialFlags.GENERATE_GEAR, MaterialFlags.GENERATE_FRAME)
             .toolStats(ToolProperty.Builder.of(70.0F, 2.25F, 1296, 5).build())
             .blastTemp(10800, BlastProperty.GasTier.HIGHER)
             .buildAndRegister();
@@ -92,9 +93,9 @@ public class GCYRMaterials {
             .components(Aluminium, 1, Chlorine, 3)
             .buildAndRegister();
 
-    //endregion
+    // endregion
 
-    //region second degree mats
+    // region second degree mats
 
     public static final Material FiberGlass = new Material.Builder(GCYR.id("fiberglass"))
             .polymer(1)
@@ -104,9 +105,9 @@ public class GCYRMaterials {
             .components(Epoxy, 2, SiliconDioxide, 7)
             .buildAndRegister();
 
-    //endregion
+    // endregion
 
-    //region organic chemistry materials
+    // region organic chemistry materials
     public static final Material PyromelliticDianhydride = new Material.Builder(GCYR.id("pyrometillic_dianhydride"))
             .dust()
             .fluid(FluidStorageKeys.LIQUID, new FluidBuilder().temperature(493))
@@ -151,7 +152,6 @@ public class GCYRMaterials {
             .components(PyromelliticDianhydride, 1, Oxydianiline, 1)
             .buildAndRegister();
 
-
     // Kevlar
     public static final Material ParaXylene = new Material.Builder(GCYR.id("para_xylene"))
             .fluid(FluidStorageKeys.LIQUID, new FluidBuilder().temperature(493))
@@ -159,7 +159,8 @@ public class GCYRMaterials {
             .components(Carbon, 8, Hydrogen, 10)
             .buildAndRegister();
 
-    public static final Material BisTrichloromethylBenzene = new Material.Builder(GCYR.id("bis_trichloromethyl_benzene"))
+    public static final Material BisTrichloromethylBenzene = new Material.Builder(
+            GCYR.id("bis_trichloromethyl_benzene"))
             .fluid(FluidStorageKeys.LIQUID, new FluidBuilder().temperature(493))
             .color(0xB48C63)
             .components(Carbon, 8, Hydrogen, 4, Chlorine, 6)
@@ -200,6 +201,5 @@ public class GCYRMaterials {
             .fluidPipeProperties(1500, 450, true, true, true, false)
             .buildAndRegister();
 
-    //endregion
-
+    // endregion
 }

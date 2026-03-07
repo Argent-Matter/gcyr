@@ -1,13 +1,13 @@
 package argent_matter.gcyr.api.space.satellite.data;
 
-import argent_matter.gcyr.api.space.satellite.Satellite;
 import argent_matter.gcyr.util.Vec2i;
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
+
 import net.minecraft.core.UUIDUtil;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.ExtraCodecs;
-import net.minecraft.world.phys.Vec2;
+
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import java.util.UUID;
 
@@ -17,13 +17,12 @@ import java.util.UUID;
  * @implNote SatelliteData
  */
 public record SatelliteData(
-        Vec2i locationInWorld, int range, UUID owner) {
+                            Vec2i locationInWorld, int range, UUID owner) {
 
     public static Codec<SatelliteData> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             Vec2i.CODEC.fieldOf("pos").forGetter(SatelliteData::locationInWorld),
             ExtraCodecs.POSITIVE_INT.fieldOf("range").forGetter(SatelliteData::range),
-            UUIDUtil.CODEC.fieldOf("owner").forGetter(SatelliteData::owner)
-    ).apply(instance, SatelliteData::new));
+            UUIDUtil.CODEC.fieldOf("owner").forGetter(SatelliteData::owner)).apply(instance, SatelliteData::new));
 
     private static final UUID EMPTY_UUID = new UUID(0, 0);
 

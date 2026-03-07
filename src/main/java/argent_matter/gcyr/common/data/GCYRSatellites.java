@@ -5,6 +5,7 @@ import argent_matter.gcyr.api.registries.GCYRRegistries;
 import argent_matter.gcyr.api.space.satellite.Satellite;
 import argent_matter.gcyr.api.space.satellite.SatelliteType;
 import argent_matter.gcyr.common.satellite.*;
+
 import net.minecraft.resources.ResourceLocation;
 
 /**
@@ -18,14 +19,18 @@ public class GCYRSatellites {
         GCYRRegistries.SATELLITES.unfreeze();
     }
 
-    public static final SatelliteType<EmptySatellite> EMPTY = register("empty", new SatelliteType<>(EmptySatellite::new, EmptySatellite.CODEC));
-    public static final SatelliteType<GpsSatellite> GPS = register("gps", new SatelliteType<>(GpsSatellite::new, GpsSatellite.CODEC));
-    public static final SatelliteType<OreFinderSatellite> ORE_FINDER = register("ore_finder", new SatelliteType<>(OreFinderSatellite::new, OreFinderSatellite.CODEC));
-    public static final SatelliteType<LaserSatellite> LASER = register("laser", new SatelliteType<>(LaserSatellite::new, LaserSatellite.CODEC));
-    public static final SatelliteType<DysonSwarmSatellite> DYSON_SWARM = register("dyson_swarm", new SatelliteType<>(DysonSwarmSatellite::new, DysonSwarmSatellite.CODEC));
+    public static final SatelliteType<EmptySatellite> EMPTY = register("empty",
+            new SatelliteType<>(EmptySatellite::new, EmptySatellite.CODEC));
+    public static final SatelliteType<GpsSatellite> GPS = register("gps",
+            new SatelliteType<>(GpsSatellite::new, GpsSatellite.CODEC));
+    public static final SatelliteType<OreFinderSatellite> ORE_FINDER = register("ore_finder",
+            new SatelliteType<>(OreFinderSatellite::new, OreFinderSatellite.CODEC));
+    public static final SatelliteType<LaserSatellite> LASER = register("laser",
+            new SatelliteType<>(LaserSatellite::new, LaserSatellite.CODEC));
+    public static final SatelliteType<DysonSwarmSatellite> DYSON_SWARM = register("dyson_swarm",
+            new SatelliteType<>(DysonSwarmSatellite::new, DysonSwarmSatellite.CODEC));
 
-
-    public static  <T extends Satellite> SatelliteType<T> register(String name, SatelliteType<T> satellite) {
+    public static <T extends Satellite> SatelliteType<T> register(String name, SatelliteType<T> satellite) {
         ResourceLocation id = GCYR.id(name);
         GCYRRegistries.SATELLITES.register(id, satellite);
         return satellite;

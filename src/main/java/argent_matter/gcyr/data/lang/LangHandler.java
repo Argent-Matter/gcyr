@@ -1,7 +1,9 @@
 package argent_matter.gcyr.data.lang;
 
 import argent_matter.gcyr.common.data.GCYRMaterials;
+
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
+
 import com.tterrag.registrate.providers.RegistrateLangProvider;
 
 public class LangHandler extends com.gregtechceu.gtceu.data.lang.LangHandler {
@@ -24,7 +26,8 @@ public class LangHandler extends com.gregtechceu.gtceu.data.lang.LangHandler {
         replace(provider, "block.gcyr.aerospace_aluminium_casing", "Aerospace-grade Aluminium Machine Casing");
 
         // tooltips
-        multilineLang(provider, "gcyr.multiblock.space_shuttle.launch", "Travel to selected Space Station\n§cRequires ID Chip!");
+        multilineLang(provider, "gcyr.multiblock.space_shuttle.launch",
+                "Travel to selected Space Station\n§cRequires ID Chip!");
         provider.add("metaitem.gcyr.satellite_package.has_satellite", "Has satellite or space station");
 
         // items
@@ -92,21 +95,25 @@ public class LangHandler extends com.gregtechceu.gtceu.data.lang.LangHandler {
         provider.add("menu.gcyr.rocket_tier", "Tier %d Rocket");
 
         // messages
-        provider.add("message.gcyr.no_fuel", "The rocket must be fueled fully. Has %s mB fuel, destination requires %s mB.");
+        provider.add("message.gcyr.no_fuel",
+                "The rocket must be fueled fully. Has %s mB fuel, destination requires %s mB.");
         provider.add("message.gcyr.invalid_id", "The rocket must have a valid Planet ID Chip.");
-        provider.add("message.gcyr.rocket_not_good_enough", "The rocket doesn't have enough tier %s components to travel to the selected planet.");
-        provider.add("message.gcyr.notice_id_changed", "The destination of your Space Station ID chip might have changed. Remember to rewrite the personal destination chip with the new data before setting a new target!");
+        provider.add("message.gcyr.rocket_not_good_enough",
+                "The rocket doesn't have enough tier %s components to travel to the selected planet.");
+        provider.add("message.gcyr.notice_id_changed",
+                "The destination of your Space Station ID chip might have changed. Remember to rewrite the personal destination chip with the new data before setting a new target!");
         provider.add("message.gcyr.already_at_destination", "Already at destination specified by ID!");
 
         // planets (from resources/data/gcyr/gcyr/planets)
         provider.add("gcyr.solar_system", "Sol");
         provider.add("gcyr.alpha_centauri", "Alpha Centauri");
+        provider.add("gcyr.proxima_centauri", "Proxima Centauri");
+        provider.add("gcyr.milky_way", "Milky Way");
         provider.add("level.overworld", "Earth");
         provider.add("level.gcyr.moon", "Moon");
         provider.add("level.gcyr.mercury", "Mercury");
         provider.add("level.gcyr.venus", "Venus");
         provider.add("level.gcyr.mars", "Mars");
         provider.add("level.gcyr.proxima_centauri_b", "Proxima b");
-
     }
 }

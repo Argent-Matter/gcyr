@@ -3,6 +3,7 @@ package argent_matter.gcyr.common.data;
 import argent_matter.gcyr.data.recipe.*;
 import argent_matter.gcyr.data.recipe.chemistry.ChemistryRecipes;
 import argent_matter.gcyr.data.recipe.chemistry.PolymerRecipes;
+
 import net.minecraft.data.recipes.FinishedRecipe;
 
 import java.util.function.Consumer;

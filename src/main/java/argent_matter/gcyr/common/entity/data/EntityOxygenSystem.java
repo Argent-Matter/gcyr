@@ -1,13 +1,11 @@
 package argent_matter.gcyr.common.entity.data;
 
-
 import argent_matter.gcyr.GCYR;
 import argent_matter.gcyr.common.item.armor.SpaceSuitArmorItem;
 import argent_matter.gcyr.config.GCYRConfig;
 import argent_matter.gcyr.data.loader.PlanetData;
 import argent_matter.gcyr.data.recipe.GCYRTags;
-import com.google.common.collect.Table;
-import com.google.common.collect.Tables;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
@@ -19,6 +17,9 @@ import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
+import com.google.common.collect.Table;
+import com.google.common.collect.Tables;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.IdentityHashMap;
@@ -26,11 +27,14 @@ import java.util.Set;
 import java.util.stream.StreamSupport;
 
 /**
- * Proudly copied from <a href="https://github.com/terrarium-earth/Ad-Astra/blob/1.19/common/src/main/java/earth/terrarium/ad_astra/common/entity/system/EntityOxygenSystem.java">Ad Astra</a>
+ * Proudly copied from <a href=
+ * "https://github.com/terrarium-earth/Ad-Astra/blob/1.19/common/src/main/java/earth/terrarium/ad_astra/common/entity/system/EntityOxygenSystem.java">
+ * Ad Astra</a>
  */
 public class EntityOxygenSystem {
 
-    public static final Table<ResourceKey<Level>, BlockPos, Set<BlockPos>> OXYGEN_LOCATIONS = Tables.newCustomTable(new IdentityHashMap<>(), HashMap::new);
+    public static final Table<ResourceKey<Level>, BlockPos, Set<BlockPos>> OXYGEN_LOCATIONS = Tables
+            .newCustomTable(new IdentityHashMap<>(), HashMap::new);
 
     /**
      * Checks if a level has oxygen, regardless of position.
@@ -74,9 +78,11 @@ public class EntityOxygenSystem {
         }
 
         boolean entityHasOxygen = entityHasOxygen(level, entity);
-        boolean hasOxygenatedSpaceSuit = SpaceSuitArmorItem.hasOxygenatedSpaceSuit(entity) && SpaceSuitArmorItem.hasFullSet(entity);
+        boolean hasOxygenatedSpaceSuit = SpaceSuitArmorItem.hasOxygenatedSpaceSuit(entity) &&
+                SpaceSuitArmorItem.hasFullSet(entity);
 
-        if (entityHasOxygen && hasOxygenatedSpaceSuit && entity.isUnderWater() && !entity.canBreatheUnderwater() && !entity.hasEffect(MobEffects.WATER_BREATHING)) {
+        if (entityHasOxygen && hasOxygenatedSpaceSuit && entity.isUnderWater() && !entity.canBreatheUnderwater() &&
+                !entity.hasEffect(MobEffects.WATER_BREATHING)) {
             consumeOxygen(entity);
             return;
         }
@@ -84,15 +90,17 @@ public class EntityOxygenSystem {
         if (!entityHasOxygen) {
             if (hasOxygenatedSpaceSuit) {
                 consumeOxygen(entity);
-            } else if (!StreamSupport.stream(entity.getArmorSlots().spliterator(), false).allMatch(stack -> stack.is(GCYRTags.SPACESUIT_ARMOR))) {
-                entity.hurt(level.damageSources().drown(), GCYRConfig.INSTANCE.server.oxygenDamage);
-                entity.setAirSupply(-40);
-            }
+            } else if (!StreamSupport.stream(entity.getArmorSlots().spliterator(), false)
+                    .allMatch(stack -> stack.is(GCYRTags.SPACESUIT_ARMOR))) {
+                        entity.hurt(level.damageSources().drown(), GCYRConfig.INSTANCE.server.oxygenDamage);
+                        entity.setAirSupply(-40);
+                    }
         }
     }
 
     /**
-     * Removes the oxygen from a set of blocks. For example, turns water into ice or air, converts torches into extinguished torches, puts out flames, kills plants etc.
+     * Removes the oxygen from a set of blocks. For example, turns water into ice or air, converts torches into
+     * extinguished torches, puts out flames, kills plants etc.
      */
     public static void deoxygenizeBlocks(ServerLevel level, Set<BlockPos> entries, BlockPos source) {
         try {

@@ -6,11 +6,13 @@ import argent_matter.gcyr.common.data.GCYRItems;
 import argent_matter.gcyr.common.data.GCYRMaterials;
 import argent_matter.gcyr.common.recipe.condition.DysonSphereCondition;
 import argent_matter.gcyr.common.recipe.condition.OrbitCondition;
+
 import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.common.data.GTMachines;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
+
 import net.minecraft.data.recipes.FinishedRecipe;
 
 import java.util.function.Consumer;
@@ -59,7 +61,8 @@ public class DysonSphereRecipeLoader {
                 .save(provider);
 
         DYSON_ENERGY_RECIPES.recipeBuilder(GCYR.id("build_dyson_sphere"))
-                .inputItems(GCYRBlocks.CASING_DYSON_SPHERE.asStack(64), GCYRBlocks.CASING_DYSON_SPHERE.asStack(64), GCYRBlocks.CASING_DYSON_SPHERE.asStack(32))
+                .inputItems(GCYRBlocks.CASING_DYSON_SPHERE.asStack(64), GCYRBlocks.CASING_DYSON_SPHERE.asStack(64),
+                        GCYRBlocks.CASING_DYSON_SPHERE.asStack(32))
                 .inputItems(GCYRBlocks.CASING_DYSON_CELL.asStack(48))
                 .inputItems(GCYRBlocks.CASING_DYSON_PORT.asStack(32))
                 .inputItems(GCYRItems.DYSON_CONSTRUCTION_DRONE.asStack(32))

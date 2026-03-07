@@ -4,27 +4,32 @@ import argent_matter.gcyr.GCYR;
 import argent_matter.gcyr.api.block.IRocketMotorType;
 import argent_matter.gcyr.common.block.FuelTankBlock;
 import argent_matter.gcyr.common.block.RocketMotorBlock;
-import com.tterrag.registrate.providers.DataGenContext;
-import com.tterrag.registrate.providers.RegistrateBlockstateProvider;
-import com.tterrag.registrate.providers.RegistrateItemModelProvider;
-import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
+
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.CarpetBlock;
 import net.minecraft.world.level.block.DoorBlock;
+
 import net.minecraftforge.client.model.generators.ConfiguredModel;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.client.model.generators.ModelProvider;
 
+import com.tterrag.registrate.providers.DataGenContext;
+import com.tterrag.registrate.providers.RegistrateBlockstateProvider;
+import com.tterrag.registrate.providers.RegistrateItemModelProvider;
+import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
+
 public class GCYRModels {
 
-    public static void rocketMotorModel(DataGenContext<Block, RocketMotorBlock> ctx, RegistrateBlockstateProvider prov, IRocketMotorType type) {
-        prov.simpleBlock(ctx.getEntry(), prov.models().cubeBottomTop("%s_rocket_motor".formatted(type.getSerializedName()),
-                GCYR.id("block/casings/%s_rocket_motor/rocket_motor_side".formatted(type.getSerializedName())),
-                GCYR.id("block/casings/%s_rocket_motor/rocket_motor_bottom".formatted(type.getSerializedName())),
-                GCYR.id("block/casings/%s_rocket_motor/rocket_motor_top".formatted(type.getSerializedName()))
-        ));
+    public static void rocketMotorModel(DataGenContext<Block, RocketMotorBlock> ctx, RegistrateBlockstateProvider prov,
+                                        IRocketMotorType type) {
+        prov.simpleBlock(ctx.getEntry(),
+                prov.models().cubeBottomTop("%s_rocket_motor".formatted(type.getSerializedName()),
+                        GCYR.id("block/casings/%s_rocket_motor/rocket_motor_side".formatted(type.getSerializedName())),
+                        GCYR.id("block/casings/%s_rocket_motor/rocket_motor_bottom"
+                                .formatted(type.getSerializedName())),
+                        GCYR.id("block/casings/%s_rocket_motor/rocket_motor_top".formatted(type.getSerializedName()))));
     }
 
     public static void airlockDoorModel(DataGenContext<Block, DoorBlock> ctx, RegistrateBlockstateProvider prov) {
@@ -39,10 +44,12 @@ public class GCYRModels {
         prov.simpleBlock(ctx.getEntry(), prov.models().carpet("seat", new ResourceLocation("block/light_gray_wool")));
     }
 
-    public static void randomRotatedModel(DataGenContext<Block, ? extends Block> ctx, RegistrateBlockstateProvider prov) {
+    public static void randomRotatedModel(DataGenContext<Block, ? extends Block> ctx,
+                                          RegistrateBlockstateProvider prov) {
         Block block = ctx.getEntry();
         ModelFile cubeAll = prov.cubeAll(block);
-        ModelFile cubeMirroredAll = prov.models().singleTexture(ctx.getName() + "_mirrored", prov.mcLoc(ModelProvider.BLOCK_FOLDER + "/cube_mirrored_all"), "all", prov.blockTexture(block));
+        ModelFile cubeMirroredAll = prov.models().singleTexture(ctx.getName() + "_mirrored",
+                prov.mcLoc(ModelProvider.BLOCK_FOLDER + "/cube_mirrored_all"), "all", prov.blockTexture(block));
         ConfiguredModel[] models = ConfiguredModel.builder()
                 .modelFile(cubeAll)
                 .rotationY(0)
@@ -65,7 +72,8 @@ public class GCYRModels {
         prov.simpleBlock(block, cross);
     }
 
-    public static void blockTextureGeneratedModel(DataGenContext<Item, ? extends Item> ctx, RegistrateItemModelProvider prov) {
+    public static void blockTextureGeneratedModel(DataGenContext<Item, ? extends Item> ctx,
+                                                  RegistrateItemModelProvider prov) {
         prov.generated(ctx::getEntry, prov.modLoc("block/" + ctx.getName()));
     }
 
@@ -99,5 +107,4 @@ public class GCYRModels {
                     .setModels(modelY0, modelY90, modelY180, modelY270);
         };
     }
-
 }

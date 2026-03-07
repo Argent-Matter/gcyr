@@ -1,7 +1,9 @@
 package argent_matter.gcyr.mixin;
 
 import net.minecraft.server.packs.resources.ReloadableResourceManager;
+
 import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 

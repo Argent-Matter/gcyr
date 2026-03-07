@@ -2,6 +2,7 @@ package argent_matter.gcyr.integration.kjs;
 
 import argent_matter.gcyr.integration.kjs.builders.FuelTankBlockBuilder;
 import argent_matter.gcyr.integration.kjs.builders.RocketMotorBlockBuilder;
+
 import dev.latvian.mods.kubejs.KubeJSPlugin;
 import dev.latvian.mods.kubejs.registry.RegistryInfo;
 

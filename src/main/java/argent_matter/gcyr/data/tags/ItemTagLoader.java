@@ -1,9 +1,12 @@
 package argent_matter.gcyr.data.tags;
 
 import argent_matter.gcyr.common.data.GCYRItems;
-import com.tterrag.registrate.providers.RegistrateItemTagsProvider;
+
 import net.minecraft.tags.ItemTags;
+
 import net.minecraftforge.common.Tags;
+
+import com.tterrag.registrate.providers.RegistrateItemTagsProvider;
 
 public class ItemTagLoader {
 
@@ -19,5 +22,4 @@ public class ItemTagLoader {
         provider.addTag(Tags.Items.ARMORS_BOOTS)
                 .add(GCYRItems.SPACE_SUIT_BOOTS.get());
     }
-
 }

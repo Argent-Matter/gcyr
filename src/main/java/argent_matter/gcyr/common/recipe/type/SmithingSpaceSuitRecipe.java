@@ -4,7 +4,7 @@ import argent_matter.gcyr.common.data.GCYRItems;
 import argent_matter.gcyr.common.data.GCYRVanillaRecipeTypes;
 import argent_matter.gcyr.common.item.armor.trim.GCYRTrimMaterials;
 import argent_matter.gcyr.common.item.armor.trim.GCYRTrimPatterns;
-import com.google.gson.JsonObject;
+
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.Registries;
@@ -23,16 +23,20 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.SmithingRecipe;
 import net.minecraft.world.level.Level;
+
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.templates.FluidHandlerItemStack;
 
+import com.google.gson.JsonObject;
+
 import java.util.Optional;
 import java.util.stream.Stream;
 
 public class SmithingSpaceSuitRecipe implements SmithingRecipe {
+
     public static final String SPACE_SUIT_ARMOR_KEY = "gcyr:spacesuit";
 
     private final ResourceLocation id;
@@ -49,7 +53,8 @@ public class SmithingSpaceSuitRecipe implements SmithingRecipe {
 
     @Override
     public boolean matches(Container container, Level level) {
-        return this.template.test(container.getItem(0)) && this.base.test(container.getItem(1)) && this.addition.test(container.getItem(2));
+        return this.template.test(container.getItem(0)) && this.base.test(container.getItem(1)) &&
+                this.addition.test(container.getItem(2));
     }
 
     @Override
@@ -57,9 +62,11 @@ public class SmithingSpaceSuitRecipe implements SmithingRecipe {
         ItemStack baseItem = container.getItem(1);
         ItemStack additionItem = container.getItem(2);
         if ((!baseItem.hasTag() || !baseItem.getTag().getBoolean(SPACE_SUIT_ARMOR_KEY)) && this.base.test(baseItem)) {
-            Optional<Holder.Reference<TrimMaterial>> trimMaterial = registryAccess.registryOrThrow(Registries.TRIM_MATERIAL).getHolder(GCYRTrimMaterials.SPACE);
-            Optional<Holder.Reference<TrimPattern>> trimPattern = TrimPatterns.getFromTemplate(registryAccess, container.getItem(0));
-            if (/*trimMaterial.isPresent() && trimPattern.isPresent()*/ true) { // maybe add textures too, idk?
+            Optional<Holder.Reference<TrimMaterial>> trimMaterial = registryAccess
+                    .registryOrThrow(Registries.TRIM_MATERIAL).getHolder(GCYRTrimMaterials.SPACE);
+            Optional<Holder.Reference<TrimPattern>> trimPattern = TrimPatterns.getFromTemplate(registryAccess,
+                    container.getItem(0));
+            if (/* trimMaterial.isPresent() && trimPattern.isPresent() */ true) { // maybe add textures too, idk?
                 ItemStack trimCopied = baseItem.copy();
                 trimCopied.setCount(1);
                 ArmorTrim trim = new ArmorTrim(trimMaterial.get(), trimPattern.get());
@@ -74,7 +81,8 @@ public class SmithingSpaceSuitRecipe implements SmithingRecipe {
     public static void setTrim(RegistryAccess registryAccess, ItemStack armor, ItemStack addition, ArmorTrim trim) {
         // Set the "is this a space suit" NBT
         armor.getOrCreateTag().putBoolean(SPACE_SUIT_ARMOR_KEY, true);
-        // if the armor piece is a chestplate, copy the fluid from the "addition" item (space suit) if the space suit isn't empty
+        // if the armor piece is a chestplate, copy the fluid from the "addition" item (space suit) if the space suit
+        // isn't empty
         if (armor.is(Tags.Items.ARMORS_CHESTPLATES)) {
             addition.getCapability(ForgeCapabilities.FLUID_HANDLER_ITEM).ifPresent(cap -> {
                 FluidStack stack = cap.getFluidInTank(0);
@@ -86,18 +94,21 @@ public class SmithingSpaceSuitRecipe implements SmithingRecipe {
             });
         }
         /*
-        if (armor.is(ItemTags.TRIMMABLE_ARMOR)) {
-            armor.getOrCreateTag().put("Trim", ArmorTrim.CODEC.encodeStart(RegistryOps.create(NbtOps.INSTANCE, registryAccess), trim).result().orElseThrow());
-        }
+         * if (armor.is(ItemTags.TRIMMABLE_ARMOR)) {
+         * armor.getOrCreateTag().put("Trim", ArmorTrim.CODEC.encodeStart(RegistryOps.create(NbtOps.INSTANCE,
+         * registryAccess), trim).result().orElseThrow());
+         * }
          */
     }
 
     @Override
     public ItemStack getResultItem(RegistryAccess registryAccess) {
         ItemStack itemstack = new ItemStack(Items.DIAMOND_CHESTPLATE);
-        Optional<Holder.Reference<TrimPattern>> pattern = registryAccess.registryOrThrow(Registries.TRIM_PATTERN).getHolder(GCYRTrimPatterns.SPACE);
+        Optional<Holder.Reference<TrimPattern>> pattern = registryAccess.registryOrThrow(Registries.TRIM_PATTERN)
+                .getHolder(GCYRTrimPatterns.SPACE);
         if (pattern.isPresent()) {
-            Optional<Holder.Reference<TrimMaterial>> material = registryAccess.registryOrThrow(Registries.TRIM_MATERIAL).getHolder(GCYRTrimMaterials.SPACE);
+            Optional<Holder.Reference<TrimMaterial>> material = registryAccess.registryOrThrow(Registries.TRIM_MATERIAL)
+                    .getHolder(GCYRTrimMaterials.SPACE);
             if (material.isPresent()) {
                 ArmorTrim armortrim = new ArmorTrim(material.get(), pattern.get());
                 setTrim(registryAccess, itemstack, new ItemStack(GCYRItems.SPACE_SUIT_CHEST.get()), armortrim);
@@ -138,6 +149,7 @@ public class SmithingSpaceSuitRecipe implements SmithingRecipe {
     }
 
     public static class Serializer implements RecipeSerializer<SmithingSpaceSuitRecipe> {
+
         public SmithingSpaceSuitRecipe fromJson(ResourceLocation arg, JsonObject jsonObject) {
             Ingredient ingredient = Ingredient.fromJson(GsonHelper.getNonNull(jsonObject, "template"));
             Ingredient ingredient1 = Ingredient.fromJson(GsonHelper.getNonNull(jsonObject, "base"));
