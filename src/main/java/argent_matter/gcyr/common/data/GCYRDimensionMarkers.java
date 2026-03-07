@@ -6,6 +6,7 @@ import argent_matter.gcyr.api.registries.GCYRRegistries;
 import com.gregtechceu.gtceu.api.data.DimensionMarker;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
+import net.minecraft.client.renderer.block.model.BlockModel;
 import net.minecraft.world.level.block.Block;
 
 import com.tterrag.registrate.util.entry.BlockEntry;
@@ -37,19 +38,18 @@ public class GCYRDimensionMarkers {
     private static BlockEntry<Block> createMarker(String name) {
         return GCYRRegistries.REGISTRATE.block("%s_marker".formatted(name), Block::new)
                 .lang(FormattingUtil.toEnglishName(name))
-                .blockstate(NonNullBiConsumer.noop())
-                // TODO textures
-                // .blockstate((ctx, prov) -> prov.simpleBlock(ctx.get(), prov.models().cube(ctx.getName(),
-                // prov.modLoc("block/dim_markers/%s/down".formatted(name)),
-                // prov.modLoc("block/dim_markers/%s/up".formatted(name)),
-                // prov.modLoc("block/dim_markers/%s/north".formatted(name)),
-                // prov.modLoc("block/dim_markers/%s/south".formatted(name)),
-                // prov.modLoc("block/dim_markers/%s/east".formatted(name)),
-                // prov.modLoc("block/dim_markers/%s/west".formatted(name)))
-                // .texture("particle", "#north")
-                // .guiLight(BlockModel.GuiLight.FRONT)))
+                .blockstate((ctx, prov) -> prov.simpleBlock(ctx.get(),
+                        prov.models().cube(ctx.getName(),
+                                prov.modLoc("block/dim_markers/%s/down".formatted(name)),
+                                prov.modLoc("block/dim_markers/%s/up".formatted(name)),
+                                prov.modLoc("block/dim_markers/%s/north".formatted(name)),
+                                prov.modLoc("block/dim_markers/%s/south".formatted(name)),
+                                prov.modLoc("block/dim_markers/%s/east".formatted(name)),
+                                prov.modLoc("block/dim_markers/%s/west".formatted(name)))
+                                .texture("particle", "#north")
+                                .guiLight(BlockModel.GuiLight.FRONT)))
                 .item()
-                .model(NonNullBiConsumer.noop())
+                .model((ctx, prov) -> prov.withExistingParent(ctx.getName(), prov.modLoc("block/" + ctx.getName())))
                 .build()
                 .register();
     }
