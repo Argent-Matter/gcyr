@@ -104,7 +104,7 @@ public class LangHandler extends com.gregtechceu.gtceu.data.lang.LangHandler {
                 "The destination of your Space Station ID chip might have changed. Remember to rewrite the personal destination chip with the new data before setting a new target!");
         provider.add("message.gcyr.already_at_destination", "Already at destination specified by ID!");
 
-        // planets (from resources/data/gcyr/gcyr/planets)
+        // planets
         provider.add("gcyr.solar_system", "Sol");
         provider.add("gcyr.alpha_centauri", "Alpha Centauri");
         provider.add("gcyr.proxima_centauri", "Proxima Centauri");
@@ -115,5 +115,24 @@ public class LangHandler extends com.gregtechceu.gtceu.data.lang.LangHandler {
         provider.add("level.gcyr.venus", "Venus");
         provider.add("level.gcyr.mars", "Mars");
         provider.add("level.gcyr.proxima_centauri_b", "Proxima b");
+
+        // dimension names
+        provider.add("dimension.gcyr.luna", "Moon");
+        provider.add("dimension.gcyr.luna_orbit", "Lunar Orbit");
+        provider.add("dimension.gcyr.mars", "Mars");
+        provider.add("dimension.gcyr.mars_orbit", "Mars Orbit");
+        provider.add("dimension.gcyr.mercury", "Mercury");
+        provider.add("dimension.gcyr.mercury_orbit", "Mercury Orbit");
+        provider.add("dimension.gcyr.overworld_orbit", "Earth Orbit");
+        provider.add("dimension.gcyr.venus", "Venus");
+        provider.add("dimension.gcyr.venus_orbit", "Venus Orbit");
+        provider.add("dimension.gcyr.proxima_centauri_b", "Proxima b");
+        provider.add("dimension.gcyr.black_hole_orbit", "Black Hole Orbit");
+
+        // behaviours
+        provider.add("behaviour.gps_tracker.track_entity", "Track Entity");
+
+        // gui
+        provider.add("gui.gcyr.planet_selector", "Planet Selector");
     }
 }

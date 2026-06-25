@@ -10,7 +10,6 @@ import net.minecraft.client.renderer.block.model.BlockModel;
 import net.minecraft.world.level.block.Block;
 
 import com.tterrag.registrate.util.entry.BlockEntry;
-import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
 
 import static com.gregtechceu.gtceu.common.data.GTDimensionMarkers.createAndRegister;
 
