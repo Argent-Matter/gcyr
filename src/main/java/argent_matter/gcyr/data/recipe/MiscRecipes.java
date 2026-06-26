@@ -18,8 +18,11 @@ import com.gregtechceu.gtceu.data.recipe.misc.MetaTileEntityLoader;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.block.Block;
 
 import net.minecraftforge.common.Tags;
+
+import com.tterrag.registrate.util.entry.BlockEntry;
 
 import java.util.function.Consumer;
 
@@ -31,6 +34,39 @@ import static com.gregtechceu.gtceu.data.recipe.CraftingComponent.*;
 import static com.gregtechceu.gtceu.data.recipe.GTCraftingComponents.*;
 
 public class MiscRecipes {
+
+    record StoneSet(String planet, String stoneName,
+                    BlockEntry<Block> stone, BlockEntry<Block> cobble,
+                    BlockEntry<Block> stoneSlab, BlockEntry<Block> cobbleSlab,
+                    BlockEntry<Block> stoneStair, BlockEntry<Block> cobbleStair) {}
+
+    private static void addStoneRecipeSet(Consumer<FinishedRecipe> provider, StoneSet stoneSet) {
+        // cobble slab/stairs
+        VanillaRecipeHelper.addShapedRecipe(provider, GCYR.id(stoneSet.planet() + "_cobblestone_slab"),
+                stoneSet.cobbleSlab().asStack(3),
+                "SSS",
+                "S", stoneSet.cobble().asStack());
+
+        VanillaRecipeHelper.addShapedRecipe(provider, GCYR.id(stoneSet.planet() + "_cobblestone_stairs"),
+                stoneSet.cobbleStair().asStack(4),
+                "S  ", "SS ", "SSS",
+                'S', stoneSet.cobble().asStack());
+
+        // stone slab/stairs
+        VanillaRecipeHelper.addShapedRecipe(provider, GCYR.id(stoneSet.planet() + "_" + stoneSet.stoneName() + "_slab"),
+                stoneSet.stoneSlab.asStack(3),
+                "SSS",
+                "S", stoneSet.stone().asStack());
+
+        VanillaRecipeHelper.addShapedRecipe(provider,
+                GCYR.id(stoneSet.planet() + "_" + stoneSet.stoneName() + "_stairs"),
+                stoneSet.stoneStair().asStack(4),
+                "S  ", "SS ", "SSS",
+                'S', stoneSet.stone().asStack());
+
+        // stone button
+        // hammer stone -> cobble, cook cobble -> stone
+    }
 
     public static void init(Consumer<FinishedRecipe> provider) {
         VanillaRecipeHelper.addShapedRecipe(provider, true, GCYR.id("casing_atomic"),
@@ -212,14 +248,6 @@ public class MiscRecipes {
         // endregion
 
         // region Decoration Stuff
-        VanillaRecipeHelper.addShapedRecipe(provider, GCYR.id("venus_cobblestone_slab"),
-                GCYRBlocks.VENUS_COBBLESTONE_SLAB.asStack(3),
-                "SSS",
-                'S', GCYRBlocks.VENUS_COBBLESTONE.asStack());
-
-        VanillaRecipeHelper.addShapedRecipe(provider, GCYR.id("venus_rock_slab"), GCYRBlocks.VENUS_ROCK_SLAB.asStack(3),
-                "SSS",
-                'S', GCYRBlocks.VENUS_ROCK.asStack());
 
         VanillaRecipeHelper.addShapedRecipe(provider, GCYR.id("mercury_cobblestone_slab"),
                 GCYRBlocks.MERCURY_COBBLESTONE_SLAB.asStack(3),
@@ -249,6 +277,15 @@ public class MiscRecipes {
         VanillaRecipeHelper.addShapedRecipe(provider, GCYR.id("moon_stone_slab"), GCYRBlocks.MOON_STONE.asStack(3),
                 "SSS",
                 'S', GCYRBlocks.MOON_STONE.asStack());
+
+        VanillaRecipeHelper.addShapedRecipe(provider, GCYR.id("venus_cobblestone_slab"),
+                GCYRBlocks.VENUS_COBBLESTONE_SLAB.asStack(3),
+                "SSS",
+                'S', GCYRBlocks.VENUS_COBBLESTONE.asStack());
+
+        VanillaRecipeHelper.addShapedRecipe(provider, GCYR.id("venus_rock_slab"), GCYRBlocks.VENUS_ROCK_SLAB.asStack(3),
+                "SSS",
+                'S', GCYRBlocks.VENUS_ROCK.asStack());
 
         VanillaRecipeHelper.addShapedRecipe(provider, GCYR.id("venus_cobblestone_stairs"),
                 GCYRBlocks.VENUS_COBBLESTONE_STAIRS.asStack(4),

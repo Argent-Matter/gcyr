@@ -1,5 +1,5 @@
 {
-  "parent": "minecraft:block/slab",
+  "parent": "minecraft:block/inner_stairs",
   "textures": {
     "bottom": "gcyr:block/mercury_cobblestone",
     "side": "gcyr:block/mercury_cobblestone",
