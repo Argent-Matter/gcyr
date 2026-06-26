@@ -447,6 +447,7 @@ public class GCYRBlocks {
 
     public static final BlockEntry<MushroomBlock> PRB_SHROOM = REGISTRATE
             .block("prb_underground_mushroom", (p) -> new MushroomBlock(p, null /* todo fix */))
+            .lang("Proxima b Underground Mushroom")
             .initialProperties(() -> Blocks.BROWN_MUSHROOM)
             .properties(p -> p.mapColor(MapColor.COLOR_LIGHT_GRAY).lightLevel((arg) -> {
                 return 11;
@@ -460,6 +461,7 @@ public class GCYRBlocks {
 
     public static final BlockEntry<MushroomBlock> PRB_BULB = REGISTRATE
             .block("prb_underground_bulb", (p) -> new MushroomBlock(p, null))
+            .lang("Proxima b Underground Bulb")
             .initialProperties(() -> Blocks.BROWN_MUSHROOM)
             .properties(p -> p.mapColor(MapColor.COLOR_LIGHT_GRAY).lightLevel((arg) -> {
                 return 1;
