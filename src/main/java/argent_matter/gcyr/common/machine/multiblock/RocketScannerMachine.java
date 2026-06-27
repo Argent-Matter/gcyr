@@ -28,6 +28,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -195,6 +196,10 @@ public class RocketScannerMachine extends PlatformMultiblockMachine implements I
                 @Nullable
                 CompoundTag entityTag = entry.getValue().getSecond();
                 rocket.addBlock(pos.subtract(startPos), state, entityTag);
+                BlockEntity be = getLevel().getBlockEntity(pos);
+                if (be instanceof Container container) {
+                    container.clearContent();
+                }
                 getLevel().setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
             }
             rocket.setPos(startPos.getX(), startPos.getY(), startPos.getZ());

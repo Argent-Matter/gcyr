@@ -70,7 +70,7 @@ public class GCYREntityDataSerializers {
 
         @Override
         public PosWithState copy(PosWithState value) {
-            return new PosWithState(value.pos(), value.state());
+            return new PosWithState(value.pos(), value.state(), value.entityTag());
         }
     };
 
