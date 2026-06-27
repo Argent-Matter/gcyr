@@ -7,6 +7,7 @@ import argent_matter.gcyr.common.data.GCYRNetworking;
 import argent_matter.gcyr.common.item.armor.SpaceSuitArmorItem;
 import argent_matter.gcyr.common.networking.s2c.PacketSyncDysonSphereStatus;
 import argent_matter.gcyr.common.recipe.type.SmithingSpaceSuitRecipe;
+import argent_matter.gcyr.common.recipe.type.SmithingThermalUpgradeRecipe;
 import argent_matter.gcyr.data.loader.PlanetData;
 
 import com.lowdragmc.lowdraglib.misc.ItemStackTransfer;
@@ -119,6 +120,14 @@ public class ForgeCommonEventListener {
                 }
             }
             event.getToolTip().add(1, Component.translatable("tooltip.gcyr.spacesuit"));
+        }
+        if (stack.hasTag()) {
+            if (stack.getTag().getBoolean(SmithingThermalUpgradeRecipe.HEAT_SHIELDED_KEY)) {
+                event.getToolTip().add(Component.translatable("tooltip.gcyr.heat_shielded"));
+            }
+            if (stack.getTag().getBoolean(SmithingThermalUpgradeRecipe.FREEZE_PROTECTED_KEY)) {
+                event.getToolTip().add(Component.translatable("tooltip.gcyr.freeze_protected"));
+            }
         }
     }
 }

@@ -1,6 +1,7 @@
 package argent_matter.gcyr.common.entity.data;
 
 import argent_matter.gcyr.common.item.armor.SpaceSuitArmorItem;
+import argent_matter.gcyr.common.recipe.type.SmithingThermalUpgradeRecipe;
 import argent_matter.gcyr.config.GCYRConfig;
 import argent_matter.gcyr.data.loader.PlanetData;
 import argent_matter.gcyr.data.recipe.GCYRTags;
@@ -84,11 +85,13 @@ public class EntityTemperatureSystem {
 
     public static boolean armourIsFreezeResistant(LivingEntity entity) {
         return StreamSupport.stream(entity.getArmorSlots().spliterator(), false)
-                .allMatch(s -> s.is(GCYRTags.FREEZE_RESISTANT));
+                .allMatch(s -> s.is(GCYRTags.FREEZE_RESISTANT) ||
+                        (s.hasTag() && s.getTag().getBoolean(SmithingThermalUpgradeRecipe.FREEZE_PROTECTED_KEY)));
     }
 
     public static boolean armourIsHeatResistant(LivingEntity entity) {
         return StreamSupport.stream(entity.getArmorSlots().spliterator(), false)
-                .allMatch(s -> s.is(GCYRTags.HEAT_RESISTANT));
+                .allMatch(s -> s.is(GCYRTags.HEAT_RESISTANT) ||
+                        (s.hasTag() && s.getTag().getBoolean(SmithingThermalUpgradeRecipe.HEAT_SHIELDED_KEY)));
     }
 }

@@ -2,6 +2,7 @@ package argent_matter.gcyr.common.data;
 
 import argent_matter.gcyr.GCYR;
 import argent_matter.gcyr.common.recipe.type.SmithingSpaceSuitRecipe;
+import argent_matter.gcyr.common.recipe.type.SmithingThermalUpgradeRecipe;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -16,4 +17,7 @@ public class GCYRVanillaRecipeTypes {
 
     public static final RegistryObject<SmithingSpaceSuitRecipe.Serializer> SMITHING_SPACESUIT_SERIALIZER = RECIPE_TYPE_DEFERRED_REGISTER
             .register("smithing_spacesuit", SmithingSpaceSuitRecipe.Serializer::new);
+
+    public static final RegistryObject<SmithingThermalUpgradeRecipe.Serializer> SMITHING_THERMAL_UPGRADE_SERIALIZER = RECIPE_TYPE_DEFERRED_REGISTER
+            .register("smithing_thermal_upgrade", SmithingThermalUpgradeRecipe.Serializer::new);
 }

@@ -6,6 +6,7 @@ import argent_matter.gcyr.common.data.GCYRItems;
 import argent_matter.gcyr.common.data.GCYRMachines;
 import argent_matter.gcyr.common.data.GCYRMaterials;
 import argent_matter.gcyr.data.recipe.builder.SmithingSpaceSuitRecipeBuilder;
+import argent_matter.gcyr.data.recipe.builder.SmithingThermalUpgradeRecipeBuilder;
 
 import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry;
@@ -104,6 +105,31 @@ public class MiscRecipes {
                 .EUt(VA[IV]).duration(50)
                 .save(provider);
 
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GCYR.id("heat_shielding_fabric"))
+                .inputItems(foil, KaptonK, 4)
+                .inputItems(foil, Polytetrafluoroethylene, 4)
+                .inputItems(dust, FiberGlass, 4)
+                .outputItems(GCYRItems.HEAT_SHIELDING_FABRIC.asStack(1))
+                .EUt(VA[HV]).duration(100)
+                .save(provider);
+
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GCYR.id("insulating_fabric"))
+                .inputItems(foil, Polybenzimidazole, 4)
+                .inputItems(foil, ParaAramid, 4)
+                .inputItems(foil, Polytetrafluoroethylene, 4)
+                .outputItems(GCYRItems.INSULATING_FABRIC.asStack(1))
+                .EUt(VA[HV]).duration(100)
+                .save(provider);
+
+        GTRecipeTypes.ASSEMBLER_RECIPES.recipeBuilder(GCYR.id("space_suit_thermal_upgrade_smithing_template"))
+                .inputItems(GCYRItems.HEAT_SHIELDING_FABRIC.asStack(3))
+                .inputItems(GCYRItems.INSULATING_FABRIC.asStack(3))
+                .inputItems(plate, Titanium, 2)
+                .inputItems(foil, KaptonK, 2)
+                .outputItems(GCYRItems.SPACE_SUIT_THERMAL_UPGRADE_SMITHING_TEMPLATE.asStack(1))
+                .EUt(VA[IV]).duration(50)
+                .save(provider);
+
         SmithingSpaceSuitRecipeBuilder.smithingSpacesuit(Ingredient.of(GCYRItems.SPACE_UPGRADE_SMITHING_TEMPLATE.get()),
                 Ingredient.of(Tags.Items.ARMORS_BOOTS),
                 Ingredient.of(GCYRItems.SPACE_SUIT_BOOTS.get()))
@@ -120,6 +146,47 @@ public class MiscRecipes {
                 Ingredient.of(Tags.Items.ARMORS_HELMETS),
                 Ingredient.of(GCYRItems.SPACE_SUIT_HELMET.get()))
                 .save(provider, GCYR.id("space_suit_helmet_smithing_trim"));
+
+        SmithingThermalUpgradeRecipeBuilder.smithingThermal(
+                Ingredient.of(GCYRItems.SPACE_SUIT_THERMAL_UPGRADE_SMITHING_TEMPLATE.get()),
+                Ingredient.of(Tags.Items.ARMORS_HELMETS),
+                Ingredient.of(GCYRItems.HEAT_SHIELDING_FABRIC.get()))
+                .save(provider, GCYR.id("heat_shielding_helmet_smithing"));
+        SmithingThermalUpgradeRecipeBuilder.smithingThermal(
+                Ingredient.of(GCYRItems.SPACE_SUIT_THERMAL_UPGRADE_SMITHING_TEMPLATE.get()),
+                Ingredient.of(Tags.Items.ARMORS_CHESTPLATES),
+                Ingredient.of(GCYRItems.HEAT_SHIELDING_FABRIC.get()))
+                .save(provider, GCYR.id("heat_shielding_chestplate_smithing"));
+        SmithingThermalUpgradeRecipeBuilder.smithingThermal(
+                Ingredient.of(GCYRItems.SPACE_SUIT_THERMAL_UPGRADE_SMITHING_TEMPLATE.get()),
+                Ingredient.of(Tags.Items.ARMORS_LEGGINGS),
+                Ingredient.of(GCYRItems.HEAT_SHIELDING_FABRIC.get()))
+                .save(provider, GCYR.id("heat_shielding_leggings_smithing"));
+        SmithingThermalUpgradeRecipeBuilder.smithingThermal(
+                Ingredient.of(GCYRItems.SPACE_SUIT_THERMAL_UPGRADE_SMITHING_TEMPLATE.get()),
+                Ingredient.of(Tags.Items.ARMORS_BOOTS),
+                Ingredient.of(GCYRItems.HEAT_SHIELDING_FABRIC.get()))
+                .save(provider, GCYR.id("heat_shielding_boots_smithing"));
+        SmithingThermalUpgradeRecipeBuilder.smithingThermal(
+                Ingredient.of(GCYRItems.SPACE_SUIT_THERMAL_UPGRADE_SMITHING_TEMPLATE.get()),
+                Ingredient.of(Tags.Items.ARMORS_HELMETS),
+                Ingredient.of(GCYRItems.INSULATING_FABRIC.get()))
+                .save(provider, GCYR.id("insulating_helmet_smithing"));
+        SmithingThermalUpgradeRecipeBuilder.smithingThermal(
+                Ingredient.of(GCYRItems.SPACE_SUIT_THERMAL_UPGRADE_SMITHING_TEMPLATE.get()),
+                Ingredient.of(Tags.Items.ARMORS_CHESTPLATES),
+                Ingredient.of(GCYRItems.INSULATING_FABRIC.get()))
+                .save(provider, GCYR.id("insulating_chestplate_smithing"));
+        SmithingThermalUpgradeRecipeBuilder.smithingThermal(
+                Ingredient.of(GCYRItems.SPACE_SUIT_THERMAL_UPGRADE_SMITHING_TEMPLATE.get()),
+                Ingredient.of(Tags.Items.ARMORS_LEGGINGS),
+                Ingredient.of(GCYRItems.INSULATING_FABRIC.get()))
+                .save(provider, GCYR.id("insulating_leggings_smithing"));
+        SmithingThermalUpgradeRecipeBuilder.smithingThermal(
+                Ingredient.of(GCYRItems.SPACE_SUIT_THERMAL_UPGRADE_SMITHING_TEMPLATE.get()),
+                Ingredient.of(Tags.Items.ARMORS_BOOTS),
+                Ingredient.of(GCYRItems.INSULATING_FABRIC.get()))
+                .save(provider, GCYR.id("insulating_boots_smithing"));
 
         // endregion
 
