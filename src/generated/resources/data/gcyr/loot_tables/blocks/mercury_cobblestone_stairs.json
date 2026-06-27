@@ -11,11 +11,11 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "gcyr:mercury_cobblestone"
+          "name": "gcyr:mercury_cobblestone_stairs"
         }
       ],
       "rolls": 1.0
     }
   ],
-  "random_sequence": "gcyr:blocks/mercury_rock"
+  "random_sequence": "gcyr:blocks/mercury_cobblestone_stairs"
 }

@@ -18,8 +18,11 @@ import com.gregtechceu.gtceu.data.recipe.misc.MetaTileEntityLoader;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.block.*;
 
 import net.minecraftforge.common.Tags;
+
+import com.tterrag.registrate.util.entry.BlockEntry;
 
 import java.util.function.Consumer;
 
@@ -212,93 +215,84 @@ public class MiscRecipes {
         // endregion
 
         // region Decoration Stuff
-        VanillaRecipeHelper.addShapedRecipe(provider, GCYR.id("venus_cobblestone_slab"),
-                GCYRBlocks.VENUS_COBBLESTONE_SLAB.asStack(3),
-                "SSS",
-                'S', GCYRBlocks.VENUS_COBBLESTONE.asStack());
 
-        VanillaRecipeHelper.addShapedRecipe(provider, GCYR.id("venus_rock_slab"), GCYRBlocks.VENUS_ROCK_SLAB.asStack(3),
-                "SSS",
-                'S', GCYRBlocks.VENUS_ROCK.asStack());
+        addStoneRecipeSet(provider, new StoneSet("venus", "rock",
+                GCYRBlocks.VENUS_ROCK, GCYRBlocks.VENUS_COBBLESTONE,
+                GCYRBlocks.VENUS_ROCK_SLAB, GCYRBlocks.VENUS_COBBLESTONE_SLAB,
+                GCYRBlocks.VENUS_ROCK_STAIRS, GCYRBlocks.VENUS_COBBLESTONE_STAIRS,
+                GCYRBlocks.VENUS_ROCK_BUTTON));
 
-        VanillaRecipeHelper.addShapedRecipe(provider, GCYR.id("mercury_cobblestone_slab"),
-                GCYRBlocks.MERCURY_COBBLESTONE_SLAB.asStack(3),
-                "SSS",
-                'S', GCYRBlocks.MERCURY_COBBLESTONE.asStack());
+        addStoneRecipeSet(provider, new StoneSet("mercury", "rock",
+                GCYRBlocks.MERCURY_ROCK, GCYRBlocks.MERCURY_COBBLESTONE,
+                GCYRBlocks.MERCURY_ROCK_SLAB, GCYRBlocks.MERCURY_COBBLESTONE_SLAB,
+                GCYRBlocks.MERCURY_ROCK_STAIRS, GCYRBlocks.MERCURY_COBBLESTONE_STAIRS,
+                GCYRBlocks.MERCURY_ROCK_BUTTON));
 
-        VanillaRecipeHelper.addShapedRecipe(provider, GCYR.id("mercury_rock_slab"),
-                GCYRBlocks.MERCURY_ROCK_SLAB.asStack(3),
-                "SSS",
-                'S', GCYRBlocks.MERCURY_ROCK.asStack());
+        addStoneRecipeSet(provider, new StoneSet("martian", "rock",
+                GCYRBlocks.MARTIAN_ROCK, GCYRBlocks.MARTIAN_COBBLESTONE,
+                GCYRBlocks.MARTIAN_ROCK_SLAB, GCYRBlocks.MARTIAN_COBBLESTONE_SLAB,
+                GCYRBlocks.MARTIAN_ROCK_STAIRS, GCYRBlocks.MARTIAN_COBBLESTONE_STAIRS,
+                GCYRBlocks.MARTIAN_ROCK_BUTTON));
 
-        VanillaRecipeHelper.addShapedRecipe(provider, GCYR.id("martian_cobblestone_slab"),
-                GCYRBlocks.MARTIAN_COBBLESTONE_SLAB.asStack(3),
-                "SSS",
-                'S', GCYRBlocks.MARTIAN_ROCK.asStack());
-
-        VanillaRecipeHelper.addShapedRecipe(provider, GCYR.id("martian_rock_slab"),
-                GCYRBlocks.MARTIAN_ROCK_SLAB.asStack(3),
-                "SSS",
-                'S', GCYRBlocks.MARTIAN_ROCK.asStack());
-
-        VanillaRecipeHelper.addShapedRecipe(provider, GCYR.id("moon_cobblestone_slab"),
-                GCYRBlocks.MOON_COBBLESTONE_SLAB.asStack(3),
-                "SSS",
-                'S', GCYRBlocks.MOON_COBBLESTONE.asStack());
-
-        VanillaRecipeHelper.addShapedRecipe(provider, GCYR.id("moon_stone_slab"), GCYRBlocks.MOON_STONE.asStack(3),
-                "SSS",
-                'S', GCYRBlocks.MOON_STONE.asStack());
-
-        VanillaRecipeHelper.addShapedRecipe(provider, GCYR.id("venus_cobblestone_stairs"),
-                GCYRBlocks.VENUS_COBBLESTONE_STAIRS.asStack(4),
-                "S  ", "SS ", "SSS",
-                'S', GCYRBlocks.VENUS_COBBLESTONE.asStack());
-
-        VanillaRecipeHelper.addShapedRecipe(provider, GCYR.id("venus_rock_stairs"),
-                GCYRBlocks.VENUS_ROCK_STAIRS.asStack(4),
-                "S  ", "SS ", "SSS",
-                'S', GCYRBlocks.VENUS_ROCK.asStack());
-
-        VanillaRecipeHelper.addShapedRecipe(provider, GCYR.id("mercury_cobblestone_stairs"),
-                GCYRBlocks.MERCURY_COBBLESTONE_STAIRS.asStack(4),
-                "S  ", "SS ", "SSS",
-                'S', GCYRBlocks.MERCURY_COBBLESTONE.asStack());
-
-        VanillaRecipeHelper.addShapedRecipe(provider, GCYR.id("mercury_rock_stairs"),
-                GCYRBlocks.MERCURY_ROCK_STAIRS.asStack(4),
-                "S  ", "SS ", "SSS",
-                'S', GCYRBlocks.MERCURY_ROCK.asStack());
-
-        VanillaRecipeHelper.addShapedRecipe(provider, GCYR.id("martian_cobblestone_stairs"),
-                GCYRBlocks.MARTIAN_COBBLESTONE_STAIRS.asStack(4),
-                "S  ", "SS ", "SSS",
-                'S', GCYRBlocks.MARTIAN_COBBLESTONE.asStack());
-
-        VanillaRecipeHelper.addShapedRecipe(provider, GCYR.id("martian_rock_stairs"),
-                GCYRBlocks.MARTIAN_ROCK_STAIRS.asStack(4),
-                "S  ", "SS ", "SSS",
-                'S', GCYRBlocks.MARTIAN_ROCK.asStack());
-
-        VanillaRecipeHelper.addShapedRecipe(provider, GCYR.id("moon_cobblestone_stairs"),
-                GCYRBlocks.MOON_COBBLESTONE_STAIRS.asStack(4),
-                "S  ", "SS ", "SSS",
-                'S', GCYRBlocks.MOON_COBBLESTONE.asStack());
-
-        VanillaRecipeHelper.addShapedRecipe(provider, GCYR.id("moon_stone_stairs"),
-                GCYRBlocks.MOON_STONE_STAIRS.asStack(4),
-                "S  ", "SS ", "SSS",
-                'S', GCYRBlocks.MOON_STONE.asStack());
-
-        VanillaRecipeHelper.addShapelessRecipe(provider, "venus_button", GCYRBlocks.VENUS_ROCK_BUTTON.asStack(),
-                GCYRBlocks.VENUS_ROCK.asStack());
-        VanillaRecipeHelper.addShapelessRecipe(provider, "mercury_button", GCYRBlocks.MERCURY_ROCK_BUTTON.asStack(),
-                GCYRBlocks.MERCURY_ROCK.asStack());
-        VanillaRecipeHelper.addShapelessRecipe(provider, "martian_button", GCYRBlocks.MARTIAN_ROCK_BUTTON.asStack(),
-                GCYRBlocks.MARTIAN_ROCK.asStack());
-        VanillaRecipeHelper.addShapelessRecipe(provider, "moon_button", GCYRBlocks.MOON_STONE_BUTTON.asStack(),
-                GCYRBlocks.MOON_STONE.asStack());
+        addStoneRecipeSet(provider, new StoneSet("moon", "stone",
+                GCYRBlocks.MOON_STONE, GCYRBlocks.MOON_COBBLESTONE,
+                GCYRBlocks.MOON_STONE_SLAB, GCYRBlocks.MOON_COBBLESTONE_SLAB,
+                GCYRBlocks.MOON_STONE_STAIRS, GCYRBlocks.MOON_COBBLESTONE_STAIRS,
+                GCYRBlocks.MOON_STONE_BUTTON));
 
         // endregion
+    }
+
+    record StoneSet(String planet, String stoneName,
+                    BlockEntry<Block> stone, BlockEntry<Block> cobble,
+                    BlockEntry<SlabBlock> stoneSlab, BlockEntry<SlabBlock> cobbleSlab,
+                    BlockEntry<StairBlock> stoneStair, BlockEntry<StairBlock> cobbleStair,
+                    BlockEntry<ButtonBlock> button) {}
+
+    private static void addStoneRecipeSet(Consumer<FinishedRecipe> provider, StoneSet stoneSet) {
+        // cobble slab/stairs
+        VanillaRecipeHelper.addShapedRecipe(provider,
+                GCYR.id(stoneSet.planet + "_cobblestone_slab"),
+                stoneSet.cobbleSlab.asStack(3),
+                "SSS",
+                'S', stoneSet.cobble.asStack());
+
+        VanillaRecipeHelper.addShapedRecipe(provider,
+                GCYR.id(stoneSet.planet + "_cobblestone_stairs"),
+                stoneSet.cobbleStair.asStack(4),
+                "S  ", "SS ", "SSS",
+                'S', stoneSet.cobble.asStack());
+
+        // stone slab/stairs
+        VanillaRecipeHelper.addShapedRecipe(provider,
+                GCYR.id(stoneSet.planet + "_" + stoneSet.stoneName + "_slab"),
+                stoneSet.stoneSlab.asStack(3),
+                "SSS",
+                'S', stoneSet.stone.asStack());
+
+        VanillaRecipeHelper.addShapedRecipe(provider,
+                GCYR.id(stoneSet.planet + "_" + stoneSet.stoneName + "_stairs"),
+                stoneSet.stoneStair.asStack(4),
+                "S  ", "SS ", "SSS",
+                'S', stoneSet.stone.asStack());
+
+        // stone button
+        VanillaRecipeHelper.addShapelessRecipe(provider, stoneSet.planet + "_button",
+                stoneSet.button.asStack(),
+                stoneSet.stone.asStack());
+
+        // cook cobble -> stone
+        VanillaRecipeHelper.addSmeltingRecipe(provider, stoneSet.planet + "_smelt_" + stoneSet.stoneName(),
+                stoneSet.cobble.asStack(),
+                stoneSet.stone.asStack());
+
+        // hammer stone -> cobble
+        GTRecipeTypes.FORGE_HAMMER_RECIPES.recipeBuilder(
+                GCYR.id(stoneSet.planet + "_" + stoneSet.stoneName + "_hammer_to_cobble"))
+                .inputItems(stoneSet.stone().asStack())
+                .outputItems(stoneSet.cobble().asStack())
+                .duration(12)
+                .EUt(4)
+                .save(provider);
     }
 }
