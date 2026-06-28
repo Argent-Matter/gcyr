@@ -68,6 +68,9 @@ public class PlanetSelectionScreen extends Screen implements MenuAccess<PlanetSe
     public static final Component TEMPERATURE_TEXT = Component.translatable("menu.gcyr.temperature");
     public static final Component OXYGEN_TRUE_TEXT = Component.translatable("menu.gcyr.oxygen.true");
     public static final Component OXYGEN_FALSE_TEXT = Component.translatable("menu.gcyr.oxygen.false");
+    public static final Component REQUIRES_HEAT_SHIELDING_TEXT = Component
+            .translatable("menu.gcyr.requires_heat_shielding");
+    public static final Component REQUIRES_INSULATION_TEXT = Component.translatable("menu.gcyr.requires_insulation");
 
     public static final int SCROLL_BAR_X = 92;
     public static final int SCROLL_SENSITIVITY = 5;
@@ -362,6 +365,24 @@ public class PlanetSelectionScreen extends Screen implements MenuAccess<PlanetSe
         return button;
     }
 
+    private void addTemperatureEntries(List<Component> textEntries, float temperature) {
+        ChatFormatting colour = ChatFormatting.GOLD;
+        Component helpText = null;
+        if (temperature > 363) {
+            colour = ChatFormatting.RED;
+            helpText = REQUIRES_HEAT_SHIELDING_TEXT;
+        } else if (temperature < 60) {
+            colour = ChatFormatting.DARK_BLUE;
+            helpText = REQUIRES_INSULATION_TEXT;
+        }
+
+        textEntries.add(TEMPERATURE_TEXT.copy().withStyle(ChatFormatting.BLUE).append(": ")
+                .append(Component.literal(temperature + " K").withStyle(colour)));
+        if (helpText != null) {
+            textEntries.add(helpText.copy().withStyle(colour));
+        }
+    }
+
     public List<FormattedCharSequence> renderButtonTooltip(Planet planetInfo, TooltipType tooltip, Button button) {
         List<Component> textEntries = new LinkedList<>();
 
@@ -394,36 +415,20 @@ public class PlanetSelectionScreen extends Screen implements MenuAccess<PlanetSe
                 textEntries.add(OXYGEN_TEXT.copy().withStyle(ChatFormatting.BLUE).append(": ")
                         .append((planetInfo.hasOxygen() ? OXYGEN_TRUE_TEXT : OXYGEN_FALSE_TEXT).copy()
                                 .withStyle(planetInfo.hasOxygen() ? ChatFormatting.GREEN : ChatFormatting.RED)));
-                ChatFormatting temperatureColour = ChatFormatting.GREEN;
-
-                // Make the temperature text look orange when the temperature is hot and blue when the temperature is
-                // cold.
-                if (planetInfo.temperature() > 50) {
-                    // Hot.
-                    temperatureColour = ChatFormatting.GOLD;
-                } else if (planetInfo.temperature() < -20) {
-                    // Cold.
-                    temperatureColour = ChatFormatting.DARK_BLUE;
-                }
-
-                textEntries.add(TEMPERATURE_TEXT.copy().withStyle(ChatFormatting.BLUE).append(": ")
-                        .append(Component.literal(planetInfo.temperature() + " K").withStyle(temperatureColour)));
+                addTemperatureEntries(textEntries, planetInfo.temperature());
             }
-            default -> {
-
+            case ORBIT, SPACE_STATION -> {
+                textEntries.add(TYPE_TEXT.copy().withStyle(ChatFormatting.BLUE).append(": ")
+                        .append(ORBIT_TEXT.copy().withStyle(ChatFormatting.DARK_AQUA)));
+                textEntries.add(GRAVITY_TEXT.copy().withStyle(ChatFormatting.BLUE).append(": ")
+                        .append(NO_GRAVITY_TEXT.copy().withStyle(ChatFormatting.DARK_AQUA)));
+                textEntries.add(OXYGEN_TEXT.copy().withStyle(ChatFormatting.BLUE).append(": ")
+                        .append(OXYGEN_FALSE_TEXT.copy().withStyle(ChatFormatting.RED)));
+                addTemperatureEntries(textEntries, GCYRValues.ORBIT_TEMPERATURE);
             }
+            default -> {}
         }
 
-        if (tooltip.equals(TooltipType.ORBIT) || tooltip.equals(TooltipType.SPACE_STATION)) {
-            textEntries.add(TYPE_TEXT.copy().withStyle(ChatFormatting.BLUE).append(": ")
-                    .append(ORBIT_TEXT.copy().withStyle(ChatFormatting.DARK_AQUA)));
-            textEntries.add(GRAVITY_TEXT.copy().withStyle(ChatFormatting.BLUE).append(": ")
-                    .append(NO_GRAVITY_TEXT.copy().withStyle(ChatFormatting.DARK_AQUA)));
-            textEntries.add(OXYGEN_TEXT.copy().withStyle(ChatFormatting.BLUE).append(": ")
-                    .append(OXYGEN_FALSE_TEXT.copy().withStyle(ChatFormatting.RED)));
-            textEntries.add(TEMPERATURE_TEXT.copy().withStyle(ChatFormatting.BLUE).append(": ").append(
-                    Component.literal(GCYRValues.ORBIT_TEMPERATURE + " K").withStyle(ChatFormatting.DARK_BLUE)));
-        }
         return textEntries.stream().map(Component::getVisualOrderText).toList();
     }
 

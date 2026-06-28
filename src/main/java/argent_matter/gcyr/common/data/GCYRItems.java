@@ -12,6 +12,7 @@ import com.gregtechceu.gtceu.api.item.component.IItemComponent;
 import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
@@ -21,6 +22,8 @@ import com.tterrag.registrate.providers.ProviderType;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
 import com.tterrag.registrate.util.nullness.NonNullConsumer;
+
+import java.util.List;
 
 import static argent_matter.gcyr.api.registries.GCYRRegistries.REGISTRATE;
 
@@ -151,6 +154,37 @@ public class GCYRItems {
                     SmithingTemplateItem.createTrimmableArmorIconList(),
                     SmithingTemplateItem.createTrimmableArmorIconList()))
             .setData(ProviderType.LANG, NonNullBiConsumer.noop())
+            .register();
+
+    public static final ItemEntry<SmithingTemplateItem> SPACE_SUIT_THERMAL_UPGRADE_SMITHING_TEMPLATE = REGISTRATE
+            .item("space_suit_thermal_upgrade_smithing_template", properties -> new SmithingTemplateItem(
+                    SmithingTemplateItem.ARMOR_TRIM_APPLIES_TO,
+                    Component.translatable(Util.makeDescriptionId("item",
+                            GCYR.id("smithing_template.space_suit_thermal_upgrade.ingredients"))),
+                    Component.translatable("item.gcyr.space_suit_thermal_upgrade_smithing_template")
+                            .withStyle(ChatFormatting.GRAY),
+                    SmithingTemplateItem.ARMOR_TRIM_BASE_SLOT_DESCRIPTION,
+                    Component.translatable(Util.makeDescriptionId("item",
+                            GCYR.id("smithing_template.space_suit_thermal_upgrade.additions_slot_description"))),
+                    SmithingTemplateItem.createTrimmableArmorIconList(),
+                    List.of(
+                            new ResourceLocation(GCYR.MOD_ID, "item/empty_slot_heat_shielding_fabric"),
+                            new ResourceLocation(GCYR.MOD_ID, "item/empty_slot_insulating_fabric"))))
+            .setData(ProviderType.LANG, NonNullBiConsumer.noop())
+            .register();
+
+    public static final ItemEntry<Item> HEAT_SHIELDING_FABRIC = REGISTRATE
+            .item("heat_shielding_fabric", Item::new)
+            .lang("Heat Shielding Fabric")
+            .properties(p -> p.fireResistant())
+            .defaultModel()
+            .register();
+
+    public static final ItemEntry<Item> INSULATING_FABRIC = REGISTRATE
+            .item("insulating_fabric", Item::new)
+            .lang("Insulating Fabric")
+            .properties(p -> p.fireResistant())
+            .defaultModel()
             .register();
 
     // endregion

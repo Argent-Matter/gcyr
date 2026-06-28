@@ -40,6 +40,12 @@ public class LangHandler extends com.gregtechceu.gtceu.data.lang.LangHandler {
         provider.add("trim_pattern.gcyr.space", "Space Suit Upgrade");
         provider.add("tooltip.gcyr.spacesuit", "Works as a space suit.");
         provider.add("tooltip.gcyr.spacesuit.stored", "Stored Oxygen: %s / %s mB");
+        provider.add("item.gcyr.space_suit_thermal_upgrade_smithing_template", "Space Suit Thermal Upgrade");
+        provider.add("item.gcyr.smithing_template.space_suit_thermal_upgrade.ingredients", "Thermal Fabric");
+        provider.add("item.gcyr.smithing_template.space_suit_thermal_upgrade.additions_slot_description",
+                "Add Thermal Fabric");
+        provider.add("tooltip.gcyr.heat_shielded", "Protects from extreme heat.");
+        provider.add("tooltip.gcyr.freeze_protected", "Protects from extreme cold.");
 
         // machines
         provider.add("gcyr.machine.satellite_jammer.jammed", "Jammed %s");
@@ -93,6 +99,8 @@ public class LangHandler extends com.gregtechceu.gtceu.data.lang.LangHandler {
         provider.add("menu.gcyr.oxygen.true", "Has oxygen");
         provider.add("menu.gcyr.oxygen.false", "Doesn't have oxygen");
         provider.add("menu.gcyr.rocket_tier", "Tier %d Rocket");
+        provider.add("menu.gcyr.requires_heat_shielding", "Requires Heat Shielding");
+        provider.add("menu.gcyr.requires_insulation", "Requires Insulation");
 
         // messages
         provider.add("message.gcyr.no_fuel",
