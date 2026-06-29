@@ -1,14 +1,18 @@
 package argent_matter.gcyr.common.networking.s2c;
 
 import argent_matter.gcyr.GCYRClient;
+
 import com.lowdragmc.lowdraglib.networking.IPacket;
+
+import net.minecraft.network.FriendlyByteBuf;
+
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import net.minecraft.network.FriendlyByteBuf;
 
 @NoArgsConstructor
 @AllArgsConstructor
 public class PacketSyncDysonSphereStatus implements IPacket {
+
     private boolean isSphereActive;
 
     @Override

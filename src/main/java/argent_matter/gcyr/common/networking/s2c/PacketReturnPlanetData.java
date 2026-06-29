@@ -2,12 +2,16 @@ package argent_matter.gcyr.common.networking.s2c;
 
 import argent_matter.gcyr.GCYRClient;
 import argent_matter.gcyr.data.loader.PlanetData;
+
 import com.lowdragmc.lowdraglib.networking.IPacket;
-import lombok.NoArgsConstructor;
+
 import net.minecraft.network.FriendlyByteBuf;
+
+import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 public class PacketReturnPlanetData implements IPacket {
+
     @Override
     public void encode(FriendlyByteBuf buf) {
         PlanetData.writePlanetData(buf);

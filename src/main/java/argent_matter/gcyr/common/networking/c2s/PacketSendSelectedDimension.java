@@ -2,13 +2,16 @@ package argent_matter.gcyr.common.networking.c2s;
 
 import argent_matter.gcyr.common.data.GCYRItems;
 import argent_matter.gcyr.common.item.PlanetIdChipBehaviour;
+
 import com.lowdragmc.lowdraglib.networking.IHandlerContext;
 import com.lowdragmc.lowdraglib.networking.IPacket;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @AllArgsConstructor

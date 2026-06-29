@@ -7,7 +7,6 @@ plugins {
     alias libs.plugins.modDevGradle
     alias libs.plugins.spotless
     alias libs.plugins.lombok
-    alias libs.plugins.shadow
 }
 
 group = project.properties.maven_group

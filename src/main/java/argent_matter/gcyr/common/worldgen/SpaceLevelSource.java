@@ -1,8 +1,7 @@
 package argent_matter.gcyr.common.worldgen;
 
 import argent_matter.gcyr.common.data.GCYRBiomes;
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
+
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
@@ -20,17 +19,22 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.RandomState;
 import net.minecraft.world.level.levelgen.blending.Blender;
 
-import javax.annotation.ParametersAreNonnullByDefault;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
 public class SpaceLevelSource extends ChunkGenerator {
+
     public static final Codec<SpaceLevelSource> CODEC = RecordCodecBuilder.create(
-            instance -> instance.group(RegistryOps.retrieveElement(GCYRBiomes.SPACE)).apply(instance, instance.stable(SpaceLevelSource::new))
-    );
+            instance -> instance.group(RegistryOps.retrieveElement(GCYRBiomes.SPACE)).apply(instance,
+                    instance.stable(SpaceLevelSource::new)));
 
     public static final int PLATFORM_HEIGHT = 63;
 
@@ -44,19 +48,15 @@ public class SpaceLevelSource extends ChunkGenerator {
     }
 
     @Override
-    public void applyCarvers(WorldGenRegion level, long seed, RandomState random, BiomeManager biomeManager, StructureManager structureManager, ChunkAccess chunk, GenerationStep.Carving step) {
-
-    }
-
-    @Override
-    public void buildSurface(WorldGenRegion level, StructureManager structureManager, RandomState random, ChunkAccess chunk) {
-
-    }
+    public void applyCarvers(WorldGenRegion level, long seed, RandomState random, BiomeManager biomeManager,
+                             StructureManager structureManager, ChunkAccess chunk, GenerationStep.Carving step) {}
 
     @Override
-    public void spawnOriginalMobs(WorldGenRegion level) {
+    public void buildSurface(WorldGenRegion level, StructureManager structureManager, RandomState random,
+                             ChunkAccess chunk) {}
 
-    }
+    @Override
+    public void spawnOriginalMobs(WorldGenRegion level) {}
 
     @Override
     public int getGenDepth() {
@@ -64,7 +64,8 @@ public class SpaceLevelSource extends ChunkGenerator {
     }
 
     @Override
-    public CompletableFuture<ChunkAccess> fillFromNoise(Executor executor, Blender blender, RandomState random, StructureManager structureManager, ChunkAccess chunk) {
+    public CompletableFuture<ChunkAccess> fillFromNoise(Executor executor, Blender blender, RandomState random,
+                                                        StructureManager structureManager, ChunkAccess chunk) {
         return CompletableFuture.completedFuture(chunk);
     }
 
@@ -89,12 +90,8 @@ public class SpaceLevelSource extends ChunkGenerator {
     }
 
     @Override
-    public void addDebugScreenInfo(List<String> info, RandomState random, BlockPos pos) {
-
-    }
+    public void addDebugScreenInfo(List<String> info, RandomState random, BlockPos pos) {}
 
     @Override
-    public void applyBiomeDecoration(WorldGenLevel level, ChunkAccess chunk, StructureManager structureManager) {
-
-    }
+    public void applyBiomeDecoration(WorldGenLevel level, ChunkAccess chunk, StructureManager structureManager) {}
 }

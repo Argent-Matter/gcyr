@@ -6,8 +6,7 @@ import argent_matter.gcyr.api.space.planet.Planet;
 import argent_matter.gcyr.common.worldgen.SpaceLevelSource;
 import argent_matter.gcyr.data.loader.PlanetData;
 import argent_matter.gcyr.util.Vec2i;
-import it.unimi.dsi.fastutil.ints.Int2ObjectLinkedOpenHashMap;
-import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
+
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -16,16 +15,21 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.saveddata.SavedData;
 
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
+import it.unimi.dsi.fastutil.ints.Int2ObjectLinkedOpenHashMap;
+import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
+
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
 public class StationWorldSavedData extends SavedData implements ISpaceStationHolder {
+
     @Nullable
     public static StationWorldSavedData getOrCreate(@Nullable ServerLevel serverLevel) {
         if (serverLevel == null) return null;
@@ -35,11 +39,13 @@ public class StationWorldSavedData extends SavedData implements ISpaceStationHol
             ServerLevel orbit = serverLevel.getServer().getLevel(planet.orbitWorld());
             return getOrCreate(orbit);
         }
-        return serverLevel.getDataStorage().computeIfAbsent(tag -> new StationWorldSavedData(serverLevel, tag), () -> new StationWorldSavedData(serverLevel), GCYR.MOD_ID + "_space_stations");
+        return serverLevel.getDataStorage().computeIfAbsent(tag -> new StationWorldSavedData(serverLevel, tag),
+                () -> new StationWorldSavedData(serverLevel), GCYR.MOD_ID + "_space_stations");
     }
 
     private final Int2ObjectMap<SpaceStation> stations = new Int2ObjectLinkedOpenHashMap<>(1);
-    private final Int2ObjectMap<Vec2i> freeStationPositions = new Int2ObjectLinkedOpenHashMap<>(SpaceStation.ID_MAX * SpaceStation.ID_MAX);
+    private final Int2ObjectMap<Vec2i> freeStationPositions = new Int2ObjectLinkedOpenHashMap<>(
+            SpaceStation.ID_MAX * SpaceStation.ID_MAX);
     private final ServerLevel level;
 
     public StationWorldSavedData(ServerLevel level) {
@@ -63,7 +69,8 @@ public class StationWorldSavedData extends SavedData implements ISpaceStationHol
 
     @Override
     public int getClosestStationId(Vec2i position) {
-        var result = stations.int2ObjectEntrySet().stream().min(Comparator.comparingDouble(obj -> obj.getValue().position().distanceToSqr(position))).orElse(null);
+        var result = stations.int2ObjectEntrySet().stream()
+                .min(Comparator.comparingDouble(obj -> obj.getValue().position().distanceToSqr(position))).orElse(null);
         return result == null ? -1 : result.getIntKey();
     }
 
@@ -87,7 +94,8 @@ public class StationWorldSavedData extends SavedData implements ISpaceStationHol
     public BlockPos getStationWorldPos(int id) {
         Vec2i stationPos = getStationPos(id);
         if (stationPos == null) return null;
-        return new BlockPos(stationPos.x() * SpaceStation.BLOCK_MULTIPLIER, SpaceLevelSource.PLATFORM_HEIGHT, stationPos.y() * SpaceStation.BLOCK_MULTIPLIER);
+        return new BlockPos(stationPos.x() * SpaceStation.BLOCK_MULTIPLIER, SpaceLevelSource.PLATFORM_HEIGHT,
+                stationPos.y() * SpaceStation.BLOCK_MULTIPLIER);
     }
 
     @Override

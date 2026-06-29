@@ -4,9 +4,11 @@ import argent_matter.gcyr.api.space.planet.Galaxy;
 import argent_matter.gcyr.api.space.planet.PlanetRing;
 import argent_matter.gcyr.api.space.planet.PlanetSkyRenderer;
 import argent_matter.gcyr.api.space.planet.SolarSystem;
-import com.mojang.blaze3d.vertex.VertexFormat;
+
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.resources.ResourceLocation;
+
+import com.mojang.blaze3d.vertex.VertexFormat;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,6 +29,6 @@ public class GCYRClient {
     public static List<Galaxy> galaxies = new ArrayList<>();
 
     public static void init() {
-        //GCYRKeyMappings.init();
+        // GCYRKeyMappings.init();
     }
 }

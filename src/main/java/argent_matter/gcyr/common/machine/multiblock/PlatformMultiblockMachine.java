@@ -1,6 +1,7 @@
 package argent_matter.gcyr.common.machine.multiblock;
 
 import argent_matter.gcyr.common.data.GCYRBlocks;
+
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.feature.multiblock.IDisplayUIMachine;
@@ -10,21 +11,26 @@ import com.gregtechceu.gtceu.api.pattern.BlockPattern;
 import com.gregtechceu.gtceu.api.pattern.FactoryBlockPattern;
 import com.gregtechceu.gtceu.api.pattern.Predicates;
 import com.gregtechceu.gtceu.api.pattern.TraceabilityPredicate;
-import static com.gregtechceu.gtceu.common.data.GTMaterialBlocks.MATERIAL_BLOCKS;
 import com.gregtechceu.gtceu.common.data.GTMaterials;
+
 import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
 
-import javax.annotation.Nonnull;
 import java.util.Arrays;
 
+import javax.annotation.Nonnull;
+
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
+import static com.gregtechceu.gtceu.common.data.GTMaterialBlocks.MATERIAL_BLOCKS;
 
 public class PlatformMultiblockMachine extends MultiblockControllerMachine implements IDisplayUIMachine {
-    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(PlatformMultiblockMachine.class, MultiblockControllerMachine.MANAGED_FIELD_HOLDER);
+
+    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(
+            PlatformMultiblockMachine.class, MultiblockControllerMachine.MANAGED_FIELD_HOLDER);
 
     public static final int MAX_RADIUS = 8;
     public static final int MIN_RADIUS = 1;
@@ -64,9 +70,10 @@ public class PlatformMultiblockMachine extends MultiblockControllerMachine imple
         // find the left, right, back, and front distances for the structure pattern
         // maximum size is 15x15x15 including walls, so check 7 block radius around the controller for blocks
         for (int i = 1; i < MAX_RADIUS; i++) {
-            if (lDist == 0 && isBlockEdge(world, lPos, left))  lDist = i;
+            if (lDist == 0 && isBlockEdge(world, lPos, left)) lDist = i;
             if (rDist == 0 && isBlockEdge(world, rPos, right)) rDist = i;
-            if (bDist == 0 && isBlockEdge(world, bPos, back))  bDist = i + 1; // +1 because the controller isn't in the middle, unlike the cleanroom.
+            if (bDist == 0 && isBlockEdge(world, bPos, back)) bDist = i + 1; // +1 because the controller isn't in the
+                                                                             // middle, unlike the cleanroom.
             if (lDist != 0 && rDist != 0 && bDist != 0) break;
         }
 
@@ -94,8 +101,10 @@ public class PlatformMultiblockMachine extends MultiblockControllerMachine imple
      * @param direction the direction to move
      * @return if a block is a valid wall block at pos moved in direction
      */
-    public boolean isBlockEdge(@Nonnull Level world, @Nonnull BlockPos.MutableBlockPos pos, @Nonnull Direction direction) {
-        return world.getBlockState(pos.move(direction)).is(GCYRBlocks.LAUNCH_PAD.get()) && !world.getBlockState(pos.relative(direction, 1)).is(GCYRBlocks.LAUNCH_PAD.get());
+    public boolean isBlockEdge(@Nonnull Level world, @Nonnull BlockPos.MutableBlockPos pos,
+                               @Nonnull Direction direction) {
+        return world.getBlockState(pos.move(direction)).is(GCYRBlocks.LAUNCH_PAD.get()) &&
+                !world.getBlockState(pos.relative(direction, 1)).is(GCYRBlocks.LAUNCH_PAD.get());
     }
 
     /**
@@ -104,15 +113,19 @@ public class PlatformMultiblockMachine extends MultiblockControllerMachine imple
      * @param direction the direction to move
      * @return if a block is a valid floor block at pos moved in direction
      */
-    public boolean isBlockTowerEnd(@Nonnull Level world, @Nonnull BlockPos.MutableBlockPos pos, @Nonnull Direction direction) {
-        return world.getBlockState(pos.move(Direction.UP, 1)).is(MATERIAL_BLOCKS.get(TagPrefix.frameGt, GTMaterials.StainlessSteel).get()) && !world.getBlockState(pos.relative(Direction.UP, 1)).is(MATERIAL_BLOCKS.get(TagPrefix.frameGt, GTMaterials.StainlessSteel).get());
+    public boolean isBlockTowerEnd(@Nonnull Level world, @Nonnull BlockPos.MutableBlockPos pos,
+                                   @Nonnull Direction direction) {
+        return world.getBlockState(pos.move(Direction.UP, 1))
+                .is(MATERIAL_BLOCKS.get(TagPrefix.frameGt, GTMaterials.StainlessSteel).get()) &&
+                !world.getBlockState(pos.relative(Direction.UP, 1))
+                        .is(MATERIAL_BLOCKS.get(TagPrefix.frameGt, GTMaterials.StainlessSteel).get());
     }
 
     @Override
     public BlockPattern getPattern() {
         // return the default structure, even if there is no valid size found
         // this means auto-build will still work, and prevents terminal crashes.
-        //noinspection ConstantValue
+        // noinspection ConstantValue
         if (getLevel() != null) updateStructureDimensions();
 
         // these can sometimes get set to 0 when loading the game, breaking JEI
@@ -126,6 +139,8 @@ public class PlatformMultiblockMachine extends MultiblockControllerMachine imple
             lDist = rDist;
             rDist = tmp;
         }
+
+        // spotless:off
         // build each row of the structure
         StringBuilder backBuilder = new StringBuilder();        // "  K  "
         StringBuilder controllerBuilder = new StringBuilder();  // "  S  "
@@ -167,7 +182,9 @@ public class PlatformMultiblockMachine extends MultiblockControllerMachine imple
         front[0] = emptyBuilder.toString();
         front[1] = controllerBuilder.toString();
 
-        TraceabilityPredicate towerPredicate = blocks(MATERIAL_BLOCKS.get(TagPrefix.frameGt, GTMaterials.StainlessSteel).get());
+        // spotless:on
+        TraceabilityPredicate towerPredicate = blocks(
+                MATERIAL_BLOCKS.get(TagPrefix.frameGt, GTMaterials.StainlessSteel).get());
         TraceabilityPredicate basePredicate = Predicates.autoAbilities(true, false, false)
                 .or(abilities(PartAbility.INPUT_ENERGY).setMinGlobalLimited(1).setMaxGlobalLimited(3));
 
@@ -187,5 +204,4 @@ public class PlatformMultiblockMachine extends MultiblockControllerMachine imple
     public ManagedFieldHolder getFieldHolder() {
         return MANAGED_FIELD_HOLDER;
     }
-
 }

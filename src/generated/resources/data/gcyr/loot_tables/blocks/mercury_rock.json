@@ -11,7 +11,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "gcyr:mercury_rock"
+          "name": "gcyr:mercury_cobblestone"
         }
       ],
       "rolls": 1.0

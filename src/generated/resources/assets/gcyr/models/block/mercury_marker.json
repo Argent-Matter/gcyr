@@ -1,0 +1,13 @@
+{
+  "parent": "minecraft:block/cube",
+  "gui_light": "front",
+  "textures": {
+    "down": "gcyr:block/dim_markers/mercury/down",
+    "east": "gcyr:block/dim_markers/mercury/east",
+    "north": "gcyr:block/dim_markers/mercury/north",
+    "particle": "#north",
+    "south": "gcyr:block/dim_markers/mercury/south",
+    "up": "gcyr:block/dim_markers/mercury/up",
+    "west": "gcyr:block/dim_markers/mercury/west"
+  }
+}

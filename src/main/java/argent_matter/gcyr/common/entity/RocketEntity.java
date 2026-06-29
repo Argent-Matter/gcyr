@@ -24,7 +24,7 @@ import argent_matter.gcyr.data.recipe.GCYRTags;
 import argent_matter.gcyr.mixin.LivingEntityAccessor;
 import argent_matter.gcyr.util.PlatformUtils;
 import argent_matter.gcyr.util.PosWithState;
-import com.google.common.collect.Sets;
+
 import com.gregtechceu.gtceu.api.GTValues;
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
@@ -35,6 +35,7 @@ import com.gregtechceu.gtceu.api.item.component.IItemComponent;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;
 import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
 import com.gregtechceu.gtceu.api.transfer.fluid.CustomFluidTank;
+
 import com.lowdragmc.lowdraglib.gui.modular.IUIHolder;
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
 import com.lowdragmc.lowdraglib.gui.texture.GuiTextureGroup;
@@ -44,11 +45,7 @@ import com.lowdragmc.lowdraglib.gui.widget.ButtonWidget;
 import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.SlotWidget;
 import com.lowdragmc.lowdraglib.misc.ItemStackTransfer;
-import com.mojang.datafixers.util.Pair;
-import it.unimi.dsi.fastutil.objects.Object2BooleanMap;
-import it.unimi.dsi.fastutil.objects.Object2BooleanOpenHashMap;
-import it.unimi.dsi.fastutil.objects.Object2IntMap;
-import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
@@ -89,36 +86,57 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
+
 import net.minecraftforge.entity.IEntityAdditionalSpawnData;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.network.NetworkHooks;
 
+import com.google.common.collect.Sets;
+import com.mojang.datafixers.util.Pair;
+import it.unimi.dsi.fastutil.objects.Object2BooleanMap;
+import it.unimi.dsi.fastutil.objects.Object2BooleanOpenHashMap;
+import it.unimi.dsi.fastutil.objects.Object2IntMap;
+import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
+
+import java.util.*;
+
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.*;
 
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
-public class RocketEntity extends Entity implements HasCustomInventoryScreen, IUIHolder, PlayerRideable, IEntityAdditionalSpawnData /*, IManaged, IAutoPersistEntity*/ {
+public class RocketEntity extends Entity implements HasCustomInventoryScreen, IUIHolder, PlayerRideable,
+                          IEntityAdditionalSpawnData /* , IManaged, IAutoPersistEntity */ {
 
     public static final Object2BooleanMap<Fluid> FUEL_CACHE = new Object2BooleanOpenHashMap<>();
 
-//    protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(RocketEntity.class);
-    public static final EntityDataAccessor<Boolean> ROCKET_STARTED = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializers.BOOLEAN);
-    public static final EntityDataAccessor<Integer> FUEL_CAPACITY = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializers.INT);
-    public static final EntityDataAccessor<Integer> FUEL_AMOUNT = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializers.INT);
-    public static final EntityDataAccessor<Integer> THRUSTER_COUNT = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializers.INT);
-    public static final EntityDataAccessor<Integer> WEIGHT = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializers.INT);
-    public static final EntityDataAccessor<Integer> RECIPE_DURATION = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializers.INT);
-    public static final EntityDataAccessor<Integer> START_TIMER = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializers.INT);
-    public static final EntityDataAccessor<List<PosWithState>> POSITIONED_STATES = SynchedEntityData.defineId(RocketEntity.class, GCYREntityDataSerializers.POSITIONED_BLOCK_STATE_LIST);
-    public static final EntityDataAccessor<BlockPos> SIZE = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializers.BLOCK_POS);
-    public static final EntityDataAccessor<List<BlockPos>> SEAT_POSITIONS = SynchedEntityData.defineId(RocketEntity.class, GCYREntityDataSerializers.BLOCK_POS_LIST);
-    public static final EntityDataAccessor<Optional<Planet>> DESTINATION = SynchedEntityData.defineId(RocketEntity.class, GCYREntityDataSerializers.PLANET);
+    // protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(RocketEntity.class);
+    public static final EntityDataAccessor<Boolean> ROCKET_STARTED = SynchedEntityData.defineId(RocketEntity.class,
+            EntityDataSerializers.BOOLEAN);
+    public static final EntityDataAccessor<Integer> FUEL_CAPACITY = SynchedEntityData.defineId(RocketEntity.class,
+            EntityDataSerializers.INT);
+    public static final EntityDataAccessor<Integer> FUEL_AMOUNT = SynchedEntityData.defineId(RocketEntity.class,
+            EntityDataSerializers.INT);
+    public static final EntityDataAccessor<Integer> THRUSTER_COUNT = SynchedEntityData.defineId(RocketEntity.class,
+            EntityDataSerializers.INT);
+    public static final EntityDataAccessor<Integer> WEIGHT = SynchedEntityData.defineId(RocketEntity.class,
+            EntityDataSerializers.INT);
+    public static final EntityDataAccessor<Integer> RECIPE_DURATION = SynchedEntityData.defineId(RocketEntity.class,
+            EntityDataSerializers.INT);
+    public static final EntityDataAccessor<Integer> START_TIMER = SynchedEntityData.defineId(RocketEntity.class,
+            EntityDataSerializers.INT);
+    public static final EntityDataAccessor<List<PosWithState>> POSITIONED_STATES = SynchedEntityData
+            .defineId(RocketEntity.class, GCYREntityDataSerializers.POSITIONED_BLOCK_STATE_LIST);
+    public static final EntityDataAccessor<BlockPos> SIZE = SynchedEntityData.defineId(RocketEntity.class,
+            EntityDataSerializers.BLOCK_POS);
+    public static final EntityDataAccessor<List<BlockPos>> SEAT_POSITIONS = SynchedEntityData
+            .defineId(RocketEntity.class, GCYREntityDataSerializers.BLOCK_POS_LIST);
+    public static final EntityDataAccessor<Optional<Planet>> DESTINATION = SynchedEntityData
+            .defineId(RocketEntity.class, GCYREntityDataSerializers.PLANET);
 
-//    @Getter
-//    private final FieldManagedStorage syncStorage = new FieldManagedStorage(this);
+    // @Getter
+    // private final FieldManagedStorage syncStorage = new FieldManagedStorage(this);
 
     private final CustomFluidTank fuelTank;
     private final ItemStackTransfer configSlot, satelliteSlot;
@@ -134,25 +152,27 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
 
     private final Set<BlockPos> thrusterPositions = new HashSet<>();
 
-
     public RocketEntity(EntityType<?> entityType, Level level) {
         super(entityType, level);
         this.configSlot = new ItemStackTransfer(1);
         this.configSlot.setFilter(stack -> GCYRItems.ID_CHIP.isIn(stack) || GCYRItems.KEYCARD.isIn(stack));
         this.satelliteSlot = new ItemStackTransfer(1);
-        this.satelliteSlot.setFilter(stack -> GCYRItems.SPACE_STATION_PACKAGE.isIn(stack) || stack.is(GCYRTags.SATELLITES));
+        this.satelliteSlot
+                .setFilter(stack -> GCYRItems.SPACE_STATION_PACKAGE.isIn(stack) || stack.is(GCYRTags.SATELLITES));
 
-        this.fuelTank = new CustomFluidTank(0, fluid -> FUEL_CACHE.computeIfAbsent(fluid.getFluid(), f-> {
-            return this.getServer().getRecipeManager().getAllRecipesFor(GCYRRecipeTypes.ROCKET_FUEL_RECIPES).stream().anyMatch(recipe -> {
-                if (RecipeHelper.getRecipeEUtTier(recipe) > motorTier)
-                    return false; // don't allow > motor tier fuels to be used.
+        this.fuelTank = new CustomFluidTank(0, fluid -> FUEL_CACHE.computeIfAbsent(fluid.getFluid(), f -> {
+            return this.getServer().getRecipeManager().getAllRecipesFor(GCYRRecipeTypes.ROCKET_FUEL_RECIPES).stream()
+                    .anyMatch(recipe -> {
+                        if (RecipeHelper.getRecipeEUtTier(recipe) > motorTier)
+                            return false; // don't allow > motor tier fuels to be used.
 
-                var list = recipe.inputs.getOrDefault(FluidRecipeCapability.CAP, Collections.emptyList());
-                if (!list.isEmpty()) {
-                    return Arrays.stream(FluidRecipeCapability.CAP.of(list.get(0).content).getStacks()).anyMatch(stack -> stack.getFluid() == f);
-                }
-                return false;
-            });
+                        var list = recipe.inputs.getOrDefault(FluidRecipeCapability.CAP, Collections.emptyList());
+                        if (!list.isEmpty()) {
+                            return Arrays.stream(FluidRecipeCapability.CAP.of(list.get(0).content).getStacks())
+                                    .anyMatch(stack -> stack.getFluid() == f);
+                        }
+                        return false;
+                    });
         }));
 
         // determine fuel recipe when the fuel changes
@@ -164,25 +184,27 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
             if (selectedFuelRecipe != null) {
                 var list = selectedFuelRecipe.inputs.getOrDefault(FluidRecipeCapability.CAP, Collections.emptyList());
                 if (!list.isEmpty()) {
-                    if (Arrays.stream(FluidRecipeCapability.CAP.of(list.get(0).content).getStacks()).anyMatch(stack -> stack.isFluidEqual(fuelTank.getFluid()))) {
+                    if (Arrays.stream(FluidRecipeCapability.CAP.of(list.get(0).content).getStacks())
+                            .anyMatch(stack -> stack.isFluidEqual(fuelTank.getFluid()))) {
                         return;
                     }
                 }
             }
 
-            this.selectedFuelRecipe = this.getServer().getRecipeManager().getAllRecipesFor(GCYRRecipeTypes.ROCKET_FUEL_RECIPES).stream().filter(recipe -> {
-                var list = recipe.inputs.getOrDefault(FluidRecipeCapability.CAP, Collections.emptyList());
-                if (!list.isEmpty()) {
-                    return Arrays.stream(FluidRecipeCapability.CAP.of(list.get(0).content).getStacks()).anyMatch(stack -> stack.isFluidEqual(fuelTank.getFluid()));
-                }
-                return false;
-            }).findFirst().orElse(null);
+            this.selectedFuelRecipe = this.getServer().getRecipeManager()
+                    .getAllRecipesFor(GCYRRecipeTypes.ROCKET_FUEL_RECIPES).stream().filter(recipe -> {
+                        var list = recipe.inputs.getOrDefault(FluidRecipeCapability.CAP, Collections.emptyList());
+                        if (!list.isEmpty()) {
+                            return Arrays.stream(FluidRecipeCapability.CAP.of(list.get(0).content).getStacks())
+                                    .anyMatch(stack -> stack.isFluidEqual(fuelTank.getFluid()));
+                        }
+                        return false;
+                    }).findFirst().orElse(null);
 
             if (selectedFuelRecipe != null) {
                 setRecipeDuration(selectedFuelRecipe.duration);
             }
         });
-
     }
 
     public void reinitializeFluidStorage() {
@@ -285,40 +307,46 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
                 return;
             }
             BlockPos seatPos = this.getSeatPositions().get(passengerIndex);
-            callback.accept(passenger, this.getX() + seatPos.getX() + 0.5, this.getY() + seatPos.getY() - 0.5, this.getZ() + seatPos.getZ() + 0.5);
+            callback.accept(passenger, this.getX() + seatPos.getX() + 0.5, this.getY() + seatPos.getY() - 0.5,
+                    this.getZ() + seatPos.getZ() + 0.5);
         }
     }
 
     @Override
     public Vec3 getDismountLocationForPassenger(LivingEntity livingEntity) {
-        Vec3[] escapeVectors = new Vec3[]{
-                getCollisionHorizontalEscapeVector(this.getBbWidth(), livingEntity.getBbWidth(), livingEntity.getYRot()),
-                getCollisionHorizontalEscapeVector(this.getBbWidth(), livingEntity.getBbWidth(), livingEntity.getYRot() - 22.5F),
-                getCollisionHorizontalEscapeVector(this.getBbWidth(), livingEntity.getBbWidth(), livingEntity.getYRot() + 22.5F),
-                getCollisionHorizontalEscapeVector(this.getBbWidth(), livingEntity.getBbWidth(), livingEntity.getYRot() - 45.0F),
-                getCollisionHorizontalEscapeVector(this.getBbWidth(), livingEntity.getBbWidth(), livingEntity.getYRot() + 45.0F)
+        Vec3[] escapeVectors = new Vec3[] {
+                getCollisionHorizontalEscapeVector(this.getBbWidth(), livingEntity.getBbWidth(),
+                        livingEntity.getYRot()),
+                getCollisionHorizontalEscapeVector(this.getBbWidth(), livingEntity.getBbWidth(),
+                        livingEntity.getYRot() - 22.5F),
+                getCollisionHorizontalEscapeVector(this.getBbWidth(), livingEntity.getBbWidth(),
+                        livingEntity.getYRot() + 22.5F),
+                getCollisionHorizontalEscapeVector(this.getBbWidth(), livingEntity.getBbWidth(),
+                        livingEntity.getYRot() - 45.0F),
+                getCollisionHorizontalEscapeVector(this.getBbWidth(), livingEntity.getBbWidth(),
+                        livingEntity.getYRot() + 45.0F)
         };
         Set<BlockPos> set = Sets.newLinkedHashSet();
         double maxY = this.getBoundingBox().maxY;
         double minY = this.getBoundingBox().minY - 0.5D;
         BlockPos.MutableBlockPos mutableBlockPos = new BlockPos.MutableBlockPos();
 
-        for(Vec3 vector : escapeVectors) {
+        for (Vec3 vector : escapeVectors) {
             mutableBlockPos.set(this.getX() + vector.x, maxY, this.getZ() + vector.z);
 
-            for(double d = maxY; d > minY; --d) {
+            for (double d = maxY; d > minY; --d) {
                 set.add(mutableBlockPos.immutable());
                 mutableBlockPos.move(Direction.DOWN);
             }
         }
 
-        for(BlockPos blockpos : set) {
+        for (BlockPos blockpos : set) {
             if (!this.level().getFluidState(blockpos).is(FluidTags.LAVA)) {
                 double floor = this.level().getBlockFloorHeight(blockpos);
                 if (DismountHelper.isBlockFloorValid(floor)) {
                     Vec3 vector3d1 = Vec3.upFromBottomCenterOf(blockpos, floor);
 
-                    for(Pose pose : livingEntity.getDismountPoses()) {
+                    for (Pose pose : livingEntity.getDismountPoses()) {
                         if (DismountHelper.isBlockFloorValid(this.level().getBlockFloorHeight(blockpos))) {
                             livingEntity.setPose(pose);
                             return vector3d1;
@@ -339,16 +367,19 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
                 if (this.getStartTimer() >= 200) {
                     for (ServerPlayer p : serverLevel.getServer().getPlayerList().getPlayers()) {
                         serverLevel.sendParticles(p, ParticleTypes.FLAME, true,
-                                this.getX() - vec.x + pos.getX() + 0.5, this.getY() - vec.y - 2.2 + pos.getY() + 0.5, this.getZ() - vec.z + pos.getZ() + 0.5,
+                                this.getX() - vec.x + pos.getX() + 0.5, this.getY() - vec.y - 2.2 + pos.getY() + 0.5,
+                                this.getZ() - vec.z + pos.getZ() + 0.5,
                                 20, 0.1, 0.1, 0.1, 0.001);
                         serverLevel.sendParticles(p, ParticleTypes.LARGE_SMOKE, true,
-                                this.getX() - vec.x + pos.getX() + 0.5, this.getY() - vec.y - 3.2 + pos.getY() + 0.5, this.getZ() - vec.z + pos.getZ() + 0.5,
+                                this.getX() - vec.x + pos.getX() + 0.5, this.getY() - vec.y - 3.2 + pos.getY() + 0.5,
+                                this.getZ() - vec.z + pos.getZ() + 0.5,
                                 10, 0.1, 0.1, 0.1, 0.04);
                     }
                 } else {
                     for (ServerPlayer p : serverLevel.getServer().getPlayerList().getPlayers()) {
                         serverLevel.sendParticles(p, ParticleTypes.CAMPFIRE_COSY_SMOKE, true,
-                                this.getX() - vec.x + pos.getX() + 0.5, this.getY() - vec.y - 0.1 + pos.getY() + 0.5, this.getZ() - vec.z + pos.getZ() + 0.5,
+                                this.getX() - vec.x + pos.getX() + 0.5, this.getY() - vec.y - 0.1 + pos.getY() + 0.5,
+                                this.getZ() - vec.z + pos.getZ() + 0.5,
                                 6, 0.1, 0.1, 0.1, 0.023);
                     }
                 }
@@ -363,7 +394,6 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         }
         return null;
     }
-
 
     @Nullable
     public LivingEntity getControllingPassenger() {
@@ -390,16 +420,18 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
     public int computeRequiredFuelAmountForDestination(@Nullable Planet destination) {
         Planet current = PlanetData.getPlanetFromLevelOrOrbit(this.level().dimension()).orElse(null);
         if (current == null || destination == null) {
-            return (int)(this.getFuelCapacity() * 0.85);
-        } else if (destination.parentWorld() == current.level() || current.parentWorld() == destination.level() || current == destination) {
-            return GCYRConfig.INSTANCE.rocket.moonFuelAmount;
-        } else if (current.solarSystem().equals(destination.solarSystem())) {
-            return GCYRConfig.INSTANCE.rocket.solarSystemFuelAmount;
-        } else if (current.galaxy().equals(destination.galaxy())) {
-            return GCYRConfig.INSTANCE.rocket.galaxyFuelAmount;
-        } else {
-            return GCYRConfig.INSTANCE.rocket.anywhereFuelAmount;
-        }
+            return (int) (this.getFuelCapacity() * 0.85);
+        } else if (destination.parentWorld() == current.level() || current.parentWorld() == destination.level() ||
+                current == destination) {
+                    return GCYRConfig.INSTANCE.rocket.moonFuelAmount;
+                } else
+            if (current.solarSystem().equals(destination.solarSystem())) {
+                return GCYRConfig.INSTANCE.rocket.solarSystemFuelAmount;
+            } else if (current.galaxy().equals(destination.galaxy())) {
+                return GCYRConfig.INSTANCE.rocket.galaxyFuelAmount;
+            } else {
+                return GCYRConfig.INSTANCE.rocket.anywhereFuelAmount;
+            }
     }
 
     public void startRocket() {
@@ -434,15 +466,19 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
                 return;
             }
 
-            if (PlanetIdChipBehaviour.getSpaceStationId(config) != null || KeyCardBehaviour.getSavedStation(config) != null) {
+            if (PlanetIdChipBehaviour.getSpaceStationId(config) != null ||
+                    KeyCardBehaviour.getSavedStation(config) != null) {
                 this.destinationIsSpaceStation = true;
             }
 
             // if the destination is the same as the current location, don't start
-            if (!destinationIsSpaceStation && this.level().dimension() == this.getDestination().level()) return;
+            if (!destinationIsSpaceStation && this.level().dimension() == this.getDestination().level()) {
+                sendVehicleAtDestinationAlreadyMessage(player);
+                return;
+            }
 
             data.set(RocketEntity.ROCKET_STARTED, true);
-            //GCYRSoundEntries.ROCKET.play(this.level(), null, this.getX(), this.getY(), this.getZ(), 1, 1);
+            // GCYRSoundEntries.ROCKET.play(this.level(), null, this.getX(), this.getY(), this.getZ(), 1, 1);
             this.level().playSound(null, this, GCYRSoundEntries.ROCKET.getMainEvent(), SoundSource.NEUTRAL, 1, 1);
         } else {
             sendVehicleHasInvalidIdMessage(player);
@@ -453,7 +489,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
     public boolean countdown() {
         var timer = getStartTimer();
         if (timer < 200) {
-            this.setStartTimer(timer+1);
+            this.setStartTimer(timer + 1);
         }
         return timer == 200;
     }
@@ -477,7 +513,8 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         this.setDeltaMovement(delta);
 
         // braking
-        if (getControllingPassenger() != null && ((LivingEntityAccessor)getControllingPassenger()).isJumping() && consumeFuel()) {
+        if (getControllingPassenger() != null && ((LivingEntityAccessor) getControllingPassenger()).isJumping() &&
+                consumeFuel()) {
             this.setDeltaMovement(delta.x, Math.min(delta.y + 0.05, -0.25), delta.z);
             this.fallDistance *= 0.9f;
             this.spawnParticles();
@@ -490,7 +527,8 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         if (GCYRConfig.INSTANCE.rocket.doCrashLandingExplosion && fallDistance > 48 && onGround()) {
             Vec3 bbCenter = this.getBoundingBox().getCenter();
             this.unBuild();
-            this.level().explode(this, bbCenter.x, this.getBoundingBox().minY, bbCenter.z, 10, EntityOxygenSystem.levelHasOxygen(this.level()), Level.ExplosionInteraction.MOB);
+            this.level().explode(this, bbCenter.x, this.getBoundingBox().minY, bbCenter.z, 10,
+                    EntityOxygenSystem.levelHasOxygen(this.level()), Level.ExplosionInteraction.MOB);
             return true;
         }
         return false;
@@ -499,11 +537,14 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
     public void burnEntities() {
         if (this.getStartTimer() == 200) {
             BlockPos size = this.entityData.get(SIZE);
-            AABB aabb = AABB.ofSize(new Vec3(this.getX() + size.getX() / 2f, this.getY() - 2, this.getZ() + size.getZ() / 2f), size.getX() + 2, 2, size.getZ() + 2);
+            AABB aabb = AABB.ofSize(
+                    new Vec3(this.getX() + size.getX() / 2f, this.getY() - 2, this.getZ() + size.getZ() / 2f),
+                    size.getX() + 2, 2, size.getZ() + 2);
             List<LivingEntity> entities = this.getCommandSenderWorld().getEntitiesOfClass(LivingEntity.class, aabb);
 
             for (LivingEntity entity : entities) {
-                if (!entity.fireImmune() && !entity.hasEffect(MobEffects.FIRE_RESISTANCE) && !EntityTemperatureSystem.armourIsHeatResistant(entity)) {
+                if (!entity.fireImmune() && !entity.hasEffect(MobEffects.FIRE_RESISTANCE) &&
+                        !EntityTemperatureSystem.armourIsHeatResistant(entity)) {
                     entity.setSecondsOnFire(15);
                 }
             }
@@ -512,8 +553,10 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
 
     private boolean doesDrop(BlockState state, BlockPos pos) {
         if (this.onGround()) {
-            BlockState state2 = this.level().getBlockState(new BlockPos((int)Math.floor(this.getX()), (int)(this.getY() - 0.2), (int)Math.floor(this.getZ())));
-            if (!this.level().isEmptyBlock(pos) && (state2.is(GCYRBlocks.LAUNCH_PAD.get()) || !state.is(GCYRBlocks.LAUNCH_PAD.get()))) {
+            BlockState state2 = this.level().getBlockState(new BlockPos((int) Math.floor(this.getX()),
+                    (int) (this.getY() - 0.2), (int) Math.floor(this.getZ())));
+            if (!this.level().isEmptyBlock(pos) &&
+                    (state2.is(GCYRBlocks.LAUNCH_PAD.get()) || !state.is(GCYRBlocks.LAUNCH_PAD.get()))) {
                 this.unBuild();
                 return true;
             }
@@ -526,7 +569,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         BlockPos blockPos1 = new BlockPos((int) aabb.minX, (int) (aabb.minY - 0.2), (int) aabb.minZ);
         BlockPos blockPos2 = new BlockPos((int) aabb.maxX, (int) aabb.minY, (int) aabb.maxZ);
 
-        //noinspection deprecation
+        // noinspection deprecation
         if (this.level().hasChunksAt(blockPos1, blockPos2)) {
             for (int i = blockPos1.getX(); i <= blockPos2.getX(); ++i) {
                 for (int j = blockPos1.getY(); j <= blockPos2.getY(); ++j) {
@@ -544,7 +587,8 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
     }
 
     private boolean consumeFuel() {
-        // Fuel Consumption = (thruster count + destination planet tier) / (fuel duration / 20 + 1 /*in case of bad recipe somehow*/) * 2
+        // Fuel Consumption = (thruster count + destination planet tier) / (fuel duration / 20 + 1 /*in case of bad
+        // recipe somehow*/) * 2
         int recipeDuration = this.getRecipeDuration();
 
         int destinationRocketTier = 1;
@@ -553,7 +597,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         }
 
         var drain = (getThrusterCount() + destinationRocketTier) / (recipeDuration / 20.0 + 1) * 2;
-        var ldrain = (int)drain;
+        var ldrain = (int) drain;
 
         // estimate fuel consumption client side; client needs to know if
         // it should run the flight tick and if it should slow down in fall(),
@@ -582,25 +626,30 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         } else if (GCYRItems.KEYCARD.isIn(configStack) && KeyCardBehaviour.getSavedStation(configStack) != null) {
             this.destinationIsSpaceStation = true;
             // return if no valid station & no station kit
-            if (!satelliteStack.is(GCYRItems.SPACE_STATION_PACKAGE.get()) && GCYRCapabilityHelper.getSpaceStations(this.getServer().getLevel(getDestination().orbitWorld())).getStation(KeyCardBehaviour.getSavedStation(configStack)) == null) {
+            if (!satelliteStack.is(GCYRItems.SPACE_STATION_PACKAGE.get()) &&
+                    GCYRCapabilityHelper.getSpaceStations(this.getServer().getLevel(getDestination().orbitWorld()))
+                            .getStation(KeyCardBehaviour.getSavedStation(configStack)) == null) {
                 this.setDestination(null);
                 this.destinationIsSpaceStation = false;
                 this.entityData.set(ROCKET_STARTED, false);
                 this.setDeltaMovement(0, -0.5, 0);
                 return;
             }
-        } else if (satelliteStack.is(GCYRTags.SATELLITES) && satelliteStack.getItem() instanceof ComponentItem componentItem) {
-            for (IItemComponent component : componentItem.getComponents()) {
-                if (component instanceof SatelliteItemBehaviour satelliteItem) {
-                    this.returnToStart = true;
-                    this.satelliteToLaunch = satelliteItem.type;
+        } else if (satelliteStack.is(GCYRTags.SATELLITES) &&
+                satelliteStack.getItem() instanceof ComponentItem componentItem) {
+                    for (IItemComponent component : componentItem.getComponents()) {
+                        if (component instanceof SatelliteItemBehaviour satelliteItem) {
+                            this.returnToStart = true;
+                            this.satelliteToLaunch = satelliteItem.type;
+                        }
+                    }
                 }
-            }
-        }
-        ResourceKey<Level> destinationDim = this.destinationIsSpaceStation ? getDestination().orbitWorld() : getDestination().level();
+        ResourceKey<Level> destinationDim = this.destinationIsSpaceStation ? getDestination().orbitWorld() :
+                getDestination().level();
 
         // Go to a random valid planet if rocket doesn't have enough fuel to get to actual destination somehow.
-        if (this.fuelTank.drain(computeRequiredFuelAmountForDestination(this.getDestination()) / 3, IFluidHandler.FluidAction.SIMULATE).isEmpty()) {
+        if (this.fuelTank.drain(computeRequiredFuelAmountForDestination(this.getDestination()) / 3,
+                IFluidHandler.FluidAction.SIMULATE).isEmpty()) {
             List<Planet> validPlanets = new ArrayList<>();
             for (Planet planet : PlanetData.planets().values()) {
                 if (planet.solarSystem().equals(this.getDestination().solarSystem())) {
@@ -658,7 +707,8 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
                     Pair<Integer, SpaceStation> allocated = stations.allocateStation(this.getDestination());
                     stations.addStation(allocated.getFirst(), allocated.getSecond());
                     stationId = allocated.getFirst();
-                    KeyCardBehaviour.setSavedStation(configStack, stationId, KeyCardBehaviour.getSavedPlanet(configStack));
+                    KeyCardBehaviour.setSavedStation(configStack, stationId,
+                            KeyCardBehaviour.getSavedPlanet(configStack));
                     didChange = true;
                 }
             } else if (GCYRItems.ID_CHIP.isIn(configStack)) {
@@ -687,12 +737,14 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
                 destinationPos = new BlockPos(stationPos.getX(), (int) pos.y, stationPos.getZ());
             }
 
-            if (newRocket instanceof RocketEntity rocketEntity && GCYRItems.SPACE_STATION_PACKAGE.isIn(this.satelliteSlot.getStackInSlot(0))) {
+            if (newRocket instanceof RocketEntity rocketEntity &&
+                    GCYRItems.SPACE_STATION_PACKAGE.isIn(this.satelliteSlot.getStackInSlot(0))) {
                 ItemStack stack = this.satelliteSlot.getStackInSlot(0);
                 rocketEntity.buildSpaceStation(stack, new BlockPos(destinationPos.getX(), 64, destinationPos.getZ()));
             }
         } else {
-            double scale = DimensionType.getTeleportationScale(this.level().dimensionType(), destinationLevel.dimensionType());
+            double scale = DimensionType.getTeleportationScale(this.level().dimensionType(),
+                    destinationLevel.dimensionType());
             if (destinationPos == null) {
                 destinationPos = BlockPos.containing(pos.multiply(scale, 1, scale));
             }
@@ -724,9 +776,9 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
                     offset.getCenter(),
                     Direction.DOWN,
                     offset,
-                    false
-            );
-            if (!this.level().getBlockState(offset).isAir() && !this.level().getBlockState(offset).canBeReplaced(new BlockPlaceContext(this.level(), null, InteractionHand.MAIN_HAND, ItemStack.EMPTY, result))) {
+                    false);
+            if (!this.level().getBlockState(offset).isAir() && !this.level().getBlockState(offset).canBeReplaced(
+                    new BlockPlaceContext(this.level(), null, InteractionHand.MAIN_HAND, ItemStack.EMPTY, result))) {
                 this.spawnAtLocation(state.state().getBlock().asItem());
                 continue;
             }
@@ -774,9 +826,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         }
     }
 
-    public void placeSatellite() {
-
-    }
+    public void placeSatellite() {}
 
     @Override
     public boolean isPickable() {
@@ -784,9 +834,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
     }
 
     @Override
-    public void push(Entity entity) {
-
-    }
+    public void push(Entity entity) {}
 
     @Override
     public boolean ignoreExplosion() {
@@ -864,10 +912,9 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         BlockPos pos = state.pos();
         BlockPos size = this.entityData.get(SIZE);
         this.entityData.set(SIZE, new BlockPos(
-                        Math.max(size.getX(), pos.getX()),
-                        Math.max(size.getY(), pos.getY()),
-                        Math.max(size.getZ(), pos.getZ())
-        ));
+                Math.max(size.getX(), pos.getX()),
+                Math.max(size.getY(), pos.getY()),
+                Math.max(size.getZ(), pos.getZ())));
         Block block = state.state().getBlock();
         float destroyTime = block.defaultDestroyTime();
         if (destroyTime > 0) {
@@ -974,14 +1021,17 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         this.configSlot.deserializeNBT(compound.getCompound("config"));
         this.returnToStart = compound.getBoolean("returnToStart");
         if (compound.contains("satelliteToLaunch")) {
-            this.satelliteToLaunch = GCYRRegistries.SATELLITES.get(new ResourceLocation(compound.getString("satelliteToLaunch")));
+            this.satelliteToLaunch = GCYRRegistries.SATELLITES
+                    .get(new ResourceLocation(compound.getString("satelliteToLaunch")));
         }
         this.setThrusterCount(compound.getInt("thrusterCount"));
         this.setStartTimer(compound.getInt("startTimer"));
         this.entityData.set(ROCKET_STARTED, compound.getBoolean("isStarted"));
         this.setWeight(compound.getInt("weight"));
-        this.setDestination(compound.contains("destination", Tag.TAG_STRING) ? PlanetData.getPlanet(new ResourceLocation(compound.getString("destination"))) : null);
-        if (compound.contains("selectedFuelRecipe")) this.selectedFuelRecipe = (GTRecipe) this.getServer().getRecipeManager().byKey(new ResourceLocation(compound.getString("selectedFuelRecipe"))).orElse(null);
+        this.setDestination(compound.contains("destination", Tag.TAG_STRING) ?
+                PlanetData.getPlanet(new ResourceLocation(compound.getString("destination"))) : null);
+        if (compound.contains("selectedFuelRecipe")) this.selectedFuelRecipe = (GTRecipe) this.getServer()
+                .getRecipeManager().byKey(new ResourceLocation(compound.getString("selectedFuelRecipe"))).orElse(null);
 
         if (compound.contains("recipeDuration")) {
             this.setRecipeDuration(compound.getInt("recipeDuration"));
@@ -1010,7 +1060,8 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         compound.putInt("startTimer", this.getStartTimer());
         compound.putBoolean("isStarted", this.entityData.get(ROCKET_STARTED));
         compound.putInt("weight", this.getWeight());
-        if (this.getDestination() != null) compound.putString("destination", PlanetData.getPlanetId(getDestination()).toString());
+        if (this.getDestination() != null)
+            compound.putString("destination", PlanetData.getPlanetId(getDestination()).toString());
         if (this.selectedFuelRecipe != null) compound.putString("selectedFuelRecipe", selectedFuelRecipe.id.toString());
     }
 
@@ -1059,7 +1110,14 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
 
     public static void sendVehicleNotGoodEnoughMessage(Player player, int planetTier) {
         if (!player.level().isClientSide) {
-            player.displayClientMessage(Component.translatable("message.gcyr.rocket_not_good_enough", planetTier), false);
+            player.displayClientMessage(Component.translatable("message.gcyr.rocket_not_good_enough", planetTier),
+                    false);
+        }
+    }
+
+    public static void sendVehicleAtDestinationAlreadyMessage(Player player) {
+        if (!player.level().isClientSide) {
+            player.displayClientMessage(Component.translatable("message.gcyr.already_at_destination"), false);
         }
     }
 
@@ -1074,7 +1132,5 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
     }
 
     @Override
-    public void markAsDirty() {
-
-    }
+    public void markAsDirty() {}
 }

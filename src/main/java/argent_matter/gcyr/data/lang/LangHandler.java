@@ -1,7 +1,15 @@
 package argent_matter.gcyr.data.lang;
 
+import argent_matter.gcyr.GCYR;
 import argent_matter.gcyr.common.data.GCYRMaterials;
+import argent_matter.gcyr.common.worldgen.GCYROres;
+
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
+import com.gregtechceu.gtceu.api.data.worldgen.GTOreDefinition;
+import com.gregtechceu.gtceu.api.registry.GTRegistries;
+
+import net.minecraft.resources.ResourceLocation;
+
 import com.tterrag.registrate.providers.RegistrateLangProvider;
 
 public class LangHandler extends com.gregtechceu.gtceu.data.lang.LangHandler {
@@ -24,7 +32,8 @@ public class LangHandler extends com.gregtechceu.gtceu.data.lang.LangHandler {
         replace(provider, "block.gcyr.aerospace_aluminium_casing", "Aerospace-grade Aluminium Machine Casing");
 
         // tooltips
-        multilineLang(provider, "gcyr.multiblock.space_shuttle.launch", "Travel to selected Space Station\n§cRequires ID Chip!");
+        multilineLang(provider, "gcyr.multiblock.space_shuttle.launch",
+                "Travel to selected Space Station\n§cRequires ID Chip!");
         provider.add("metaitem.gcyr.satellite_package.has_satellite", "Has satellite or space station");
 
         // items
@@ -37,6 +46,12 @@ public class LangHandler extends com.gregtechceu.gtceu.data.lang.LangHandler {
         provider.add("trim_pattern.gcyr.space", "Space Suit Upgrade");
         provider.add("tooltip.gcyr.spacesuit", "Works as a space suit.");
         provider.add("tooltip.gcyr.spacesuit.stored", "Stored Oxygen: %s / %s mB");
+        provider.add("item.gcyr.space_suit_thermal_upgrade_smithing_template", "Space Suit Thermal Upgrade");
+        provider.add("item.gcyr.smithing_template.space_suit_thermal_upgrade.ingredients", "Thermal Fabric");
+        provider.add("item.gcyr.smithing_template.space_suit_thermal_upgrade.additions_slot_description",
+                "Add Thermal Fabric");
+        provider.add("tooltip.gcyr.heat_shielded", "Protects from extreme heat.");
+        provider.add("tooltip.gcyr.freeze_protected", "Protects from extreme cold.");
 
         // machines
         provider.add("gcyr.machine.satellite_jammer.jammed", "Jammed %s");
@@ -90,16 +105,46 @@ public class LangHandler extends com.gregtechceu.gtceu.data.lang.LangHandler {
         provider.add("menu.gcyr.oxygen.true", "Has oxygen");
         provider.add("menu.gcyr.oxygen.false", "Doesn't have oxygen");
         provider.add("menu.gcyr.rocket_tier", "Tier %d Rocket");
+        provider.add("menu.gcyr.requires_heat_shielding", "Requires Heat Shielding");
+        provider.add("menu.gcyr.requires_insulation", "Requires Insulation");
 
         // messages
-        provider.add("message.gcyr.no_fuel", "The rocket must be fueled fully. Has %s mB fuel, destination requires %s mB.");
+        provider.add("message.gcyr.no_fuel",
+                "The rocket must be fueled fully. Has %s mB fuel, destination requires %s mB.");
         provider.add("message.gcyr.invalid_id", "The rocket must have a valid Planet ID Chip.");
-        provider.add("message.gcyr.rocket_not_good_enough", "The rocket doesn't have enough tier %s components to travel to the selected planet.");
-        provider.add("message.gcyr.notice_id_changed", "The destination of your Space Station ID chip might have changed. Remember to rewrite the personal destination chip with the new data before setting a new target!");
+        provider.add("message.gcyr.rocket_not_good_enough",
+                "The rocket doesn't have enough tier %s components to travel to the selected planet.");
+        provider.add("message.gcyr.notice_id_changed",
+                "The destination of your Space Station ID chip might have changed. Remember to rewrite the personal destination chip with the new data before setting a new target!");
+        provider.add("message.gcyr.already_at_destination", "Already at destination specified by ID!");
 
-        // planets (from resources/data/gcyr/gcyr/planets)
+        // JEI ore vein labels
+        GTRegistries.ORE_VEINS.unfreeze();
+        GCYROres.init();
+        for (GTOreDefinition oreDefinition : GTRegistries.ORE_VEINS) {
+            ResourceLocation key = GTRegistries.ORE_VEINS.getKey(oreDefinition);
+            if (GCYR.MOD_ID.equals(key.getNamespace())) {
+                provider.add("gtceu.jei.ore_vein." + key.getPath(),
+                        RegistrateLangProvider.toEnglishName(key.getPath()));
+            }
+        }
+
+        // biomes
+        provider.add("biome.gcyr.lunar_mare", "Lunar Mare");
+        provider.add("biome.gcyr.lunar_plains", "Lunar Plains");
+        provider.add("biome.gcyr.martian_canyon_creek", "Martian Canyon Creek");
+        provider.add("biome.gcyr.martian_polar_caps", "Martian Polar Caps");
+        provider.add("biome.gcyr.martian_wastelands", "Martian Wastelands");
+        provider.add("biome.gcyr.mercury_deltas", "Mercury Deltas");
+        provider.add("biome.gcyr.space", "Space");
+        provider.add("biome.gcyr.venus_barren_plains", "Venus Barren Plains");
+        provider.add("biome.gcyr.venus_eroded_plains", "Venus Eroded Plains");
+
+        // planets
         provider.add("gcyr.solar_system", "Sol");
         provider.add("gcyr.alpha_centauri", "Alpha Centauri");
+        provider.add("gcyr.proxima_centauri", "Proxima Centauri");
+        provider.add("gcyr.milky_way", "Milky Way");
         provider.add("level.overworld", "Earth");
         provider.add("level.gcyr.moon", "Moon");
         provider.add("level.gcyr.mercury", "Mercury");
@@ -107,5 +152,23 @@ public class LangHandler extends com.gregtechceu.gtceu.data.lang.LangHandler {
         provider.add("level.gcyr.mars", "Mars");
         provider.add("level.gcyr.proxima_centauri_b", "Proxima b");
 
+        // dimension names
+        provider.add("dimension.gcyr.luna", "Moon");
+        provider.add("dimension.gcyr.luna_orbit", "Lunar Orbit");
+        provider.add("dimension.gcyr.mars", "Mars");
+        provider.add("dimension.gcyr.mars_orbit", "Mars Orbit");
+        provider.add("dimension.gcyr.mercury", "Mercury");
+        provider.add("dimension.gcyr.mercury_orbit", "Mercury Orbit");
+        provider.add("dimension.gcyr.overworld_orbit", "Earth Orbit");
+        provider.add("dimension.gcyr.venus", "Venus");
+        provider.add("dimension.gcyr.venus_orbit", "Venus Orbit");
+        provider.add("dimension.gcyr.proxima_centauri_b", "Proxima b");
+        provider.add("dimension.gcyr.black_hole_orbit", "Black Hole Orbit");
+
+        // behaviours
+        provider.add("behaviour.gps_tracker.track_entity", "Track Entity");
+
+        // gui
+        provider.add("gui.gcyr.planet_selector", "Planet Selector");
     }
 }

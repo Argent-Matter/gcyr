@@ -2,11 +2,13 @@ package argent_matter.gcyr.api.syncdata.entity;
 
 import com.lowdragmc.lowdraglib.syncdata.IManagedStorage;
 import com.lowdragmc.lowdraglib.syncdata.managed.IRef;
+
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.phys.Vec3;
 
 public interface IManagedEntity {
+
     default EntityType<?> getEntityType() {
         return this.getSelf().getType();
     }
@@ -16,7 +18,7 @@ public interface IManagedEntity {
     }
 
     default Entity getSelf() {
-        return (Entity)this;
+        return (Entity) this;
     }
 
     default IRef[] getNonLazyFields() {

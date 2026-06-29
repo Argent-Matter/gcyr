@@ -1,0 +1,13 @@
+{
+  "parent": "minecraft:block/cube",
+  "gui_light": "front",
+  "textures": {
+    "down": "gcyr:block/dim_markers/luna/down",
+    "east": "gcyr:block/dim_markers/luna/east",
+    "north": "gcyr:block/dim_markers/luna/north",
+    "particle": "#north",
+    "south": "gcyr:block/dim_markers/luna/south",
+    "up": "gcyr:block/dim_markers/luna/up",
+    "west": "gcyr:block/dim_markers/luna/west"
+  }
+}

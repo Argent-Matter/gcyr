@@ -5,8 +5,7 @@ import argent_matter.gcyr.api.space.satellite.Satellite;
 import argent_matter.gcyr.api.space.satellite.SatelliteType;
 import argent_matter.gcyr.api.space.satellite.data.SatelliteData;
 import argent_matter.gcyr.util.Vec2i;
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
+
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
@@ -16,10 +15,14 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import org.jetbrains.annotations.Nullable;
+
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import java.util.*;
 import java.util.stream.Collectors;
+
+import org.jetbrains.annotations.Nullable;
 
 /**
  * @author Screret
@@ -28,7 +31,8 @@ import java.util.stream.Collectors;
  */
 public class GpsSatellite extends Satellite {
 
-    public static final Codec<GpsSatellite> CODEC = RecordCodecBuilder.create(instance -> Satellite.baseCodec(instance).apply(instance, GpsSatellite::new));
+    public static final Codec<GpsSatellite> CODEC = RecordCodecBuilder
+            .create(instance -> Satellite.baseCodec(instance).apply(instance, GpsSatellite::new));
 
     public static Map<Level, Set<Entity>> trackedEntities = new LinkedHashMap<>();
 
@@ -42,7 +46,11 @@ public class GpsSatellite extends Satellite {
     public void tickSatellite(Level level) {
         if (isNonWorking()) return;
         Vec2i pos = this.data.locationInWorld();
-        var set = level.getEntities(null, AABB.ofSize(new Vec3(pos.x(), level.getSeaLevel(), pos.y()), this.data.range(), 100, this.data.range())).stream().filter(ent -> ((IGpsTracked)ent).isGpsTracked()).collect(Collectors.toSet());
+        var set = level
+                .getEntities(null,
+                        AABB.ofSize(new Vec3(pos.x(), level.getSeaLevel(), pos.y()), this.data.range(), 100,
+                                this.data.range()))
+                .stream().filter(ent -> ((IGpsTracked) ent).isGpsTracked()).collect(Collectors.toSet());
         lastTrackedEntities.removeAll(set);
         var tracked = trackedEntities.get(level);
         tracked.removeAll(lastTrackedEntities);
@@ -80,5 +88,4 @@ public class GpsSatellite extends Satellite {
 
         }
     }
-
 }

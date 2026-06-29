@@ -2,8 +2,10 @@ package argent_matter.gcyr.common.block;
 
 import argent_matter.gcyr.api.block.IRocketMotorType;
 import argent_matter.gcyr.api.block.IRocketPart;
-import lombok.Getter;
+
 import net.minecraft.world.level.block.Block;
+
+import lombok.Getter;
 
 public class RocketMotorBlock extends Block implements IRocketPart {
 
@@ -21,6 +23,7 @@ public class RocketMotorBlock extends Block implements IRocketPart {
     }
 
     public enum RocketMotorType implements IRocketMotorType {
+
         BASIC("basic", 1, 25, 1),
         ADVANCED("advanced", 2, 50, 2),
         ELITE("elite", 3, 75, 3),

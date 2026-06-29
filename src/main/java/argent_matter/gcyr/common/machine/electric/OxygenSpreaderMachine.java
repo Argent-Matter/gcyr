@@ -2,13 +2,17 @@ package argent_matter.gcyr.common.machine.electric;
 
 import argent_matter.gcyr.common.entity.data.EntityOxygenSystem;
 import argent_matter.gcyr.util.FloodFiller3D;
+
 import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
 import com.gregtechceu.gtceu.api.machine.SimpleTieredMachine;
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.DustParticleOptions;
+
 import net.minecraftforge.fluids.FluidType;
+
 import org.joml.Vector3f;
 
 import java.util.Set;
@@ -30,7 +34,8 @@ public class OxygenSpreaderMachine extends SimpleTieredMachine {
     }
 
     public boolean canDistribute(int oxygenBlocks) {
-        return ((FluidIngredient)recipeLogic.getLastRecipe().getInputContents(FluidRecipeCapability.CAP).get(0).content).getAmount() / FluidType.BUCKET_VOLUME >= oxygenBlocks;
+        return ((FluidIngredient) recipeLogic.getLastRecipe().getInputContents(FluidRecipeCapability.CAP)
+                .get(0).content).getAmount() / FluidType.BUCKET_VOLUME >= oxygenBlocks;
     }
 
     public void runAlgorithm() {
@@ -45,11 +50,13 @@ public class OxygenSpreaderMachine extends SimpleTieredMachine {
         this.spawnParticles(positions);
     }
 
-    // Spawn the bubble particles in each oxygenated position. The "show" button must be clicked in the oxygen distributor GUI in order to work.
+    // Spawn the bubble particles in each oxygenated position. The "show" button must be clicked in the oxygen
+    // distributor GUI in order to work.
     public void spawnParticles(Set<BlockPos> positions) {
         if (!getLevel().isClientSide()) {
             for (BlockPos pos : positions) {
-                this.getLevel().addParticle(new DustParticleOptions(new Vector3f(1, 1, 1), 1), pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5, 0.5, 0.5, 0.5);
+                this.getLevel().addParticle(new DustParticleOptions(new Vector3f(1, 1, 1), 1), pos.getX() + 0.5,
+                        pos.getY() + 0.5, pos.getZ() + 0.5, 0.5, 0.5, 0.5);
             }
         }
     }

@@ -4,11 +4,15 @@ import com.lowdragmc.lowdraglib.gui.texture.ResourceTexture;
 
 public class GCYRGuiTextures {
 
-    public static final ResourceTexture BUTTON_LAUNCH_ROCKET = new ResourceTexture("gcyr:textures/gui/widget/button_launch_rocket.png");
-    public static final ResourceTexture BUTTON_ENABLED = new ResourceTexture("gcyr:textures/gui/widget/button_enabled.png");
+    public static final ResourceTexture BUTTON_LAUNCH_ROCKET = new ResourceTexture(
+            "gcyr:textures/gui/widget/button_launch_rocket.png");
+    public static final ResourceTexture BUTTON_ENABLED = new ResourceTexture(
+            "gcyr:textures/gui/widget/button_enabled.png");
+
 
     public static final ResourceTexture CONFIG_SLOT_OVERLAY = new ResourceTexture("gcyr:textures/gui/overlay/config_slot_overlay.png");
     public static final ResourceTexture SATELLITE_SLOT_OVERLAY = new ResourceTexture("gcyr:textures/gui/overlay/satellite_slot_overlay.png");
-
-    public static final ResourceTexture PROGRESS_BAR_ROCKET = new ResourceTexture("gcyr:textures/gui/progress_bar/progress_bar_rocket.png");
+  
+    public static final ResourceTexture PROGRESS_BAR_ROCKET = new ResourceTexture(
+            "gcyr:textures/gui/progress_bar/progress_bar_rocket.png");
 }

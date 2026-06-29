@@ -7,15 +7,19 @@ import argent_matter.gcyr.common.data.GCYRNetworking;
 import argent_matter.gcyr.common.item.armor.SpaceSuitArmorItem;
 import argent_matter.gcyr.common.networking.s2c.PacketSyncDysonSphereStatus;
 import argent_matter.gcyr.common.recipe.type.SmithingSpaceSuitRecipe;
+import argent_matter.gcyr.common.recipe.type.SmithingThermalUpgradeRecipe;
 import argent_matter.gcyr.data.loader.PlanetData;
+
 import com.lowdragmc.lowdraglib.misc.ItemStackTransfer;
 import com.lowdragmc.lowdraglib.side.fluid.FluidTransferHelper;
 import com.lowdragmc.lowdraglib.side.fluid.IFluidTransfer;
+
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
+
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
@@ -29,11 +33,12 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;
 import java.util.Set;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 @Mod.EventBusSubscriber(modid = GCYR.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ForgeCommonEventListener {
@@ -41,10 +46,13 @@ public class ForgeCommonEventListener {
     @SubscribeEvent
     public static void registerItemStackCapabilities(AttachCapabilitiesEvent<ItemStack> event) {
         final ItemStack itemStack = event.getObject();
-        if (itemStack.is(Tags.Items.ARMORS_CHESTPLATES) && (itemStack.getItem() instanceof SpaceSuitArmorItem || itemStack.hasTag() && itemStack.getTag().getBoolean(SmithingSpaceSuitRecipe.SPACE_SUIT_ARMOR_KEY))) {
+        if (itemStack.is(Tags.Items.ARMORS_CHESTPLATES) && (itemStack.getItem() instanceof SpaceSuitArmorItem ||
+                itemStack.hasTag() && itemStack.getTag().getBoolean(SmithingSpaceSuitRecipe.SPACE_SUIT_ARMOR_KEY))) {
             event.addCapability(GCYR.id("spacesuit"), new ICapabilityProvider() {
+
                 @Override
-                public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> capability, @Nullable Direction arg) {
+                public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> capability,
+                                                                  @Nullable Direction arg) {
                     return SpaceSuitArmorItem.getCapability(itemStack, capability);
                 }
             });
@@ -107,10 +115,19 @@ public class ForgeCommonEventListener {
             if (stack.is(Tags.Items.ARMORS_CHESTPLATES)) {
                 IFluidTransfer transfer = FluidTransferHelper.getFluidTransfer(new ItemStackTransfer(stack), 0);
                 if (transfer != null) {
-                    event.getToolTip().add(1, Component.translatable("tooltip.gcyr.spacesuit.stored", transfer.getFluidInTank(0).getAmount(), transfer.getTankCapacity(0)));
+                    event.getToolTip().add(1, Component.translatable("tooltip.gcyr.spacesuit.stored",
+                            transfer.getFluidInTank(0).getAmount(), transfer.getTankCapacity(0)));
                 }
             }
             event.getToolTip().add(1, Component.translatable("tooltip.gcyr.spacesuit"));
+        }
+        if (stack.hasTag()) {
+            if (stack.getTag().getBoolean(SmithingThermalUpgradeRecipe.HEAT_SHIELDED_KEY)) {
+                event.getToolTip().add(Component.translatable("tooltip.gcyr.heat_shielded"));
+            }
+            if (stack.getTag().getBoolean(SmithingThermalUpgradeRecipe.FREEZE_PROTECTED_KEY)) {
+                event.getToolTip().add(Component.translatable("tooltip.gcyr.freeze_protected"));
+            }
         }
     }
 }

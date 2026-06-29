@@ -3,14 +3,17 @@ package argent_matter.gcyr.integration.kjs.builders;
 import argent_matter.gcyr.api.block.impl.SimpleFuelTankProperties;
 import argent_matter.gcyr.common.block.FuelTankBlock;
 import argent_matter.gcyr.common.data.GCYRBlocks;
-import dev.latvian.mods.kubejs.block.BlockBuilder;
-import lombok.Setter;
-import lombok.experimental.Accessors;
+
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 
+import dev.latvian.mods.kubejs.block.BlockBuilder;
+import lombok.Setter;
+import lombok.experimental.Accessors;
+
 @Accessors(chain = true, fluent = true)
 public class FuelTankBlockBuilder extends BlockBuilder {
+
     @Setter
     public transient int tier;
     @Setter

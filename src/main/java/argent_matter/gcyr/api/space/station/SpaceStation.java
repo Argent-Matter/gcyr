@@ -3,11 +3,13 @@ package argent_matter.gcyr.api.space.station;
 import argent_matter.gcyr.api.space.planet.Planet;
 import argent_matter.gcyr.config.GCYRConfig;
 import argent_matter.gcyr.util.Vec2i;
+
+import net.minecraft.world.level.border.WorldBorder;
+
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import lombok.Getter;
 import lombok.experimental.Accessors;
-import net.minecraft.world.level.border.WorldBorder;
 
 @Accessors(fluent = true)
 public class SpaceStation {
@@ -18,8 +20,7 @@ public class SpaceStation {
 
     public static final Codec<SpaceStation> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             Planet.ID_CODEC.fieldOf("planet").forGetter(SpaceStation::orbitPlanet),
-            Vec2i.CODEC.fieldOf("pos").forGetter(SpaceStation::position)
-    ).apply(instance, SpaceStation::new));
+            Vec2i.CODEC.fieldOf("pos").forGetter(SpaceStation::position)).apply(instance, SpaceStation::new));
 
     @Getter
     private final Planet orbitPlanet;
@@ -36,5 +37,4 @@ public class SpaceStation {
         border.setCenter(position.x() * BLOCK_MULTIPLIER, position.y() * BLOCK_MULTIPLIER);
         border.setSize(BLOCK_MULTIPLIER);
     }
-
 }
