@@ -24,6 +24,7 @@ public class GCYRMaterials {
 
     public static void modifyMaterials() {
         // Add flags to base GT materials
+        Iron.addFlags(GENERATE_FOIL);
         IronMagnetic.addFlags(GENERATE_FOIL);
         TitaniumTungstenCarbide.addFlags(GENERATE_ROD);
         Titanium.setProperty(PropertyKey.ORE, new OreProperty());
