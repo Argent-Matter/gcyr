@@ -317,6 +317,7 @@ public class GCYRBlocks {
             .tag(GCYRTags.MINEABLE_WITH_WRENCH, BlockTags.MINEABLE_WITH_PICKAXE, GCYRTags.BLOCKS_FLOOD_FILL,
                     BlockTags.DOORS)
             .blockstate(GCYRModels::airlockDoorModel)
+            .loot((table, block) -> table.add(block, table.createDoorTable(block)))
             .item()
             .tag(ItemTags.DOORS)
             .defaultModel()
