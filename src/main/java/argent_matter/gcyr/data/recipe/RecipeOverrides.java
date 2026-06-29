@@ -1,5 +1,9 @@
 package argent_matter.gcyr.data.recipe;
 
+import com.gregtechceu.gtceu.api.data.chemical.ChemicalHelper;
+import com.gregtechceu.gtceu.api.data.chemical.material.stack.MaterialEntry;
+import com.gregtechceu.gtceu.data.recipe.VanillaRecipeHelper;
+
 import net.minecraft.data.recipes.FinishedRecipe;
 
 import java.util.function.Consumer;
@@ -13,6 +17,30 @@ import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.*;
 public class RecipeOverrides {
 
     public static void init(Consumer<FinishedRecipe> provider) {
+
+        // processFoil generates the shaped recipe with iron_plate as input (the macerator output of
+        // IronMagnetic) and generates bender recipes that output iron_foil rather than magnetic_iron_foil.
+        // Override all three to use magnetic iron/magnetic iron plates and produce magnetic iron foil.
+        VanillaRecipeHelper.addShapedRecipe(provider, "foil_magnetic_iron",
+                ChemicalHelper.get(foil, IronMagnetic, 2),
+                "hP ", 'P', new MaterialEntry(plate, IronMagnetic));
+
+        BENDER_RECIPES.recipeBuilder("bend_magnetic_iron_plate_to_foil")
+                .inputItems(plate, IronMagnetic)
+                .outputItems(foil, IronMagnetic, 4)
+                .duration((int) IronMagnetic.getMass())
+                .EUt(24)
+                .circuitMeta(1)
+                .save(provider);
+
+        BENDER_RECIPES.recipeBuilder("bend_magnetic_iron_ingot_to_foil")
+                .inputItems(ingot, IronMagnetic)
+                .outputItems(foil, IronMagnetic, 4)
+                .duration((int) IronMagnetic.getMass())
+                .EUt(24)
+                .circuitMeta(10)
+                .save(provider);
+
         DISTILLATION_RECIPES.recipeBuilder("distill_coal_tar")
                 .inputFluids(CoalTar.getFluid(1000))
                 .outputItems(dustSmall, Coke)
