@@ -1,8 +1,14 @@
 package argent_matter.gcyr.data.lang;
 
+import argent_matter.gcyr.GCYR;
 import argent_matter.gcyr.common.data.GCYRMaterials;
+import argent_matter.gcyr.common.worldgen.GCYROres;
 
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
+import com.gregtechceu.gtceu.api.data.worldgen.GTOreDefinition;
+import com.gregtechceu.gtceu.api.registry.GTRegistries;
+
+import net.minecraft.resources.ResourceLocation;
 
 import com.tterrag.registrate.providers.RegistrateLangProvider;
 
@@ -111,6 +117,28 @@ public class LangHandler extends com.gregtechceu.gtceu.data.lang.LangHandler {
         provider.add("message.gcyr.notice_id_changed",
                 "The destination of your Space Station ID chip might have changed. Remember to rewrite the personal destination chip with the new data before setting a new target!");
         provider.add("message.gcyr.already_at_destination", "Already at destination specified by ID!");
+
+        // JEI ore vein labels
+        GTRegistries.ORE_VEINS.unfreeze();
+        GCYROres.init();
+        for (GTOreDefinition oreDefinition : GTRegistries.ORE_VEINS) {
+            ResourceLocation key = GTRegistries.ORE_VEINS.getKey(oreDefinition);
+            if (GCYR.MOD_ID.equals(key.getNamespace())) {
+                provider.add("gtceu.jei.ore_vein." + key.getPath(),
+                        RegistrateLangProvider.toEnglishName(key.getPath()));
+            }
+        }
+
+        // biomes
+        provider.add("biome.gcyr.lunar_mare", "Lunar Mare");
+        provider.add("biome.gcyr.lunar_plains", "Lunar Plains");
+        provider.add("biome.gcyr.martian_canyon_creek", "Martian Canyon Creek");
+        provider.add("biome.gcyr.martian_polar_caps", "Martian Polar Caps");
+        provider.add("biome.gcyr.martian_wastelands", "Martian Wastelands");
+        provider.add("biome.gcyr.mercury_deltas", "Mercury Deltas");
+        provider.add("biome.gcyr.space", "Space");
+        provider.add("biome.gcyr.venus_barren_plains", "Venus Barren Plains");
+        provider.add("biome.gcyr.venus_eroded_plains", "Venus Eroded Plains");
 
         // planets
         provider.add("gcyr.solar_system", "Sol");

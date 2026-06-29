@@ -157,7 +157,7 @@ public class GCYROres {
                             .surfaceRock(Tungstate)
                             .placement(SurfaceIndicatorGenerator.IndicatorPlacement.ABOVE)));
 
-    public static final GTOreDefinition SULFUR_VEIN_VENUS = create(GCYR.id("sulfurc_vein_venus"), vein -> vein
+    public static final GTOreDefinition SULFUR_VEIN_VENUS = create(GCYR.id("sulfur_vein_venus"), vein -> vein
             .clusterSize(30).density(0.3f).weight(40)
             .layer(GCYRWorldGenLayers.VENUS)
             .heightRangeUniform(10, 80)
