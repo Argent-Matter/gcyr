@@ -19,6 +19,8 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.material.MapColor;
 
+import net.minecraftforge.common.Tags;
+
 import com.tterrag.registrate.util.entry.BlockEntry;
 import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
 import com.tterrag.registrate.util.nullness.NonNullSupplier;
@@ -97,7 +99,7 @@ public class GCYRBlocks {
             .lang("Venus Sand")
             .initialProperties(() -> Blocks.SAND)
             .properties(properties -> properties.mapColor(MapColor.TERRACOTTA_ORANGE))
-            .tag(BlockTags.MINEABLE_WITH_SHOVEL)
+            .tag(BlockTags.MINEABLE_WITH_SHOVEL, BlockTags.SAND)
             .blockstate(GCYRModels::randomRotatedModel)
             .simpleItem()
             .register();
@@ -182,7 +184,7 @@ public class GCYRBlocks {
             .block("moon_sand", FallingBlock::new)
             .lang("Lunar Sand")
             .initialProperties(() -> Blocks.GRAVEL)
-            .tag(BlockTags.MINEABLE_WITH_SHOVEL)
+            .tag(BlockTags.MINEABLE_WITH_SHOVEL, BlockTags.SAND)
             .blockstate(NonNullBiConsumer.noop())
             .item()
             .build()
@@ -232,12 +234,11 @@ public class GCYRBlocks {
             .block("prb_underground_mushroom", (p) -> new MushroomBlock(p, null /* todo fix */))
             .lang("Proxima b Underground Mushroom")
             .initialProperties(() -> Blocks.BROWN_MUSHROOM)
-            .properties(p -> p.mapColor(MapColor.COLOR_LIGHT_GRAY).lightLevel((arg) -> {
-                return 11;
-            }))
+            .properties(p -> p.mapColor(MapColor.COLOR_LIGHT_GRAY).lightLevel((arg) -> 11))
             .addLayer(() -> RenderType::cutout)
             .blockstate(GCYRModels::crossModel)
             .item()
+            .tag(Tags.Items.MUSHROOMS)
             .model(GCYRModels::blockTextureGeneratedModel)
             .build()
             .register();
@@ -252,6 +253,7 @@ public class GCYRBlocks {
             .addLayer(() -> RenderType::cutout)
             .blockstate(GCYRModels::crossModel)
             .item()
+            .tag(Tags.Items.MUSHROOMS)
             .model(GCYRModels::blockTextureGeneratedModel)
             .build()
             .register();
@@ -312,7 +314,8 @@ public class GCYRBlocks {
             .initialProperties(() -> Blocks.IRON_BLOCK)
             .lang("Airlock Door")
             .properties(p -> p.strength(4.0F, 6.0F))
-            .tag(GCYRTags.MINEABLE_WITH_WRENCH, BlockTags.MINEABLE_WITH_PICKAXE, GCYRTags.BLOCKS_FLOOD_FILL)
+            .tag(GCYRTags.MINEABLE_WITH_WRENCH, BlockTags.MINEABLE_WITH_PICKAXE, GCYRTags.BLOCKS_FLOOD_FILL,
+                    BlockTags.DOORS)
             .blockstate(GCYRModels::airlockDoorModel)
             .item()
             .tag(ItemTags.DOORS)

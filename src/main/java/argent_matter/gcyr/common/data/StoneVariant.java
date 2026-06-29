@@ -10,6 +10,8 @@ import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.material.MapColor;
 
+import net.minecraftforge.common.Tags;
+
 import com.tterrag.registrate.builders.BlockBuilder;
 import com.tterrag.registrate.util.entry.BlockEntry;
 
@@ -47,8 +49,8 @@ public class StoneVariant {
                 .initialProperties(() -> Blocks.COBBLESTONE)
                 .properties(p -> p.mapColor(mapColor))
                 .blockstate(GCYRModels::randomRotatedModel)
-                .tag(BlockTags.MINEABLE_WITH_PICKAXE)
-                .simpleItem();
+                .tag(BlockTags.MINEABLE_WITH_PICKAXE, Tags.Blocks.COBBLESTONE)
+                .item().tag(ItemTags.STONE_TOOL_MATERIALS).build();
     }
 
     // type is the ID segment for the stone block: "rock" or "stone"
@@ -59,7 +61,7 @@ public class StoneVariant {
                 .properties(p -> p.mapColor(mapColor))
                 .blockstate(GCYRModels::randomRotatedModel)
                 .loot((table, block) -> table.dropOther(block, cobblestone.asItem()))
-                .tag(BlockTags.MINEABLE_WITH_PICKAXE)
+                .tag(BlockTags.MINEABLE_WITH_PICKAXE, Tags.Blocks.STONE)
                 .simpleItem();
     }
 
