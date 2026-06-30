@@ -94,25 +94,6 @@ public class GCYRBlocks {
     private static final StoneVariant VV = new StoneVariant(REGISTRATE, "venus", MapColor.COLOR_GRAY);
 
     public static final BlockSetType VENUS_SET = VV.blockSetType();
-    public static final BlockEntry<FallingBlock> VENUS_SAND = REGISTRATE
-            .block("venus_sand", FallingBlock::new)
-            .lang("Venus Sand")
-            .initialProperties(() -> Blocks.SAND)
-            .properties(properties -> properties.mapColor(MapColor.TERRACOTTA_ORANGE))
-            .tag(BlockTags.MINEABLE_WITH_SHOVEL, BlockTags.SAND)
-            .blockstate(GCYRModels::randomRotatedModel)
-            .simpleItem()
-            .register();
-
-    public static final BlockEntry<Block> VENUSIAN_REGOLITH = REGISTRATE
-            .block("venusian_regolith", Block::new)
-            .lang("Venusian Regolith")
-            .initialProperties(() -> Blocks.SANDSTONE)
-            .properties(properties -> properties.mapColor(MapColor.TERRACOTTA_GRAY))
-            .tag(BlockTags.MINEABLE_WITH_PICKAXE)
-            .blockstate(GCYRModels::randomRotatedModel)
-            .simpleItem()
-            .register();
 
     public static final BlockEntry<Block> VENUS_COBBLESTONE = VV.cobblestone("Cobbled Venus Rock")
             .register();
@@ -137,6 +118,26 @@ public class GCYRBlocks {
 
     public static final BlockEntry<ButtonBlock> VENUS_ROCK_BUTTON = VV
             .button("rock", "Venus Rock Button", VENUS_ROCK, VENUS_SET)
+            .register();
+
+    public static final BlockEntry<FallingBlock> VENUS_SAND = REGISTRATE
+            .block("venus_sand", FallingBlock::new)
+            .lang("Venus Sand")
+            .initialProperties(() -> Blocks.SAND)
+            .properties(properties -> properties.mapColor(MapColor.TERRACOTTA_ORANGE))
+            .tag(BlockTags.MINEABLE_WITH_SHOVEL, BlockTags.SAND)
+            .blockstate(GCYRModels::randomRotatedModel)
+            .simpleItem()
+            .register();
+
+    public static final BlockEntry<FallingBlock> VENUSIAN_REGOLITH = REGISTRATE
+            .block("venusian_regolith", FallingBlock::new)
+            .lang("Venusian Regolith")
+            .initialProperties(() -> Blocks.GRAVEL)
+            .properties(properties -> properties.mapColor(MapColor.TERRACOTTA_GRAY))
+            .tag(BlockTags.MINEABLE_WITH_PICKAXE)
+            .blockstate(GCYRModels::randomRotatedModel)
+            .simpleItem()
             .register();
 
     // region moon
@@ -170,10 +171,10 @@ public class GCYRBlocks {
             .button("stone", "Lunar Stone Button", MOON_STONE, MOON_SET)
             .register();
 
-    public static final BlockEntry<Block> LUNAR_MARE_REGOLITH = REGISTRATE
-            .block("lunar_mare_regolith", Block::new)
+    public static final BlockEntry<FallingBlock> LUNAR_MARE_REGOLITH = REGISTRATE
+            .block("lunar_mare_regolith", FallingBlock::new)
             .lang("Lunar Mare Regolith")
-            .initialProperties(() -> Blocks.STONE)
+            .initialProperties(() -> Blocks.GRAVEL)
             .properties(properties -> properties.mapColor(MapColor.COLOR_LIGHT_GRAY))
             .tag(BlockTags.MINEABLE_WITH_PICKAXE)
             .blockstate(GCYRModels::randomRotatedModel)
@@ -183,7 +184,8 @@ public class GCYRBlocks {
     public static final BlockEntry<FallingBlock> MOON_SAND = REGISTRATE
             .block("moon_sand", FallingBlock::new)
             .lang("Lunar Sand")
-            .initialProperties(() -> Blocks.GRAVEL)
+            .initialProperties(() -> Blocks.SAND)
+            .properties(properties -> properties.mapColor(MapColor.STONE))
             .tag(BlockTags.MINEABLE_WITH_SHOVEL, BlockTags.SAND)
             .blockstate(NonNullBiConsumer.noop())
             .item()
@@ -199,7 +201,8 @@ public class GCYRBlocks {
     public static final BlockEntry<FallingBlock> MARS_REGOLITH = REGISTRATE
             .block("mars_regolith", FallingBlock::new)
             .lang("Martian Regolith")
-            .initialProperties(() -> Blocks.RED_SAND)
+            .initialProperties(() -> Blocks.GRAVEL)
+            .properties(properties -> properties.mapColor(MapColor.COLOR_ORANGE))
             .tag(BlockTags.MINEABLE_WITH_PICKAXE)
             .simpleItem()
             .register();
@@ -260,10 +263,10 @@ public class GCYRBlocks {
 
     // region proxima centauri b
 
-    public static final BlockEntry<Block> PROXIMA_CENTAURI_B_REGOLITH = REGISTRATE
-            .block("proxima_centauri_b_regolith", Block::new)
+    public static final BlockEntry<FallingBlock> PROXIMA_CENTAURI_B_REGOLITH = REGISTRATE
+            .block("proxima_centauri_b_regolith", FallingBlock::new)
             .lang("Proxima Centauri B Regolith")
-            .initialProperties(() -> Blocks.DEEPSLATE)
+            .initialProperties(() -> Blocks.GRAVEL)
             .properties(properties -> properties.mapColor(MapColor.TERRACOTTA_BLACK))
             .tag(BlockTags.MINEABLE_WITH_PICKAXE)
             .blockstate(GCYRModels::randomRotatedModel)
@@ -273,7 +276,7 @@ public class GCYRBlocks {
     public static final BlockEntry<Block> PROXIMA_CENTAURI_B_TURF = REGISTRATE
             .block("proxima_centauri_b_turf", Block::new)
             .lang("Proxima Centauri B Turf")
-            .initialProperties(() -> Blocks.SANDSTONE)
+            .initialProperties(() -> Blocks.DIRT)
             .properties(properties -> properties.mapColor(MapColor.SAND))
             .tag(BlockTags.MINEABLE_WITH_PICKAXE)
             .blockstate(GCYRModels::randomRotatedModel)
@@ -283,7 +286,7 @@ public class GCYRBlocks {
     public static final BlockEntry<Block> PROXIMA_CENTAURI_B_HARDENED_TURF = REGISTRATE
             .block("proxima_centauri_b_hardened_turf", Block::new)
             .lang("Proxima Centauri B Hardened Turf")
-            .initialProperties(() -> Blocks.TERRACOTTA)
+            .initialProperties(() -> Blocks.DIRT)
             .properties(properties -> properties.mapColor(MapColor.TERRACOTTA_WHITE))
             .tag(BlockTags.MINEABLE_WITH_PICKAXE)
             .blockstate(GCYRModels::randomRotatedModel)
@@ -293,7 +296,7 @@ public class GCYRBlocks {
     public static final BlockEntry<Block> PROXIMA_CENTAURI_B_GRASSY_TURF = REGISTRATE
             .block("proxima_centauri_b_grassy_turf", Block::new)
             .lang("Proxima Centauri B Grassy Turf")
-            .initialProperties(() -> Blocks.TERRACOTTA)
+            .initialProperties(() -> Blocks.DIRT)
             .properties(properties -> properties.mapColor(MapColor.TERRACOTTA_LIGHT_BLUE))
             .tag(BlockTags.MINEABLE_WITH_PICKAXE)
             .blockstate(GCYRModels::randomRotatedModel)

@@ -17,7 +17,6 @@ import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.*;
 public class RecipeOverrides {
 
     public static void init(Consumer<FinishedRecipe> provider) {
-
         // processFoil generates the shaped recipe with iron_plate as input (the macerator output of
         // IronMagnetic) and generates bender recipes that output iron_foil rather than magnetic_iron_foil.
         // Override all three to use magnetic iron/magnetic iron plates and produce magnetic iron foil.
