@@ -79,6 +79,14 @@ public class LangHandler extends com.gregtechceu.gtceu.data.lang.LangHandler {
         provider.add("menu.gcyr.launch", "LAUNCH");
         provider.add("menu.gcyr.rocket.unbuild", "UNBUILD");
         provider.add("menu.gcyr.rocket.thrust", "Thrust: %s m/s");
+        provider.add("hud.gcyr.rocket.descent", "Descent: %s b/t");
+        provider.add("hud.gcyr.rocket.fuel", "Fuel: %s/%s mB");
+        provider.add("hud.gcyr.rocket.landing", "Landing: %s");
+        provider.add("hud.gcyr.rocket.manual", "MANUAL");
+        provider.add("hud.gcyr.rocket.auto", "AUTO");
+        provider.add("hud.gcyr.rocket.explosions", "Crash explosions: %s");
+        provider.add("hud.gcyr.rocket.enabled", "ON");
+        provider.add("hud.gcyr.rocket.disabled", "OFF");
 
         provider.add("menu.gcyr.save_destination_position", "Save Launch platform position to ID Chip");
         provider.add("gcyr.multiblock.rocket.build", "Scan Rocket");

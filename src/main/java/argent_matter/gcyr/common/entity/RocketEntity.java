@@ -9,6 +9,7 @@ import argent_matter.gcyr.api.space.planet.Planet;
 import argent_matter.gcyr.api.space.satellite.SatelliteType;
 import argent_matter.gcyr.api.space.station.SpaceStation;
 import argent_matter.gcyr.common.block.FuelTankBlock;
+import argent_matter.gcyr.common.block.LandingModuleBlock;
 import argent_matter.gcyr.common.block.RocketMotorBlock;
 import argent_matter.gcyr.common.data.*;
 import argent_matter.gcyr.common.entity.data.EntityOxygenSystem;
@@ -81,6 +82,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.dimension.DimensionType;
+import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
@@ -133,6 +135,8 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
             .defineId(RocketEntity.class, GCYREntityDataSerializers.BLOCK_POS_LIST);
     public static final EntityDataAccessor<Optional<Planet>> DESTINATION = SynchedEntityData
             .defineId(RocketEntity.class, GCYREntityDataSerializers.PLANET);
+    public static final EntityDataAccessor<Boolean> LANDING_MODULE = SynchedEntityData.defineId(RocketEntity.class,
+            EntityDataSerializers.BOOLEAN);
 
     // @Getter
     // private final FieldManagedStorage syncStorage = new FieldManagedStorage(this);
@@ -146,6 +150,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
     private int motorTiersTotal, fuelTankTiersTotal;
     private int motorTier, fuelTankTier, partsTier;
     private double speed;
+    private double lastVerticalVelocity;
     @Nullable
     private GTRecipe selectedFuelRecipe;
 
@@ -228,6 +233,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
             this.fall();
         }
 
+        this.lastVerticalVelocity = getDeltaMovement().y;
         this.move(MoverType.SELF, getDeltaMovement());
     }
 
@@ -513,24 +519,66 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
     public void fall() {
         if (this.isNoGravity()) return;
         Vec3 delta = this.getDeltaMovement();
-        if (delta.y > -2.0) {
-            delta = delta.add(0, -LivingEntity.DEFAULT_BASE_GRAVITY, 0);
+        double gravity = RocketGravity.get(level());
+        delta = delta.add(0.0D, -gravity, 0.0D);
+        if (delta.y < -RocketGravity.MAX_DESCENT_SPEED) {
+            delta = new Vec3(delta.x, -RocketGravity.MAX_DESCENT_SPEED, delta.z);
         }
-        this.setDeltaMovement(delta);
 
-        // braking
-        if (getControllingPassenger() != null && ((LivingEntityAccessor) getControllingPassenger()).isJumping() &&
-                consumeFuel()) {
-            this.setDeltaMovement(delta.x, Math.min(delta.y + 0.05, -0.25), delta.z);
-            this.fallDistance *= 0.9f;
+        boolean thrusting = false;
+        if (hasLandingModule()) {
+            thrusting = consumeFuel();
+            if (thrusting) {
+                double targetVelocity = getLandingSurfaceDistance() <= 10.0D ? -RocketGravity.MIN_DESCENT_SPEED :
+                        -RocketGravity.MAX_DESCENT_SPEED;
+                double brakingAcceleration = Math.max(0.0D,
+                        2.0D * gravity + getRocketSpeed() / 100.0D);
+                if (delta.y < targetVelocity) {
+                    delta = delta.add(0.0D, brakingAcceleration, 0.0D);
+                    if (delta.y > targetVelocity) {
+                        delta = new Vec3(delta.x, targetVelocity, delta.z);
+                    }
+                } else if (PlanetData.isOrbitLevel(level().dimension())) {
+                    delta = new Vec3(delta.x, targetVelocity, delta.z);
+                }
+            }
+        } else if (delta.y < 0.0D && getControllingPassenger() != null &&
+                ((LivingEntityAccessor) getControllingPassenger()).isJumping() && consumeFuel()) {
+                    thrusting = true;
+                    double brakingAcceleration = Math.max(0.0D,
+                            2.0D * gravity + getRocketSpeed() / 100.0D);
+                    delta = delta.add(0.0D, brakingAcceleration, 0.0D);
+                    if (delta.y > -RocketGravity.MIN_DESCENT_SPEED) {
+                        delta = new Vec3(delta.x, -RocketGravity.MIN_DESCENT_SPEED, delta.z);
+                    }
+                }
+        this.setDeltaMovement(delta);
+        if (thrusting) {
             this.spawnParticles();
         }
+    }
+
+    private double getLandingSurfaceDistance() {
+        AABB bounds = this.getBoundingBox();
+        int minX = (int) Math.floor(bounds.minX);
+        int maxX = (int) Math.ceil(bounds.maxX) - 1;
+        int minZ = (int) Math.floor(bounds.minZ);
+        int maxZ = (int) Math.ceil(bounds.maxZ) - 1;
+        double nearest = Double.POSITIVE_INFINITY;
+        for (int x = minX; x <= maxX; x++) {
+            for (int z = minZ; z <= maxZ; z++) {
+                int surface = level().getHeight(Heightmap.Types.MOTION_BLOCKING, x, z);
+                nearest = Math.min(nearest, Math.max(0.0D, bounds.minY - surface));
+            }
+        }
+        return nearest;
     }
 
     @Override
     public boolean causeFallDamage(float fallDistance, float multiplier, DamageSource source) {
         if (level().isClientSide()) return false;
-        if (GCYRConfig.INSTANCE.rocket.doCrashLandingExplosion && fallDistance > 48 && onGround()) {
+        if (crashExplosionsEnabled() && onGround() &&
+                Math.abs(this.lastVerticalVelocity) >= getCrashSpeed()) {
             Vec3 bbCenter = this.getBoundingBox().getCenter();
             this.unBuild();
             this.level().explode(this, bbCenter.x, this.getBoundingBox().minY, bbCenter.z, 10,
@@ -758,7 +806,8 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         newRocket.setPos(destinationPos.getX(), destinationPos.getY(), destinationPos.getZ());
 
         Vec3 delta = this.getDeltaMovement();
-        newRocket.setDeltaMovement(delta.x, -0.5, delta.z);
+        double arrivalVelocity = this.destinationIsSpaceStation ? (hasLandingModule() ? -0.5D : 0.0D) : -0.5D;
+        newRocket.setDeltaMovement(delta.x, arrivalVelocity, delta.z);
         if (newRocket instanceof RocketEntity rocketEntity) {
             rocketEntity.setDestination(null);
             rocketEntity.destinationIsSpaceStation = false;
@@ -854,6 +903,23 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
 
     public int getFuelCapacity() {
         return this.entityData.get(FUEL_CAPACITY);
+    }
+
+    public int getFuelAmount() {
+        return this.entityData.get(FUEL_AMOUNT);
+    }
+
+    public boolean hasLandingModule() {
+        return this.entityData.get(LANDING_MODULE);
+    }
+
+    public double getCrashSpeed() {
+        return RocketGravity.getCrashSpeed();
+    }
+
+    public boolean crashExplosionsEnabled() {
+        return GCYRConfig.INSTANCE.rocket.doCrashLandingExplosion &&
+                !PlanetData.isOrbitLevel(level().dimension());
     }
 
     public void setFuelCapacity(int fuelCapacity) {
@@ -956,6 +1022,9 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         } else if (state.state().is(GCYRBlocks.SEAT.get())) {
             this.addSeatPos(pos);
         }
+        if (block instanceof LandingModuleBlock) {
+            this.entityData.set(LANDING_MODULE, true);
+        }
         // resolve average tier of parts
         this.partsTier = (this.motorTier + this.fuelTankTier) / 2;
 
@@ -1012,6 +1081,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         this.entityData.define(SEAT_POSITIONS, new ArrayList<>());
         this.entityData.define(SIZE, BlockPos.ZERO);
         this.entityData.define(DESTINATION, Optional.empty());
+        this.entityData.define(LANDING_MODULE, false);
     }
 
     @Override

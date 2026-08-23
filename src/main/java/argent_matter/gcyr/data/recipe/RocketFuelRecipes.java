@@ -17,13 +17,11 @@ public class RocketFuelRecipes {
         ROCKET_FUEL_RECIPES.recipeBuilder(GCYR.id("gasoline"))
                 .inputFluids(GTMaterials.Gasoline.getFluid(1)) // amount doesn't matter
                 .duration(25) // duration is used / 10 as a divisor to fuel usage
-                .EUt(0) // use EUt as a bogus tier indicator. more than a rocket's motor tier fuels aren't allowed to be
-                        // used in the rocket.
                 .save(provider);
 
         ROCKET_FUEL_RECIPES.recipeBuilder(GCYR.id("diesel"))
                 .inputFluids(GTMaterials.Diesel.getFluid(1))
-                .duration(18).EUt(0)
+                .duration(18)
                 .save(provider);
 
         ROCKET_FUEL_RECIPES.recipeBuilder(GCYR.id("rocket_fuel"))

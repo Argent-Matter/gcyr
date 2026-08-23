@@ -4,6 +4,7 @@ import argent_matter.gcyr.GCYR;
 import argent_matter.gcyr.api.block.IFuelTankProperties;
 import argent_matter.gcyr.api.block.IRocketMotorType;
 import argent_matter.gcyr.common.block.FuelTankBlock;
+import argent_matter.gcyr.common.block.LandingModuleBlock;
 import argent_matter.gcyr.common.block.RocketMotorBlock;
 import argent_matter.gcyr.data.recipe.GCYRTags;
 
@@ -311,6 +312,16 @@ public class GCYRBlocks {
             RocketMotorBlock.RocketMotorType.ADVANCED);
     public static final BlockEntry<RocketMotorBlock> ELITE_ROCKET_MOTOR = createRocketMotor(
             RocketMotorBlock.RocketMotorType.ELITE);
+
+    public static final BlockEntry<LandingModuleBlock> LANDING_MODULE = REGISTRATE
+            .block("landing_module", LandingModuleBlock::new)
+            .initialProperties(() -> Blocks.IRON_BLOCK)
+            .lang("Landing Module")
+            .tag(GCYRTags.MINEABLE_WITH_WRENCH, BlockTags.MINEABLE_WITH_PICKAXE)
+            .blockstate((ctx, prov) -> prov.simpleBlock(ctx.getEntry(),
+                    prov.models().cubeAll("landing_module", GCYR.id("block/launch_pad"))))
+            .simpleItem()
+            .register();
 
     public static final BlockEntry<DoorBlock> AIRLOCK_DOOR = REGISTRATE
             .block("airlock_door", properties -> new DoorBlock(properties, BlockSetType.IRON))
