@@ -17,7 +17,7 @@ public final class RocketGravity {
     // maximum speed the rocket will fall at in blocks/tick
     public static final double MAX_DESCENT_SPEED = 5.0D;
     // slowest descent speed when accelerating the rocket in blocks/tick
-    public static final double MIN_DESCENT_SPEED = 0.1D;
+    public static final double MIN_DESCENT_SPEED = 0.2D;
     // if the rocket hits the ground going > CRASH_SPEED and explosions
     // are on, the it explodes; CRASH_SPEED is in blocks/tick
     public static final double CRASH_SPEED = 1.75D;
