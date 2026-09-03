@@ -697,10 +697,10 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
 
     private double getLandingSurfaceDistance() {
         AABB bounds = this.getBoundingBox();
-        int minX = (int) Math.floor(bounds.minX);
-        int maxX = (int) Math.ceil(bounds.maxX) - 1;
-        int minZ = (int) Math.floor(bounds.minZ);
-        int maxZ = (int) Math.ceil(bounds.maxZ) - 1;
+        int minX = Mth.floor(bounds.minX);
+        int maxX = Mth.ceil(bounds.maxX) - 1;
+        int minZ = Mth.floor(bounds.minZ);
+        int maxZ = Mth.ceil(bounds.maxZ) - 1;
         double nearest = Double.POSITIVE_INFINITY;
         for (int x = minX; x <= maxX; x++) {
             for (int z = minZ; z <= maxZ; z++) {
