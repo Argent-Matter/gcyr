@@ -1100,7 +1100,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         this.entityData.set(RECIPE_DURATION, duration);
     }
 
-    public double getWeight() {
+    public float getWeight() {
         return this.entityData.get(WEIGHT);
     }
 
