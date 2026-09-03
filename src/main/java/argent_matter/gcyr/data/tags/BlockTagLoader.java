@@ -14,7 +14,8 @@ public class BlockTagLoader {
         createBlock(provider, GCYRTags.MOON_ORE_REPLACEABLES, "gcyr:moon_stone");
         createBlock(provider, GCYRTags.MARS_ORE_REPLACEABLES, "gcyr:martian_rock");
         createBlock(provider, GCYRTags.PASSES_FLOOD_FILL, "#fences", "iron_bars", "tnt");
-        createBlock(provider, GCYRTags.LANDING_MODULES, "gcyr:landing_module");
+        provider.add(GCYRTags.LANDING_MODULES)
+                .add(GCYRBlocks.LANDING_MODULE.get());
     }
 
     private static void createBlock(RegistrateTagsProvider<Block> provider, TagKey<Block> tagKey, String... rls) {
