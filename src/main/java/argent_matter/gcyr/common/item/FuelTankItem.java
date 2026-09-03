@@ -28,9 +28,7 @@ public class FuelTankItem extends BlockItem {
         tooltip.add(Component.translatable("tooltip.gcyr.tier",
                 Component.literal(Integer.toString(tank.getTier())).withStyle(ChatFormatting.WHITE))
                 .withStyle(ChatFormatting.GOLD));
-        tooltip.add(Component.translatable("tooltip.gcyr.fluid_capacity")
-                .withStyle(ChatFormatting.BLUE)
-                .append(Component.literal(" " + tank.getTankProperties().getFuelStorage() + " mB")
-                        .withStyle(ChatFormatting.WHITE)));
+        tooltip.add(Component.translatable("gtceu.universal.tooltip.fluid_storage_capacity",
+                tank.getTankProperties().getFuelStorage()));
     }
 }

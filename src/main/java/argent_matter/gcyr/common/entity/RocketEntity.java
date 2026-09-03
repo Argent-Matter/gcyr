@@ -68,6 +68,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
@@ -1271,7 +1272,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         }
         this.setStartTimer(compound.getInt("startTimer"));
         this.entityData.set(ROCKET_STARTED, compound.getBoolean("isStarted"));
-        this.setWeight(compound.getDouble("weight"));
+        this.setWeight(compound.getFloat("weight"));
         setFlightStage(RocketFlightStage.fromId(compound.getInt("flightStage")));
         entityData.set(LAUNCH_FUEL_REMAINING, compound.getInt("launchFuelRemaining"));
         entityData.set(LAUNCH_TICKS_REMAINING, compound.getInt("launchTicksRemaining"));
@@ -1306,7 +1307,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         }
         compound.putInt("startTimer", this.getStartTimer());
         compound.putBoolean("isStarted", this.entityData.get(ROCKET_STARTED));
-        compound.putDouble("weight", this.getWeight());
+        compound.putFloat("weight", this.getWeight());
         compound.putInt("flightStage", getFlightStage().ordinal());
         compound.putInt("launchFuelRemaining", getLaunchFuelRequired());
         compound.putInt("launchTicksRemaining", entityData.get(LAUNCH_TICKS_REMAINING));
