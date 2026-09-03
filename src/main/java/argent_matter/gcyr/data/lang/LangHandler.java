@@ -81,6 +81,7 @@ public class LangHandler extends com.gregtechceu.gtceu.data.lang.LangHandler {
         provider.add("menu.gcyr.launch", "LAUNCH");
         provider.add("menu.gcyr.cancel", "CANCEL");
         provider.add("menu.gcyr.rocket.title", "Rocket %s");
+        provider.add("menu.gcyr.rocket.tier", "Tier %s");
         provider.add("menu.gcyr.rocket.unbuild", "UNBUILD");
         provider.add("menu.gcyr.rocket.thrust", "Thrust: %s m/s²");
         provider.add("menu.gcyr.rocket.to_orbit", "To orbit: %s mB");

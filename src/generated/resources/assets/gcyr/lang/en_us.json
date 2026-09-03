@@ -220,6 +220,7 @@
   "menu.gcyr.requires_heat_shielding": "Requires Heat Shielding",
   "menu.gcyr.requires_insulation": "Requires Insulation",
   "menu.gcyr.rocket.thrust": "Thrust: %s m/s²",
+  "menu.gcyr.rocket.tier": "Tier %s",
   "menu.gcyr.rocket.title": "Rocket %s",
   "menu.gcyr.rocket.to_dest": "To dest: %s mB",
   "menu.gcyr.rocket.to_orbit": "To orbit: %s mB",

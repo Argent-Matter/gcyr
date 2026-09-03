@@ -314,7 +314,8 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         int tier = Math.max(1, this.partsTier);
         int color = GTValues.VC[Math.min(tier, GTValues.VC.length - 1)];
         return Component.translatable("menu.gcyr.rocket.title",
-                Component.literal("Tier " + tier).withStyle(style -> style.withColor(color)));
+                Component.translatable("menu.gcyr.rocket.tier", tier)
+                        .withStyle(style -> style.withColor(color)));
     }
 
     @Override
