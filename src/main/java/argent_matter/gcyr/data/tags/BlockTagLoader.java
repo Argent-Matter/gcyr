@@ -1,7 +1,10 @@
 package argent_matter.gcyr.data.tags;
 
+import argent_matter.gcyr.common.data.GCYRBlocks;
 import argent_matter.gcyr.data.recipe.GCYRTags;
 
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
@@ -14,6 +17,8 @@ public class BlockTagLoader {
         createBlock(provider, GCYRTags.MOON_ORE_REPLACEABLES, "gcyr:moon_stone");
         createBlock(provider, GCYRTags.MARS_ORE_REPLACEABLES, "gcyr:martian_rock");
         createBlock(provider, GCYRTags.PASSES_FLOOD_FILL, "#fences", "iron_bars", "tnt");
+        provider.addTag(GCYRTags.LANDING_MODULES)
+                .add(ResourceKey.create(Registries.BLOCK, GCYRBlocks.LANDING_MODULE.getId()));
     }
 
     private static void createBlock(RegistrateTagsProvider<Block> provider, TagKey<Block> tagKey, String... rls) {

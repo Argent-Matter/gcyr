@@ -4,9 +4,13 @@ import argent_matter.gcyr.GCYR;
 import argent_matter.gcyr.api.block.IFuelTankProperties;
 import argent_matter.gcyr.api.block.IRocketMotorType;
 import argent_matter.gcyr.common.block.FuelTankBlock;
+import argent_matter.gcyr.common.block.LandingModuleBlock;
 import argent_matter.gcyr.common.block.RocketMotorBlock;
+import argent_matter.gcyr.common.item.FuelTankItem;
+import argent_matter.gcyr.common.item.RocketMotorItem;
 import argent_matter.gcyr.data.recipe.GCYRTags;
 
+import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
 import net.minecraft.client.renderer.RenderType;
@@ -312,6 +316,16 @@ public class GCYRBlocks {
     public static final BlockEntry<RocketMotorBlock> ELITE_ROCKET_MOTOR = createRocketMotor(
             RocketMotorBlock.RocketMotorType.ELITE);
 
+    public static final BlockEntry<LandingModuleBlock> LANDING_MODULE = REGISTRATE
+            .block("landing_module", LandingModuleBlock::new)
+            .initialProperties(() -> Blocks.IRON_BLOCK)
+            .lang("Landing Module")
+            .tag(CustomTags.MINEABLE_WITH_CONFIG_VALID_PICKAXE_WRENCH)
+            .blockstate((ctx, prov) -> prov.simpleBlock(ctx.getEntry(),
+                    prov.models().cubeAll("landing_module", GCYR.id("block/launch_pad"))))
+            .simpleItem()
+            .register();
+
     public static final BlockEntry<DoorBlock> AIRLOCK_DOOR = REGISTRATE
             .block("airlock_door", properties -> new DoorBlock(properties, BlockSetType.IRON))
             .initialProperties(() -> Blocks.IRON_BLOCK)
@@ -387,7 +401,8 @@ public class GCYRBlocks {
                 .lang("%s Fuel Tank".formatted(FormattingUtil.toEnglishName(properties.getSerializedName())))
                 .blockstate(GCYRModels::fuelTankModel)
                 .tag(GCYRTags.MINEABLE_WITH_WRENCH)
-                .simpleItem()
+                .item(FuelTankItem::new)
+                .build()
                 .register();
         ALL_FUEL_TANKS.put(properties, block);
         return block;
@@ -400,7 +415,8 @@ public class GCYRBlocks {
                 .lang("%s Rocket Motor".formatted(FormattingUtil.toEnglishName(type.getSerializedName())))
                 .blockstate((ctx, prov) -> GCYRModels.rocketMotorModel(ctx, prov, type))
                 .tag(GCYRTags.MINEABLE_WITH_WRENCH)
-                .simpleItem()
+                .item(RocketMotorItem::new)
+                .build()
                 .register();
         ALL_ROCKET_MOTORS.put(type, block);
         return block;

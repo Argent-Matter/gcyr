@@ -9,12 +9,16 @@ public class SimpleRocketMotorType implements IRocketMotorType {
     @Getter
     private final String serializedName;
     @Getter
-    private final int tier, maxCarryWeight, motorCount;
+    private final int tier;
+    @Getter
+    private final double thrust;
+    @Getter
+    private final double efficiency;
 
-    public SimpleRocketMotorType(String name, int tier, int maxCarryWeight, int motorCount) {
+    public SimpleRocketMotorType(String name, int tier, double thrust, double efficiency) {
         this.tier = tier;
-        this.maxCarryWeight = maxCarryWeight;
-        this.motorCount = motorCount;
+        this.thrust = thrust;
+        this.efficiency = efficiency;
         this.serializedName = name;
     }
 }

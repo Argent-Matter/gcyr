@@ -18,6 +18,7 @@ import java.util.function.Function;
 public record Planet(String translation, ResourceLocation galaxy, ResourceLocation solarSystem,
                      ResourceKey<Level> level, ResourceKey<Level> orbitWorld, ResourceKey<Level> parentWorld,
                      int rocketTier, float gravity,
+                     float distanceFromParent,
                      boolean hasAtmosphere, int daysInYear, float temperature, long solarPower,
                      boolean hasOxygen, int buttonColor) {
 
@@ -30,6 +31,7 @@ public record Planet(String translation, ResourceLocation galaxy, ResourceLocati
             ResourceKey.codec(Registries.DIMENSION).optionalFieldOf("parent_world").forGetter(Planet::getParentlevel),
             Codec.INT.fieldOf("rocket_tier").forGetter(Planet::rocketTier),
             Codec.FLOAT.fieldOf("gravity").forGetter(Planet::gravity),
+            Codec.FLOAT.optionalFieldOf("distance_from_parent", 0.0F).forGetter(Planet::distanceFromParent),
             Codec.BOOL.fieldOf("has_atmosphere").forGetter(Planet::hasAtmosphere),
             Codec.INT.fieldOf("days_in_year").forGetter(Planet::daysInYear),
             Codec.FLOAT.fieldOf("temperature").forGetter(Planet::temperature),
@@ -51,10 +53,11 @@ public record Planet(String translation, ResourceLocation galaxy, ResourceLocati
 
     public Planet(String translation, ResourceLocation galaxy, ResourceLocation solarSystem, ResourceKey<Level> level,
                   ResourceKey<Level> orbitWorld, Optional<ResourceKey<Level>> parentWorld, int rocketTier,
-                  float gravity, boolean hasAtmosphere, int daysInYear, float temperature, long solarPower,
+                  float gravity, float distanceFromParent, boolean hasAtmosphere, int daysInYear, float temperature,
+                  long solarPower,
                   boolean hasOxygen, int buttonColor) {
         this(translation, galaxy, solarSystem, level, orbitWorld, parentWorld.orElse(null), rocketTier, gravity,
-                hasAtmosphere, daysInYear, temperature, solarPower, hasOxygen, buttonColor);
+                distanceFromParent, hasAtmosphere, daysInYear, temperature, solarPower, hasOxygen, buttonColor);
     }
 
     private Optional<ResourceKey<Level>> getParentlevel() {

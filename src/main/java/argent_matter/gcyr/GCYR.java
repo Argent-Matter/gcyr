@@ -4,6 +4,7 @@ import argent_matter.gcyr.api.gui.factory.EntityUIFactory;
 import argent_matter.gcyr.api.registries.GCYRRegistries;
 import argent_matter.gcyr.common.data.*;
 import argent_matter.gcyr.common.gui.EntityOxygenHUD;
+import argent_matter.gcyr.common.gui.RocketLandingHUD;
 import argent_matter.gcyr.config.GCYRConfig;
 import argent_matter.gcyr.data.GCYRDatagen;
 import argent_matter.gcyr.data.loader.PlanetResources;
@@ -86,6 +87,7 @@ public class GCYR {
     @SubscribeEvent
     public void registerGuiOverlays(RegisterGuiOverlaysEvent event) {
         event.registerBelowAll("oxygen_tank", new EntityOxygenHUD());
+        event.registerBelowAll("rocket_landing", new RocketLandingHUD());
     }
 
     @SubscribeEvent

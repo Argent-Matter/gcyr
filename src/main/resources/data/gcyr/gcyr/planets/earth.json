@@ -6,6 +6,7 @@
   "orbit_world": "gcyr:overworld_orbit",
   "rocket_tier": 1,
   "gravity": 9.806,
+  "distance_from_parent": 1.0,
   "has_atmosphere": true,
   "days_in_year": 365,
   "temperature": 293,
