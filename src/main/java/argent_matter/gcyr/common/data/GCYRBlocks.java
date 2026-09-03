@@ -10,6 +10,7 @@ import argent_matter.gcyr.common.item.FuelTankItem;
 import argent_matter.gcyr.common.item.RocketMotorItem;
 import argent_matter.gcyr.data.recipe.GCYRTags;
 
+import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
 import net.minecraft.client.renderer.RenderType;

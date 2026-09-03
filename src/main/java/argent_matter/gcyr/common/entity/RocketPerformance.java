@@ -21,14 +21,6 @@ public final class RocketPerformance {
         return motor.getThrust();
     }
 
-    public static double motorEfficiency(int tier) {
-        return switch (Math.max(1, Math.min(3, tier))) {
-            case 1 -> 1.0D;
-            case 2 -> 1.02D;
-            default -> 1.05D;
-        };
-    }
-
     public static double launchFuel(double mass, double thrust, double gravity, double efficiency, double energy) {
         if (energy <= 0.0 || thrust <= 0.0) return Double.POSITIVE_INFINITY;
         double demand = (mass + 1.0) * Math.max(0.01, gravity / RocketGravity.EARTH_GRAVITY) *

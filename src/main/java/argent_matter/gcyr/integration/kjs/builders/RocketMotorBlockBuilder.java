@@ -19,6 +19,8 @@ public class RocketMotorBlockBuilder extends BlockBuilder {
     @Setter
     public transient double thrust = 10.0D;
     @Setter
+    public transient double efficiency = 1.0D;
+    @Setter
     public transient String typeId = "";
 
     public RocketMotorBlockBuilder(ResourceLocation i) {
@@ -27,7 +29,7 @@ public class RocketMotorBlockBuilder extends BlockBuilder {
 
     @Override
     public Block createObject() {
-        SimpleRocketMotorType motorType = new SimpleRocketMotorType(this.typeId, tier, thrust);
+        SimpleRocketMotorType motorType = new SimpleRocketMotorType(this.typeId, tier, thrust, efficiency);
         RocketMotorBlock result = new RocketMotorBlock(this.createProperties(), motorType);
         GCYRBlocks.ALL_ROCKET_MOTORS.put(motorType, () -> result);
         return result;

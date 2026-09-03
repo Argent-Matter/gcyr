@@ -24,9 +24,9 @@ public class RocketMotorBlock extends Block implements IRocketPart {
 
     public enum RocketMotorType implements IRocketMotorType {
 
-        BASIC("basic", 1, 10.0),
-        ADVANCED("advanced", 2, 15.0),
-        ELITE("elite", 3, 20.0),
+        BASIC("basic", 1, 10.0, 1.0),
+        ADVANCED("advanced", 2, 15.0, 1.02),
+        ELITE("elite", 3, 20.0, 1.05),
         ;
 
         @Getter
@@ -35,11 +35,14 @@ public class RocketMotorBlock extends Block implements IRocketPart {
         private final int tier;
         @Getter
         private final double thrust;
+        @Getter
+        private final double efficiency;
 
-        RocketMotorType(String name, int tier, double thrust) {
+        RocketMotorType(String name, int tier, double thrust, double efficiency) {
             this.serializedName = name;
             this.tier = tier;
             this.thrust = thrust;
+            this.efficiency = efficiency;
         }
     }
 }

@@ -120,6 +120,8 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
             EntityDataSerializers.INT);
     public static final EntityDataAccessor<Float> THRUST = SynchedEntityData.defineId(RocketEntity.class,
             EntityDataSerializers.FLOAT);
+    public static final EntityDataAccessor<Float> MOTOR_EFFICIENCY = SynchedEntityData.defineId(RocketEntity.class,
+            EntityDataSerializers.FLOAT);
     public static final EntityDataAccessor<Float> WEIGHT = SynchedEntityData.defineId(RocketEntity.class,
             EntityDataSerializers.FLOAT);
     public static final EntityDataAccessor<Integer> RECIPE_DURATION = SynchedEntityData.defineId(RocketEntity.class,
@@ -158,6 +160,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
     private SatelliteType<?> satelliteToLaunch;
     private int motorTiersTotal, fuelTankTiersTotal;
     private int motorTier, fuelTankTier, partsTier;
+    private double avgMotorEfficiency = 1.0D;
     private double speed;
     private double lastVerticalVelocity;
     @Nullable
@@ -575,7 +578,22 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
     }
 
     private double getMotorEfficiency() {
-        return RocketPerformance.motorEfficiency(Math.max(1, this.motorTier));
+        if (isRemote()) return entityData.get(MOTOR_EFFICIENCY);
+        return avgMotorEfficiency;
+    }
+
+    private void recalculateMotorEfficiency() {
+        double totalEfficiency = 0.0D;
+        int motorCount = 0;
+        for (var entry : partCounts.object2IntEntrySet()) {
+            if (entry.getKey() instanceof RocketMotorBlock motor) {
+                totalEfficiency += (entry.getIntValue() * motor.getMotorType().getEfficiency());
+                motorCount += entry.getIntValue();
+            }
+        }
+        // if there are somehow no motors the efficiency doesn't matter but set it to 1
+        avgMotorEfficiency = motorCount == 0 ? 1.0D : totalEfficiency / motorCount;
+        entityData.set(MOTOR_EFFICIENCY, (float) avgMotorEfficiency);
     }
 
     public void startRocket() {
@@ -1134,6 +1152,11 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
             return;
         }
 
+        // TODO: some of this is quadratic on the number of blocks being added,
+        // but I think in practice the number of blocks should be pretty low.
+        // Still, it's pretty easy to fix with a basic state machine accumulating
+        // the new information from each block, maybe a good cleanup for later.
+
         blocks.add(state);
 
         this.setBlocks(blocks);
@@ -1180,12 +1203,14 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         if (block instanceof LandingModuleBlock) {
             this.entityData.set(LANDING_MODULE, true);
         }
+
         // A rocket's destination tier is limited by its lowest-tier rocket part.
         this.partsTier = this.partCounts.object2IntEntrySet().stream()
                 .mapToInt(entry -> entry.getKey().getTier())
                 .min()
                 .orElse(0);
         if (!isRemote()) getEffectiveThrust();
+        if (!isRemote() && block instanceof RocketMotorBlock) recalculateMotorEfficiency();
 
         this.setBoundingBox(makeBoundingBox());
     }
@@ -1230,6 +1255,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         this.entityData.define(FUEL_CAPACITY, 0);
         this.entityData.define(WEIGHT, 0.0F);
         this.entityData.define(THRUST, 0.0F);
+        this.entityData.define(MOTOR_EFFICIENCY, 1.0F);
         this.entityData.define(RECIPE_DURATION, 0);
         this.entityData.define(FLIGHT_STAGE, RocketFlightStage.IDLE.ordinal());
         this.entityData.define(LAUNCH_FUEL_REMAINING, 0);

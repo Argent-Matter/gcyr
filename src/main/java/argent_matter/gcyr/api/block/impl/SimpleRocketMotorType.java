@@ -12,10 +12,13 @@ public class SimpleRocketMotorType implements IRocketMotorType {
     private final int tier;
     @Getter
     private final double thrust;
+    @Getter
+    private final double efficiency;
 
-    public SimpleRocketMotorType(String name, int tier, double thrust) {
+    public SimpleRocketMotorType(String name, int tier, double thrust, double efficiency) {
         this.tier = tier;
         this.thrust = thrust;
+        this.efficiency = efficiency;
         this.serializedName = name;
     }
 }
