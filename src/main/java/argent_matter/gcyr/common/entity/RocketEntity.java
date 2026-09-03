@@ -9,7 +9,6 @@ import argent_matter.gcyr.api.space.planet.Planet;
 import argent_matter.gcyr.api.space.satellite.SatelliteType;
 import argent_matter.gcyr.api.space.station.SpaceStation;
 import argent_matter.gcyr.common.block.FuelTankBlock;
-import argent_matter.gcyr.common.block.LandingModuleBlock;
 import argent_matter.gcyr.common.block.RocketMotorBlock;
 import argent_matter.gcyr.common.data.*;
 import argent_matter.gcyr.common.entity.data.EntityOxygenSystem;
@@ -1151,6 +1150,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
                 Math.max(size.getX(), pos.getX()),
                 Math.max(size.getY(), pos.getY()),
                 Math.max(size.getZ(), pos.getZ())));
+
         Block block = state.state().getBlock();
         float destroyTime = block.defaultDestroyTime();
         if (destroyTime > 0) {
@@ -1185,7 +1185,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         } else if (state.state().is(GCYRBlocks.SEAT.get())) {
             this.addSeatPos(pos);
         }
-        if (block instanceof LandingModuleBlock) {
+        if (state.state().is(GCYRTags.LANDING_MODULES)) {
             this.entityData.set(LANDING_MODULE, true);
         }
 
