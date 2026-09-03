@@ -112,42 +112,25 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
     private static final int COUNTDOWN_FUEL_INTERVAL = 20;
 
     // protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(RocketEntity.class);
-    public static final EntityDataAccessor<Boolean> ROCKET_STARTED = SynchedEntityData.defineId(RocketEntity.class,
-            EntityDataSerializers.BOOLEAN);
-    public static final EntityDataAccessor<Integer> FUEL_CAPACITY = SynchedEntityData.defineId(RocketEntity.class,
-            EntityDataSerializers.INT);
-    public static final EntityDataAccessor<Integer> FUEL_AMOUNT = SynchedEntityData.defineId(RocketEntity.class,
-            EntityDataSerializers.INT);
-    public static final EntityDataAccessor<Float> THRUST = SynchedEntityData.defineId(RocketEntity.class,
-            EntityDataSerializers.FLOAT);
-    public static final EntityDataAccessor<Float> MOTOR_EFFICIENCY = SynchedEntityData.defineId(RocketEntity.class,
-            EntityDataSerializers.FLOAT);
-    public static final EntityDataAccessor<Float> WEIGHT = SynchedEntityData.defineId(RocketEntity.class,
-            EntityDataSerializers.FLOAT);
-    public static final EntityDataAccessor<Integer> RECIPE_DURATION = SynchedEntityData.defineId(RocketEntity.class,
-            EntityDataSerializers.INT);
-    public static final EntityDataAccessor<Integer> FLIGHT_STAGE = SynchedEntityData.defineId(RocketEntity.class,
-            EntityDataSerializers.INT);
-    public static final EntityDataAccessor<Integer> LAUNCH_FUEL_REMAINING = SynchedEntityData.defineId(
-            RocketEntity.class,
-            EntityDataSerializers.INT);
-    public static final EntityDataAccessor<Integer> LAUNCH_TICKS_REMAINING = SynchedEntityData.defineId(
-            RocketEntity.class,
-            EntityDataSerializers.INT);
-    public static final EntityDataAccessor<Float> FUEL_ENERGY = SynchedEntityData.defineId(RocketEntity.class,
-            EntityDataSerializers.FLOAT);
-    public static final EntityDataAccessor<Integer> START_TIMER = SynchedEntityData.defineId(RocketEntity.class,
-            EntityDataSerializers.INT);
-    public static final EntityDataAccessor<List<PosWithState>> POSITIONED_STATES = SynchedEntityData
-            .defineId(RocketEntity.class, GCYREntityDataSerializers.POSITIONED_BLOCK_STATE_LIST);
-    public static final EntityDataAccessor<BlockPos> SIZE = SynchedEntityData.defineId(RocketEntity.class,
-            EntityDataSerializers.BLOCK_POS);
-    public static final EntityDataAccessor<List<BlockPos>> SEAT_POSITIONS = SynchedEntityData
-            .defineId(RocketEntity.class, GCYREntityDataSerializers.BLOCK_POS_LIST);
-    public static final EntityDataAccessor<Optional<Planet>> DESTINATION = SynchedEntityData
-            .defineId(RocketEntity.class, GCYREntityDataSerializers.PLANET);
-    public static final EntityDataAccessor<Boolean> LANDING_MODULE = SynchedEntityData.defineId(RocketEntity.class,
-            EntityDataSerializers.BOOLEAN);
+    // spotless:off
+    public static final EntityDataAccessor<Boolean> ROCKET_STARTED = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializers.BOOLEAN);
+    public static final EntityDataAccessor<Integer> FUEL_CAPACITY = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializers.INT);
+    public static final EntityDataAccessor<Integer> FUEL_AMOUNT = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializers.INT);
+    public static final EntityDataAccessor<Float> THRUST = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializers.FLOAT);
+    public static final EntityDataAccessor<Float> MOTOR_EFFICIENCY = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializers.FLOAT);
+    public static final EntityDataAccessor<Float> WEIGHT = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializers.FLOAT);
+    public static final EntityDataAccessor<Integer> RECIPE_DURATION = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializers.INT);
+    public static final EntityDataAccessor<Integer> FLIGHT_STAGE = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializers.INT);
+    public static final EntityDataAccessor<Integer> LAUNCH_FUEL_REMAINING = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializers.INT);
+    public static final EntityDataAccessor<Integer> LAUNCH_TICKS_REMAINING = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializers.INT);
+    public static final EntityDataAccessor<Float> FUEL_ENERGY = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializers.FLOAT);
+    public static final EntityDataAccessor<Integer> START_TIMER = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializers.INT);
+    public static final EntityDataAccessor<List<PosWithState>> POSITIONED_STATES = SynchedEntityData.defineId(RocketEntity.class, GCYREntityDataSerializers.POSITIONED_BLOCK_STATE_LIST);
+    public static final EntityDataAccessor<BlockPos> SIZE = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializers.BLOCK_POS);
+    public static final EntityDataAccessor<List<BlockPos>> SEAT_POSITIONS = SynchedEntityData.defineId(RocketEntity.class, GCYREntityDataSerializers.BLOCK_POS_LIST);
+    public static final EntityDataAccessor<Optional<Planet>> DESTINATION = SynchedEntityData.defineId(RocketEntity.class, GCYREntityDataSerializers.PLANET);
+    public static final EntityDataAccessor<Boolean> LANDING_MODULE = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializers.BOOLEAN);
+    // spotless:on
 
     // @Getter
     // private final FieldManagedStorage syncStorage = new FieldManagedStorage(this);
