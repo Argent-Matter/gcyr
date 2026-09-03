@@ -319,7 +319,7 @@ public class GCYRBlocks {
             .block("landing_module", LandingModuleBlock::new)
             .initialProperties(() -> Blocks.IRON_BLOCK)
             .lang("Landing Module")
-            .tag(GCYRTags.MINEABLE_WITH_WRENCH, BlockTags.MINEABLE_WITH_PICKAXE)
+            .tag(CustomTags.MINEABLE_WITH_CONFIG_VALID_PICKAXE_WRENCH)
             .blockstate((ctx, prov) -> prov.simpleBlock(ctx.getEntry(),
                     prov.models().cubeAll("landing_module", GCYR.id("block/launch_pad"))))
             .simpleItem()
