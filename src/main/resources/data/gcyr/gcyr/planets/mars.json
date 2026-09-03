@@ -6,6 +6,7 @@
   "orbit_world": "gcyr:mars_orbit",
   "rocket_tier": 2,
   "gravity": 3.72076,
+  "distance_from_parent": 1.52,
   "has_atmosphere": true,
   "days_in_year": 687,
   "temperature": 208,

@@ -35,9 +35,10 @@ public class GCYRRecipeTypes {
             .setSound(GTSoundEntries.PORTABLE_SCANNER);
 
     public static final GTRecipeType ROCKET_FUEL_RECIPES = register("rocket_fuel", MULTIBLOCK).setMaxIOSize(0, 0, 1, 0)
-            .setEUIO(IO.IN)
             .setProgressBar(GCYRGuiTextures.PROGRESS_BAR_ROCKET, LEFT_TO_RIGHT)
-            .setSound(GCYRSoundEntries.ROCKET);
+            .setSound(GCYRSoundEntries.ROCKET)
+            .setIconSupplier(() -> GCYRItems.GPS_SATELLITE.asStack())
+            .addDataInfo(data -> "Specific Energy: " + data.getDouble("specific_energy") + " MJ/mB");
 
     public static GTRecipeType register(String name, String group, RecipeType<?>... proxyRecipes) {
         var recipeType = new GTRecipeType(GCYR.id(name), group, proxyRecipes);

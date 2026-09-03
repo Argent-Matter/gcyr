@@ -6,6 +6,7 @@
   "orbit_world": "gcyr:mercury_orbit",
   "rocket_tier": 2,
   "gravity": 3.7,
+  "distance_from_parent": 0.39,
   "has_atmosphere": false,
   "days_in_year": 88,
   "temperature": 440,

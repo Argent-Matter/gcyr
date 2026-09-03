@@ -6,6 +6,7 @@
   "orbit_world": "gcyr:venus_orbit",
   "rocket_tier": 2,
   "gravity": 8.87,
+  "distance_from_parent": 0.72,
   "has_atmosphere": true,
   "days_in_year": 225,
   "temperature": 737,

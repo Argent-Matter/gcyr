@@ -59,6 +59,7 @@ public class LangHandler extends com.gregtechceu.gtceu.data.lang.LangHandler {
         provider.add("gcyr.condition.requires_dyson_sphere.true", "Requires active Dyson Sphere");
         provider.add("gcyr.condition.requires_dyson_sphere.false", "Requires no Dyson Sphere to be active");
         provider.add("gcyr.condition.space", "Requires machine to be in space");
+        provider.add("gcyr.rocket_fuel", "Rocket Fuel");
 
         // satellites
         provider.add("gcyr.satellite.gps", "GPS Satellite");
@@ -77,10 +78,22 @@ public class LangHandler extends com.gregtechceu.gtceu.data.lang.LangHandler {
         provider.add("menu.gcyr.dyson_sphere.collapsed", "DYSON SPHERE COLLAPSED");
 
         provider.add("menu.gcyr.launch", "LAUNCH");
+        provider.add("menu.gcyr.cancel", "CANCEL");
+        provider.add("menu.gcyr.rocket.title", "Rocket %s");
         provider.add("menu.gcyr.rocket.unbuild", "UNBUILD");
-        provider.add("menu.gcyr.rocket.thrust", "Thrust: %s m/s");
+        provider.add("menu.gcyr.rocket.thrust", "Thrust: %s m/s²");
+        provider.add("menu.gcyr.rocket.to_orbit", "To orbit: %s mB");
+        provider.add("menu.gcyr.rocket.to_dest", "To dest: %s mB");
+        provider.add("tooltip.gcyr.fluid_capacity", "Fluid Capacity:");
+        provider.add("tooltip.gcyr.thrust", "Thrust:");
+        provider.add("tooltip.gcyr.tier", "Tier: %s");
         provider.add("hud.gcyr.rocket.descent", "Descent: %s b/t");
-        provider.add("hud.gcyr.rocket.fuel", "Fuel: %s/%s mB");
+        provider.add("hud.gcyr.rocket.fuel", "Fuel: %s%%");
+        provider.add("hud.gcyr.rocket.to_orbit", "To orbit: %s mB");
+        provider.add("hud.gcyr.rocket.to_dest", "To dest: %s mB");
+        provider.add("hud.gcyr.rocket.weight", "Weight: %s");
+        provider.add("hud.gcyr.rocket.thrust", "Thrust: %s N");
+        provider.add("hud.gcyr.rocket.net", "Net: %s m/s²");
         provider.add("hud.gcyr.rocket.landing", "Landing: %s");
         provider.add("hud.gcyr.rocket.manual", "MANUAL");
         provider.add("hud.gcyr.rocket.auto", "AUTO");

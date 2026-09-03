@@ -6,6 +6,7 @@
   "orbit_world": "gcyr:proxima_centauri_b_orbit",
   "rocket_tier": 3,
   "gravity": 9.806,
+  "distance_from_parent": 0.0485,
   "has_atmosphere": true,
   "days_in_year": 11,
   "temperature": 303,

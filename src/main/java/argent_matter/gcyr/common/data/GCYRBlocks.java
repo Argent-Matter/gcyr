@@ -6,6 +6,8 @@ import argent_matter.gcyr.api.block.IRocketMotorType;
 import argent_matter.gcyr.common.block.FuelTankBlock;
 import argent_matter.gcyr.common.block.LandingModuleBlock;
 import argent_matter.gcyr.common.block.RocketMotorBlock;
+import argent_matter.gcyr.common.item.FuelTankItem;
+import argent_matter.gcyr.common.item.RocketMotorItem;
 import argent_matter.gcyr.data.recipe.GCYRTags;
 
 import com.gregtechceu.gtceu.utils.FormattingUtil;
@@ -398,7 +400,8 @@ public class GCYRBlocks {
                 .lang("%s Fuel Tank".formatted(FormattingUtil.toEnglishName(properties.getSerializedName())))
                 .blockstate(GCYRModels::fuelTankModel)
                 .tag(GCYRTags.MINEABLE_WITH_WRENCH)
-                .simpleItem()
+                .item(FuelTankItem::new)
+                .build()
                 .register();
         ALL_FUEL_TANKS.put(properties, block);
         return block;
@@ -411,7 +414,8 @@ public class GCYRBlocks {
                 .lang("%s Rocket Motor".formatted(FormattingUtil.toEnglishName(type.getSerializedName())))
                 .blockstate((ctx, prov) -> GCYRModels.rocketMotorModel(ctx, prov, type))
                 .tag(GCYRTags.MINEABLE_WITH_WRENCH)
-                .simpleItem()
+                .item(RocketMotorItem::new)
+                .build()
                 .register();
         ALL_ROCKET_MOTORS.put(type, block);
         return block;
