@@ -121,7 +121,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
     public static final EntityDataAccessor<Float> MOTOR_EFFICIENCY = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializers.FLOAT);
     public static final EntityDataAccessor<Float> WEIGHT = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializers.FLOAT);
     public static final EntityDataAccessor<Integer> RECIPE_DURATION = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializers.INT);
-    public static final EntityDataAccessor<Integer> FLIGHT_STAGE = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializers.INT);
+    public static final EntityDataAccessor<String> FLIGHT_STAGE = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializers.STRING);
     public static final EntityDataAccessor<Integer> LAUNCH_FUEL_REMAINING = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializers.INT);
     public static final EntityDataAccessor<Integer> LAUNCH_TICKS_REMAINING = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializers.INT);
     public static final EntityDataAccessor<Float> FUEL_ENERGY = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializers.FLOAT);
@@ -475,11 +475,11 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
     }
 
     public RocketFlightStage getFlightStage() {
-        return RocketFlightStage.fromId(this.entityData.get(FLIGHT_STAGE));
+        return RocketFlightStage.fromSerializedName(this.entityData.get(FLIGHT_STAGE));
     }
 
     public void setFlightStage(RocketFlightStage stage) {
-        this.entityData.set(FLIGHT_STAGE, stage.ordinal());
+        this.entityData.set(FLIGHT_STAGE, stage.getSerializedName());
     }
 
     public double getFuelEnergy() {
@@ -1241,7 +1241,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         this.entityData.define(THRUST, 0.0F);
         this.entityData.define(MOTOR_EFFICIENCY, 1.0F);
         this.entityData.define(RECIPE_DURATION, 0);
-        this.entityData.define(FLIGHT_STAGE, RocketFlightStage.IDLE.ordinal());
+        this.entityData.define(FLIGHT_STAGE, RocketFlightStage.IDLE.getSerializedName());
         this.entityData.define(LAUNCH_FUEL_REMAINING, 0);
         this.entityData.define(LAUNCH_TICKS_REMAINING, 0);
         this.entityData.define(FUEL_ENERGY, 0.0F);
@@ -1273,7 +1273,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         this.setStartTimer(compound.getInt("startTimer"));
         this.entityData.set(ROCKET_STARTED, compound.getBoolean("isStarted"));
         this.setWeight(compound.getFloat("weight"));
-        setFlightStage(RocketFlightStage.fromId(compound.getInt("flightStage")));
+        setFlightStage(RocketFlightStage.fromSerializedName(compound.getString("flightStage")));
         entityData.set(LAUNCH_FUEL_REMAINING, compound.getInt("launchFuelRemaining"));
         entityData.set(LAUNCH_TICKS_REMAINING, compound.getInt("launchTicksRemaining"));
         entityData.set(FUEL_ENERGY, compound.getFloat("fuelEnergy"));
@@ -1308,7 +1308,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         compound.putInt("startTimer", this.getStartTimer());
         compound.putBoolean("isStarted", this.entityData.get(ROCKET_STARTED));
         compound.putFloat("weight", this.getWeight());
-        compound.putInt("flightStage", getFlightStage().ordinal());
+        compound.putString("flightStage", getFlightStage().getSerializedName());
         compound.putInt("launchFuelRemaining", getLaunchFuelRequired());
         compound.putInt("launchTicksRemaining", entityData.get(LAUNCH_TICKS_REMAINING));
         compound.putFloat("fuelEnergy", (float) getFuelEnergy());
