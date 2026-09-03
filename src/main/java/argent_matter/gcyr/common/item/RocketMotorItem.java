@@ -2,7 +2,6 @@ package argent_matter.gcyr.common.item;
 
 import argent_matter.gcyr.common.block.RocketMotorBlock;
 
-import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
@@ -25,13 +24,9 @@ public class RocketMotorItem extends BlockItem {
                                 TooltipFlag flag) {
         super.appendHoverText(stack, level, tooltip, flag);
         RocketMotorBlock motor = (RocketMotorBlock) getBlock();
-        tooltip.add(Component.translatable("tooltip.gcyr.tier",
-                Component.literal(Integer.toString(motor.getTier())).withStyle(ChatFormatting.WHITE))
-                .withStyle(ChatFormatting.GOLD));
-        tooltip.add(Component.translatable("tooltip.gcyr.thrust")
-                .withStyle(ChatFormatting.BLUE)
-                .append(Component.literal(" " + formatThrust(motor.getMotorType().getThrust()) + " N")
-                        .withStyle(ChatFormatting.WHITE)));
+        tooltip.add(Component.translatable("tooltip.gcyr.tier", motor.getTier()));
+        tooltip.add(Component.translatable("tooltip.gcyr.thrust",
+                formatThrust(motor.getMotorType().getThrust())));
     }
 
     private static String formatThrust(double thrust) {

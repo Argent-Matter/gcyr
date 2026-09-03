@@ -2,7 +2,6 @@ package argent_matter.gcyr.common.item;
 
 import argent_matter.gcyr.common.block.FuelTankBlock;
 
-import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
@@ -25,9 +24,7 @@ public class FuelTankItem extends BlockItem {
                                 TooltipFlag flag) {
         super.appendHoverText(stack, level, tooltip, flag);
         FuelTankBlock tank = (FuelTankBlock) getBlock();
-        tooltip.add(Component.translatable("tooltip.gcyr.tier",
-                Component.literal(Integer.toString(tank.getTier())).withStyle(ChatFormatting.WHITE))
-                .withStyle(ChatFormatting.GOLD));
+        tooltip.add(Component.translatable("tooltip.gcyr.tier", tank.getTier()));
         tooltip.add(Component.translatable("gtceu.universal.tooltip.fluid_storage_capacity",
                 tank.getTankProperties().getFuelStorage()));
     }

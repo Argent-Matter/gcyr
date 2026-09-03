@@ -85,8 +85,8 @@ public class LangHandler extends com.gregtechceu.gtceu.data.lang.LangHandler {
         provider.add("menu.gcyr.rocket.thrust", "Thrust: %s m/s²");
         provider.add("menu.gcyr.rocket.to_orbit", "To orbit: %s mB");
         provider.add("menu.gcyr.rocket.to_dest", "To dest: %s mB");
-        provider.add("tooltip.gcyr.thrust", "Thrust:");
-        provider.add("tooltip.gcyr.tier", "Tier: %s");
+        provider.add("tooltip.gcyr.thrust", "§9Thrust: §f%s N");
+        provider.add("tooltip.gcyr.tier", "§6Tier: §f%s");
         provider.add("hud.gcyr.rocket.descent", "Descent: %s b/t");
         provider.add("hud.gcyr.rocket.fuel", "Fuel: %s%%");
         provider.add("hud.gcyr.rocket.to_orbit", "To orbit: %s mB");
