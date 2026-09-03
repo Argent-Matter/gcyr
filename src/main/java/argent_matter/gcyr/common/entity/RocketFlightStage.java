@@ -7,8 +7,9 @@ public enum RocketFlightStage {
     TRANSFER,
     LANDING;
 
+    private static final RocketFlightStage[] VALUES = values();
+
     public static RocketFlightStage fromId(int id) {
-        RocketFlightStage[] values = values();
-        return id >= 0 && id < values.length ? values[id] : IDLE;
+        return id >= 0 && id < VALUES.length ? VALUES[id] : IDLE;
     }
 }
