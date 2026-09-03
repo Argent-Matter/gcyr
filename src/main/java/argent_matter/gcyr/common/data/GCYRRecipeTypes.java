@@ -11,6 +11,7 @@ import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import com.gregtechceu.gtceu.common.data.GTSoundEntries;
 
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.crafting.RecipeType;
 
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.ELECTRIC;
@@ -38,7 +39,8 @@ public class GCYRRecipeTypes {
             .setProgressBar(GCYRGuiTextures.PROGRESS_BAR_ROCKET, LEFT_TO_RIGHT)
             .setSound(GCYRSoundEntries.ROCKET)
             .setIconSupplier(() -> GCYRItems.GPS_SATELLITE.asStack())
-            .addDataInfo(data -> "Specific Energy: " + data.getDouble("specific_energy") + " MJ/mB");
+            .addDataInfo(data -> Component.translatable("gcyr.recipe.specific_energy",
+                    data.getDouble("specific_energy")).getString());
 
     public static GTRecipeType register(String name, String group, RecipeType<?>... proxyRecipes) {
         var recipeType = new GTRecipeType(GCYR.id(name), group, proxyRecipes);

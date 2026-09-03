@@ -60,6 +60,7 @@ public class LangHandler extends com.gregtechceu.gtceu.data.lang.LangHandler {
         provider.add("gcyr.condition.requires_dyson_sphere.false", "Requires no Dyson Sphere to be active");
         provider.add("gcyr.condition.space", "Requires machine to be in space");
         provider.add("gcyr.rocket_fuel", "Rocket Fuel");
+        provider.add("gcyr.recipe.specific_energy", "Specific Energy: %s MJ/mB");
 
         // satellites
         provider.add("gcyr.satellite.gps", "GPS Satellite");

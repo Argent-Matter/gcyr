@@ -101,6 +101,7 @@
   "gcyr.condition.requires_dyson_sphere.true": "ǝɹǝɥdS uosʎᗡ ǝʌıʇɔɐ sǝɹınbǝᴚ",
   "gcyr.condition.space": "ǝɔɐds uı ǝq oʇ ǝuıɥɔɐɯ sǝɹınbǝᴚ",
   "gcyr.rocket_fuel": "ןǝnℲ ʇǝʞɔoᴚ",
+  "gcyr.recipe.specific_energy": "ᘔᒋ/ɯ %s :ʎƃɹǝuƎ ɔᴉɟᴉɔǝdS",
   "gcyr.machine.satellite_jammer.jammed": "%s pǝɯɯɐſ",
   "gcyr.machine.satellite_jammer.position": "%s ʇⱯ",
   "gcyr.milky_way": "ʎɐM ʎʞןıW",

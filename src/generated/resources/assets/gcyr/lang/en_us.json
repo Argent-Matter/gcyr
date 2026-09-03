@@ -101,6 +101,7 @@
   "gcyr.condition.requires_dyson_sphere.true": "Requires active Dyson Sphere",
   "gcyr.condition.space": "Requires machine to be in space",
   "gcyr.rocket_fuel": "Rocket Fuel",
+  "gcyr.recipe.specific_energy": "Specific Energy: %s MJ/mB",
   "gcyr.machine.satellite_jammer.jammed": "Jammed %s",
   "gcyr.machine.satellite_jammer.position": "At %s",
   "gcyr.milky_way": "Milky Way",
