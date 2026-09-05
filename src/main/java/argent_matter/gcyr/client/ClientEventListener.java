@@ -1,9 +1,10 @@
 package argent_matter.gcyr.client;
 
 import argent_matter.gcyr.GCYR;
-import argent_matter.gcyr.client.data.GCYRParticleProviders;
 import argent_matter.gcyr.client.dimension.ClientModSkies;
 
+import argent_matter.gcyr.client.particle.DysonBeamParticle;
+import argent_matter.gcyr.common.data.client.GCYRParticles;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RegisterDimensionSpecialEffectsEvent;
 import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
@@ -16,8 +17,7 @@ public class ClientEventListener {
 
     @SubscribeEvent
     public static void registerParticles(RegisterParticleProvidersEvent event) {
-        GCYRParticleProviders.init();
-        GCYRParticleProviders.PARTICLES.forEach(event::registerSpriteSet);
+        event.registerSpriteSet(GCYRParticles.DYSON_BEAM, DysonBeamParticle.Provider::new);
     }
 
     @SubscribeEvent

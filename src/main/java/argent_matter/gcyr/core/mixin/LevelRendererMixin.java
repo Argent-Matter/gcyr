@@ -53,27 +53,31 @@ public abstract class LevelRendererMixin {
 
     @Inject(at = @At("HEAD"), method = "renderSnowAndRain", cancellable = true)
     private void gcyr$renderSnowAndRain(LightTexture manager, float tickDelta, double x, double y, double z,
-                                        CallbackInfo info) {
-        if (this.minecraft.level != null) {
-            DimensionSpecialEffects effects = ClientModSkies.DIMENSION_SPECIAL_EFFECTS
-                    .get(this.level.dimension().location());
-            if (effects instanceof DimensionRenderer dimensionRenderer && dimensionRenderer.shouldRenderSnowAndRain()) {
-                dimensionRenderer.renderSnowAndRain(this.level, this.ticks, tickDelta, manager, x, y, z);
-                info.cancel();
-            }
+                                        CallbackInfo ci) {
+        if (this.minecraft.level == null) {
+            return;
+        }
+        DimensionSpecialEffects effects = ClientModSkies.DIMENSION_SPECIAL_EFFECTS.get(this.level.dimension().location());
+        if (!(effects instanceof DimensionRenderer dimensionRenderer) || !dimensionRenderer.shouldRenderSnowAndRain()) {
+            return;
+        }
+        if (dimensionRenderer.renderSnowAndRain(this.level, this.ticks, tickDelta, manager, x, y, z)) {
+            ci.cancel();
         }
     }
 
     @Inject(at = @At("HEAD"), method = "renderClouds", cancellable = true)
     private void gcyr$renderClouds(PoseStack matrices, Matrix4f matrix4f, float tickDelta, double cameraX,
-                                   double cameraY, double cameraZ, CallbackInfo info) {
-        if (this.minecraft.level != null) {
-            DimensionSpecialEffects effects = ClientModSkies.DIMENSION_SPECIAL_EFFECTS
-                    .get(this.level.dimension().location());
-            if (effects instanceof DimensionRenderer dimensionRenderer && dimensionRenderer.shouldRenderClouds()) {
-                dimensionRenderer.renderClouds(level, ticks, tickDelta, matrices, cameraX, cameraY, cameraZ, matrix4f);
-                info.cancel();
-            }
+                                   double cameraY, double cameraZ, CallbackInfo ci) {
+        if (this.minecraft.level == null) {
+            return;
+        }
+        DimensionSpecialEffects effects = ClientModSkies.DIMENSION_SPECIAL_EFFECTS.get(this.level.dimension().location());
+        if (!(effects instanceof DimensionRenderer dimensionRenderer) || !dimensionRenderer.shouldRenderClouds()) {
+            return;
+        }
+        if (dimensionRenderer.renderClouds(level, ticks, tickDelta, matrices, cameraX, cameraY, cameraZ, matrix4f)) {
+            ci.cancel();
         }
     }
 
@@ -85,15 +89,16 @@ public abstract class LevelRendererMixin {
             method = "renderSky",
             cancellable = true)
     private void gcyr$renderSky(PoseStack matrices, Matrix4f matrix4f, float tickDelta, Camera camera, boolean isFoggy,
-                                Runnable setupFog, CallbackInfo info) {
-        if (this.minecraft.level != null) {
-            DimensionSpecialEffects effects = ClientModSkies.DIMENSION_SPECIAL_EFFECTS
-                    .get(this.level.dimension().location());
-            if (effects instanceof DimensionRenderer dimensionRenderer && dimensionRenderer.shouldRenderSky()) {
-                dimensionRenderer.renderSky(this.level, this.ticks, tickDelta, matrices, camera, matrix4f, isFoggy,
-                        setupFog);
-                info.cancel();
-            }
+                                Runnable setupFog, CallbackInfo ci) {
+        if (this.minecraft.level == null) {
+            return;
+        }
+        DimensionSpecialEffects effects = ClientModSkies.DIMENSION_SPECIAL_EFFECTS.get(this.level.dimension().location());
+        if (!(effects instanceof DimensionRenderer dimensionRenderer) || !dimensionRenderer.shouldRenderSky()) {
+            return;
+        }
+        if (dimensionRenderer.renderSky(this.level, this.ticks, tickDelta, matrices, camera, matrix4f, isFoggy, setupFog)) {
+            ci.cancel();
         }
     }
 }
