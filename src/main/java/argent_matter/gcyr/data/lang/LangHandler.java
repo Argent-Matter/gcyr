@@ -60,6 +60,13 @@ public class LangHandler extends com.gregtechceu.gtceu.data.lang.LangHandler {
         provider.add("gcyr.condition.requires_dyson_sphere.false", "Requires no Dyson Sphere to be active");
         provider.add("gcyr.condition.space", "Requires machine to be in space");
 
+        provider.add("gui.recipeviewer.category.gcyr.rocket_fuel", "Rocket Fuel");
+        provider.add("gcyr.recipe.rocket_fuel.specific_energy", "Specific Energy: %s MJ/mB");
+        provider.add("gcyr.recipe.rocket_fuel.tier_range", "Valid for rocket tiers %s to %s (inclusive)");
+        provider.add("gcyr.recipe.rocket_fuel.tier_range.min", "Valid for rocket tiers %1$s and above (inclusive)");
+        provider.add("gcyr.recipe.rocket_fuel.tier_range.max", "Valid for rocket tiers up to %2$s (inclusive)");
+        provider.add("gcyr.recipe.rocket_fuel.tier_range.any", "Valid for any rocket tier");
+
         // satellites
         provider.add("satellite.gcyr.gps", "GPS Satellite");
         provider.add("satellite.gcyr.laser", "LASER Satellite");

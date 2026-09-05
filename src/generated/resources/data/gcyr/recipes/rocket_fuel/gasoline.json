@@ -1,0 +1,16 @@
+{
+  "type": "gcyr:rocket_fuel",
+  "fuel": {
+    "amount": 1,
+    "value": [
+      {
+        "tag": "forge:gasoline"
+      }
+    ]
+  },
+  "specific_energy": 12.0,
+  "valid_rocket_tiers": [
+    0,
+    2147483647
+  ]
+}

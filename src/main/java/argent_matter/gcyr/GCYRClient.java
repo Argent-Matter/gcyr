@@ -1,5 +1,6 @@
 package argent_matter.gcyr;
 
+import argent_matter.gcyr.api.mui.theme.GCYRThemes;
 import argent_matter.gcyr.api.space.planet.Galaxy;
 import argent_matter.gcyr.api.space.planet.PlanetRing;
 import argent_matter.gcyr.api.space.planet.PlanetSkyRenderer;
@@ -7,6 +8,10 @@ import argent_matter.gcyr.api.space.planet.SolarSystem;
 
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.resources.ResourceLocation;
+
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLConstructModEvent;
 
 import com.mojang.blaze3d.vertex.VertexFormat;
 
@@ -28,7 +33,14 @@ public class GCYRClient {
     public static List<PlanetRing> planetRings = new ArrayList<>();
     public static List<Galaxy> galaxies = new ArrayList<>();
 
-    public static void init() {
+    public static void init(IEventBus modBus) {
         // GCYRKeyMappings.init();
+
+        modBus.register(GCYRClient.class);
+    }
+
+    @SubscribeEvent
+    public static void registerThemes(FMLConstructModEvent event) {
+        GCYRThemes.init();
     }
 }

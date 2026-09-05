@@ -1,7 +1,7 @@
 package argent_matter.gcyr.common.recipe.type;
 
 import argent_matter.gcyr.common.data.item.GCYRItems;
-import argent_matter.gcyr.common.data.recipe.GCYRVanillaRecipeTypes;
+import argent_matter.gcyr.common.data.recipe.GCYRRecipeSerializers;
 import argent_matter.gcyr.common.item.armor.SpaceSuitArmorItem;
 
 import net.minecraft.core.RegistryAccess;
@@ -100,7 +100,7 @@ public class SmithingThermalUpgradeRecipe implements SmithingRecipe {
 
     @Override
     public RecipeSerializer<?> getSerializer() {
-        return GCYRVanillaRecipeTypes.SMITHING_THERMAL_UPGRADE_SERIALIZER.get();
+        return GCYRRecipeSerializers.SMITHING_THERMAL_UPGRADE.get();
     }
 
     @Override

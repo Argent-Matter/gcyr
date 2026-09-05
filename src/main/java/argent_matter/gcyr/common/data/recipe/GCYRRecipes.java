@@ -16,7 +16,6 @@ public class GCYRRecipes {
         PolymerRecipes.init(provider);
         ChemistryRecipes.init(provider);
         MiscRecipes.init(provider);
-        RocketFuelRecipes.init(provider);
 
         RecipeOverrides.init(provider);
     }

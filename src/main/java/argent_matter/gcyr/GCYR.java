@@ -56,7 +56,6 @@ public class GCYR {
     private static final ResourceLocation TEMPLATE_ID = ResourceLocation.fromNamespaceAndPath(MOD_ID, "");
 
     public GCYR(FMLJavaModLoadingContext ctx) {
-        GCYR.init();
         IEventBus modBus = ctx.getModEventBus();
         modBus.register(this);
 
@@ -66,9 +65,11 @@ public class GCYR {
         modBus.addGenericListener(DimensionMarker.class, this::registerDimensionMarkers);
         GCYRDimensionTypes.register(modBus);
 
-        GCYRVanillaRecipeTypes.RECIPE_TYPE_DEFERRED_REGISTER.register(modBus);
+        GCYRRecipeTypes.register(modBus);
+        GCYRRecipeSerializers.register(modBus);
 
-        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> GCYRClient::init);
+        GCYR.init();
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> GCYRClient.init(modBus));
     }
 
     public static void init() {
@@ -125,7 +126,7 @@ public class GCYR {
     }
 
     public void registerRecipeTypes(GTCEuAPI.RegisterEvent<ResourceLocation, GTRecipeType> event) {
-        GCYRRecipeTypes.init();
+        GCYRGTRecipeTypes.init();
     }
 
     public void registerRecipeConditions(GTCEuAPI.RegisterEvent<String, RecipeConditionType<?>> event) {
