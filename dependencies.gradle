@@ -6,6 +6,8 @@ dependencies {
     modImplementation(deps.ldlib) { transitive = false }
     modImplementation(deps.registrate)
 
+    modImplementation(deps.modularui)
+
     // Configuration
     modImplementation(deps.configuration)
 

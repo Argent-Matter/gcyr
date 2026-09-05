@@ -42,6 +42,12 @@ issueTrackerURL="${mod_issue_tracker}"
         versionRange="${gtceu_version}"
         ordering="AFTER"
         side="BOTH"
+    [[dependencies.${mod_id}]]
+        modId="modularui"
+        mandatory=true
+        versionRange="${modularui_version}"
+        ordering="NONE"
+        side="BOTH"
 
     [[dependencies.${mod_id}]]
         modId="kubejs"

@@ -42,6 +42,7 @@ var generateModMetadata = tasks.register("generateModMetadata", ProcessResources
 
             forge_version       : libs.versions.forge.range.get(),
             gtceu_version       : deps.versions.gtceu.range.get(),
+            modularui_version   : deps.versions.modularui.range.get(),
             kubejs_version      : deps.versions.kubejs.range.get(),
             emi_version         : deps.versions.emi.range.get(),
             jei_version         : deps.versions.jei.range.get(),
