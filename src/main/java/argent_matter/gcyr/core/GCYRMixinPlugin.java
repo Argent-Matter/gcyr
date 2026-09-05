@@ -1,7 +1,6 @@
 package argent_matter.gcyr.core;
 
-import com.lowdragmc.lowdraglib.core.mixins.MixinPluginShared;
-
+import net.minecraftforge.fml.loading.FMLLoader;
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
 import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
@@ -10,6 +9,10 @@ import java.util.List;
 import java.util.Set;
 
 public class GCYRMixinPlugin implements IMixinConfigPlugin {
+
+    private static final String MIXIN_PACKAGE = "argent_matter.gcyr.core.mixin.";
+    private static final String DEV_PACKAGE = "dev.";
+    private static final String WORLDBORDER_PACKAGE = "worldborder.";
 
     @Override
     public void onLoad(String s) {}
@@ -21,10 +24,29 @@ public class GCYRMixinPlugin implements IMixinConfigPlugin {
 
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
-        if (mixinClassName.contains("argent_matter.gcyr.core.mixin.EntityBorderMixin")) {
-            return !MixinPluginShared.isClassFound("me.jellysquid.mods.lithium.common.LithiumMod");
-        } else if (mixinClassName.contains("argent_matter.gcyr.core.mixin.lithium")) {
-            return MixinPluginShared.isClassFound("me.jellysquid.mods.lithium.common.LithiumMod");
+        if (!mixinClassName.startsWith(MIXIN_PACKAGE)) {
+            // skip checking mixins that aren't in our package
+            // this should never happen, but better safe than sorry
+            return true;
+        }
+        if (!FMLLoader.getLoadingModList().getErrors().isEmpty()) {
+            // stop processing mixins if we have load errors to avoid getting bad crash reports in our issues
+            return false;
+        }
+        mixinClassName = mixinClassName.substring(MIXIN_PACKAGE.length());
+
+        if (mixinClassName.startsWith(DEV_PACKAGE)) {
+            // don't load dev-only mixins in prod
+            return !FMLLoader.isProduction();
+        }
+
+        if (mixinClassName.startsWith(WORLDBORDER_PACKAGE)) {
+            mixinClassName = mixinClassName.substring(WORLDBORDER_PACKAGE.length());
+            if (mixinClassName.startsWith("lithium")) {
+                return isModLoaded("radium") || isModLoaded("lithium");
+            } else if (mixinClassName.startsWith("vanilla")) {
+                return !(isModLoaded("radium") || isModLoaded("lithium"));
+            }
         }
         return true;
     }
@@ -42,4 +64,8 @@ public class GCYRMixinPlugin implements IMixinConfigPlugin {
 
     @Override
     public void postApply(String s, ClassNode classNode, String s1, IMixinInfo iMixinInfo) {}
+
+    private static boolean isModLoaded(String modId) {
+        return FMLLoader.getLoadingModList().getModFileById(modId) != null;
+    }
 }

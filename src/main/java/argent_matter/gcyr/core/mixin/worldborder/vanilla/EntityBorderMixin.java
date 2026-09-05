@@ -1,6 +1,6 @@
-package argent_matter.gcyr.core.mixin;
+package argent_matter.gcyr.core.mixin.worldborder.vanilla;
 
-import argent_matter.gcyr.util.MixinHelpers;
+import argent_matter.gcyr.api.space.station.SpaceStationWorldBorderHelper;
 
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
@@ -26,6 +26,6 @@ public class EntityBorderMixin {
     private static WorldBorder gcyr$modifySpaceStationBorder(WorldBorder value, @Nullable Entity entity, Vec3 vec,
                                                              AABB collisionBox, Level level,
                                                              List<VoxelShape> potentialHits) {
-        return MixinHelpers.modifySpaceStationBorder(value, entity);
+        return SpaceStationWorldBorderHelper.modifySpaceStationBorder(value, entity);
     }
 }

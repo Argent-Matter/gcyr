@@ -6,18 +6,18 @@
     "compatibilityLevel": "JAVA_17",
     "plugin": "argent_matter.gcyr.core.GCYRMixinPlugin",
     "mixins": [
-        "EntityBorderMixin",
         "EntityMixin",
         "LivingEntityAccessor",
         "LivingEntityMixin",
         "RegisterClientReloadListenersEventAccessor",
         "ReloadableResourceManagerAccessor",
         "ServerLevelMixin",
-        "lithium.LithiumEntityCollisions$IterableAccessor",
-        "lithium.LithiumEntityCollisions$IteratorMixin",
-        "lithium.LithiumEntityCollisionsMixin"
         "dev.datagen.IntrinsicTagAppenderMixin",
         "dev.datagen.TagAppenderMixin",
+        "worldborder.lithium.LithiumEntityCollisionsMixin",
+        "worldborder.lithium.LithiumEntityCollisionsMixin$IteratorMixin",
+        "worldborder.lithium.LithiumEntityCollisionsMixin$IterableAccessor",
+        "worldborder.vanilla.EntityBorderMixin"
     ],
     "client": [
         "ClientLevelMixin",
