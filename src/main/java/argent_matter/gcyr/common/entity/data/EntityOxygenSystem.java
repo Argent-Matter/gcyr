@@ -1,10 +1,10 @@
 package argent_matter.gcyr.common.entity.data;
 
 import argent_matter.gcyr.GCYR;
+import argent_matter.gcyr.common.data.tag.GCYRTags;
 import argent_matter.gcyr.common.item.armor.SpaceSuitArmorItem;
 import argent_matter.gcyr.config.GCYRConfig;
 import argent_matter.gcyr.data.loader.PlanetData;
-import argent_matter.gcyr.common.data.tag.GCYRTags;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
@@ -91,12 +91,11 @@ public class EntityOxygenSystem {
         if (!entityHasOxygen) {
             if (hasOxygenatedSpaceSuit) {
                 consumeOxygen(entity);
-            }
-            else if (!StreamSupport.stream(entity.getArmorSlots().spliterator(), false)
+            } else if (!StreamSupport.stream(entity.getArmorSlots().spliterator(), false)
                     .allMatch(stack -> stack.is(GCYRTags.Items.IS_SPACESUIT))) {
-                entity.hurt(level.damageSources().drown(), GCYRConfig.INSTANCE.server.oxygenDamage);
-                entity.setAirSupply(-40);
-            }
+                        entity.hurt(level.damageSources().drown(), GCYRConfig.INSTANCE.server.oxygenDamage);
+                        entity.setAirSupply(-40);
+                    }
         }
     }
 

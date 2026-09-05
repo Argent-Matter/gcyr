@@ -2,8 +2,8 @@ package argent_matter.gcyr.common.item.behaviour;
 
 import argent_matter.gcyr.api.space.planet.Planet;
 import argent_matter.gcyr.api.space.station.SpaceStation;
-import argent_matter.gcyr.common.data.item.GCYRItems;
 import argent_matter.gcyr.common.data.client.GCYRMenus;
+import argent_matter.gcyr.common.data.item.GCYRItems;
 import argent_matter.gcyr.data.loader.PlanetData;
 
 import com.gregtechceu.gtceu.api.item.component.IAddInformation;

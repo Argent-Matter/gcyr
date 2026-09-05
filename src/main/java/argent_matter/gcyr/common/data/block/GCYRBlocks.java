@@ -6,8 +6,8 @@ import argent_matter.gcyr.api.block.IRocketMotorType;
 import argent_matter.gcyr.api.block.StoneVariant;
 import argent_matter.gcyr.common.block.FuelTankBlock;
 import argent_matter.gcyr.common.block.RocketMotorBlock;
-import argent_matter.gcyr.common.data.item.GCYRCreativeModeTabs;
 import argent_matter.gcyr.common.data.client.GCYRModels;
+import argent_matter.gcyr.common.data.item.GCYRCreativeModeTabs;
 import argent_matter.gcyr.common.data.tag.GCYRTags;
 
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
@@ -66,14 +66,16 @@ public class GCYRBlocks {
     public static final BlockEntry<Block> MERCURY_COBBLESTONE = MERCURY_VARIANT.cobblestone("Cobbled Mercury Rock")
             .register();
 
-    public static final BlockEntry<Block> MERCURY_ROCK = MERCURY_VARIANT.rock("rock", "Mercury Rock", MERCURY_COBBLESTONE)
+    public static final BlockEntry<Block> MERCURY_ROCK = MERCURY_VARIANT
+            .rock("rock", "Mercury Rock", MERCURY_COBBLESTONE)
             .register();
 
     public static final BlockEntry<SlabBlock> MERCURY_COBBLESTONE_SLAB = MERCURY_VARIANT
             .slab("cobblestone", "Cobbled Mercury Rock Slab", MERCURY_COBBLESTONE)
             .register();
 
-    public static final BlockEntry<SlabBlock> MERCURY_ROCK_SLAB = MERCURY_VARIANT.slab("rock", "Mercury Rock Slab", MERCURY_ROCK)
+    public static final BlockEntry<SlabBlock> MERCURY_ROCK_SLAB = MERCURY_VARIANT
+            .slab("rock", "Mercury Rock Slab", MERCURY_ROCK)
             .register();
 
     public static final BlockEntry<StairBlock> MERCURY_COBBLESTONE_STAIRS = MERCURY_VARIANT
@@ -106,14 +108,16 @@ public class GCYRBlocks {
             .slab("cobblestone", "Cobbled Venus Rock Slab", VENUS_COBBLESTONE)
             .register();
 
-    public static final BlockEntry<SlabBlock> VENUS_ROCK_SLAB = VENUS_VARIANT.slab("rock", "Venus Rock Slab", VENUS_ROCK)
+    public static final BlockEntry<SlabBlock> VENUS_ROCK_SLAB = VENUS_VARIANT
+            .slab("rock", "Venus Rock Slab", VENUS_ROCK)
             .register();
 
     public static final BlockEntry<StairBlock> VENUS_COBBLESTONE_STAIRS = VENUS_VARIANT
             .stairs("cobblestone", "Cobbled Venus Rock Stairs", VENUS_COBBLESTONE)
             .register();
 
-    public static final BlockEntry<StairBlock> VENUS_ROCK_STAIRS = VENUS_VARIANT.stairs("rock", "Venus Rock Stairs", VENUS_ROCK)
+    public static final BlockEntry<StairBlock> VENUS_ROCK_STAIRS = VENUS_VARIANT
+            .stairs("rock", "Venus Rock Stairs", VENUS_ROCK)
             .register();
 
     public static final BlockEntry<ButtonBlock> VENUS_ROCK_BUTTON = VENUS_VARIANT
@@ -156,14 +160,16 @@ public class GCYRBlocks {
             .slab("cobblestone", "Cobbled Lunar Stone Slab", MOON_COBBLESTONE)
             .register();
 
-    public static final BlockEntry<SlabBlock> MOON_STONE_SLAB = LUNAR_VARIANT.slab("stone", "Lunar Stone Slab", MOON_STONE)
+    public static final BlockEntry<SlabBlock> MOON_STONE_SLAB = LUNAR_VARIANT
+            .slab("stone", "Lunar Stone Slab", MOON_STONE)
             .register();
 
     public static final BlockEntry<StairBlock> MOON_COBBLESTONE_STAIRS = LUNAR_VARIANT
             .stairs("cobblestone", "Cobbled Lunar Stone Stairs", MOON_COBBLESTONE)
             .register();
 
-    public static final BlockEntry<StairBlock> MOON_STONE_STAIRS = LUNAR_VARIANT.stairs("stone", "Lunar Stone Stairs", MOON_STONE)
+    public static final BlockEntry<StairBlock> MOON_STONE_STAIRS = LUNAR_VARIANT
+            .stairs("stone", "Lunar Stone Stairs", MOON_STONE)
             .register();
 
     public static final BlockEntry<ButtonBlock> MOON_STONE_BUTTON = LUNAR_VARIANT
@@ -215,7 +221,8 @@ public class GCYRBlocks {
             .slab("cobblestone", "Cobbled Martian Rock Slab", MARTIAN_COBBLESTONE)
             .register();
 
-    public static final BlockEntry<SlabBlock> MARTIAN_ROCK_SLAB = MARS_VARIANT.slab("rock", "Martian Rock Slab", MARTIAN_ROCK)
+    public static final BlockEntry<SlabBlock> MARTIAN_ROCK_SLAB = MARS_VARIANT
+            .slab("rock", "Martian Rock Slab", MARTIAN_ROCK)
             .register();
 
     public static final BlockEntry<StairBlock> MARTIAN_COBBLESTONE_STAIRS = MARS_VARIANT

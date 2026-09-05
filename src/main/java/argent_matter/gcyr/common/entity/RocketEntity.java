@@ -11,10 +11,11 @@ import argent_matter.gcyr.api.space.station.SpaceStation;
 import argent_matter.gcyr.common.block.FuelTankBlock;
 import argent_matter.gcyr.common.block.RocketMotorBlock;
 import argent_matter.gcyr.common.data.block.GCYRBlocks;
+import argent_matter.gcyr.common.data.client.GCYRSoundEntries;
 import argent_matter.gcyr.common.data.entity.GCYREntityDataSerializers;
 import argent_matter.gcyr.common.data.item.GCYRItems;
 import argent_matter.gcyr.common.data.recipe.GCYRRecipeTypes;
-import argent_matter.gcyr.common.data.client.GCYRSoundEntries;
+import argent_matter.gcyr.common.data.tag.GCYRTags;
 import argent_matter.gcyr.common.entity.data.EntityOxygenSystem;
 import argent_matter.gcyr.common.entity.data.EntityTemperatureSystem;
 import argent_matter.gcyr.common.item.behaviour.KeyCardBehaviour;
@@ -22,9 +23,8 @@ import argent_matter.gcyr.common.item.behaviour.PlanetIdChipBehaviour;
 import argent_matter.gcyr.common.item.behaviour.SatelliteItemBehaviour;
 import argent_matter.gcyr.common.item.behaviour.StationContainerBehaviour;
 import argent_matter.gcyr.config.GCYRConfig;
-import argent_matter.gcyr.data.loader.PlanetData;
-import argent_matter.gcyr.common.data.tag.GCYRTags;
 import argent_matter.gcyr.core.mixin.LivingEntityAccessor;
+import argent_matter.gcyr.data.loader.PlanetData;
 import argent_matter.gcyr.util.PlatformUtils;
 import argent_matter.gcyr.util.PosWithState;
 
@@ -94,8 +94,9 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.network.NetworkHooks;
 
-import com.google.common.collect.Sets;
 import com.mojang.datafixers.util.Pair;
+
+import com.google.common.collect.Sets;
 import it.unimi.dsi.fastutil.objects.Object2BooleanMap;
 import it.unimi.dsi.fastutil.objects.Object2BooleanOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;

@@ -1,14 +1,16 @@
 package argent_matter.gcyr.util;
 
 import com.gregtechceu.gtceu.api.codec.GTCodecUtils;
+
+import net.minecraft.Util;
+
 import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 
-import net.minecraft.Util;
-import org.jetbrains.annotations.NotNull;
-
 import java.util.List;
+
+import org.jetbrains.annotations.NotNull;
 
 public record Vec2i(int x, int y) implements Comparable<Vec2i> {
 

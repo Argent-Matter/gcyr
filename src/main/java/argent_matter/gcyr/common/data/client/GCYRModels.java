@@ -37,7 +37,8 @@ public class GCYRModels {
     }
 
     public static void seatModel(DataGenContext<Block, CarpetBlock> ctx, RegistrateBlockstateProvider prov) {
-        prov.simpleBlock(ctx.getEntry(), prov.models().carpet("seat", ResourceLocation.withDefaultNamespace("block/light_gray_wool")));
+        prov.simpleBlock(ctx.getEntry(),
+                prov.models().carpet("seat", ResourceLocation.withDefaultNamespace("block/light_gray_wool")));
     }
 
     public static void randomRotatedModel(DataGenContext<Block, ? extends Block> ctx,

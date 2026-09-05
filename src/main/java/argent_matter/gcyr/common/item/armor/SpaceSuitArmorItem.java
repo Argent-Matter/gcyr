@@ -4,6 +4,7 @@ import argent_matter.gcyr.common.data.item.GCYRArmorMaterials;
 import argent_matter.gcyr.common.recipe.type.SmithingSpaceSuitRecipe;
 
 import com.gregtechceu.gtceu.common.data.GTMaterials;
+
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.entity.EquipmentSlot;

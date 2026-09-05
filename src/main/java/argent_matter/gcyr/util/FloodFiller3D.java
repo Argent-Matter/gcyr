@@ -1,10 +1,10 @@
 package argent_matter.gcyr.util;
 
-import argent_matter.gcyr.config.GCYRConfig;
 import argent_matter.gcyr.common.data.tag.GCYRTags;
+import argent_matter.gcyr.config.GCYRConfig;
 
-import com.google.common.math.DoubleMath;
 import com.gregtechceu.gtceu.utils.GTUtil;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
@@ -12,6 +12,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 import com.mojang.datafixers.util.Pair;
+
+import com.google.common.math.DoubleMath;
 
 import java.util.LinkedHashSet;
 import java.util.Set;

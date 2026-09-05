@@ -12,6 +12,7 @@ import net.minecraft.server.level.ServerLevel;
 
 import lombok.Getter;
 import lombok.Setter;
+
 import org.jetbrains.annotations.Nullable;
 
 public class DysonSphere {

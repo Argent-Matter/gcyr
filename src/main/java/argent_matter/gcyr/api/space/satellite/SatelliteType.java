@@ -8,6 +8,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 
 import com.mojang.serialization.Codec;
+
 import lombok.Getter;
 
 import java.util.function.Supplier;

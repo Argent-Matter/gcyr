@@ -20,11 +20,12 @@ import net.minecraftforge.client.event.RegisterShadersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.serialization.JsonOps;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.serialization.JsonOps;
 
 import java.io.IOException;
 import java.io.InputStreamReader;

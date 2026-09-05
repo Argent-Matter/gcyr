@@ -30,7 +30,8 @@ public class PacketCreateSpaceStation implements IPacket {
         if (handler.getLevel() instanceof ServerLevel serverLevel) {
             ISpaceStationHolder holder = GCYRCapabilityHelper
                     .getSpaceStations(serverLevel.getServer().getLevel(PlanetData
-                            .getPlanetFromLevelOrOrbit(serverLevel.dimension()).map(Planet::orbitDimension).orElse(null)));
+                            .getPlanetFromLevelOrOrbit(serverLevel.dimension()).map(Planet::orbitDimension)
+                            .orElse(null)));
             if (holder == null) return;
 
             ItemStack held = handler.getPlayer().getItemInHand(handler.getPlayer().getUsedItemHand());

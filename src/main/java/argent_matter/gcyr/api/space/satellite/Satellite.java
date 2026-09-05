@@ -14,6 +14,7 @@ import net.minecraft.world.level.Level;
 
 import com.mojang.datafixers.Products;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+
 import lombok.Getter;
 import lombok.Setter;
 

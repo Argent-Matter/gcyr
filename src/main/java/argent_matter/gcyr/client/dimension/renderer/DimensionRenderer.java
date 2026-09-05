@@ -5,6 +5,7 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.LightTexture;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+
 import org.joml.Matrix4f;
 
 public interface DimensionRenderer {

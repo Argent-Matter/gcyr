@@ -9,6 +9,7 @@ import net.minecraft.world.level.Level;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+
 import org.joml.Vector3f;
 
 import java.util.Collections;
@@ -104,7 +105,8 @@ public record PlanetSkyRenderer(ResourceKey<Level> dimension, Optional<ResourceL
         FOGGY("foggy"),
         COLORED_HORIZON("colored_horizon");
 
-        public static final Codec<DimensionEffectType> CODEC = StringRepresentable.fromEnum(DimensionEffectType::values);
+        public static final Codec<DimensionEffectType> CODEC = StringRepresentable
+                .fromEnum(DimensionEffectType::values);
 
         private final String name;
 

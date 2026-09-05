@@ -3,6 +3,7 @@ package argent_matter.gcyr.core.mixin;
 import argent_matter.gcyr.GCYRClient;
 
 import com.mojang.blaze3d.vertex.VertexFormat;
+
 import org.lwjgl.opengl.GL11;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;

@@ -2,12 +2,12 @@ package argent_matter.gcyr.common.data.machine;
 
 import argent_matter.gcyr.GCYR;
 import argent_matter.gcyr.common.data.recipe.GCYRRecipeTypes;
+import argent_matter.gcyr.common.data.tag.GCYRTags;
 import argent_matter.gcyr.common.machine.electric.OxygenSpreaderMachine;
 import argent_matter.gcyr.common.machine.multiblock.RocketScannerMachine;
 import argent_matter.gcyr.common.machine.multiblock.SpaceStationPackagerMachine;
 import argent_matter.gcyr.common.machine.multiblock.electric.DroneHangarMachine;
 import argent_matter.gcyr.common.machine.multiblock.electric.DysonSystemControllerMachine;
-import argent_matter.gcyr.common.data.tag.GCYRTags;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTCEuAPI;

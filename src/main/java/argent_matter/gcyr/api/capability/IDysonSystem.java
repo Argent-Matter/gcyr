@@ -4,6 +4,7 @@ import argent_matter.gcyr.api.space.dyson.DysonSphere;
 import argent_matter.gcyr.common.satellite.DysonSwarmSatellite;
 
 import net.minecraft.core.BlockPos;
+
 import org.jetbrains.annotations.Nullable;
 
 public interface IDysonSystem {

@@ -1,6 +1,7 @@
 package argent_matter.gcyr.common.data.item;
 
 import argent_matter.gcyr.GCYR;
+
 import com.gregtechceu.gtceu.common.data.GTCreativeModeTabs;
 
 import net.minecraft.network.chat.Component;

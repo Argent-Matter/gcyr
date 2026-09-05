@@ -1,10 +1,10 @@
 package argent_matter.gcyr.common.entity.data;
 
+import argent_matter.gcyr.common.data.tag.GCYRTags;
 import argent_matter.gcyr.common.item.armor.SpaceSuitArmorItem;
 import argent_matter.gcyr.common.recipe.type.SmithingThermalUpgradeRecipe;
 import argent_matter.gcyr.config.GCYRConfig;
 import argent_matter.gcyr.data.loader.PlanetData;
-import argent_matter.gcyr.common.data.tag.GCYRTags;
 
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;

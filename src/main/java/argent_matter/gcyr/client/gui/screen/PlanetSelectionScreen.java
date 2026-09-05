@@ -35,11 +35,13 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import com.mojang.math.Axis;
+
 import lombok.Getter;
-import org.jetbrains.annotations.UnknownNullability;
 
 import java.util.*;
 import java.util.function.Consumer;
+
+import org.jetbrains.annotations.UnknownNullability;
 
 @OnlyIn(Dist.CLIENT)
 public class PlanetSelectionScreen extends Screen implements MenuAccess<PlanetSelectionMenu> {
@@ -90,7 +92,8 @@ public class PlanetSelectionScreen extends Screen implements MenuAccess<PlanetSe
             currentCategory = Category.MILKY_WAY_CATEGORY;
         }
 
-        // Set the initial gui time to the dimension time. This creates a random start position for each rotating object.
+        // Set the initial gui time to the dimension time. This creates a random start position for each rotating
+        // object.
         guiTime = handler.getPlayer().level().getRandom().nextFloat() * 100000.0f;
     }
 
@@ -221,7 +224,8 @@ public class PlanetSelectionScreen extends Screen implements MenuAccess<PlanetSe
             Category galaxyCategory = new Category(planet.galaxy(), Category.GALAXY_CATEGORY);
             Category solarSystemCategory = new Category(planet.solarSystem(), galaxyCategory);
             Category planetCategory = new Category(
-                    planet.parentDimension().isEmpty() ? planet.dimension().location() : planet.parentDimension().get().location(),
+                    planet.parentDimension().isEmpty() ? planet.dimension().location() :
+                            planet.parentDimension().get().location(),
                     solarSystemCategory);
 
             Component label = Component.translatable(planet.translation());

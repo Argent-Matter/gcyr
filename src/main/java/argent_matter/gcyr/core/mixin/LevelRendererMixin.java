@@ -11,6 +11,7 @@ import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.LightTexture;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+
 import org.joml.Matrix4f;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -57,7 +58,8 @@ public abstract class LevelRendererMixin {
         if (this.minecraft.level == null) {
             return;
         }
-        DimensionSpecialEffects effects = ClientModSkies.DIMENSION_SPECIAL_EFFECTS.get(this.level.dimension().location());
+        DimensionSpecialEffects effects = ClientModSkies.DIMENSION_SPECIAL_EFFECTS
+                .get(this.level.dimension().location());
         if (!(effects instanceof DimensionRenderer dimensionRenderer) || !dimensionRenderer.shouldRenderSnowAndRain()) {
             return;
         }
@@ -72,7 +74,8 @@ public abstract class LevelRendererMixin {
         if (this.minecraft.level == null) {
             return;
         }
-        DimensionSpecialEffects effects = ClientModSkies.DIMENSION_SPECIAL_EFFECTS.get(this.level.dimension().location());
+        DimensionSpecialEffects effects = ClientModSkies.DIMENSION_SPECIAL_EFFECTS
+                .get(this.level.dimension().location());
         if (!(effects instanceof DimensionRenderer dimensionRenderer) || !dimensionRenderer.shouldRenderClouds()) {
             return;
         }
@@ -93,11 +96,13 @@ public abstract class LevelRendererMixin {
         if (this.minecraft.level == null) {
             return;
         }
-        DimensionSpecialEffects effects = ClientModSkies.DIMENSION_SPECIAL_EFFECTS.get(this.level.dimension().location());
+        DimensionSpecialEffects effects = ClientModSkies.DIMENSION_SPECIAL_EFFECTS
+                .get(this.level.dimension().location());
         if (!(effects instanceof DimensionRenderer dimensionRenderer) || !dimensionRenderer.shouldRenderSky()) {
             return;
         }
-        if (dimensionRenderer.renderSky(this.level, this.ticks, tickDelta, matrices, camera, matrix4f, isFoggy, setupFog)) {
+        if (dimensionRenderer.renderSky(this.level, this.ticks, tickDelta, matrices, camera, matrix4f, isFoggy,
+                setupFog)) {
             ci.cancel();
         }
     }

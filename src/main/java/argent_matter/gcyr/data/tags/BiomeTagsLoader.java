@@ -1,8 +1,8 @@
 package argent_matter.gcyr.data.tags;
 
 import argent_matter.gcyr.GCYR;
-import argent_matter.gcyr.common.data.worldgen.GCYRBiomes;
 import argent_matter.gcyr.common.data.tag.GCYRTags;
+import argent_matter.gcyr.common.data.worldgen.GCYRBiomes;
 
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;

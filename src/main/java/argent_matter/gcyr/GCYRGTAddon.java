@@ -2,9 +2,9 @@ package argent_matter.gcyr;
 
 import argent_matter.gcyr.api.registries.GCYRRegistries;
 import argent_matter.gcyr.common.data.block.GCYRBlocks;
+import argent_matter.gcyr.common.data.client.GCYRSoundEntries;
 import argent_matter.gcyr.common.data.material.GCYRMaterials;
 import argent_matter.gcyr.common.data.recipe.GCYRRecipes;
-import argent_matter.gcyr.common.data.client.GCYRSoundEntries;
 import argent_matter.gcyr.common.worldgen.GCYROres;
 import argent_matter.gcyr.common.worldgen.GCYRWorldGenLayers;
 

@@ -5,10 +5,10 @@ import argent_matter.gcyr.api.space.station.SpaceStationWorldBorderHelper;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.CollisionGetter;
 import net.minecraft.world.level.border.WorldBorder;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import me.jellysquid.mods.lithium.common.entity.LithiumEntityCollisions;
-import net.minecraft.world.phys.shapes.VoxelShape;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.gen.Accessor;
@@ -37,7 +37,8 @@ public class LithiumEntityCollisionsMixin {
         private IterableAccessor gcyr$this;
 
         // god fucking damnit why can't I just shadow this$0.
-        @Inject(method = "<init>(Lme/jellysquid/mods/lithium/common/entity/LithiumEntityCollisions$1;)V", at = @At("TAIL"))
+        @Inject(method = "<init>(Lme/jellysquid/mods/lithium/common/entity/LithiumEntityCollisions$1;)V",
+                at = @At("TAIL"))
         private void gcyr$captureSuper(CallbackInfo ci) {
             try {
                 Field field = this.getClass().getDeclaredField("this$0");
@@ -49,9 +50,9 @@ public class LithiumEntityCollisionsMixin {
         }
 
         @ModifyExpressionValue(method = "computeNext()Lnet/minecraft/world/phys/shapes/VoxelShape;",
-                at = @At(value = "INVOKE",
-                        target = "Lnet/minecraft/world/level/Level;getWorldBorder()Lnet/minecraft/world/level/border/WorldBorder;",
-                        remap = true))
+                               at = @At(value = "INVOKE",
+                                        target = "Lnet/minecraft/world/level/Level;getWorldBorder()Lnet/minecraft/world/level/border/WorldBorder;",
+                                        remap = true))
         private WorldBorder gcyr$modifySpaceStationBorder(WorldBorder value) {
             return SpaceStationWorldBorderHelper.modifySpaceStationBorder(value, gcyr$this.getEntity());
         }

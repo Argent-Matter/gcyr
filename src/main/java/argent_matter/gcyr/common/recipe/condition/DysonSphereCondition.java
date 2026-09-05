@@ -15,6 +15,7 @@ import net.minecraft.world.level.Level;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+
 import lombok.NoArgsConstructor;
 
 import org.jetbrains.annotations.NotNull;

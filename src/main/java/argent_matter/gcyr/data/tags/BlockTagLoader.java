@@ -4,11 +4,12 @@ import argent_matter.gcyr.common.data.block.GCYRBlocks;
 import argent_matter.gcyr.common.data.tag.GCYRTags;
 
 import com.gregtechceu.gtceu.common.data.GTBlocks;
+
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 
 import com.tterrag.registrate.providers.RegistrateTagsProvider;
-import net.minecraft.world.level.block.Blocks;
 
 public class BlockTagLoader {
 

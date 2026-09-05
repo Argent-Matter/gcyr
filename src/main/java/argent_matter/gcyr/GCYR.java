@@ -14,10 +14,10 @@ import argent_matter.gcyr.common.data.network.GCYRNetworking;
 import argent_matter.gcyr.common.data.recipe.*;
 import argent_matter.gcyr.common.gui.EntityOxygenHUD;
 import argent_matter.gcyr.config.GCYRConfig;
-import argent_matter.gcyr.data.GCYRDatagen;
-import argent_matter.gcyr.data.loader.PlanetResources;
 import argent_matter.gcyr.core.mixin.RegisterClientReloadListenersEventAccessor;
 import argent_matter.gcyr.core.mixin.ReloadableResourceManagerAccessor;
+import argent_matter.gcyr.data.GCYRDatagen;
+import argent_matter.gcyr.data.loader.PlanetResources;
 
 import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.data.DimensionMarker;
