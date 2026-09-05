@@ -16,6 +16,8 @@
         "lithium.LithiumEntityCollisions$IterableAccessor",
         "lithium.LithiumEntityCollisions$IteratorMixin",
         "lithium.LithiumEntityCollisionsMixin"
+        "dev.datagen.IntrinsicTagAppenderMixin",
+        "dev.datagen.TagAppenderMixin",
     ],
     "client": [
         "ClientLevelMixin",
@@ -27,5 +29,5 @@
     "injectors": {
         "defaultRequire": 1,
         "maxShiftBy": 2
-  }
+    }
 }

@@ -28,17 +28,23 @@ public class DataGenerators {
         DataGenerator generator = event.getGenerator();
         ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
         PackOutput output = generator.getPackOutput();
+
         var provider = event.getLookupProvider();
         if (event.includeServer()) {
-            var set = Set.of(GCYR.MOD_ID);
-            generator.addProvider(true, new BiomeTagsLoader(output, provider, existingFileHelper));
-            generator.addProvider(true, new SoundEntryBuilder.SoundEntryProvider(output, GCYR.MOD_ID));
-            generator.addProvider(true, new DatapackBuiltinEntriesProvider(
+            DatapackBuiltinEntriesProvider serverRegistriesProvider = new DatapackBuiltinEntriesProvider(
                     output, provider, new RegistrySetBuilder()
-                            .add(Registries.BIOME, GCYRBiomes::bootstrap)
-                            .add(Registries.TRIM_PATTERN, GCYRTrimPatterns::bootstrap)
-                            .add(Registries.TRIM_MATERIAL, GCYRTrimMaterials::bootstrap),
-                    set));
+                    .add(Registries.BIOME, GCYRBiomes::bootstrap)
+                    .add(Registries.TRIM_PATTERN, GCYRTrimPatterns::bootstrap)
+                    .add(Registries.TRIM_MATERIAL, GCYRTrimMaterials::bootstrap),
+                    Set.of(GCYR.MOD_ID));
+            generator.addProvider(true, serverRegistriesProvider);
+            provider = serverRegistriesProvider.getRegistryProvider();
+
+            generator.addProvider(true, new BiomeTagsLoader(output, provider, existingFileHelper));
+        }
+
+        if (event.includeClient()) {
+            generator.addProvider(true, new SoundEntryBuilder.SoundEntryProvider(output, GCYR.MOD_ID));
         }
     }
 }
