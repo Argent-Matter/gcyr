@@ -17,7 +17,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * @author Screret
@@ -51,7 +51,7 @@ public abstract class Satellite {
         return instance.group(
                 GCYRRegistries.SATELLITES.codec().fieldOf("type").forGetter(Satellite::getType),
                 SatelliteData.CODEC.fieldOf("data").forGetter(Satellite::getData),
-                ResourceKey.codec(Registries.DIMENSION).fieldOf("level").forGetter(Satellite::getLevel));
+                ResourceKey.codec(Registries.DIMENSION).fieldOf("dimension").forGetter(Satellite::getLevel));
     }
 
     public Satellite copy() {

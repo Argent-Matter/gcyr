@@ -38,7 +38,7 @@ public class ModSkyRenderer {
 
     public ModSkyRenderer(PlanetSkyRenderer skyRenderer) {
         this.skyShaderLocation = skyRenderer.skyShaderLocation();
-        this.doFullSky = skyRenderer.doFullSky();
+        this.doFullSky = skyRenderer.fullSky();
         this.starsRenderer = skyRenderer.starsRenderer();
         this.skyObjects = skyRenderer.skyObjects();
         this.horizonAngle = skyRenderer.horizonAngle();
@@ -90,7 +90,7 @@ public class ModSkyRenderer {
                 case SCALING -> scale *= SkyUtil.getScale();
                 case DEBUG -> rotation = new Vector3f(60, 0, 0); // Test things without restarting Minecraft
             }
-            SkyUtil.render(poseStack, bufferBuilder, skyObject.texture(), skyObject.colour(), rotation, scale,
+            SkyUtil.render(poseStack, bufferBuilder, skyObject.texture(), skyObject.color(), rotation, scale,
                     skyObject.blending());
         }
 

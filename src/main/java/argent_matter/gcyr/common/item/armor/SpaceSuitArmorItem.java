@@ -28,8 +28,6 @@ import java.util.List;
 
 import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nonnull;
-
 public class SpaceSuitArmorItem extends ArmorItem {
 
     public static final long CAPACITY = 16 * FluidType.BUCKET_VOLUME;
@@ -38,8 +36,7 @@ public class SpaceSuitArmorItem extends ArmorItem {
         super(GCYRArmorMaterials.SPACE, type, properties);
     }
 
-    public static <T> LazyOptional<T> getCapability(@Nonnull final ItemStack stack,
-                                                    @Nonnull final Capability<T> cap) {
+    public static <T> LazyOptional<T> getCapability(final ItemStack stack, final Capability<T> cap) {
         return ForgeCapabilities.FLUID_HANDLER_ITEM.orEmpty(cap, LazyOptional
                 .of(() -> new FluidHandlerItemStack(stack, Ints.saturatedCast(SpaceSuitArmorItem.CAPACITY)) {
 

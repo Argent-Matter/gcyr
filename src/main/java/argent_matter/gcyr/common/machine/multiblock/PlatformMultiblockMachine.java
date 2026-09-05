@@ -22,8 +22,6 @@ import net.minecraft.world.level.Level;
 
 import java.util.Arrays;
 
-import javax.annotation.Nonnull;
-
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterialBlocks.MATERIAL_BLOCKS;
 

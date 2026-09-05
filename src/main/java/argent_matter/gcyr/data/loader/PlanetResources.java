@@ -53,18 +53,15 @@ public class PlanetResources implements ResourceManagerReloadListener {
                     InputStreamReader reader = new InputStreamReader(resource.open());
                     JsonObject jsonObject = GsonHelper.fromJson(GSON, reader, JsonObject.class);
 
-                    if (jsonObject != null) {
-                        PlanetSkyRenderer renderer = PlanetSkyRenderer.CODEC.parse(JsonOps.INSTANCE, jsonObject)
-                                .getOrThrow(false, GCYR.LOGGER::error);
-                        if (renderer.skyShaderLocation().isPresent()) {
-                            skyShaders.put(renderer.skyShaderLocation().get(), null);
-                        }
-                        skyRenderers.add(renderer);
+                    PlanetSkyRenderer renderer = PlanetSkyRenderer.CODEC.parse(JsonOps.INSTANCE, jsonObject)
+                            .getOrThrow(false, GCYR.LOGGER::error);
+                    if (renderer.skyShaderLocation().isPresent()) {
+                        skyShaders.put(renderer.skyShaderLocation().get(), null);
                     }
+                    skyRenderers.add(renderer);
                 }
             } catch (Exception e) {
-                GCYR.LOGGER.error("Failed to load Gregicality Rocketry sky rendering assets from: \"{}\"",
-                        id.toString(), e);
+                GCYR.LOGGER.error("Failed to load Gregicality Rocketry sky rendering assets from: \"{}\"", id, e);
             }
         }
 
@@ -76,14 +73,11 @@ public class PlanetResources implements ResourceManagerReloadListener {
                     InputStreamReader reader = new InputStreamReader(resource.open());
                     JsonObject jsonObject = GsonHelper.fromJson(GSON, reader, JsonObject.class);
 
-                    if (jsonObject != null) {
-                        solarSystems.add(SolarSystem.CODEC.parse(JsonOps.INSTANCE, jsonObject).getOrThrow(false,
-                                GCYR.LOGGER::error));
-                    }
+                    solarSystems.add(SolarSystem.CODEC.parse(JsonOps.INSTANCE, jsonObject)
+                            .getOrThrow(false, GCYR.LOGGER::error));
                 }
             } catch (Exception e) {
-                GCYR.LOGGER.error("Failed to load Gregicality Rocketry solar system assets from: \"{}\"", id.toString(),
-                        e);
+                GCYR.LOGGER.error("Failed to load Gregicality Rocketry solar system assets from: \"{}\"", id, e);
             }
         }
 
@@ -94,14 +88,11 @@ public class PlanetResources implements ResourceManagerReloadListener {
                     InputStreamReader reader = new InputStreamReader(resource.open());
                     JsonObject jsonObject = GsonHelper.fromJson(GSON, reader, JsonObject.class);
 
-                    if (jsonObject != null) {
-                        planetRings.add(PlanetRing.CODEC.parse(JsonOps.INSTANCE, jsonObject).getOrThrow(false,
-                                GCYR.LOGGER::error));
-                    }
+                    planetRings.add(PlanetRing.CODEC.parse(JsonOps.INSTANCE, jsonObject).getOrThrow(false,
+                            GCYR.LOGGER::error));
                 }
             } catch (Exception e) {
-                GCYR.LOGGER.error("Failed to load Gregicality Rocketry planet ring assets from: \"{}\"", id.toString(),
-                        e);
+                GCYR.LOGGER.error("Failed to load Gregicality Rocketry planet ring assets from: \"{}\"", id, e);
             }
         }
 
@@ -113,13 +104,11 @@ public class PlanetResources implements ResourceManagerReloadListener {
                     InputStreamReader reader = new InputStreamReader(resource.open());
                     JsonObject jsonObject = GsonHelper.fromJson(GSON, reader, JsonObject.class);
 
-                    if (jsonObject != null) {
-                        galaxies.add(
-                                Galaxy.CODEC.parse(JsonOps.INSTANCE, jsonObject).getOrThrow(false, GCYR.LOGGER::error));
-                    }
+                    galaxies.add(Galaxy.CODEC.parse(JsonOps.INSTANCE, jsonObject)
+                            .getOrThrow(false, GCYR.LOGGER::error));
                 }
             } catch (Exception e) {
-                GCYR.LOGGER.error("Failed to load Gregicality Rocketry galaxy assets from: \"{}\"", id.toString(), e);
+                GCYR.LOGGER.error("Failed to load Gregicality Rocketry galaxy assets from: \"{}\"", id, e);
             }
         }
 

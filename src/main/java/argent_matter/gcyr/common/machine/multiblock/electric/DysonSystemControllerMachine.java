@@ -14,7 +14,6 @@ import com.gregtechceu.gtceu.common.data.GTDamageTypes;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -30,10 +29,6 @@ import java.util.List;
 
 import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
-@ParametersAreNonnullByDefault
-@MethodsReturnNonnullByDefault
 public class DysonSystemControllerMachine extends WorkableElectricMultiblockMachine {
 
     public DysonSystemControllerMachine(IMachineBlockEntity holder, Object... args) {

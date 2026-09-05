@@ -5,7 +5,6 @@ import argent_matter.gcyr.util.PosWithState;
 
 import com.gregtechceu.gtceu.api.item.component.IAddInformation;
 
-import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
@@ -19,10 +18,6 @@ import java.util.Set;
 
 import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
-@ParametersAreNonnullByDefault
-@MethodsReturnNonnullByDefault
 public class StationContainerBehaviour implements IAddInformation {
 
     private static final String SATELLITE_BLOCKS_KEY = "gcyr:satellite_blocks";

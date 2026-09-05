@@ -48,7 +48,7 @@ public class OrbitCondition extends RecipeCondition<OrbitCondition> {
             GCYRNetworking.NETWORK.sendToServer(new PacketRequestPlanetData());
             GCYRClient.hasUpdatedPlanets = true;
         }
-        return PlanetData.isOrbitLevel(level.dimension());
+        return PlanetData.isOrbitDimension(level.dimension());
     }
 
     @Override

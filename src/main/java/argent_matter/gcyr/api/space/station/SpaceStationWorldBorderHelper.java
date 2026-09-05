@@ -18,7 +18,7 @@ public class SpaceStationWorldBorderHelper {
     @SuppressWarnings("ConstantValue") // it can be null if this is loaded early, which Lithium does.
     public static WorldBorder modifySpaceStationBorder(WorldBorder original, @Nullable Entity entity) {
         if (entity != null && entity.level() instanceof ServerLevel serverLevel) {
-            if (PlanetData.isOrbitLevel(serverLevel.dimension())) {
+            if (PlanetData.isOrbitDimension(serverLevel.dimension())) {
                 // default to normal world border if somehow not on a space station dimension
                 ISpaceStationHolder spaceStationHolder = GCYRCapabilityHelper.getSpaceStations(serverLevel);
                 if (spaceStationHolder == null) return original;

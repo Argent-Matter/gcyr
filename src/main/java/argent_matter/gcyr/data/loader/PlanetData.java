@@ -7,7 +7,6 @@ import argent_matter.gcyr.common.data.network.GCYRNetworking;
 import argent_matter.gcyr.common.networking.c2s.PacketRequestPlanetData;
 import argent_matter.gcyr.util.GCYRValues;
 
-import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.FriendlyByteBuf;
@@ -29,11 +28,8 @@ import com.mojang.serialization.JsonOps;
 
 import java.util.*;
 
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
+import org.jetbrains.annotations.Nullable;
 
-@ParametersAreNonnullByDefault
-@MethodsReturnNonnullByDefault
 public class PlanetData extends SimpleJsonResourceReloadListener {
 
     private static final BiMap<ResourceLocation, Planet> PLANETS = HashBiMap.create();
@@ -60,7 +56,7 @@ public class PlanetData extends SimpleJsonResourceReloadListener {
             JsonObject jsonObject = GsonHelper.convertToJsonObject(entry.getValue(), "planet");
             Planet newPlanet = Planet.DIRECT_CODEC.parse(JsonOps.INSTANCE, jsonObject).getOrThrow(false,
                     GCYR.LOGGER::error);
-            planets.entrySet().removeIf(planet -> planet.getValue().level().equals(newPlanet.level()));
+            planets.entrySet().removeIf(planet -> planet.getValue().dimension().equals(newPlanet.dimension()));
             planets.put(entry.getKey(), newPlanet);
         }
 
@@ -75,12 +71,12 @@ public class PlanetData extends SimpleJsonResourceReloadListener {
             Planet planet = entry.getValue();
             PLANETS.put(id, planet);
             SOLAR_SYSTEMS.computeIfAbsent(planet.solarSystem(), system -> new ArrayList<>()).add(planet);
-            LEVEL_TO_PLANET.put(planet.level(), planet);
-            ORBIT_TO_PLANET.put(planet.orbitWorld(), planet);
-            PLANET_LEVELS.add(planet.level());
-            ORBITS_LEVELS.add(planet.orbitWorld());
+            LEVEL_TO_PLANET.put(planet.dimension(), planet);
+            ORBIT_TO_PLANET.put(planet.orbitDimension(), planet);
+            PLANET_LEVELS.add(planet.dimension());
+            ORBITS_LEVELS.add(planet.orbitDimension());
             if (planet.hasOxygen()) {
-                OXYGEN_LEVELS.add(planet.level());
+                OXYGEN_LEVELS.add(planet.dimension());
             }
         }
     }
@@ -158,11 +154,11 @@ public class PlanetData extends SimpleJsonResourceReloadListener {
         return Optional.ofNullable(LEVEL_TO_PLANET.inverse().get(planet));
     }
 
-    public static boolean isOrbitLevel(ResourceKey<Level> level) {
+    public static boolean isOrbitDimension(ResourceKey<Level> level) {
         return ORBITS_LEVELS.contains(level);
     }
 
-    public static boolean isPlanetLevel(Level level) {
+    public static boolean isPlanetDimension(Level level) {
         if (level.isClientSide && !GCYRClient.hasUpdatedPlanets) {
             GCYRNetworking.NETWORK.sendToServer(new PacketRequestPlanetData());
             GCYRClient.hasUpdatedPlanets = true;
@@ -175,19 +171,19 @@ public class PlanetData extends SimpleJsonResourceReloadListener {
     }
 
     /**
-     * Checks if the level is either a planet or an orbit level.
+     * Checks if the level's dimension is either a planet or an orbit.
      */
     public static boolean isSpaceLevel(Level level) {
-        return isPlanetLevel(level) || isOrbitLevel(level.dimension());
+        return isPlanetDimension(level) || isOrbitDimension(level.dimension());
     }
 
     /**
-     * Gets the temperature of the level in kelvin.
+     * Gets the temperature of the level's dimension in kelvin.
      *
-     * @return The temperature of the level, or 293K for dimensions without a defined temperature
+     * @return The temperature of the dimension, or 293K for dimensions without a defined temperature
      */
     public static float getWorldTemperature(Level level) {
-        if (isOrbitLevel(level.dimension())) {
+        if (isOrbitDimension(level.dimension())) {
             return GCYRValues.ORBIT_TEMPERATURE;
         }
         return PlanetData.getPlanetFromLevel(level.dimension()).map(Planet::temperature).orElse(293.0f);

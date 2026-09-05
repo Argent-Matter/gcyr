@@ -12,6 +12,7 @@ import net.minecraft.server.level.ServerLevel;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.jetbrains.annotations.Nullable;
 
 public class DysonSphere {
 
@@ -21,7 +22,7 @@ public class DysonSphere {
     private final IDysonSystem system;
 
     @Getter
-    private BlockPos controllerPos;
+    private @Nullable BlockPos controllerPos;
     @Getter
     @Setter
     private int timeActive = 0, timeNeededMaintenance = 0;
@@ -31,7 +32,7 @@ public class DysonSphere {
     @Setter
     private boolean collapsed;
 
-    public DysonSphere(BlockPos controllerPos, IDysonSystem system) {
+    public DysonSphere(@Nullable BlockPos controllerPos, IDysonSystem system) {
         this.controllerPos = controllerPos;
         this.system = system;
     }
@@ -89,7 +90,7 @@ public class DysonSphere {
         return false;
     }
 
-    public void setControllerPos(BlockPos controllerPos) {
+    public void setControllerPos(@Nullable BlockPos controllerPos) {
         this.controllerPos = controllerPos;
         this.system.setChanged();
     }

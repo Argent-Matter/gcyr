@@ -21,7 +21,7 @@ import net.minecraft.world.level.Level;
 import java.util.List;
 import java.util.UUID;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 public class KeyCardBehaviour implements IAddInformation {
 
@@ -44,13 +44,12 @@ public class KeyCardBehaviour implements IAddInformation {
         stack.getTag().putString(PlanetIdChipBehaviour.CURRENT_PLANET_KEY, PlanetData.getPlanetId(planet).toString());
     }
 
-    public static Integer getSavedStation(ItemStack stack) {
+    public static @Nullable Integer getSavedStation(ItemStack stack) {
         if (!GCYRItems.KEYCARD.isIn(stack)) return null;
         return stack.getOrCreateTag().getInt(PlanetIdChipBehaviour.CURRENT_STATION_KEY);
     }
 
-    @Nullable
-    public static Planet getSavedPlanet(ItemStack stack) {
+    public static @Nullable Planet getSavedPlanet(ItemStack stack) {
         if (!GCYRItems.KEYCARD.isIn(stack)) return null;
         return PlanetData.getPlanet(
                 new ResourceLocation(stack.getOrCreateTag().getString(PlanetIdChipBehaviour.CURRENT_PLANET_KEY)));
