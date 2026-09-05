@@ -8,7 +8,7 @@ import argent_matter.gcyr.common.block.FuelTankBlock;
 import argent_matter.gcyr.common.block.RocketMotorBlock;
 import argent_matter.gcyr.common.data.item.GCYRCreativeModeTabs;
 import argent_matter.gcyr.common.data.client.GCYRModels;
-import argent_matter.gcyr.data.recipe.GCYRTags;
+import argent_matter.gcyr.common.data.tag.GCYRTags;
 
 import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
@@ -313,7 +313,7 @@ public class GCYRBlocks {
             .lang("Airlock Door")
             .properties(p -> p.strength(4.0F, 6.0F))
             .tag(CustomTags.MINEABLE_WITH_CONFIG_VALID_PICKAXE_WRENCH,
-                    GCYRTags.BLOCKS_FLOOD_FILL, BlockTags.DOORS)
+                    GCYRTags.Blocks.BLOCKS_FLOOD_FILL, BlockTags.DOORS)
             .blockstate(GCYRModels::airlockDoorModel)
             .loot((table, block) -> table.add(block, table.createDoorTable(block)))
             .item()

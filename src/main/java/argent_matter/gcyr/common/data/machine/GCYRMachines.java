@@ -7,7 +7,7 @@ import argent_matter.gcyr.common.machine.multiblock.RocketScannerMachine;
 import argent_matter.gcyr.common.machine.multiblock.SpaceStationPackagerMachine;
 import argent_matter.gcyr.common.machine.multiblock.electric.DroneHangarMachine;
 import argent_matter.gcyr.common.machine.multiblock.electric.DysonSystemControllerMachine;
-import argent_matter.gcyr.data.recipe.GCYRTags;
+import argent_matter.gcyr.common.data.tag.GCYRTags;
 
 import com.gregtechceu.gtceu.GTCEu;
 import com.gregtechceu.gtceu.api.GTCEuAPI;
@@ -73,7 +73,7 @@ public class GCYRMachines {
                     .tooltips(workableTiered(tier, GTValues.V[tier], GTValues.V[tier] * 64,
                             GCYRRecipeTypes.OXYGEN_SPREADER_RECIPES, OxygenSpreaderMachine.tankScalingFunction(tier),
                             true))
-                    .blockBuilder(block -> block.tag(GCYRTags.PASSES_FLOOD_FILL))
+                    .blockBuilder(block -> block.tag(GCYRTags.Blocks.PASSES_FLOOD_FILL))
                     .register(),
             HIGH_TIERS);
 

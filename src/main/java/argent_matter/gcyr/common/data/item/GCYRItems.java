@@ -5,7 +5,7 @@ import argent_matter.gcyr.common.data.GCYRSatellites;
 import argent_matter.gcyr.common.item.*;
 import argent_matter.gcyr.common.item.armor.SpaceSuitArmorItem;
 import argent_matter.gcyr.common.item.armor.trim.GCYRTrimPatterns;
-import argent_matter.gcyr.data.recipe.GCYRTags;
+import argent_matter.gcyr.common.data.tag.GCYRTags;
 
 import com.gregtechceu.gtceu.api.item.ComponentItem;
 import com.gregtechceu.gtceu.api.item.component.IItemComponent;
@@ -71,35 +71,35 @@ public class GCYRItems {
 
     // region satellites
     public static final ItemEntry<ComponentItem> GPS_SATELLITE = REGISTRATE.item("gps_satellite", ComponentItem::create)
-            .tag(GCYRTags.SATELLITES)
+            .tag(GCYRTags.Items.SATELLITES)
             .properties(p -> p.rarity(Rarity.UNCOMMON).stacksTo(16))
             .onRegister(attach(new SatelliteItemBehaviour(GCYRSatellites.GPS)))
             .defaultModel()
             .register();
     public static final ItemEntry<ComponentItem> LASER_SATELLITE = REGISTRATE
             .item("laser_satellite", ComponentItem::create)
-            .tag(GCYRTags.SATELLITES)
+            .tag(GCYRTags.Items.SATELLITES)
             .properties(p -> p.rarity(Rarity.UNCOMMON).stacksTo(16))
             .onRegister(attach(new SatelliteItemBehaviour(GCYRSatellites.LASER)))
             .defaultModel()
             .register();
     public static final ItemEntry<ComponentItem> EMPTY_SATELLITE = REGISTRATE
             .item("empty_satellite", ComponentItem::create)
-            .tag(GCYRTags.SATELLITES)
+            .tag(GCYRTags.Items.SATELLITES)
             .properties(p -> p.rarity(Rarity.UNCOMMON).stacksTo(16))
             .onRegister(attach(new SatelliteItemBehaviour(GCYRSatellites.EMPTY)))
             .defaultModel()
             .register();
     public static final ItemEntry<ComponentItem> ORE_FINDER_SATELLITE = REGISTRATE
             .item("ore_finder_satellite", ComponentItem::create)
-            .tag(GCYRTags.SATELLITES)
+            .tag(GCYRTags.Items.SATELLITES)
             .properties(p -> p.rarity(Rarity.UNCOMMON).stacksTo(16))
             .onRegister(attach(new SatelliteItemBehaviour(GCYRSatellites.ORE_FINDER)))
             .defaultModel()
             .register();
     public static final ItemEntry<ComponentItem> DYSON_SWARM_SATELLITE = REGISTRATE
             .item("dyson_swarm_satellite", ComponentItem::create)
-            .tag(GCYRTags.SATELLITES)
+            .tag(GCYRTags.Items.SATELLITES)
             .properties(p -> p.rarity(Rarity.UNCOMMON).stacksTo(16))
             .onRegister(attach(new SatelliteItemBehaviour(GCYRSatellites.DYSON_SWARM)))
             .defaultModel()

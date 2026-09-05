@@ -23,7 +23,7 @@ import argent_matter.gcyr.common.item.SatelliteItemBehaviour;
 import argent_matter.gcyr.common.item.StationContainerBehaviour;
 import argent_matter.gcyr.config.GCYRConfig;
 import argent_matter.gcyr.data.loader.PlanetData;
-import argent_matter.gcyr.data.recipe.GCYRTags;
+import argent_matter.gcyr.common.data.tag.GCYRTags;
 import argent_matter.gcyr.core.mixin.LivingEntityAccessor;
 import argent_matter.gcyr.util.PlatformUtils;
 import argent_matter.gcyr.util.PosWithState;
@@ -161,7 +161,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         this.configSlot.setFilter(stack -> GCYRItems.ID_CHIP.isIn(stack) || GCYRItems.KEYCARD.isIn(stack));
         this.satelliteSlot = new ItemStackTransfer(1);
         this.satelliteSlot
-                .setFilter(stack -> GCYRItems.SPACE_STATION_PACKAGE.isIn(stack) || stack.is(GCYRTags.SATELLITES));
+                .setFilter(stack -> GCYRItems.SPACE_STATION_PACKAGE.isIn(stack) || stack.is(GCYRTags.Items.SATELLITES));
 
         this.fuelTank = new CustomFluidTank(0, fluid -> FUEL_CACHE.computeIfAbsent(fluid.getFluid(), f -> {
             return this.getServer().getRecipeManager().getAllRecipesFor(GCYRRecipeTypes.ROCKET_FUEL_RECIPES).stream()
@@ -645,7 +645,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
                 this.setDeltaMovement(0, -0.5, 0);
                 return;
             }
-        } else if (satelliteStack.is(GCYRTags.SATELLITES) &&
+        } else if (satelliteStack.is(GCYRTags.Items.SATELLITES) &&
                 satelliteStack.getItem() instanceof ComponentItem componentItem) {
                     for (IItemComponent component : componentItem.getComponents()) {
                         if (component instanceof SatelliteItemBehaviour satelliteItem) {

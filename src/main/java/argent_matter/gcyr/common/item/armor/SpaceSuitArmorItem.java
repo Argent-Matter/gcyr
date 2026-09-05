@@ -1,10 +1,8 @@
 package argent_matter.gcyr.common.item.armor;
 
 import argent_matter.gcyr.common.recipe.type.SmithingSpaceSuitRecipe;
-import argent_matter.gcyr.data.recipe.GCYRTags;
 
-import com.lowdragmc.lowdraglib.misc.ItemStackTransfer;
-
+import com.gregtechceu.gtceu.common.data.GTMaterials;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -47,7 +45,7 @@ public class SpaceSuitArmorItem extends ArmorItem {
 
                     @Override
                     public boolean canFillFluidType(FluidStack fluid) {
-                        return fluid.getFluid().is(GCYRTags.OXYGEN);
+                        return fluid.getFluid().is(GTMaterials.Oxygen.getFluidTag());
                     }
                 }));
     }
