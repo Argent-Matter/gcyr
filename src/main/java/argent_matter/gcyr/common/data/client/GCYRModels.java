@@ -52,11 +52,11 @@ public class GCYRModels {
         Block block = ctx.getEntry();
         ConfiguredModel.Builder<?> builder = ConfiguredModel.builder();
 
-        builder = addRandomRotatedModels(builder, prov.cubeAll(block), cubeMirroredAll(prov, ctx), 41);
-        builder = addRandomYRotatedAltModels(builder, ctx, prov, "alt", 21);
-        builder = addRandomYRotatedAltModels(builder, ctx, prov, "small_crater", 1);
-        builder = addRandomYRotatedAltModels(builder, ctx, prov, "big_crater", 1);
-        builder = addRandomYRotatedAltModels(builder, ctx, prov, "small_rock", 1);
+        builder = addRandomRotatedModels(builder, prov.cubeAll(block), cubeMirroredAll(prov, ctx), 41).nextModel();
+        builder = addRandomYRotatedAltModels(builder, ctx, prov, "alt", 21).nextModel();
+        builder = addRandomYRotatedAltModels(builder, ctx, prov, "small_crater", 1).nextModel();
+        builder = addRandomYRotatedAltModels(builder, ctx, prov, "big_crater", 1).nextModel();
+        builder = addRandomYRotatedAltModels(builder, ctx, prov, "small_rock", 1).nextModel();
         builder = addRandomYRotatedAltModels(builder, ctx, prov, "big_rock", 1);
 
         prov.simpleBlock(block, builder.build());
@@ -67,7 +67,7 @@ public class GCYRModels {
         return builder.modelFile(model).rotationY(0).weight(weight).nextModel()
                 .modelFile(mirrored).rotationY(0).weight(weight).nextModel()
                 .modelFile(model).rotationY(180).weight(weight).nextModel()
-                .modelFile(mirrored).rotationY(180).weight(weight).nextModel();
+                .modelFile(mirrored).rotationY(180).weight(weight);
     }
 
     private static ConfiguredModel.Builder<?> addRandomYRotatedAltModels(ConfiguredModel.Builder<?> builder,

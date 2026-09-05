@@ -5,7 +5,7 @@
   "ore_veins_enabled": false,
   "legacy_random_source": false,
   "default_block": {
-    "Name": "gcyr:moon_stone"
+    "Name": "gcyr:lunar_stone"
   },
   "default_fluid": {
     "Name": "minecraft:lava"
@@ -329,7 +329,7 @@
             "then_run": {
               "type": "minecraft:block",
               "result_state": {
-                "Name": "gcyr:moon_sand"
+                "Name": "gcyr:lunar_sand"
               }
             }
           }

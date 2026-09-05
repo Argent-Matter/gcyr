@@ -1,0 +1,7 @@
+{
+  "parent": "gcyr:block/cube_top_mirrored",
+  "textures": {
+    "side": "gcyr:block/lunar_sand",
+    "top": "gcyr:block/lunar_sand_small_crater"
+  }
+}

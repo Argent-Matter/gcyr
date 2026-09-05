@@ -5,11 +5,11 @@
         "model": "gcyr:block/mercury_rock"
       },
       {
-        "model": "gcyr:block/mercury_rock",
-        "y": 180
+        "model": "gcyr:block/mercury_rock_mirrored"
       },
       {
-        "model": "gcyr:block/mercury_rock_mirrored"
+        "model": "gcyr:block/mercury_rock",
+        "y": 180
       },
       {
         "model": "gcyr:block/mercury_rock_mirrored",

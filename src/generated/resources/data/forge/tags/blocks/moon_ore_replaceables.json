@@ -1,8 +1,5 @@
 {
   "values": [
-    {
-      "id": "gcyr:moon_stone",
-      "required": false
-    }
+    "gcyr:lunar_stone"
   ]
 }
