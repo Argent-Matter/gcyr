@@ -1,4 +1,4 @@
-package argent_matter.gcyr.data.forge;
+package argent_matter.gcyr.data.tags;
 
 import argent_matter.gcyr.GCYR;
 import argent_matter.gcyr.common.data.worldgen.GCYRBiomes;

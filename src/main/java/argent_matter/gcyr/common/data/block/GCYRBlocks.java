@@ -10,6 +10,7 @@ import argent_matter.gcyr.common.data.item.GCYRCreativeModeTabs;
 import argent_matter.gcyr.common.data.client.GCYRModels;
 import argent_matter.gcyr.data.recipe.GCYRTags;
 
+import com.gregtechceu.gtceu.data.recipe.CustomTags;
 import com.gregtechceu.gtceu.utils.FormattingUtil;
 
 import net.minecraft.client.renderer.RenderType;
@@ -311,8 +312,8 @@ public class GCYRBlocks {
             .initialProperties(() -> Blocks.IRON_BLOCK)
             .lang("Airlock Door")
             .properties(p -> p.strength(4.0F, 6.0F))
-            .tag(GCYRTags.MINEABLE_WITH_WRENCH, BlockTags.MINEABLE_WITH_PICKAXE, GCYRTags.BLOCKS_FLOOD_FILL,
-                    BlockTags.DOORS)
+            .tag(CustomTags.MINEABLE_WITH_CONFIG_VALID_PICKAXE_WRENCH,
+                    GCYRTags.BLOCKS_FLOOD_FILL, BlockTags.DOORS)
             .blockstate(GCYRModels::airlockDoorModel)
             .loot((table, block) -> table.add(block, table.createDoorTable(block)))
             .item()
@@ -325,7 +326,7 @@ public class GCYRBlocks {
             .block("launch_pad", Block::new)
             .initialProperties(() -> Blocks.IRON_BLOCK)
             .lang("Launch Pad")
-            .tag(GCYRTags.MINEABLE_WITH_WRENCH, BlockTags.MINEABLE_WITH_PICKAXE)
+            .tag(CustomTags.MINEABLE_WITH_CONFIG_VALID_PICKAXE_WRENCH)
             .simpleItem()
             .register();
 
@@ -334,7 +335,7 @@ public class GCYRBlocks {
             .initialProperties(() -> Blocks.IRON_BLOCK)
             .lang("Seat")
             .blockstate(GCYRModels::seatModel)
-            .tag(GCYRTags.MINEABLE_WITH_WRENCH, BlockTags.MINEABLE_WITH_PICKAXE)
+            .tag(CustomTags.MINEABLE_WITH_CONFIG_VALID_PICKAXE_WRENCH)
             .simpleItem()
             .register();
 
@@ -366,7 +367,7 @@ public class GCYRBlocks {
                 .initialProperties(properties)
                 .addLayer(type)
                 .blockstate(GCYRModels.cubeAllModel(name, texture))
-                .tag(GCYRTags.MINEABLE_WITH_WRENCH, BlockTags.MINEABLE_WITH_PICKAXE)
+                .tag(CustomTags.MINEABLE_WITH_CONFIG_VALID_PICKAXE_WRENCH)
                 .simpleItem()
                 .register();
     }
@@ -377,7 +378,7 @@ public class GCYRBlocks {
                         (p) -> new FuelTankBlock(p, properties))
                 .initialProperties(() -> Blocks.IRON_BLOCK)
                 .lang("%s Fuel Tank".formatted(FormattingUtil.toEnglishName(properties.getSerializedName())))
-                .tag(GCYRTags.MINEABLE_WITH_WRENCH)
+                .tag(CustomTags.MINEABLE_WITH_CONFIG_VALID_PICKAXE_WRENCH)
                 .blockstate((ctx, prov) -> prov.axisBlock(ctx.getEntry()))
                 .simpleItem()
                 .register();
@@ -391,7 +392,7 @@ public class GCYRBlocks {
                 .initialProperties(() -> Blocks.IRON_BLOCK)
                 .lang("%s Rocket Motor".formatted(FormattingUtil.toEnglishName(type.getSerializedName())))
                 .blockstate((ctx, prov) -> GCYRModels.rocketMotorModel(ctx, prov, type))
-                .tag(GCYRTags.MINEABLE_WITH_WRENCH)
+                .tag(CustomTags.MINEABLE_WITH_CONFIG_VALID_PICKAXE_WRENCH)
                 .simpleItem()
                 .register();
         ALL_ROCKET_MOTORS.put(type, block);

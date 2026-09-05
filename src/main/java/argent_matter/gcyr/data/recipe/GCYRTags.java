@@ -26,7 +26,6 @@ public class GCYRTags {
     public static final TagKey<Block> INFINIBURN_SPACE = GCYRTagUtil.createModBlockTag("infiniburn_space");
     public static final TagKey<Block> BLOCKS_FLOOD_FILL = GCYRTagUtil.createModBlockTag("blocks_flood_fill");
     public static final TagKey<Block> PASSES_FLOOD_FILL = GCYRTagUtil.createModBlockTag("passes_flood_fill");
-    public static final TagKey<Block> MINEABLE_WITH_WRENCH = GCYRTagUtil.createBlockTag("mineable/wrench");
 
     // Fluid
     public static final TagKey<Fluid> VEHICLE_FUELS = GCYRTagUtil.createModFluidTag("vehicle_fuels");
