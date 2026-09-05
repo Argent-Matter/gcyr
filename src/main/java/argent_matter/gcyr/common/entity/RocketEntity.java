@@ -106,7 +106,7 @@ import java.util.*;
 import org.jetbrains.annotations.Nullable;
 
 public class RocketEntity extends Entity implements HasCustomInventoryScreen, IUIHolder, PlayerRideable,
-                          IEntityAdditionalSpawnData /* , IManaged, IAutoPersistEntity */ {
+                          IEntityAdditionalSpawnData {
 
     public static final Object2BooleanMap<Fluid> FUEL_CACHE = new Object2BooleanOpenHashMap<>();
 
