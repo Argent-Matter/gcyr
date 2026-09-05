@@ -142,7 +142,7 @@ public class GCYRBlocks {
 
     // region moon
 
-    private static final StoneVariant LUNAR_VARIANT = new StoneVariant(REGISTRATE, "moon", MapColor.COLOR_GRAY);
+    private static final StoneVariant LUNAR_VARIANT = new StoneVariant(REGISTRATE, "lunar", MapColor.COLOR_GRAY);
     public static final BlockSetType MOON_SET = LUNAR_VARIANT.blockSetType();
 
     public static final BlockEntry<Block> MOON_COBBLESTONE = LUNAR_VARIANT.cobblestone("Cobbled Lunar Stone")
@@ -180,7 +180,7 @@ public class GCYRBlocks {
             .simpleItem()
             .register();
 
-    public static final BlockEntry<FallingBlock> LUNAR_SAND = REGISTRATE
+    public static final BlockEntry<FallingBlock> MOON_SAND = REGISTRATE
             .block("lunar_sand", FallingBlock::new)
             .lang("Lunar Sand")
             .initialProperties(() -> Blocks.SAND)
