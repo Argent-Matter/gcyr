@@ -10,7 +10,7 @@ plugins {
 }
 
 group = project.properties.maven_group
-// Formats the mod version to include the loader, Minecraft version, and '-SNAPSHOT-<timestamp>' if enabled.
+// Formats the mod version to include '-SNAPSHOT' if enabled.
 boolean isSnapshot = System.getenv("SNAPSHOT")
 version = "${mod_version}" + (isSnapshot ? "-SNAPSHOT" : "")
 boolean isCI = System.getenv("CI") != null

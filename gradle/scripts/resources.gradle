@@ -2,9 +2,10 @@
 String suffix = System.getenv("VERSION_SUFFIX")
 String version_toml = "$version" + (suffix ? "+$suffix" : "")
 
-tasks.register('printVersion') {
+tasks.register('printVersions') {
     doLast {
-        println mod_version
+        println "mod-version=" + mod_version
+        println "mc-version=" + libs.versions.minecraft.get()
     }
 }
 
@@ -24,26 +25,28 @@ tasks.matching { it.name.startsWith('prepare') }.configureEach {
 // This block of code expands all declared replace properties in the specified resource targets.
 // A missing property will result in an error. Properties are expanded using ${} Groovy notation.
 var generateModMetadata = tasks.register("generateModMetadata", ProcessResources) {
-    var forgeVersion = libs.versions.forge.get()
-    forgeVersion = forgeVersion.substring(0, forgeVersion.indexOf('.'))
-
     var replaceProperties = [
             version             : version_toml,
             mod_id              : project.properties.mod_id,
             mod_license         : project.properties.mod_license,
             mod_name            : project.properties.mod_name,
+            mod_update_url      : project.properties.mod_update_url,
             mod_description     : project.properties.mod_description,
             mod_authors         : project.properties.mod_authors,
             mod_credits         : project.properties.mod_credits,
             mod_url             : project.properties.mod_url,
             mod_issue_tracker   : project.properties.mod_issue_tracker,
-            minecraft_version   : libs.versions.minecraft.get(),
+
             loader_version      : libs.versions.loader.get(),
-            forge_version       : forgeVersion,
-            gtceu_version       : deps.versions.gtceu.get(),
-            kjs_version         : deps.versions.kubejs.get().split("\\.")[0], // only specify major version of kjs
-            emi_version         : deps.versions.emi.get(),
-            jade_version        : deps.versions.jade.get(),
+            minecraft_version   : libs.versions.minecraft.get(),
+
+            forge_version       : libs.versions.forge.range.get(),
+            gtceu_version       : deps.versions.gtceu.range.get(),
+            kubejs_version      : deps.versions.kubejs.range.get(),
+            emi_version         : deps.versions.emi.range.get(),
+            jei_version         : deps.versions.jei.range.get(),
+            jade_version        : deps.versions.jade.range.get(),
+            curios_version      : deps.versions.curios.range.get(),
     ]
     inputs.properties replaceProperties
     expand replaceProperties

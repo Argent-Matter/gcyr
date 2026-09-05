@@ -2,7 +2,7 @@ import org.gradle.internal.os.OperatingSystem
 
 legacyForge {
     // Specify NeoForge version
-    version = libs.versions.minecraft.get() + '-' + libs.versions.forge.get()
+    version = libs.versions.minecraft.get() + '-' + libs.versions.forge.version.get()
 
     parchment {
         minecraftVersion = libs.versions.minecraft.get()
