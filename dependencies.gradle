@@ -14,8 +14,8 @@ dependencies {
     compileOnly(annotationProcessor(deps.mixinExtras.common.get()))
 
     // Recipe Viewers
-    modCompileOnly(deps.bundles.jei)
-    modCompileOnly(deps.emi)
+    modCompileOnly(deps.bundles.jei.api)
+    modCompileOnly(variantOf(deps.emi) { classifier("api") })
 
     // Curios
     modCompileOnly(variantOf(deps.curios) { classifier("api") })

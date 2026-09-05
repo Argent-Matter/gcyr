@@ -43,9 +43,9 @@ mixinExtras-forge   = { module = "io.github.llamalad7:mixinextras-forge", versio
 
 # Recipe viewers
 emi                 = { module = "dev.emi:emi-forge", version.ref = "emi" }
-jei-common-api      = { module = "mezz.jei:jei-1.20.1-common-api", version.ref = "jei" }
-jei-forge-api       = { module = "mezz.jei:jei-1.20.1-forge-api", version.ref = "jei" }
-jei-forge-impl      = { module = "mezz.jei:jei-1.20.1-forge", version.ref = "jei" }
+jei-api-common      = { module = "mezz.jei:jei-1.20.1-common-api", version.ref = "jei" }
+jei-api-forge       = { module = "mezz.jei:jei-1.20.1-forge-api", version.ref = "jei" }
+jei-impl            = { module = "mezz.jei:jei-1.20.1-forge", version.ref = "jei" }
 
 # WAILA-likes
 jade                = { module = "maven.modrinth:jade", version.ref = "jade" }
@@ -63,5 +63,5 @@ radium              = { module = "me.jellysquid.mods:radium", version.ref = "rad
 
 
 [bundles]
-jei = ["jei-common-api", "jei-forge-api", "jei-forge-impl"]
-kjs = ["kubejs", "rhino", "architectury"]
+jei-api = ["jei-api-common", "jei-api-forge"]
+kjs     = ["kubejs", "rhino", "architectury"]
