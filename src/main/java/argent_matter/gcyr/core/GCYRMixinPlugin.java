@@ -1,4 +1,4 @@
-package argent_matter.gcyr.mixin;
+package argent_matter.gcyr.core;
 
 import com.lowdragmc.lowdraglib.core.mixins.MixinPluginShared;
 
@@ -21,9 +21,9 @@ public class GCYRMixinPlugin implements IMixinConfigPlugin {
 
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
-        if (mixinClassName.contains("argent_matter.gcyr.mixin.EntityBorderMixin")) {
+        if (mixinClassName.contains("argent_matter.gcyr.core.mixin.EntityBorderMixin")) {
             return !MixinPluginShared.isClassFound("me.jellysquid.mods.lithium.common.LithiumMod");
-        } else if (mixinClassName.contains("argent_matter.gcyr.mixin.lithium")) {
+        } else if (mixinClassName.contains("argent_matter.gcyr.core.mixin.lithium")) {
             return MixinPluginShared.isClassFound("me.jellysquid.mods.lithium.common.LithiumMod");
         }
         return true;

@@ -1,4 +1,4 @@
-package argent_matter.gcyr.mixin;
+package argent_matter.gcyr.core.mixin;
 
 import argent_matter.gcyr.api.space.planet.Planet;
 import argent_matter.gcyr.api.syncdata.entity.IAutoPersistEntity;

@@ -1,4 +1,4 @@
-package argent_matter.gcyr.mixin.lithium;
+package argent_matter.gcyr.core.mixin.lithium;
 
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.shapes.VoxelShape;

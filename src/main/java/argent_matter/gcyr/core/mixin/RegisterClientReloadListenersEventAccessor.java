@@ -1,4 +1,4 @@
-package argent_matter.gcyr.mixin;
+package argent_matter.gcyr.core.mixin;
 
 import net.minecraft.server.packs.resources.ReloadableResourceManager;
 

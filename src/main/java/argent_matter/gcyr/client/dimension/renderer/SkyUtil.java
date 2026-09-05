@@ -1,7 +1,7 @@
 package argent_matter.gcyr.client.dimension.renderer;
 
 import argent_matter.gcyr.GCYRClient;
-import argent_matter.gcyr.mixin.LevelRendererAccessor;
+import argent_matter.gcyr.core.mixin.LevelRendererAccessor;
 
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;

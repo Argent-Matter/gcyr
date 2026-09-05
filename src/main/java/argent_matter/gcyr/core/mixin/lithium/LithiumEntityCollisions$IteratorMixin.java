@@ -1,4 +1,4 @@
-package argent_matter.gcyr.mixin.lithium;
+package argent_matter.gcyr.core.mixin.lithium;
 
 import argent_matter.gcyr.util.MixinHelpers;
 

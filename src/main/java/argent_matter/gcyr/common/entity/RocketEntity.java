@@ -20,7 +20,7 @@ import argent_matter.gcyr.common.item.StationContainerBehaviour;
 import argent_matter.gcyr.config.GCYRConfig;
 import argent_matter.gcyr.data.loader.PlanetData;
 import argent_matter.gcyr.data.recipe.GCYRTags;
-import argent_matter.gcyr.mixin.LivingEntityAccessor;
+import argent_matter.gcyr.core.mixin.LivingEntityAccessor;
 import argent_matter.gcyr.util.PlatformUtils;
 import argent_matter.gcyr.util.PosWithState;
 

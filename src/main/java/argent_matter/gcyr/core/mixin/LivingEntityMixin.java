@@ -1,4 +1,4 @@
-package argent_matter.gcyr.mixin;
+package argent_matter.gcyr.core.mixin;
 
 import argent_matter.gcyr.api.capability.IGpsTracked;
 import argent_matter.gcyr.common.entity.data.EntityOxygenSystem;
