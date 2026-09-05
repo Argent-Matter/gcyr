@@ -94,7 +94,7 @@ public class RocketScannerMachine extends PlatformMultiblockMachine implements I
         }
 
         textList.add(ComponentPanelWidget.withButton(
-                Component.translatable("gcyr.multiblock.rocket.build").withStyle(ChatFormatting.GREEN),
+                Component.translatable("multiblock.gcyr.rocket.build").withStyle(ChatFormatting.GREEN),
                 "build_rocket"));
     }
 

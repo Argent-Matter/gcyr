@@ -71,15 +71,15 @@ public class SpaceStationPackagerMachine extends PlatformMultiblockMachine {
         WidgetGroup buttons = new WidgetGroup(7, 16, 0, 0);
         buttons.addWidget(new ButtonWidget(0, 24 + 18, 80, 24,
                 new GuiTextureGroup(GuiTextures.BUTTON.copy().setColor(0xFFAA0000),
-                        new TextTexture("gcyr.multiblock.space_station.pack")),
+                        new TextTexture("multiblock.gcyr.space_station.pack")),
                 this::onBuildButtonClick));
         modularUI.widget(buttons);
 
         WidgetGroup slots = new WidgetGroup(128, 24, 0, 0);
         slots.addWidget(new SlotWidget(packageSlot, 0, 0, 0)
-                .setHoverTooltips(Component.translatable("gcyr.multiblock.space_station.package_slot.tooltip")));
+                .setHoverTooltips(Component.translatable("multiblock.gcyr.space_station.package_slot.tooltip")));
         slots.addWidget(new SlotWidget(keycardSlot, 0, 18, 0)
-                .setHoverTooltips(Component.translatable("gcyr.multiblock.space_station.keycard_slot.tooltip")));
+                .setHoverTooltips(Component.translatable("multiblock.gcyr.space_station.keycard_slot.tooltip")));
         slots.addWidget(new SlotWidget(outputSlots, 0, 0, 22, true, false));
         slots.addWidget(new SlotWidget(outputSlots, 1, 18, 22, true, false));
         modularUI.widget(slots);

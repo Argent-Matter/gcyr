@@ -34,7 +34,7 @@ public class SatelliteType<T extends Satellite> {
 
     public String toLangString() {
         ResourceLocation id = GCYRRegistries.SATELLITES.getKey(this);
-        return id.getNamespace() + ".satellite." + id.getPath();
+        return id.toLanguageKey("satellite");
     }
 
     @FunctionalInterface
