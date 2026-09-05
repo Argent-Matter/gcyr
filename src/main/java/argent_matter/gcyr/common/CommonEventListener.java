@@ -45,15 +45,14 @@ public class CommonEventListener {
 
     @SubscribeEvent
     public static void registerItemStackCapabilities(AttachCapabilitiesEvent<ItemStack> event) {
-        final ItemStack itemStack = event.getObject();
-        if (itemStack.is(Tags.Items.ARMORS_CHESTPLATES) && (itemStack.getItem() instanceof SpaceSuitArmorItem ||
-                itemStack.hasTag() && itemStack.getTag().getBoolean(SmithingSpaceSuitRecipe.SPACE_SUIT_ARMOR_KEY))) {
+        final ItemStack stack = event.getObject();
+        if (stack.is(Tags.Items.ARMORS_CHESTPLATES) && SpaceSuitArmorItem.isSpaceSuitItem(stack)) {
             event.addCapability(GCYR.id("spacesuit"), new ICapabilityProvider() {
 
                 @Override
                 public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> capability,
                                                                   @Nullable Direction arg) {
-                    return SpaceSuitArmorItem.getCapability(itemStack, capability);
+                    return SpaceSuitArmorItem.getCapability(stack, capability);
                 }
             });
         }

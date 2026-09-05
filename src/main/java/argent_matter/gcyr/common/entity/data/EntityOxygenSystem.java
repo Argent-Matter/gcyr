@@ -168,8 +168,7 @@ public class EntityOxygenSystem {
                 }
             }
         } catch (UnsupportedOperationException e) {
-            GCYR.LOGGER.error("Error deoxygenizing blocks");
-            e.printStackTrace();
+            GCYR.LOGGER.error("Error deoxygenizing blocks", e);
         }
     }
 

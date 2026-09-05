@@ -18,6 +18,7 @@ import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.fluids.capability.IFluidHandler;
@@ -39,19 +40,21 @@ public class SpaceSuitArmorItem extends ArmorItem {
         super(GCYRArmorMaterials.SPACE, type, properties);
     }
 
-    public static <T> LazyOptional<T> getCapability(@Nonnull final ItemStack itemStack,
+    public static <T> LazyOptional<T> getCapability(@Nonnull final ItemStack stack,
                                                     @Nonnull final Capability<T> cap) {
-        if (cap == ForgeCapabilities.FLUID_HANDLER_ITEM) {
-            return ForgeCapabilities.FLUID_HANDLER_ITEM.orEmpty(cap, LazyOptional
-                    .of(() -> new FluidHandlerItemStack(itemStack, Ints.saturatedCast(SpaceSuitArmorItem.CAPACITY)) {
+        return ForgeCapabilities.FLUID_HANDLER_ITEM.orEmpty(cap, LazyOptional
+                .of(() -> new FluidHandlerItemStack(stack, Ints.saturatedCast(SpaceSuitArmorItem.CAPACITY)) {
 
-                        @Override
-                        public boolean canFillFluidType(net.minecraftforge.fluids.FluidStack fluid) {
-                            return fluid.getFluid().builtInRegistryHolder().is(GCYRTags.OXYGEN);
-                        }
-                    }));
-        }
-        return LazyOptional.empty();
+                    @Override
+                    public boolean canFillFluidType(FluidStack fluid) {
+                        return fluid.getFluid().is(GCYRTags.OXYGEN);
+                    }
+                }));
+    }
+
+    public static boolean isSpaceSuitItem(ItemStack stack) {
+        return stack.getItem() instanceof SpaceSuitArmorItem ||
+                (stack.hasTag() && stack.getTag().getBoolean(SmithingSpaceSuitRecipe.SPACE_SUIT_ARMOR_KEY));
     }
 
     @Override
@@ -80,8 +83,7 @@ public class SpaceSuitArmorItem extends ArmorItem {
         int armorCount = 0;
         for (ItemStack stack : entity.getArmorSlots()) {
             slotCount++;
-            if (stack.getItem() instanceof SpaceSuitArmorItem ||
-                    stack.hasTag() && stack.getTag().getBoolean(SmithingSpaceSuitRecipe.SPACE_SUIT_ARMOR_KEY)) {
+            if (isSpaceSuitItem(stack)) {
                 armorCount++;
             }
         }
@@ -104,8 +106,7 @@ public class SpaceSuitArmorItem extends ArmorItem {
     }
 
     public static long oxygenAmount(ItemStack stack) {
-        if (stack.getItem() instanceof SpaceSuitArmorItem ||
-                stack.hasTag() && stack.getTag().getBoolean(SmithingSpaceSuitRecipe.SPACE_SUIT_ARMOR_KEY)) {
+        if (isSpaceSuitItem(stack)) {
             return FluidUtil.getFluidHandler(stack).map(h -> h.getFluidInTank(0).getAmount()).orElse(0);
         }
         return 0;
@@ -117,8 +118,7 @@ public class SpaceSuitArmorItem extends ArmorItem {
     }
 
     public static long oxygenMax(ItemStack stack) {
-        if (stack.getItem() instanceof SpaceSuitArmorItem ||
-                stack.hasTag() && stack.getTag().getBoolean(SmithingSpaceSuitRecipe.SPACE_SUIT_ARMOR_KEY)) {
+        if (isSpaceSuitItem(stack)) {
             return FluidUtil.getFluidHandler(stack).map(h -> h.getTankCapacity(0)).orElse(0);
         }
         return 0;
@@ -126,11 +126,8 @@ public class SpaceSuitArmorItem extends ArmorItem {
 
     public static void consumeSpaceSuitOxygen(LivingEntity entity, int amount) {
         ItemStack chest = entity.getItemBySlot(EquipmentSlot.CHEST);
-        if (chest.getItem() instanceof SpaceSuitArmorItem ||
-                chest.hasTag() && chest.getTag().getBoolean(SmithingSpaceSuitRecipe.SPACE_SUIT_ARMOR_KEY)) {
-            var storage = new ItemStackTransfer(chest);
-            FluidUtil.getFluidHandler(storage.getStackInSlot(0))
-                    .ifPresent(h -> h.drain(amount, IFluidHandler.FluidAction.EXECUTE));
+        if (isSpaceSuitItem(chest)) {
+            FluidUtil.getFluidHandler(chest).ifPresent(h -> h.drain(amount, IFluidHandler.FluidAction.EXECUTE));
         }
     }
 
