@@ -31,20 +31,14 @@ import net.minecraftforge.fluids.FluidStack;
 public class RocketFuelRecipe implements Recipe<Container> {
 
     // spotless:off
-    private static final Codec<InclusiveRange<Integer>> RANGE_CODEC = Codec.either(InclusiveRange.codec(Codec.INT, 0, Integer.MAX_VALUE), ExtraCodecs.NON_NEGATIVE_INT)
-            .comapFlatMap(either -> {
-                return either.map(DataResult::success, min -> InclusiveRange.create(min, Integer.MAX_VALUE));
-            }, range -> {
-                if (range.maxInclusive() == Integer.MAX_VALUE) return Either.right(range.minInclusive());
-                else return Either.left(range);
-            });
-    private static final InclusiveRange<Integer> ANY_TIER = new InclusiveRange<>(0, Integer.MAX_VALUE);
+    private static final Codec<InclusiveRange<Integer>> RANGE_CODEC = InclusiveRange.codec(Codec.INT, 0, Integer.MAX_VALUE);
+    public static final InclusiveRange<Integer> ANY_TIER = new InclusiveRange<>(0, Integer.MAX_VALUE);
 
     public static final MapCodec<RocketFuelRecipe> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             IdContextOps.retrieveId().forGetter(RocketFuelRecipe::getId), // remove in 1.21
             FluidIngredient.CODEC.fieldOf("fuel").forGetter(RocketFuelRecipe::getFuel),
             ExtraCodecs.POSITIVE_FLOAT.fieldOf("specific_energy").forGetter(RocketFuelRecipe::getSpecificEnergy),
-            RANGE_CODEC.optionalFieldOf("valid_rocket_tiers", ANY_TIER).forGetter(RocketFuelRecipe::getValidRocketTiers)
+            RANGE_CODEC.fieldOf("valid_rocket_tiers").forGetter(RocketFuelRecipe::getValidRocketTiers)
     ).apply(instance, RocketFuelRecipe::new));
     // spotless:on
 
