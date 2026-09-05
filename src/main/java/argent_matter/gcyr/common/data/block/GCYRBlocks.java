@@ -27,7 +27,7 @@ import net.minecraftforge.common.Tags;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import com.tterrag.registrate.util.nullness.NonNullSupplier;
 
-import java.util.HashMap;
+import java.util.IdentityHashMap;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -299,13 +299,13 @@ public class GCYRBlocks {
             .register();
 
     // region rocket stuff
-    public static final Map<IRocketMotorType, Supplier<RocketMotorBlock>> ALL_ROCKET_MOTORS = new HashMap<>();
-    public static final BlockEntry<RocketMotorBlock> BASIC_ROCKET_MOTOR = createRocketMotor(
-            RocketMotorBlock.RocketMotorType.BASIC);
-    public static final BlockEntry<RocketMotorBlock> ADVANCED_ROCKET_MOTOR = createRocketMotor(
-            RocketMotorBlock.RocketMotorType.ADVANCED);
-    public static final BlockEntry<RocketMotorBlock> ELITE_ROCKET_MOTOR = createRocketMotor(
-            RocketMotorBlock.RocketMotorType.ELITE);
+    // spotless:off
+    public static final Map<IRocketMotorType, Supplier<RocketMotorBlock>> ALL_ROCKET_MOTORS = new IdentityHashMap<>();
+
+    public static final BlockEntry<RocketMotorBlock> BASIC_ROCKET_MOTOR = createRocketMotor(RocketMotorBlock.RocketMotorType.BASIC);
+    public static final BlockEntry<RocketMotorBlock> ADVANCED_ROCKET_MOTOR = createRocketMotor(RocketMotorBlock.RocketMotorType.ADVANCED);
+    public static final BlockEntry<RocketMotorBlock> ELITE_ROCKET_MOTOR = createRocketMotor(RocketMotorBlock.RocketMotorType.ELITE);
+    // spotless:on
 
     public static final BlockEntry<DoorBlock> AIRLOCK_DOOR = REGISTRATE
             .block("airlock_door", properties -> new DoorBlock(properties, BlockSetType.IRON))
@@ -339,13 +339,13 @@ public class GCYRBlocks {
             .simpleItem()
             .register();
 
-    public static final Map<IFuelTankProperties, Supplier<FuelTankBlock>> ALL_FUEL_TANKS = new HashMap<>();
-    public static final BlockEntry<FuelTankBlock> BASIC_FUEL_TANK = createFuelTank(
-            FuelTankBlock.FuelTankProperties.BASIC);
-    public static final BlockEntry<FuelTankBlock> ADVANCED_FUEL_TANK = createFuelTank(
-            FuelTankBlock.FuelTankProperties.ADVANCED);
-    public static final BlockEntry<FuelTankBlock> ELITE_FUEL_TANK = createFuelTank(
-            FuelTankBlock.FuelTankProperties.ELITE);
+    // spotless:off
+    public static final Map<IFuelTankProperties, Supplier<FuelTankBlock>> ALL_FUEL_TANKS = new IdentityHashMap<>();
+
+    public static final BlockEntry<FuelTankBlock> BASIC_FUEL_TANK = createFuelTank(FuelTankBlock.FuelTankProperties.BASIC);
+    public static final BlockEntry<FuelTankBlock> ADVANCED_FUEL_TANK = createFuelTank(FuelTankBlock.FuelTankProperties.ADVANCED);
+    public static final BlockEntry<FuelTankBlock> ELITE_FUEL_TANK = createFuelTank(FuelTankBlock.FuelTankProperties.ELITE);
+    // spotless:on
 
     // endregion
 
