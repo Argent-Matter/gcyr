@@ -2,9 +2,11 @@ package argent_matter.gcyr.common.data.recipe;
 
 import argent_matter.gcyr.GCYR;
 import argent_matter.gcyr.common.recipe.type.RocketFuelRecipe;
+
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
+
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;

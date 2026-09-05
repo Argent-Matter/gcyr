@@ -5,25 +5,29 @@ import argent_matter.gcyr.common.data.item.GCYRItems;
 import argent_matter.gcyr.common.data.recipe.GCYRRecipeTypes;
 import argent_matter.gcyr.common.recipe.type.RocketFuelRecipe;
 import argent_matter.gcyr.integration.recipeviewer.RocketFuelRecipeDisplay;
+
 import brachy.modularui.integration.jei.ModularUIJeiPlugin;
 import brachy.modularui.integration.jei.recipe.ModularUIJeiCategory;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.world.item.crafting.RecipeManager;
+
 import mezz.jei.api.forge.ForgeTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
-import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.registration.IRecipeRegistration;
-import net.minecraft.client.Minecraft;
-import net.minecraft.world.item.crafting.RecipeManager;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
+
+import org.jetbrains.annotations.Nullable;
 
 @SuppressWarnings("UnstableApiUsage")
 public class RocketFuelJeiCategory extends ModularUIJeiCategory<RocketFuelRecipe> {
 
-    public static final RecipeType<RocketFuelRecipe> RECIPE_TYPE = new RecipeType<>(GCYR.id("rocket_fuel"), RocketFuelRecipe.class);
+    public static final RecipeType<RocketFuelRecipe> RECIPE_TYPE = new RecipeType<>(GCYR.id("rocket_fuel"),
+            RocketFuelRecipe.class);
     public static final RocketFuelJeiCategory CATEGORY = new RocketFuelJeiCategory();
 
     private RocketFuelJeiCategory() {

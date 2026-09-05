@@ -1,12 +1,14 @@
 package argent_matter.gcyr.api.data;
 
-import com.mojang.serialization.DataResult;
-import com.mojang.serialization.DynamicOps;
-import com.mojang.serialization.MapCodec;
-import lombok.Getter;
 import net.minecraft.resources.DelegatingOps;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.ExtraCodecs;
+
+import com.mojang.serialization.DataResult;
+import com.mojang.serialization.DynamicOps;
+import com.mojang.serialization.MapCodec;
+
+import lombok.Getter;
 
 public class IdContextOps<T> extends DelegatingOps<T> {
 

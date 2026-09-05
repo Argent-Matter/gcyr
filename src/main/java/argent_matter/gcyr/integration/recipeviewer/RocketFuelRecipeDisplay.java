@@ -3,6 +3,8 @@ package argent_matter.gcyr.integration.recipeviewer;
 import argent_matter.gcyr.api.mui.drawable.GCYRGuiTextures;
 import argent_matter.gcyr.common.recipe.type.RocketFuelRecipe;
 
+import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
+
 import brachy.modularui.api.drawable.Text;
 import brachy.modularui.api.widget.IWidget;
 import brachy.modularui.drawable.GuiTextures;
@@ -17,11 +19,12 @@ import brachy.modularui.utils.FormattingUtil;
 import brachy.modularui.value.DoubleValue;
 import brachy.modularui.widgets.ProgressWidget;
 import brachy.modularui.widgets.layout.Flow;
-import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
+
 import net.minecraftforge.fluids.FluidStack;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
+
+import org.jetbrains.annotations.NotNull;
 
 public final class RocketFuelRecipeDisplay {
 
@@ -55,7 +58,6 @@ public final class RocketFuelRecipeDisplay {
                         .child(specificEnergyText.asWidget()))
                 .child(tierRangeText.asWidget());
         return panel.child(recipeUI);
-
     }
 
     private static @NotNull ModularComponent getTierRangeText(RocketFuelRecipe recipe) {

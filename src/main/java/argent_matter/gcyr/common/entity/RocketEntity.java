@@ -36,8 +36,8 @@ import com.gregtechceu.gtceu.api.gui.widget.TankWidget;
 import com.gregtechceu.gtceu.api.item.ComponentItem;
 import com.gregtechceu.gtceu.api.item.component.IItemComponent;
 import com.gregtechceu.gtceu.api.transfer.fluid.CustomFluidTank;
-
 import com.gregtechceu.gtceu.utils.FluidStackHashStrategy;
+
 import com.lowdragmc.lowdraglib.gui.modular.IUIHolder;
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
 import com.lowdragmc.lowdraglib.gui.texture.GuiTextureGroup;
@@ -48,7 +48,6 @@ import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.SlotWidget;
 import com.lowdragmc.lowdraglib.misc.ItemStackTransfer;
 
-import it.unimi.dsi.fastutil.objects.*;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -96,6 +95,7 @@ import net.minecraftforge.network.NetworkHooks;
 import com.mojang.datafixers.util.Pair;
 
 import com.google.common.collect.Sets;
+import it.unimi.dsi.fastutil.objects.*;
 
 import java.util.*;
 
@@ -105,7 +105,8 @@ import org.jetbrains.annotations.Nullable;
 public class RocketEntity extends Entity implements HasCustomInventoryScreen, IUIHolder, PlayerRideable,
                           IEntityAdditionalSpawnData {
 
-    private static final Object2ObjectMap<FluidStack, RocketFuelRecipe> FUEL_CACHE = new Object2ObjectOpenCustomHashMap<>(FluidStackHashStrategy.comparingAllButAmount());
+    private static final Object2ObjectMap<FluidStack, RocketFuelRecipe> FUEL_CACHE = new Object2ObjectOpenCustomHashMap<>(
+            FluidStackHashStrategy.comparingAllButAmount());
 
     // spotless:off
     public static final EntityDataAccessor<Boolean> ROCKET_STARTED = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializers.BOOLEAN);
@@ -1003,7 +1004,8 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         this.configSlot.deserializeNBT(compound.getCompound("config"));
         this.returnToStart = compound.getBoolean("returnToStart");
         if (compound.contains("satelliteToLaunch")) {
-            this.satelliteToLaunch = GCYRRegistries.SATELLITES.get(ResourceLocation.parse(compound.getString("satelliteToLaunch")));
+            this.satelliteToLaunch = GCYRRegistries.SATELLITES
+                    .get(ResourceLocation.parse(compound.getString("satelliteToLaunch")));
         }
         this.setThrusterCount(compound.getInt("thrusterCount"));
         this.setStartTimer(compound.getInt("startTimer"));

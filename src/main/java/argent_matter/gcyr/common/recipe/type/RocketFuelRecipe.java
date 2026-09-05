@@ -4,16 +4,9 @@ import argent_matter.gcyr.GCYR;
 import argent_matter.gcyr.api.data.IdContextOps;
 import argent_matter.gcyr.common.data.recipe.GCYRRecipeSerializers;
 import argent_matter.gcyr.common.data.recipe.GCYRRecipeTypes;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
+
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
-import com.mojang.datafixers.util.Either;
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.DataResult;
-import com.mojang.serialization.JsonOps;
-import com.mojang.serialization.MapCodec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
-import lombok.Getter;
+
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -25,7 +18,17 @@ import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
+
 import net.minecraftforge.fluids.FluidStack;
+
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.JsonOps;
+import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import lombok.Getter;
 
 // this should be a data map, but those don't exist in lexforge, so it's a recipe.
 public class RocketFuelRecipe implements Recipe<Container> {

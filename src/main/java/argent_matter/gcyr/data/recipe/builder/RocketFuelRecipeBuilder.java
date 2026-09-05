@@ -3,12 +3,9 @@ package argent_matter.gcyr.data.recipe.builder;
 import argent_matter.gcyr.GCYR;
 import argent_matter.gcyr.common.data.recipe.GCYRRecipeSerializers;
 import argent_matter.gcyr.common.recipe.type.RocketFuelRecipe;
-import com.google.common.base.Preconditions;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
+
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
-import com.mojang.serialization.JsonOps;
-import lombok.Getter;
+
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
@@ -17,11 +14,19 @@ import net.minecraft.util.GsonHelper;
 import net.minecraft.util.InclusiveRange;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.material.Fluid;
-import org.jetbrains.annotations.Nullable;
+
+import com.mojang.serialization.JsonOps;
+
+import com.google.common.base.Preconditions;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import lombok.Getter;
 
 import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
+
+import org.jetbrains.annotations.Nullable;
 
 public class RocketFuelRecipeBuilder {
 
@@ -32,7 +37,8 @@ public class RocketFuelRecipeBuilder {
 
     private @Nullable ResourceLocation defaultId;
 
-    private RocketFuelRecipeBuilder(FluidIngredient fuel, float specificEnergy, InclusiveRange<Integer> validRocketTiers) {
+    private RocketFuelRecipeBuilder(FluidIngredient fuel, float specificEnergy,
+                                    InclusiveRange<Integer> validRocketTiers) {
         this.fuel = fuel;
         this.specificEnergy = specificEnergy;
         this.validRocketTiers = validRocketTiers;

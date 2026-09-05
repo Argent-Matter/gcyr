@@ -5,11 +5,14 @@ import argent_matter.gcyr.common.data.item.GCYRItems;
 import argent_matter.gcyr.common.data.recipe.GCYRRecipeTypes;
 import argent_matter.gcyr.common.recipe.type.RocketFuelRecipe;
 import argent_matter.gcyr.integration.recipeviewer.RocketFuelRecipeDisplay;
+
+import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
+
 import brachy.modularui.integration.emi.EmiStackConverter;
 import brachy.modularui.integration.emi.recipe.ModularUIEmiCategory;
 import brachy.modularui.integration.emi.recipe.ModularUIEmiRecipe;
 import brachy.modularui.integration.recipeviewer.entry.fluid.FluidEntryList;
-import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
+
 import dev.emi.emi.api.EmiRegistry;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.stack.EmiIngredient;

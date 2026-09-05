@@ -2,11 +2,13 @@ package argent_matter.gcyr.integration.jei;
 
 import argent_matter.gcyr.GCYR;
 import argent_matter.gcyr.integration.jei.recipe.RocketFuelJeiCategory;
+
+import net.minecraft.resources.ResourceLocation;
+
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
-import net.minecraft.resources.ResourceLocation;
 
 @JeiPlugin
 public class GCYRJeiPlugin implements IModPlugin {
