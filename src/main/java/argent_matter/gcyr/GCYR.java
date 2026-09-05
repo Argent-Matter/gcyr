@@ -69,7 +69,7 @@ public class GCYR {
         GCYRRecipeSerializers.register(modBus);
 
         GCYR.init();
-        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> GCYRClient::init);
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> GCYRClient.init(modBus));
     }
 
     public static void init() {

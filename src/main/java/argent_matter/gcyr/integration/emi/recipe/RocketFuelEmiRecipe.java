@@ -31,7 +31,7 @@ public class RocketFuelEmiRecipe extends ModularUIEmiRecipe {
     private final List<EmiIngredient> inputs;
 
     public RocketFuelEmiRecipe(RocketFuelRecipe recipe) {
-        super(recipe.getId(), 152, 32, () -> RocketFuelRecipeDisplay.createWidgetForRecipe(recipe));
+        super(recipe.getId(), () -> RocketFuelRecipeDisplay.createWidgetForRecipe(recipe));
 
         this.inputs = List.of(toEmiIngredient(recipe.getFuel()));
     }

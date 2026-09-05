@@ -1,6 +1,7 @@
 package argent_matter.gcyr.integration.recipeviewer;
 
 import argent_matter.gcyr.api.mui.drawable.GCYRGuiTextures;
+import argent_matter.gcyr.api.mui.theme.GCYRThemes;
 import argent_matter.gcyr.common.recipe.type.RocketFuelRecipe;
 
 import com.gregtechceu.gtceu.api.recipe.ingredient.FluidIngredient;
@@ -24,8 +25,6 @@ import net.minecraftforge.fluids.FluidStack;
 
 import java.util.Arrays;
 
-import org.jetbrains.annotations.NotNull;
-
 public final class RocketFuelRecipeDisplay {
 
     private RocketFuelRecipeDisplay() {}
@@ -33,8 +32,9 @@ public final class RocketFuelRecipeDisplay {
     @SuppressWarnings("UnstableApiUsage")
     public static IWidget createWidgetForRecipe(RocketFuelRecipe recipe) {
         var panel = new ModularPanel<>("recipe_viewer_recipe")
-                .coverChildren(152, 32)
-                .invisible();
+                .width(152).coverChildrenHeight(42)
+                .invisible()
+                .widgetTheme(GCYRThemes.PANEL_LIGHT_TEXT);
 
         ModularComponent specificEnergyText = Text.lang("gcyr.recipe.rocket_fuel.specific_energy",
                 FormattingUtil.DECIMAL_FORMAT_1F.format(recipe.getSpecificEnergy()));
@@ -44,8 +44,9 @@ public final class RocketFuelRecipeDisplay {
                 .coverChildren()
                 .childPadding(2)
                 .child(Flow.row().name("slots")
-                        .coverChildren()
-                        .childPadding(2)
+                        .coverChildren(152, 8)
+                        .horizontalCenter()
+                        .childPadding(8)
                         .child(RecipeViewerSlotWidget.create(FluidStack.class)
                                 .size(18)
                                 .recipeSlotRole(RecipeSlotRole.INPUT)
@@ -54,13 +55,15 @@ public final class RocketFuelRecipeDisplay {
                         .child(new ProgressWidget()
                                 .value(DoubleValue.simulateProgress((int) (recipe.getSpecificEnergy() * 1000f)))
                                 .size(20)
-                                .texture(GCYRGuiTextures.PROGRESS_BAR_ROCKET, ProgressDrawable.Direction.RIGHT))
-                        .child(specificEnergyText.asWidget()))
-                .child(tierRangeText.asWidget());
+                                .texture(GCYRGuiTextures.PROGRESS_BAR_ROCKET, ProgressDrawable.Direction.RIGHT)))
+                .child(specificEnergyText.asWidget().maxWidth(152)
+                        .leftRel(0.0f))
+                .child(tierRangeText.asWidget().maxWidth(152)
+                        .leftRel(0.0f));
         return panel.child(recipeUI);
     }
 
-    private static @NotNull ModularComponent getTierRangeText(RocketFuelRecipe recipe) {
+    private static ModularComponent getTierRangeText(RocketFuelRecipe recipe) {
         ModularComponent tierRangeText;
 
         var tierRange = recipe.getValidRocketTiers();

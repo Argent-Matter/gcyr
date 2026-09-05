@@ -41,7 +41,7 @@ public class RocketFuelJeiCategory extends ModularUIJeiCategory<RocketFuelRecipe
 
     @Override
     public int getMaxHeight() {
-        return 32;
+        return 52;
     }
 
     @Override
