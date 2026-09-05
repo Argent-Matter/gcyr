@@ -1,7 +1,7 @@
 package argent_matter.gcyr.common.networking.c2s;
 
 import argent_matter.gcyr.common.data.item.GCYRItems;
-import argent_matter.gcyr.common.item.PlanetIdChipBehaviour;
+import argent_matter.gcyr.common.item.behaviour.PlanetIdChipBehaviour;
 
 import com.lowdragmc.lowdraglib.networking.IHandlerContext;
 import com.lowdragmc.lowdraglib.networking.IPacket;

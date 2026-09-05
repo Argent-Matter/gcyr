@@ -1,5 +1,6 @@
 package argent_matter.gcyr.common.item.armor;
 
+import argent_matter.gcyr.common.data.item.GCYRArmorMaterials;
 import argent_matter.gcyr.common.recipe.type.SmithingSpaceSuitRecipe;
 
 import com.gregtechceu.gtceu.common.data.GTMaterials;

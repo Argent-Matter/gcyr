@@ -3,7 +3,7 @@ package argent_matter.gcyr.common.machine.multiblock;
 import argent_matter.gcyr.common.data.entity.GCYREntities;
 import argent_matter.gcyr.common.data.item.GCYRItems;
 import argent_matter.gcyr.common.entity.RocketEntity;
-import argent_matter.gcyr.common.item.PlanetIdChipBehaviour;
+import argent_matter.gcyr.common.item.behaviour.PlanetIdChipBehaviour;
 
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;

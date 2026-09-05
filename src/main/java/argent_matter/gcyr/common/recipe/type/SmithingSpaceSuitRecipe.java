@@ -2,8 +2,8 @@ package argent_matter.gcyr.common.recipe.type;
 
 import argent_matter.gcyr.common.data.item.GCYRItems;
 import argent_matter.gcyr.common.data.recipe.GCYRVanillaRecipeTypes;
-import argent_matter.gcyr.common.item.armor.trim.GCYRTrimMaterials;
-import argent_matter.gcyr.common.item.armor.trim.GCYRTrimPatterns;
+import argent_matter.gcyr.common.data.item.GCYRTrimMaterials;
+import argent_matter.gcyr.common.data.item.GCYRTrimPatterns;
 
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;

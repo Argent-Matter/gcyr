@@ -1,7 +1,6 @@
-package argent_matter.gcyr.common.item.armor.trim;
+package argent_matter.gcyr.common.data.item;
 
 import argent_matter.gcyr.GCYR;
-import argent_matter.gcyr.common.data.item.GCYRItems;
 
 import net.minecraft.Util;
 import net.minecraft.core.registries.BuiltInRegistries;

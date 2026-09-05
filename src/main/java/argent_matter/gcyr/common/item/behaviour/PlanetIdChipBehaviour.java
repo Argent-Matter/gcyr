@@ -1,4 +1,4 @@
-package argent_matter.gcyr.common.item;
+package argent_matter.gcyr.common.item.behaviour;
 
 import argent_matter.gcyr.api.space.planet.Planet;
 import argent_matter.gcyr.api.space.station.SpaceStation;
