@@ -16,7 +16,6 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
@@ -25,7 +24,6 @@ import net.minecraft.world.level.material.MapColor;
 import net.minecraftforge.common.Tags;
 
 import com.tterrag.registrate.util.entry.BlockEntry;
-import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
 import com.tterrag.registrate.util.nullness.NonNullSupplier;
 
 import java.util.HashMap;
@@ -190,9 +188,8 @@ public class GCYRBlocks {
             .initialProperties(() -> Blocks.SAND)
             .properties(properties -> properties.mapColor(MapColor.STONE))
             .tag(BlockTags.MINEABLE_WITH_SHOVEL, BlockTags.SAND)
-            .blockstate(NonNullBiConsumer.noop())
-            .item()
-            .build()
+            .blockstate(GCYRModels::lunarSandModel)
+            .simpleItem()
             .register();
 
     // region mars
@@ -334,7 +331,6 @@ public class GCYRBlocks {
             .block("launch_pad", Block::new)
             .initialProperties(() -> Blocks.IRON_BLOCK)
             .lang("Launch Pad")
-            .defaultBlockstate()
             .tag(GCYRTags.MINEABLE_WITH_WRENCH, BlockTags.MINEABLE_WITH_PICKAXE)
             .simpleItem()
             .register();
@@ -377,8 +373,7 @@ public class GCYRBlocks {
                 .addLayer(type)
                 .blockstate(GCYRModels.cubeAllModel(name, texture))
                 .tag(GCYRTags.MINEABLE_WITH_WRENCH, BlockTags.MINEABLE_WITH_PICKAXE)
-                .item(BlockItem::new)
-                .build()
+                .simpleItem()
                 .register();
     }
 
@@ -388,8 +383,8 @@ public class GCYRBlocks {
                         (p) -> new FuelTankBlock(p, properties))
                 .initialProperties(() -> Blocks.IRON_BLOCK)
                 .lang("%s Fuel Tank".formatted(FormattingUtil.toEnglishName(properties.getSerializedName())))
-                .blockstate(GCYRModels::fuelTankModel)
                 .tag(GCYRTags.MINEABLE_WITH_WRENCH)
+                .blockstate((ctx, prov) -> prov.axisBlock(ctx.getEntry()))
                 .simpleItem()
                 .register();
         ALL_FUEL_TANKS.put(properties, block);

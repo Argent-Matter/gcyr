@@ -168,8 +168,8 @@ public class GCYRItems {
                             GCYR.id("smithing_template.space_suit_thermal_upgrade.additions_slot_description"))),
                     SmithingTemplateItem.createTrimmableArmorIconList(),
                     List.of(
-                            new ResourceLocation(GCYR.MOD_ID, "item/empty_slot_heat_shielding_fabric"),
-                            new ResourceLocation(GCYR.MOD_ID, "item/empty_slot_insulating_fabric"))))
+                            GCYR.id("item/empty_slot_heat_shielding_fabric"),
+                            GCYR.id("item/empty_slot_insulating_fabric"))))
             .setData(ProviderType.LANG, NonNullBiConsumer.noop())
             .register();
 
