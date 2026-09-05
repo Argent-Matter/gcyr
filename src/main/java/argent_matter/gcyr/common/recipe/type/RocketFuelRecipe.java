@@ -54,6 +54,9 @@ public class RocketFuelRecipe implements Recipe<Container> {
     // it's an ingredient so it supports tags/components/etc.
     @Getter
     private final FluidIngredient fuel;
+    /**
+     * Specific energy in MJ/mB (e.g. MJ/L in real life units)
+     */
     @Getter
     private final float specificEnergy;
     @Getter
