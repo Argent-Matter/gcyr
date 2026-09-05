@@ -32,6 +32,7 @@ dependencies {
 
     // Runtime Recipe Viewers //
     modLocalRuntime(deps.emi)
+    modLocalRuntime(deps.jei.impl)
 
     // Testing
     modCompileOnly(deps.radium)

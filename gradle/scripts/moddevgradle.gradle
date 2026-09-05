@@ -36,9 +36,6 @@ legacyForge {
         "${project.properties.mod_id}" {
             sourceSet(sourceSets.main)
             sourceSet(sourceSets.client)
-            sourceSet(sourceSets.test)
-            sourceSet(sourceSets.extra)
-            sourceSet(sourceSets.clientExtra)
         }
     }
     // Default run configurations.

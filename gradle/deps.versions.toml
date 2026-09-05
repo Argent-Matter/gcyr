@@ -3,30 +3,29 @@
 gtceu = "7.5.1"
 ldlib = "1.0.40.b"
 registrate = "MC1.20-1.3.11"
-
 # Configuration
-configuration = "2.2.0"
+configuration = "3.1.0-forge"
 
 # Mixin Extras
 mixinExtras = "0.5.0-rc.3"
 
 # Recipe viewers
-emi = "1.1.22+1.20.1"
-jei = "15.20.0.129"
+emi = "1.1.24+1.20.1"
+jei = "15.57.0.208"
 
 # Curios
 curios = "5.14.1+1.20.1"
 
 # KJS
-kubejs = "2001.6.5-build.16"
+kubejs = "2001.6.5-build.26"
 rhino = "2001.2.3-build.10"
 architectury = "9.2.14"
 
 # WAILA-likes
-jade = "11.13.2+forge" # modrinth maven
+jade = "11.13.3+forge" # modrinth maven
 
 # Radium
-radium = "0.12.2+git.5f80f74"
+radium = "0.12.4+git.26c9d8e"
 
 [libraries]
 # GregTech
@@ -35,7 +34,7 @@ ldlib               = { module = "com.lowdragmc.ldlib:ldlib-forge-1.20.1", versi
 registrate          = { module = "com.tterrag.registrate:Registrate", version.ref = "registrate" }
 
 # Configuration
-configuration       = { module = "dev.toma.configuration:configuration-forge-1.20.1", version.ref = "configuration" }
+configuration       = { module = "dev.toma.configuration:configuration-1.20.1", version.ref = "configuration" }
 
 # Mixin Extras
 
