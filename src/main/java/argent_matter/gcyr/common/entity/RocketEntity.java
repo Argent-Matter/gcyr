@@ -22,6 +22,7 @@ import argent_matter.gcyr.common.item.behaviour.KeyCardBehaviour;
 import argent_matter.gcyr.common.item.behaviour.PlanetIdChipBehaviour;
 import argent_matter.gcyr.common.item.behaviour.SatelliteItemBehaviour;
 import argent_matter.gcyr.common.item.behaviour.StationContainerBehaviour;
+import argent_matter.gcyr.common.recipe.type.RocketFuelRecipe;
 import argent_matter.gcyr.config.GCYRConfig;
 import argent_matter.gcyr.core.mixin.LivingEntityAccessor;
 import argent_matter.gcyr.data.loader.PlanetData;
@@ -29,16 +30,14 @@ import argent_matter.gcyr.util.PlatformUtils;
 import argent_matter.gcyr.util.PosWithState;
 
 import com.gregtechceu.gtceu.api.GTValues;
-import com.gregtechceu.gtceu.api.capability.recipe.FluidRecipeCapability;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.gui.UITemplate;
 import com.gregtechceu.gtceu.api.gui.widget.TankWidget;
 import com.gregtechceu.gtceu.api.item.ComponentItem;
 import com.gregtechceu.gtceu.api.item.component.IItemComponent;
-import com.gregtechceu.gtceu.api.recipe.GTRecipe;
-import com.gregtechceu.gtceu.api.recipe.RecipeHelper;
 import com.gregtechceu.gtceu.api.transfer.fluid.CustomFluidTank;
 
+import com.gregtechceu.gtceu.utils.FluidStackHashStrategy;
 import com.lowdragmc.lowdraglib.gui.modular.IUIHolder;
 import com.lowdragmc.lowdraglib.gui.modular.ModularUI;
 import com.lowdragmc.lowdraglib.gui.texture.GuiTextureGroup;
@@ -49,6 +48,7 @@ import com.lowdragmc.lowdraglib.gui.widget.LabelWidget;
 import com.lowdragmc.lowdraglib.gui.widget.SlotWidget;
 import com.lowdragmc.lowdraglib.misc.ItemStackTransfer;
 
+import it.unimi.dsi.fastutil.objects.*;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -84,7 +84,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.dimension.DimensionType;
-import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
@@ -97,114 +96,97 @@ import net.minecraftforge.network.NetworkHooks;
 import com.mojang.datafixers.util.Pair;
 
 import com.google.common.collect.Sets;
-import it.unimi.dsi.fastutil.objects.Object2BooleanMap;
-import it.unimi.dsi.fastutil.objects.Object2BooleanOpenHashMap;
-import it.unimi.dsi.fastutil.objects.Object2IntMap;
-import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 
 import java.util.*;
 
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
 public class RocketEntity extends Entity implements HasCustomInventoryScreen, IUIHolder, PlayerRideable,
                           IEntityAdditionalSpawnData {
 
-    public static final Object2BooleanMap<Fluid> FUEL_CACHE = new Object2BooleanOpenHashMap<>();
+    private static final Object2ObjectMap<FluidStack, RocketFuelRecipe> FUEL_CACHE = new Object2ObjectOpenCustomHashMap<>(FluidStackHashStrategy.comparingAllButAmount());
 
-    // protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(RocketEntity.class);
-    public static final EntityDataAccessor<Boolean> ROCKET_STARTED = SynchedEntityData.defineId(RocketEntity.class,
-            EntityDataSerializers.BOOLEAN);
-    public static final EntityDataAccessor<Integer> FUEL_CAPACITY = SynchedEntityData.defineId(RocketEntity.class,
-            EntityDataSerializers.INT);
-    public static final EntityDataAccessor<Integer> FUEL_AMOUNT = SynchedEntityData.defineId(RocketEntity.class,
-            EntityDataSerializers.INT);
-    public static final EntityDataAccessor<Integer> THRUSTER_COUNT = SynchedEntityData.defineId(RocketEntity.class,
-            EntityDataSerializers.INT);
-    public static final EntityDataAccessor<Integer> WEIGHT = SynchedEntityData.defineId(RocketEntity.class,
-            EntityDataSerializers.INT);
-    public static final EntityDataAccessor<Integer> RECIPE_DURATION = SynchedEntityData.defineId(RocketEntity.class,
-            EntityDataSerializers.INT);
-    public static final EntityDataAccessor<Integer> START_TIMER = SynchedEntityData.defineId(RocketEntity.class,
-            EntityDataSerializers.INT);
-    public static final EntityDataAccessor<List<PosWithState>> POSITIONED_STATES = SynchedEntityData
-            .defineId(RocketEntity.class, GCYREntityDataSerializers.POSITIONED_BLOCK_STATE_LIST);
-    public static final EntityDataAccessor<BlockPos> SIZE = SynchedEntityData.defineId(RocketEntity.class,
-            EntityDataSerializers.BLOCK_POS);
-    public static final EntityDataAccessor<List<BlockPos>> SEAT_POSITIONS = SynchedEntityData
-            .defineId(RocketEntity.class, GCYREntityDataSerializers.BLOCK_POS_LIST);
-    public static final EntityDataAccessor<Optional<Planet>> DESTINATION = SynchedEntityData
-            .defineId(RocketEntity.class, GCYREntityDataSerializers.PLANET);
-
-    // @Getter
-    // private final FieldManagedStorage syncStorage = new FieldManagedStorage(this);
+    // spotless:off
+    public static final EntityDataAccessor<Boolean> ROCKET_STARTED = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializers.BOOLEAN);
+    public static final EntityDataAccessor<Integer> FUEL_CAPACITY = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializers.INT);
+    public static final EntityDataAccessor<Integer> FUEL_AMOUNT = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializers.INT);
+    public static final EntityDataAccessor<Integer> THRUSTER_COUNT = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializers.INT);
+    public static final EntityDataAccessor<Integer> WEIGHT = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializers.INT);
+    public static final EntityDataAccessor<Float> FUEL_ENERGY = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializers.FLOAT);
+    public static final EntityDataAccessor<Integer> START_TIMER = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializers.INT);
+    public static final EntityDataAccessor<List<PosWithState>> POSITIONED_STATES = SynchedEntityData.defineId(RocketEntity.class, GCYREntityDataSerializers.POSITIONED_BLOCK_STATE_LIST);
+    public static final EntityDataAccessor<BlockPos> SIZE = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializers.BLOCK_POS);
+    public static final EntityDataAccessor<List<BlockPos>> SEAT_POSITIONS = SynchedEntityData.defineId(RocketEntity.class, GCYREntityDataSerializers.BLOCK_POS_LIST);
+    public static final EntityDataAccessor<Optional<Planet>> DESTINATION = SynchedEntityData.defineId(RocketEntity.class, GCYREntityDataSerializers.PLANET);
+    // spotless:on
 
     private final CustomFluidTank fuelTank;
     private final ItemStackTransfer configSlot, satelliteSlot;
     private boolean destinationIsSpaceStation;
-    private final Object2IntMap<IRocketPart> partCounts = new Object2IntOpenHashMap<>();
     private boolean returnToStart;
-    private SatelliteType<?> satelliteToLaunch;
+    private @Nullable SatelliteType<?> satelliteToLaunch;
+
+    private final Object2IntOpenHashMap<IRocketPart> partCounts = new Object2IntOpenHashMap<>();
+    private final Set<BlockPos> thrusterPositions = new HashSet<>();
     private int motorTiersTotal, fuelTankTiersTotal;
     private int motorTier, fuelTankTier, partsTier;
-    private double speed;
-    @Nullable
-    private GTRecipe selectedFuelRecipe;
 
-    private final Set<BlockPos> thrusterPositions = new HashSet<>();
+    private double speed;
+    private @Nullable RocketFuelRecipe selectedFuelRecipe;
 
     public RocketEntity(EntityType<?> entityType, Level level) {
         super(entityType, level);
+
         this.configSlot = new ItemStackTransfer(1);
-        this.configSlot.setFilter(stack -> GCYRItems.ID_CHIP.isIn(stack) || GCYRItems.KEYCARD.isIn(stack));
+        this.configSlot.setFilter(stack -> {
+            return GCYRItems.ID_CHIP.isIn(stack) || GCYRItems.KEYCARD.isIn(stack);
+        });
+
         this.satelliteSlot = new ItemStackTransfer(1);
-        this.satelliteSlot
-                .setFilter(stack -> GCYRItems.SPACE_STATION_PACKAGE.isIn(stack) || stack.is(GCYRTags.Items.SATELLITES));
+        this.satelliteSlot.setFilter(stack -> {
+            return GCYRItems.SPACE_STATION_PACKAGE.isIn(stack) || stack.is(GCYRTags.Items.SATELLITES);
+        });
 
-        this.fuelTank = new CustomFluidTank(0, fluid -> FUEL_CACHE.computeIfAbsent(fluid.getFluid(), f -> {
-            return this.getServer().getRecipeManager().getAllRecipesFor(GCYRRecipeTypes.ROCKET_FUEL_RECIPES).stream()
-                    .anyMatch(recipe -> {
-                        if (RecipeHelper.getRecipeEUtTier(recipe) > motorTier)
-                            return false; // don't allow > motor tier fuels to be used.
-
-                        var list = recipe.inputs.getOrDefault(FluidRecipeCapability.CAP, Collections.emptyList());
-                        if (!list.isEmpty()) {
-                            return Arrays.stream(FluidRecipeCapability.CAP.of(list.get(0).content).getStacks())
-                                    .anyMatch(stack -> stack.getFluid() == f);
-                        }
-                        return false;
-                    });
-        }));
-
+        this.fuelTank = new CustomFluidTank(0, fluidStack -> getCachedFuelRecipe(fluidStack) != null);
         // determine fuel recipe when the fuel changes
         // this happens on every tick when the rocket is fired
         this.fuelTank.setOnContentsChanged(() -> {
-            // checking the selectedFuelRecipe's fuel against the tank is probably faster?
             entityData.set(FUEL_AMOUNT, fuelTank.getFluidAmount());
 
-            if (selectedFuelRecipe != null) {
-                var list = selectedFuelRecipe.inputs.getOrDefault(FluidRecipeCapability.CAP, Collections.emptyList());
-                if (!list.isEmpty()) {
-                    if (Arrays.stream(FluidRecipeCapability.CAP.of(list.get(0).content).getStacks())
-                            .anyMatch(stack -> stack.isFluidEqual(fuelTank.getFluid()))) {
-                        return;
-                    }
-                }
+            if (selectedFuelRecipe != null && selectedFuelRecipe.matches(fuelTank.getFluid())) {
+                return;
             }
-
-            this.selectedFuelRecipe = this.getServer().getRecipeManager()
-                    .getAllRecipesFor(GCYRRecipeTypes.ROCKET_FUEL_RECIPES).stream().filter(recipe -> {
-                        var list = recipe.inputs.getOrDefault(FluidRecipeCapability.CAP, Collections.emptyList());
-                        if (!list.isEmpty()) {
-                            return Arrays.stream(FluidRecipeCapability.CAP.of(list.get(0).content).getStacks())
-                                    .anyMatch(stack -> stack.isFluidEqual(fuelTank.getFluid()));
-                        }
-                        return false;
-                    }).findFirst().orElse(null);
-
-            if (selectedFuelRecipe != null) {
-                setRecipeDuration(selectedFuelRecipe.duration);
-            }
+            this.resolveSelectedFuelRecipe();
         });
+    }
+
+    private void resolveSelectedFuelRecipe() {
+        if (fuelTank.getFluid().isEmpty()) {
+            selectedFuelRecipe = null;
+            entityData.set(FUEL_ENERGY, 0.0f);
+            return;
+        }
+
+        selectedFuelRecipe = getCachedFuelRecipe(fuelTank.getFluid());
+        if (selectedFuelRecipe != null) {
+            entityData.set(FUEL_ENERGY, selectedFuelRecipe.getSpecificEnergy());
+        } else {
+            entityData.set(FUEL_ENERGY, 0.0f);
+        }
+    }
+
+    private boolean isUsableFuelRecipe(RocketFuelRecipe recipe, FluidStack fluid) {
+        if (!recipe.getValidRocketTiers().isValueInRange(this.motorTier)) return false;
+
+        return recipe.matches(fluid) && recipe.getSpecificEnergy() > 0.0f;
+    }
+
+    private @Nullable RocketFuelRecipe getCachedFuelRecipe(FluidStack fluid) {
+        return FUEL_CACHE.computeIfAbsent(fluid, (FluidStack fluidStack) -> this.getServer().getRecipeManager()
+                .getAllRecipesFor(GCYRRecipeTypes.ROCKET_FUEL.get()).stream()
+                .filter(recipe -> isUsableFuelRecipe(recipe, fluidStack))
+                .findFirst().orElse(null));
     }
 
     public void reinitializeFluidStorage() {
@@ -443,6 +425,10 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         // spotless:on
     }
 
+    public float getFuelEnergy() {
+        return isRemote() ? entityData.get(FUEL_ENERGY) : selectedFuelRecipe.getSpecificEnergy();
+    }
+
     public void startRocket() {
         // only start on the server side; ROCKET_STARTED is synced to client if successful
         if (this.isRemote()) return;
@@ -506,7 +492,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
     // movement must happen both server + client side
     public void flightMovement() {
         var vec = getDeltaMovement();
-        if (speed < getRocketSpeed() - 0.01) {
+        if (speed < getThrust() - 0.01) {
             speed += 0.05;
         }
 
@@ -596,28 +582,23 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
     }
 
     private boolean consumeFuel() {
-        // Fuel Consumption = (thruster count + destination planet tier) / (fuel duration / 20 + 1 /*in case of bad
-        // recipe somehow*/) * 2
-        int recipeDuration = this.getRecipeDuration();
-
         int destinationRocketTier = 1;
         if (this.getDestination() != null) {
             destinationRocketTier = this.getDestination().rocketTier();
         }
-
-        var drain = (getThrusterCount() + destinationRocketTier) / (recipeDuration / 20.0 + 1) * 2;
-        var ldrain = (int) drain;
+        // this'll be scrapped soon anyway so I'll just put something likely broken here
+        int drain = (getThrusterCount() + destinationRocketTier) / (int) (getThrust() * getFuelEnergy() * 2.0);
 
         // estimate fuel consumption client side; client needs to know if
         // it should run the flight tick and if it should slow down in fall(),
         // but its fuelTank.isEmpty() = true
         if (isRemote()) {
-            var fuelAmount = entityData.get(FUEL_AMOUNT);
-            return (fuelAmount - ldrain) > 0;
+            int fuelAmount = entityData.get(FUEL_AMOUNT);
+            return (fuelAmount - drain) > 0;
         }
 
-        if (!this.fuelTank.drain(ldrain, IFluidHandler.FluidAction.SIMULATE).isEmpty()) {
-            return !this.fuelTank.drain(ldrain, IFluidHandler.FluidAction.EXECUTE).isEmpty();
+        if (!this.fuelTank.drain(drain, IFluidHandler.FluidAction.SIMULATE).isEmpty()) {
+            return !this.fuelTank.drain(drain, IFluidHandler.FluidAction.EXECUTE).isEmpty();
         }
         return false;
     }
@@ -872,14 +853,6 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         this.entityData.set(THRUSTER_COUNT, count);
     }
 
-    public int getRecipeDuration() {
-        return this.entityData.get(RECIPE_DURATION);
-    }
-
-    public void setRecipeDuration(int duration) {
-        this.entityData.set(RECIPE_DURATION, duration);
-    }
-
     public int getWeight() {
         return this.entityData.get(WEIGHT);
     }
@@ -932,7 +905,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
 
         // count parts
         if (block instanceof IRocketPart part) {
-            this.partCounts.put(part, this.partCounts.getOrDefault(part, 0) + 1);
+            this.partCounts.addTo(part, 1);
         }
 
         if (block instanceof RocketMotorBlock rocketMotorBlock) {
@@ -944,8 +917,8 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
             this.motorTier = this.motorTiersTotal / this.partCounts.object2IntEntrySet()
                     .stream()
                     .filter(p -> p.getKey() instanceof RocketMotorBlock)
-                    .map(Map.Entry::getValue)
-                    .reduce(0, Integer::sum);
+                    .mapToInt(Map.Entry::getValue)
+                    .sum();
         } else if (block instanceof FuelTankBlock fuelTankBlock) {
             this.setFuelCapacity(this.getFuelCapacity() + fuelTankBlock.getTankProperties().getFuelStorage());
 
@@ -954,8 +927,8 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
             this.fuelTankTier = this.fuelTankTiersTotal / this.partCounts.object2IntEntrySet()
                     .stream()
                     .filter(p -> p.getKey() instanceof FuelTankBlock)
-                    .map(Map.Entry::getValue)
-                    .reduce(0, Integer::sum);
+                    .mapToInt(Map.Entry::getValue)
+                    .sum();
         } else if (state.state().is(GCYRBlocks.SEAT.get())) {
             this.addSeatPos(pos);
         }
@@ -985,7 +958,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
 
     public String getDisplayThrust() {
         ChatFormatting style;
-        var thrust = getRocketSpeed();
+        var thrust = getThrust();
 
         if (thrust < 0.01) {
             style = ChatFormatting.RED;
@@ -998,7 +971,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         return Component.translatable("menu.gcyr.rocket.thrust", thrustComponent).getString();
     }
 
-    public double getRocketSpeed() {
+    public double getThrust() {
         return this.getThrusterCount() * 4.0 - (getWeight() + 1);
     }
 
@@ -1008,7 +981,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         this.entityData.define(FUEL_CAPACITY, 0);
         this.entityData.define(THRUSTER_COUNT, 0);
         this.entityData.define(WEIGHT, 0);
-        this.entityData.define(RECIPE_DURATION, 0);
+        this.entityData.define(FUEL_ENERGY, 0.0f);
         this.entityData.define(START_TIMER, 0);
         this.entityData.define(FUEL_AMOUNT, 0);
         this.entityData.define(POSITIONED_STATES, new ArrayList<>());
@@ -1030,20 +1003,21 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         this.configSlot.deserializeNBT(compound.getCompound("config"));
         this.returnToStart = compound.getBoolean("returnToStart");
         if (compound.contains("satelliteToLaunch")) {
-            this.satelliteToLaunch = GCYRRegistries.SATELLITES
-                    .get(new ResourceLocation(compound.getString("satelliteToLaunch")));
+            this.satelliteToLaunch = GCYRRegistries.SATELLITES.get(ResourceLocation.parse(compound.getString("satelliteToLaunch")));
         }
         this.setThrusterCount(compound.getInt("thrusterCount"));
         this.setStartTimer(compound.getInt("startTimer"));
         this.entityData.set(ROCKET_STARTED, compound.getBoolean("isStarted"));
         this.setWeight(compound.getInt("weight"));
-        this.setDestination(compound.contains("destination", Tag.TAG_STRING) ?
-                PlanetData.getPlanet(new ResourceLocation(compound.getString("destination"))) : null);
-        if (compound.contains("selectedFuelRecipe")) this.selectedFuelRecipe = (GTRecipe) this.getServer()
-                .getRecipeManager().byKey(new ResourceLocation(compound.getString("selectedFuelRecipe"))).orElse(null);
-
-        if (compound.contains("recipeDuration")) {
-            this.setRecipeDuration(compound.getInt("recipeDuration"));
+        if (compound.contains("destination", Tag.TAG_STRING)) {
+            this.setDestination(PlanetData.getPlanet(ResourceLocation.parse(compound.getString("destination"))));
+        } else {
+            this.setDestination(null);
+        }
+        if (compound.contains("selectedFuelRecipe")) {
+            this.selectedFuelRecipe = (RocketFuelRecipe) this.getServer().getRecipeManager()
+                    .byKey(ResourceLocation.parse(compound.getString("selectedFuelRecipe")))
+                    .orElse(null);
         }
     }
 
@@ -1069,9 +1043,12 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         compound.putInt("startTimer", this.getStartTimer());
         compound.putBoolean("isStarted", this.entityData.get(ROCKET_STARTED));
         compound.putInt("weight", this.getWeight());
-        if (this.getDestination() != null)
+        if (this.getDestination() != null) {
             compound.putString("destination", PlanetData.getPlanetId(getDestination()).toString());
-        if (this.selectedFuelRecipe != null) compound.putString("selectedFuelRecipe", selectedFuelRecipe.id.toString());
+        }
+        if (this.selectedFuelRecipe != null) {
+            compound.putString("selectedFuelRecipe", selectedFuelRecipe.getId().toString());
+        }
     }
 
     @Override
@@ -1142,4 +1119,9 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
 
     @Override
     public void markAsDirty() {}
+
+    @ApiStatus.Internal
+    public static void clearFuelRecipeCache() {
+        FUEL_CACHE.clear();
+    }
 }

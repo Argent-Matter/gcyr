@@ -1,7 +1,7 @@
 package argent_matter.gcyr.common.data.machine;
 
 import argent_matter.gcyr.GCYR;
-import argent_matter.gcyr.common.data.recipe.GCYRRecipeTypes;
+import argent_matter.gcyr.common.data.recipe.GCYRGTRecipeTypes;
 import argent_matter.gcyr.common.data.tag.GCYRTags;
 import argent_matter.gcyr.common.machine.electric.OxygenSpreaderMachine;
 import argent_matter.gcyr.common.machine.multiblock.RocketScannerMachine;
@@ -69,9 +69,9 @@ public class GCYRMachines {
                     .langValue("%s Oxygen Spreader".formatted(VNF[tier]))
                     .rotationState(RotationState.NON_Y_AXIS)
                     .workableTieredHullModel(GCYR.id("block/machines/oxygen_spreader"))
-                    .recipeType(GCYRRecipeTypes.OXYGEN_SPREADER_RECIPES)
+                    .recipeType(GCYRGTRecipeTypes.OXYGEN_SPREADER_RECIPES)
                     .tooltips(workableTiered(tier, GTValues.V[tier], GTValues.V[tier] * 64,
-                            GCYRRecipeTypes.OXYGEN_SPREADER_RECIPES, OxygenSpreaderMachine.tankScalingFunction(tier),
+                            GCYRGTRecipeTypes.OXYGEN_SPREADER_RECIPES, OxygenSpreaderMachine.tankScalingFunction(tier),
                             true))
                     .blockBuilder(block -> block.tag(GCYRTags.Blocks.PASSES_FLOOD_FILL))
                     .register(),
@@ -177,7 +177,7 @@ public class GCYRMachines {
     public static final MultiblockMachineDefinition DYSON_SYSTEM_CONTROLLER = REGISTRATE.multiblock("dyson_system_controller", DysonSystemControllerMachine::new)
             .rotationState(RotationState.NON_Y_AXIS)
             .appearanceBlock(() -> CASING_ATOMIC.get()) // You MUST do it like this, so that the GTBlocks/GCYMBlocks class isn't loaded too early. Because that causes a crash.
-            .recipeType(GCYRRecipeTypes.DYSON_ENERGY_RECIPES)
+            .recipeType(GCYRGTRecipeTypes.DYSON_ENERGY_RECIPES)
             .tier(GTValues.UV)
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("CCCCCCC", "CCCCCCC", "  F    ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ", "       ")
@@ -204,7 +204,7 @@ public class GCYRMachines {
     public static final MultiblockMachineDefinition SPACE_ELEVATOR = REGISTRATE.multiblock("space_elevator", WorkableElectricMultiblockMachine::new)
             .rotationState(RotationState.NON_Y_AXIS)
             .appearanceBlock(() -> CASING_TUNGSTENSTEEL_ROBUST.get())
-            .recipeType(GCYRRecipeTypes.SPACE_ELEVATOR_RECIPES)
+            .recipeType(GCYRGTRecipeTypes.SPACE_ELEVATOR_RECIPES)
             .pattern(definition -> FactoryBlockPattern.start()
                     .aisle("         KKKKKKK         ", "          BXXXB          ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ")
                     .aisle("       KKKKKKKKKKK       ", "        BBBBBBBBB        ", "           XXX           ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ", "                         ")
