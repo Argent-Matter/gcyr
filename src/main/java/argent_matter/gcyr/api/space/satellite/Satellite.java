@@ -14,16 +14,12 @@ import net.minecraft.world.level.Level;
 
 import com.mojang.datafixers.Products;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
-/**
- * @author Screret
- * @date 2023/4/15
- * @implNote Satellite
- */
 public abstract class Satellite {
     // public static EmptySatellite EMPTY = GTSatellites.EMPTY.getDefaultInstance();
 
@@ -51,7 +47,7 @@ public abstract class Satellite {
         return instance.group(
                 GCYRRegistries.SATELLITES.codec().fieldOf("type").forGetter(Satellite::getType),
                 SatelliteData.CODEC.fieldOf("data").forGetter(Satellite::getData),
-                ResourceKey.codec(Registries.DIMENSION).fieldOf("level").forGetter(Satellite::getLevel));
+                ResourceKey.codec(Registries.DIMENSION).fieldOf("dimension").forGetter(Satellite::getLevel));
     }
 
     public Satellite copy() {
@@ -80,7 +76,7 @@ public abstract class Satellite {
 
         tag.put("data", this.data.serializeNBT());
 
-        tag.putString("level", this.level.location().toString());
+        tag.putString("dimension", this.level.location().toString());
 
         Tag extra = serializeExtraData();
         if (extra != null) tag.put("extra", extra);
@@ -94,7 +90,7 @@ public abstract class Satellite {
         SatelliteType<?> type = GCYRRegistries.SATELLITES.get(new ResourceLocation(nbt.getString("id")));
         SatelliteData data = SatelliteData.deserializeNBT(nbt.getCompound("data"));
         ResourceKey<Level> levelResourceKey = ResourceKey.create(Registries.DIMENSION,
-                new ResourceLocation(nbt.getString("level")));
+                new ResourceLocation(nbt.getString("dimension")));
         if (type == null) {
             return new EmptySatellite(GCYRSatellites.EMPTY, data, levelResourceKey);
         }

@@ -3,10 +3,10 @@ package argent_matter.gcyr.common.machine.multiblock;
 import argent_matter.gcyr.api.capability.GCYRCapabilityHelper;
 import argent_matter.gcyr.api.capability.ISpaceStationHolder;
 import argent_matter.gcyr.api.space.planet.Planet;
-import argent_matter.gcyr.common.data.GCYRItems;
-import argent_matter.gcyr.common.item.KeyCardBehaviour;
-import argent_matter.gcyr.common.item.PlanetIdChipBehaviour;
-import argent_matter.gcyr.common.item.StationContainerBehaviour;
+import argent_matter.gcyr.common.data.item.GCYRItems;
+import argent_matter.gcyr.common.item.behaviour.KeyCardBehaviour;
+import argent_matter.gcyr.common.item.behaviour.PlanetIdChipBehaviour;
+import argent_matter.gcyr.common.item.behaviour.StationContainerBehaviour;
 import argent_matter.gcyr.util.PosWithState;
 
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
@@ -38,6 +38,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 
 import com.mojang.datafixers.util.Pair;
+
 import lombok.Getter;
 
 import java.util.HashSet;
@@ -71,15 +72,15 @@ public class SpaceStationPackagerMachine extends PlatformMultiblockMachine {
         WidgetGroup buttons = new WidgetGroup(7, 16, 0, 0);
         buttons.addWidget(new ButtonWidget(0, 24 + 18, 80, 24,
                 new GuiTextureGroup(GuiTextures.BUTTON.copy().setColor(0xFFAA0000),
-                        new TextTexture("gcyr.multiblock.space_station.pack")),
+                        new TextTexture("multiblock.gcyr.space_station.pack")),
                 this::onBuildButtonClick));
         modularUI.widget(buttons);
 
         WidgetGroup slots = new WidgetGroup(128, 24, 0, 0);
         slots.addWidget(new SlotWidget(packageSlot, 0, 0, 0)
-                .setHoverTooltips(Component.translatable("gcyr.multiblock.space_station.package_slot.tooltip")));
+                .setHoverTooltips(Component.translatable("multiblock.gcyr.space_station.package_slot.tooltip")));
         slots.addWidget(new SlotWidget(keycardSlot, 0, 18, 0)
-                .setHoverTooltips(Component.translatable("gcyr.multiblock.space_station.keycard_slot.tooltip")));
+                .setHoverTooltips(Component.translatable("multiblock.gcyr.space_station.keycard_slot.tooltip")));
         slots.addWidget(new SlotWidget(outputSlots, 0, 0, 22, true, false));
         slots.addWidget(new SlotWidget(outputSlots, 1, 18, 22, true, false));
         modularUI.widget(slots);

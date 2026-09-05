@@ -1,5 +1,5 @@
 {
-  "world": "gcyr:overworld_orbit",
+  "dimension": "gcyr:overworld_orbit",
   "stars": {
     "fancy_count": 16000,
     "fast_count": 8000,

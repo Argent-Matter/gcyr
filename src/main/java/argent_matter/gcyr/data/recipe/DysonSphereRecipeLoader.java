@@ -1,9 +1,9 @@
 package argent_matter.gcyr.data.recipe;
 
 import argent_matter.gcyr.GCYR;
-import argent_matter.gcyr.common.data.GCYRBlocks;
-import argent_matter.gcyr.common.data.GCYRItems;
-import argent_matter.gcyr.common.data.GCYRMaterials;
+import argent_matter.gcyr.common.data.block.GCYRBlocks;
+import argent_matter.gcyr.common.data.item.GCYRItems;
+import argent_matter.gcyr.common.data.material.GCYRMaterials;
 import argent_matter.gcyr.common.recipe.condition.DysonSphereCondition;
 import argent_matter.gcyr.common.recipe.condition.OrbitCondition;
 
@@ -17,8 +17,8 @@ import net.minecraft.data.recipes.FinishedRecipe;
 
 import java.util.function.Consumer;
 
-import static argent_matter.gcyr.common.data.GCYRRecipeTypes.DYSON_ENERGY_RECIPES;
-import static argent_matter.gcyr.common.data.GCYRRecipeTypes.SPACE_ELEVATOR_RECIPES;
+import static argent_matter.gcyr.common.data.recipe.GCYRRecipeTypes.DYSON_ENERGY_RECIPES;
+import static argent_matter.gcyr.common.data.recipe.GCYRRecipeTypes.SPACE_ELEVATOR_RECIPES;
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.ASSEMBLY_LINE_RECIPES;
 

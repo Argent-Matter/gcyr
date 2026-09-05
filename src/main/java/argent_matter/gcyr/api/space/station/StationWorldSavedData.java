@@ -7,7 +7,6 @@ import argent_matter.gcyr.common.worldgen.SpaceLevelSource;
 import argent_matter.gcyr.data.loader.PlanetData;
 import argent_matter.gcyr.util.Vec2i;
 
-import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
@@ -23,20 +22,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
+import org.jetbrains.annotations.Nullable;
 
-@MethodsReturnNonnullByDefault
-@ParametersAreNonnullByDefault
 public class StationWorldSavedData extends SavedData implements ISpaceStationHolder {
 
     @Nullable
     public static StationWorldSavedData getOrCreate(@Nullable ServerLevel serverLevel) {
         if (serverLevel == null) return null;
-        if (!PlanetData.isOrbitLevel(serverLevel.dimension())) {
+        if (!PlanetData.isOrbitDimension(serverLevel.dimension())) {
             Planet planet = PlanetData.getPlanetFromLevel(serverLevel.dimension()).orElse(null);
             if (planet == null) return null;
-            ServerLevel orbit = serverLevel.getServer().getLevel(planet.orbitWorld());
+            ServerLevel orbit = serverLevel.getServer().getLevel(planet.orbitDimension());
             return getOrCreate(orbit);
         }
         return serverLevel.getDataStorage().computeIfAbsent(tag -> new StationWorldSavedData(serverLevel, tag),

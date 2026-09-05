@@ -9,6 +9,7 @@ import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.world.phys.Vec3;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+
 import lombok.Getter;
 import org.joml.Matrix4f;
 
@@ -27,7 +28,7 @@ public class DimensionEffects extends DimensionSpecialEffects implements Dimensi
     @Override
     public Vec3 getBrightnessDependentFogColor(Vec3 color, float sunHeight) {
         if (renderer.effects().type() == PlanetSkyRenderer.DimensionEffectType.COLORED_HORIZON) {
-            int colour = renderer.effects().colour();
+            int colour = renderer.effects().color();
             return new Vec3((colour >> 16 & 0xFF) / 255.0f, (colour >> 8 & 0xFF) / 255.0f, (colour & 0xFF) / 255.0f);
         }
         return color.multiply(sunHeight * 0.94f + 0.06f, sunHeight * 0.94f + 0.06f, sunHeight * 0.91f + 0.09f);

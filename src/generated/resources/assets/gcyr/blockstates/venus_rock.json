@@ -5,11 +5,11 @@
         "model": "gcyr:block/venus_rock"
       },
       {
-        "model": "gcyr:block/venus_rock",
-        "y": 180
+        "model": "gcyr:block/venus_rock_mirrored"
       },
       {
-        "model": "gcyr:block/venus_rock_mirrored"
+        "model": "gcyr:block/venus_rock",
+        "y": 180
       },
       {
         "model": "gcyr:block/venus_rock_mirrored",

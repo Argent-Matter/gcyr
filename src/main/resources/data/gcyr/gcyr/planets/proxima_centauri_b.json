@@ -1,9 +1,9 @@
 {
-  "translation": "level.gcyr.proxima_centauri_b",
+  "translation": "dimension.gcyr.proxima_centauri_b",
   "galaxy": "gcyr:milky_way",
   "solar_system": "gcyr:proxima_centauri",
-  "world": "gcyr:proxima_centauri_b",
-  "orbit_world": "gcyr:proxima_centauri_b_orbit",
+  "dimension": "gcyr:proxima_centauri_b",
+  "orbit_dimension": "gcyr:proxima_centauri_b_orbit",
   "rocket_tier": 3,
   "gravity": 9.806,
   "has_atmosphere": true,

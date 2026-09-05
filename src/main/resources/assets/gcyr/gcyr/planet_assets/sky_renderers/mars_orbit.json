@@ -1,5 +1,5 @@
 {
-  "world": "gcyr:mars_orbit",
+  "dimension": "gcyr:mars_orbit",
   "stars": {
     "fancy_count": 13000,
     "fast_count": 6000,

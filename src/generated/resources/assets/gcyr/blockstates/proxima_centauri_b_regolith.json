@@ -5,11 +5,11 @@
         "model": "gcyr:block/proxima_centauri_b_regolith"
       },
       {
-        "model": "gcyr:block/proxima_centauri_b_regolith",
-        "y": 180
+        "model": "gcyr:block/proxima_centauri_b_regolith_mirrored"
       },
       {
-        "model": "gcyr:block/proxima_centauri_b_regolith_mirrored"
+        "model": "gcyr:block/proxima_centauri_b_regolith",
+        "y": 180
       },
       {
         "model": "gcyr:block/proxima_centauri_b_regolith_mirrored",

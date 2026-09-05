@@ -5,11 +5,11 @@
         "model": "gcyr:block/proxima_centauri_b_hardened_turf"
       },
       {
-        "model": "gcyr:block/proxima_centauri_b_hardened_turf",
-        "y": 180
+        "model": "gcyr:block/proxima_centauri_b_hardened_turf_mirrored"
       },
       {
-        "model": "gcyr:block/proxima_centauri_b_hardened_turf_mirrored"
+        "model": "gcyr:block/proxima_centauri_b_hardened_turf",
+        "y": 180
       },
       {
         "model": "gcyr:block/proxima_centauri_b_hardened_turf_mirrored",

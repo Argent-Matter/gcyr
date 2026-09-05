@@ -1,7 +1,7 @@
 package argent_matter.gcyr.common.gui;
 
 import argent_matter.gcyr.GCYRClient;
-import argent_matter.gcyr.common.data.GCYRMenus;
+import argent_matter.gcyr.common.data.client.GCYRMenus;
 import argent_matter.gcyr.data.loader.PlanetData;
 
 import net.minecraft.network.FriendlyByteBuf;

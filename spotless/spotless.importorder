@@ -1,8 +1,11 @@
 0=argent_matter
 1=com.gregtechceu
+1=brachy.modularui
 1=com.lowdragmc
 2=net.minecraft
 2=net.minecraftforge
+2=net.neoforged
+2=com.mojang
 3=
 4=java
 5=org.jetbrains.annotations

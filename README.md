@@ -1,6 +1,6 @@
 <p align="center"><img src="https://cdn.modrinth.com/data/4VJrCEMZ/2403c2f2a0e3c4dbe74037d11374bdb346cf060e.png" alt="Logo" width=256></p>
 <h1 align="center">Gregicality Rocketry</h1>
-<p align="center"><i><b>Uses <a href="https://github.com/GregTechCEu/GregTech-Modern">GregTech CEu Modern</a></i></b></p>
+<p align="center"><i><b>Uses <a href="https://github.com/GregTechCEu/GregTech-Modern">GregTech CEu Modern</a></b></i></p>
 
 <h1 align="center">
     <a href="https://github.com/Argent-Matter/gcyr/blob/1.20.1/LICENSE"><img src="https://img.shields.io/github/license/Argent-Matter/gcyr?style=for-the-badge&logo=github" alt="License"/></a>

@@ -1,6 +1,6 @@
 package argent_matter.gcyr.data.recipe.builder;
 
-import argent_matter.gcyr.common.data.GCYRVanillaRecipeTypes;
+import argent_matter.gcyr.common.data.recipe.GCYRVanillaRecipeTypes;
 
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
@@ -11,7 +11,7 @@ import com.google.gson.JsonObject;
 
 import java.util.function.Consumer;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 public class SmithingThermalUpgradeRecipeBuilder {
 

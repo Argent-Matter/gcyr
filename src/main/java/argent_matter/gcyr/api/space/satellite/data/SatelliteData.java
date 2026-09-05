@@ -11,18 +11,15 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import java.util.UUID;
 
-/**
- * @author Screret
- * @date 2023/4/15
- * @implNote SatelliteData
- */
-public record SatelliteData(
-                            Vec2i locationInWorld, int range, UUID owner) {
+public record SatelliteData(Vec2i locationInWorld, int range, UUID owner) {
 
+    // spotless:off
     public static Codec<SatelliteData> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             Vec2i.CODEC.fieldOf("pos").forGetter(SatelliteData::locationInWorld),
             ExtraCodecs.POSITIVE_INT.fieldOf("range").forGetter(SatelliteData::range),
-            UUIDUtil.CODEC.fieldOf("owner").forGetter(SatelliteData::owner)).apply(instance, SatelliteData::new));
+            UUIDUtil.CODEC.fieldOf("owner").forGetter(SatelliteData::owner)
+    ).apply(instance, SatelliteData::new));
+    // spotless:on
 
     private static final UUID EMPTY_UUID = new UUID(0, 0);
 

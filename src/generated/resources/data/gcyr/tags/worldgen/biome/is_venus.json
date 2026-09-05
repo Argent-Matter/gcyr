@@ -1,12 +1,6 @@
 {
   "values": [
-    {
-      "id": "gcyr:venus_eroded_plains",
-      "required": false
-    },
-    {
-      "id": "gcyr:venus_barren_plains",
-      "required": false
-    }
+    "gcyr:venus_eroded_plains",
+    "gcyr:venus_barren_plains"
   ]
 }

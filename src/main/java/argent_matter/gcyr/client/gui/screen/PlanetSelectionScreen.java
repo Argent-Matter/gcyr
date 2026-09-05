@@ -7,7 +7,7 @@ import argent_matter.gcyr.api.space.planet.Planet;
 import argent_matter.gcyr.api.space.planet.PlanetRing;
 import argent_matter.gcyr.api.space.planet.SolarSystem;
 import argent_matter.gcyr.client.gui.Category;
-import argent_matter.gcyr.common.data.GCYRNetworking;
+import argent_matter.gcyr.common.data.network.GCYRNetworking;
 import argent_matter.gcyr.common.gui.PlanetSelectionMenu;
 import argent_matter.gcyr.common.networking.c2s.PacketCreateSpaceStation;
 import argent_matter.gcyr.common.networking.c2s.PacketSendSelectedDimension;
@@ -17,7 +17,6 @@ import argent_matter.gcyr.util.GCYRValues;
 import com.gregtechceu.gtceu.GTCEu;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -36,16 +35,15 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import com.mojang.math.Axis;
+
 import lombok.Getter;
 
 import java.util.*;
 import java.util.function.Consumer;
 
-import javax.annotation.ParametersAreNonnullByDefault;
+import org.jetbrains.annotations.UnknownNullability;
 
 @OnlyIn(Dist.CLIENT)
-@MethodsReturnNonnullByDefault
-@ParametersAreNonnullByDefault
 public class PlanetSelectionScreen extends Screen implements MenuAccess<PlanetSelectionMenu> {
 
     public static final ResourceLocation SMALL_MENU_LIST = GCYR.id("textures/gui/selection_menu.png");
@@ -84,7 +82,7 @@ public class PlanetSelectionScreen extends Screen implements MenuAccess<PlanetSe
     private Category currentCategory = Category.GALAXY_CATEGORY;
     @Getter
     private float guiTime;
-    private Button scrollBar;
+    private @UnknownNullability Button scrollBar;
 
     public PlanetSelectionScreen(PlanetSelectionMenu handler, Inventory inventory, Component title) {
         super(title);
@@ -94,7 +92,8 @@ public class PlanetSelectionScreen extends Screen implements MenuAccess<PlanetSe
             currentCategory = Category.MILKY_WAY_CATEGORY;
         }
 
-        // Set the initial gui time to the level time. This creates a random start position for each rotating object.
+        // Set the initial gui time to the dimension time. This creates a random start position for each rotating
+        // object.
         guiTime = handler.getPlayer().level().getRandom().nextFloat() * 100000.0f;
     }
 
@@ -219,13 +218,14 @@ public class PlanetSelectionScreen extends Screen implements MenuAccess<PlanetSe
         // All buttons are data-driven; they are created from files in the /planet_data/planets directory.
         List<Planet> planets = new ArrayList<>(PlanetData.planets().values());
         // sort planets based on their orbital period
-        planets.sort(Comparator.comparing(p -> p.daysInYear()));
+        planets.sort(Comparator.comparing(Planet::daysInYear));
 
         planets.forEach(planet -> {
             Category galaxyCategory = new Category(planet.galaxy(), Category.GALAXY_CATEGORY);
             Category solarSystemCategory = new Category(planet.solarSystem(), galaxyCategory);
             Category planetCategory = new Category(
-                    planet.parentWorld() == null ? planet.level().location() : planet.parentWorld().location(),
+                    planet.parentDimension().isEmpty() ? planet.dimension().location() :
+                            planet.parentDimension().get().location(),
                     solarSystemCategory);
 
             Component label = Component.translatable(planet.translation());
@@ -233,7 +233,7 @@ public class PlanetSelectionScreen extends Screen implements MenuAccess<PlanetSe
             this.galaxyCategories.add(galaxyCategory);
             this.solarSystemsCategories.add(solarSystemCategory);
 
-            if (planet.parentWorld() == null) {
+            if (planet.parentDimension().isEmpty()) {
                 createNavigationButton(label, solarSystemCategory, planet.buttonColor(), 71, 20, TooltipType.CATEGORY,
                         planet, planetCategory);
             }
@@ -277,7 +277,7 @@ public class PlanetSelectionScreen extends Screen implements MenuAccess<PlanetSe
     }
 
     public void createGalaxyButton(Category galaxyCategory) {
-        Component label = Component.translatable(galaxyCategory.id().toLanguageKey());
+        Component label = Component.translatable(galaxyCategory.id().toLanguageKey("category"));
         Galaxy galaxy = GCYRClient.galaxies.stream().filter(g -> g.galaxy().equals(galaxyCategory.id())).findFirst()
                 .orElse(null);
         createNavigationButton(label, Category.GALAXY_CATEGORY, (galaxy != null ? galaxy.buttonColor() : 0xFFAA00AA),
@@ -285,7 +285,7 @@ public class PlanetSelectionScreen extends Screen implements MenuAccess<PlanetSe
     }
 
     public void createSolarSystemButton(Category solarSystemCategory) {
-        Component label = Component.translatable(solarSystemCategory.id().toLanguageKey());
+        Component label = Component.translatable(solarSystemCategory.id().toLanguageKey("category"));
         SolarSystem solarSystem = GCYRClient.solarSystems.stream()
                 .filter(g -> g.solarSystem().equals(solarSystemCategory.id())).findFirst().orElse(null);
         createNavigationButton(label, solarSystemCategory.parent(),
@@ -334,7 +334,7 @@ public class PlanetSelectionScreen extends Screen implements MenuAccess<PlanetSe
     public void selectPlanet(Planet planet) {
         this.minecraft.player.closeContainer();
         // Tell the server to teleport the player after the button has been pressed.
-        GCYRNetworking.NETWORK.sendToServer(new PacketSendSelectedDimension(planet.level().location()));
+        GCYRNetworking.NETWORK.sendToServer(new PacketSendSelectedDimension(planet.dimension()));
     }
 
     public Button createButton(Component label, Category category, int colour, int sizeX, int sizeY,
@@ -408,7 +408,7 @@ public class PlanetSelectionScreen extends Screen implements MenuAccess<PlanetSe
             }
             case PLANET -> {
                 textEntries.add(TYPE_TEXT.copy().withStyle(ChatFormatting.BLUE).append(": ")
-                        .append((planetInfo.parentWorld() == null ? PlanetSelectionScreen.PLANET_TEXT :
+                        .append((planetInfo.parentDimension().isEmpty() ? PlanetSelectionScreen.PLANET_TEXT :
                                 PlanetSelectionScreen.MOON_TEXT).copy().withStyle(ChatFormatting.AQUA)));
                 textEntries.add(GRAVITY_TEXT.copy().withStyle(ChatFormatting.BLUE).append(": ")
                         .append(Component.literal(planetInfo.gravity() + " m/s").withStyle(ChatFormatting.AQUA)));
@@ -565,8 +565,8 @@ public class PlanetSelectionScreen extends Screen implements MenuAccess<PlanetSe
         guiGraphics.blit(texture, x, y, 0, 0, width, height, width, height);
     }
 
-    public static void addRotatingTexture(PlanetSelectionScreen screen, GuiGraphics guiGraphics, int x, int y,
-                                          int width, int height, ResourceLocation texture, float speed) {
+    public static void addRotatingTexture(PlanetSelectionScreen screen, GuiGraphics guiGraphics,
+                                          int x, int y, int width, int height, ResourceLocation texture, float speed) {
         double scale = Minecraft.getInstance().getWindow().getGuiScaledHeight() / 400.0;
 
         x *= scale;

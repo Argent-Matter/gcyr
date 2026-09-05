@@ -8,6 +8,7 @@ import net.minecraft.world.level.border.WorldBorder;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+
 import lombok.Getter;
 import lombok.experimental.Accessors;
 
@@ -18,9 +19,11 @@ public class SpaceStation {
     public static final int BLOCK_MULTIPLIER = GCYRConfig.INSTANCE.server.spaceStationMaxSize;
     public static final int SIZE_BLOCKS = BLOCK_MULTIPLIER * BLOCK_MULTIPLIER;
 
+    // spotless:off
     public static final Codec<SpaceStation> CODEC = RecordCodecBuilder.create(instance -> instance.group(
             Planet.ID_CODEC.fieldOf("planet").forGetter(SpaceStation::orbitPlanet),
             Vec2i.CODEC.fieldOf("pos").forGetter(SpaceStation::position)).apply(instance, SpaceStation::new));
+    // spotless:off
 
     @Getter
     private final Planet orbitPlanet;

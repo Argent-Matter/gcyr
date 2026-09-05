@@ -1,7 +1,7 @@
 package argent_matter.gcyr.client.dimension.renderer;
 
 import argent_matter.gcyr.GCYRClient;
-import argent_matter.gcyr.mixin.LevelRendererAccessor;
+import argent_matter.gcyr.core.mixin.LevelRendererAccessor;
 
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
@@ -20,6 +20,7 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import com.mojang.math.Axis;
+
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 

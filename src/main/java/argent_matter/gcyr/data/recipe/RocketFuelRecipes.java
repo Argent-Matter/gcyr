@@ -9,7 +9,7 @@ import net.minecraft.data.recipes.FinishedRecipe;
 
 import java.util.function.Consumer;
 
-import static argent_matter.gcyr.common.data.GCYRRecipeTypes.ROCKET_FUEL_RECIPES;
+import static argent_matter.gcyr.common.data.recipe.GCYRRecipeTypes.ROCKET_FUEL_RECIPES;
 
 public class RocketFuelRecipes {
 

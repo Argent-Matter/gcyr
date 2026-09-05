@@ -2,7 +2,7 @@ package argent_matter.gcyr.common.machine.multiblock.electric;
 
 import argent_matter.gcyr.api.capability.GCYRCapabilityHelper;
 import argent_matter.gcyr.api.capability.IDysonSystem;
-import argent_matter.gcyr.common.data.GCYRParticles;
+import argent_matter.gcyr.common.data.client.GCYRParticles;
 import argent_matter.gcyr.config.GCYRConfig;
 
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;
@@ -14,7 +14,6 @@ import com.gregtechceu.gtceu.common.data.GTDamageTypes;
 import com.lowdragmc.lowdraglib.gui.util.ClickData;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -30,10 +29,6 @@ import java.util.List;
 
 import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
-@ParametersAreNonnullByDefault
-@MethodsReturnNonnullByDefault
 public class DysonSystemControllerMachine extends WorkableElectricMultiblockMachine {
 
     public DysonSystemControllerMachine(IMachineBlockEntity holder, Object... args) {

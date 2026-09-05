@@ -5,11 +5,11 @@
         "model": "gcyr:block/lunar_mare_regolith"
       },
       {
-        "model": "gcyr:block/lunar_mare_regolith",
-        "y": 180
+        "model": "gcyr:block/lunar_mare_regolith_mirrored"
       },
       {
-        "model": "gcyr:block/lunar_mare_regolith_mirrored"
+        "model": "gcyr:block/lunar_mare_regolith",
+        "y": 180
       },
       {
         "model": "gcyr:block/lunar_mare_regolith_mirrored",

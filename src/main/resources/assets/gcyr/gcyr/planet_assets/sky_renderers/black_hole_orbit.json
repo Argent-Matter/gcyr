@@ -1,5 +1,5 @@
 {
-  "world": "gcyr:black_hole_orbit",
+  "dimension": "gcyr:black_hole_orbit",
   "custom_shader": "gcyr:black_hole",
   "stars": {
     "fancy_count": 13000,

@@ -1,7 +1,7 @@
 package argent_matter.gcyr.data.lang;
 
 import argent_matter.gcyr.GCYR;
-import argent_matter.gcyr.common.data.GCYRMaterials;
+import argent_matter.gcyr.common.data.material.GCYRMaterials;
 import argent_matter.gcyr.common.worldgen.GCYROres;
 
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
@@ -32,7 +32,7 @@ public class LangHandler extends com.gregtechceu.gtceu.data.lang.LangHandler {
         replace(provider, "block.gcyr.aerospace_aluminium_casing", "Aerospace-grade Aluminium Machine Casing");
 
         // tooltips
-        multilineLang(provider, "gcyr.multiblock.space_shuttle.launch",
+        multilineLang(provider, "multiblock.gcyr.space_shuttle.launch",
                 "Travel to selected Space Station\n§cRequires ID Chip!");
         provider.add("metaitem.gcyr.satellite_package.has_satellite", "Has satellite or space station");
 
@@ -61,13 +61,12 @@ public class LangHandler extends com.gregtechceu.gtceu.data.lang.LangHandler {
         provider.add("gcyr.condition.space", "Requires machine to be in space");
 
         // satellites
-        provider.add("gcyr.satellite.gps", "GPS Satellite");
-        provider.add("gcyr.satellite.laser", "LASER Satellite");
-        provider.add("gcyr.satellite.empty", "Empty Satellite");
-        provider.add("gcyr.satellite.dyson_swarm", "Dyson Swarm Satellite");
-        provider.add("behaviour.satellite.type", "Satellite Type: %s");
+        provider.add("satellite.gcyr.gps", "GPS Satellite");
+        provider.add("satellite.gcyr.laser", "LASER Satellite");
+        provider.add("satellite.gcyr.empty", "Empty Satellite");
+        provider.add("satellite.gcyr.dyson_swarm", "Dyson Swarm Satellite");
 
-        provider.add("key.startRocket", "Start RocketEntity");
+        provider.add("key.launchRocket", "Launch Rocket");
         provider.add("key.categories.gcyr", "Gregicality Rocketry");
 
         // GUIs
@@ -81,11 +80,11 @@ public class LangHandler extends com.gregtechceu.gtceu.data.lang.LangHandler {
         provider.add("menu.gcyr.rocket.thrust", "Thrust: %s m/s");
 
         provider.add("menu.gcyr.save_destination_position", "Save Launch platform position to ID Chip");
-        provider.add("gcyr.multiblock.rocket.build", "Scan Rocket");
-        provider.add("gcyr.multiblock.rocket.unbuild", "Destroy Rocket");
-        provider.add("gcyr.multiblock.space_station.pack", "Pack station");
-        provider.add("gcyr.multiblock.space_station.package_slot.tooltip", "Space Station Package here");
-        provider.add("gcyr.multiblock.space_station.keycard_slot.tooltip", "Configured keycard here");
+        provider.add("multiblock.gcyr.rocket.build", "Scan Rocket");
+        provider.add("multiblock.gcyr.rocket.unbuild", "Destroy Rocket");
+        provider.add("multiblock.gcyr.space_station.pack", "Pack station");
+        provider.add("multiblock.gcyr.space_station.package_slot.tooltip", "Space Station Package here");
+        provider.add("multiblock.gcyr.space_station.keycard_slot.tooltip", "Configured keycard here");
 
         provider.add("menu.gcyr.catalog", "Catalog");
         provider.add("menu.gcyr.back", "Back");
@@ -141,18 +140,13 @@ public class LangHandler extends com.gregtechceu.gtceu.data.lang.LangHandler {
         provider.add("biome.gcyr.venus_eroded_plains", "Venus Eroded Plains");
 
         // planets
-        provider.add("gcyr.solar_system", "Sol");
-        provider.add("gcyr.alpha_centauri", "Alpha Centauri");
-        provider.add("gcyr.proxima_centauri", "Proxima Centauri");
-        provider.add("gcyr.milky_way", "Milky Way");
-        provider.add("level.overworld", "Earth");
-        provider.add("level.gcyr.moon", "Moon");
-        provider.add("level.gcyr.mercury", "Mercury");
-        provider.add("level.gcyr.venus", "Venus");
-        provider.add("level.gcyr.mars", "Mars");
-        provider.add("level.gcyr.proxima_centauri_b", "Proxima b");
+        provider.add("category.gcyr.solar_system", "Sol");
+        provider.add("category.gcyr.alpha_centauri", "Alpha Centauri");
+        provider.add("category.gcyr.proxima_centauri", "Proxima Centauri");
+        provider.add("category.gcyr.milky_way", "Milky Way");
 
         // dimension names
+        provider.add("dimension.minecraft.overworld", "Earth");
         provider.add("dimension.gcyr.luna", "Moon");
         provider.add("dimension.gcyr.luna_orbit", "Lunar Orbit");
         provider.add("dimension.gcyr.mars", "Mars");

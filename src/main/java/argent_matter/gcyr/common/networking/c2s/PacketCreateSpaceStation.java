@@ -3,8 +3,8 @@ package argent_matter.gcyr.common.networking.c2s;
 import argent_matter.gcyr.api.capability.GCYRCapabilityHelper;
 import argent_matter.gcyr.api.capability.ISpaceStationHolder;
 import argent_matter.gcyr.api.space.planet.Planet;
-import argent_matter.gcyr.common.data.GCYRItems;
-import argent_matter.gcyr.common.item.PlanetIdChipBehaviour;
+import argent_matter.gcyr.common.data.item.GCYRItems;
+import argent_matter.gcyr.common.item.behaviour.PlanetIdChipBehaviour;
 import argent_matter.gcyr.data.loader.PlanetData;
 
 import com.lowdragmc.lowdraglib.networking.IHandlerContext;
@@ -30,7 +30,8 @@ public class PacketCreateSpaceStation implements IPacket {
         if (handler.getLevel() instanceof ServerLevel serverLevel) {
             ISpaceStationHolder holder = GCYRCapabilityHelper
                     .getSpaceStations(serverLevel.getServer().getLevel(PlanetData
-                            .getPlanetFromLevelOrOrbit(serverLevel.dimension()).map(Planet::orbitWorld).orElse(null)));
+                            .getPlanetFromLevelOrOrbit(serverLevel.dimension()).map(Planet::orbitDimension)
+                            .orElse(null)));
             if (holder == null) return;
 
             ItemStack held = handler.getPlayer().getItemInHand(handler.getPlayer().getUsedItemHand());

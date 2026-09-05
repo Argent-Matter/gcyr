@@ -1,9 +1,9 @@
 {
-  "translation": "level.gcyr.venus",
+  "translation": "dimension.gcyr.venus",
   "galaxy": "gcyr:milky_way",
   "solar_system": "gcyr:solar_system",
-  "world": "gcyr:venus",
-  "orbit_world": "gcyr:venus_orbit",
+  "dimension": "gcyr:venus",
+  "orbit_dimension": "gcyr:venus_orbit",
   "rocket_tier": 2,
   "gravity": 8.87,
   "has_atmosphere": true,

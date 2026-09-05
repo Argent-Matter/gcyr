@@ -1,10 +1,10 @@
 package argent_matter.gcyr.common.entity.data;
 
 import argent_matter.gcyr.GCYR;
+import argent_matter.gcyr.common.data.tag.GCYRTags;
 import argent_matter.gcyr.common.item.armor.SpaceSuitArmorItem;
 import argent_matter.gcyr.config.GCYRConfig;
 import argent_matter.gcyr.data.loader.PlanetData;
-import argent_matter.gcyr.data.recipe.GCYRTags;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
@@ -37,7 +37,7 @@ public class EntityOxygenSystem {
             .newCustomTable(new IdentityHashMap<>(), HashMap::new);
 
     /**
-     * Checks if a level has oxygen, regardless of position.
+     * Checks if a dimension has oxygen, regardless of position.
      */
     public static boolean levelHasOxygen(Level level) {
         return PlanetData.isOxygenated(level);
@@ -47,8 +47,9 @@ public class EntityOxygenSystem {
         // Get all the entries that have changed. If they have been removed, deoxygenate their pos.
         if (!level.isClientSide) {
             if (OXYGEN_LOCATIONS.contains(level.dimension(), source)) {
-                Set<BlockPos> changedPositions = new HashSet<>(OXYGEN_LOCATIONS.get(level.dimension(), source));
+                Set<BlockPos> changedPositions = OXYGEN_LOCATIONS.get(level.dimension(), source);
                 if (changedPositions != null && !changedPositions.isEmpty()) {
+                    changedPositions = new HashSet<>(changedPositions);
                     changedPositions.removeAll(entries);
                     deoxygenizeBlocks((ServerLevel) level, changedPositions, source);
                 }
@@ -69,7 +70,7 @@ public class EntityOxygenSystem {
             return;
         }
 
-        if (entity.getType().is(GCYRTags.IGNORE_OXYGEN)) {
+        if (entity.getType().is(GCYRTags.EntityTypes.IGNORE_OXYGEN)) {
             return;
         }
 
@@ -91,7 +92,7 @@ public class EntityOxygenSystem {
             if (hasOxygenatedSpaceSuit) {
                 consumeOxygen(entity);
             } else if (!StreamSupport.stream(entity.getArmorSlots().spliterator(), false)
-                    .allMatch(stack -> stack.is(GCYRTags.SPACESUIT_ARMOR))) {
+                    .allMatch(stack -> stack.is(GCYRTags.Items.IS_SPACESUIT))) {
                         entity.hurt(level.damageSources().drown(), GCYRConfig.INSTANCE.server.oxygenDamage);
                         entity.setAirSupply(-40);
                     }
@@ -116,8 +117,7 @@ public class EntityOxygenSystem {
                 return;
             }
 
-            for (BlockPos pos : new HashSet<>(entries)) {
-
+            for (BlockPos pos : entries) {
                 BlockState state = level.getBlockState(pos);
 
                 OXYGEN_LOCATIONS.get(level.dimension(), source).remove(pos);
@@ -168,8 +168,7 @@ public class EntityOxygenSystem {
                 }
             }
         } catch (UnsupportedOperationException e) {
-            GCYR.LOGGER.error("Error deoxygenizing blocks");
-            e.printStackTrace();
+            GCYR.LOGGER.error("Error deoxygenizing blocks", e);
         }
     }
 

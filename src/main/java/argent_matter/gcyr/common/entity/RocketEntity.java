@@ -10,17 +10,21 @@ import argent_matter.gcyr.api.space.satellite.SatelliteType;
 import argent_matter.gcyr.api.space.station.SpaceStation;
 import argent_matter.gcyr.common.block.FuelTankBlock;
 import argent_matter.gcyr.common.block.RocketMotorBlock;
-import argent_matter.gcyr.common.data.*;
+import argent_matter.gcyr.common.data.block.GCYRBlocks;
+import argent_matter.gcyr.common.data.client.GCYRSoundEntries;
+import argent_matter.gcyr.common.data.entity.GCYREntityDataSerializers;
+import argent_matter.gcyr.common.data.item.GCYRItems;
+import argent_matter.gcyr.common.data.recipe.GCYRRecipeTypes;
+import argent_matter.gcyr.common.data.tag.GCYRTags;
 import argent_matter.gcyr.common.entity.data.EntityOxygenSystem;
 import argent_matter.gcyr.common.entity.data.EntityTemperatureSystem;
-import argent_matter.gcyr.common.item.KeyCardBehaviour;
-import argent_matter.gcyr.common.item.PlanetIdChipBehaviour;
-import argent_matter.gcyr.common.item.SatelliteItemBehaviour;
-import argent_matter.gcyr.common.item.StationContainerBehaviour;
+import argent_matter.gcyr.common.item.behaviour.KeyCardBehaviour;
+import argent_matter.gcyr.common.item.behaviour.PlanetIdChipBehaviour;
+import argent_matter.gcyr.common.item.behaviour.SatelliteItemBehaviour;
+import argent_matter.gcyr.common.item.behaviour.StationContainerBehaviour;
 import argent_matter.gcyr.config.GCYRConfig;
+import argent_matter.gcyr.core.mixin.LivingEntityAccessor;
 import argent_matter.gcyr.data.loader.PlanetData;
-import argent_matter.gcyr.data.recipe.GCYRTags;
-import argent_matter.gcyr.mixin.LivingEntityAccessor;
 import argent_matter.gcyr.util.PlatformUtils;
 import argent_matter.gcyr.util.PosWithState;
 
@@ -46,7 +50,6 @@ import com.lowdragmc.lowdraglib.gui.widget.SlotWidget;
 import com.lowdragmc.lowdraglib.misc.ItemStackTransfer;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.GlobalPos;
@@ -91,8 +94,9 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.network.NetworkHooks;
 
-import com.google.common.collect.Sets;
 import com.mojang.datafixers.util.Pair;
+
+import com.google.common.collect.Sets;
 import it.unimi.dsi.fastutil.objects.Object2BooleanMap;
 import it.unimi.dsi.fastutil.objects.Object2BooleanOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
@@ -100,13 +104,10 @@ import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 
 import java.util.*;
 
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
+import org.jetbrains.annotations.Nullable;
 
-@MethodsReturnNonnullByDefault
-@ParametersAreNonnullByDefault
 public class RocketEntity extends Entity implements HasCustomInventoryScreen, IUIHolder, PlayerRideable,
-                          IEntityAdditionalSpawnData /* , IManaged, IAutoPersistEntity */ {
+                          IEntityAdditionalSpawnData {
 
     public static final Object2BooleanMap<Fluid> FUEL_CACHE = new Object2BooleanOpenHashMap<>();
 
@@ -157,7 +158,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         this.configSlot.setFilter(stack -> GCYRItems.ID_CHIP.isIn(stack) || GCYRItems.KEYCARD.isIn(stack));
         this.satelliteSlot = new ItemStackTransfer(1);
         this.satelliteSlot
-                .setFilter(stack -> GCYRItems.SPACE_STATION_PACKAGE.isIn(stack) || stack.is(GCYRTags.SATELLITES));
+                .setFilter(stack -> GCYRItems.SPACE_STATION_PACKAGE.isIn(stack) || stack.is(GCYRTags.Items.SATELLITES));
 
         this.fuelTank = new CustomFluidTank(0, fluid -> FUEL_CACHE.computeIfAbsent(fluid.getFluid(), f -> {
             return this.getServer().getRecipeManager().getAllRecipesFor(GCYRRecipeTypes.ROCKET_FUEL_RECIPES).stream()
@@ -425,19 +426,21 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
 
     public int computeRequiredFuelAmountForDestination(@Nullable Planet destination) {
         Planet current = PlanetData.getPlanetFromLevelOrOrbit(this.level().dimension()).orElse(null);
+        // spotless:off
         if (current == null || destination == null) {
             return (int) (this.getFuelCapacity() * 0.85);
-        } else if (destination.parentWorld() == current.level() || current.parentWorld() == destination.level() ||
+        } else if ((destination.parentDimension().isPresent() && destination.parentDimension().get() == current.dimension()) ||
+                (current.parentDimension().isPresent() && current.parentDimension().get() == destination.dimension()) ||
                 current == destination) {
-                    return GCYRConfig.INSTANCE.rocket.moonFuelAmount;
-                } else
-            if (current.solarSystem().equals(destination.solarSystem())) {
-                return GCYRConfig.INSTANCE.rocket.solarSystemFuelAmount;
-            } else if (current.galaxy().equals(destination.galaxy())) {
-                return GCYRConfig.INSTANCE.rocket.galaxyFuelAmount;
-            } else {
-                return GCYRConfig.INSTANCE.rocket.anywhereFuelAmount;
-            }
+            return GCYRConfig.INSTANCE.rocket.moonFuelAmount;
+        } else if (current.solarSystem().equals(destination.solarSystem())) {
+            return GCYRConfig.INSTANCE.rocket.solarSystemFuelAmount;
+        } else if (current.galaxy().equals(destination.galaxy())) {
+            return GCYRConfig.INSTANCE.rocket.galaxyFuelAmount;
+        } else {
+            return GCYRConfig.INSTANCE.rocket.anywhereFuelAmount;
+        }
+        // spotless:on
     }
 
     public void startRocket() {
@@ -478,7 +481,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
             }
 
             // if the destination is the same as the current location, don't start
-            if (!destinationIsSpaceStation && this.level().dimension() == this.getDestination().level()) {
+            if (!destinationIsSpaceStation && this.level().dimension() == this.getDestination().dimension()) {
                 sendVehicleAtDestinationAlreadyMessage(player);
                 return;
             }
@@ -633,7 +636,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
             this.destinationIsSpaceStation = true;
             // return if no valid station & no station kit
             if (!satelliteStack.is(GCYRItems.SPACE_STATION_PACKAGE.get()) &&
-                    GCYRCapabilityHelper.getSpaceStations(this.getServer().getLevel(getDestination().orbitWorld()))
+                    GCYRCapabilityHelper.getSpaceStations(this.getServer().getLevel(getDestination().orbitDimension()))
                             .getStation(KeyCardBehaviour.getSavedStation(configStack)) == null) {
                 this.setDestination(null);
                 this.destinationIsSpaceStation = false;
@@ -641,7 +644,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
                 this.setDeltaMovement(0, -0.5, 0);
                 return;
             }
-        } else if (satelliteStack.is(GCYRTags.SATELLITES) &&
+        } else if (satelliteStack.is(GCYRTags.Items.SATELLITES) &&
                 satelliteStack.getItem() instanceof ComponentItem componentItem) {
                     for (IItemComponent component : componentItem.getComponents()) {
                         if (component instanceof SatelliteItemBehaviour satelliteItem) {
@@ -650,8 +653,8 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
                         }
                     }
                 }
-        ResourceKey<Level> destinationDim = this.destinationIsSpaceStation ? getDestination().orbitWorld() :
-                getDestination().level();
+        ResourceKey<Level> destinationDim = this.destinationIsSpaceStation ? getDestination().orbitDimension() :
+                getDestination().dimension();
 
         // Go to a random valid planet if rocket doesn't have enough fuel to get to actual destination somehow.
         if (this.fuelTank.drain(computeRequiredFuelAmountForDestination(this.getDestination()) / 3,
@@ -663,7 +666,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
                 }
             }
             var destPlanet = validPlanets.get(GTValues.RNG.nextInt(validPlanets.size()));
-            destinationDim = destPlanet.level();
+            destinationDim = destPlanet.dimension();
         }
 
         final ServerLevel destinationLevel;
