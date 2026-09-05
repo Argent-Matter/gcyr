@@ -12,11 +12,6 @@ import lombok.Getter;
 
 import java.util.function.Supplier;
 
-/**
- * @author Screret
- * @date 2023/4/15
- * @implNote SatelliteType
- */
 public class SatelliteType<T extends Satellite> {
 
     @Getter

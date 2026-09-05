@@ -24,11 +24,6 @@ import java.util.stream.Collectors;
 
 import org.jetbrains.annotations.Nullable;
 
-/**
- * @author Screret
- * @date 2023/4/15
- * @implNote GpsSatellite
- */
 public class GpsSatellite extends Satellite {
 
     public static final Codec<GpsSatellite> CODEC = RecordCodecBuilder
