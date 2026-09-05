@@ -9,6 +9,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -16,17 +17,26 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(Entity.class)
 public abstract class EntityMixin {
 
+    @Shadow
+    public abstract Level level();
+
+    @Shadow
+    public abstract double getY();
+
     @Inject(method = "tick", at = @At("TAIL"))
     private void gcyr$tick(CallbackInfo ci) {
-        // noinspection DataFlowIssue
-        Entity entity = (Entity) (Object) this;
-        if (!(entity.level() instanceof ServerLevel level)) return;
+        if (!(this.level() instanceof ServerLevel level)) return;
 
         // Teleport the entity to the planet when they fall in the void while in an orbit dimension
-        if (entity.getY() < level.getMinBuildHeight() && PlanetData.isOrbitLevel(level.dimension())) {
-            ServerLevel newLevel = level.getServer().getLevel(
-                    PlanetData.getPlanetFromOrbit(level.dimension()).map(Planet::level).orElse(Level.OVERWORLD));
-            Entity newEntity = PlatformUtils.changeDimension(entity, newLevel);
-            newEntity.setPos(newEntity.getX(), 600.0, newEntity.getZ());
+        if (!(this.getY() < level.getMinBuildHeight()) || !PlanetData.isOrbitDimension(level.dimension())) {
+            return;
         }
+
+        var targetDimension = PlanetData.getPlanetFromOrbit(level.dimension())
+                .map(Planet::dimension)
+                .orElse(Level.OVERWORLD);
+        ServerLevel newLevel = level.getServer().getLevel(targetDimension);
+        Entity newEntity = PlatformUtils.changeDimension((Entity) (Object) this, newLevel);
+        newEntity.setPos(newEntity.getX(), 600.0, newEntity.getZ());
     }
+}

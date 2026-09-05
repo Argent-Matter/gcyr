@@ -37,7 +37,7 @@ public class EntityOxygenSystem {
             .newCustomTable(new IdentityHashMap<>(), HashMap::new);
 
     /**
-     * Checks if a level has oxygen, regardless of position.
+     * Checks if a dimension has oxygen, regardless of position.
      */
     public static boolean levelHasOxygen(Level level) {
         return PlanetData.isOxygenated(level);
@@ -47,8 +47,9 @@ public class EntityOxygenSystem {
         // Get all the entries that have changed. If they have been removed, deoxygenate their pos.
         if (!level.isClientSide) {
             if (OXYGEN_LOCATIONS.contains(level.dimension(), source)) {
-                Set<BlockPos> changedPositions = new HashSet<>(OXYGEN_LOCATIONS.get(level.dimension(), source));
+                Set<BlockPos> changedPositions = OXYGEN_LOCATIONS.get(level.dimension(), source);
                 if (changedPositions != null && !changedPositions.isEmpty()) {
+                    changedPositions = new HashSet<>(changedPositions);
                     changedPositions.removeAll(entries);
                     deoxygenizeBlocks((ServerLevel) level, changedPositions, source);
                 }
@@ -90,11 +91,12 @@ public class EntityOxygenSystem {
         if (!entityHasOxygen) {
             if (hasOxygenatedSpaceSuit) {
                 consumeOxygen(entity);
-            } else if (!StreamSupport.stream(entity.getArmorSlots().spliterator(), false)
+            }
+            else if (!StreamSupport.stream(entity.getArmorSlots().spliterator(), false)
                     .allMatch(stack -> stack.is(GCYRTags.Items.IS_SPACESUIT))) {
-                        entity.hurt(level.damageSources().drown(), GCYRConfig.INSTANCE.server.oxygenDamage);
-                        entity.setAirSupply(-40);
-                    }
+                entity.hurt(level.damageSources().drown(), GCYRConfig.INSTANCE.server.oxygenDamage);
+                entity.setAirSupply(-40);
+            }
         }
     }
 
@@ -116,8 +118,7 @@ public class EntityOxygenSystem {
                 return;
             }
 
-            for (BlockPos pos : new HashSet<>(entries)) {
-
+            for (BlockPos pos : entries) {
                 BlockState state = level.getBlockState(pos);
 
                 OXYGEN_LOCATIONS.get(level.dimension(), source).remove(pos);

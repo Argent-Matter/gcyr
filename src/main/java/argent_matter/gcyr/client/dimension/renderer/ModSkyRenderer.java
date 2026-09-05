@@ -80,7 +80,6 @@ public class ModSkyRenderer {
 
         // Render all sky objects
         for (PlanetSkyRenderer.SkyObject skyObject : this.skyObjects) {
-
             float scale = skyObject.scale();
             Vector3f rotation = skyObject.rotation();
             switch (skyObject.renderType()) {
@@ -88,7 +87,7 @@ public class ModSkyRenderer {
                 case DYNAMIC -> rotation = new Vector3f(level.getTimeOfDay(tickDelta) * 360.0f + rotation.x(),
                         rotation.y(), rotation.z());
                 case SCALING -> scale *= SkyUtil.getScale();
-                case DEBUG -> rotation = new Vector3f(60, 0, 0); // Test things without restarting Minecraft
+                case DEBUG -> rotation = new Vector3f(60.0f, 0.0f, 0.0f); // Test things without restarting Minecraft
             }
             SkyUtil.render(poseStack, bufferBuilder, skyObject.texture(), skyObject.color(), rotation, scale,
                     skyObject.blending());

@@ -94,36 +94,35 @@ public class PlatformMultiblockMachine extends MultiblockControllerMachine imple
     }
 
     /**
-     * @param world     the world to check
+     * @param level     the level to check
      * @param pos       the pos to check and move
      * @param direction the direction to move
      * @return if a block is a valid wall block at pos moved in direction
      */
-    public boolean isBlockEdge(@Nonnull Level world, @Nonnull BlockPos.MutableBlockPos pos,
-                               @Nonnull Direction direction) {
-        return world.getBlockState(pos.move(direction)).is(GCYRBlocks.LAUNCH_PAD.get()) &&
-                !world.getBlockState(pos.relative(direction, 1)).is(GCYRBlocks.LAUNCH_PAD.get());
+    public boolean isBlockEdge(Level level, BlockPos.MutableBlockPos pos, Direction direction) {
+        return level.getBlockState(pos.move(direction)).is(GCYRBlocks.LAUNCH_PAD.get()) &&
+                !level.getBlockState(pos.relative(direction, 1)).is(GCYRBlocks.LAUNCH_PAD.get());
     }
 
     /**
-     * @param world     the world to check
+     * @param level     the level to check
      * @param pos       the pos to check and move
      * @param direction the direction to move
      * @return if a block is a valid floor block at pos moved in direction
      */
-    public boolean isBlockTowerEnd(@Nonnull Level world, @Nonnull BlockPos.MutableBlockPos pos,
-                                   @Nonnull Direction direction) {
-        return world.getBlockState(pos.move(Direction.UP, 1))
-                .is(MATERIAL_BLOCKS.get(TagPrefix.frameGt, GTMaterials.StainlessSteel).get()) &&
-                !world.getBlockState(pos.relative(Direction.UP, 1))
-                        .is(MATERIAL_BLOCKS.get(TagPrefix.frameGt, GTMaterials.StainlessSteel).get());
+    public boolean isBlockTowerEnd(Level level, BlockPos.MutableBlockPos pos, Direction direction) {
+        pos = pos.move(Direction.UP, 1);
+        if (!level.getBlockState(pos).is(MATERIAL_BLOCKS.get(TagPrefix.frameGt, GTMaterials.StainlessSteel).get())) {
+            return false;
+        }
+        return !level.getBlockState(pos.relative(Direction.UP, 1))
+                .is(MATERIAL_BLOCKS.get(TagPrefix.frameGt, GTMaterials.StainlessSteel).get());
     }
 
     @Override
     public BlockPattern getPattern() {
         // return the default structure, even if there is no valid size found
         // this means auto-build will still work, and prevents terminal crashes.
-        // noinspection ConstantValue
         if (getLevel() != null) updateStructureDimensions();
 
         // these can sometimes get set to 0 when loading the game, breaking JEI
