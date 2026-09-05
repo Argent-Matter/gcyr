@@ -1,4 +1,4 @@
-package argent_matter.gcyr.common.data;
+package argent_matter.gcyr.common.data.entity;
 
 import argent_matter.gcyr.api.space.planet.Planet;
 import argent_matter.gcyr.data.loader.PlanetData;

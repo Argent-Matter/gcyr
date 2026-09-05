@@ -1,4 +1,4 @@
-package argent_matter.gcyr.common.data;
+package argent_matter.gcyr.common.data.item;
 
 import com.gregtechceu.gtceu.common.data.GTCreativeModeTabs;
 

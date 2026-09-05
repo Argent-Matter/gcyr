@@ -1,8 +1,9 @@
-package argent_matter.gcyr.common.data;
+package argent_matter.gcyr.common.data.recipe;
 
 import argent_matter.gcyr.GCYR;
 import argent_matter.gcyr.api.gui.widget.GCYRGuiTextures;
 
+import argent_matter.gcyr.common.data.client.GCYRSoundEntries;
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.recipe.GTRecipeSerializer;

@@ -7,7 +7,7 @@ import argent_matter.gcyr.api.space.planet.Planet;
 import argent_matter.gcyr.api.space.planet.PlanetRing;
 import argent_matter.gcyr.api.space.planet.SolarSystem;
 import argent_matter.gcyr.client.gui.Category;
-import argent_matter.gcyr.common.data.GCYRNetworking;
+import argent_matter.gcyr.common.data.network.GCYRNetworking;
 import argent_matter.gcyr.common.gui.PlanetSelectionMenu;
 import argent_matter.gcyr.common.networking.c2s.PacketCreateSpaceStation;
 import argent_matter.gcyr.common.networking.c2s.PacketSendSelectedDimension;

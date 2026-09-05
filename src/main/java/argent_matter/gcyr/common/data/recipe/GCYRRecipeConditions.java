@@ -1,4 +1,4 @@
-package argent_matter.gcyr.common.data;
+package argent_matter.gcyr.common.data.recipe;
 
 import argent_matter.gcyr.common.recipe.condition.DysonSphereCondition;
 import argent_matter.gcyr.common.recipe.condition.OrbitCondition;

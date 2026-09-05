@@ -1,9 +1,9 @@
-package argent_matter.gcyr.forge;
+package argent_matter.gcyr.common;
 
 import argent_matter.gcyr.GCYR;
 import argent_matter.gcyr.api.capability.GCYRCapabilityHelper;
 import argent_matter.gcyr.api.capability.IDysonSystem;
-import argent_matter.gcyr.common.data.GCYRNetworking;
+import argent_matter.gcyr.common.data.network.GCYRNetworking;
 import argent_matter.gcyr.common.item.armor.SpaceSuitArmorItem;
 import argent_matter.gcyr.common.networking.s2c.PacketSyncDysonSphereStatus;
 import argent_matter.gcyr.common.recipe.type.SmithingSpaceSuitRecipe;
@@ -41,7 +41,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 @Mod.EventBusSubscriber(modid = GCYR.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
-public class ForgeCommonEventListener {
+public class CommonEventListener {
 
     @SubscribeEvent
     public static void registerItemStackCapabilities(AttachCapabilitiesEvent<ItemStack> event) {

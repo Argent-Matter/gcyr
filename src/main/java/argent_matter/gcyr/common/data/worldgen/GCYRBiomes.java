@@ -1,4 +1,4 @@
-package argent_matter.gcyr.common.data;
+package argent_matter.gcyr.common.data.worldgen;
 
 import argent_matter.gcyr.GCYR;
 

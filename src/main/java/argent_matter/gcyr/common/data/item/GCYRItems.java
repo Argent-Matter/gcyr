@@ -1,6 +1,7 @@
-package argent_matter.gcyr.common.data;
+package argent_matter.gcyr.common.data.item;
 
 import argent_matter.gcyr.GCYR;
+import argent_matter.gcyr.common.data.GCYRSatellites;
 import argent_matter.gcyr.common.item.*;
 import argent_matter.gcyr.common.item.armor.SpaceSuitArmorItem;
 import argent_matter.gcyr.common.item.armor.trim.GCYRTrimPatterns;
@@ -12,7 +13,6 @@ import com.gregtechceu.gtceu.api.item.component.IItemComponent;
 import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;

@@ -2,7 +2,7 @@ package argent_matter.gcyr.common.machine.multiblock.electric;
 
 import argent_matter.gcyr.api.capability.GCYRCapabilityHelper;
 import argent_matter.gcyr.api.capability.IDysonSystem;
-import argent_matter.gcyr.common.data.GCYRParticles;
+import argent_matter.gcyr.common.data.client.GCYRParticles;
 import argent_matter.gcyr.config.GCYRConfig;
 
 import com.gregtechceu.gtceu.api.capability.recipe.ItemRecipeCapability;

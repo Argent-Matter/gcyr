@@ -1,6 +1,6 @@
 package argent_matter.gcyr.common.item.armor;
 
-import argent_matter.gcyr.common.data.GCYRItems;
+import argent_matter.gcyr.common.data.item.GCYRItems;
 
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;

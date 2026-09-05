@@ -1,4 +1,4 @@
-package argent_matter.gcyr.common.data;
+package argent_matter.gcyr.common.data.client;
 
 import argent_matter.gcyr.client.gui.screen.PlanetSelectionScreen;
 import argent_matter.gcyr.common.gui.PlanetSelectionMenu;

@@ -1,4 +1,4 @@
-package argent_matter.gcyr.common.data;
+package argent_matter.gcyr.common.data.dimension;
 
 import argent_matter.gcyr.GCYR;
 import argent_matter.gcyr.api.registries.GCYRRegistries;

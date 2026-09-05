@@ -1,7 +1,7 @@
 package argent_matter.gcyr.common.recipe.type;
 
-import argent_matter.gcyr.common.data.GCYRItems;
-import argent_matter.gcyr.common.data.GCYRVanillaRecipeTypes;
+import argent_matter.gcyr.common.data.item.GCYRItems;
+import argent_matter.gcyr.common.data.recipe.GCYRVanillaRecipeTypes;
 import argent_matter.gcyr.common.item.armor.trim.GCYRTrimMaterials;
 import argent_matter.gcyr.common.item.armor.trim.GCYRTrimPatterns;
 

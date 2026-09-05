@@ -1,10 +1,13 @@
-package argent_matter.gcyr.common.data;
+package argent_matter.gcyr.common.data.block;
 
 import argent_matter.gcyr.GCYR;
 import argent_matter.gcyr.api.block.IFuelTankProperties;
 import argent_matter.gcyr.api.block.IRocketMotorType;
+import argent_matter.gcyr.api.block.StoneVariant;
 import argent_matter.gcyr.common.block.FuelTankBlock;
 import argent_matter.gcyr.common.block.RocketMotorBlock;
+import argent_matter.gcyr.common.data.item.GCYRCreativeModeTabs;
+import argent_matter.gcyr.common.data.client.GCYRModels;
 import argent_matter.gcyr.data.recipe.GCYRTags;
 
 import com.gregtechceu.gtceu.utils.FormattingUtil;

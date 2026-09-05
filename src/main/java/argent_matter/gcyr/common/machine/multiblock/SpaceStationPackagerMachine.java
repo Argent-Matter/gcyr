@@ -3,7 +3,7 @@ package argent_matter.gcyr.common.machine.multiblock;
 import argent_matter.gcyr.api.capability.GCYRCapabilityHelper;
 import argent_matter.gcyr.api.capability.ISpaceStationHolder;
 import argent_matter.gcyr.api.space.planet.Planet;
-import argent_matter.gcyr.common.data.GCYRItems;
+import argent_matter.gcyr.common.data.item.GCYRItems;
 import argent_matter.gcyr.common.item.KeyCardBehaviour;
 import argent_matter.gcyr.common.item.PlanetIdChipBehaviour;
 import argent_matter.gcyr.common.item.StationContainerBehaviour;

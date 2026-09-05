@@ -1,6 +1,6 @@
 package argent_matter.gcyr.common.machine.multiblock;
 
-import argent_matter.gcyr.common.data.GCYRBlocks;
+import argent_matter.gcyr.common.data.block.GCYRBlocks;
 
 import com.gregtechceu.gtceu.api.data.tag.TagPrefix;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;

@@ -1,6 +1,7 @@
-package argent_matter.gcyr.common.data;
+package argent_matter.gcyr.common.data.machine;
 
 import argent_matter.gcyr.GCYR;
+import argent_matter.gcyr.common.data.recipe.GCYRRecipeTypes;
 import argent_matter.gcyr.common.machine.electric.OxygenSpreaderMachine;
 import argent_matter.gcyr.common.machine.multiblock.RocketScannerMachine;
 import argent_matter.gcyr.common.machine.multiblock.SpaceStationPackagerMachine;
@@ -43,7 +44,7 @@ import java.util.List;
 import java.util.function.BiFunction;
 
 import static argent_matter.gcyr.api.registries.GCYRRegistries.REGISTRATE;
-import static argent_matter.gcyr.common.data.GCYRBlocks.*;
+import static argent_matter.gcyr.common.data.block.GCYRBlocks.*;
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.pattern.Predicates.*;
 import static com.gregtechceu.gtceu.common.data.GCYMBlocks.CASING_ATOMIC;

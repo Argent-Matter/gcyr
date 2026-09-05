@@ -1,6 +1,6 @@
 package argent_matter.gcyr.common.worldgen;
 
-import argent_matter.gcyr.common.data.GCYRBiomes;
+import argent_matter.gcyr.common.data.worldgen.GCYRBiomes;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;

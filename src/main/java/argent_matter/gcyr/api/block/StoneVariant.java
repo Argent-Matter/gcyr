@@ -1,4 +1,4 @@
-package argent_matter.gcyr.common.data;
+package argent_matter.gcyr.api.block;
 
 import argent_matter.gcyr.GCYR;
 
@@ -12,6 +12,7 @@ import net.minecraft.world.level.material.MapColor;
 
 import net.minecraftforge.common.Tags;
 
+import argent_matter.gcyr.common.data.client.GCYRModels;
 import com.tterrag.registrate.builders.BlockBuilder;
 import com.tterrag.registrate.util.entry.BlockEntry;
 

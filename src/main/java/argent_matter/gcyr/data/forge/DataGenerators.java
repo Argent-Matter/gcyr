@@ -1,10 +1,11 @@
 package argent_matter.gcyr.data.forge;
 
 import argent_matter.gcyr.GCYR;
-import argent_matter.gcyr.common.data.GCYRBiomes;
+import argent_matter.gcyr.common.data.worldgen.GCYRBiomes;
 import argent_matter.gcyr.common.item.armor.trim.GCYRTrimMaterials;
 import argent_matter.gcyr.common.item.armor.trim.GCYRTrimPatterns;
 
+import argent_matter.gcyr.data.tags.BiomeTagsLoader;
 import com.gregtechceu.gtceu.api.registry.registrate.SoundEntryBuilder;
 
 import net.minecraft.core.RegistrySetBuilder;

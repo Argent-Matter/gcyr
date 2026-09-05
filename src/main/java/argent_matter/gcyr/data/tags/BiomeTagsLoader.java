@@ -1,7 +1,7 @@
 package argent_matter.gcyr.data.forge;
 
 import argent_matter.gcyr.GCYR;
-import argent_matter.gcyr.common.data.GCYRBiomes;
+import argent_matter.gcyr.common.data.worldgen.GCYRBiomes;
 import argent_matter.gcyr.data.recipe.GCYRTags;
 
 import net.minecraft.core.HolderLookup;

@@ -1,6 +1,6 @@
 package argent_matter.gcyr.common.networking.c2s;
 
-import argent_matter.gcyr.common.data.GCYRNetworking;
+import argent_matter.gcyr.common.data.network.GCYRNetworking;
 import argent_matter.gcyr.common.networking.s2c.PacketReturnPlanetData;
 
 import com.lowdragmc.lowdraglib.networking.IHandlerContext;

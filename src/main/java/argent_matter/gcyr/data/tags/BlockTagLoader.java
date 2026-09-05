@@ -1,17 +1,14 @@
 package argent_matter.gcyr.data.tags;
 
-import argent_matter.gcyr.common.data.GCYRBlocks;
+import argent_matter.gcyr.common.data.block.GCYRBlocks;
 import argent_matter.gcyr.data.recipe.GCYRTags;
 
 import com.gregtechceu.gtceu.common.data.GTBlocks;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
 
 import com.tterrag.registrate.providers.RegistrateTagsProvider;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraftforge.common.Tags;
 
 public class BlockTagLoader {
 

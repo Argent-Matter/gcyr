@@ -1,6 +1,6 @@
 package argent_matter.gcyr.common.item;
 
-import argent_matter.gcyr.common.data.GCYRItems;
+import argent_matter.gcyr.common.data.item.GCYRItems;
 import argent_matter.gcyr.util.PosWithState;
 
 import com.gregtechceu.gtceu.api.item.component.IAddInformation;

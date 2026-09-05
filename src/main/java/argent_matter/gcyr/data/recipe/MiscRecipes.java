@@ -1,10 +1,10 @@
 package argent_matter.gcyr.data.recipe;
 
 import argent_matter.gcyr.GCYR;
-import argent_matter.gcyr.common.data.GCYRBlocks;
-import argent_matter.gcyr.common.data.GCYRItems;
-import argent_matter.gcyr.common.data.GCYRMachines;
-import argent_matter.gcyr.common.data.GCYRMaterials;
+import argent_matter.gcyr.common.data.block.GCYRBlocks;
+import argent_matter.gcyr.common.data.item.GCYRItems;
+import argent_matter.gcyr.common.data.machine.GCYRMachines;
+import argent_matter.gcyr.common.data.material.GCYRMaterials;
 import argent_matter.gcyr.data.recipe.builder.SmithingSpaceSuitRecipeBuilder;
 import argent_matter.gcyr.data.recipe.builder.SmithingThermalUpgradeRecipeBuilder;
 
@@ -27,11 +27,10 @@ import com.tterrag.registrate.util.entry.BlockEntry;
 
 import java.util.function.Consumer;
 
-import static argent_matter.gcyr.common.data.GCYRMaterials.*;
+import static argent_matter.gcyr.common.data.material.GCYRMaterials.*;
 import static com.gregtechceu.gtceu.api.GTValues.*;
 import static com.gregtechceu.gtceu.api.data.tag.TagPrefix.*;
 import static com.gregtechceu.gtceu.common.data.GTMaterials.*;
-import static com.gregtechceu.gtceu.data.recipe.CraftingComponent.*;
 import static com.gregtechceu.gtceu.data.recipe.GTCraftingComponents.*;
 
 public class MiscRecipes {

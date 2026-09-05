@@ -1,4 +1,4 @@
-package argent_matter.gcyr.forge;
+package argent_matter.gcyr.client;
 
 import argent_matter.gcyr.GCYR;
 import argent_matter.gcyr.client.data.GCYRParticleProviders;
@@ -12,7 +12,7 @@ import net.minecraftforge.fml.common.Mod;
 
 @SuppressWarnings("unused")
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = GCYR.MOD_ID, value = Dist.CLIENT)
-public class GCYRForgeClientEvents {
+public class ClientEventListener {
 
     @SubscribeEvent
     public static void registerParticles(RegisterParticleProvidersEvent event) {

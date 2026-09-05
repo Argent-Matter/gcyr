@@ -2,7 +2,7 @@ package argent_matter.gcyr.common.recipe.condition;
 
 import argent_matter.gcyr.api.capability.GCYRCapabilityHelper;
 import argent_matter.gcyr.api.capability.IDysonSystem;
-import argent_matter.gcyr.common.data.GCYRRecipeConditions;
+import argent_matter.gcyr.common.data.recipe.GCYRRecipeConditions;
 
 import com.gregtechceu.gtceu.api.machine.trait.RecipeLogic;
 import com.gregtechceu.gtceu.api.recipe.GTRecipe;

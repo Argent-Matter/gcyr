@@ -1,4 +1,4 @@
-package argent_matter.gcyr.common.data;
+package argent_matter.gcyr.common.data.entity;
 
 import argent_matter.gcyr.client.renderer.entity.RocketEntityRenderer;
 import argent_matter.gcyr.common.entity.RocketEntity;

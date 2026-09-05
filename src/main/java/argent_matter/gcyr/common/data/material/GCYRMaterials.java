@@ -1,4 +1,4 @@
-package argent_matter.gcyr.common.data;
+package argent_matter.gcyr.common.data.material;
 
 import argent_matter.gcyr.GCYR;
 
@@ -29,8 +29,8 @@ public class GCYRMaterials {
         TitaniumTungstenCarbide.addFlags(GENERATE_ROD);
         Titanium.setProperty(PropertyKey.ORE, new OreProperty());
 
-        GTMaterials.Hydrogen.getProperty(PropertyKey.FLUID).enqueueRegistration(FluidStorageKeys.PLASMA,
-                new FluidBuilder());
+        GTMaterials.Hydrogen.getProperty(PropertyKey.FLUID)
+                .enqueueRegistration(FluidStorageKeys.PLASMA, new FluidBuilder());
     }
 
     // region first degree mats
