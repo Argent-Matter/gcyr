@@ -59,8 +59,11 @@ public class GCYRBlocks {
 
     // region mercury
 
-    private static final StoneVariant MERCURY_VARIANT = new StoneVariant(REGISTRATE, "mercurian", StoneVariant.BaseType.ROCK, MapColor.COLOR_GRAY);
+    private static final StoneVariant MERCURY_VARIANT = new StoneVariant(REGISTRATE, "mercurian",
+            StoneVariant.BaseType.ROCK, MapColor.COLOR_GRAY);
     public static final BlockSetType MERCURY_SET = MERCURY_VARIANT.blockSetType();
+
+    // todo needs better texture
     public static final BlockEntry<Block> MERCURY_COBBLESTONE = MERCURY_VARIANT
             .cobblestone("Cobbled Mercurian Rock")
             .register();
@@ -86,16 +89,18 @@ public class GCYRBlocks {
             .register();
 
     public static final BlockEntry<ButtonBlock> MERCURY_ROCK_BUTTON = MERCURY_VARIANT
-            .button("rock", "Mercurian Rock Button", MERCURY_ROCK, MERCURY_SET)
+            .button("Mercurian Rock Button", MERCURY_ROCK, MERCURY_SET)
             .register();
 
     // endregion
 
     // region venus
 
-    private static final StoneVariant VENUS_VARIANT = new StoneVariant(REGISTRATE, "venusian", StoneVariant.BaseType.ROCK, MapColor.COLOR_GRAY);
+    private static final StoneVariant VENUS_VARIANT = new StoneVariant(REGISTRATE, "venusian",
+            StoneVariant.BaseType.ROCK, MapColor.COLOR_GRAY);
     public static final BlockSetType VENUS_SET = VENUS_VARIANT.blockSetType();
 
+    // todo needs better texture
     public static final BlockEntry<Block> VENUS_COBBLESTONE = VENUS_VARIANT
             .cobblestone("Cobbled Venusian Rock")
             .register();
@@ -122,7 +127,7 @@ public class GCYRBlocks {
             .register();
 
     public static final BlockEntry<ButtonBlock> VENUS_ROCK_BUTTON = VENUS_VARIANT
-            .button("rock", "Venusian Rock Button", VENUS_ROCK, VENUS_SET)
+            .button("Venusian Rock Button", VENUS_ROCK, VENUS_SET)
             .register();
 
     public static final BlockEntry<FallingBlock> VENUS_SAND = REGISTRATE
@@ -149,9 +154,11 @@ public class GCYRBlocks {
 
     // region moon
 
-    private static final StoneVariant LUNA_VARIANT = new StoneVariant(REGISTRATE, "lunar", StoneVariant.BaseType.STONE, MapColor.COLOR_GRAY);
+    private static final StoneVariant LUNA_VARIANT = new StoneVariant(REGISTRATE, "lunar", StoneVariant.BaseType.STONE,
+            MapColor.COLOR_GRAY);
     public static final BlockSetType LUNA_SET = LUNA_VARIANT.blockSetType();
 
+    // todo needs better texture
     public static final BlockEntry<Block> LUNAR_COBBLESTONE = LUNA_VARIANT
             .cobblestone("Cobbled Lunar Stone")
             .register();
@@ -178,7 +185,7 @@ public class GCYRBlocks {
             .register();
 
     public static final BlockEntry<ButtonBlock> LUNAR_STONE_BUTTON = LUNA_VARIANT
-            .button("stone", "Lunar Stone Button", LUNAR_STONE, LUNA_SET)
+            .button("Lunar Stone Button", LUNAR_STONE, LUNA_SET)
             .register();
 
     public static final BlockEntry<FallingBlock> LUNAR_MARE_REGOLITH = REGISTRATE
@@ -205,7 +212,8 @@ public class GCYRBlocks {
 
     // region mars
 
-    private static final StoneVariant MARS_VARIANT = new StoneVariant(REGISTRATE, "martian", StoneVariant.BaseType.ROCK, MapColor.COLOR_GRAY);
+    private static final StoneVariant MARS_VARIANT = new StoneVariant(REGISTRATE, "martian", StoneVariant.BaseType.ROCK,
+            MapColor.COLOR_GRAY);
     public static final BlockSetType MARS_SET = MARS_VARIANT.blockSetType();
 
     public static final BlockEntry<FallingBlock> MARS_REGOLITH = REGISTRATE
@@ -217,6 +225,7 @@ public class GCYRBlocks {
             .simpleItem()
             .register();
 
+    // todo needs better texture
     public static final BlockEntry<Block> MARTIAN_COBBLESTONE = MARS_VARIANT
             .cobblestone("Cobbled Martian Rock")
             .register();
@@ -243,28 +252,31 @@ public class GCYRBlocks {
             .register();
 
     public static final BlockEntry<ButtonBlock> MARTIAN_ROCK_BUTTON = MARS_VARIANT
-            .button("rock", "Martian Rock Button", MARTIAN_ROCK, MARS_SET)
+            .button("Martian Rock Button", MARTIAN_ROCK, MARS_SET)
             .register();
 
     // endregion
 
     // region proxima centauri b
 
-    private static final StoneVariant PROXIMA_CENTAURI_B_VARIANT = new StoneVariant(REGISTRATE, "proximian", StoneVariant.BaseType.ROCK, MapColor.COLOR_GRAY);
+    private static final StoneVariant PROXIMA_CENTAURI_B_VARIANT = new StoneVariant(REGISTRATE, "proximian",
+            StoneVariant.BaseType.STONE, MapColor.COLOR_GRAY);
     public static final BlockSetType PROXIMA_CENTAURI_B_SET = PROXIMA_CENTAURI_B_VARIANT.blockSetType();
 
+    // todo needs better texture
     public static final BlockEntry<Block> PROXIMIAN_COBBLESTONE = PROXIMA_CENTAURI_B_VARIANT
             .cobblestone("Cobbled Proximian Stone")
             .initialProperties(() -> Blocks.COBBLED_DEEPSLATE)
             .register();
 
+    // todo needs better texture
     public static final BlockEntry<RotatedPillarBlock> PROXIMIAN_STONE = REGISTRATE
             .block("proximian_stone", RotatedPillarBlock::new)
             .lang("Proximian Stone")
             .initialProperties(() -> Blocks.DEEPSLATE)
             .properties(p -> p.mapColor(MapColor.COLOR_RED))
-            .blockstate((ctx, prov) -> prov.axisBlock(ctx.getEntry()))
-            .loot((tables, block) -> tables.createSingleItemTableWithSilkTouch(block, PROXIMIAN_COBBLESTONE))
+            // .blockstate((ctx, prov) -> prov.axisBlock(ctx.getEntry()))
+            .loot((tables, block) -> tables.add(block, tables.createSingleItemTableWithSilkTouch(block, PROXIMIAN_COBBLESTONE)))
             .tag(BlockTags.MINEABLE_WITH_PICKAXE, Tags.Blocks.STONE)
             .simpleItem()
             .register();
@@ -290,7 +302,7 @@ public class GCYRBlocks {
             .register();
 
     public static final BlockEntry<ButtonBlock> PROXIMIAN_STONE_BUTTON = PROXIMA_CENTAURI_B_VARIANT
-            .button("stone", "Proximian Stone Button", PROXIMIAN_STONE, PROXIMA_CENTAURI_B_SET)
+            .button("Proximian Stone Button", PROXIMIAN_STONE, PROXIMA_CENTAURI_B_SET)
             .initialProperties(() -> Blocks.COBBLED_DEEPSLATE)
             .register();
 

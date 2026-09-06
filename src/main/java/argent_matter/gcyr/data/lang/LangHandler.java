@@ -16,10 +16,11 @@ public class LangHandler extends com.gregtechceu.gtceu.data.lang.LangHandler {
 
     public static void init(RegistrateLangProvider provider) {
         // tag prefixes
-        provider.add("tagprefix.moon", TagPrefix.get("moon").langValue());
-        provider.add("tagprefix.mars", TagPrefix.get("mars").langValue());
-        provider.add("tagprefix.venus", TagPrefix.get("venus").langValue());
-        provider.add("tagprefix.mercury", TagPrefix.get("mercury").langValue());
+        provider.add("tagprefix.lunar", TagPrefix.get("lunar").langValue());
+        provider.add("tagprefix.martian", TagPrefix.get("martian").langValue());
+        provider.add("tagprefix.venusian", TagPrefix.get("venusian").langValue());
+        provider.add("tagprefix.mercurian", TagPrefix.get("mercurian").langValue());
+        provider.add("tagprefix.proximian", TagPrefix.get("proximian").langValue());
 
         // materials
         replace(provider, GCYRMaterials.Bisalloy400.getUnlocalizedName(), "Bisalloy-400");

@@ -20,6 +20,8 @@ public class GCYRWorldGenLayers {
             () -> new BlockMatchTest(GCYRBlocks.MERCURY_ROCK.get()), Set.of(GCYR.id("mercury")));
     public static IWorldGenLayer VENUS = new SimpleWorldGenLayer("venus",
             () -> new BlockMatchTest(GCYRBlocks.VENUS_ROCK.get()), Set.of(GCYR.id("venus")));
+    public static IWorldGenLayer PROXIMA_CENTAURI_B = new SimpleWorldGenLayer("proxima_centauri_b",
+            () -> new BlockMatchTest(GCYRBlocks.PROXIMIAN_STONE.get()), Set.of(GCYR.id("proxima_centauri_b")));
 
     public static void init() {}
 }
