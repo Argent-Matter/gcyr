@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/slab",
-  "textures": {
-    "bottom": "gcyr:block/martian_cobblestone",
-    "side": "gcyr:block/martian_cobblestone",
-    "top": "gcyr:block/martian_cobblestone"
-  }
-}

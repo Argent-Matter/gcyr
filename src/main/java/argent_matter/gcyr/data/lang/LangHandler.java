@@ -169,7 +169,6 @@ public class LangHandler extends com.gregtechceu.gtceu.data.lang.LangHandler {
         provider.add("dimension.gcyr.proxima_centauri_b", "Proxima Centauri b");
         provider.add("dimension.gcyr.proxima_centauri_b_orbit", "Proxima Centauri b Orbit");
 
-
         // behaviours
         provider.add("behaviour.gps_tracker.track_entity", "Track Entity");
 

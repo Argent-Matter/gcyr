@@ -13,6 +13,7 @@ public class GCYRMixinPlugin implements IMixinConfigPlugin {
 
     private static final String MIXIN_PACKAGE = "argent_matter.gcyr.core.mixin.";
     private static final String DEV_PACKAGE = "dev.";
+    private static final String DATAGEN_PACKAGE = "dev.datagen.";
     private static final String WORLDBORDER_PACKAGE = "worldborder.";
 
     @Override
@@ -38,7 +39,12 @@ public class GCYRMixinPlugin implements IMixinConfigPlugin {
 
         if (mixinClassName.startsWith(DEV_PACKAGE)) {
             // don't load dev-only mixins in prod
-            return !FMLLoader.isProduction();
+            if (FMLLoader.isProduction()) {
+                return false;
+            }
+            if (mixinClassName.startsWith(DATAGEN_PACKAGE)) {
+                return FMLLoader.getLaunchHandler().isData();
+            }
         }
 
         if (mixinClassName.startsWith(WORLDBORDER_PACKAGE)) {

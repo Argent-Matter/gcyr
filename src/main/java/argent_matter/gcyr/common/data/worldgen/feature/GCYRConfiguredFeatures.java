@@ -2,6 +2,7 @@ package argent_matter.gcyr.common.data.worldgen.feature;
 
 import argent_matter.gcyr.GCYR;
 import argent_matter.gcyr.common.data.block.GCYRBlocks;
+
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstapContext;
@@ -31,9 +32,6 @@ public class GCYRConfiguredFeatures {
     public static final ResourceKey<ConfiguredFeature<?, ?>> MOON_ROCK = register("moon_rock");
 
     public static void bootstrap(BootstapContext<ConfiguredFeature<?, ?>> ctx) {
-        HolderGetter<Feature<?>> features = ctx.lookup(Registries.FEATURE);
-        HolderGetter<Biome> biomes = ctx.lookup(Registries.BIOME);
-
         FeatureUtils.register(ctx, LUNAR_MARE_CRATER, Feature.GEODE, new GeodeConfiguration(
                 new GeodeBlockSettings(
                         BlockStateProvider.simple(Blocks.AIR),
@@ -41,7 +39,7 @@ public class GCYRConfiguredFeatures {
                         BlockStateProvider.simple(Blocks.AIR),
                         BlockStateProvider.simple(Blocks.AIR),
                         BlockStateProvider.simple(GCYRBlocks.LUNAR_MARE_REGOLITH.get()),
-                        List.of(),
+                        List.of(Blocks.AIR.defaultBlockState()),
                         BlockTags.FEATURES_CANNOT_REPLACE,
                         BlockTags.GEODE_INVALID_BLOCKS
                 ),
@@ -60,7 +58,7 @@ public class GCYRConfiguredFeatures {
                         BlockStateProvider.simple(Blocks.AIR),
                         BlockStateProvider.simple(Blocks.AIR),
                         BlockStateProvider.simple(GCYRBlocks.LUNAR_SAND.get()),
-                        List.of(),
+                        List.of(Blocks.AIR.defaultBlockState()),
                         BlockTags.FEATURES_CANNOT_REPLACE,
                         BlockTags.GEODE_INVALID_BLOCKS
                 ),
@@ -73,7 +71,6 @@ public class GCYRConfiguredFeatures {
                 -24, 24, 0.005, 2000
         ));
         FeatureUtils.register(ctx, MOON_ROCK, Feature.FOREST_ROCK, new BlockStateConfiguration(Blocks.OBSIDIAN.defaultBlockState()));
-
     }
     // spotless:on
 

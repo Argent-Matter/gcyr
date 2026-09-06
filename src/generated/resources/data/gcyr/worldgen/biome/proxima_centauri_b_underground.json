@@ -1,0 +1,53 @@
+{
+  "carvers": {
+    "air": [
+      "minecraft:cave",
+      "minecraft:cave_extra_underground",
+      "minecraft:canyon"
+    ]
+  },
+  "creature_spawn_probability": 0.0,
+  "downfall": 0.0,
+  "effects": {
+    "fog_color": 804422,
+    "foliage_color": 2514311,
+    "grass_color": 2514311,
+    "mood_sound": {
+      "block_search_extent": 8,
+      "offset": 2.0,
+      "sound": "minecraft:ambient.cave",
+      "tick_delay": 6000
+    },
+    "sky_color": 734520,
+    "water_color": 1778989,
+    "water_fog_color": 1711907
+  },
+  "features": [
+    [],
+    [],
+    [
+      "minecraft:large_dripstone"
+    ],
+    [],
+    [],
+    [],
+    [],
+    [
+      "minecraft:dripstone_cluster",
+      "minecraft:pointed_dripstone"
+    ]
+  ],
+  "has_precipitation": false,
+  "spawn_costs": {},
+  "spawners": {
+    "ambient": [],
+    "axolotls": [],
+    "creature": [],
+    "misc": [],
+    "monster": [],
+    "underground_water_creature": [],
+    "water_ambient": [],
+    "water_creature": []
+  },
+  "temperature": 0.1
+}

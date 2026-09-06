@@ -1,12 +1,14 @@
 package argent_matter.gcyr.common.data.worldgen.biome;
 
 import argent_matter.gcyr.common.data.worldgen.feature.GCYRPlacedFeatures;
+
 import net.minecraft.core.HolderGetter;
 import net.minecraft.data.worldgen.Carvers;
 import net.minecraft.world.level.biome.*;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.carver.ConfiguredWorldCarver;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
+
 import net.minecraftforge.common.world.BiomeSpecialEffectsBuilder;
 
 public class MoonBiomes {
@@ -30,7 +32,8 @@ public class MoonBiomes {
 
     public static Biome lunarMare(HolderGetter<PlacedFeature> placedFeatures,
                                   HolderGetter<ConfiguredWorldCarver<?>> worldCarvers) {
-        BiomeGenerationSettings.Builder generationSettings = new BiomeGenerationSettings.Builder(placedFeatures, worldCarvers)
+        BiomeGenerationSettings.Builder generationSettings = new BiomeGenerationSettings.Builder(placedFeatures,
+                worldCarvers)
                 .addCarver(GenerationStep.Carving.AIR, Carvers.CAVE)
                 .addCarver(GenerationStep.Carving.AIR, Carvers.CAVE_EXTRA_UNDERGROUND)
                 .addFeature(GenerationStep.Decoration.LOCAL_MODIFICATIONS, GCYRPlacedFeatures.LUNAR_MARE_CRATER);
@@ -39,7 +42,8 @@ public class MoonBiomes {
 
     public static Biome lunarPlains(HolderGetter<PlacedFeature> placedFeatures,
                                     HolderGetter<ConfiguredWorldCarver<?>> worldCarvers) {
-        BiomeGenerationSettings.Builder generationSettings = new BiomeGenerationSettings.Builder(placedFeatures, worldCarvers)
+        BiomeGenerationSettings.Builder generationSettings = new BiomeGenerationSettings.Builder(placedFeatures,
+                worldCarvers)
                 .addCarver(GenerationStep.Carving.AIR, Carvers.CAVE)
                 .addCarver(GenerationStep.Carving.AIR, Carvers.CAVE_EXTRA_UNDERGROUND)
                 .addFeature(GenerationStep.Decoration.LOCAL_MODIFICATIONS, GCYRPlacedFeatures.MOON_ROCK)

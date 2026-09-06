@@ -43,10 +43,9 @@ public class DataGenerators {
                             .add(Registries.CONFIGURED_FEATURE, GCYRConfiguredFeatures::bootstrap)
                             .add(Registries.PLACED_FEATURE, GCYRPlacedFeatures::bootstrap)
                             .add(Registries.BIOME, GCYRBiomes::bootstrap)
-                             // .add(Registries.NOISE_SETTINGS, GCYRNoiseSettings::bootstrap)
+                            // .add(Registries.NOISE_SETTINGS, GCYRNoiseSettings::bootstrap)
                             .add(Registries.DIMENSION_TYPE, GCYRDimensionTypes::bootstrap)
-                            .add(Registries.LEVEL_STEM, GCYRDimensions::bootstrap)
-                    ,
+                            .add(Registries.LEVEL_STEM, GCYRDimensions::bootstrap),
                     Set.of(GCYR.MOD_ID)));
             registries = provider.getRegistryProvider();
 

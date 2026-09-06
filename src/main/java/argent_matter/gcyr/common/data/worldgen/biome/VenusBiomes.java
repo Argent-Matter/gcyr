@@ -10,6 +10,7 @@ import net.minecraft.world.level.biome.MobSpawnSettings;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.carver.ConfiguredWorldCarver;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
+
 import net.minecraftforge.common.world.BiomeSpecialEffectsBuilder;
 
 public class VenusBiomes {
@@ -43,7 +44,7 @@ public class VenusBiomes {
     }
 
     public static Biome basicVenusBiome(HolderGetter<PlacedFeature> placedFeatures,
-                                       HolderGetter<ConfiguredWorldCarver<?>> worldCarvers) {
+                                        HolderGetter<ConfiguredWorldCarver<?>> worldCarvers) {
         BiomeGenerationSettings.Builder generationSettings = baseVenusGenerationSettings(placedFeatures, worldCarvers);
         return baseVenusBiome(generationSettings);
     }

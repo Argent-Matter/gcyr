@@ -1,11 +1,10 @@
 package argent_matter.gcyr.common.data.dimension;
 
 import argent_matter.gcyr.GCYR;
-
 import argent_matter.gcyr.common.data.worldgen.biome.GCYRBiomes;
 import argent_matter.gcyr.common.data.worldgen.noise.GCYRNoiseSettings;
 import argent_matter.gcyr.common.worldgen.SpaceLevelSource;
-import com.mojang.datafixers.util.Pair;
+
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstapContext;
@@ -16,6 +15,8 @@ import net.minecraft.world.level.dimension.DimensionType;
 import net.minecraft.world.level.dimension.LevelStem;
 import net.minecraft.world.level.levelgen.NoiseBasedChunkGenerator;
 import net.minecraft.world.level.levelgen.NoiseGeneratorSettings;
+
+import com.mojang.datafixers.util.Pair;
 
 import java.util.List;
 
@@ -108,7 +109,7 @@ public class GCYRDimensions {
         HolderGetter<DimensionType> dimensionTypes = ctx.lookup(Registries.DIMENSION_TYPE);
         HolderGetter<Biome> biomes = ctx.lookup(Registries.BIOME);
 
-        ctx.register(levelToLevelStem(BLACK_HOLE_ORBIT), new LevelStem(
+        ctx.register(levelToLevelStem(key), new LevelStem(
                 dimensionTypes.getOrThrow(GCYRDimensionTypes.SPACE),
                 new SpaceLevelSource(biomes.getOrThrow(GCYRBiomes.SPACE))
         ));

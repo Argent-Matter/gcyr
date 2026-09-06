@@ -1,6 +1,7 @@
 package argent_matter.gcyr.common.data.worldgen.feature;
 
 import argent_matter.gcyr.GCYR;
+
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstapContext;

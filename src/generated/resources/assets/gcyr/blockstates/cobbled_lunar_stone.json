@@ -1,0 +1,20 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "gcyr:block/cobbled_lunar_stone"
+      },
+      {
+        "model": "gcyr:block/cobbled_lunar_stone_mirrored"
+      },
+      {
+        "model": "gcyr:block/cobbled_lunar_stone",
+        "y": 180
+      },
+      {
+        "model": "gcyr:block/cobbled_lunar_stone_mirrored",
+        "y": 180
+      }
+    ]
+  }
+}

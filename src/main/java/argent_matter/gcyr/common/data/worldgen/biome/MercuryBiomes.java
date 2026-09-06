@@ -1,7 +1,6 @@
 package argent_matter.gcyr.common.data.worldgen.biome;
 
 import net.minecraft.core.HolderGetter;
-import net.minecraft.data.worldgen.BiomeDefaultFeatures;
 import net.minecraft.data.worldgen.Carvers;
 import net.minecraft.data.worldgen.placement.NetherPlacements;
 import net.minecraft.world.level.biome.AmbientMoodSettings;
@@ -11,6 +10,7 @@ import net.minecraft.world.level.biome.MobSpawnSettings;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraft.world.level.levelgen.carver.ConfiguredWorldCarver;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
+
 import net.minecraftforge.common.world.BiomeSpecialEffectsBuilder;
 
 public class MercuryBiomes {

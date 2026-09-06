@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:block/cross",
-  "textures": {
-    "cross": "gcyr:block/prb_underground_bulb"
-  }
-}

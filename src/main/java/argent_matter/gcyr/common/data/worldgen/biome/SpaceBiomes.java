@@ -3,6 +3,7 @@ package argent_matter.gcyr.common.data.worldgen.biome;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.BiomeGenerationSettings;
 import net.minecraft.world.level.biome.MobSpawnSettings;
+
 import net.minecraftforge.common.world.BiomeSpecialEffectsBuilder;
 
 public class SpaceBiomes {

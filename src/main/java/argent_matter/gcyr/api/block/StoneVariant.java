@@ -16,6 +16,7 @@ import net.minecraftforge.common.Tags;
 
 import com.tterrag.registrate.builders.BlockBuilder;
 import com.tterrag.registrate.util.entry.BlockEntry;
+
 import org.jetbrains.annotations.Nullable;
 
 // StoneVariant is a helper to produce basic stone/cobble variants.
@@ -54,14 +55,13 @@ public class StoneVariant {
                 .item().tag(ItemTags.STONE_TOOL_MATERIALS).build();
     }
 
-    // type is the ID segment for the stone block: "rock" or "stone"
     public BlockBuilder<Block, GTRegistrate> rock(String lang, BlockEntry<? extends Block> cobblestone) {
         return registrate.block(this.stoneType.getFormattedId(name, null), Block::new)
                 .lang(lang)
                 .initialProperties(() -> stoneType.baseBlock)
                 .properties(p -> p.mapColor(mapColor))
                 .blockstate(GCYRModels::randomRotatedModel)
-                .loot((tables, block) -> tables.createSingleItemTableWithSilkTouch(block, cobblestone))
+                .loot((tables, block) -> tables.add(block, tables.createSingleItemTableWithSilkTouch(block, cobblestone)))
                 .tag(BlockTags.MINEABLE_WITH_PICKAXE, Tags.Blocks.STONE)
                 .simpleItem();
     }
@@ -75,9 +75,9 @@ public class StoneVariant {
     }
 
     private BlockBuilder<SlabBlock, GTRegistrate> slab(BaseType type, String lang, BlockEntry<? extends Block> base) {
-        return registrate.block(stoneType.formattableId.formatted(this.name) + "_slab", SlabBlock::new)
+        return registrate.block(type.formattableId.formatted(this.name) + "_slab", SlabBlock::new)
                 .lang(lang)
-                .initialProperties(() -> stoneType.baseBlock)
+                .initialProperties(() -> type.baseBlock)
                 .blockstate((ctx, prov) -> {
                     ResourceLocation texture = prov.blockTexture(base.get());
                     prov.slabBlock(ctx.getEntry(), texture, texture);
@@ -96,7 +96,8 @@ public class StoneVariant {
         return stairs(this.cobbleType, lang, base);
     }
 
-    private BlockBuilder<StairBlock, GTRegistrate> stairs(BaseType type, String lang, BlockEntry<? extends Block> base) {
+    private BlockBuilder<StairBlock, GTRegistrate> stairs(BaseType type, String lang,
+                                                          BlockEntry<? extends Block> base) {
         return registrate.block(type.getFormattedId(name, "stairs"),
                 (p) -> new StairBlock(base::getDefaultState, p))
                 .lang(lang)
@@ -108,10 +109,9 @@ public class StoneVariant {
                 .build();
     }
 
-    // type is the ID segment for the button: "rock" or "stone"
-    public BlockBuilder<ButtonBlock, GTRegistrate> button(String type, String lang,
+    public BlockBuilder<ButtonBlock, GTRegistrate> button(String lang,
                                                           BlockEntry<? extends Block> base, BlockSetType set) {
-        return registrate.block(name + "_" + type + "_button",
+        return registrate.block(this.stoneType.getFormattedId(name, "button"),
                 (p) -> new ButtonBlock(p, set, 30, false))
                 .lang(lang)
                 .initialProperties(() -> Blocks.STONE_BUTTON)
@@ -125,8 +125,9 @@ public class StoneVariant {
 
     // map the name of a stone type to a StoneType, which has its full block, slab, and stair Block
     public enum BaseType {
+
         STONE("%s_stone", Blocks.STONE),
-        COBBLESTONE("%s_cobblestone", Blocks.COBBLESTONE),
+        COBBLESTONE("cobbled_%s_stone", Blocks.COBBLESTONE),
         ROCK("%s_rock", Blocks.DEEPSLATE),
         COBBLED_ROCK("cobbled_%s_rock", Blocks.COBBLED_DEEPSLATE);
 

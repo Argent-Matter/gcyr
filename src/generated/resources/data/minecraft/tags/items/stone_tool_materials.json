@@ -1,8 +1,9 @@
 {
   "values": [
-    "gcyr:mercury_cobblestone",
-    "gcyr:venus_cobblestone",
-    "gcyr:lunar_cobblestone",
-    "gcyr:martian_cobblestone"
+    "gcyr:cobbled_mercurian_rock",
+    "gcyr:cobbled_venusian_rock",
+    "gcyr:cobbled_lunar_stone",
+    "gcyr:cobbled_martian_rock",
+    "gcyr:cobbled_proximian_stone"
   ]
 }

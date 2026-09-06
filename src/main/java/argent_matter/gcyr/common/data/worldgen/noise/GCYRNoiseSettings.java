@@ -1,6 +1,7 @@
 package argent_matter.gcyr.common.data.worldgen.noise;
 
 import argent_matter.gcyr.GCYR;
+
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.levelgen.*;
@@ -42,8 +43,8 @@ public class GCYRNoiseSettings {
         );
     }
     // spotless:on
-
-    // spotless:off
+     * 
+     * // spotless:off
     protected static NoiseRouter overworld(HolderGetter<DensityFunction> densityFunctions,
                                            HolderGetter<NormalNoise.NoiseParameters> noiseParameters) {
         DensityFunction aquiferBarrier = DensityFunctions.noise(noiseParameters.getOrThrow(Noises.AQUIFER_BARRIER), 0.5D);
