@@ -1,16 +1,7 @@
 {
   "values": [
-    {
-      "id": "gcyr:martian_canyon_creek",
-      "required": false
-    },
-    {
-      "id": "gcyr:martian_wastelands",
-      "required": false
-    },
-    {
-      "id": "gcyr:martian_polar_caps",
-      "required": false
-    }
+    "gcyr:martian_canyon_creek",
+    "gcyr:martian_wastelands",
+    "gcyr:martian_polar_caps"
   ]
 }

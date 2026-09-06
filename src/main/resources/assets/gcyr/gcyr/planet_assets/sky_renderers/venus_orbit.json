@@ -1,5 +1,5 @@
 {
-  "world": "gcyr:venus_orbit",
+  "dimension": "gcyr:venus_orbit",
   "stars": {
     "fancy_count": 13000,
     "fast_count": 6000,

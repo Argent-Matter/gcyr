@@ -14,11 +14,6 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import org.jetbrains.annotations.Nullable;
 
-/**
- * @author Screret
- * @date 2023/4/15
- * @implNote EmptySatellite
- */
 public class EmptySatellite extends Satellite {
 
     public static final Codec<EmptySatellite> CODEC = RecordCodecBuilder

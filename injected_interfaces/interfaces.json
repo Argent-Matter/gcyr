@@ -1,0 +1,8 @@
+{
+    "net/minecraft/data/tags/TagsProvider$TagAppender": [
+        "argent_matter/gcyr/core/extensions/TagAppenderExt<T>"
+    ],
+    "net/minecraft/data/tags/IntrinsicHolderTagsProvider$IntrinsicTagAppender": [
+        "argent_matter/gcyr/core/extensions/IntrinsicTagAppenderExt<T>"
+    ]
+}

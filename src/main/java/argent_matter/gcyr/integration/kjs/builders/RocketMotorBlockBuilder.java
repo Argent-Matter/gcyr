@@ -2,7 +2,7 @@ package argent_matter.gcyr.integration.kjs.builders;
 
 import argent_matter.gcyr.api.block.impl.SimpleRocketMotorType;
 import argent_matter.gcyr.common.block.RocketMotorBlock;
-import argent_matter.gcyr.common.data.GCYRBlocks;
+import argent_matter.gcyr.common.data.block.GCYRBlocks;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;

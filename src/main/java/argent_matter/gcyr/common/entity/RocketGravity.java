@@ -25,7 +25,7 @@ public final class RocketGravity {
     private RocketGravity() {}
 
     public static double get(Level level) {
-        if (PlanetData.isOrbitLevel(level.dimension())) return ORBIT_GRAVITY;
+        if (PlanetData.isOrbitDimension(level.dimension())) return ORBIT_GRAVITY;
         Planet planet = PlanetData.getPlanetFromLevel(level.dimension()).orElse(null);
         if (planet == null) return DEFAULT_GRAVITY;
         return DEFAULT_GRAVITY * (planet.gravity() / EARTH_GRAVITY);

@@ -4,23 +4,20 @@ import argent_matter.gcyr.api.space.planet.Planet;
 import argent_matter.gcyr.api.space.station.SpaceStation;
 import argent_matter.gcyr.util.Vec2i;
 
-import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 
 import com.mojang.datafixers.util.Pair;
+
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 
 import java.util.List;
 
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
+import org.jetbrains.annotations.Nullable;
 
-@MethodsReturnNonnullByDefault
-@ParametersAreNonnullByDefault
 public interface ISpaceStationHolder {
 
     /**
-     * @return all space stations of this capability (= level)
+     * @return all space stations of this capability (= dimension)
      */
     Int2ObjectMap<SpaceStation> getStations();
 

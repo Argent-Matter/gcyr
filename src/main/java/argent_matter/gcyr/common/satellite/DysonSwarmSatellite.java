@@ -13,11 +13,6 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import org.jetbrains.annotations.Nullable;
 
-/**
- * @author Screret
- * @date 2023/4/15
- * @implNote DysonSwarmSatellite
- */
 public class DysonSwarmSatellite extends Satellite {
 
     public static final Codec<DysonSwarmSatellite> CODEC = RecordCodecBuilder

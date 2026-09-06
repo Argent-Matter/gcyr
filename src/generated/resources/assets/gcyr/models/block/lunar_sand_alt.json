@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_top",
+  "textures": {
+    "side": "gcyr:block/lunar_sand",
+    "top": "gcyr:block/lunar_sand_alt"
+  }
+}

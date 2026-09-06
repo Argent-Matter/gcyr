@@ -6,22 +6,19 @@ import argent_matter.gcyr.api.space.station.StationWorldSavedData;
 
 import net.minecraft.server.level.ServerLevel;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 public class GCYRCapabilityHelper {
 
-    @Nullable
-    public static ISpaceStationHolder getSpaceStations(@Nullable ServerLevel level) {
+    public static @Nullable ISpaceStationHolder getSpaceStations(@Nullable ServerLevel level) {
         return StationWorldSavedData.getOrCreate(level);
     }
 
-    @Nullable
-    public static ISatelliteHolder getSatellites(ServerLevel level) {
+    public static @Nullable ISatelliteHolder getSatellites(ServerLevel level) {
         return SatelliteWorldSavedData.getOrCreate(level);
     }
 
-    @Nullable
-    public static IDysonSystem getDysonSystem(ServerLevel level) {
+    public static @Nullable IDysonSystem getDysonSystem(ServerLevel level) {
         return DysonSystemSavedData.getOrCreate(level);
     }
 }

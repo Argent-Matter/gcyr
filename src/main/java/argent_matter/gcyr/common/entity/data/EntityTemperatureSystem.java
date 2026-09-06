@@ -1,10 +1,10 @@
 package argent_matter.gcyr.common.entity.data;
 
+import argent_matter.gcyr.common.data.tag.GCYRTags;
 import argent_matter.gcyr.common.item.armor.SpaceSuitArmorItem;
 import argent_matter.gcyr.common.recipe.type.SmithingThermalUpgradeRecipe;
 import argent_matter.gcyr.config.GCYRConfig;
 import argent_matter.gcyr.data.loader.PlanetData;
-import argent_matter.gcyr.data.recipe.GCYRTags;
 
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
@@ -36,7 +36,7 @@ public class EntityTemperatureSystem {
                 return;
             }
 
-            if (entity.getType().is(GCYRTags.IGNORE_TEMPERATURE)) {
+            if (entity.getType().is(GCYRTags.EntityTypes.IGNORE_TEMPERATURE)) {
                 return;
             }
         }
@@ -85,13 +85,13 @@ public class EntityTemperatureSystem {
 
     public static boolean armourIsFreezeResistant(LivingEntity entity) {
         return StreamSupport.stream(entity.getArmorSlots().spliterator(), false)
-                .allMatch(s -> s.is(GCYRTags.FREEZE_RESISTANT) ||
+                .allMatch(s -> s.is(GCYRTags.Items.FREEZE_RESISTANT) ||
                         (s.hasTag() && s.getTag().getBoolean(SmithingThermalUpgradeRecipe.FREEZE_PROTECTED_KEY)));
     }
 
     public static boolean armourIsHeatResistant(LivingEntity entity) {
         return StreamSupport.stream(entity.getArmorSlots().spliterator(), false)
-                .allMatch(s -> s.is(GCYRTags.HEAT_RESISTANT) ||
+                .allMatch(s -> s.is(GCYRTags.Items.HEAT_RESISTANT) ||
                         (s.hasTag() && s.getTag().getBoolean(SmithingThermalUpgradeRecipe.HEAT_SHIELDED_KEY)));
     }
 }

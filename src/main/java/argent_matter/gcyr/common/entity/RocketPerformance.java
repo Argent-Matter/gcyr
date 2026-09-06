@@ -52,12 +52,12 @@ public final class RocketPerformance {
     public static double transferDistance(@Nullable Planet source, Planet destination) {
         if (source == null) return destination.distanceFromParent();
 
-        ResourceKey<Level> sourceParent = source.parentWorld();
-        ResourceKey<Level> destinationParent = destination.parentWorld();
+        ResourceKey<Level> sourceParent = source.parentDimension().orElse(null);
+        ResourceKey<Level> destinationParent = destination.parentDimension().orElse(null);
 
         // A moon and its parent are separated by the moon's orbit radius.
-        if (source.level().equals(destinationParent)) return destination.distanceFromParent();
-        if (destination.level().equals(sourceParent)) return source.distanceFromParent();
+        if (source.dimension().equals(destinationParent)) return destination.distanceFromParent();
+        if (destination.dimension().equals(sourceParent)) return source.distanceFromParent();
 
         // Bodies sharing a parent use the difference between their orbital radii.
         // This basically assumes planetary alignment, so eg. Jupiter at 5.2 AU is 4.2 AU
@@ -74,7 +74,7 @@ public final class RocketPerformance {
 
     @Nullable
     private static Planet parentOrSelf(Planet planet) {
-        ResourceKey<Level> parent = planet.parentWorld();
+        ResourceKey<Level> parent = planet.parentDimension().orElse(null);
         return parent == null ? planet : PlanetData.getPlanetFromLevelOrOrbit(parent).orElse(planet);
     }
 

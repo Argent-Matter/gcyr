@@ -1,6 +1,6 @@
 package argent_matter.gcyr.data.recipe.builder;
 
-import argent_matter.gcyr.common.data.GCYRVanillaRecipeTypes;
+import argent_matter.gcyr.common.data.recipe.GCYRRecipeSerializers;
 
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.resources.ResourceLocation;
@@ -11,18 +11,15 @@ import com.google.gson.JsonObject;
 
 import java.util.function.Consumer;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 public class SmithingSpaceSuitRecipeBuilder {
 
     private final Ingredient template;
     private final Ingredient base;
     private final Ingredient addition;
-    private final RecipeSerializer<?> type;
 
-    public SmithingSpaceSuitRecipeBuilder(RecipeSerializer<?> type, Ingredient template, Ingredient base,
-                                          Ingredient addition) {
-        this.type = type;
+    public SmithingSpaceSuitRecipeBuilder(Ingredient template, Ingredient base, Ingredient addition) {
         this.template = template;
         this.base = base;
         this.addition = addition;
@@ -30,22 +27,14 @@ public class SmithingSpaceSuitRecipeBuilder {
 
     public static SmithingSpaceSuitRecipeBuilder smithingSpacesuit(Ingredient template, Ingredient base,
                                                                    Ingredient addition) {
-        return new SmithingSpaceSuitRecipeBuilder(GCYRVanillaRecipeTypes.SMITHING_SPACESUIT_SERIALIZER.get(), template,
-                base, addition);
+        return new SmithingSpaceSuitRecipeBuilder(template, base, addition);
     }
 
-    public void save(Consumer<FinishedRecipe> recipeConsumer, ResourceLocation location) {
-        recipeConsumer.accept(
-                new SmithingSpaceSuitRecipeBuilder.Result(location, this.type, this.template, this.base,
-                        this.addition));
+    public void save(Consumer<FinishedRecipe> provider, ResourceLocation recipeId) {
+        provider.accept(new Result(recipeId, this.template, this.base, this.addition));
     }
 
-    public record Result(
-                         ResourceLocation id,
-                         RecipeSerializer<?> type,
-                         Ingredient template,
-                         Ingredient base,
-                         Ingredient addition)
+    public record Result(ResourceLocation id, Ingredient template, Ingredient base, Ingredient addition)
             implements FinishedRecipe {
 
         @Override
@@ -62,7 +51,7 @@ public class SmithingSpaceSuitRecipeBuilder {
 
         @Override
         public RecipeSerializer<?> getType() {
-            return this.type;
+            return GCYRRecipeSerializers.SMITHING_SPACESUIT.get();
         }
 
         @Nullable

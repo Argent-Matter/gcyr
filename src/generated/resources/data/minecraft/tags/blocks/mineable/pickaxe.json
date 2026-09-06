@@ -1,12 +1,5 @@
 {
   "values": [
-    "gcyr:aerospace_aluminium_casing",
-    "gcyr:beam_receiver",
-    "gcyr:space_elevator_support",
-    "gcyr:dyson_sphere_casing",
-    "gcyr:dyson_solar_cell",
-    "gcyr:dyson_sphere_maintenance_port",
-    "gcyr:stainless_evaporation_casing",
     "gcyr:mercury_cobblestone",
     "gcyr:mercury_rock",
     "gcyr:mercury_cobblestone_slab",
@@ -22,13 +15,13 @@
     "gcyr:venus_rock_stairs",
     "gcyr:venus_rock_button",
     "gcyr:venusian_regolith",
-    "gcyr:moon_cobblestone",
-    "gcyr:moon_stone",
-    "gcyr:moon_cobblestone_slab",
-    "gcyr:moon_stone_slab",
-    "gcyr:moon_cobblestone_stairs",
-    "gcyr:moon_stone_stairs",
-    "gcyr:moon_stone_button",
+    "gcyr:lunar_cobblestone",
+    "gcyr:lunar_stone",
+    "gcyr:lunar_cobblestone_slab",
+    "gcyr:lunar_stone_slab",
+    "gcyr:lunar_cobblestone_stairs",
+    "gcyr:lunar_stone_stairs",
+    "gcyr:lunar_stone_button",
     "gcyr:lunar_mare_regolith",
     "gcyr:mars_regolith",
     "gcyr:martian_cobblestone",
@@ -41,9 +34,6 @@
     "gcyr:proxima_centauri_b_regolith",
     "gcyr:proxima_centauri_b_turf",
     "gcyr:proxima_centauri_b_hardened_turf",
-    "gcyr:proxima_centauri_b_grassy_turf",
-    "gcyr:airlock_door",
-    "gcyr:launch_pad",
-    "gcyr:seat"
+    "gcyr:proxima_centauri_b_grassy_turf"
   ]
 }

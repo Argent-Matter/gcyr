@@ -18,7 +18,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 public class SatelliteWorldSavedData extends SavedData implements ISatelliteHolder {
 
@@ -47,7 +47,7 @@ public class SatelliteWorldSavedData extends SavedData implements ISatelliteHold
     }
 
     @Override
-    public Satellite getClosestSatellite(Vec2i position) {
+    public @Nullable Satellite getClosestSatellite(Vec2i position) {
         return satellites.stream()
                 .min(Comparator.comparingDouble(obj -> obj.getData().locationInWorld().distanceToSqr(position)))
                 .orElse(null);

@@ -17,6 +17,7 @@ import net.minecraft.world.level.chunk.LevelChunk;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+
 import org.apache.commons.lang3.ArrayUtils;
 
 public class OreFinderSatellite extends Satellite {

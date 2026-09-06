@@ -41,7 +41,8 @@ public class DysonBeamParticle extends SimpleAnimatedParticle {
             this.sprites = sprites;
         }
 
-        public Particle createParticle(SimpleParticleType type, ClientLevel level, double x, double y, double z,
+        public Particle createParticle(SimpleParticleType type, ClientLevel level,
+                                       double x, double y, double z,
                                        double xSpeed, double ySpeed, double zSpeed) {
             return new DysonBeamParticle(level, x, y, z, this.sprites);
         }

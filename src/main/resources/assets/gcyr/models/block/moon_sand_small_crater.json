@@ -1,7 +1,0 @@
-{
-  "parent": "minecraft:block/cube_top",
-  "textures": {
-    "side": "gcyr:block/moon_sand",
-    "top": "gcyr:block/moon_sand_small_crater"
-  }
-}

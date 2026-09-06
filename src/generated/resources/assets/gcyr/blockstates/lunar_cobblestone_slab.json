@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "gcyr:block/lunar_cobblestone_slab"
+    },
+    "type=double": {
+      "model": "gcyr:block/lunar_cobblestone"
+    },
+    "type=top": {
+      "model": "gcyr:block/lunar_cobblestone_slab_top"
+    }
+  }
+}

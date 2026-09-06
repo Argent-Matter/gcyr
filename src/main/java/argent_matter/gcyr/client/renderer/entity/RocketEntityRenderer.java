@@ -3,7 +3,6 @@ package argent_matter.gcyr.client.renderer.entity;
 import argent_matter.gcyr.common.entity.RocketEntity;
 import argent_matter.gcyr.util.PosWithState;
 
-import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.Sheets;
@@ -20,10 +19,6 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
-@ParametersAreNonnullByDefault
-@MethodsReturnNonnullByDefault
 public class RocketEntityRenderer extends EntityRenderer<RocketEntity> {
 
     private final BlockRenderDispatcher blockRenderer;

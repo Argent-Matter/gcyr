@@ -1,7 +1,7 @@
 package argent_matter.gcyr.common.worldgen;
 
 import argent_matter.gcyr.GCYR;
-import argent_matter.gcyr.common.data.GCYRBlocks;
+import argent_matter.gcyr.common.data.block.GCYRBlocks;
 
 import com.gregtechceu.gtceu.api.data.worldgen.IWorldGenLayer;
 import com.gregtechceu.gtceu.api.data.worldgen.SimpleWorldGenLayer;

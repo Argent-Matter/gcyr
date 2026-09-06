@@ -1,0 +1,98 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "gcyr:block/lunar_sand",
+        "weight": 41
+      },
+      {
+        "model": "gcyr:block/lunar_sand_mirrored",
+        "weight": 41
+      },
+      {
+        "model": "gcyr:block/lunar_sand",
+        "weight": 41,
+        "y": 180
+      },
+      {
+        "model": "gcyr:block/lunar_sand_mirrored",
+        "weight": 41,
+        "y": 180
+      },
+      {
+        "model": "gcyr:block/lunar_sand_alt",
+        "weight": 21
+      },
+      {
+        "model": "gcyr:block/lunar_sand_alt_mirrored",
+        "weight": 21
+      },
+      {
+        "model": "gcyr:block/lunar_sand_alt",
+        "weight": 21,
+        "y": 180
+      },
+      {
+        "model": "gcyr:block/lunar_sand_alt_mirrored",
+        "weight": 21,
+        "y": 180
+      },
+      {
+        "model": "gcyr:block/lunar_sand_small_crater"
+      },
+      {
+        "model": "gcyr:block/lunar_sand_small_crater_mirrored"
+      },
+      {
+        "model": "gcyr:block/lunar_sand_small_crater",
+        "y": 180
+      },
+      {
+        "model": "gcyr:block/lunar_sand_small_crater_mirrored",
+        "y": 180
+      },
+      {
+        "model": "gcyr:block/lunar_sand_big_crater"
+      },
+      {
+        "model": "gcyr:block/lunar_sand_big_crater_mirrored"
+      },
+      {
+        "model": "gcyr:block/lunar_sand_big_crater",
+        "y": 180
+      },
+      {
+        "model": "gcyr:block/lunar_sand_big_crater_mirrored",
+        "y": 180
+      },
+      {
+        "model": "gcyr:block/lunar_sand_small_rock"
+      },
+      {
+        "model": "gcyr:block/lunar_sand_small_rock_mirrored"
+      },
+      {
+        "model": "gcyr:block/lunar_sand_small_rock",
+        "y": 180
+      },
+      {
+        "model": "gcyr:block/lunar_sand_small_rock_mirrored",
+        "y": 180
+      },
+      {
+        "model": "gcyr:block/lunar_sand_big_rock"
+      },
+      {
+        "model": "gcyr:block/lunar_sand_big_rock_mirrored"
+      },
+      {
+        "model": "gcyr:block/lunar_sand_big_rock",
+        "y": 180
+      },
+      {
+        "model": "gcyr:block/lunar_sand_big_rock_mirrored",
+        "y": 180
+      }
+    ]
+  }
+}

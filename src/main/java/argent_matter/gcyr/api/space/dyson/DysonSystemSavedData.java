@@ -3,13 +3,12 @@ package argent_matter.gcyr.api.space.dyson;
 import argent_matter.gcyr.GCYR;
 import argent_matter.gcyr.api.capability.IDysonSystem;
 import argent_matter.gcyr.api.space.planet.Planet;
-import argent_matter.gcyr.common.data.GCYRNetworking;
 import argent_matter.gcyr.common.data.GCYRSatellites;
+import argent_matter.gcyr.common.data.network.GCYRNetworking;
 import argent_matter.gcyr.common.networking.s2c.PacketSyncDysonSphereStatus;
 import argent_matter.gcyr.common.satellite.DysonSwarmSatellite;
 import argent_matter.gcyr.data.loader.PlanetData;
 
-import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -25,11 +24,8 @@ import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
 
 import java.util.*;
 
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
+import org.jetbrains.annotations.Nullable;
 
-@ParametersAreNonnullByDefault
-@MethodsReturnNonnullByDefault
 public class DysonSystemSavedData extends SavedData implements IDysonSystem {
 
     @Nullable
@@ -44,7 +40,7 @@ public class DysonSystemSavedData extends SavedData implements IDysonSystem {
         if (planets.isEmpty()) {
             internalGetOrCreate(originLevel);
         }
-        ServerLevel firstWorldLevel = originLevel.getServer().getLevel(planets.get(0).level());
+        ServerLevel firstWorldLevel = originLevel.getServer().getLevel(planets.get(0).dimension());
         return internalGetOrCreate(Objects.requireNonNullElse(firstWorldLevel, originLevel));
     }
 
@@ -101,8 +97,8 @@ public class DysonSystemSavedData extends SavedData implements IDysonSystem {
     }
 
     @Override
-    public void disableDysonSphere(BlockPos controllerPos) {
-        if (currentActiveSunBlock != null && controllerPos.equals(currentActiveSunBlock.getControllerPos())) {
+    public void disableDysonSphere(@Nullable BlockPos controllerPos) {
+        if (currentActiveSunBlock != null && Objects.equals(controllerPos, currentActiveSunBlock.getControllerPos())) {
             currentActiveSunBlock.setControllerPos(null);
 
             this.setDirty();

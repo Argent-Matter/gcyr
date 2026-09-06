@@ -8,11 +8,6 @@ import argent_matter.gcyr.common.satellite.*;
 
 import net.minecraft.resources.ResourceLocation;
 
-/**
- * @author Screret
- * @date 2023/4/15
- * @implNote GTSatellites
- */
 public class GCYRSatellites {
 
     static {

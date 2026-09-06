@@ -3,14 +3,10 @@ package argent_matter.gcyr.api.capability;
 import argent_matter.gcyr.api.space.dyson.DysonSphere;
 import argent_matter.gcyr.common.satellite.DysonSwarmSatellite;
 
-import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
+import org.jetbrains.annotations.Nullable;
 
-@MethodsReturnNonnullByDefault
-@ParametersAreNonnullByDefault
 public interface IDysonSystem {
 
     /**
@@ -28,7 +24,7 @@ public interface IDysonSystem {
 
     void addDysonSphere(BlockPos controllerPos);
 
-    void disableDysonSphere(BlockPos controllerPos);
+    void disableDysonSphere(@Nullable BlockPos controllerPos);
 
     void addDysonSatellite(BlockPos controllerPos, DysonSwarmSatellite satellite);
 

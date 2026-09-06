@@ -6,12 +6,12 @@ import argent_matter.gcyr.util.Vec2i;
 
 import java.util.List;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 public interface ISatelliteHolder {
 
     /**
-     * @return all satellites of this capability (= level)
+     * @return all satellites of this capability (= dimension)
      */
     List<Satellite> getSatellites();
 

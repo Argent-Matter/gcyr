@@ -3,13 +3,22 @@ package argent_matter.gcyr;
 import argent_matter.gcyr.api.gui.factory.EntityUIFactory;
 import argent_matter.gcyr.api.registries.GCYRRegistries;
 import argent_matter.gcyr.common.data.*;
+import argent_matter.gcyr.common.data.block.GCYRBlocks;
+import argent_matter.gcyr.common.data.client.*;
+import argent_matter.gcyr.common.data.dimension.*;
+import argent_matter.gcyr.common.data.entity.*;
+import argent_matter.gcyr.common.data.item.*;
+import argent_matter.gcyr.common.data.machine.GCYRMachines;
+import argent_matter.gcyr.common.data.material.GCYRMaterials;
+import argent_matter.gcyr.common.data.network.GCYRNetworking;
+import argent_matter.gcyr.common.data.recipe.*;
 import argent_matter.gcyr.common.gui.EntityOxygenHUD;
 import argent_matter.gcyr.common.gui.RocketLandingHUD;
 import argent_matter.gcyr.config.GCYRConfig;
+import argent_matter.gcyr.core.mixin.RegisterClientReloadListenersEventAccessor;
+import argent_matter.gcyr.core.mixin.ReloadableResourceManagerAccessor;
 import argent_matter.gcyr.data.GCYRDatagen;
 import argent_matter.gcyr.data.loader.PlanetResources;
-import argent_matter.gcyr.mixin.RegisterClientReloadListenersEventAccessor;
-import argent_matter.gcyr.mixin.ReloadableResourceManagerAccessor;
 
 import com.gregtechceu.gtceu.api.GTCEuAPI;
 import com.gregtechceu.gtceu.api.data.DimensionMarker;
@@ -28,6 +37,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
 import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
+import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
@@ -44,20 +54,23 @@ public class GCYR {
     public static final Logger LOGGER = LoggerFactory.getLogger(NAME);
     public static MaterialRegistry MATERIAL_REGISTRY;
 
-    public GCYR() {
+    private static final ResourceLocation TEMPLATE_ID = ResourceLocation.fromNamespaceAndPath(MOD_ID, "");
+
+    public GCYR(FMLJavaModLoadingContext ctx) {
+        IEventBus modBus = ctx.getModEventBus();
+        modBus.register(this);
+
+        modBus.addGenericListener(GTRecipeType.class, this::registerRecipeTypes);
+        modBus.addGenericListener(RecipeConditionType.class, this::registerRecipeConditions);
+        modBus.addGenericListener(MachineDefinition.class, this::registerMachines);
+        modBus.addGenericListener(DimensionMarker.class, this::registerDimensionMarkers);
+        GCYRDimensionTypes.register(modBus);
+
+        GCYRRecipeTypes.register(modBus);
+        GCYRRecipeSerializers.register(modBus);
+
         GCYR.init();
-        var bus = FMLJavaModLoadingContext.get().getModEventBus();
-        bus.register(this);
-
-        bus.addGenericListener(GTRecipeType.class, this::registerRecipeTypes);
-        bus.addGenericListener(RecipeConditionType.class, this::registerRecipeConditions);
-        bus.addGenericListener(MachineDefinition.class, this::registerMachines);
-        bus.addGenericListener(DimensionMarker.class, this::registerDimensionMarkers);
-        GCYRDimensionTypes.register(bus);
-
-        GCYRVanillaRecipeTypes.RECIPE_TYPE_DEFERRED_REGISTER.register(bus);
-
-        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> GCYRClient::init);
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> GCYRClient.init(modBus));
     }
 
     public static void init() {
@@ -81,7 +94,7 @@ public class GCYR {
     }
 
     public static ResourceLocation id(String path) {
-        return new ResourceLocation(MOD_ID, path);
+        return TEMPLATE_ID.withPath(path);
     }
 
     @SubscribeEvent
@@ -115,7 +128,7 @@ public class GCYR {
     }
 
     public void registerRecipeTypes(GTCEuAPI.RegisterEvent<ResourceLocation, GTRecipeType> event) {
-        GCYRRecipeTypes.init();
+        GCYRGTRecipeTypes.init();
     }
 
     public void registerRecipeConditions(GTCEuAPI.RegisterEvent<String, RecipeConditionType<?>> event) {

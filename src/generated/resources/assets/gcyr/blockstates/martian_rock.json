@@ -5,11 +5,11 @@
         "model": "gcyr:block/martian_rock"
       },
       {
-        "model": "gcyr:block/martian_rock",
-        "y": 180
+        "model": "gcyr:block/martian_rock_mirrored"
       },
       {
-        "model": "gcyr:block/martian_rock_mirrored"
+        "model": "gcyr:block/martian_rock",
+        "y": 180
       },
       {
         "model": "gcyr:block/martian_rock_mirrored",

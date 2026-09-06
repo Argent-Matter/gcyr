@@ -1,8 +1,5 @@
 {
   "values": [
-    {
-      "id": "gcyr:space",
-      "required": false
-    }
+    "gcyr:space"
   ]
 }

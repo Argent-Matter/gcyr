@@ -1,5 +1,6 @@
 {
   "values": [
-    "gcyr:space_upgrade_smithing_template"
+    "gcyr:space_upgrade_smithing_template",
+    "gcyr:space_suit_thermal_upgrade_smithing_template"
   ]
 }

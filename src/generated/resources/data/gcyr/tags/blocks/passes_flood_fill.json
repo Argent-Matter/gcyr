@@ -1,17 +1,10 @@
 {
   "values": [
-    {
-      "id": "#minecraft:fences",
-      "required": false
-    },
-    {
-      "id": "minecraft:iron_bars",
-      "required": false
-    },
-    {
-      "id": "minecraft:tnt",
-      "required": false
-    },
+    "#minecraft:fences",
+    "#minecraft:fence_gates",
+    "minecraft:iron_bars",
+    "minecraft:tnt",
+    "gtceu:industrial_tnt",
     "gcyr:iv_oxygen_spreader",
     "gcyr:luv_oxygen_spreader",
     "gcyr:zpm_oxygen_spreader",

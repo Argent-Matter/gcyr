@@ -1,9 +1,9 @@
 package argent_matter.gcyr.common.machine.multiblock;
 
-import argent_matter.gcyr.common.data.GCYREntities;
-import argent_matter.gcyr.common.data.GCYRItems;
+import argent_matter.gcyr.common.data.entity.GCYREntities;
+import argent_matter.gcyr.common.data.item.GCYRItems;
 import argent_matter.gcyr.common.entity.RocketEntity;
-import argent_matter.gcyr.common.item.PlanetIdChipBehaviour;
+import argent_matter.gcyr.common.item.behaviour.PlanetIdChipBehaviour;
 
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
 import com.gregtechceu.gtceu.api.machine.IMachineBlockEntity;
@@ -20,7 +20,6 @@ import com.lowdragmc.lowdraglib.syncdata.annotation.Persisted;
 import com.lowdragmc.lowdraglib.syncdata.field.ManagedFieldHolder;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -39,16 +38,14 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 
 import com.mojang.datafixers.util.Pair;
+
 import lombok.Getter;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
+import org.jetbrains.annotations.Nullable;
 
-@ParametersAreNonnullByDefault
-@MethodsReturnNonnullByDefault
 public class RocketScannerMachine extends PlatformMultiblockMachine implements IDisplayUIMachine {
 
     protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(RocketScannerMachine.class,
@@ -94,7 +91,7 @@ public class RocketScannerMachine extends PlatformMultiblockMachine implements I
         }
 
         textList.add(ComponentPanelWidget.withButton(
-                Component.translatable("gcyr.multiblock.rocket.build").withStyle(ChatFormatting.GREEN),
+                Component.translatable("multiblock.gcyr.rocket.build").withStyle(ChatFormatting.GREEN),
                 "build_rocket"));
     }
 

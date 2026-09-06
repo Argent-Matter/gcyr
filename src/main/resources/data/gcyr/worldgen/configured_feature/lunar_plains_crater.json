@@ -29,7 +29,7 @@
       "outer_layer_provider": {
         "type": "minecraft:simple_state_provider",
         "state": {
-          "Name": "gcyr:moon_sand"
+          "Name": "gcyr:lunar_sand"
         }
       },
       "inner_placements": [

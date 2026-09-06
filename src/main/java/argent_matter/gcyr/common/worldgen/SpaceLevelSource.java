@@ -1,8 +1,7 @@
 package argent_matter.gcyr.common.worldgen;
 
-import argent_matter.gcyr.common.data.GCYRBiomes;
+import argent_matter.gcyr.common.data.worldgen.GCYRBiomes;
 
-import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.RegistryOps;
@@ -26,15 +25,13 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
-@MethodsReturnNonnullByDefault
-@ParametersAreNonnullByDefault
 public class SpaceLevelSource extends ChunkGenerator {
 
-    public static final Codec<SpaceLevelSource> CODEC = RecordCodecBuilder.create(
-            instance -> instance.group(RegistryOps.retrieveElement(GCYRBiomes.SPACE)).apply(instance,
-                    instance.stable(SpaceLevelSource::new)));
+    // spotless:off
+    public static final Codec<SpaceLevelSource> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+            RegistryOps.retrieveElement(GCYRBiomes.SPACE)
+    ).apply(instance, instance.stable(SpaceLevelSource::new)));
+    // spotless:on
 
     public static final int PLATFORM_HEIGHT = 63;
 

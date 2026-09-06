@@ -8,15 +8,11 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 
 import com.mojang.serialization.Codec;
+
 import lombok.Getter;
 
 import java.util.function.Supplier;
 
-/**
- * @author Screret
- * @date 2023/4/15
- * @implNote SatelliteType
- */
 public class SatelliteType<T extends Satellite> {
 
     @Getter
@@ -34,7 +30,7 @@ public class SatelliteType<T extends Satellite> {
 
     public String toLangString() {
         ResourceLocation id = GCYRRegistries.SATELLITES.getKey(this);
-        return id.getNamespace() + ".satellite." + id.getPath();
+        return id.toLanguageKey("satellite");
     }
 
     @FunctionalInterface

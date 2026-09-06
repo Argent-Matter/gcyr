@@ -15,7 +15,7 @@ public class GCYRConfig {
     public static GCYRConfig INSTANCE;
 
     public static void init() {
-        INSTANCE = Configuration.registerConfig(GCYRConfig.class, ConfigFormats.yaml()).getConfigInstance();
+        INSTANCE = Configuration.registerConfig(GCYRConfig.class, ConfigFormats.YAML).getConfigInstance();
     }
 
     @Configurable

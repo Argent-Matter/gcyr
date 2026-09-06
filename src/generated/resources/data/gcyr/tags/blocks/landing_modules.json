@@ -1,8 +1,5 @@
 {
   "values": [
-    {
-      "id": "gcyr:landing_module",
-      "required": false
-    }
+    "gcyr:landing_module"
   ]
 }

@@ -2,7 +2,7 @@ import org.gradle.internal.os.OperatingSystem
 
 legacyForge {
     // Specify NeoForge version
-    version = libs.versions.minecraft.get() + '-' + libs.versions.forge.get()
+    version = libs.versions.minecraft.get() + '-' + libs.versions.forge.version.get()
 
     parchment {
         minecraftVersion = libs.versions.minecraft.get()
@@ -36,9 +36,6 @@ legacyForge {
         "${project.properties.mod_id}" {
             sourceSet(sourceSets.main)
             sourceSet(sourceSets.client)
-            sourceSet(sourceSets.test)
-            sourceSet(sourceSets.extra)
-            sourceSet(sourceSets.clientExtra)
         }
     }
     // Default run configurations.

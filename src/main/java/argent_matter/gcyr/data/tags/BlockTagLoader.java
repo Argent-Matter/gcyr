@@ -1,35 +1,28 @@
 package argent_matter.gcyr.data.tags;
 
-import argent_matter.gcyr.common.data.GCYRBlocks;
-import argent_matter.gcyr.data.recipe.GCYRTags;
+import argent_matter.gcyr.common.data.block.GCYRBlocks;
+import argent_matter.gcyr.common.data.tag.GCYRTags;
 
-import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.TagKey;
+import com.gregtechceu.gtceu.common.data.GTBlocks;
+
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 
 import com.tterrag.registrate.providers.RegistrateTagsProvider;
 
 public class BlockTagLoader {
 
-    public static void init(RegistrateTagsProvider<Block> provider) {
-        createBlock(provider, GCYRTags.MOON_ORE_REPLACEABLES, "gcyr:moon_stone");
-        createBlock(provider, GCYRTags.MARS_ORE_REPLACEABLES, "gcyr:martian_rock");
-        createBlock(provider, GCYRTags.PASSES_FLOOD_FILL, "#fences", "iron_bars", "tnt");
-        provider.addTag(GCYRTags.LANDING_MODULES)
-                .add(ResourceKey.create(Registries.BLOCK, GCYRBlocks.LANDING_MODULE.getId()));
-    }
-
-    private static void createBlock(RegistrateTagsProvider<Block> provider, TagKey<Block> tagKey, String... rls) {
-        var builder = provider.addTag(tagKey);
-        for (String str : rls) {
-            if (str.startsWith("#")) builder.addOptionalTag(rl(str.substring(1)));
-            else builder.addOptional(rl(str));
-        }
-    }
-
-    public static ResourceLocation rl(String name) {
-        return new ResourceLocation(name);
+    public static void init(RegistrateTagsProvider.IntrinsicImpl<Block> provider) {
+        provider.addTag(GCYRTags.Blocks.MOON_ORE_REPLACEABLES)
+                .add(GCYRBlocks.MOON_STONE);
+        provider.addTag(GCYRTags.Blocks.MARS_ORE_REPLACEABLES)
+                .add(GCYRBlocks.MARTIAN_ROCK);
+        provider.addTag(GCYRTags.Blocks.PASSES_FLOOD_FILL)
+                .addTag(BlockTags.FENCES).addTag(BlockTags.FENCE_GATES)
+                .add(Blocks.IRON_BARS)
+                .add(Blocks.TNT).add(GTBlocks.INDUSTRIAL_TNT);
+        provider.addTag(GCYRTags.Blocks.LANDING_MODULES)
+                .add(GCYRBlocks.LANDING_MODULE);
     }
 }

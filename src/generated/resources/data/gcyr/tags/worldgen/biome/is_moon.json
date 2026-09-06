@@ -1,12 +1,6 @@
 {
   "values": [
-    {
-      "id": "gcyr:lunar_plains",
-      "required": false
-    },
-    {
-      "id": "gcyr:lunar_mare",
-      "required": false
-    }
+    "gcyr:lunar_plains",
+    "gcyr:lunar_mare"
   ]
 }
