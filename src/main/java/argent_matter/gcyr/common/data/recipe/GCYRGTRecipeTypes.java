@@ -2,8 +2,6 @@ package argent_matter.gcyr.common.data.recipe;
 
 import argent_matter.gcyr.GCYR;
 import argent_matter.gcyr.api.gui.widget.GCYRGuiTextures;
-import argent_matter.gcyr.common.data.client.GCYRSoundEntries;
-import argent_matter.gcyr.common.data.item.GCYRItems;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
@@ -13,7 +11,6 @@ import com.gregtechceu.gtceu.api.registry.GTRegistries;
 import com.gregtechceu.gtceu.common.data.GTSoundEntries;
 
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.crafting.RecipeType;
 
 import static com.gregtechceu.gtceu.common.data.GTRecipeTypes.ELECTRIC;
@@ -36,13 +33,6 @@ public class GCYRGTRecipeTypes {
             .setMaxIOSize(16, 1, 4, 0).setEUIO(IO.IN)
             .setProgressBar(GCYRGuiTextures.PROGRESS_BAR_ROCKET, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.PORTABLE_SCANNER);
-
-    public static final GTRecipeType ROCKET_FUEL_RECIPES = register("rocket_fuel", MULTIBLOCK).setMaxIOSize(0, 0, 1, 0)
-            .setProgressBar(GCYRGuiTextures.PROGRESS_BAR_ROCKET, LEFT_TO_RIGHT)
-            .setSound(GCYRSoundEntries.ROCKET)
-            .setIconSupplier(() -> GCYRItems.GPS_SATELLITE.asStack())
-            .addDataInfo(data -> Component.translatable("gcyr.recipe.specific_energy",
-                    data.getDouble("specific_energy")).getString());
 
     public static GTRecipeType register(String name, String group, RecipeType<?>... proxyRecipes) {
         var recipeType = new GTRecipeType(GCYR.id(name), group, proxyRecipes);
