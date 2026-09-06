@@ -253,6 +253,47 @@ public class GCYRBlocks {
     private static final StoneVariant PROXIMA_CENTAURI_B_VARIANT = new StoneVariant(REGISTRATE, "proximian", StoneVariant.BaseType.ROCK, MapColor.COLOR_GRAY);
     public static final BlockSetType PROXIMA_CENTAURI_B_SET = PROXIMA_CENTAURI_B_VARIANT.blockSetType();
 
+    public static final BlockEntry<Block> PROXIMIAN_COBBLESTONE = PROXIMA_CENTAURI_B_VARIANT
+            .cobblestone("Cobbled Proximian Stone")
+            .initialProperties(() -> Blocks.COBBLED_DEEPSLATE)
+            .register();
+
+    public static final BlockEntry<RotatedPillarBlock> PROXIMIAN_STONE = REGISTRATE
+            .block("proximian_stone", RotatedPillarBlock::new)
+            .lang("Proximian Stone")
+            .initialProperties(() -> Blocks.DEEPSLATE)
+            .properties(p -> p.mapColor(MapColor.COLOR_RED))
+            .blockstate((ctx, prov) -> prov.axisBlock(ctx.getEntry()))
+            .loot((tables, block) -> tables.createSingleItemTableWithSilkTouch(block, PROXIMIAN_COBBLESTONE))
+            .tag(BlockTags.MINEABLE_WITH_PICKAXE, Tags.Blocks.STONE)
+            .simpleItem()
+            .register();
+
+    public static final BlockEntry<SlabBlock> PROXIMIAN_COBBLESTONE_SLAB = PROXIMA_CENTAURI_B_VARIANT
+            .cobbleSlab("Cobbled Proximian Stone Slab", PROXIMIAN_COBBLESTONE)
+            .initialProperties(() -> Blocks.COBBLED_DEEPSLATE_SLAB)
+            .register();
+
+    public static final BlockEntry<SlabBlock> PROXIMIAN_STONE_SLAB = PROXIMA_CENTAURI_B_VARIANT
+            .slab("Proximian Stone Slab", PROXIMIAN_STONE)
+            .initialProperties(() -> Blocks.DEEPSLATE)
+            .register();
+
+    public static final BlockEntry<StairBlock> PROXIMIAN_COBBLESTONE_STAIRS = PROXIMA_CENTAURI_B_VARIANT
+            .cobbleStairs("Cobbled Proximian Stone Stairs", PROXIMIAN_COBBLESTONE)
+            .initialProperties(() -> Blocks.COBBLED_DEEPSLATE_STAIRS)
+            .register();
+
+    public static final BlockEntry<StairBlock> PROXIMIAN_STONE_STAIRS = PROXIMA_CENTAURI_B_VARIANT
+            .stairs("Proximian Stone Stairs", PROXIMIAN_STONE)
+            .initialProperties(() -> Blocks.DEEPSLATE)
+            .register();
+
+    public static final BlockEntry<ButtonBlock> PROXIMIAN_STONE_BUTTON = PROXIMA_CENTAURI_B_VARIANT
+            .button("stone", "Proximian Stone Button", PROXIMIAN_STONE, PROXIMA_CENTAURI_B_SET)
+            .initialProperties(() -> Blocks.COBBLED_DEEPSLATE)
+            .register();
+
     public static final BlockEntry<FallingBlock> PROXIMIAN_REGOLITH = REGISTRATE
             .block("proximian_regolith", FallingBlock::new)
             .lang("Proximian Regolith")
