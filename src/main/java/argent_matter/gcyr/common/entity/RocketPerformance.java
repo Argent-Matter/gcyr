@@ -7,7 +7,7 @@ import argent_matter.gcyr.data.loader.PlanetData;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.Level;
 
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 public final class RocketPerformance {
 

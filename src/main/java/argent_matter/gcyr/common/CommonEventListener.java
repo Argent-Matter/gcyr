@@ -4,6 +4,7 @@ import argent_matter.gcyr.GCYR;
 import argent_matter.gcyr.api.capability.GCYRCapabilityHelper;
 import argent_matter.gcyr.api.capability.IDysonSystem;
 import argent_matter.gcyr.common.data.network.GCYRNetworking;
+import argent_matter.gcyr.common.entity.RocketEntity;
 import argent_matter.gcyr.common.item.armor.SpaceSuitArmorItem;
 import argent_matter.gcyr.common.networking.s2c.PacketSyncDysonSphereStatus;
 import argent_matter.gcyr.common.recipe.type.SmithingSpaceSuitRecipe;
@@ -18,6 +19,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.packs.resources.ResourceManagerReloadListener;
 import net.minecraft.world.item.ItemStack;
 
 import net.minecraftforge.common.Tags;
@@ -61,6 +63,7 @@ public class CommonEventListener {
     @SubscribeEvent
     public static void registerServerReloadListeners(AddReloadListenerEvent event) {
         event.addListener(new PlanetData());
+        event.addListener((ResourceManagerReloadListener) resourceManager -> RocketEntity.clearFuelRecipeCache());
     }
 
     @SubscribeEvent
