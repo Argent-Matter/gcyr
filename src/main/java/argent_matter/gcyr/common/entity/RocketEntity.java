@@ -704,7 +704,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         double nearest = Double.POSITIVE_INFINITY;
         for (int x = minX; x <= maxX; x++) {
             for (int z = minZ; z <= maxZ; z++) {
-                int surface = level().getHeight(Heightmap.Types.MOTION_BLOCKING, x, z);
+                int surface = level().getHeight(Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, x, z);
                 nearest = Math.min(nearest, Math.max(0.0D, bounds.minY - surface));
             }
         }
