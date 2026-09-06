@@ -44,31 +44,31 @@ public class GCYRGTAddon implements IGTAddon {
                 .langValue("Moon %s Ore")
                 .registerOre(() -> GCYRBlocks.MOON_STONE.orElse(Blocks.STONE).defaultBlockState(), null,
                         BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_GRAY).requiresCorrectToolForDrops()
-                                .strength(3.0F, 3.0F),
+                                .strength(3.0f, 3.0f),
                         GCYR.id("block/moon_stone"));
         TagPrefix.oreTagPrefix("mars", BlockTags.MINEABLE_WITH_PICKAXE)
                 .langValue("Mars %s Ore")
                 .registerOre(() -> GCYRBlocks.MARTIAN_ROCK.orElse(Blocks.DEEPSLATE).defaultBlockState(),
                         () -> GCYRMaterials.MartianRockDust, BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED)
-                                .requiresCorrectToolForDrops().strength(3.0F, 3.0F),
+                                .requiresCorrectToolForDrops().strength(3.0f, 3.0f),
                         GCYR.id("block/martian_rock"));
         TagPrefix.oreTagPrefix("venus", BlockTags.MINEABLE_WITH_PICKAXE)
                 .langValue("Venus %s Ore")
                 .registerOre(() -> GCYRBlocks.VENUS_ROCK.orElse(Blocks.DEEPSLATE).defaultBlockState(), null,
                         BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_ORANGE)
-                                .requiresCorrectToolForDrops().strength(3.0F, 3.0F),
+                                .requiresCorrectToolForDrops().strength(3.0f, 3.0f),
                         GCYR.id("block/venus_rock"));
         TagPrefix.oreTagPrefix("mercury", BlockTags.MINEABLE_WITH_PICKAXE)
                 .langValue("Mercury %s Ore")
                 .registerOre(() -> GCYRBlocks.MERCURY_ROCK.orElse(Blocks.STONE).defaultBlockState(), null,
                         BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GRAY).requiresCorrectToolForDrops()
-                                .strength(3.0F, 3.0F),
+                                .strength(3.0f, 3.0f),
                         GCYR.id("block/mercury_rock"));
         TagPrefix.oreTagPrefix("proxima_centauri_b", BlockTags.MINEABLE_WITH_PICKAXE)
                 .langValue("Proxima Centauri B %s Ore")
                 .registerOre(() -> GCYRBlocks.MERCURY_ROCK.orElse(Blocks.STONE).defaultBlockState(), null,
                         BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GRAY).requiresCorrectToolForDrops()
-                                .strength(3.0F, 3.0F),
+                                .strength(3.0f, 3.0f),
                         GCYR.id("block/mercury_rock"));
     }
 

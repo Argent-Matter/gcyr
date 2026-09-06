@@ -34,7 +34,7 @@ public record Planet(String translation, ResourceLocation galaxy, ResourceLocati
             ResourceKey.codec(Registries.DIMENSION).optionalFieldOf("parent_dimension").forGetter(Planet::parentDimension),
             Codec.INT.fieldOf("rocket_tier").forGetter(Planet::rocketTier),
             Codec.FLOAT.fieldOf("gravity").forGetter(Planet::gravity),
-            Codec.FLOAT.optionalFieldOf("distance_from_parent", 0.0F).forGetter(Planet::distanceFromParent),
+            Codec.FLOAT.optionalFieldOf("distance_from_parent", 0.0f).forGetter(Planet::distanceFromParent),
             Codec.BOOL.fieldOf("has_atmosphere").forGetter(Planet::hasAtmosphere),
             Codec.INT.fieldOf("days_in_year").forGetter(Planet::daysInYear),
             Codec.FLOAT.fieldOf("temperature").forGetter(Planet::temperature),

@@ -331,7 +331,7 @@ public class GCYRBlocks {
             .block("airlock_door", properties -> new DoorBlock(properties, BlockSetType.IRON))
             .initialProperties(() -> Blocks.IRON_BLOCK)
             .lang("Airlock Door")
-            .properties(p -> p.strength(4.0F, 6.0F))
+            .properties(p -> p.strength(4.0f, 6.0f))
             .tag(CustomTags.MINEABLE_WITH_CONFIG_VALID_PICKAXE_WRENCH,
                     GCYRTags.Blocks.BLOCKS_FLOOD_FILL, BlockTags.DOORS)
             .blockstate(GCYRModels::airlockDoorModel)

@@ -56,7 +56,7 @@ public class SpaceSuitArmorItem extends ArmorItem {
 
     @Override
     public int getBarWidth(ItemStack stack) {
-        return Math.round(13.0F - (float) oxygenAmount(stack) * 13.0F / (float) oxygenMax(stack));
+        return Math.round(13.0f - (float) oxygenAmount(stack) * 13.0f / (float) oxygenMax(stack));
     }
 
     @Override

@@ -78,11 +78,11 @@ public class RocketLandingHUD implements IGuiOverlay {
                                         int screenHeight) {
         int seconds = Math.max(0, (200 - rocket.getStartTimer()) / 20);
         String text = Integer.toString(seconds);
-        float scale = 3.0F;
+        float scale = 3.0f;
         graphics.pose().pushPose();
         graphics.pose().scale(scale, scale, scale);
-        int x = (int) ((screenWidth / scale - gui.getMinecraft().font.width(text)) / 2.0F);
-        int y = (int) (screenHeight / (2.0F * scale) - gui.getMinecraft().font.lineHeight / 2.0F);
+        int x = (int) ((screenWidth / scale - gui.getMinecraft().font.width(text)) / 2.0f);
+        int y = (int) (screenHeight / (2.0f * scale) - gui.getMinecraft().font.lineHeight / 2.0f);
         graphics.drawString(gui.getMinecraft().font, text, x, y, ChatFormatting.WHITE.getColor(), true);
         graphics.pose().popPose();
     }

@@ -67,8 +67,8 @@ public class GCYRBiomes {
     }
 
     protected static int calculateSkyColor(float temperature) {
-        float temp = temperature / 3.0F;
-        temp = Mth.clamp(temp, -1.0F, 1.0F);
-        return Mth.hsvToRgb(0.62222224F - temp * 0.05F, 0.5F + temp * 0.1F, 1.0F);
+        float temp = temperature / 3.0f;
+        temp = Mth.clamp(temp, -1.0f, 1.0f);
+        return Mth.hsvToRgb(0.62222224f - temp * 0.05f, 0.5f + temp * 0.1f, 1.0f);
     }
 }

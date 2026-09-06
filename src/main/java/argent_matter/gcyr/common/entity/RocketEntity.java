@@ -195,7 +195,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
 
     private boolean isUsableFuelRecipe(RocketFuelRecipe recipe, FluidStack fluid) {
         return recipe.getValidRocketTiers().isValueInRange(motorTier) && recipe.matches(fluid) &&
-                recipe.getSpecificEnergy() > 0.0F;
+                recipe.getSpecificEnergy() > 0.0f;
     }
 
     private @Nullable RocketFuelRecipe getCachedFuelRecipe(FluidStack fluid) {
@@ -366,9 +366,9 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
                 getCollisionHorizontalEscapeVector(this.getBbWidth(), livingEntity.getBbWidth(),
                         livingEntity.getYRot() + 22.5F),
                 getCollisionHorizontalEscapeVector(this.getBbWidth(), livingEntity.getBbWidth(),
-                        livingEntity.getYRot() - 45.0F),
+                        livingEntity.getYRot() - 45.0f),
                 getCollisionHorizontalEscapeVector(this.getBbWidth(), livingEntity.getBbWidth(),
-                        livingEntity.getYRot() + 45.0F)
+                        livingEntity.getYRot() + 45.0f)
         };
         Set<BlockPos> set = Sets.newLinkedHashSet();
         double maxY = this.getBoundingBox().maxY;
@@ -1231,14 +1231,14 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
     protected void defineSynchedData() {
         this.entityData.define(ROCKET_STARTED, false);
         this.entityData.define(FUEL_CAPACITY, 0);
-        this.entityData.define(WEIGHT, 0.0F);
-        this.entityData.define(THRUST, 0.0F);
-        this.entityData.define(MOTOR_EFFICIENCY, 1.0F);
+        this.entityData.define(WEIGHT, 0.0f);
+        this.entityData.define(THRUST, 0.0f);
+        this.entityData.define(MOTOR_EFFICIENCY, 1.0f);
         this.entityData.define(RECIPE_DURATION, 0);
         this.entityData.define(FLIGHT_STAGE, RocketFlightStage.IDLE.ordinal());
         this.entityData.define(LAUNCH_FUEL_REMAINING, 0);
         this.entityData.define(LAUNCH_TICKS_REMAINING, 0);
-        this.entityData.define(FUEL_ENERGY, 0.0F);
+        this.entityData.define(FUEL_ENERGY, 0.0f);
         this.entityData.define(START_TIMER, 0);
         this.entityData.define(FUEL_AMOUNT, 0);
         this.entityData.define(POSITIONED_STATES, new ArrayList<>());

@@ -33,7 +33,7 @@ public class GCYRConfig {
 
         @Configurable
         @Configurable.Comment({ "Damage of the laser satellite to entities per tick.", "Default: 2.0" })
-        public float laserSatelliteDamagePerTickStep = 2.0F;
+        public float laserSatelliteDamagePerTickStep = 2.0f;
         @Configurable
         @Configurable.Comment({ "Time between laser satellite mining attempts.", "Default: 2" })
         public int laserSatelliteMiningTickStep = 2;
@@ -46,19 +46,19 @@ public class GCYRConfig {
         public boolean enableOxygen = true;
         @Configurable
         @Configurable.Comment({ "Damage to entities per tick without oxygen.", "Default: 1.0" })
-        public float oxygenDamage = 1.0F;
+        public float oxygenDamage = 1.0f;
         @Configurable
         @Configurable.Comment({ "Damage to overheated entities per tick", "Default: 2.0" })
-        public float heatDamage = 2.0F;
+        public float heatDamage = 2.0f;
         @Configurable
         @Configurable.Comment({ "Damage to freezing entities per tick.", "Default: 2.0" })
-        public float freezeDamage = 2.0F;
+        public float freezeDamage = 2.0f;
         @Configurable
         @Configurable.Comment({ "Maximum distance the oxygen spreader can spread oxygen in.", "Default: 128" })
         public int maxOxygenatedBlockChecks = 128;
         @Configurable
         @Configurable.Comment({ "The temperature in space.", "Default: -270.0" })
-        public float spaceTemperature = -270.0F;
+        public float spaceTemperature = -270.0f;
         @Configurable
         @Configurable.Comment({ "The Maximum size of a single space station.",
                 "DO NOT CHANGE AFTER LOADING THE SPACE STATION WORLD, THAT WILL BREAK THE WORLD BORDER",

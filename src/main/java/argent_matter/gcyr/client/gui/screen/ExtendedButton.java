@@ -51,9 +51,9 @@ public class ExtendedButton extends Button {
         RenderSystem.enableDepthTest();
         guiGraphics.blitNineSliced(WIDGETS_LOCATION, this.getX(), this.getY(), this.getWidth(), this.getHeight(), 20, 4,
                 200, 20, 0, this.getTextureY());
-        guiGraphics.setColor(1.0F, 1.0F, 1.0F, 1.0F);
+        guiGraphics.setColor(1.0f, 1.0f, 1.0f, 1.0f);
         int i = this.active ? 0xFFFFFF : 0xA0A0A0;
-        this.renderString(guiGraphics, minecraft.font, i | Mth.ceil(this.alpha * 255.0F) << 24);
+        this.renderString(guiGraphics, minecraft.font, i | Mth.ceil(this.alpha * 255.0f) << 24);
     }
 
     public void updateTooltip() {
