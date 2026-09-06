@@ -110,8 +110,6 @@
   "gcyr.recipe.rocket_fuel.tier_range.any": "Valid for any rocket tier",
   "gcyr.recipe.rocket_fuel.tier_range.max": "Valid for rocket tiers up to %2$s (inclusive)",
   "gcyr.recipe.rocket_fuel.tier_range.min": "Valid for rocket tiers %1$s and above (inclusive)",
-  "gcyr.recipe.specific_energy": "Specific Energy: %s MJ/mB",
-  "gcyr.rocket_fuel": "Rocket Fuel",
   "gtceu.jei.ore_vein.bauxite_vein_moon": "Bauxite Vein Moon",
   "gtceu.jei.ore_vein.copper_vein_mars": "Copper Vein Mars",
   "gtceu.jei.ore_vein.copper_vein_venus": "Copper Vein Venus",
