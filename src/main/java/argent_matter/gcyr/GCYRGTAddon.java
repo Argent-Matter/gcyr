@@ -40,12 +40,12 @@ public class GCYRGTAddon implements IGTAddon {
 
     @Override
     public void registerTagPrefixes() {
-        TagPrefix.oreTagPrefix("moon", BlockTags.MINEABLE_WITH_PICKAXE)
-                .langValue("Moon %s Ore")
-                .registerOre(() -> GCYRBlocks.MOON_STONE.orElse(Blocks.STONE).defaultBlockState(), null,
+        TagPrefix.oreTagPrefix("lunar", BlockTags.MINEABLE_WITH_PICKAXE)
+                .langValue("Lunar %s Ore")
+                .registerOre(() -> GCYRBlocks.LUNAR_STONE.orElse(Blocks.STONE).defaultBlockState(), null,
                         BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_GRAY).requiresCorrectToolForDrops()
                                 .strength(3.0F, 3.0F),
-                        GCYR.id("block/moon_stone"));
+                        GCYR.id("block/lunar_stone"));
         TagPrefix.oreTagPrefix("mars", BlockTags.MINEABLE_WITH_PICKAXE)
                 .langValue("Mars %s Ore")
                 .registerOre(() -> GCYRBlocks.MARTIAN_ROCK.orElse(Blocks.DEEPSLATE).defaultBlockState(),

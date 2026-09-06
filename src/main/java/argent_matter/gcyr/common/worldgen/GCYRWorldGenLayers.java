@@ -13,7 +13,7 @@ import java.util.Set;
 public class GCYRWorldGenLayers {
 
     public static IWorldGenLayer MOON = new SimpleWorldGenLayer("moon",
-            () -> new BlockMatchTest(GCYRBlocks.MOON_STONE.get()), Set.of(GCYR.id("luna")));
+            () -> new BlockMatchTest(GCYRBlocks.LUNAR_STONE.get()), Set.of(GCYR.id("luna")));
     public static IWorldGenLayer MARS = new SimpleWorldGenLayer("mars",
             () -> new BlockMatchTest(GCYRBlocks.MARTIAN_ROCK.get()), Set.of(GCYR.id("mars")));
     public static IWorldGenLayer MERCURY = new SimpleWorldGenLayer("mercury",

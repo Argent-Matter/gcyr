@@ -147,33 +147,33 @@ public class GCYRBlocks {
     // region moon
 
     private static final StoneVariant LUNAR_VARIANT = new StoneVariant(REGISTRATE, "lunar", MapColor.COLOR_GRAY);
-    public static final BlockSetType MOON_SET = LUNAR_VARIANT.blockSetType();
+    public static final BlockSetType LUNAR_SET = LUNAR_VARIANT.blockSetType();
 
-    public static final BlockEntry<Block> MOON_COBBLESTONE = LUNAR_VARIANT.cobblestone("Cobbled Lunar Stone")
+    public static final BlockEntry<Block> LUNAR_COBBLESTONE = LUNAR_VARIANT.cobblestone("Cobbled Lunar Stone")
             .register();
 
-    public static final BlockEntry<Block> MOON_STONE = LUNAR_VARIANT.rock("stone", "Lunar Stone", MOON_COBBLESTONE)
+    public static final BlockEntry<Block> LUNAR_STONE = LUNAR_VARIANT.rock("stone", "Lunar Stone", LUNAR_COBBLESTONE)
             .properties(p -> p.mapColor(MapColor.COLOR_LIGHT_GRAY))
             .register();
 
-    public static final BlockEntry<SlabBlock> MOON_COBBLESTONE_SLAB = LUNAR_VARIANT
-            .slab("cobblestone", "Cobbled Lunar Stone Slab", MOON_COBBLESTONE)
+    public static final BlockEntry<SlabBlock> LUNAR_COBBLESTONE_SLAB = LUNAR_VARIANT
+            .slab("cobblestone", "Cobbled Lunar Stone Slab", LUNAR_COBBLESTONE)
             .register();
 
-    public static final BlockEntry<SlabBlock> MOON_STONE_SLAB = LUNAR_VARIANT
-            .slab("stone", "Lunar Stone Slab", MOON_STONE)
+    public static final BlockEntry<SlabBlock> LUNAR_STONE_SLAB = LUNAR_VARIANT
+            .slab("stone", "Lunar Stone Slab", LUNAR_STONE)
             .register();
 
-    public static final BlockEntry<StairBlock> MOON_COBBLESTONE_STAIRS = LUNAR_VARIANT
-            .stairs("cobblestone", "Cobbled Lunar Stone Stairs", MOON_COBBLESTONE)
+    public static final BlockEntry<StairBlock> LUNAR_COBBLESTONE_STAIRS = LUNAR_VARIANT
+            .stairs("cobblestone", "Cobbled Lunar Stone Stairs", LUNAR_COBBLESTONE)
             .register();
 
-    public static final BlockEntry<StairBlock> MOON_STONE_STAIRS = LUNAR_VARIANT
-            .stairs("stone", "Lunar Stone Stairs", MOON_STONE)
+    public static final BlockEntry<StairBlock> LUNAR_STONE_STAIRS = LUNAR_VARIANT
+            .stairs("stone", "Lunar Stone Stairs", LUNAR_STONE)
             .register();
 
-    public static final BlockEntry<ButtonBlock> MOON_STONE_BUTTON = LUNAR_VARIANT
-            .button("stone", "Lunar Stone Button", MOON_STONE, MOON_SET)
+    public static final BlockEntry<ButtonBlock> LUNAR_STONE_BUTTON = LUNAR_VARIANT
+            .button("stone", "Lunar Stone Button", LUNAR_STONE, LUNAR_SET)
             .register();
 
     public static final BlockEntry<FallingBlock> LUNAR_MARE_REGOLITH = REGISTRATE
@@ -186,7 +186,7 @@ public class GCYRBlocks {
             .simpleItem()
             .register();
 
-    public static final BlockEntry<FallingBlock> MOON_SAND = REGISTRATE
+    public static final BlockEntry<FallingBlock> LUNAR_SAND = REGISTRATE
             .block("lunar_sand", FallingBlock::new)
             .lang("Lunar Sand")
             .initialProperties(() -> Blocks.SAND)
