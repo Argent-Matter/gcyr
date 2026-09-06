@@ -109,6 +109,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
 
     private static final double ORBIT_ALTITUDE = 600.0D;
     private static final int COUNTDOWN_FUEL_INTERVAL = 20;
+    private static final int COUNTDOWN_TICKS = 200;
     private static final Object2ObjectMap<FluidStack, RocketFuelRecipe> FUEL_CACHE = new Object2ObjectOpenCustomHashMap<>(
             FluidStackHashStrategy.comparingAllButAmount());
 
@@ -218,14 +219,15 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
 
         boolean started = this.entityData.get(ROCKET_STARTED);
         if (started) {
-            this.spawnParticles();
-            if (getStartTimer() < 200) {
+            if (!countdownComplete()) {
+                this.spawnParticles();
                 consumeCountdownFuel();
-                countdown();
             } else if (consumeFuel()) {
                 this.flightMovement();
                 this.goToDestination();
             }
+            // XXX: we get here if we run out of fuel while going to orbit
+            // but I don't know if that is possible w/ new to orbit code
         } else if (!started) {
             this.fall();
         }
@@ -282,8 +284,9 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
                                 new TextTexture("")),
                         (clickData) -> this.toggleLaunch()))
                 .widget(new RocketInfoLabelWidget(30, 65, 48,
-                        () -> Component.translatable(entityData.get(ROCKET_STARTED) && getStartTimer() < 200 ?
-                                "menu.gcyr.cancel" : "menu.gcyr.launch")))
+                        () -> Component
+                                .translatable(entityData.get(ROCKET_STARTED) && getStartTimer() < COUNTDOWN_TICKS ?
+                                        "menu.gcyr.cancel" : "menu.gcyr.launch")))
                 .widget(new ButtonWidget(30, 40, 48, 18,
                         new GuiTextureGroup(GuiTextures.BUTTON.copy().setColor(0xFFE0B900),
                                 new TextTexture("")),
@@ -325,7 +328,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
     }
 
     public void cancelLaunch() {
-        if (isRemote() || !entityData.get(ROCKET_STARTED) || getStartTimer() >= 200) return;
+        if (isRemote() || !entityData.get(ROCKET_STARTED) || getStartTimer() >= COUNTDOWN_TICKS) return;
         entityData.set(ROCKET_STARTED, false);
         setFlightStage(RocketFlightStage.IDLE);
         setStartTimer(0);
@@ -338,7 +341,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
     }
 
     public void toggleLaunch() {
-        if (entityData.get(ROCKET_STARTED) && getStartTimer() < 200) cancelLaunch();
+        if (entityData.get(ROCKET_STARTED) && getStartTimer() < COUNTDOWN_TICKS) cancelLaunch();
         else startRocket();
     }
 
@@ -408,7 +411,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
 
         if (this.level() instanceof ServerLevel serverLevel) {
             for (BlockPos pos : this.thrusterPositions) {
-                if (this.getStartTimer() >= 200) {
+                if (this.getStartTimer() >= COUNTDOWN_TICKS) {
                     for (ServerPlayer p : serverLevel.getServer().getPlayerList().getPlayers()) {
                         serverLevel.sendParticles(p, ParticleTypes.FLAME, true,
                                 this.getX() - vec.x + pos.getX() + 0.5, this.getY() - vec.y - 2.2 + pos.getY() + 0.5,
@@ -631,13 +634,14 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         }
     }
 
-    // countdown returns true if the countdown is over, false otherwise
-    public boolean countdown() {
+    // countdownComplete increments the countdown timer if the countdown hasn't completed yet,
+    // and returns true if the countdown is over or false otherwise.
+    public boolean countdownComplete() {
         var timer = getStartTimer();
-        if (timer < 200) {
+        if (timer < COUNTDOWN_TICKS) {
             this.setStartTimer(timer + 1);
         }
-        return timer == 200;
+        return timer == COUNTDOWN_TICKS;
     }
 
     // movement must happen both server + client side
@@ -723,7 +727,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
     }
 
     public void burnEntities() {
-        if (this.getStartTimer() == 200) {
+        if (this.getStartTimer() == COUNTDOWN_TICKS) {
             BlockPos size = this.entityData.get(SIZE);
             AABB aabb = AABB.ofSize(
                     new Vec3(this.getX() + size.getX() / 2f, this.getY() - 2, this.getZ() + size.getZ() / 2f),
