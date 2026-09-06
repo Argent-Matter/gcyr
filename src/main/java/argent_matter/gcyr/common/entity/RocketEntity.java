@@ -121,7 +121,6 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
     public static final EntityDataAccessor<Float> THRUST = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializers.FLOAT);
     public static final EntityDataAccessor<Float> MOTOR_EFFICIENCY = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializers.FLOAT);
     public static final EntityDataAccessor<Float> WEIGHT = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializers.FLOAT);
-    public static final EntityDataAccessor<Integer> RECIPE_DURATION = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializers.INT);
     public static final EntityDataAccessor<Integer> FLIGHT_STAGE = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializers.INT);
     public static final EntityDataAccessor<Integer> LAUNCH_FUEL_REMAINING = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializers.INT);
     public static final EntityDataAccessor<Integer> LAUNCH_TICKS_REMAINING = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializers.INT);
@@ -1094,14 +1093,6 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         this.reinitializeFluidStorage();
     }
 
-    public int getRecipeDuration() {
-        return this.entityData.get(RECIPE_DURATION);
-    }
-
-    public void setRecipeDuration(int duration) {
-        this.entityData.set(RECIPE_DURATION, duration);
-    }
-
     public float getWeight() {
         return this.entityData.get(WEIGHT);
     }
@@ -1242,7 +1233,6 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         this.entityData.define(WEIGHT, 0.0f);
         this.entityData.define(THRUST, 0.0f);
         this.entityData.define(MOTOR_EFFICIENCY, 1.0f);
-        this.entityData.define(RECIPE_DURATION, 0);
         this.entityData.define(FLIGHT_STAGE, RocketFlightStage.IDLE.ordinal());
         this.entityData.define(LAUNCH_FUEL_REMAINING, 0);
         this.entityData.define(LAUNCH_TICKS_REMAINING, 0);
