@@ -153,18 +153,21 @@ public class LangHandler extends com.gregtechceu.gtceu.data.lang.LangHandler {
         provider.add("category.gcyr.milky_way", "Milky Way");
 
         // dimension names
+        provider.add("dimension.gcyr.black_hole_orbit", "Black Hole Orbit");
+
         provider.add("dimension.minecraft.overworld", "Earth");
+        provider.add("dimension.gcyr.overworld_orbit", "Earth Orbit");
         provider.add("dimension.gcyr.luna", "Moon");
         provider.add("dimension.gcyr.luna_orbit", "Lunar Orbit");
         provider.add("dimension.gcyr.mars", "Mars");
         provider.add("dimension.gcyr.mars_orbit", "Mars Orbit");
         provider.add("dimension.gcyr.mercury", "Mercury");
         provider.add("dimension.gcyr.mercury_orbit", "Mercury Orbit");
-        provider.add("dimension.gcyr.overworld_orbit", "Earth Orbit");
         provider.add("dimension.gcyr.venus", "Venus");
         provider.add("dimension.gcyr.venus_orbit", "Venus Orbit");
-        provider.add("dimension.gcyr.proxima_centauri_b", "Proxima b");
-        provider.add("dimension.gcyr.black_hole_orbit", "Black Hole Orbit");
+        provider.add("dimension.gcyr.proxima_centauri_b", "Proxima Centauri b");
+        provider.add("dimension.gcyr.proxima_centauri_b_orbit", "Proxima Centauri b Orbit");
+
 
         // behaviours
         provider.add("behaviour.gps_tracker.track_entity", "Track Entity");
