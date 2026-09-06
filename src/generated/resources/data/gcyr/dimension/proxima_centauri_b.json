@@ -1,0 +1,66 @@
+{
+  "type": "gcyr:proxima_centauri_b",
+  "generator": {
+    "type": "minecraft:noise",
+    "biome_source": {
+      "type": "minecraft:multi_noise",
+      "biomes": [
+        {
+          "biome": "gcyr:proxima_centauri_b_middle",
+          "parameters": {
+            "continentalness": 0.0,
+            "depth": 0.0,
+            "erosion": 0.0,
+            "humidity": 0.0,
+            "offset": 0.0,
+            "temperature": 0.0,
+            "weirdness": 0.0
+          }
+        },
+        {
+          "biome": "gcyr:proxima_centauri_b_light_side",
+          "parameters": {
+            "continentalness": 0.0,
+            "depth": 0.0,
+            "erosion": 0.0,
+            "humidity": 0.0,
+            "offset": 0.0,
+            "temperature": 0.4,
+            "weirdness": 0.0
+          }
+        },
+        {
+          "biome": "gcyr:proxima_centauri_b_dark_side",
+          "parameters": {
+            "continentalness": 0.0,
+            "depth": 0.0,
+            "erosion": 0.0,
+            "humidity": 0.0,
+            "offset": 0.0,
+            "temperature": -0.4,
+            "weirdness": 0.0
+          }
+        },
+        {
+          "biome": "gcyr:proxima_centauri_b_underground",
+          "parameters": {
+            "continentalness": 0.0,
+            "depth": [
+              0.09,
+              0.6
+            ],
+            "erosion": 0.0,
+            "humidity": 0.0,
+            "offset": 0.0,
+            "temperature": [
+              -0.05,
+              0.09
+            ],
+            "weirdness": 0.0
+          }
+        }
+      ]
+    },
+    "settings": "gcyr:proxima_centauri_b"
+  }
+}

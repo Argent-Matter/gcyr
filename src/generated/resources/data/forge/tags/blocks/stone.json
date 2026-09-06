@@ -1,8 +1,9 @@
 {
   "values": [
-    "gcyr:mercury_rock",
-    "gcyr:venus_rock",
+    "gcyr:mercurian_rock",
+    "gcyr:venusian_rock",
     "gcyr:lunar_stone",
-    "gcyr:martian_rock"
+    "gcyr:martian_rock",
+    "gcyr:proximian_stone"
   ]
 }

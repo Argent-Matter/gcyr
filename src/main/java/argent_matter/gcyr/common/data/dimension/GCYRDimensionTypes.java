@@ -1,35 +1,107 @@
 package argent_matter.gcyr.common.data.dimension;
 
 import argent_matter.gcyr.GCYR;
-import argent_matter.gcyr.common.worldgen.SpaceLevelSource;
+import argent_matter.gcyr.common.data.tag.GCYRTags;
 
 import net.minecraft.core.registries.Registries;
+import net.minecraft.data.worldgen.BootstapContext;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.valueproviders.ConstantInt;
+import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.level.dimension.DimensionType;
 
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.registries.DeferredRegister;
-
-import com.mojang.serialization.Codec;
+import java.util.OptionalLong;
 
 public class GCYRDimensionTypes {
 
-    public static final ResourceKey<DimensionType> SPACE_TYPE = ResourceKey.create(Registries.DIMENSION_TYPE,
-            GCYR.id("space"));
+    // spotless:off
+    public static final ResourceKey<DimensionType> SPACE = register("space");
+    public static final ResourceKey<DimensionType> LUNA = register("luna");
+    public static final ResourceKey<DimensionType> MARS = register("mars");
+    public static final ResourceKey<DimensionType> MERCURY = register("mercury");
+    public static final ResourceKey<DimensionType> PROXIMA_CENTAURI_B = register("proxima_centauri_b");
+    public static final ResourceKey<DimensionType> VENUS = register("venus");
 
-    private static final DeferredRegister<Codec<? extends ChunkGenerator>> CHUNK_GENERATOR_REGISTER = DeferredRegister
-            .create(Registries.CHUNK_GENERATOR, GCYR.MOD_ID);
+    public static final ResourceLocation SPACE_EFFECTS = GCYR.id("space");
+    public static final ResourceLocation LUNA_EFFECTS = GCYR.id("luna");
+    public static final ResourceLocation MARS_EFFECTS = GCYR.id("mars");
+    public static final ResourceLocation MERCURY_EFFECTS = GCYR.id("mercury");
+    public static final ResourceLocation PROXIMA_CENTAURI_B_EFFECTS = GCYR.id("proxima_centauri_b");
+    public static final ResourceLocation VENUS_EFFECTS = GCYR.id("venus");
 
-    public static void register(IEventBus bus) {
-        CHUNK_GENERATOR_REGISTER.register(bus);
+
+    public static void bootstrap(BootstapContext<DimensionType> ctx) {
+        ctx.register(SPACE, new DimensionType(
+                OptionalLong.of(18000L),
+                true, false,
+                false, false, 1.0,
+                false, false,
+                0, 256, 256,
+                GCYRTags.Blocks.INFINIBURN_SPACE,
+                SPACE_EFFECTS,
+                0.1f,
+                new DimensionType.MonsterSettings(false, false, UniformInt.of(0, 7), 0)
+        ));
+        ctx.register(LUNA, new DimensionType(
+                OptionalLong.empty(),
+                true, false,
+                true, true, 1.0,
+                false, false,
+                -64, 384, 384,
+                GCYRTags.Blocks.INFINIBURN_LUNA,
+                LUNA_EFFECTS,
+                0.0f,
+                new DimensionType.MonsterSettings(false, false, ConstantInt.of(0), 0)
+        ));
+        ctx.register(MARS, new DimensionType(
+                OptionalLong.empty(),
+                true, false,
+                false, true, 1.0,
+                false, false,
+                -64, 384, 384,
+                GCYRTags.Blocks.INFINIBURN_MARS,
+                MARS_EFFECTS,
+                0.0f,
+                new DimensionType.MonsterSettings(false, false, UniformInt.of(0, 7), 0)
+        ));
+        ctx.register(MERCURY, new DimensionType(
+                OptionalLong.empty(),
+                true, false,
+                true, true, 1.0,
+                false, false,
+                -64, 384, 384,
+                GCYRTags.Blocks.INFINIBURN_MERCURY,
+                MERCURY_EFFECTS,
+                0.0f,
+                new DimensionType.MonsterSettings(true, false, UniformInt.of(0, 7), 0)
+        ));
+        ctx.register(VENUS, new DimensionType(
+                OptionalLong.of(6000L),
+                true, false,
+                true, true, 1.0,
+                false, false,
+                -64, 384, 384,
+                GCYRTags.Blocks.INFINIBURN_VENUS,
+                VENUS_EFFECTS,
+                0.0f,
+                new DimensionType.MonsterSettings(true, false, UniformInt.of(0, 7), 0)
+        ));
+        ctx.register(PROXIMA_CENTAURI_B, new DimensionType(
+                OptionalLong.of(18000L),
+                true, false,
+                false, true, 1.0,
+                false, false,
+                -64, 384, 384,
+                GCYRTags.Blocks.INFINIBURN_PROXIMA_CENTAURI_B,
+                PROXIMA_CENTAURI_B_EFFECTS,
+                0.0f,
+                new DimensionType.MonsterSettings(true, false, UniformInt.of(0, 7), 0)
+        ));
     }
+    // spotless:on
 
-    public static void init() {
-        initGenerator();
-    }
-
-    public static void initGenerator() {
-        CHUNK_GENERATOR_REGISTER.register("space", () -> SpaceLevelSource.CODEC);
+    private static ResourceKey<DimensionType> register(String path) {
+        return ResourceKey.create(Registries.DIMENSION_TYPE, GCYR.id(path));
     }
 }

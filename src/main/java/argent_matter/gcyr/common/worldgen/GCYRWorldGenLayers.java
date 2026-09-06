@@ -13,13 +13,15 @@ import java.util.Set;
 public class GCYRWorldGenLayers {
 
     public static IWorldGenLayer MOON = new SimpleWorldGenLayer("moon",
-            () -> new BlockMatchTest(GCYRBlocks.MOON_STONE.get()), Set.of(GCYR.id("luna")));
+            () -> new BlockMatchTest(GCYRBlocks.LUNAR_STONE.get()), Set.of(GCYR.id("luna")));
     public static IWorldGenLayer MARS = new SimpleWorldGenLayer("mars",
             () -> new BlockMatchTest(GCYRBlocks.MARTIAN_ROCK.get()), Set.of(GCYR.id("mars")));
     public static IWorldGenLayer MERCURY = new SimpleWorldGenLayer("mercury",
             () -> new BlockMatchTest(GCYRBlocks.MERCURY_ROCK.get()), Set.of(GCYR.id("mercury")));
     public static IWorldGenLayer VENUS = new SimpleWorldGenLayer("venus",
             () -> new BlockMatchTest(GCYRBlocks.VENUS_ROCK.get()), Set.of(GCYR.id("venus")));
+    public static IWorldGenLayer PROXIMA_CENTAURI_B = new SimpleWorldGenLayer("proxima_centauri_b",
+            () -> new BlockMatchTest(GCYRBlocks.PROXIMIAN_STONE.get()), Set.of(GCYR.id("proxima_centauri_b")));
 
     public static void init() {}
 }

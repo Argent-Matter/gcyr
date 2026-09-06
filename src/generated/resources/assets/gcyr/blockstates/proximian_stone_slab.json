@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "gcyr:block/proximian_stone_slab"
+    },
+    "type=double": {
+      "model": "gcyr:block/proximian_stone"
+    },
+    "type=top": {
+      "model": "gcyr:block/proximian_stone_slab_top"
+    }
+  }
+}

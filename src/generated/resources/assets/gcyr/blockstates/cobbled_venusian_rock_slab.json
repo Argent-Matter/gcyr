@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "gcyr:block/cobbled_venusian_rock_slab"
+    },
+    "type=double": {
+      "model": "gcyr:block/cobbled_venusian_rock"
+    },
+    "type=top": {
+      "model": "gcyr:block/cobbled_venusian_rock_slab_top"
+    }
+  }
+}

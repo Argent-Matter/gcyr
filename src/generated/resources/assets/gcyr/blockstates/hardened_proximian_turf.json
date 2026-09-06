@@ -1,0 +1,20 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "gcyr:block/hardened_proximian_turf"
+      },
+      {
+        "model": "gcyr:block/hardened_proximian_turf_mirrored"
+      },
+      {
+        "model": "gcyr:block/hardened_proximian_turf",
+        "y": 180
+      },
+      {
+        "model": "gcyr:block/hardened_proximian_turf_mirrored",
+        "y": 180
+      }
+    ]
+  }
+}

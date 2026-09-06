@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab",
+  "textures": {
+    "bottom": "gcyr:block/cobbled_lunar_stone",
+    "side": "gcyr:block/cobbled_lunar_stone",
+    "top": "gcyr:block/cobbled_lunar_stone"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/inner_stairs",
+  "textures": {
+    "bottom": "gcyr:block/proximian_stone",
+    "side": "gcyr:block/proximian_stone",
+    "top": "gcyr:block/proximian_stone"
+  }
+}

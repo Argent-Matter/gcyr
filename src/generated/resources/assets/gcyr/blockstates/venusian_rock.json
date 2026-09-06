@@ -1,0 +1,20 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "gcyr:block/venusian_rock"
+      },
+      {
+        "model": "gcyr:block/venusian_rock_mirrored"
+      },
+      {
+        "model": "gcyr:block/venusian_rock",
+        "y": 180
+      },
+      {
+        "model": "gcyr:block/venusian_rock_mirrored",
+        "y": 180
+      }
+    ]
+  }
+}

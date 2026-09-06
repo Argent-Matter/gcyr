@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/slab",
+  "textures": {
+    "bottom": "gcyr:block/mercurian_rock",
+    "side": "gcyr:block/mercurian_rock",
+    "top": "gcyr:block/mercurian_rock"
+  }
+}

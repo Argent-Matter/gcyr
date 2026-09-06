@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/outer_stairs",
+  "textures": {
+    "bottom": "gcyr:block/cobbled_mercurian_rock",
+    "side": "gcyr:block/cobbled_mercurian_rock",
+    "top": "gcyr:block/cobbled_mercurian_rock"
+  }
+}
