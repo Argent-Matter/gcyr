@@ -357,7 +357,7 @@
         "if_true": {
           "type": "minecraft:biome",
           "biome_is": [
-            "gcyr:proxima_centauri_b_star_side"
+            "gcyr:proxima_centauri_b_light_side"
           ]
         },
         "then_run": {

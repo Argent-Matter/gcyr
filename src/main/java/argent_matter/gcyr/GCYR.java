@@ -12,6 +12,7 @@ import argent_matter.gcyr.common.data.machine.GCYRMachines;
 import argent_matter.gcyr.common.data.material.GCYRMaterials;
 import argent_matter.gcyr.common.data.network.GCYRNetworking;
 import argent_matter.gcyr.common.data.recipe.*;
+import argent_matter.gcyr.common.data.worldgen.GCYRChunkGenerators;
 import argent_matter.gcyr.common.gui.EntityOxygenHUD;
 import argent_matter.gcyr.config.GCYRConfig;
 import argent_matter.gcyr.core.mixin.RegisterClientReloadListenersEventAccessor;
@@ -63,8 +64,8 @@ public class GCYR {
         modBus.addGenericListener(RecipeConditionType.class, this::registerRecipeConditions);
         modBus.addGenericListener(MachineDefinition.class, this::registerMachines);
         modBus.addGenericListener(DimensionMarker.class, this::registerDimensionMarkers);
-        GCYRDimensionTypes.register(modBus);
 
+        GCYRChunkGenerators.register(modBus);
         GCYRRecipeTypes.register(modBus);
         GCYRRecipeSerializers.register(modBus);
 
@@ -88,7 +89,6 @@ public class GCYR {
         GCYRDatagen.init();
 
         GCYRRegistries.REGISTRATE.registerRegistrate();
-        GCYRDimensionTypes.init();
         GCYRParticles.init();
     }
 

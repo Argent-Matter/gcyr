@@ -1,9 +1,13 @@
 package argent_matter.gcyr.data;
 
 import argent_matter.gcyr.GCYR;
+import argent_matter.gcyr.common.data.dimension.GCYRDimensionTypes;
+import argent_matter.gcyr.common.data.dimension.GCYRDimensions;
 import argent_matter.gcyr.common.data.item.GCYRTrimMaterials;
 import argent_matter.gcyr.common.data.item.GCYRTrimPatterns;
-import argent_matter.gcyr.common.data.worldgen.GCYRBiomes;
+import argent_matter.gcyr.common.data.worldgen.biome.GCYRBiomes;
+import argent_matter.gcyr.common.data.worldgen.feature.GCYRConfiguredFeatures;
+import argent_matter.gcyr.common.data.worldgen.feature.GCYRPlacedFeatures;
 import argent_matter.gcyr.data.tags.BiomeTagsLoader;
 
 import com.gregtechceu.gtceu.api.registry.registrate.SoundEntryBuilder;
@@ -30,18 +34,23 @@ public class DataGenerators {
         ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
         PackOutput output = generator.getPackOutput();
 
-        var provider = event.getLookupProvider();
+        var registries = event.getLookupProvider();
         if (event.includeServer()) {
-            DatapackBuiltinEntriesProvider serverRegistriesProvider = new DatapackBuiltinEntriesProvider(
-                    output, provider, new RegistrySetBuilder()
-                            .add(Registries.BIOME, GCYRBiomes::bootstrap)
+            var provider = generator.addProvider(true, new DatapackBuiltinEntriesProvider(output, registries,
+                    new RegistrySetBuilder()
                             .add(Registries.TRIM_PATTERN, GCYRTrimPatterns::bootstrap)
-                            .add(Registries.TRIM_MATERIAL, GCYRTrimMaterials::bootstrap),
-                    Set.of(GCYR.MOD_ID));
-            generator.addProvider(true, serverRegistriesProvider);
-            provider = serverRegistriesProvider.getRegistryProvider();
+                            .add(Registries.TRIM_MATERIAL, GCYRTrimMaterials::bootstrap)
+                            .add(Registries.CONFIGURED_FEATURE, GCYRConfiguredFeatures::bootstrap)
+                            .add(Registries.PLACED_FEATURE, GCYRPlacedFeatures::bootstrap)
+                            .add(Registries.BIOME, GCYRBiomes::bootstrap)
+                             // .add(Registries.NOISE_SETTINGS, GCYRNoiseSettings::bootstrap)
+                            .add(Registries.DIMENSION_TYPE, GCYRDimensionTypes::bootstrap)
+                            .add(Registries.LEVEL_STEM, GCYRDimensions::bootstrap)
+                    ,
+                    Set.of(GCYR.MOD_ID)));
+            registries = provider.getRegistryProvider();
 
-            generator.addProvider(true, new BiomeTagsLoader(output, provider, existingFileHelper));
+            generator.addProvider(true, new BiomeTagsLoader(output, registries, existingFileHelper));
         }
 
         if (event.includeClient()) {
