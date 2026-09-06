@@ -149,7 +149,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
     private @Nullable RocketFuelRecipe selectedFuelRecipe;
 
     private double lastVerticalVelocity;
-    private double avgMotorEfficiency = 1.0D;
+    private float avgMotorEfficiency = 1.0f;
 
     public RocketEntity(EntityType<?> entityType, Level level) {
         super(entityType, level);
@@ -271,7 +271,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
     @Override
     public ModularUI createUI(Player entityPlayer) {
         return new ModularUI(176, 166, this, entityPlayer)
-                .widget(new RocketInfoLabelWidget(7, 7, this::getDisplayRocketTitle))
+                .widget(new RocketInfoLabelWidget(7, 7, this::getRocketTitleForDisplay))
                 .widget(new TankWidget(this.fuelTank, 7, 20, 20, 58, true, true)
                         .setBackground(GuiTextures.FLUID_TANK_BACKGROUND)
                         .setFillDirection(ProgressTexture.FillDirection.DOWN_TO_UP))
@@ -559,7 +559,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
     }
 
     private void recalculateMotorEfficiency() {
-        double totalEfficiency = 0.0D;
+        float totalEfficiency = 0.0f;
         int motorCount = 0;
         for (var entry : partCounts.object2IntEntrySet()) {
             if (entry.getKey() instanceof RocketMotorBlock motor) {
@@ -568,8 +568,12 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
             }
         }
         // if there are somehow no motors the efficiency doesn't matter but set it to 1
-        avgMotorEfficiency = motorCount == 0 ? 1.0D : totalEfficiency / motorCount;
-        entityData.set(MOTOR_EFFICIENCY, (float) avgMotorEfficiency);
+        if (motorCount == 0) {
+            avgMotorEfficiency = 0.0f;
+        } else {
+            avgMotorEfficiency = totalEfficiency / motorCount;
+        }
+        entityData.set(MOTOR_EFFICIENCY, avgMotorEfficiency);
     }
 
     public void startRocket() {
