@@ -42,6 +42,7 @@ public class GCYRBlocks {
     }
 
     // region casings
+
     public static final BlockEntry<Block> CASING_ALUMINIUM_AEROSPACE = createCasingBlock("aerospace_aluminium_casing",
             GCYR.id("block/casings/solid/machine_casing_aerospace"));
     public static final BlockEntry<Block> CASING_BEAM_RECEIVER = createCasingBlock("beam_receiver",
@@ -58,6 +59,8 @@ public class GCYRBlocks {
 
     public static final BlockEntry<Block> CASING_STAINLESS_EVAPORATION = createCasingBlock(
             "stainless_evaporation_casing", GCYR.id("block/casings/solid/machine_casing_stainless_evaporation"));
+
+    // endregion
 
     // region mercury
 
@@ -144,6 +147,8 @@ public class GCYRBlocks {
             .simpleItem()
             .register();
 
+    // endregion
+
     // region moon
 
     private static final StoneVariant LUNAR_VARIANT = new StoneVariant(REGISTRATE, "lunar", MapColor.COLOR_GRAY);
@@ -196,6 +201,8 @@ public class GCYRBlocks {
             .simpleItem()
             .register();
 
+    // endregion
+
     // region mars
 
     private static final StoneVariant MARS_VARIANT = new StoneVariant(REGISTRATE, "martian", MapColor.COLOR_GRAY);
@@ -236,6 +243,8 @@ public class GCYRBlocks {
     public static final BlockEntry<ButtonBlock> MARTIAN_ROCK_BUTTON = MARS_VARIANT
             .button("rock", "Martian Rock Button", MARTIAN_ROCK, MARS_SET)
             .register();
+
+    // endregion
 
     // region proxima centauri b
 
@@ -308,7 +317,10 @@ public class GCYRBlocks {
             .build()
             .register();
 
+    // endregion
+
     // region rocket stuff
+
     // spotless:off
     public static final Map<IRocketMotorType, Supplier<RocketMotorBlock>> ALL_ROCKET_MOTORS = new IdentityHashMap<>();
 
