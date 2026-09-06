@@ -330,7 +330,7 @@
             "then_run": {
               "type": "minecraft:block",
               "result_state": {
-                "Name": "gcyr:mars_regolith"
+                "Name": "gcyr:martian_rock"
               }
             }
           }

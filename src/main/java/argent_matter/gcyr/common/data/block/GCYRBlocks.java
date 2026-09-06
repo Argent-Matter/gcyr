@@ -43,93 +43,91 @@ public class GCYRBlocks {
 
     // region casings
 
-    public static final BlockEntry<Block> CASING_ALUMINIUM_AEROSPACE = createCasingBlock("aerospace_aluminium_casing",
-            GCYR.id("block/casings/solid/machine_casing_aerospace"));
-    public static final BlockEntry<Block> CASING_BEAM_RECEIVER = createCasingBlock("beam_receiver",
-            GCYR.id("block/casings/solid/beam_receiver"));
-    public static final BlockEntry<Block> CASING_SUPPORT = createCasingBlock("space_elevator_support",
-            GCYR.id("block/casings/solid/space_elevator_support"));
+    // spotless:off
+    public static final BlockEntry<Block> CASING_ALUMINIUM_AEROSPACE = createCasingBlock("aerospace_aluminium_casing", GCYR.id("block/casings/solid/machine_casing_aerospace"));
+    public static final BlockEntry<Block> CASING_BEAM_RECEIVER = createCasingBlock("beam_receiver", GCYR.id("block/casings/solid/beam_receiver"));
+    public static final BlockEntry<Block> CASING_SUPPORT = createCasingBlock("space_elevator_support", GCYR.id("block/casings/solid/space_elevator_support"));
 
-    public static final BlockEntry<Block> CASING_DYSON_SPHERE = createCasingBlock("dyson_sphere_casing",
-            GCYR.id("block/casings/solid/dyson_sphere"));
-    public static final BlockEntry<Block> CASING_DYSON_CELL = createCasingBlock("dyson_solar_cell",
-            GCYR.id("block/casings/solid/dyson_solar_cell"));
-    public static final BlockEntry<Block> CASING_DYSON_PORT = createCasingBlock("dyson_sphere_maintenance_port",
-            GCYR.id("block/casings/solid/dyson_sphere_maintenance_port"));
+    public static final BlockEntry<Block> CASING_DYSON_SPHERE = createCasingBlock("dyson_sphere_casing", GCYR.id("block/casings/solid/dyson_sphere"));
+    public static final BlockEntry<Block> CASING_DYSON_CELL = createCasingBlock("dyson_solar_cell", GCYR.id("block/casings/solid/dyson_solar_cell"));
+    public static final BlockEntry<Block> CASING_DYSON_PORT = createCasingBlock("dyson_sphere_maintenance_port", GCYR.id("block/casings/solid/dyson_sphere_maintenance_port"));
 
-    public static final BlockEntry<Block> CASING_STAINLESS_EVAPORATION = createCasingBlock(
-            "stainless_evaporation_casing", GCYR.id("block/casings/solid/machine_casing_stainless_evaporation"));
+    public static final BlockEntry<Block> CASING_STAINLESS_EVAPORATION = createCasingBlock("stainless_evaporation_casing", GCYR.id("block/casings/solid/machine_casing_stainless_evaporation"));
+    // spotless:on
 
     // endregion
 
     // region mercury
 
-    private static final StoneVariant MERCURY_VARIANT = new StoneVariant(REGISTRATE, "mercury", MapColor.COLOR_GRAY);
+    private static final StoneVariant MERCURY_VARIANT = new StoneVariant(REGISTRATE, "mercurian", StoneVariant.BaseType.ROCK, MapColor.COLOR_GRAY);
     public static final BlockSetType MERCURY_SET = MERCURY_VARIANT.blockSetType();
-    public static final BlockEntry<Block> MERCURY_COBBLESTONE = MERCURY_VARIANT.cobblestone("Cobbled Mercury Rock")
+    public static final BlockEntry<Block> MERCURY_COBBLESTONE = MERCURY_VARIANT
+            .cobblestone("Cobbled Mercurian Rock")
             .register();
 
     public static final BlockEntry<Block> MERCURY_ROCK = MERCURY_VARIANT
-            .rock("rock", "Mercury Rock", MERCURY_COBBLESTONE)
+            .rock("Mercurian Rock", MERCURY_COBBLESTONE)
             .register();
 
     public static final BlockEntry<SlabBlock> MERCURY_COBBLESTONE_SLAB = MERCURY_VARIANT
-            .slab("cobblestone", "Cobbled Mercury Rock Slab", MERCURY_COBBLESTONE)
+            .cobbleSlab("Cobbled Mercurian Rock Slab", MERCURY_COBBLESTONE)
             .register();
 
     public static final BlockEntry<SlabBlock> MERCURY_ROCK_SLAB = MERCURY_VARIANT
-            .slab("rock", "Mercury Rock Slab", MERCURY_ROCK)
+            .slab("Mercurian Rock Slab", MERCURY_ROCK)
             .register();
 
     public static final BlockEntry<StairBlock> MERCURY_COBBLESTONE_STAIRS = MERCURY_VARIANT
-            .stairs("cobblestone", "Cobbled Mercury Rock Stairs", MERCURY_COBBLESTONE)
+            .cobbleStairs("Cobbled Mercurian Rock Stairs", MERCURY_COBBLESTONE)
             .register();
 
     public static final BlockEntry<StairBlock> MERCURY_ROCK_STAIRS = MERCURY_VARIANT
-            .stairs("rock", "Mercury Rock Stairs", MERCURY_ROCK)
+            .stairs("Mercurian Rock Stairs", MERCURY_ROCK)
             .register();
 
     public static final BlockEntry<ButtonBlock> MERCURY_ROCK_BUTTON = MERCURY_VARIANT
-            .button("rock", "Mercury Rock Button", MERCURY_ROCK, MERCURY_SET)
+            .button("rock", "Mercurian Rock Button", MERCURY_ROCK, MERCURY_SET)
             .register();
 
     // endregion
 
     // region venus
 
-    private static final StoneVariant VENUS_VARIANT = new StoneVariant(REGISTRATE, "venus", MapColor.COLOR_GRAY);
+    private static final StoneVariant VENUS_VARIANT = new StoneVariant(REGISTRATE, "venusian", StoneVariant.BaseType.ROCK, MapColor.COLOR_GRAY);
     public static final BlockSetType VENUS_SET = VENUS_VARIANT.blockSetType();
 
-    public static final BlockEntry<Block> VENUS_COBBLESTONE = VENUS_VARIANT.cobblestone("Cobbled Venus Rock")
+    public static final BlockEntry<Block> VENUS_COBBLESTONE = VENUS_VARIANT
+            .cobblestone("Cobbled Venusian Rock")
             .register();
 
-    public static final BlockEntry<Block> VENUS_ROCK = VENUS_VARIANT.rock("rock", "Venus Rock", VENUS_COBBLESTONE)
+    public static final BlockEntry<Block> VENUS_ROCK = VENUS_VARIANT
+            .rock("Venusian Rock", VENUS_COBBLESTONE)
             .properties(p -> p.mapColor(MapColor.TERRACOTTA_LIGHT_GRAY))
             .register();
 
     public static final BlockEntry<SlabBlock> VENUS_COBBLESTONE_SLAB = VENUS_VARIANT
-            .slab("cobblestone", "Cobbled Venus Rock Slab", VENUS_COBBLESTONE)
+            .cobbleSlab("Cobbled Venusian Rock Slab", VENUS_COBBLESTONE)
             .register();
 
     public static final BlockEntry<SlabBlock> VENUS_ROCK_SLAB = VENUS_VARIANT
-            .slab("rock", "Venus Rock Slab", VENUS_ROCK)
+            .slab("Venusian Rock Slab", VENUS_ROCK)
             .register();
 
     public static final BlockEntry<StairBlock> VENUS_COBBLESTONE_STAIRS = VENUS_VARIANT
-            .stairs("cobblestone", "Cobbled Venus Rock Stairs", VENUS_COBBLESTONE)
+            .cobbleStairs("Cobbled Venusian Rock Stairs", VENUS_COBBLESTONE)
             .register();
 
     public static final BlockEntry<StairBlock> VENUS_ROCK_STAIRS = VENUS_VARIANT
-            .stairs("rock", "Venus Rock Stairs", VENUS_ROCK)
+            .stairs("Venusian Rock Stairs", VENUS_ROCK)
             .register();
 
     public static final BlockEntry<ButtonBlock> VENUS_ROCK_BUTTON = VENUS_VARIANT
-            .button("rock", "Venus Rock Button", VENUS_ROCK, VENUS_SET)
+            .button("rock", "Venusian Rock Button", VENUS_ROCK, VENUS_SET)
             .register();
 
     public static final BlockEntry<FallingBlock> VENUS_SAND = REGISTRATE
-            .block("venus_sand", FallingBlock::new)
-            .lang("Venus Sand")
+            .block("venusian_sand", FallingBlock::new)
+            .lang("Venusian Sand")
             .initialProperties(() -> Blocks.SAND)
             .properties(properties -> properties.mapColor(MapColor.TERRACOTTA_ORANGE))
             .tag(BlockTags.MINEABLE_WITH_SHOVEL, BlockTags.SAND)
@@ -151,34 +149,36 @@ public class GCYRBlocks {
 
     // region moon
 
-    private static final StoneVariant LUNAR_VARIANT = new StoneVariant(REGISTRATE, "lunar", MapColor.COLOR_GRAY);
-    public static final BlockSetType LUNAR_SET = LUNAR_VARIANT.blockSetType();
+    private static final StoneVariant LUNA_VARIANT = new StoneVariant(REGISTRATE, "lunar", StoneVariant.BaseType.STONE, MapColor.COLOR_GRAY);
+    public static final BlockSetType LUNA_SET = LUNA_VARIANT.blockSetType();
 
-    public static final BlockEntry<Block> LUNAR_COBBLESTONE = LUNAR_VARIANT.cobblestone("Cobbled Lunar Stone")
+    public static final BlockEntry<Block> LUNAR_COBBLESTONE = LUNA_VARIANT
+            .cobblestone("Cobbled Lunar Stone")
             .register();
 
-    public static final BlockEntry<Block> LUNAR_STONE = LUNAR_VARIANT.rock("stone", "Lunar Stone", LUNAR_COBBLESTONE)
+    public static final BlockEntry<Block> LUNAR_STONE = LUNA_VARIANT
+            .rock("Lunar Stone", LUNAR_COBBLESTONE)
             .properties(p -> p.mapColor(MapColor.COLOR_LIGHT_GRAY))
             .register();
 
-    public static final BlockEntry<SlabBlock> LUNAR_COBBLESTONE_SLAB = LUNAR_VARIANT
-            .slab("cobblestone", "Cobbled Lunar Stone Slab", LUNAR_COBBLESTONE)
+    public static final BlockEntry<SlabBlock> LUNAR_COBBLESTONE_SLAB = LUNA_VARIANT
+            .cobbleSlab("Cobbled Lunar Stone Slab", LUNAR_COBBLESTONE)
             .register();
 
-    public static final BlockEntry<SlabBlock> LUNAR_STONE_SLAB = LUNAR_VARIANT
-            .slab("stone", "Lunar Stone Slab", LUNAR_STONE)
+    public static final BlockEntry<SlabBlock> LUNAR_STONE_SLAB = LUNA_VARIANT
+            .slab("Lunar Stone Slab", LUNAR_STONE)
             .register();
 
-    public static final BlockEntry<StairBlock> LUNAR_COBBLESTONE_STAIRS = LUNAR_VARIANT
-            .stairs("cobblestone", "Cobbled Lunar Stone Stairs", LUNAR_COBBLESTONE)
+    public static final BlockEntry<StairBlock> LUNAR_COBBLESTONE_STAIRS = LUNA_VARIANT
+            .cobbleStairs("Cobbled Lunar Stone Stairs", LUNAR_COBBLESTONE)
             .register();
 
-    public static final BlockEntry<StairBlock> LUNAR_STONE_STAIRS = LUNAR_VARIANT
-            .stairs("stone", "Lunar Stone Stairs", LUNAR_STONE)
+    public static final BlockEntry<StairBlock> LUNAR_STONE_STAIRS = LUNA_VARIANT
+            .stairs("Lunar Stone Stairs", LUNAR_STONE)
             .register();
 
-    public static final BlockEntry<ButtonBlock> LUNAR_STONE_BUTTON = LUNAR_VARIANT
-            .button("stone", "Lunar Stone Button", LUNAR_STONE, LUNAR_SET)
+    public static final BlockEntry<ButtonBlock> LUNAR_STONE_BUTTON = LUNA_VARIANT
+            .button("stone", "Lunar Stone Button", LUNAR_STONE, LUNA_SET)
             .register();
 
     public static final BlockEntry<FallingBlock> LUNAR_MARE_REGOLITH = REGISTRATE
@@ -205,11 +205,11 @@ public class GCYRBlocks {
 
     // region mars
 
-    private static final StoneVariant MARS_VARIANT = new StoneVariant(REGISTRATE, "martian", MapColor.COLOR_GRAY);
+    private static final StoneVariant MARS_VARIANT = new StoneVariant(REGISTRATE, "martian", StoneVariant.BaseType.ROCK, MapColor.COLOR_GRAY);
     public static final BlockSetType MARS_SET = MARS_VARIANT.blockSetType();
 
     public static final BlockEntry<FallingBlock> MARS_REGOLITH = REGISTRATE
-            .block("mars_regolith", FallingBlock::new)
+            .block("martian_regolith", FallingBlock::new)
             .lang("Martian Regolith")
             .initialProperties(() -> Blocks.GRAVEL)
             .properties(properties -> properties.mapColor(MapColor.COLOR_ORANGE))
@@ -217,27 +217,29 @@ public class GCYRBlocks {
             .simpleItem()
             .register();
 
-    public static final BlockEntry<Block> MARTIAN_COBBLESTONE = MARS_VARIANT.cobblestone("Cobbled Martian Rock")
+    public static final BlockEntry<Block> MARTIAN_COBBLESTONE = MARS_VARIANT
+            .cobblestone("Cobbled Martian Rock")
             .register();
 
-    public static final BlockEntry<Block> MARTIAN_ROCK = MARS_VARIANT.rock("rock", "Martian Rock", MARTIAN_COBBLESTONE)
+    public static final BlockEntry<Block> MARTIAN_ROCK = MARS_VARIANT
+            .rock("Martian Rock", MARTIAN_COBBLESTONE)
             .properties(p -> p.mapColor(MapColor.COLOR_RED))
             .register();
 
     public static final BlockEntry<SlabBlock> MARTIAN_COBBLESTONE_SLAB = MARS_VARIANT
-            .slab("cobblestone", "Cobbled Martian Rock Slab", MARTIAN_COBBLESTONE)
+            .cobbleSlab("Cobbled Martian Rock Slab", MARTIAN_COBBLESTONE)
             .register();
 
     public static final BlockEntry<SlabBlock> MARTIAN_ROCK_SLAB = MARS_VARIANT
-            .slab("rock", "Martian Rock Slab", MARTIAN_ROCK)
+            .slab("Martian Rock Slab", MARTIAN_ROCK)
             .register();
 
     public static final BlockEntry<StairBlock> MARTIAN_COBBLESTONE_STAIRS = MARS_VARIANT
-            .stairs("cobblestone", "Cobbled Martian Rock Stairs", MARTIAN_COBBLESTONE)
+            .cobbleStairs("Cobbled Martian Rock Stairs", MARTIAN_COBBLESTONE)
             .register();
 
     public static final BlockEntry<StairBlock> MARTIAN_ROCK_STAIRS = MARS_VARIANT
-            .stairs("rock", "Martian Rock Stairs", MARTIAN_ROCK)
+            .stairs("Martian Rock Stairs", MARTIAN_ROCK)
             .register();
 
     public static final BlockEntry<ButtonBlock> MARTIAN_ROCK_BUTTON = MARS_VARIANT
@@ -248,12 +250,12 @@ public class GCYRBlocks {
 
     // region proxima centauri b
 
-    private static final StoneVariant PROXIMA_CENTAURI_B_VARIANT = new StoneVariant(REGISTRATE, "proxima_centauri_b", MapColor.COLOR_GRAY);
+    private static final StoneVariant PROXIMA_CENTAURI_B_VARIANT = new StoneVariant(REGISTRATE, "proximian", StoneVariant.BaseType.ROCK, MapColor.COLOR_GRAY);
     public static final BlockSetType PROXIMA_CENTAURI_B_SET = PROXIMA_CENTAURI_B_VARIANT.blockSetType();
 
-    public static final BlockEntry<FallingBlock> PROXIMA_CENTAURI_B_REGOLITH = REGISTRATE
-            .block("proxima_centauri_b_regolith", FallingBlock::new)
-            .lang("Proxima Centauri B Regolith")
+    public static final BlockEntry<FallingBlock> PROXIMIAN_REGOLITH = REGISTRATE
+            .block("proximian_regolith", FallingBlock::new)
+            .lang("Proximian Regolith")
             .initialProperties(() -> Blocks.GRAVEL)
             .properties(properties -> properties.mapColor(MapColor.TERRACOTTA_BLACK))
             .tag(BlockTags.MINEABLE_WITH_PICKAXE)
@@ -261,29 +263,29 @@ public class GCYRBlocks {
             .simpleItem()
             .register();
 
-    public static final BlockEntry<Block> PROXIMA_CENTAURI_B_TURF = REGISTRATE
-            .block("proxima_centauri_b_turf", Block::new)
-            .lang("Proxima Centauri B Turf")
-            .initialProperties(() -> Blocks.DIRT)
+    public static final BlockEntry<Block> PROXIMIAN_TURF = REGISTRATE
+            .block("proximian_turf", Block::new)
+            .lang("Proximian Turf")
+            .initialProperties(() -> Blocks.COARSE_DIRT)
             .properties(properties -> properties.mapColor(MapColor.SAND))
             .tag(BlockTags.MINEABLE_WITH_PICKAXE)
             .blockstate(GCYRModels::randomRotatedModel)
             .simpleItem()
             .register();
 
-    public static final BlockEntry<Block> PROXIMA_CENTAURI_B_HARDENED_TURF = REGISTRATE
-            .block("hardened_proxima_centauri_b_turf", Block::new)
-            .lang("Hardened Proxima Centauri B Turf")
-            .initialProperties(() -> Blocks.COARSE_DIRT)
+    public static final BlockEntry<Block> PROXIMIAN_HARDENED_TURF = REGISTRATE
+            .block("hardened_proximian_turf", Block::new)
+            .lang("Hardened Proximian Turf")
+            .initialProperties(() -> Blocks.PACKED_MUD)
             .properties(properties -> properties.mapColor(MapColor.TERRACOTTA_WHITE))
             .tag(BlockTags.MINEABLE_WITH_PICKAXE)
             .blockstate(GCYRModels::randomRotatedModel)
             .simpleItem()
             .register();
 
-    public static final BlockEntry<Block> PROXIMA_CENTAURI_B_GRASSY_TURF = REGISTRATE
-            .block("grassy_proxima_centauri_b_turf", Block::new)
-            .lang("Grassy Proxima Centauri B Turf")
+    public static final BlockEntry<Block> PROXIMIAN_GRASSY_TURF = REGISTRATE
+            .block("grassy_proximian_turf", Block::new)
+            .lang("Grassy Proximian Turf")
             .initialProperties(() -> Blocks.GRASS)
             .properties(properties -> properties.mapColor(MapColor.TERRACOTTA_LIGHT_BLUE))
             .tag(BlockTags.MINEABLE_WITH_PICKAXE)
@@ -291,9 +293,9 @@ public class GCYRBlocks {
             .simpleItem()
             .register();
 
-    public static final BlockEntry<MushroomBlock> PRB_SHROOM = REGISTRATE
-            .block("proxima_centauri_b_underground_mushroom", (p) -> new MushroomBlock(p, null /* todo fix */))
-            .lang("Proxima Centauri B Mushroom")
+    public static final BlockEntry<MushroomBlock> PROXIMIAN_SHROOM = REGISTRATE
+            .block("proximian_mushroom", (p) -> new MushroomBlock(p, null /* todo fix */))
+            .lang("Proximian Mushroom")
             .initialProperties(() -> Blocks.BROWN_MUSHROOM)
             .properties(p -> p.mapColor(MapColor.COLOR_LIGHT_GRAY).lightLevel((arg) -> 11))
             .addLayer(() -> RenderType::cutout)
@@ -304,9 +306,9 @@ public class GCYRBlocks {
             .build()
             .register();
 
-    public static final BlockEntry<MushroomBlock> PRB_BULB = REGISTRATE
-            .block("proxima_centauri_b_underground_bulb", (p) -> new MushroomBlock(p, null))
-            .lang("Proxima Centauri B Mushroom Bulb")
+    public static final BlockEntry<MushroomBlock> POXIMIAN_BULB = REGISTRATE
+            .block("proximian_bulb", (p) -> new MushroomBlock(p, null))
+            .lang("Proximian Bulb")
             .initialProperties(() -> Blocks.BROWN_MUSHROOM)
             .properties(p -> p.mapColor(MapColor.COLOR_LIGHT_GRAY).lightLevel(state -> 1))
             .addLayer(() -> RenderType::cutout)
