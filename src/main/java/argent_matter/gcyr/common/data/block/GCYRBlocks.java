@@ -237,33 +237,10 @@ public class GCYRBlocks {
             .button("rock", "Martian Rock Button", MARTIAN_ROCK, MARS_SET)
             .register();
 
-    public static final BlockEntry<MushroomBlock> PRB_SHROOM = REGISTRATE
-            .block("prb_underground_mushroom", (p) -> new MushroomBlock(p, null /* todo fix */))
-            .lang("Proxima b Underground Mushroom")
-            .initialProperties(() -> Blocks.BROWN_MUSHROOM)
-            .properties(p -> p.mapColor(MapColor.COLOR_LIGHT_GRAY).lightLevel((arg) -> 11))
-            .addLayer(() -> RenderType::cutout)
-            .blockstate(GCYRModels::crossModel)
-            .item()
-            .tag(Tags.Items.MUSHROOMS)
-            .model(GCYRModels::blockTextureGeneratedModel)
-            .build()
-            .register();
-
-    public static final BlockEntry<MushroomBlock> PRB_BULB = REGISTRATE
-            .block("prb_underground_bulb", (p) -> new MushroomBlock(p, null))
-            .lang("Proxima b Underground Bulb")
-            .initialProperties(() -> Blocks.BROWN_MUSHROOM)
-            .properties(p -> p.mapColor(MapColor.COLOR_LIGHT_GRAY).lightLevel(state -> 1))
-            .addLayer(() -> RenderType::cutout)
-            .blockstate(GCYRModels::crossModel)
-            .item()
-            .tag(Tags.Items.MUSHROOMS)
-            .model(GCYRModels::blockTextureGeneratedModel)
-            .build()
-            .register();
-
     // region proxima centauri b
+
+    private static final StoneVariant PROXIMA_CENTAURI_B_VARIANT = new StoneVariant(REGISTRATE, "proxima_centauri_b", MapColor.COLOR_GRAY);
+    public static final BlockSetType PROXIMA_CENTAURI_B_SET = PROXIMA_CENTAURI_B_VARIANT.blockSetType();
 
     public static final BlockEntry<FallingBlock> PROXIMA_CENTAURI_B_REGOLITH = REGISTRATE
             .block("proxima_centauri_b_regolith", FallingBlock::new)
@@ -286,9 +263,9 @@ public class GCYRBlocks {
             .register();
 
     public static final BlockEntry<Block> PROXIMA_CENTAURI_B_HARDENED_TURF = REGISTRATE
-            .block("proxima_centauri_b_hardened_turf", Block::new)
-            .lang("Proxima Centauri B Hardened Turf")
-            .initialProperties(() -> Blocks.DIRT)
+            .block("hardened_proxima_centauri_b_turf", Block::new)
+            .lang("Hardened Proxima Centauri B Turf")
+            .initialProperties(() -> Blocks.COARSE_DIRT)
             .properties(properties -> properties.mapColor(MapColor.TERRACOTTA_WHITE))
             .tag(BlockTags.MINEABLE_WITH_PICKAXE)
             .blockstate(GCYRModels::randomRotatedModel)
@@ -296,13 +273,39 @@ public class GCYRBlocks {
             .register();
 
     public static final BlockEntry<Block> PROXIMA_CENTAURI_B_GRASSY_TURF = REGISTRATE
-            .block("proxima_centauri_b_grassy_turf", Block::new)
-            .lang("Proxima Centauri B Grassy Turf")
-            .initialProperties(() -> Blocks.DIRT)
+            .block("grassy_proxima_centauri_b_turf", Block::new)
+            .lang("Grassy Proxima Centauri B Turf")
+            .initialProperties(() -> Blocks.GRASS)
             .properties(properties -> properties.mapColor(MapColor.TERRACOTTA_LIGHT_BLUE))
             .tag(BlockTags.MINEABLE_WITH_PICKAXE)
             .blockstate(GCYRModels::randomRotatedModel)
             .simpleItem()
+            .register();
+
+    public static final BlockEntry<MushroomBlock> PRB_SHROOM = REGISTRATE
+            .block("proxima_centauri_b_underground_mushroom", (p) -> new MushroomBlock(p, null /* todo fix */))
+            .lang("Proxima Centauri B Mushroom")
+            .initialProperties(() -> Blocks.BROWN_MUSHROOM)
+            .properties(p -> p.mapColor(MapColor.COLOR_LIGHT_GRAY).lightLevel((arg) -> 11))
+            .addLayer(() -> RenderType::cutout)
+            .blockstate(GCYRModels::crossModel)
+            .item()
+            .tag(Tags.Items.MUSHROOMS)
+            .model(GCYRModels::blockTextureGeneratedModel)
+            .build()
+            .register();
+
+    public static final BlockEntry<MushroomBlock> PRB_BULB = REGISTRATE
+            .block("proxima_centauri_b_underground_bulb", (p) -> new MushroomBlock(p, null))
+            .lang("Proxima Centauri B Mushroom Bulb")
+            .initialProperties(() -> Blocks.BROWN_MUSHROOM)
+            .properties(p -> p.mapColor(MapColor.COLOR_LIGHT_GRAY).lightLevel(state -> 1))
+            .addLayer(() -> RenderType::cutout)
+            .blockstate(GCYRModels::crossModel)
+            .item()
+            .tag(Tags.Items.MUSHROOMS)
+            .model(GCYRModels::blockTextureGeneratedModel)
+            .build()
             .register();
 
     // region rocket stuff
