@@ -5,6 +5,7 @@ import argent_matter.gcyr.common.data.client.GCYRModels;
 
 import com.gregtechceu.gtceu.api.registry.registrate.GTRegistrate;
 
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.level.block.*;
@@ -61,7 +62,7 @@ public class StoneVariant {
                 .initialProperties(() -> Blocks.STONE)
                 .properties(p -> p.mapColor(mapColor))
                 .blockstate(GCYRModels::randomRotatedModel)
-                .loot((table, block) -> table.dropOther(block, cobblestone.asItem()))
+                .loot((tables, block) -> tables.createSingleItemTableWithSilkTouch(block, cobblestone.asItem()))
                 .tag(BlockTags.MINEABLE_WITH_PICKAXE, Tags.Blocks.STONE)
                 .simpleItem();
     }
@@ -71,8 +72,10 @@ public class StoneVariant {
         return registrate.block(prefix + "_" + type + "_slab", SlabBlock::new)
                 .lang(lang)
                 .initialProperties(() -> props)
-                .blockstate((ctx, prov) -> prov.slabBlock(ctx.getEntry(),
-                        prov.blockTexture(base.get()), prov.blockTexture(base.get())))
+                .blockstate((ctx, prov) -> {
+                    ResourceLocation texture = prov.blockTexture(base.get());
+                    prov.slabBlock(ctx.getEntry(), texture, texture);
+                })
                 .tag(BlockTags.SLABS, BlockTags.MINEABLE_WITH_PICKAXE)
                 .item()
                 .tag(ItemTags.SLABS)
