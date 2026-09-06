@@ -24,11 +24,12 @@ public class RegistrySetBuilderMixin {
          */
         @Overwrite
         public void throwOnError() {
-            gcyr$LOGGER.info("Ignore following errors about missing noise settings, they're fine. Other missing things aren't though!");
+            gcyr$LOGGER.info(
+                    "Ignore following errors about missing noise settings, they're fine. Other missing things aren't though!");
 
             if (!this.errors.isEmpty()) {
                 gcyr$LOGGER.warn("Errors during registry creation");
-                for(RuntimeException ex : this.errors) {
+                for (RuntimeException ex : this.errors) {
                     gcyr$LOGGER.warn(ex);
                 }
             }

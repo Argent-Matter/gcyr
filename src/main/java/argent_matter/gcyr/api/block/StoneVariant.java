@@ -61,7 +61,8 @@ public class StoneVariant {
                 .initialProperties(() -> stoneType.baseBlock)
                 .properties(p -> p.mapColor(mapColor))
                 .blockstate(GCYRModels::randomRotatedModel)
-                .loot((tables, block) -> tables.add(block, tables.createSingleItemTableWithSilkTouch(block, cobblestone)))
+                .loot((tables, block) -> tables.add(block,
+                        tables.createSingleItemTableWithSilkTouch(block, cobblestone)))
                 .tag(BlockTags.MINEABLE_WITH_PICKAXE, Tags.Blocks.STONE)
                 .simpleItem();
     }

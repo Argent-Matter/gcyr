@@ -276,7 +276,8 @@ public class GCYRBlocks {
             .initialProperties(() -> Blocks.DEEPSLATE)
             .properties(p -> p.mapColor(MapColor.COLOR_RED))
             // .blockstate((ctx, prov) -> prov.axisBlock(ctx.getEntry()))
-            .loot((tables, block) -> tables.add(block, tables.createSingleItemTableWithSilkTouch(block, PROXIMIAN_COBBLESTONE)))
+            .loot((tables, block) -> tables.add(block,
+                    tables.createSingleItemTableWithSilkTouch(block, PROXIMIAN_COBBLESTONE)))
             .tag(BlockTags.MINEABLE_WITH_PICKAXE, Tags.Blocks.STONE)
             .simpleItem()
             .register();
