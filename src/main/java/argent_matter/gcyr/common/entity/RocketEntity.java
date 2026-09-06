@@ -300,7 +300,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
                 .background(GuiTextures.BACKGROUND);
     }
 
-    private Component getDisplayRocketTitle() {
+    private Component getRocketTitleForDisplay() {
         int tier = Math.max(1, this.partsTier);
         int color = GTValues.VC[Math.min(tier, GTValues.VC.length - 1)];
         return Component.translatable("menu.gcyr.rocket.title",
