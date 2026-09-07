@@ -141,7 +141,6 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
     private final Object2IntOpenHashMap<IRocketPart> partCounts = new Object2IntOpenHashMap<>();
     private final Set<BlockPos> thrusterPositions = new HashSet<>();
 
-    private int motorTiersTotal, fuelTankTiersTotal;
     private int motorTier, fuelTankTier, partsTier;
 
     private double speed;
