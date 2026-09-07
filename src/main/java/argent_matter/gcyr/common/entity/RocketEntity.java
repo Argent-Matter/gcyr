@@ -1162,8 +1162,8 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
             this.motorTier = this.motorTiersTotal / this.partCounts.object2IntEntrySet()
                     .stream()
                     .filter(p -> p.getKey() instanceof RocketMotorBlock)
-                    .map(Map.Entry::getValue)
-                    .reduce(0, Integer::sum);
+                    .mapToInt(Map.Entry::getValue)
+                    .sum();
         } else if (block instanceof FuelTankBlock fuelTankBlock) {
             this.setFuelCapacity(this.getFuelCapacity() + fuelTankBlock.getTankProperties().getFuelStorage());
 
@@ -1172,8 +1172,8 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
             this.fuelTankTier = this.fuelTankTiersTotal / this.partCounts.object2IntEntrySet()
                     .stream()
                     .filter(p -> p.getKey() instanceof FuelTankBlock)
-                    .map(Map.Entry::getValue)
-                    .reduce(0, Integer::sum);
+                    .mapToInt(Map.Entry::getValue)
+                    .sum();
         } else if (state.state().is(GCYRBlocks.SEAT.get())) {
             this.addSeatPos(pos);
         }
