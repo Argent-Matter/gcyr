@@ -400,7 +400,7 @@
                 {
                   "type": "minecraft:block",
                   "result_state": {
-                    "Name": "gcyr:venusian_regolith"
+                    "Name": "gcyr:venusian_rock"
                   }
                 }
               ]

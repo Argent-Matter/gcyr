@@ -13,6 +13,7 @@
         "ReloadableResourceManagerAccessor",
         "ServerLevelMixin",
         "dev.datagen.IntrinsicTagAppenderMixin",
+        "dev.datagen.RegistrySetBuilderMixin$BuildStateMixin",
         "dev.datagen.TagAppenderMixin",
         "worldborder.lithium.LithiumEntityCollisionsMixin",
         "worldborder.lithium.LithiumEntityCollisionsMixin$IteratorMixin",

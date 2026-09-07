@@ -1,0 +1,20 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "gcyr:block/cobbled_mercurian_rock"
+      },
+      {
+        "model": "gcyr:block/cobbled_mercurian_rock_mirrored"
+      },
+      {
+        "model": "gcyr:block/cobbled_mercurian_rock",
+        "y": 180
+      },
+      {
+        "model": "gcyr:block/cobbled_mercurian_rock_mirrored",
+        "y": 180
+      }
+    ]
+  }
+}

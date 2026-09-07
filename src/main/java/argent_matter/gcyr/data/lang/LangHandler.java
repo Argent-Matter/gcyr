@@ -16,10 +16,11 @@ public class LangHandler extends com.gregtechceu.gtceu.data.lang.LangHandler {
 
     public static void init(RegistrateLangProvider provider) {
         // tag prefixes
-        provider.add("tagprefix.moon", TagPrefix.get("moon").langValue());
-        provider.add("tagprefix.mars", TagPrefix.get("mars").langValue());
-        provider.add("tagprefix.venus", TagPrefix.get("venus").langValue());
-        provider.add("tagprefix.mercury", TagPrefix.get("mercury").langValue());
+        provider.add("tagprefix.lunar", TagPrefix.get("lunar").langValue());
+        provider.add("tagprefix.martian", TagPrefix.get("martian").langValue());
+        provider.add("tagprefix.venusian", TagPrefix.get("venusian").langValue());
+        provider.add("tagprefix.mercurian", TagPrefix.get("mercurian").langValue());
+        provider.add("tagprefix.proximian", TagPrefix.get("proximian").langValue());
 
         // materials
         replace(provider, GCYRMaterials.Bisalloy400.getUnlocalizedName(), "Bisalloy-400");
@@ -173,18 +174,20 @@ public class LangHandler extends com.gregtechceu.gtceu.data.lang.LangHandler {
         provider.add("category.gcyr.milky_way", "Milky Way");
 
         // dimension names
+        provider.add("dimension.gcyr.black_hole_orbit", "Black Hole Orbit");
+
         provider.add("dimension.minecraft.overworld", "Earth");
+        provider.add("dimension.gcyr.overworld_orbit", "Earth Orbit");
         provider.add("dimension.gcyr.luna", "Moon");
         provider.add("dimension.gcyr.luna_orbit", "Lunar Orbit");
         provider.add("dimension.gcyr.mars", "Mars");
         provider.add("dimension.gcyr.mars_orbit", "Mars Orbit");
         provider.add("dimension.gcyr.mercury", "Mercury");
         provider.add("dimension.gcyr.mercury_orbit", "Mercury Orbit");
-        provider.add("dimension.gcyr.overworld_orbit", "Earth Orbit");
         provider.add("dimension.gcyr.venus", "Venus");
         provider.add("dimension.gcyr.venus_orbit", "Venus Orbit");
-        provider.add("dimension.gcyr.proxima_centauri_b", "Proxima b");
-        provider.add("dimension.gcyr.black_hole_orbit", "Black Hole Orbit");
+        provider.add("dimension.gcyr.proxima_centauri_b", "Proxima Centauri b");
+        provider.add("dimension.gcyr.proxima_centauri_b_orbit", "Proxima Centauri b Orbit");
 
         // behaviours
         provider.add("behaviour.gps_tracker.track_entity", "Track Entity");

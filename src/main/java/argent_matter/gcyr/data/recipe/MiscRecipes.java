@@ -301,10 +301,10 @@ public class MiscRecipes {
                 GCYRBlocks.MARTIAN_ROCK_BUTTON));
 
         addStoneRecipeSet(provider, new StoneSet("moon", "stone",
-                GCYRBlocks.MOON_STONE, GCYRBlocks.MOON_COBBLESTONE,
-                GCYRBlocks.MOON_STONE_SLAB, GCYRBlocks.MOON_COBBLESTONE_SLAB,
-                GCYRBlocks.MOON_STONE_STAIRS, GCYRBlocks.MOON_COBBLESTONE_STAIRS,
-                GCYRBlocks.MOON_STONE_BUTTON));
+                GCYRBlocks.LUNAR_STONE, GCYRBlocks.LUNAR_COBBLESTONE,
+                GCYRBlocks.LUNAR_STONE_SLAB, GCYRBlocks.LUNAR_COBBLESTONE_SLAB,
+                GCYRBlocks.LUNAR_STONE_STAIRS, GCYRBlocks.LUNAR_COBBLESTONE_STAIRS,
+                GCYRBlocks.LUNAR_STONE_BUTTON));
 
         // endregion
     }

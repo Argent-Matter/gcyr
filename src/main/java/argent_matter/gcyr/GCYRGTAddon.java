@@ -40,36 +40,36 @@ public class GCYRGTAddon implements IGTAddon {
 
     @Override
     public void registerTagPrefixes() {
-        TagPrefix.oreTagPrefix("moon", BlockTags.MINEABLE_WITH_PICKAXE)
-                .langValue("Moon %s Ore")
-                .registerOre(() -> GCYRBlocks.MOON_STONE.orElse(Blocks.STONE).defaultBlockState(), null,
+        TagPrefix.oreTagPrefix("lunar", BlockTags.MINEABLE_WITH_PICKAXE)
+                .langValue("Lunar %s Ore")
+                .registerOre(() -> GCYRBlocks.LUNAR_STONE.orElse(Blocks.STONE).defaultBlockState(), null,
                         BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_GRAY).requiresCorrectToolForDrops()
-                                .strength(3.0f, 3.0f),
-                        GCYR.id("block/moon_stone"));
-        TagPrefix.oreTagPrefix("mars", BlockTags.MINEABLE_WITH_PICKAXE)
-                .langValue("Mars %s Ore")
+                                .strength(3.0F, 3.0F),
+                        GCYR.id("block/lunar_stone"));
+        TagPrefix.oreTagPrefix("martian", BlockTags.MINEABLE_WITH_PICKAXE)
+                .langValue("Martian %s Ore")
                 .registerOre(() -> GCYRBlocks.MARTIAN_ROCK.orElse(Blocks.DEEPSLATE).defaultBlockState(),
                         () -> GCYRMaterials.MartianRockDust, BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED)
                                 .requiresCorrectToolForDrops().strength(3.0f, 3.0f),
                         GCYR.id("block/martian_rock"));
-        TagPrefix.oreTagPrefix("venus", BlockTags.MINEABLE_WITH_PICKAXE)
-                .langValue("Venus %s Ore")
+        TagPrefix.oreTagPrefix("venusian", BlockTags.MINEABLE_WITH_PICKAXE)
+                .langValue("Venusian %s Ore")
                 .registerOre(() -> GCYRBlocks.VENUS_ROCK.orElse(Blocks.DEEPSLATE).defaultBlockState(), null,
                         BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_ORANGE)
-                                .requiresCorrectToolForDrops().strength(3.0f, 3.0f),
-                        GCYR.id("block/venus_rock"));
-        TagPrefix.oreTagPrefix("mercury", BlockTags.MINEABLE_WITH_PICKAXE)
-                .langValue("Mercury %s Ore")
+                                .requiresCorrectToolForDrops().strength(3.0F, 3.0F),
+                        GCYR.id("block/venusian_rock"));
+        TagPrefix.oreTagPrefix("mercurian", BlockTags.MINEABLE_WITH_PICKAXE)
+                .langValue("Mercurian %s Ore")
                 .registerOre(() -> GCYRBlocks.MERCURY_ROCK.orElse(Blocks.STONE).defaultBlockState(), null,
                         BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GRAY).requiresCorrectToolForDrops()
-                                .strength(3.0f, 3.0f),
-                        GCYR.id("block/mercury_rock"));
-        TagPrefix.oreTagPrefix("proxima_centauri_b", BlockTags.MINEABLE_WITH_PICKAXE)
-                .langValue("Proxima Centauri B %s Ore")
+                                .strength(3.0F, 3.0F),
+                        GCYR.id("block/mercurian_rock"));
+        TagPrefix.oreTagPrefix("proximian", BlockTags.MINEABLE_WITH_PICKAXE)
+                .langValue("Proximian %s Ore")
                 .registerOre(() -> GCYRBlocks.MERCURY_ROCK.orElse(Blocks.STONE).defaultBlockState(), null,
                         BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GRAY).requiresCorrectToolForDrops()
-                                .strength(3.0f, 3.0f),
-                        GCYR.id("block/mercury_rock"));
+                                .strength(3.0F, 3.0F),
+                        GCYR.id("block/proximian_stone"));
     }
 
     @Override

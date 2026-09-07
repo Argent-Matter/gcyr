@@ -36,7 +36,14 @@ public class GCYRTags {
 
         public static final TagKey<Block> MOON_ORE_REPLACEABLES = tag("moon_ore_replaceables");
         public static final TagKey<Block> MARS_ORE_REPLACEABLES = tag("mars_ore_replaceables");
+
         public static final TagKey<Block> INFINIBURN_SPACE = tag("infiniburn_space");
+        public static final TagKey<Block> INFINIBURN_LUNA = tag("infiniburn_luna");
+        public static final TagKey<Block> INFINIBURN_MARS = tag("infiniburn_mars");
+        public static final TagKey<Block> INFINIBURN_MERCURY = tag("infiniburn_mercury");
+        public static final TagKey<Block> INFINIBURN_PROXIMA_CENTAURI_B = tag("infiniburn_proxima_centauri_b");
+        public static final TagKey<Block> INFINIBURN_VENUS = tag("infiniburn_venus");
+
         public static final TagKey<Block> BLOCKS_FLOOD_FILL = tag("blocks_flood_fill");
         public static final TagKey<Block> PASSES_FLOOD_FILL = tag("passes_flood_fill");
         public static final TagKey<Block> LANDING_MODULES = tag("landing_modules");
@@ -69,8 +76,9 @@ public class GCYRTags {
 
         public static final TagKey<Biome> IS_SPACE = tag("is_space");
         public static final TagKey<Biome> IS_MOON = tag("is_moon");
-        public static final TagKey<Biome> IS_MERCURY = tag("is_mercury");
         public static final TagKey<Biome> IS_MARS = tag("is_mars");
+        public static final TagKey<Biome> IS_MERCURY = tag("is_mercury");
+        public static final TagKey<Biome> IS_PROXIMA_CENTAURI_B = tag("is_proxima_centauri_b");
         public static final TagKey<Biome> IS_VENUS = tag("is_venus");
 
         // region helpers

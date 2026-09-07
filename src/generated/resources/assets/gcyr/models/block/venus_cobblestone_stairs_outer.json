@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/outer_stairs",
-  "textures": {
-    "bottom": "gcyr:block/venus_cobblestone",
-    "side": "gcyr:block/venus_cobblestone",
-    "top": "gcyr:block/venus_cobblestone"
-  }
-}

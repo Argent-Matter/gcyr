@@ -15,7 +15,7 @@ public class BlockTagLoader {
 
     public static void init(RegistrateTagsProvider.IntrinsicImpl<Block> provider) {
         provider.addTag(GCYRTags.Blocks.MOON_ORE_REPLACEABLES)
-                .add(GCYRBlocks.MOON_STONE);
+                .add(GCYRBlocks.LUNAR_STONE);
         provider.addTag(GCYRTags.Blocks.MARS_ORE_REPLACEABLES)
                 .add(GCYRBlocks.MARTIAN_ROCK);
         provider.addTag(GCYRTags.Blocks.PASSES_FLOOD_FILL)

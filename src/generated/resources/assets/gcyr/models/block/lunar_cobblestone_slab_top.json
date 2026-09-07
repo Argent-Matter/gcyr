@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/slab_top",
-  "textures": {
-    "bottom": "gcyr:block/lunar_cobblestone",
-    "side": "gcyr:block/lunar_cobblestone",
-    "top": "gcyr:block/lunar_cobblestone"
-  }
-}

@@ -2,7 +2,7 @@ package argent_matter.gcyr.data.tags;
 
 import argent_matter.gcyr.GCYR;
 import argent_matter.gcyr.common.data.tag.GCYRTags;
-import argent_matter.gcyr.common.data.worldgen.GCYRBiomes;
+import argent_matter.gcyr.common.data.worldgen.biome.GCYRBiomes;
 
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
@@ -25,9 +25,12 @@ public class BiomeTagsLoader extends BiomeTagsProvider {
     protected void addTags(HolderLookup.Provider provider) {
         tag(GCYRTags.Biomes.IS_SPACE).add(GCYRBiomes.SPACE);
         tag(GCYRTags.Biomes.IS_MOON).add(GCYRBiomes.LUNAR_PLAINS, GCYRBiomes.LUNAR_MARE);
-        tag(GCYRTags.Biomes.IS_MERCURY).add(GCYRBiomes.MERCURY_DELTAS);
         tag(GCYRTags.Biomes.IS_MARS).add(GCYRBiomes.MARTIAN_CANYON_CREEK, GCYRBiomes.MARTIAN_WASTELANDS,
                 GCYRBiomes.MARTIAN_POLAR_CAPS);
+        tag(GCYRTags.Biomes.IS_MERCURY).add(GCYRBiomes.MERCURY_DELTAS);
+        tag(GCYRTags.Biomes.IS_PROXIMA_CENTAURI_B).add(GCYRBiomes.PROXIMA_CENTAURI_B_DARK_SIDE,
+                GCYRBiomes.PROXIMA_CENTAURI_B_LIGHT_SIDE, GCYRBiomes.PROXIMA_CENTAURI_B_MIDDLE,
+                GCYRBiomes.PROXIMA_CENTAURI_B_UNDERGROUND);
         tag(GCYRTags.Biomes.IS_VENUS).add(GCYRBiomes.VENUS_ERODED_PLAINS, GCYRBiomes.VENUS_BARREN_PLAINS);
     }
 }
