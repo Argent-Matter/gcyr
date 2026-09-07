@@ -199,6 +199,7 @@ public class RocketScannerMachine extends PlatformMultiblockMachine implements I
                 }
                 getLevel().setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
             }
+            rocket.finishAssembly();
             rocket.setPos(startPos.getX(), startPos.getY(), startPos.getZ());
             this.getLevel().addFreshEntity(rocket);
         }

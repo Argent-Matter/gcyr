@@ -105,7 +105,7 @@ import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
 public class RocketEntity extends Entity implements HasCustomInventoryScreen, IUIHolder, PlayerRideable,
-                          IEntityAdditionalSpawnData /* , IManaged, IAutoPersistEntity */ {
+                          IEntityAdditionalSpawnData {
 
     private static final double ORBIT_ALTITUDE = 600.0D;
     private static final int COUNTDOWN_FUEL_INTERVAL = 20;
@@ -113,7 +113,6 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
     private static final Object2ObjectMap<FluidStack, RocketFuelRecipe> FUEL_CACHE = new Object2ObjectOpenCustomHashMap<>(
             FluidStackHashStrategy.comparingAllButAmount());
 
-    // protected static final ManagedFieldHolder MANAGED_FIELD_HOLDER = new ManagedFieldHolder(RocketEntity.class);
     // spotless:off
     public static final EntityDataAccessor<Boolean> ROCKET_STARTED = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializers.BOOLEAN);
     public static final EntityDataAccessor<Integer> FUEL_CAPACITY = SynchedEntityData.defineId(RocketEntity.class, EntityDataSerializers.INT);
@@ -139,7 +138,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
     private boolean returnToStart;
     private @Nullable SatelliteType<?> satelliteToLaunch;
 
-    private final Object2IntMap<IRocketPart> partCounts = new Object2IntOpenHashMap<>();
+    private final Object2IntOpenHashMap<IRocketPart> partCounts = new Object2IntOpenHashMap<>();
     private final Set<BlockPos> thrusterPositions = new HashSet<>();
 
     private int motorTiersTotal, fuelTankTiersTotal;
@@ -1129,68 +1128,79 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
             return;
         }
 
-        // TODO: some of this is quadratic on the number of blocks being added,
-        // but I think in practice the number of blocks should be pretty low.
-        // Still, it's pretty easy to fix with a basic state machine accumulating
-        // the new information from each block, maybe a good cleanup for later.
-
         blocks.add(state);
-
         this.setBlocks(blocks);
-        BlockPos pos = state.pos();
-        BlockPos size = this.entityData.get(SIZE);
-        this.entityData.set(SIZE, new BlockPos(
-                Math.max(size.getX(), pos.getX()),
-                Math.max(size.getY(), pos.getY()),
-                Math.max(size.getZ(), pos.getZ())));
+    }
 
-        Block block = state.state().getBlock();
-        float destroyTime = block.defaultDestroyTime();
-        if (destroyTime > 0) {
-            this.setWeight(this.getWeight() + destroyTime);
+    public void processEntityBlocks() {
+        List<PosWithState> blocks = this.getBlocks();
+
+        BlockPos size = BlockPos.ZERO;
+        float weight = 0.0f;
+        int motorTiers = 0;
+        int motorBlocks = 0;
+        int fuelCapacity = 0;
+        int fuelTankBlocks = 0;
+        int fuelTankTiers = 0;
+        boolean hasLandingModule = false;
+
+        this.partCounts.clear();
+        this.thrusterPositions.clear();
+        this.getSeatPositions().clear();
+
+        for (var state : blocks) {
+            BlockPos pos = state.pos();
+
+            size = new BlockPos(
+                    Math.max(size.getX(), pos.getX()),
+                    Math.max(size.getY(), pos.getY()),
+                    Math.max(size.getZ(), pos.getZ()));
+
+            Block block = state.state().getBlock();
+            weight += Math.max(0.0, block.defaultDestroyTime());
+
+            // count parts
+            if (block instanceof IRocketPart part) {
+                this.partCounts.put(part, this.partCounts.getOrDefault(part, 0) + 1);
+            }
+
+            if (block instanceof RocketMotorBlock rocketMotorBlock) {
+                this.thrusterPositions.add(pos);
+                motorBlocks++;
+                motorTiers += rocketMotorBlock.getTier();
+            } else if (block instanceof FuelTankBlock fuelTankBlock) {
+                fuelCapacity += fuelTankBlock.getTankProperties().getFuelStorage();
+                fuelTankBlocks++;
+                fuelTankTiers += fuelTankBlock.getTier();
+            } else if (state.state().is(GCYRBlocks.SEAT.get())) {
+                this.addSeatPos(pos);
+            } else if (state.state().is(GCYRTags.Blocks.LANDING_MODULES)) {
+                hasLandingModule = true;
+            }
         }
 
-        // count parts
-        if (block instanceof IRocketPart part) {
-            this.partCounts.put(part, this.partCounts.getOrDefault(part, 0) + 1);
-        }
+        this.motorTier = motorBlocks == 0 ? 0 : motorTiers / motorBlocks;
+        this.fuelTankTier = fuelTankBlocks == 0 ? 0 : fuelTankTiers / fuelTankBlocks;
 
-        if (block instanceof RocketMotorBlock rocketMotorBlock) {
-            this.thrusterPositions.add(pos);
-
-            // resolve average tier of used motors
-            this.motorTiersTotal += rocketMotorBlock.getTier();
-            this.motorTier = this.motorTiersTotal / this.partCounts.object2IntEntrySet()
-                    .stream()
-                    .filter(p -> p.getKey() instanceof RocketMotorBlock)
-                    .mapToInt(Map.Entry::getValue)
-                    .sum();
-        } else if (block instanceof FuelTankBlock fuelTankBlock) {
-            this.setFuelCapacity(this.getFuelCapacity() + fuelTankBlock.getTankProperties().getFuelStorage());
-
-            // resolve average tier of used fuel tanks
-            this.fuelTankTiersTotal += fuelTankBlock.getTier();
-            this.fuelTankTier = this.fuelTankTiersTotal / this.partCounts.object2IntEntrySet()
-                    .stream()
-                    .filter(p -> p.getKey() instanceof FuelTankBlock)
-                    .mapToInt(Map.Entry::getValue)
-                    .sum();
-        } else if (state.state().is(GCYRBlocks.SEAT.get())) {
-            this.addSeatPos(pos);
-        }
-        if (state.state().is(GCYRTags.Blocks.LANDING_MODULES)) {
-            this.entityData.set(LANDING_MODULE, true);
-        }
+        this.setFuelCapacity(fuelCapacity);
+        this.setWeight(weight);
+        this.entityData.set(SIZE, size);
+        this.entityData.set(LANDING_MODULE, hasLandingModule);
 
         // A rocket's destination tier is limited by its lowest-tier rocket part.
         this.partsTier = this.partCounts.object2IntEntrySet().stream()
                 .mapToInt(entry -> entry.getKey().getTier())
                 .min()
                 .orElse(0);
-        if (!isRemote()) getEffectiveThrust();
-        if (!isRemote() && block instanceof RocketMotorBlock) recalculateMotorEfficiency();
+    }
 
-        this.setBoundingBox(makeBoundingBox());
+    public void finishAssembly() {
+        processEntityBlocks();
+        setBoundingBox(makeBoundingBox());
+
+        if (isRemote()) return;
+        recalculateEffectiveThrust();
+        recalculateMotorEfficiency();
     }
 
     public List<PosWithState> getBlocks() {
@@ -1213,6 +1223,10 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
 
     public double getEffectiveThrust() {
         if (isRemote()) return entityData.get(THRUST);
+        return recalculateEffectiveThrust();
+    }
+
+    public double recalculateEffectiveThrust() {
         double thrust = 0.0D;
         for (var entry : partCounts.object2IntEntrySet()) {
             if (entry.getKey() instanceof RocketMotorBlock motor) {
@@ -1254,7 +1268,6 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         for (int i = 0; i < blocks.size(); ++i) {
             this.addBlock(PosWithState.readFromTag(blocks.getCompound(i)));
         }
-
         this.setFuelCapacity(compound.getInt("fuelCapacity"));
         this.fuelTank.setFluid(FluidStack.loadFluidStackFromNBT(compound.getCompound("fuel")));
         this.configSlot.deserializeNBT(compound.getCompound("config"));
@@ -1280,6 +1293,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
                     .byKey(ResourceLocation.parse(compound.getString("selectedFuelRecipe")))
                     .orElse(null);
         }
+        finishAssembly();
     }
 
     @Override

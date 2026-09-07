@@ -2,6 +2,8 @@ package argent_matter.gcyr.common.item;
 
 import argent_matter.gcyr.common.block.RocketMotorBlock;
 
+import com.gregtechceu.gtceu.utils.FormattingUtil;
+
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
