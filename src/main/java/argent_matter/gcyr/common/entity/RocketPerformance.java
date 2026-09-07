@@ -7,6 +7,8 @@ import argent_matter.gcyr.data.loader.PlanetData;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.Level;
 
+import java.util.*;
+
 import org.jetbrains.annotations.Nullable;
 
 public final class RocketPerformance {
@@ -62,7 +64,7 @@ public final class RocketPerformance {
         // Bodies sharing a parent use the difference between their orbital radii.
         // This basically assumes planetary alignment, so eg. Jupiter at 5.2 AU is 4.2 AU
         // from Earth/OW, which is 1 AU from Sol, their shared parent.
-        if (java.util.Objects.equals(sourceParent, destinationParent)) {
+        if (Objects.equals(sourceParent, destinationParent)) {
             return Math.abs(source.distanceFromParent() - destination.distanceFromParent());
         }
 

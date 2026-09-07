@@ -167,11 +167,9 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         this.fuelTank = new CustomFluidTank(0, fluid -> getCachedFuelRecipe(fluid) != null);
 
         // determine fuel recipe when the fuel changes
-        // this happens on every tick when the rocket is fired
+        // this happens on every tick that the rocket consumes fuel
         this.fuelTank.setOnContentsChanged(() -> {
-            // checking the selectedFuelRecipe's fuel against the tank is probably faster?
             entityData.set(FUEL_AMOUNT, fuelTank.getFluidAmount());
-
             if (selectedFuelRecipe != null && selectedFuelRecipe.matches(fuelTank.getFluid())) {
                 return;
             }
@@ -194,8 +192,10 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
     }
 
     private boolean isUsableFuelRecipe(RocketFuelRecipe recipe, FluidStack fluid) {
-        return recipe.getValidRocketTiers().isValueInRange(motorTier) && recipe.matches(fluid) &&
-                recipe.getSpecificEnergy() > 0.0f;
+        if (!recipe.getValidRocketTiers().isValueInRange(this.motorTier)) {
+            return false;
+        }
+        return recipe.matches(fluid) && recipe.getSpecificEnergy() > 0.0f;
     }
 
     private @Nullable RocketFuelRecipe getCachedFuelRecipe(FluidStack fluid) {
@@ -269,6 +269,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         return result;
     }
 
+    // TODO: port to MUI2
     @Override
     public ModularUI createUI(Player entityPlayer) {
         return new ModularUI(176, 166, this, entityPlayer)
@@ -523,8 +524,8 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
 
     private Component getDisplayThrustComponent() {
         return Component.translatable("menu.gcyr.rocket.thrust",
-                Component.literal(format(getRocketSpeed(), 2)).withStyle(
-                        getRocketSpeed() > 0.0D ? ChatFormatting.GREEN : ChatFormatting.RED));
+                Component.literal(format(getRocketSpeed(), 2))
+                        .withStyle(getRocketSpeed() > 0.0D ? ChatFormatting.GREEN : ChatFormatting.RED));
     }
 
     private Component getDisplayLaunchFuelComponent() {
