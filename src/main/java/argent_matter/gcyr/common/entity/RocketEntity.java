@@ -1260,7 +1260,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         this.returnToStart = compound.getBoolean("returnToStart");
         if (compound.contains("satelliteToLaunch")) {
             this.satelliteToLaunch = GCYRRegistries.SATELLITES
-                    .get(new ResourceLocation(compound.getString("satelliteToLaunch")));
+                    .get(ResourceLocation.parse(compound.getString("satelliteToLaunch")));
         }
         this.setStartTimer(compound.getInt("startTimer"));
         this.entityData.set(ROCKET_STARTED, compound.getBoolean("isStarted"));
@@ -1269,12 +1269,16 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
         entityData.set(LAUNCH_FUEL_REMAINING, compound.getInt("launchFuelRemaining"));
         entityData.set(LAUNCH_TICKS_REMAINING, compound.getInt("launchTicksRemaining"));
         entityData.set(FUEL_ENERGY, compound.getFloat("fuelEnergy"));
-        this.setDestination(compound.contains("destination", Tag.TAG_STRING) ?
-                PlanetData.getPlanet(new ResourceLocation(compound.getString("destination"))) : null);
-        if (compound.contains("selectedFuelRecipe")) this.selectedFuelRecipe = this.getServer()
-                .getRecipeManager().byKey(new ResourceLocation(compound.getString("selectedFuelRecipe")))
-                .filter(recipe -> recipe.getType() == GCYRRecipeTypes.ROCKET_FUEL.get())
-                .map(recipe -> (RocketFuelRecipe) recipe).orElse(null);
+        if (compound.contains("destination", Tag.TAG_STRING)) {
+            this.setDestination(PlanetData.getPlanet(ResourceLocation.parse(compound.getString("destination"))));
+        } else {
+            this.setDestination(null);
+        }
+        if (compound.contains("selectedFuelRecipe")) {
+            this.selectedFuelRecipe = (RocketFuelRecipe) this.getServer().getRecipeManager()
+                    .byKey(ResourceLocation.parse(compound.getString("selectedFuelRecipe")))
+                    .orElse(null);
+        }
     }
 
     @Override
