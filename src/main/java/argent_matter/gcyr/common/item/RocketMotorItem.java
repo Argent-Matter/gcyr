@@ -26,7 +26,7 @@ public class RocketMotorItem extends BlockItem {
         RocketMotorBlock motor = (RocketMotorBlock) getBlock();
         tooltip.add(Component.translatable("tooltip.gcyr.tier", motor.getTier()));
         tooltip.add(Component.translatable("tooltip.gcyr.thrust",
-                formatThrust(motor.getMotorType().getThrust())));
+                FormattingUtil.DECIMAL_FORMAT_1F.format(motor.getMotorType().getThrust())));
     }
 
     private static String formatThrust(double thrust) {
