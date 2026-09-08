@@ -30,8 +30,4 @@ public class RocketMotorItem extends BlockItem {
         tooltip.add(Component.translatable("tooltip.gcyr.thrust",
                 FormattingUtil.DECIMAL_FORMAT_1F.format(motor.getMotorType().getThrust())));
     }
-
-    private static String formatThrust(double thrust) {
-        return thrust == Math.rint(thrust) ? Long.toString((long) thrust) : Double.toString(thrust);
-    }
 }

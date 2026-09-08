@@ -555,8 +555,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
     }
 
     private double getMotorEfficiency() {
-        if (isRemote()) return entityData.get(MOTOR_EFFICIENCY);
-        return avgMotorEfficiency;
+        return this.entityData.get(MOTOR_EFFICIENCY);
     }
 
     private void recalculateMotorEfficiency() {
@@ -569,9 +568,8 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
             }
         }
         // if there are somehow no motors the efficiency doesn't matter but set it to 1
-        if (motorCount == 0) {
-            avgMotorEfficiency = 0.0f;
-        } else {
+        var avgMotorEfficiency = 0.0f;
+        if (motorCount > 0) {
             avgMotorEfficiency = totalEfficiency / motorCount;
         }
         entityData.set(MOTOR_EFFICIENCY, avgMotorEfficiency);
@@ -1221,8 +1219,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
     }
 
     public double getEffectiveThrust() {
-        if (isRemote()) return entityData.get(THRUST);
-        return recalculateEffectiveThrust();
+        return this.entityData.get(THRUST);
     }
 
     public double recalculateEffectiveThrust() {
