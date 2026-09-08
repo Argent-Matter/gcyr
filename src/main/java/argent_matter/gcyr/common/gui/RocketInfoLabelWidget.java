@@ -9,11 +9,10 @@ import net.minecraft.network.chat.Component;
 import java.util.Objects;
 import java.util.function.Supplier;
 
-/** A server-driven label whose text and style can change while the UI is open. */
+// TODO: redo with MUI/2
 public class RocketInfoLabelWidget extends LabelWidget {
 
     private final Supplier<Component> componentSupplier;
-    private Component currentComponent;
     private final int centeredWidth;
 
     public RocketInfoLabelWidget(int xPosition, int yPosition, Supplier<Component> componentSupplier) {
@@ -24,15 +23,13 @@ public class RocketInfoLabelWidget extends LabelWidget {
                                  Supplier<Component> componentSupplier) {
         super(xPosition, yPosition, componentSupplier.get());
         this.componentSupplier = componentSupplier;
-        this.currentComponent = componentSupplier.get();
         this.centeredWidth = centeredWidth;
     }
 
     @Override
     public void detectAndSendChanges() {
         Component nextComponent = componentSupplier.get();
-        if (!Objects.equals(currentComponent, nextComponent)) {
-            currentComponent = nextComponent;
+        if (!Objects.equals(component, nextComponent)) {
             setComponent(nextComponent);
             writeUpdateInfo(-2, buffer -> buffer.writeComponent(nextComponent));
         }
@@ -45,7 +42,7 @@ public class RocketInfoLabelWidget extends LabelWidget {
             return;
         }
         var position = getPosition();
-        int x = position.x + (centeredWidth - Minecraft.getInstance().font.width(currentComponent)) / 2;
-        graphics.drawString(Minecraft.getInstance().font, currentComponent, x, position.y, -1, true);
+        int x = position.x + (centeredWidth - Minecraft.getInstance().font.width(component)) / 2;
+        graphics.drawString(Minecraft.getInstance().font, component, x, position.y, -1, true);
     }
 }
