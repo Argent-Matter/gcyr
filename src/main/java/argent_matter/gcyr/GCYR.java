@@ -14,6 +14,7 @@ import argent_matter.gcyr.common.data.network.GCYRNetworking;
 import argent_matter.gcyr.common.data.recipe.*;
 import argent_matter.gcyr.common.data.worldgen.GCYRChunkGenerators;
 import argent_matter.gcyr.common.gui.EntityOxygenHUD;
+import argent_matter.gcyr.common.gui.RocketLandingHUD;
 import argent_matter.gcyr.config.GCYRConfig;
 import argent_matter.gcyr.core.mixin.RegisterClientReloadListenersEventAccessor;
 import argent_matter.gcyr.core.mixin.ReloadableResourceManagerAccessor;
@@ -99,6 +100,7 @@ public class GCYR {
     @SubscribeEvent
     public void registerGuiOverlays(RegisterGuiOverlaysEvent event) {
         event.registerBelowAll("oxygen_tank", new EntityOxygenHUD());
+        event.registerBelowAll("rocket_landing", new RocketLandingHUD());
     }
 
     @SubscribeEvent

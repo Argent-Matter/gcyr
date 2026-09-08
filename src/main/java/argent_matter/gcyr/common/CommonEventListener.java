@@ -63,10 +63,7 @@ public class CommonEventListener {
     @SubscribeEvent
     public static void registerServerReloadListeners(AddReloadListenerEvent event) {
         event.addListener(new PlanetData());
-
-        event.addListener((ResourceManagerReloadListener) (resourceManager) -> {
-            RocketEntity.clearFuelRecipeCache();
-        });
+        event.addListener((ResourceManagerReloadListener) resourceManager -> RocketEntity.clearFuelRecipeCache());
     }
 
     @SubscribeEvent

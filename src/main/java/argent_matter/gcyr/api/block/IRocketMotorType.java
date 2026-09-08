@@ -5,19 +5,21 @@ import net.minecraft.util.StringRepresentable;
 public interface IRocketMotorType extends StringRepresentable {
 
     /**
-     * This is used for what galaxies you can travel to with this rocket motor.
+     * Tier of the motor. The rocket's tier is the minimum tier of its rocket parts.
+     * The tier of the rocket determines what worlds you can travel to.
      *
-     * @return the tier of the fuel tank
+     * @return the tier of the motor
      */
     int getTier();
 
     /**
-     * @return how much weight this rocket motor can carry at maximum.
+     * The thrust produced by one motor in Newtons.
      */
-    int getMaxCarryWeight();
+    double getThrust();
 
     /**
-     * @return how many rocket motors this type counts as.
+     * Fuel efficiency for this motor. Fuel energy is multiplied by this value, so
+     * values > 1.0 increase fuel efficiency and values < 1.0 reduce it from baseline.
      */
-    int getMotorCount();
+    double getEfficiency();
 }

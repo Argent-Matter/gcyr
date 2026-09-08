@@ -46,6 +46,7 @@ public class GCYRTags {
 
         public static final TagKey<Block> BLOCKS_FLOOD_FILL = tag("blocks_flood_fill");
         public static final TagKey<Block> PASSES_FLOOD_FILL = tag("passes_flood_fill");
+        public static final TagKey<Block> LANDING_MODULES = tag("landing_modules");
 
         // region helpers
         private static TagKey<Block> tag(String name) {

@@ -22,5 +22,7 @@ public class BlockTagLoader {
                 .addTag(BlockTags.FENCES).addTag(BlockTags.FENCE_GATES)
                 .add(Blocks.IRON_BARS)
                 .add(Blocks.TNT).add(GTBlocks.INDUSTRIAL_TNT);
+        provider.addTag(GCYRTags.Blocks.LANDING_MODULES)
+                .add(GCYRBlocks.LANDING_MODULE);
     }
 }

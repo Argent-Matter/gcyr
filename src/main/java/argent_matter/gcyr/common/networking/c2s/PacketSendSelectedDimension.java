@@ -38,7 +38,8 @@ public class PacketSendSelectedDimension implements IPacket {
 
         ItemStack handItem = handler.getPlayer().getItemInHand(handler.getPlayer().getUsedItemHand());
         if (handItem.is(GCYRItems.ID_CHIP.get())) {
-            handItem.getOrCreateTag().putString(PlanetIdChipBehaviour.CURRENT_PLANET_KEY, dimension.toString());
+            handItem.getOrCreateTag().putString(PlanetIdChipBehaviour.CURRENT_PLANET_KEY,
+                    dimension.location().toString());
             handItem.getTag().remove(PlanetIdChipBehaviour.CURRENT_STATION_KEY);
         }
     }

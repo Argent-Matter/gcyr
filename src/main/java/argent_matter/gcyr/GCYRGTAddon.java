@@ -50,7 +50,7 @@ public class GCYRGTAddon implements IGTAddon {
                 .langValue("Martian %s Ore")
                 .registerOre(() -> GCYRBlocks.MARTIAN_ROCK.orElse(Blocks.DEEPSLATE).defaultBlockState(),
                         () -> GCYRMaterials.MartianRockDust, BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED)
-                                .requiresCorrectToolForDrops().strength(3.0F, 3.0F),
+                                .requiresCorrectToolForDrops().strength(3.0f, 3.0f),
                         GCYR.id("block/martian_rock"));
         TagPrefix.oreTagPrefix("venusian", BlockTags.MINEABLE_WITH_PICKAXE)
                 .langValue("Venusian %s Ore")

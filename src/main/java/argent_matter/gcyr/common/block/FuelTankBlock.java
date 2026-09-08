@@ -27,7 +27,7 @@ public class FuelTankBlock extends RotatedPillarBlock implements IRocketPart {
     public enum FuelTankProperties implements IFuelTankProperties {
 
         BASIC("basic", 1, 5 * FluidType.BUCKET_VOLUME),
-        ADVANCED("advanced", 2, 7 * FluidType.BUCKET_VOLUME),
+        ADVANCED("advanced", 2, 8 * FluidType.BUCKET_VOLUME),
         ELITE("elite", 3, 12 * FluidType.BUCKET_VOLUME),
         ;
 

@@ -2,7 +2,6 @@ package argent_matter.gcyr.common.data.recipe;
 
 import argent_matter.gcyr.GCYR;
 import argent_matter.gcyr.api.gui.widget.GCYRGuiTextures;
-import argent_matter.gcyr.common.data.client.GCYRSoundEntries;
 
 import com.gregtechceu.gtceu.api.capability.recipe.IO;
 import com.gregtechceu.gtceu.api.gui.GuiTextures;
@@ -34,11 +33,6 @@ public class GCYRGTRecipeTypes {
             .setMaxIOSize(16, 1, 4, 0).setEUIO(IO.IN)
             .setProgressBar(GCYRGuiTextures.PROGRESS_BAR_ROCKET, LEFT_TO_RIGHT)
             .setSound(GTSoundEntries.PORTABLE_SCANNER);
-
-    public static final GTRecipeType ROCKET_FUEL_RECIPES = register("rocket_fuel", MULTIBLOCK).setMaxIOSize(0, 0, 1, 0)
-            .setEUIO(IO.IN)
-            .setProgressBar(GCYRGuiTextures.PROGRESS_BAR_ROCKET, LEFT_TO_RIGHT)
-            .setSound(GCYRSoundEntries.ROCKET);
 
     public static GTRecipeType register(String name, String group, RecipeType<?>... proxyRecipes) {
         var recipeType = new GTRecipeType(GCYR.id(name), group, proxyRecipes);
