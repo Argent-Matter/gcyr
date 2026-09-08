@@ -1160,7 +1160,7 @@ public class RocketEntity extends Entity implements HasCustomInventoryScreen, IU
 
             // count parts
             if (block instanceof IRocketPart part) {
-                this.partCounts.put(part, this.partCounts.getOrDefault(part, 0) + 1);
+                this.partCounts.addTo(part, 1);
             }
 
             if (block instanceof RocketMotorBlock rocketMotorBlock) {
